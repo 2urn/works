@@ -504,10 +504,14 @@ label.reset,label.reset span{color:var(--accent) !important;
     <div class="mpane" data-pane="work" id="pane-work" role="tabpanel" aria-labelledby="tab-work">
       <h3 class="mh">_____ American _____</h3>
       <p class="mmeta" id="mMeta"></p>
-      <p class="mbio">Two pools of words, dealt once and held: a first blank and a third,
-        with AMERICAN fixed between them. The order is the piece and never shuffles — but
-        every letter finds its own way in, its own way out, its own colour and its own
-        clock, and no two passes cast them the same way.</p>
+      <p class="mbio">Two pools of words, drawn into a sequence: a first blank and a
+        third, with AMERICAN held between them. <em>This</em> edition keeps its order — but
+        the piece does not. The word has as many uses as there are people using it, and its
+        future is not settled; it changes with what we do, and with what we fail to do.
+        Another edition deals another sequence.</p>
+      <p class="mbio">Within any edition nothing repeats either: every letter finds its own
+        way in, its own way out, its own colour and its own clock, and no two passes cast
+        them alike.</p>
     </div>
     <div class="mpane" data-pane="set" id="pane-set" role="tabpanel" aria-labelledby="tab-set">
       <label class="mrow"><span>Sound</span>
@@ -2170,7 +2174,9 @@ function tick(now){
      DERIVED, NOT RANDOM. The next seed comes from the base seed and the cycle number, so
      a link still replays exactly and a hash still means something, while nobody watching
      sees the same pass twice. What changes is how each glyph MOVES and what colour it
-     takes; the sequence of words does not shuffle, because that sequence is the piece.
+     takes; the sequence of words does not shuffle, because that sequence is THIS EDITION.
+     The piece is not the sequence -- another edition deals another one, which is the whole
+     argument the work makes about the word.
 
      Only the live loop does this. An export runs its own frame loop and never crosses a
      cycle boundary mid-render, so a rendered file stays exactly what it was. */
