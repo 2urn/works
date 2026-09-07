@@ -232,7 +232,12 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
   border:0;border-bottom:1px solid var(--rule);border-radius:0;
   display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
 .mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column}
-.mpane{min-height:var(--paneH,auto)}
+/* IT SCROLLS WHEN IT GENUINELY HAS TO. "Never a scroll bar" was right about a settings
+   panel four rows tall and wrong about a description longer than a phone -- there the
+   choice is scrolling or not reading it. The measured height still holds every tab to the
+   same size, and the cap stops the panel eating the work; past that, it scrolls. */
+.mpane{min-height:var(--paneH,auto);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#menu{overscroll-behavior:contain}
 .mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--rule)}
 .mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);
   font-size:.82rem;font-weight:600;padding:.5rem .7rem;min-height:44px}
@@ -286,9 +291,13 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
    reading and reaching him at the top, out of the way of the hand. They are different
    kinds of act and putting them in one panel made every one of them look like a setting.
    Icons below because an action has a shape; words above because a paragraph does not. */
-#bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:78;
+/* NOTHING IS ON SCREEN UNTIL THE MARK IS PRESSED. A row of icons living permanently over
+   a projected work is furniture; the mark summons the whole interface and dismisses it
+   again, which is one gesture to learn instead of six things to ignore. */
+#bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:78;
   padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
   background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0))}
+body.ui #bar{display:block}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
 .ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
   color:var(--ink);opacity:.55;display:flex;align-items:center;justify-content:center;
@@ -3482,6 +3491,7 @@ function applyRig(){
     el.embedUI.hidden = !RIG.scrub;
   if(el.bar) el.bar.hidden = !((PLAYER||EMBED) &&
     (RIG.play||RIG.full||RIG.info||RIG.scrub));
+  if(el.bar && el.bar.hidden) document.body.classList.remove("ui");
   if(typeof barPaint==="function") barPaint();
   if(el.ovPlay) el.ovPlay.hidden = true;
   if(RIG.wake) holdWake();
@@ -3739,7 +3749,15 @@ Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
 function menuShut(){ if(!el.menu) return; el.menu.hidden=true;
   document.body.classList.remove("menuopen"); menuSay(false); }
-if(el.mClose) el.mClose.addEventListener("click",menuShut);
+/* ONE GESTURE FOR THE WHOLE INTERFACE. The mark brings the panel and the icons together
+   and takes them away together; the ⓘ afterwards toggles just the reading panel, so the
+   controls can stay while the work plays. */
+function uiShow(on){
+  document.body.classList.toggle("ui", !!on);
+  if(on) menuOpen("work"); else menuShut();
+  if(typeof barPaint==="function") barPaint();
+}
+if(el.mClose) el.mClose.addEventListener("click",function(){ uiShow(false); });
 
 /* THE ACTION BAR. Everything that DOES something, as an icon, at the bottom where a thumb
    is -- and the settings that need a slider open above it rather than in the reading
@@ -3790,6 +3808,8 @@ if(el.bShot) el.bShot.addEventListener("click",function(){
 });
 if(el.bInfo) el.bInfo.addEventListener("click",function(){
   if(el.menu && !el.menu.hidden) menuShut(); else menuOpen("work");
+  if(el.bInfo) el.bInfo.setAttribute("aria-expanded",
+    (el.menu && !el.menu.hidden) ? "true" : "false");
 });
 if(el.bSet) el.bSet.addEventListener("click",function(){
   barSetOpen(el.barSet.hidden);
@@ -3889,7 +3909,7 @@ pFill();
 
 /* escape closes it, because a panel that traps you is not accessible however it is labelled */
 document.addEventListener("keydown",function(e){
-  if(e.key==="Escape") menuShut();
+  if(e.key==="Escape") uiShow(false);
 });
 
 /* THE MARKS OPEN IT. The wordmark is the settings, his name is who made it -- and the
@@ -3917,8 +3937,7 @@ if(creditEl){
      the thing you pressed to get here is the thing you press to leave. A second way out
      costs nothing and is the one a thumb finds without looking. */
   creditEl.addEventListener("click",function(e){
-    e.preventDefault();
-    if(el.menu && !el.menu.hidden) menuShut(); else menuOpen("work");
+    e.preventDefault(); uiShow(!document.body.classList.contains("ui"));
   });
 }
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){
