@@ -199,25 +199,30 @@ body.burned .credit{background-image:none;min-height:44px;min-width:44px}
 /* A BAND, NOT A BOX. Every tab is the same width and the same height, so opening one does
    not resize the thing you are reading and the work behind it never jumps. Slightly
    transparent because the piece is still playing underneath and should be seen to be. */
+/* A BAND THAT FITS WHAT IS IN IT. A fixed height was a number I picked rather than
+   measured, and on a small phone the settings ran past it and grew a scroll bar -- inside
+   a panel four rows tall, over a piece that is playing. So the height comes from the
+   TALLEST tab, measured once when it opens: constant, because every tab is held to that
+   same minimum, and never scrolling, because that minimum is the tallest thing there is.
+   The cap only exists so a very small screen still shows some of the work behind it. */
 #menu{display:block;position:fixed;left:0;right:0;bottom:0;z-index:78;
-  height:13rem;padding:.75rem 1.2rem calc(.75rem + env(safe-area-inset-bottom));
+  padding:.7rem 1.2rem calc(.7rem + env(safe-area-inset-bottom));
   background:rgba(8,8,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:0;border-top:1px solid var(--rule);border-radius:0;
-  display:flex;flex-direction:column}
-.mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column;
-  height:100%;min-height:0}
-.mpane{flex:1;min-height:0;overflow:auto;padding-right:.3rem}
+  display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
+.mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column}
+.mpane{min-height:var(--paneH,auto)}
 .mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--rule)}
 .mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);
   font-size:.82rem;font-weight:600;padding:.5rem .7rem;min-height:44px}
 .mtab.on{color:var(--ink);border-bottom-color:var(--accent)}
-.mrow{display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:.55rem 0;font-size:.88rem;color:var(--ink);min-height:44px}
+.mrow{display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+  padding:.35rem 0;font-size:.88rem;color:var(--ink);min-height:44px;flex-wrap:wrap}
 .mrow input[type=range]{width:11rem}
 .mrow input[type=checkbox]{width:1.25rem;height:1.25rem;accent-color:var(--accent)}
 .mnote{color:var(--faint);font-size:.78rem;margin:.6rem 0 0;max-width:44ch}
-.mbtn{display:block;width:100%;margin:.5rem 0 0;border:1px solid var(--rule);
-  color:var(--ink);border-radius:8px;padding:.7rem 1rem;font-size:.88rem;min-height:46px}
+.mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--rule);
+  color:var(--ink);border-radius:8px;padding:.6rem 1rem;font-size:.86rem;min-height:46px}
 .mbtn:hover{border-color:var(--accent);color:var(--accent)}
 .mclose{margin:1rem 0 0;border:0;color:var(--faint);font-size:.8rem;min-height:44px}
 .mclose:hover{color:var(--accent)}
@@ -3307,7 +3312,26 @@ function menuOpen(tab){
     o.classList.toggle("on", el.layout && o.dataset.arr===el.layout.value); });
   menuTab(tab||"set");
   el.menu.hidden=false;
+  menuSize();
 }
+/* MEASURED, NOT GUESSED. Each pane is shown for a moment with nothing painted, its natural
+   height taken, and the tallest becomes the floor for all of them -- so switching tabs
+   never resizes the band and nothing inside it ever needs to scroll. Re-measured on a
+   resize, because a rotated phone is a different question. */
+function menuSize(){
+  if(!el.menu || el.menu.hidden) return;
+  var tallest=0;
+  Array.prototype.forEach.call(document.querySelectorAll(".mpane"),function(p){
+    var was=p.hidden;
+    p.hidden=false; p.style.visibility="hidden";
+    var h=p.scrollHeight;
+    p.style.visibility=""; p.hidden=was;
+    if(h>tallest) tallest=h;
+  });
+  var cap=Math.round(window.innerHeight*0.62);
+  el.menu.style.setProperty("--paneH", Math.min(tallest, cap)+"px");
+}
+window.addEventListener("resize",menuSize);
 Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
 if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true; });
