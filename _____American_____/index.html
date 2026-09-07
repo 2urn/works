@@ -160,7 +160,10 @@ body.rig-tapcredit.showing .sig{opacity:.61}
 #preflight button:hover{border-color:var(--accent);color:var(--accent)}
 #pfSaid{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--faint);margin:.8rem 0 0}
-#label{position:fixed;inset:auto 1rem 1rem 1rem;max-width:34rem;margin:0 auto;z-index:70;
+/* EVERY FIXED PANEL CARRIES ITS OWN display, because .wrap blanks its children in the
+   player and an ID rule is the thing that out-ranks that. [hidden] is !important above,
+   so declaring display here does not stop hidden working. */
+#label{display:block;position:fixed;inset:auto 1rem 1rem 1rem;max-width:34rem;margin:0 auto;z-index:70;
   background:rgba(8,8,10,.95);border:1px solid var(--rule);border-radius:8px;
   padding:1.1rem 1.2rem;color:var(--ink)}
 #label h2{margin:0 0 .3rem;font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
@@ -171,7 +174,7 @@ body.rig-tapcredit.showing .sig{opacity:.61}
   padding:.4rem .8rem;min-height:38px}
 #label button:hover{border-color:var(--accent);color:var(--accent)}
 /* the fault log: never in front of visitors, always available to whoever is fixing it */
-#faults{position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:42vh;overflow:auto;
+#faults{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:42vh;overflow:auto;
   background:rgba(8,8,10,.94);border-top:1px solid var(--accent);
   padding:.7rem 1rem;font-size:.8rem;color:var(--ink)}
 #faults p{margin:0 0 .5rem;max-width:70ch}
