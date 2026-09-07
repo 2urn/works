@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{ --void:#0A0B0D; --ink:#E7EAEF; --dim:#7C8797; --faint:#4E5765;
+       --rule:#21242B; --accent:#FF1414; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--ink);line-height:1.6;
+  font-family:"Archivo",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:44rem;margin:0 auto;padding:5rem 1.5rem 6rem}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 .3rem;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+.sub{color:var(--dim);margin:0 0 3.5rem;max-width:44ch}
+ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+li{border-bottom:1px solid var(--rule)}
+a.work{display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap;
+  padding:1.4rem .25rem;color:inherit;text-decoration:none}
+a.work:hover{background:#12141a}
+a.work:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+a.work .t{font-size:1.15rem;font-weight:700;flex:1 1 16rem}
+a.work .m{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;
+  color:var(--faint);font-variant-numeric:tabular-nums}
+.none{color:var(--faint);padding:1.4rem .25rem;font-family:"IBM Plex Mono",monospace;font-size:.8rem}
+footer{margin-top:4rem;color:var(--faint);font-size:.78rem;max-width:52ch}
+footer code{font-family:"IBM Plex Mono",monospace;color:var(--dim)}
+</style></head><body>
+<main>
+  <h1>Works <em>·</em></h1>
+  <p class="sub">Built artefacts. Each one is a single self-contained file, released
+  from the private repository where it is made.</p>
+
+  <ul id="list">
+    <li><p class="none">Nothing released yet.</p></li>
+  </ul>
+
+  <footer>Nothing is developed in this repository. Sources, pools and working notes stay
+  where the work is made; only the finished artefact is published here, with a record of
+  the commit it came from. See <code>.publish/manifest.json</code>.</footer>
+</main>
+</body></html>
