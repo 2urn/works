@@ -188,16 +188,31 @@ body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity 
    now and this element carries only the TOUCH -- an invisible target laid over the burned
    one, sized and placed to match what burnMark() draws, so tapping what you can see opens
    the menu. */
-body.burned .credit{background-image:none;opacity:1 !important;
-  left:2.2vw;bottom:2.2vw;width:11.5vw;height:calc(11.5vw / 8.103);padding-left:0}
+/* THE CORNER ADAPTS TO THE SCREEN IT IS IN. On a rectangular display it sits close to the
+   edge, which is where a mark belongs; on a phone with rounded corners and a home bar the
+   safe-area inset pushes it in far enough not to be trimmed. max() takes whichever is
+   larger, so one rule covers both and neither has to be detected.
+   The tap target is held at 44px however small the mark is drawn -- a thing you can see
+   and cannot press is worse than one you cannot see. */
+body.burned .credit{background-image:none;opacity:1 !important;padding-left:0;
+  left:max(2.2vw, calc(env(safe-area-inset-left) + .5rem));
+  bottom:max(2.2vw, calc(env(safe-area-inset-bottom) + .5rem));
+  width:max(11.5vw, 5rem);height:auto;min-height:44px;min-width:44px}
 @media (max-width:44rem){
-  body.burned .credit{left:2.2vw;bottom:2.2vw;width:22vw;height:calc(22vw / 8.103)}
+  body.burned .credit{width:max(22vw, 5.5rem);min-height:44px}
 }
 .credit:focus-visible,.sig:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-#menu{display:block;position:fixed;inset:auto 0 0 0;max-width:32rem;margin:0 auto 1rem;
-  z-index:78;background:rgba(8,8,10,.96);border:1px solid var(--rule);border-radius:10px;
-  padding:1rem 1.1rem 1.1rem}
-@media (min-width:40rem){ #menu{inset:auto auto 1.4rem 1.4rem;margin:0} }
+/* A BAND, NOT A BOX. Every tab is the same width and the same height, so opening one does
+   not resize the thing you are reading and the work behind it never jumps. Slightly
+   transparent because the piece is still playing underneath and should be seen to be. */
+#menu{display:block;position:fixed;left:0;right:0;bottom:0;z-index:78;
+  height:13rem;padding:.75rem 1.2rem calc(.75rem + env(safe-area-inset-bottom));
+  background:rgba(8,8,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:0;border-top:1px solid var(--rule);border-radius:0;
+  display:flex;flex-direction:column}
+.mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column;
+  height:100%;min-height:0}
+.mpane{flex:1;min-height:0;overflow:auto;padding-right:.3rem}
 .mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--rule)}
 .mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);
   font-size:.82rem;font-weight:600;padding:.5rem .7rem;min-height:44px}
@@ -212,7 +227,13 @@ body.burned .credit{background-image:none;opacity:1 !important;
 .mbtn:hover{border-color:var(--accent);color:var(--accent)}
 .mclose{margin:1rem 0 0;border:0;color:var(--faint);font-size:.8rem;min-height:44px}
 .mclose:hover{color:var(--accent)}
-#mFace{float:left;margin:0 .9rem .5rem 0;border-radius:6px;width:120px;height:120px}
+.mseg{display:inline-flex;gap:.2rem;border:1px solid var(--rule);border-radius:7px;
+  padding:.15rem}
+.mopt{background:none;border:0;border-radius:5px;color:var(--dim);font-size:.75rem;
+  font-weight:600;padding:.35rem .55rem;min-height:38px}
+.mopt.on{background:var(--accent);color:#000}
+.mopt:hover{color:var(--ink)}
+#mFace{float:left;margin:0 .8rem .4rem 0;border-radius:6px;width:76px;height:76px}
 .mbio{font-size:.85rem;color:var(--dim);margin:0;line-height:1.6}
 #mVoiceBox{clear:both;margin:.9rem 0 0}
 #mVoice{width:100%;height:38px}
@@ -457,7 +478,7 @@ label.reset,label.reset span{color:var(--accent) !important;
      rel="noopener author" aria-label="CHAMY·XYZ"></a>
   <button type="button" class="sig" id="sigBtn" aria-label="About Dimitry Saïd Chamy"></button>
   <div id="faults" hidden><button type="button" id="faultClose" aria-label="Close">×</button></div>
-  <div id="menu" hidden>
+  <div id="menu" hidden><div class="mband">
     <div class="mtabs" role="tablist">
       <button type="button" class="mtab on" data-tab="set">Settings</button>
       <button type="button" class="mtab" data-tab="share">Share</button>
@@ -470,15 +491,27 @@ label.reset,label.reset span{color:var(--accent) !important;
         <input type="range" id="mVol" min="0" max="1" step="0.05" value="0.7" autocomplete="off"></label>
       <label class="mrow"><span>Playing</span>
         <input type="checkbox" id="mPlay" autocomplete="off" checked></label>
+      <div class="mrow"><span>Arrangement</span>
+        <span class="mseg">
+          <button type="button" class="mopt on" data-arr="auto">Auto</button>
+          <button type="button" class="mopt" data-arr="overlap">Horizontal</button>
+          <button type="button" class="mopt" data-arr="spine">Vertical</button>
+          <button type="button" class="mopt" data-arr="stack">Square</button>
+        </span></div>
+      <button type="button" class="mbtn" id="mShot">Save this frame</button>
       <p class="mnote" id="mFullNote"></p>
     </div>
     <div class="mpane" data-pane="share" hidden>
-      <p class="mnote">Send this piece to someone.</p>
+      <p class="mnote">Send this piece to someone, or get in touch about it.</p>
       <button type="button" class="mbtn" id="mShare">Share this piece</button>
       <button type="button" class="mbtn" id="mCopy">Copy the link</button>
+      <button type="button" class="mbtn" id="mClip">Save a 15-second clip for social</button>
+      <button type="button" class="mbtn" id="mCommission">Collect or commission a work</button>
+      <button type="button" class="mbtn" id="mInsta">Instagram</button>
+      <p class="mnote" id="mClipNote"></p>
     </div>
     <div class="mpane" data-pane="about" hidden>
-      <img id="mFace" alt="Dimitry Saïd Chamy" width="120" height="120">
+      <img id="mFace" alt="Dimitry Saïd Chamy" width="76" height="76">
       <p class="mbio">Dimitry Saïd Chamy is a transdisciplinary artist, educator and
         cultural producer whose work moves between installation, social practice,
         performance, moving image and design — grounded in his Haitian, Lebanese and
@@ -489,7 +522,8 @@ label.reset,label.reset span{color:var(--accent) !important;
       </div>
       <button type="button" class="mbtn" id="mSite">chamy.xyz</button>
     </div>
-    <button type="button" class="mclose" id="mClose">Close</button>
+  </div>
+    <button type="button" class="mclose" id="mClose" aria-label="Close">Close</button>
   </div>
   <div id="embedUI" hidden>
     <button type="button" id="ovPlay" aria-label="Play">
@@ -3219,7 +3253,12 @@ var wmImg=null;
 try{ wmImg=new Image(); wmImg.src=WORDMARK; }catch(e){}
 function burnMark(cx,W,H){
   if(!RIG.burn || !wmImg || !wmImg.complete || !wmImg.naturalWidth) return;
-  var w=Math.max(60, W*0.115), h=w/8.103, m=Math.round(W*0.022);
+  /* AND SO DOES THE BURNED ONE. A tall frame is a phone held upright, where the corner is
+     rounded and the home bar lives -- so the inset opens up to match what the CSS above
+     does for the touch target, and the two stay on top of one another. */
+  var portrait=(H>W);
+  var w=Math.max(60, W*(portrait?0.22:0.115)), h=w/8.103;
+  var m=Math.round(W*(portrait?0.045:0.022));
   cx.save();
   cx.globalAlpha=0.10;
   cx.globalCompositeOperation="source-over";
@@ -3255,6 +3294,8 @@ function menuOpen(tab){
   if(el.mFace && !el.mFace.getAttribute("src")) el.mFace.setAttribute("src", PORTRAIT);
   if(el.mVoiceBox) el.mVoiceBox.hidden = !VOICE;
   if(VOICE && el.mVoice && !el.mVoice.getAttribute("src")) el.mVoice.setAttribute("src", VOICE);
+  Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(o){
+    o.classList.toggle("on", el.layout && o.dataset.arr===el.layout.value); });
   menuTab(tab||"set");
   el.menu.hidden=false;
 }
@@ -3287,6 +3328,78 @@ if(creditEl){
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); });
 if(el.mSite) el.mSite.addEventListener("click",function(){
   window.open("https://chamy.xyz/","_blank","noopener");
+});
+if(el.mInsta) el.mInsta.addEventListener("click",function(){
+  window.open("https://www.instagram.com/2urn_","_blank","noopener");
+});
+
+/* FIFTEEN SECONDS, SHAPED FOR A FEED. 4:5 rather than 9:16 on purpose: it is the tallest
+   ratio Instagram shows in full in the feed, and it has almost none of the danger zones a
+   Reel does -- no caption block over the bottom third, no button column down the right.
+   The safe margin goes up while it records so nothing lands where a crop or an overlay
+   would take it, and the mark burns in because it goes through the same render the piece
+   does. The soundtrack rides along; renderOut already taps the gain node for it.
+
+   Every control it borrows is put back when the recorder stops, watched rather than
+   assumed, because a player that quietly leaves the piece in 4:5 afterwards is worse than
+   no button at all. */
+if(el.mClip) el.mClip.addEventListener("click",function(){
+  if(!el.exGo || el.exGo.disabled){ return; }
+  var keep={};
+  ["aspect","margin","exMode","exAmt","exRes","layout"].forEach(function(k){
+    if(el[k]) keep[k]=el[k].value; });
+  if(el.aspect) el.aspect.value="0.8";
+  if(el.layout && el.layout.value==="auto") el.layout.value="stack";
+  if(el.margin) el.margin.value="9";
+  if(el.exMode) el.exMode.value="secs";
+  if(el.exAmt)  el.exAmt.value="15";
+  if(el.exRes)  el.exRes.value="1080";
+  refresh();
+  say("mClipNote","Recording fifteen seconds at 4:5\u2026 keep this page in front.");
+  try{ renderOut(); }
+  catch(e){
+    fault("The clip could not be recorded", String(e && e.message || e),
+          "Some browsers will not let a page record its own canvas. Chrome will.");
+  }
+  var watch=setInterval(function(){
+    if(el.exGo && !el.exGo.disabled){
+      clearInterval(watch);
+      for(var k in keep){ if(el[k]) el[k].value=keep[k]; }
+      refresh();
+      say("mClipNote","Saved. The piece is back the way it was.");
+    }
+  },400);
+  setTimeout(function(){ clearInterval(watch); },120000);
+});
+
+if(el.mCommission) el.mCommission.addEventListener("click",function(){
+  /* NO ADDRESS IN THE SOURCE. A mailto: on a public page is harvested within days, and
+     the address a collector should reach is not necessarily the one on the invoices --
+     so this goes to his own site, which is where he decides who hears from whom. */
+  window.open("https://chamy.xyz/","_blank","noopener");
+});
+
+/* THE ARRANGEMENTS, OFFERED RATHER THAN ASSUMED. Auto reads the shape of the screen, and
+   for most people that is the right answer -- but somebody holding an iPad may want to
+   see the vertical setting anyway, and the piece has nothing to hide about how it works.
+   Vertical, horizontal and square are what these arrangements ARE from the outside; spine,
+   overlap and stack are what they are called inside, and nobody out here needs to know. */
+Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(b){
+  b.addEventListener("click",function(){
+    if(el.layout) el.layout.value=b.dataset.arr;
+    refresh();
+    Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(o){
+      o.classList.toggle("on", o===b); });
+  });
+});
+
+/* AND THE FRAME HE CAME FOR. It goes through the same render the piece does, so the mark
+   is burned into it wherever the rig burns it in -- which is the whole point of putting
+   this here rather than leaving people to the screenshot key. */
+if(el.mShot) el.mShot.addEventListener("click",function(){
+  try{ saveStill(); }
+  catch(e){ fault("The frame could not be saved", String(e && e.message || e),
+    "Try again once the piece has drawn at least one frame."); }
 });
 
 /* SOUND IS SOMETHING YOU CAN TURN OFF. Somebody opening this at a desk needs one obvious
