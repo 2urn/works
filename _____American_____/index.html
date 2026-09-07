@@ -1651,8 +1651,53 @@ var PALETTES={
   signal:["#F4F4F4","#E0A15C","#F4F4F4","#E0A15C","#4FD3D3"]
 };
 
+
+/* BASELINES BELONG TO THE ARRANGEMENT, NOT TO THE PIECE. Overlapping, stacked and spine
+   do not want the same optical centre: spine turns two of the three lines on their side,
+   so what reads as centred there is not what reads as centred in a stack. One set of four
+   per arrangement -- switching arrangement swaps the set in, and tuning writes back to
+   whichever arrangement is SHOWING. Keyed on the RESOLVED layout, so an auto frame that
+   lands on spine gets spine's baselines too.
+
+   Spine's numbers are his, tuned on 6 Sep 2026 and dictated off the panel. The other two
+   sit at zero because nothing has argued they should not. */
+var BASE_KEYS=["offFirst","offSpine","offThird","offName"];
+var BASE_DEF={ overlap:["0","0","0","0"], stack:["0","0","0","0"],
+               spine:["6","5.5","6.5","0"] };
+var baseSets={}, baseNow=null, baseWrote="", baseAdopt=false;
+try{
+  var saved=JSON.parse(localStorage.getItem("glyph.baselines")||"null");
+  BASE_KEYS.length; for(var k in BASE_DEF) baseSets[k]=(saved&&saved[k])?saved[k]:BASE_DEF[k].slice();
+}catch(e){ for(var k2 in BASE_DEF) baseSets[k2]=BASE_DEF[k2].slice(); }
+
+function syncBaselines(){
+  var now=V.layout; if(!baseSets[now]) baseSets[now]=BASE_DEF[now]?BASE_DEF[now].slice():["0","0","0","0"];
+  var moved=false;
+  var read=function(){ return BASE_KEYS.map(function(k){ return el[k]?el[k].value:"0"; }); };
+  if(baseAdopt){
+    /* A LOOK JUST LANDED and carries its own four numbers -- they become this
+       arrangement's set rather than being overwritten by it. */
+    baseAdopt=false; baseNow=now; baseSets[now]=read();
+  } else if(now!==baseNow){
+    /* THE FIRST CALL COUNTS AS A SWITCH. It used to fall through to the branch below,
+       which adopted whatever the sliders happened to say as the arrangement's set --
+       so the shipped numbers were overwritten by zeroes before anyone saw them. */
+    if(baseNow!==null) baseSets[baseNow]=read();
+    BASE_KEYS.forEach(function(k,i){ if(el[k]) el[k].value=baseSets[now][i]; });
+    baseNow=now; moved=true;
+  } else {
+    baseSets[now]=read();
+  }
+  /* only when it actually changed -- a range fires this on every tick of the drag */
+  var s=JSON.stringify(baseSets);
+  if(s!==baseWrote){ baseWrote=s; try{ localStorage.setItem("glyph.baselines",s); }catch(e){} }
+  return moved;
+}
+
 function refresh(){
-  readControls(); paintBlendState(); stampPiece();
+  readControls();
+  if(syncBaselines()) readControls();   /* the swap moved the sliders; re-read them */
+  paintBlendState(); stampPiece();
   if(snd.gain && el.sndVol) snd.gain.gain.value=+el.sndVol.value;
   if(V.sndSrc==="off" && snd.on) sndStop();
   if(el.stageBox) el.stageBox.style.aspectRatio=String(V.aspect);
@@ -2174,6 +2219,8 @@ function grab(root){
 }
 function applyLook(vals){
   var n=0;
+  /* the look's own baselines win over the arrangement's remembered set */
+  baseAdopt=true;
   for(var id in vals){
     var e=el[id]; if(!e) continue;
     if(e.type==="checkbox") e.checked=!!vals[id]; else e.value=vals[id];
