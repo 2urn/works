@@ -1672,12 +1672,13 @@ function autoShape(){
     asp = +V.aspectMode || (16/9);
   }
   V.aspect=asp;
-  /* AUTO CHOOSES BETWEEN THE TWO ARRANGEMENTS THAT ARE TUNED. Upright reads as a book
-     spine, everything else as stacked rows -- and both carry baselines he set. It used to
-     pick "overlap" for landscape, which is the one arrangement nobody has dialled, so the
-     public page opened at four zeroes and every tuned number stayed off screen. */
+  /* AUTO PICKS THE ARRANGEMENT THE SHAPE WANTS. Upright is a book spine, wide is
+     overlapping, and the squarish middle is stacked rows. It briefly chose stacked for
+     wide as well -- that was me routing around overlapping having no baselines dialled
+     yet, which cost the wide screen the arrangement it actually wants. The empty
+     baselines are a thing to fill in, not a reason to avoid the arrangement. */
   V.layout = (V.layoutMode!=="auto") ? V.layoutMode
-           : (asp<=0.85 ? "spine" : "stack");
+           : (asp<=0.85 ? "spine" : (asp>=1.15 ? "overlap" : "stack"));
   if(V.aspectMode==="auto"||V.layoutMode==="auto"){
     var r10=Math.round(asp*100)/100;
     say("autoShapeV", r10+":1 · "+V.layout);
