@@ -1563,8 +1563,12 @@ function autoShape(){
     asp = +V.aspectMode || (16/9);
   }
   V.aspect=asp;
+  /* AUTO CHOOSES BETWEEN THE TWO ARRANGEMENTS THAT ARE TUNED. Upright reads as a book
+     spine, everything else as stacked rows -- and both carry baselines he set. It used to
+     pick "overlap" for landscape, which is the one arrangement nobody has dialled, so the
+     public page opened at four zeroes and every tuned number stayed off screen. */
   V.layout = (V.layoutMode!=="auto") ? V.layoutMode
-           : (asp>=1.15 ? "overlap" : (asp<=0.85 ? "spine" : "stack"));
+           : (asp<=0.85 ? "spine" : "stack");
   if(V.aspectMode==="auto"||V.layoutMode==="auto"){
     var r10=Math.round(asp*100)/100;
     say("autoShapeV", r10+":1 · "+V.layout);
