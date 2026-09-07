@@ -501,19 +501,8 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="mtab" data-tab="about" id="tab-about"
         role="tab" aria-selected="false" aria-controls="pane-about">The artist</button>
     </div>
-    <div class="mpane" data-pane="work" id="pane-work" role="tabpanel" aria-labelledby="tab-work">
-      <h3 class="mh">_____ American _____</h3>
-      <p class="mmeta" id="mMeta"></p>
-      <p class="mbio">Two pools of words, drawn into a sequence: a first blank and a
-        third, with AMERICAN held between them. <em>This</em> edition keeps its order — but
-        the piece does not. The word has as many uses as there are people using it, and its
-        future is not settled; it changes with our collective actions, and with our
-        collective failures to act.
-        Endless editions can be constructed, devised, curated and performed.</p>
-      <p class="mbio">Within any edition nothing repeats either: every letter finds its own
-        way in, its own way out, its own colour and its own clock, and no two passes cast
-        them alike.</p>
-    </div>
+    <div class="mpane" data-pane="work" id="pane-work" role="tabpanel"
+      aria-labelledby="tab-work"></div>
     <div class="mpane" data-pane="set" id="pane-set" role="tabpanel" aria-labelledby="tab-set">
       <label class="mrow"><span>Sound</span>
         <input type="checkbox" id="mSound" autocomplete="off"></label>
@@ -543,28 +532,11 @@ label.reset,label.reset span{color:var(--accent) !important;
           <button type="button" class="mopt" data-clip="30">30s</button>
           <button type="button" class="mopt" data-clip="60">1 min</button>
         </span></div>
-      <button type="button" class="mbtn" id="mCommission">Collect or commission a work</button>
-      <button type="button" class="mbtn" id="mInsta">Instagram</button>
+      <span id="shareLinks"></span>
       <p class="mnote" id="mClipNote"></p>
     </div>
-    <div class="mpane" data-pane="about" id="pane-about" role="tabpanel" aria-labelledby="tab-about" hidden>
-      <img id="mFace" alt="Dimitry Saïd Chamy" width="76" height="76">
-      <p class="mbio">Dimitry Saïd Chamy is a transdisciplinary artist, educator and
-        cultural producer whose work moves between installation, social practice,
-        performance, moving image and design. Grounded in his Haitian, Lebanese and
-        American diasporic experiences, his practice creates systems for collaborative
-        play while exploring what happens when those systems break, adapt, or overflow.</p>
-      <p class="mbio">His work has been presented at Beijing Design Week, the Yerba Buena
-        Center for the Arts, the Lowe Art Museum, Edge Zones and the Academy of Fine Arts
-        in Warsaw. He holds an MFA in Graphic Design from Yale and is Research Associate
-        Professor and co-founding faculty of the Ratcliffe Art + Design Incubator at
-        Florida International University, where he keeps his studio.</p>
-      <div id="mVoiceBox" hidden>
-        <p class="mnote">The artist on this piece</p>
-        <audio id="mVoice" controls preload="none"></audio>
-      </div>
-      <button type="button" class="mbtn" id="mSite">chamy.xyz</button>
-    </div>
+    <div class="mpane" data-pane="about" id="pane-about" role="tabpanel"
+      aria-labelledby="tab-about" hidden></div>
   </div>
     <button type="button" class="mclose" id="mClose"
       aria-label="Close this panel" title="Close">×</button>
@@ -739,6 +711,57 @@ label.reset,label.reset span{color:var(--accent) !important;
       <b>Save this frame</b> writes one PNG at the export resolution and works anywhere.</p>
     </div>
 
+    <div data-deck="player" class="deck">
+      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Player </button><span class="dsp">— what the piece says, and which controls it offers</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
+      <p class="hint">Everything a visitor reads comes from here. A second work is this
+      panel filled in differently rather than a player rebuilt — so leave a field empty and
+      the control it feeds simply does not appear.</p>
+      <div class="ctl"><div class="top"><label for="pTitle">Title</label></div>
+        <input type="text" id="pTitle" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pArtist">Artist</label></div>
+        <input type="text" id="pArtist" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pYear">Year</label></div>
+        <input type="text" id="pYear" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pMedium">Medium</label></div>
+        <input type="text" id="pMedium" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pAbout">The piece — one paragraph a line</label></div>
+        <textarea id="pAbout" rows="4" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pBio">The artist — one paragraph a line</label></div>
+        <textarea id="pBio" rows="4" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pLinks">Links — label | address | tab</label></div>
+        <textarea id="pLinks" rows="3" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pVoice">Voice recording — an address, when there is one</label></div>
+        <input type="text" id="pVoice" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pConds">For a person to confirm — one a line</label></div>
+        <textarea id="pConds" rows="4" spellcheck="false"></textarea></div>
+
+      <p class="hint"><b>Which controls each showing offers.</b> Pick a rig, then say what
+      it may do. Withheld means removed, not greyed out — a button nobody can use is worse
+      than no button, and in a gallery it is also something for a visitor to press.</p>
+      <div class="ctl"><div class="top"><label for="pRig">Rig</label></div>
+        <select id="pRig" autocomplete="off"></select></div>
+      <label class="tog"><input type="checkbox" id="pcPlay"> Play and pause</label>
+      <label class="tog"><input type="checkbox" id="pcFull"> Full screen</label>
+      <label class="tog"><input type="checkbox" id="pcInfo"> What this is</label>
+      <label class="tog"><input type="checkbox" id="pcScrub"> Step to a frame</label>
+      <label class="tog"><input type="checkbox" id="pcTitle"> Open on a title card</label>
+      <label class="tog"><input type="checkbox" id="pcBurn"> Burn the marks into the picture</label>
+      <label class="tog"><input type="checkbox" id="pcWake"> Hold the screen awake</label>
+      <label class="tog"><input type="checkbox" id="pcPre"> Run the installer checks</label>
+      <label class="tog"><input type="checkbox" id="pcAnon"> Anonymous — no name, anywhere</label>
+      <div class="ctl"><div class="top"><label for="pcCredit">The mark</label></div>
+        <select id="pcCredit" autocomplete="off">
+          <option value="always">always visible</option>
+          <option value="tap">only when touched</option>
+          <option value="never">never</option>
+        </select></div>
+      <div class="ctl"><div class="top"><label for="pcLimit">Sample limit, seconds</label>
+        <output id="pcLimitV">none</output></div>
+        <input type="range" id="pcLimit" min="0" max="600" step="15" value="0"></div>
+      <p class="binds"><button type="button" id="pApply">Apply</button>
+        <button type="button" id="pCopy">Copy the block</button></p>
+      <p class="hint" id="pSaid"></p>
+    </div>
     <div data-deck="layout" class="deck">
       <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Layout </button><span class="dsp">— shape, arrangement, baselines</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
       <div class="ctl"><div class="top"><label for="aspect">Frame shape</label>
@@ -3045,6 +3068,56 @@ if(PLAYER){ document.body.classList.add("player"); }
    on a page someone else built. The big button is both the play control and the gesture
    the browser is waiting for before it will allow any sound at all -- which is why it
    exists rather than autoplaying muted. */
+/* WHAT THE PIECE SAYS ABOUT ITSELF. Every word, link and control choice the player shows
+   comes from here and from nowhere else -- so a second work is this block filled in
+   differently rather than a player rebuilt. It is data on purpose: a panel can edit it, a
+   release can rewrite it, and nothing downstream has to be touched to change what a
+   visitor reads.
+
+   Empty is meaningful throughout. No voice recording, no voice player. No links, no
+   buttons. No conditions, nothing for an installer to confirm. A control that has nothing
+   behind it is never shown, which is the same rule fullscreen follows on an iPad. */
+var PIECE={
+  title:  "_____ American _____",
+  year:   "2026",
+  medium: "real-time animation in custom software",
+  artist: "Dimitry Sa\u00efd Chamy",
+  about: [
+    "Two pools of words, drawn into a sequence: a first blank and a third, with AMERICAN "+
+    "held between them. <em>This</em> edition keeps its order \u2014 but the piece does "+
+    "not. The word has as many uses as there are people using it, and its future is not "+
+    "settled; it changes with our collective actions, and with our collective failures to "+
+    "act. Endless editions can be constructed, devised, curated and performed.",
+    "Within any edition nothing repeats either: every letter finds its own way in, its own "+
+    "way out, its own colour and its own clock, and no two passes cast them alike."
+  ],
+  bio: [
+    "Dimitry Sa\u00efd Chamy is a transdisciplinary artist, educator and cultural producer "+
+    "whose work moves between installation, social practice, performance, moving image and "+
+    "design. Grounded in his Haitian, Lebanese and American diasporic experiences, his "+
+    "practice creates systems for collaborative play while exploring what happens when "+
+    "those systems break, adapt, or overflow.",
+    "His work has been presented at Beijing Design Week, the Yerba Buena Center for the "+
+    "Arts, the Lowe Art Museum, Edge Zones and the Academy of Fine Arts in Warsaw. He holds "+
+    "an MFA in Graphic Design from Yale and is Research Associate Professor and "+
+    "co-founding faculty of the Ratcliffe Art + Design Incubator at Florida International "+
+    "University, where he keeps his studio."
+  ],
+  /* the navigation, filled in rather than written into the markup */
+  links: [
+    { label:"chamy.xyz",                 url:"https://chamy.xyz/" },
+    { label:"Instagram",                 url:"https://www.instagram.com/2urn_" },
+    { label:"Collect or commission a work", url:"https://chamy.xyz/", where:"share" }
+  ],
+  voice: "",                       /* a minute of him on the piece, when it is recorded */
+  conditions: [
+    "The room is dark enough that the projection reads as light, not as a grey screen.",
+    "Sound is audible from where people stand, and not louder than the next work along.",
+    "The surface is clear of glare, and nothing crosses the beam at head height.",
+    "The machine will not sleep, dim, or show a notification for the length of the show."
+  ]
+};
+
 /* THE RIG IS WHAT THE PLAYER IS FOR, and the piece declares which controls each one may
    have. A gallery wants no chrome and no credit; a print shop wants to stop on an exact
    frame; the public web wants to play, expand and read who made it. "bare" is the whole
@@ -3073,14 +3146,7 @@ var RIGS={
 var RIGLIMIT=0;
 try{ var lm=/[?&]limit=(\d+)/.exec(location.search||""); if(lm) RIGLIMIT=+lm[1]; }catch(e){}
 
-/* WHAT THIS PIECE NEEDS A HUMAN TO CONFIRM. A browser cannot measure the light in a room
-   or what the speakers are actually doing, and pretending otherwise is worse than asking. */
-var CONDITIONS=[
-  "The room is dark enough that the projection reads as light, not as a grey screen.",
-  "Sound is audible from where people stand, and not louder than the next work along.",
-  "The surface is clear of glare, and nothing crosses the beam at head height.",
-  "The machine will not sleep, dim, or show a notification for the length of the show."
-];
+var CONDITIONS=PIECE.conditions;
 var RIGNAME="web", RIG=RIGS.web;
 try{
   var rm=/[?&]rig=([a-z]+)/.exec(location.search||"");
@@ -3375,7 +3441,7 @@ var PORTRAIT="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAY
 /* THE ARTIST ON THE PIECE. A minute of him saying what it is and where it came
    from. Empty until it is recorded, and the control is not shown while it is --
    the same rule as fullscreen: nothing on screen that cannot do anything. */
-var VOICE="";
+var VOICE=PIECE.voice;
 var CAN_FULL=false;
 try{ CAN_FULL=!!(document.fullscreenEnabled||document.webkitFullscreenEnabled); }catch(e){}
 if(el.ovFull) el.ovFull.addEventListener("click",toggleFull);
@@ -3399,8 +3465,50 @@ function menuSay(open){
   if(el.sigBtn) el.sigBtn.setAttribute("aria-expanded", open?"true":"false");
   if(creditEl && creditEl.setAttribute) creditEl.setAttribute("aria-expanded", open?"true":"false");
 }
+/* THE PANES ARE BUILT FROM THE BLOCK. Nothing about this work is written into the markup
+   any more -- the same player with a different PIECE is a different piece's player, which
+   is the only way this stops being bespoke. Links declare which tab they belong to, so a
+   work with three contact routes and no Instagram needs no code at all. */
+function paintPiece(){
+  var w=document.getElementById("pane-work");
+  if(w) w.innerHTML=
+    '<h3 class="mh">'+esc(PIECE.title)+'</h3>'+
+    '<p class="mmeta" id="mMeta"></p>'+
+    PIECE.about.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    linkRow("work");
+  var a=document.getElementById("pane-about");
+  if(a) a.innerHTML=
+    '<img id="mFace" alt="'+esc(PIECE.artist)+'" width="76" height="76">'+
+    PIECE.bio.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    '<div id="mVoiceBox"'+(PIECE.voice?"":" hidden")+'>'+
+      '<p class="mnote">The artist on this piece</p>'+
+      '<audio id="mVoice" controls preload="none"'+
+        (PIECE.voice?' src="'+esc(PIECE.voice)+'"':'')+'></audio></div>'+
+    linkRow("about");
+  el={}; Array.prototype.forEach.call(document.querySelectorAll("[id]"),function(n){ el[n.id]=n; });
+  bindLinks();
+}
+function linkRow(where){
+  return (PIECE.links||[]).filter(function(L){ return (L.where||"about")===where; })
+    .map(function(L,i){
+      return '<button type="button" class="mbtn" data-link="'+esc(L.url)+'">'
+        +esc(L.label)+'</button>';
+    }).join("");
+}
+function bindLinks(){
+  Array.prototype.forEach.call(document.querySelectorAll("[data-link]"),function(b){
+    if(b.__bound) return; b.__bound=1;
+    b.addEventListener("click",function(){
+      window.open(b.getAttribute("data-link"),"_blank","noopener");
+    });
+  });
+}
+
 function menuOpen(tab){
   if(!el.menu) return;
+  paintPiece();
+  var sl=document.getElementById("shareLinks");
+  if(sl){ sl.innerHTML=linkRow("share"); bindLinks(); }
   if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
   if(el.mVol && el.sndVol) el.mVol.value = el.sndVol.value;
   if(el.mPlay) el.mPlay.checked = !!running;
@@ -3440,6 +3548,82 @@ window.addEventListener("resize",menuSize);
 Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
 if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true; menuSay(false); });
+
+/* THE PANEL THAT FILLS IN THE BLOCK. Editing PIECE and RIGS by hand in a 5MB file is not
+   a workflow anybody would choose twice, and the whole argument for making them data was
+   that something could edit them. Kept in localStorage so it survives a reload, and
+   emitted as a pasteable block so it can be put back into the file it came from -- which
+   is the only version that ships to anyone else. */
+function pFill(){
+  if(!el.pTitle) return;
+  el.pTitle.value=PIECE.title||""; el.pArtist.value=PIECE.artist||"";
+  el.pYear.value=PIECE.year||"";   el.pMedium.value=PIECE.medium||"";
+  el.pAbout.value=(PIECE.about||[]).join("\n");
+  el.pBio.value=(PIECE.bio||[]).join("\n");
+  el.pVoice.value=PIECE.voice||"";
+  el.pConds.value=(PIECE.conditions||[]).join("\n");
+  el.pLinks.value=(PIECE.links||[]).map(function(L){
+    return [L.label,L.url,(L.where||"about")].join(" | "); }).join("\n");
+  if(el.pRig && !el.pRig.options.length){
+    el.pRig.innerHTML=Object.keys(RIGS).map(function(k){
+      return '<option value="'+k+'">'+k+'</option>'; }).join("");
+    el.pRig.value=RIGNAME;
+  }
+  pRigFill();
+}
+function pRigFill(){
+  var r=RIGS[el.pRig.value]||{};
+  el.pcPlay.checked=!!r.play; el.pcFull.checked=!!r.full; el.pcInfo.checked=!!r.info;
+  el.pcScrub.checked=!!r.scrub; el.pcTitle.checked=!!r.title; el.pcBurn.checked=!!r.burn;
+  el.pcWake.checked=!!r.wake; el.pcPre.checked=!!r.pre; el.pcAnon.checked=!!r.anon;
+  el.pcCredit.value=r.credit||"always";
+  el.pcLimit.value=String(r.limit||0);
+  say("pcLimitV", r.limit? (r.limit+"s") : "none");
+}
+function pGrab(){
+  var lines=function(v){ return String(v||"").split("\n").map(function(x){return x.trim();})
+    .filter(function(x){return x.length;}); };
+  PIECE.title=el.pTitle.value; PIECE.artist=el.pArtist.value;
+  PIECE.year=el.pYear.value;   PIECE.medium=el.pMedium.value;
+  PIECE.about=lines(el.pAbout.value); PIECE.bio=lines(el.pBio.value);
+  PIECE.voice=el.pVoice.value.trim();
+  PIECE.conditions=lines(el.pConds.value);
+  PIECE.links=lines(el.pLinks.value).map(function(row){
+    var p=row.split("|").map(function(x){return x.trim();});
+    return { label:p[0]||"", url:p[1]||"", where:p[2]||"about" };
+  }).filter(function(L){ return L.label && L.url; });
+  var r=RIGS[el.pRig.value];
+  if(r){
+    r.play=el.pcPlay.checked?1:0; r.full=el.pcFull.checked?1:0; r.info=el.pcInfo.checked?1:0;
+    r.scrub=el.pcScrub.checked?1:0; r.title=el.pcTitle.checked?1:0; r.burn=el.pcBurn.checked?1:0;
+    r.wake=el.pcWake.checked?1:0; r.pre=el.pcPre.checked?1:0; r.anon=el.pcAnon.checked?1:0;
+    r.credit=el.pcCredit.value;
+    var lim=+el.pcLimit.value; if(lim) r.limit=lim; else delete r.limit;
+  }
+  CONDITIONS=PIECE.conditions; VOICE=PIECE.voice;
+  try{ localStorage.setItem("glyph.piece", JSON.stringify({p:PIECE,r:RIGS})); }catch(e){}
+  applyRig(); paintPiece(); pRigFill();
+  say("pSaid","Applied. The menu now says this.");
+}
+try{
+  var savedPiece=JSON.parse(localStorage.getItem("glyph.piece")||"null");
+  if(savedPiece && savedPiece.p){
+    PIECE=savedPiece.p; CONDITIONS=PIECE.conditions||[]; VOICE=PIECE.voice||"";
+    if(savedPiece.r) for(var rk in savedPiece.r) if(RIGS[rk]) RIGS[rk]=savedPiece.r[rk];
+  }
+}catch(e){}
+if(el.pRig) el.pRig.addEventListener("change",pRigFill);
+if(el.pcLimit) el.pcLimit.addEventListener("input",function(){
+  say("pcLimitV", +el.pcLimit.value ? (el.pcLimit.value+"s") : "none"); });
+if(el.pApply) el.pApply.addEventListener("click",pGrab);
+if(el.pCopy) el.pCopy.addEventListener("click",function(){
+  pGrab();
+  var block="var PIECE="+JSON.stringify(PIECE,null,2)+";\n\nvar RIGS="+JSON.stringify(RIGS,null,2)+";";
+  try{ navigator.clipboard.writeText(block); say("pSaid","Copied. Paste it over the block in the file."); }
+  catch(e){ say("pSaid","Could not copy \u2014 the block is in the console."); }
+});
+pFill();
+
 /* escape closes it, because a panel that traps you is not accessible however it is labelled */
 document.addEventListener("keydown",function(e){
   if(e.key==="Escape" && el.menu && !el.menu.hidden){ el.menu.hidden=true; menuSay(false); }
@@ -3468,13 +3652,6 @@ if(creditEl){
   creditEl.addEventListener("click",function(e){ e.preventDefault(); menuOpen("work"); });
 }
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); });
-if(el.mSite) el.mSite.addEventListener("click",function(){
-  window.open("https://chamy.xyz/","_blank","noopener");
-});
-if(el.mInsta) el.mInsta.addEventListener("click",function(){
-  window.open("https://www.instagram.com/2urn_","_blank","noopener");
-});
-
 /* FIFTEEN SECONDS, SHAPED FOR A FEED. 4:5 rather than 9:16 on purpose: it is the tallest
    ratio Instagram shows in full in the feed, and it has almost none of the danger zones a
    Reel does -- no caption block over the bottom third, no button column down the right.
@@ -3522,12 +3699,9 @@ function socialClip(secs){
   setTimeout(function(){ clearInterval(watch); },120000);
 }
 
-if(el.mCommission) el.mCommission.addEventListener("click",function(){
-  /* NO ADDRESS IN THE SOURCE. A mailto: on a public page is harvested within days, and
-     the address a collector should reach is not necessarily the one on the invoices --
-     so this goes to his own site, which is where he decides who hears from whom. */
-  window.open("https://chamy.xyz/","_blank","noopener");
-});
+/* NO ADDRESS IN THE SOURCE. A mailto: on a public page is harvested within days, and the
+   address a collector should reach is not necessarily the one on the invoices -- so a
+   contact link points at a page he controls, declared in PIECE.links like the rest. */
 
 /* THE ARRANGEMENTS, OFFERED RATHER THAN ASSUMED. Auto reads the shape of the screen, and
    for most people that is the right answer -- but somebody holding an iPad may want to
