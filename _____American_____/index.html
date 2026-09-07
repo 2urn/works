@@ -1824,10 +1824,19 @@ el.mic.addEventListener("click",startMic);
 el.reseed.addEventListener("click",function(){
   seed=Math.floor(Math.random()*100000); say("hSeed",String(seed)); if(!running) still();
 });
-window.addEventListener("resize",function(){ size(); if(!running) still(); });
-try{ window.matchMedia("(orientation:portrait)").addEventListener("change",function(){
-  size(); if(!running) still(); }); }catch(e){}
-document.addEventListener("fullscreenchange",function(){ size(); if(!running) still(); });
+/* A RESIZE CHANGES THE ARRANGEMENT, AND THE ARRANGEMENT OWNS THE BASELINES.
+   These three handlers called size() alone, which resolves the new shape and redraws --
+   but syncBaselines only ever ran from refresh(), so turning the window landscape moved
+   the picture into stacked rows and left spine's numbers in the sliders. The baselines
+   read as SHARED across arrangements, which is the opposite of what they are. */
+function reshape(){
+  size();
+  if(syncBaselines()){ readControls(); size(); }
+  if(!running) still();
+}
+window.addEventListener("resize",reshape);
+try{ window.matchMedia("(orientation:portrait)").addEventListener("change",reshape); }catch(e){}
+document.addEventListener("fullscreenchange",reshape);
 
 /* KEYBOARD, because in performance the mouse is not where his hands are. Ignored while
    he is typing into the script field. */
