@@ -120,6 +120,11 @@ body.player{overflow:hidden;background:#000}
 body.player .wrap{max-width:none;padding:0;gap:0;height:100vh;height:100dvh}
 body.player .wrap > *:not(.stage){display:none}
 html:not(.booted) .wrap > *:not(.stage){display:none}
+/* AND THE READOUT, which the rule above cannot reach: the heads-up display lives INSIDE
+   .stage, the one child that is deliberately exempt, so hiding the frame's other children
+   never touched it. Frame count, line, seed, blend, piece hash -- an instrument's readout
+   sitting over the work until the script five megabytes down said otherwise. */
+html:not(.booted) .hud{display:none}
 body.player .stage{border:0;border-radius:0;aspect-ratio:auto;
   height:100vh;height:100dvh;width:100vw;width:100dvw}
 body.player .stage canvas{width:100%;height:100%;object-fit:contain}
