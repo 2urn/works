@@ -1553,10 +1553,11 @@ function autoShape(){
   if(V.aspectMode==="auto"){
     var w=window.innerWidth, h=window.innerHeight;
     if(exportSize){ w=exportSize[0]; h=exportSize[1]; }
-    else if(!PLAYER && !document.fullscreenElement && el.stageBox){
-      var r=el.stageBox.getBoundingClientRect();
-      if(r.width>0){ w=r.width; h=Math.max(200, window.innerHeight-r.top-24); }
-    }
+    /* THE SCREEN, NOT THE BOX. This used to measure the stage box's width against the
+       room left below its top, which is not a height the stage ever has -- in the editor
+       the stage is one block in a long scrolling page, so "window minus top" ran to about
+       three times the truth and auto reported 0.61:1 inside a 16:9 box. "Follow the
+       screen" means the screen; the box is then given that same ratio below. */
     asp = (w>0&&h>0) ? w/h : (16/9);
     asp = Math.max(0.45, Math.min(2.4, asp));   /* past these it stops being a frame */
   } else {
@@ -1594,9 +1595,14 @@ function size(){
     SP.width=cv.width; SP.height=cv.height; BL.width=cv.width; BL.height=cv.height;
     return;
   }
+  var asp=V.aspect||(16/9);
+  /* SET THE BOX BEFORE MEASURING IT, and in the same breath as the canvas. When refresh()
+     owned the box and size() owned the pixels, a path that called size() alone left a
+     portrait canvas stretched across a landscape box -- which reads as squashed type and
+     not as a sizing bug. */
+  if(el.stageBox && !document.fullscreenElement) el.stageBox.style.aspectRatio=String(asp);
   var r=cv.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
   var w=Math.max(320,Math.round(r.width*dpr));
-  var asp=V.aspect||(16/9);
   var h=Math.max(180,Math.round(document.fullscreenElement?r.height*dpr:w/asp));
   cv.width=w; cv.height=h; T.width=w; T.height=h; G.width=w; G.height=h;
   SP.width=w; SP.height=h; BL.width=w; BL.height=h;
@@ -1704,8 +1710,7 @@ function refresh(){
   paintBlendState(); stampPiece();
   if(snd.gain && el.sndVol) snd.gain.gain.value=+el.sndVol.value;
   if(V.sndSrc==="off" && snd.on) sndStop();
-  if(el.stageBox) el.stageBox.style.aspectRatio=String(V.aspect);
-  size();
+  size();   /* size() sets the box's ratio too, so the two cannot drift apart */
   if(!running) still();
 }
 Array.prototype.forEach.call(
