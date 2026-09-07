@@ -3247,7 +3247,12 @@ if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true
 /* THE MARKS OPEN IT. The wordmark is the settings, his name is who made it -- and the
    credit stops being a link that leaves the piece, which on a wall is the last thing
    anyone should be able to do by accident. */
-if(el.credit) el.credit.addEventListener("click",function(e){ e.preventDefault(); menuOpen("set"); });
+/* BOUND BY SELECTOR, NOT BY id. el is built from every element that HAS an id, and the
+   credit deliberately has none -- release.py rewrites its href and label by matching
+   `<a class="credit" href="` exactly, and an id sitting between the two would break that
+   rewrite silently on the way out the door. So the listener finds it the other way. */
+var creditEl=document.querySelector(".credit");
+if(creditEl) creditEl.addEventListener("click",function(e){ e.preventDefault(); menuOpen("set"); });
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); });
 if(el.mSite) el.mSite.addEventListener("click",function(){
   window.open("https://chamy.xyz/","_blank","noopener");
