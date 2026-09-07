@@ -64,6 +64,25 @@
    default for [hidden], and "End of sample" sat over the live work on the public page.
    A visibility rule that depends on the HOST's stylesheet is not a rule. */
 [hidden]{display:none !important}
+/* THE WORK STAYS BLACK. THE INTERFACE DOES NOT HAVE TO. A projection is light on black
+   and that is not a preference, it is what the piece IS -- but the panel over it is an
+   interface, and an interface belongs to whoever is reading it. So the overlay carries its
+   own colours and follows dark, light, or whatever the device already decided.
+   The accent is darkened for light, because a piece may choose any colour and most of them
+   are unreadable as text on white at full strength. */
+:root{
+  --ovl-bg:rgba(8,8,10,.82); --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8;
+  --ovl-faint:#54585E; --ovl-rule:#26262A; --ovl-accent:var(--accent);
+  --ovl-shade:rgba(0,0,0,.72);
+}
+body.ovl-light{
+  --ovl-bg:rgba(250,250,248,.92); --ovl-ink:#101012; --ovl-dim:#4A4E55;
+  --ovl-faint:#767B83; --ovl-rule:#D6D6D2; --ovl-accent:#8A5200;
+  --ovl-shade:rgba(255,255,255,.66);
+}
+@supports (color:color-mix(in srgb,red 50%,blue)){
+  body.ovl-light{ --ovl-accent:color-mix(in srgb, var(--accent) 62%, #000); }
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--void);color:var(--ink);
   font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -131,37 +150,37 @@ body.rig-tapcredit.showing .sig{opacity:.61}
   padding:.5rem .8rem;backdrop-filter:blur(3px)}
 .ovscrub input[type=range]{width:min(60vw,22rem)}
 .ovscrub output{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--dim);min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+  color:var(--ovl-dim);min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
 #titleCard,#endCard{position:fixed;inset:0;z-index:75;display:flex;align-items:center;
   justify-content:center;background:#000;text-align:center;padding:2rem}
 #titleCard h2,#endCard h2{font-family:"Archivo Black","Archivo",sans-serif;
   font-size:clamp(1.4rem,4.5vw,2.4rem);margin:0 0 .4rem;letter-spacing:-.02em}
-#titleCard p,#endCard p{color:var(--dim);font-size:.9rem;margin:0 0 1.4rem}
-#titleCard button,#endCard button{border:1px solid var(--accent);color:var(--accent);
+#titleCard p,#endCard p{color:var(--ovl-dim);font-size:.9rem;margin:0 0 1.4rem}
+#titleCard button,#endCard button{border:1px solid var(--ovl-accent);color:var(--ovl-accent);
   background:none;padding:.7rem 2rem;font-size:.95rem;min-height:48px}
-#titleCard button:hover,#endCard button:hover{background:var(--accent);color:#000}
-#tcNote{margin:1.4rem 0 0;font-size:.75rem;color:var(--faint)}
+#titleCard button:hover,#endCard button:hover{background:var(--ovl-accent);color:#000}
+#tcNote{margin:1.4rem 0 0;font-size:.75rem;color:var(--ovl-faint)}
 #preflight{position:fixed;inset:1rem;max-width:44rem;margin:0 auto;z-index:80;overflow:auto;
-  background:rgba(8,8,10,.97);border:1px solid var(--rule);padding:1.2rem}
+  background:var(--ovl-bg);border:1px solid var(--ovl-rule);padding:1.2rem}
 #preflight h2{margin:0 0 .8rem;font-size:1.05rem}
 #preflight h3{margin:1.4rem 0 .5rem;font-size:.78rem;text-transform:uppercase;
-  letter-spacing:.09em;color:var(--faint)}
+  letter-spacing:.09em;color:var(--ovl-faint)}
 #preflight .row{display:flex;gap:.7rem;align-items:baseline;padding:.4rem 0;
-  border-bottom:1px solid var(--rule);font-size:.84rem}
+  border-bottom:1px solid var(--ovl-rule);font-size:.84rem}
 #preflight .row .st{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;
   flex:0 0 4.2rem;letter-spacing:.06em}
 #preflight .ok .st{color:var(--live)} #preflight .warn .st{color:var(--warn)}
-#preflight .bad .st{color:var(--accent)}
-#preflight .row .fix{display:block;color:var(--dim);font-size:.78rem;margin-top:.15rem}
+#preflight .bad .st{color:var(--ovl-accent)}
+#preflight .row .fix{display:block;color:var(--ovl-dim);font-size:.78rem;margin-top:.15rem}
 #preflight label.ask{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;
-  font-size:.84rem;color:var(--ink);cursor:pointer}
+  font-size:.84rem;color:var(--ovl-ink);cursor:pointer}
 #preflight label.ask input{margin-top:.25rem;width:1.15rem;height:1.15rem;flex:none}
 #preflight .pfline{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0 0}
-#preflight button{border:1px solid var(--rule);color:var(--dim);
+#preflight button{border:1px solid var(--ovl-rule);color:var(--ovl-dim);
   padding:.45rem .9rem;min-height:40px}
-#preflight button:hover{border-color:var(--accent);color:var(--accent)}
+#preflight button:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 #pfSaid{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--faint);margin:.8rem 0 0}
+  color:var(--ovl-faint);margin:.8rem 0 0}
 /* EVERY FIXED PANEL CARRIES ITS OWN display, because .wrap blanks its children in the
    player and an ID rule is the thing that out-ranks that. [hidden] is !important above,
    so declaring display here does not stop hidden working. */
@@ -228,8 +247,8 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
    The cap only exists so a very small screen still shows some of the work behind it. */
 #menu{display:block;position:fixed;left:0;right:0;top:0;bottom:auto;z-index:78;
   padding:calc(.7rem + env(safe-area-inset-top)) 1.2rem .7rem;
-  background:rgba(8,8,10,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:0;border-bottom:1px solid var(--rule);border-radius:0;
+  background:var(--ovl-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:0;border-bottom:1px solid var(--ovl-rule);border-radius:0;
   display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
 .mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column}
 /* IT SCROLLS WHEN IT GENUINELY HAS TO. "Never a scroll bar" was right about a settings
@@ -238,52 +257,52 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
    same size, and the cap stops the panel eating the work; past that, it scrolls. */
 .mpane{min-height:var(--paneH,auto);overflow-y:auto;-webkit-overflow-scrolling:touch}
 #menu{overscroll-behavior:contain}
-.mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--rule)}
-.mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);
+.mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--ovl-rule)}
+.mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--ovl-dim);
   font-size:.82rem;font-weight:600;padding:.5rem .7rem;min-height:44px}
-.mtab.on{color:var(--ink);border-bottom-color:var(--accent)}
+.mtab.on{color:var(--ovl-ink);border-bottom-color:var(--ovl-accent)}
 .mrow{display:flex;align-items:center;justify-content:space-between;gap:.8rem;
-  padding:.35rem 0;font-size:.88rem;color:var(--ink);min-height:44px;flex-wrap:wrap}
+  padding:.35rem 0;font-size:.88rem;color:var(--ovl-ink);min-height:44px;flex-wrap:wrap}
 .mrow input[type=range]{width:11rem}
-.mrow input[type=checkbox]{width:1.25rem;height:1.25rem;accent-color:var(--accent)}
-.mnote{color:var(--faint);font-size:.78rem;margin:.6rem 0 0;max-width:44ch}
-.mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--rule);
-  color:var(--ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
-.mbtn:hover{border-color:var(--accent);color:var(--accent)}
+.mrow input[type=checkbox]{width:1.25rem;height:1.25rem;accent-color:var(--ovl-accent)}
+.mnote{color:var(--ovl-faint);font-size:.78rem;margin:.6rem 0 0;max-width:44ch}
+.mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--ovl-rule);
+  color:var(--ovl-ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
+.mbtn:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
    the width of a sentence for a job a glyph does; what makes it usable to a screen
    reader is the aria-label, not the size of the target on screen. 44px of touch, one
    character of ink. */
-.mclose{position:absolute;right:.5rem;top:.35rem;margin:0;border:0;color:var(--faint);
+.mclose{position:absolute;right:.5rem;top:.35rem;margin:0;border:0;color:var(--ovl-faint);
   font-size:1.5rem;line-height:1;min-width:44px;min-height:44px;padding:0}
-.mclose:hover{color:var(--accent)}
-.mclose:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.mclose:hover{color:var(--ovl-accent)}
+.mclose:focus-visible{outline:2px solid var(--ovl-accent);outline-offset:2px;}
 #menu{position:fixed}
-.mseg{display:inline-flex;gap:.2rem;border:1px solid var(--rule);
+.mseg{display:inline-flex;gap:.2rem;border:1px solid var(--ovl-rule);
   padding:.15rem}
-.mopt{background:none;border:0;color:var(--dim);font-size:.8rem;
+.mopt{background:none;border:0;color:var(--ovl-dim);font-size:.8rem;
   font-weight:600;padding:.4rem .7rem;min-height:42px;white-space:nowrap}
 /* NO ROUNDED RECTANGLES. Lines, sharp corners or circles -- a rounded box is the one
    shape this interface does not use. A chosen option is a COLOUR and an UNDERLINE,
    the same way a chosen tab is, so the two read as the same kind of thing. */
 .mopt{border-bottom:2px solid transparent}
-.mopt.on{color:var(--accent);border-bottom-color:var(--accent);background:none}
-.mopt:hover{color:var(--ink)}
+.mopt.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent);background:none}
+.mopt:hover{color:var(--ovl-ink)}
 #mFace{float:left;margin:0 .8rem .4rem 0;width:76px;height:76px}
-.mbio{font-size:.85rem;color:var(--dim);margin:0;line-height:1.6}
-.mh{margin:0 0 .2rem;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.mbio{font-size:.85rem;color:var(--ovl-dim);margin:0;line-height:1.6}
+.mh{margin:0 0 .2rem;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--ovl-ink)}
 .mmeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--faint);margin:0 0 .6rem}
+  color:var(--ovl-faint);margin:0 0 .6rem}
 .mbio + .mbio{margin-top:.55rem}
 .msub{margin:1rem 0 .3rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
-  color:var(--faint);font-weight:600}
+  color:var(--ovl-faint);font-weight:600}
 #mVoice{width:100%;max-width:32rem;height:38px}
 /* NO ROUNDED FOCUS RING EITHER. A browser draws its own around a pressed tab, and its own
    is rounded -- which is the shape this interface does not use. */
-.mtab:focus-visible,.mopt:focus-visible{outline:1px solid var(--ink);outline-offset:0}
-.mhist{font-size:.85rem;color:var(--dim);margin:0 0 .55rem;line-height:1.55;max-width:60ch}
+.mtab:focus-visible,.mopt:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:0}
+.mhist{font-size:.85rem;color:var(--ovl-dim);margin:0 0 .55rem;line-height:1.55;max-width:60ch}
 .mhist b{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;
-  color:var(--accent);font-weight:600;margin-right:.5rem;font-variant-numeric:tabular-nums}
+  color:var(--ovl-accent);font-weight:600;margin-right:.5rem;font-variant-numeric:tabular-nums}
 /* six tabs will not sit on one line of a phone, and a row that scrolls sideways is a row
    whose last item nobody finds */
 .mtabs{flex-wrap:wrap}
@@ -296,18 +315,18 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
    again, which is one gesture to learn instead of six things to ignore. */
 #bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:78;
   padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
-  background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0))}
+  background:linear-gradient(to top,var(--ovl-shade),transparent)}
 body.ui #bar{display:block}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
 .ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
-  color:var(--ink);opacity:.55;display:flex;align-items:center;justify-content:center;
+  color:var(--ovl-ink);opacity:.55;display:flex;align-items:center;justify-content:center;
   transition:opacity .18s,color .18s}
 .ico svg{width:20px;height:20px;fill:currentColor}
 .ico svg g{stroke:none}
-.ico:hover,.ico.on{opacity:1;color:var(--accent)}
-.ico:focus-visible{outline:1px solid var(--ink);outline-offset:0;opacity:1}
-#barSet{background:rgba(8,8,10,.82);backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule);
+.ico:hover,.ico.on{opacity:1;color:var(--ovl-accent)}
+.ico:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:0;opacity:1}
+#barSet{background:var(--ovl-bg);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--ovl-rule);
   padding:.7rem 1rem;margin:0 -1rem .4rem -8.2rem}
 #barSet .inner{max-width:52rem;margin:0 auto}
 @media (max-width:44rem){
@@ -322,29 +341,29 @@ body.ui #bar{display:block}
 
 #mVoiceBox{clear:both;margin:.9rem 0 0}
 #mVoice{width:100%;height:38px}
-#faultClose{position:absolute;right:.6rem;top:.4rem;border:0;color:var(--faint);
+#faultClose{position:absolute;right:.6rem;top:.4rem;border:0;color:var(--ovl-faint);
   font-size:1.2rem;line-height:1;min-height:44px;min-width:44px}
-#faultClose:hover{color:var(--accent)}
+#faultClose:hover{color:var(--ovl-accent)}
 #faults{position:relative}
 #label{display:block;position:fixed;inset:auto 1rem 1rem 1rem;max-width:34rem;margin:0 auto;z-index:70;
-  background:rgba(8,8,10,.95);border:1px solid var(--rule);
-  padding:1.1rem 1.2rem;color:var(--ink)}
+  background:var(--ovl-bg);border:1px solid var(--ovl-rule);
+  padding:1.1rem 1.2rem;color:var(--ovl-ink)}
 #label h2{margin:0 0 .3rem;font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
-#label p{margin:0 0 .6rem;font-size:.85rem;color:var(--dim);max-width:56ch}
+#label p{margin:0 0 .6rem;font-size:.85rem;color:var(--ovl-dim);max-width:56ch}
 #label #labMeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--faint)}
-#label button{border:1px solid var(--rule);color:var(--dim);
+  color:var(--ovl-faint)}
+#label button{border:1px solid var(--ovl-rule);color:var(--ovl-dim);
   padding:.4rem .8rem;min-height:38px}
-#label button:hover{border-color:var(--accent);color:var(--accent)}
+#label button:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* the fault log: never in front of visitors, always available to whoever is fixing it */
 #faults{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:42vh;overflow:auto;
-  background:rgba(8,8,10,.94);border-top:1px solid var(--accent);
-  padding:.7rem 1rem;font-size:.8rem;color:var(--ink)}
+  background:var(--ovl-bg);border-top:1px solid var(--ovl-accent);
+  padding:.7rem 1rem;font-size:.8rem;color:var(--ovl-ink)}
 #faults p{margin:0 0 .5rem;max-width:70ch}
-#faults b{color:var(--accent);font-weight:600}
-#faults .fix{color:var(--dim)}
+#faults b{color:var(--ovl-accent);font-weight:600}
+#faults .fix{color:var(--ovl-dim)}
 #faults code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--faint)}
+  color:var(--ovl-faint)}
 body.player #faults,body.embed #faults{display:none}
 body.player.owning #faults,body.embed.owning #faults{display:block}
 /* AND IT HAS TO OUT-SPECIFY THE RULE ABOVE. The credit is a child of .wrap, and both
@@ -603,6 +622,12 @@ label.reset,label.reset span{color:var(--accent) !important;
         <input type="range" id="mVol" min="0" max="1" step="0.05" value="0.7" autocomplete="off"></label>
       <label class="mrow"><span>Playing</span>
         <input type="checkbox" id="mPlay" autocomplete="off" checked></label>
+      <div class="mrow"><span>Appearance</span>
+        <span class="mseg">
+          <button type="button" class="mopt on" data-scheme="auto">Auto</button>
+          <button type="button" class="mopt" data-scheme="dark">Dark</button>
+          <button type="button" class="mopt" data-scheme="light">Light</button>
+        </span></div>
       <div class="mrow"><span>Arrangement</span>
         <span class="mseg">
           <button type="button" class="mopt on" data-arr="auto">Auto</button>
@@ -3643,6 +3668,29 @@ function menuSay(open){
    any more -- the same player with a different PIECE is a different piece's player, which
    is the only way this stops being bespoke. Links declare which tab they belong to, so a
    work with three contact routes and no Instagram needs no code at all. */
+/* DARK, LIGHT, OR WHATEVER THE DEVICE ALREADY DECIDED. Kept per viewer rather than per
+   piece, because it is a fact about the person reading and not about the work -- the piece
+   itself stays black either way. Auto listens, so a phone that switches at sunset switches
+   this with it. */
+var SCHEME="auto";
+try{ SCHEME=localStorage.getItem("glyph.scheme")||"auto"; }catch(e){}
+var lightMQ=null;
+try{ lightMQ=window.matchMedia("(prefers-color-scheme: light)"); }catch(e){}
+function applyScheme(){
+  var light = (SCHEME==="light") || (SCHEME==="auto" && lightMQ && lightMQ.matches);
+  document.body.classList.toggle("ovl-light", !!light);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-scheme]"),function(b){
+    b.classList.toggle("on", b.getAttribute("data-scheme")===SCHEME); });
+}
+try{ if(lightMQ && lightMQ.addEventListener) lightMQ.addEventListener("change",applyScheme); }catch(e){}
+document.addEventListener("click",function(e){
+  var b=e.target && e.target.closest ? e.target.closest("[data-scheme]") : null;
+  if(!b) return;
+  SCHEME=b.getAttribute("data-scheme");
+  try{ localStorage.setItem("glyph.scheme",SCHEME); }catch(e){}
+  applyScheme();
+});
+
 /* THE ACCENT IS THE PIECE'S, applied to the custom property every chrome rule already
    reads, so one field recolours the interface without a second stylesheet. */
 function paintAccent(){
@@ -3652,6 +3700,7 @@ function paintAccent(){
 }
 function paintPiece(){
   paintAccent();
+  applyScheme();
   var w=document.getElementById("pane-work");
   if(w) w.innerHTML=
     '<h3 class="mh">'+esc(PIECE.title)+'</h3>'+
