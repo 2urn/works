@@ -478,7 +478,12 @@ body.ui #bar{display:block}
    title is. The exit is the trigger: as the three words separate the piece fades up into
    the space they leave, and the two movements are one. */
 #seqCard.open::before{opacity:1;transition:opacity .9s ease}
-#seqCard.open.out::before{opacity:0;transition:opacity .9s ease}
+/* AND THE PIECE ARRIVES SLOWLY. Nine tenths of a second from black to a full frame of
+   moving type is a cut wearing a fade; at nearly two seconds, eased at both ends, it reads
+   as the work coming up rather than being switched on. The card is held open until that
+   has finished -- hiding it at the old nine hundred milliseconds would have cropped the
+   fade it was there to perform. */
+#seqCard.open.out::before{opacity:0;transition:opacity 1.9s cubic-bezier(.45,0,.55,1)}
 .seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -531,8 +536,11 @@ body.ui #bar{display:block}
 #seqCard.close.in #seqWord{opacity:1;transition:opacity .85s ease .85s}
 #seqCard.close.out #seqWord{opacity:0;transition:opacity .8s ease}
 /* clear of the lockup at every width, rather than a margin that guesses how tall it is */
+/* THE TITLE WAITS ITS TURN. It used to start fading up half a second in, while the third
+   word was still travelling, and two things moving at once meant neither was watched. The
+   words are all landed by about 1.2s; this begins after they have stopped. */
 .seqSay{position:absolute;left:0;right:0;bottom:15%;display:flex;flex-direction:column;
-  align-items:center;gap:.3rem;opacity:0;transition:opacity .5s ease .5s}
+  align-items:center;gap:.3rem;opacity:0;transition:opacity .6s ease 1.55s}
 #seqCard.open.in .seqSay{opacity:1}
 /* and it leaves WITH the words rather than half a second behind them: the base rule holds
    the fade back so it arrives after they land, which is wrong on the way out */
@@ -4048,12 +4056,12 @@ function seqLoad(){
    right, so the two movements are one movement rather than a cut. */
 function seqHandOver(){
   var b=el.seqCard;
-  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",2.4); return; }
+  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",3.2); return; }
   /* let the drawing finish filling before anything takes it away */
   var left=Math.max(0, LOAD_MIN-(Date.now()-loadAt))+300;
   seqT3=setTimeout(function(){
     b.classList.add("out");
-    seqT=setTimeout(function(){ seqShow("open",2.4); },240);
+    seqT=setTimeout(function(){ seqShow("open",3.2); },240);
   },left);
 }
 function seqShow(kind,secs){
@@ -4079,10 +4087,10 @@ function seqShow(kind,secs){
     seqT2=setTimeout(function(){
       /* the credit does not end -- it hands straight back to the title, on the same
          black, and the title is what gives way to the work */
-      if(kind==="close"){ seqShow("open",2.4); return; }
+      if(kind==="close"){ seqShow("open",3.2); return; }
       b.hidden=true; b.className="seq";
       document.body.classList.remove("seqcredit");
-    }, kind==="close" ? 820 : 900);
+    }, kind==="close" ? 820 : 1950);
   }, Math.round((secs||2.2)*1000));
 }
 function cardsFill(){
