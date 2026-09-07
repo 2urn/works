@@ -1,6 +1,9 @@
 # works
 
-Published artworks by Dimitry Saïd Chamy. `https://2urn.github.io/works/`
+Published artworks by Dimitry Saïd Chamy. `https://works.chamy.xyz/`
+
+A custom domain makes this a project site served at the DOMAIN ROOT, so a work
+sits at `works.chamy.xyz/<slug>/` and not under a `/works/` path.
 
 **Nothing is developed here.** This repo holds built artefacts only — one
 self-contained file per work, emitted by a release script in the private repo where
@@ -15,8 +18,9 @@ is, is public.
 
 ```
 index.html                 the index of works
-<slug>/index.html          the work, as a viewer meets it
-<slug>/release.json        where it came from, and when
+_____American_____/        a work; the slug is its title, underscores and all
+  index.html               the work, as a viewer meets it
+  release.json             where it came from, and when
 .publish/manifest.json     every release, appended
 ```
 
