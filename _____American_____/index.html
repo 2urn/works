@@ -335,6 +335,26 @@ body.burned .sig{background-image:none}
 /* six tabs will not sit on one line of a phone, and a row that scrolls sideways is a row
    whose last item nobody finds */
 .mtabs{flex-wrap:wrap}
+
+/* PRESS AND HOLD. The bar has grown into a whole interface, and the two or three things
+   anyone actually does repeatedly should be one gesture away rather than four taps deep.
+   It opens where the finger is, not in a corner, because the point of a shortcut is that
+   your hand is already there. Right-click does the same on a desktop, where nobody holds.
+
+   Big targets on purpose: this is used one-handed, often in the dark, sometimes by someone
+   who is also holding a light. */
+#quick{display:block;position:fixed;z-index:95;min-width:13rem;
+  background:var(--ovl-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--ovl-rule);padding:.3rem}
+#quick button{display:flex;align-items:center;gap:.7rem;width:100%;border:0;background:none;
+  color:var(--ovl-ink);font-size:.88rem;font-weight:500;text-align:left;
+  padding:.55rem .7rem;min-height:48px}
+#quick button svg{width:20px;height:20px;fill:currentColor;flex:none;opacity:.8}
+#quick button svg g{stroke:none}
+#quick button:hover,#quick button:focus-visible{background:var(--ovl-accent);color:#000}
+#quick button:focus-visible{outline:0}
+body.player .stage,body.embed .stage{-webkit-touch-callout:none;
+  -webkit-user-select:none;user-select:none}
 /* TWO ZONES. Doing at the bottom, where a thumb is and where the mark already lives;
    reading and reaching him at the top, out of the way of the hand. They are different
    kinds of act and putting them in one panel made every one of them look like a setting.
@@ -635,6 +655,7 @@ label.reset,label.reset span{color:var(--accent) !important;
         aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.74 8.84a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.86 14.52a.5.5 0 00-.12.64l1.92 3.32c.12.22.39.3.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
     </div>
   </div>
+  <div id="quick" hidden role="menu" aria-label="Quick actions"></div>
   <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
     <div class="mtabs" role="tablist">
       <button type="button" class="mtab on" data-tab="work" id="tab-work"
@@ -4308,17 +4329,85 @@ function chromeWake(){
   clearTimeout(chromeT);
   chromeT=setTimeout(function(){ document.body.classList.remove("chrome"); },4200);
 }
-/* TAPPING THE WORK PLAYS AND PAUSES IT. There is no button over the picture any more --
-   an 88px circle in the middle of the frame is the one thing you cannot take a screenshot
-   around. The marks, the menu and the panels are all excluded, or opening settings would
-   stop the piece on the way. */
+
+/* PRESS AND HOLD, AND THE TAP MOVES TO THE RELEASE. Play and pause used to fire on
+   pointerDOWN, which meant a long press stopped the piece on its way to opening the
+   shortcut. The tap now happens on the way UP, and only if the finger neither held nor
+   travelled -- which is also how every native long-press behaves. */
+var holdT=null, held=false, holdX=0, holdY=0;
+function quickItems(){
+  var out=[];
+  out.push({ label:(running?"Pause":"Play"), icon:(running
+      ?"M6 5h4v14H6zM14 5h4v14h-4z":"M8 5v14l11-7z"),
+    go:function(){ var g=!running; setRunning(g);
+      if(g && V.sndSrc==="track" && !snd.on) sndStart(); else if(!g) sndStop(); } });
+  out.push({ label:"Save this frame",
+    icon:"M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z",
+    go:function(){ try{ saveStill(); }catch(e){ fault("The frame could not be saved",
+      String(e&&e.message||e),"Try again once the piece has drawn a frame."); } } });
+  out.push({ label:(V.sndSrc==="off"?"Sound on":"Sound off"),
+    icon:"M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z",
+    go:function(){ var on=(V.sndSrc==="off");
+      if(el.sndSrc) el.sndSrc.value=on?"track":"off";
+      readControls(); if(on) sndStart(); else sndStop();
+      if(typeof barPaint==="function") barPaint(); } });
+  if(RIG.play) out.push({ label:"Export a clip",
+    icon:"M4 5h16v14H4zM8 5v14M16 5v14",
+    go:function(){ uiShow(true); menuTab("share"); } });
+  if(CAN_FULL && RIG.full) out.push({ label:"Full screen",
+    icon:"M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM6 15v3h3v2H4v-5zm12 0h2v5h-5v-2h3z",
+    go:toggleFull });
+  return out;
+}
+function quickShut(){ if(el.quick) el.quick.hidden=true; }
+function quickOpen(x,y){
+  if(!el.quick || !(PLAYER||EMBED) || !RIG.play) return;
+  var items=quickItems();
+  el.quick.innerHTML=items.map(function(it,i){
+    return '<button type="button" role="menuitem" data-q="'+i+'">'
+      +'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+it.icon+'"/></svg>'
+      +'<span>'+esc(it.label)+'</span></button>';
+  }).join("");
+  el.quick.hidden=false;
+  var r=el.quick.getBoundingClientRect();
+  var left=Math.max(8, Math.min(x-16, window.innerWidth-r.width-8));
+  var top =Math.max(8, Math.min(y-16, window.innerHeight-r.height-8));
+  el.quick.style.left=Math.round(left)+"px";
+  el.quick.style.top =Math.round(top)+"px";
+  Array.prototype.forEach.call(el.quick.querySelectorAll("[data-q]"),function(b){
+    b.addEventListener("click",function(ev){
+      ev.stopPropagation(); quickShut(); items[+b.getAttribute("data-q")].go();
+      if(typeof stat==="function") stat("quick");
+    });
+  });
+  if(typeof stat==="function") stat("quick","reach");
+}
+function inChrome(t){
+  return !!(t && t.closest && t.closest("#menu,#bar,#quick,.credit,.sig,#faults,"
+    +"#preflight,#titleCard,#endCard,.ovscrub"));
+}
 document.addEventListener("pointerdown",function(e){
-  if(!(PLAYER||EMBED)) return;
-  var t=e.target;
-  if(t && t.closest && t.closest("#menu,.credit,.sig,#faults,#preflight,#titleCard,#endCard,.ovscrub"))
-    return;
+  if(!(PLAYER||EMBED) || inChrome(e.target)) return;
+  if(!el.quick || !el.quick.hidden){ quickShut(); return; }
+  held=false; holdX=e.clientX; holdY=e.clientY;
+  clearTimeout(holdT);
+  holdT=setTimeout(function(){ held=true; quickOpen(holdX,holdY); }, 480);
+});
+document.addEventListener("pointermove",function(e){
+  if(holdT && (Math.abs(e.clientX-holdX)>12 || Math.abs(e.clientY-holdY)>12)){
+    clearTimeout(holdT); holdT=null; }
+});
+document.addEventListener("pointerup",function(e){
+  clearTimeout(holdT); holdT=null;
+  if(!(PLAYER||EMBED) || inChrome(e.target)) return;
+  if(held){ held=false; return; }            /* the hold already did something */
+  if(el.quick && !el.quick.hidden){ quickShut(); return; }
   var go=!running; setRunning(go);
   if(go && V.sndSrc==="track" && !snd.on) sndStart(); else if(!go) sndStop();
+});
+document.addEventListener("contextmenu",function(e){
+  if(!(PLAYER||EMBED) || inChrome(e.target)) return;
+  e.preventDefault(); quickOpen(e.clientX,e.clientY);
 });
 document.addEventListener("pointerdown",chromeWake);
 document.addEventListener("mousemove",function(){
