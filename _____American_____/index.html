@@ -494,6 +494,8 @@ label.reset,label.reset span{color:var(--accent) !important;
     <div class="mtabs" role="tablist">
       <button type="button" class="mtab on" data-tab="work" id="tab-work"
         role="tab" aria-selected="true" aria-controls="pane-work">The piece</button>
+      <button type="button" class="mtab" data-tab="part" id="tab-part" hidden
+        role="tab" aria-selected="false" aria-controls="pane-part">Take part</button>
       <button type="button" class="mtab" data-tab="set" id="tab-set"
         role="tab" aria-selected="false" aria-controls="pane-set">Settings</button>
       <button type="button" class="mtab" data-tab="share" id="tab-share"
@@ -503,6 +505,8 @@ label.reset,label.reset span{color:var(--accent) !important;
     </div>
     <div class="mpane" data-pane="work" id="pane-work" role="tabpanel"
       aria-labelledby="tab-work"></div>
+    <div class="mpane" data-pane="part" id="pane-part" role="tabpanel"
+      aria-labelledby="tab-part" hidden></div>
     <div class="mpane" data-pane="set" id="pane-set" role="tabpanel" aria-labelledby="tab-set">
       <label class="mrow"><span>Sound</span>
         <input type="checkbox" id="mSound" autocomplete="off"></label>
@@ -730,6 +734,13 @@ label.reset,label.reset span{color:var(--accent) !important;
         <textarea id="pBio" rows="4" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pLinks">Links — label | address | tab</label></div>
         <textarea id="pLinks" rows="3" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pInviteNote">Taking part — the invitation</label></div>
+        <textarea id="pInviteNote" rows="3" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pInviteLabel">Taking part — the button</label></div>
+        <input type="text" id="pInviteLabel" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pInviteUrl">Taking part — where it goes</label></div>
+        <input type="text" id="pInviteUrl" autocomplete="off" spellcheck="false"
+          placeholder="https://ig.me/m/handle · https://wa.me/1555… · a form address"></div>
       <div class="ctl"><div class="top"><label for="pVoice">Voice recording — an address, when there is one</label></div>
         <input type="text" id="pVoice" autocomplete="off" spellcheck="false"></div>
       <div class="ctl"><div class="top"><label for="pConds">For a person to confirm — one a line</label></div>
@@ -3110,6 +3121,23 @@ var PIECE={
     { label:"Collect or commission a work", url:"https://chamy.xyz/", where:"share" }
   ],
   voice: "",                       /* a minute of him on the piece, when it is recorded */
+  /* HOW SOMEONE TAKES PART. Much of his work is participatory and the invitation is
+     different every time -- send a word, send a photograph, come and read. So it is
+     three fields rather than a feature: what to say, what to call the button, and where
+     it goes. No address, no tab: a work nobody is invited into simply does not offer one.
+
+     A DIRECT MESSAGE RATHER THAN A MAILTO, because an address written into a public page
+     is harvested within days and this one has to survive on a gallery wall. ig.me opens a
+     message to a handle he already publishes and already reads; wa.me/<number> and
+     sms:+<number>?body= work the same way where a number is the better route. When a piece
+     needs the words to arrive somewhere structured rather than in a thread, this becomes a
+     form address and nothing else here changes. */
+  invite: {
+    note:  "This piece is made from words people send. Its pools grow, and every edition "+
+           "deals what it has been given \u2014 so what it says next is partly yours.",
+    label: "Contribute your words to the pool",
+    url:   "https://ig.me/m/2urn_"
+  },
   conditions: [
     "The room is dark enough that the projection reads as light, not as a grey screen.",
     "Sound is audible from where people stand, and not louder than the next work along.",
@@ -3476,6 +3504,14 @@ function paintPiece(){
     '<p class="mmeta" id="mMeta"></p>'+
     PIECE.about.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
     linkRow("work");
+  var inv=PIECE.invite||{}, hasInv=!!(inv.url && inv.label);
+  var pt=document.getElementById("pane-part"), tb=document.getElementById("tab-part");
+  if(tb) tb.hidden=!hasInv;
+  if(pt) pt.innerHTML = hasInv
+    ? ('<p class="mbio">'+inv.note+'</p>'
+       +'<button type="button" class="mbtn" data-link="'+esc(inv.url)+'">'
+       +esc(inv.label)+'</button>')
+    : "";
   var a=document.getElementById("pane-about");
   if(a) a.innerHTML=
     '<img id="mFace" alt="'+esc(PIECE.artist)+'" width="76" height="76">'+
@@ -3561,6 +3597,9 @@ function pFill(){
   el.pAbout.value=(PIECE.about||[]).join("\n");
   el.pBio.value=(PIECE.bio||[]).join("\n");
   el.pVoice.value=PIECE.voice||"";
+  var iv=PIECE.invite||{};
+  el.pInviteNote.value=iv.note||""; el.pInviteLabel.value=iv.label||"";
+  el.pInviteUrl.value=iv.url||"";
   el.pConds.value=(PIECE.conditions||[]).join("\n");
   el.pLinks.value=(PIECE.links||[]).map(function(L){
     return [L.label,L.url,(L.where||"about")].join(" | "); }).join("\n");
@@ -3587,6 +3626,8 @@ function pGrab(){
   PIECE.year=el.pYear.value;   PIECE.medium=el.pMedium.value;
   PIECE.about=lines(el.pAbout.value); PIECE.bio=lines(el.pBio.value);
   PIECE.voice=el.pVoice.value.trim();
+  PIECE.invite={ note:el.pInviteNote.value.trim(), label:el.pInviteLabel.value.trim(),
+                 url:el.pInviteUrl.value.trim() };
   PIECE.conditions=lines(el.pConds.value);
   PIECE.links=lines(el.pLinks.value).map(function(row){
     var p=row.split("|").map(function(x){return x.trim();});
