@@ -183,6 +183,16 @@ body.player .credit,body.player .sig,body.embed .credit,body.embed .sig{
   opacity:.61;transition:opacity 1.6s ease}
 body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 2.4s ease}
 body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity .25s}
+/* WHERE THE MARK IS BURNED IN, THE DOM ONE STOPS PAINTING. Both were drawing the wordmark
+   into the same corner and it read as two logos, which it was. The pixels carry the mark
+   now and this element carries only the TOUCH -- an invisible target laid over the burned
+   one, sized and placed to match what burnMark() draws, so tapping what you can see opens
+   the menu. */
+body.burned .credit{background-image:none;opacity:1 !important;
+  left:2.2vw;bottom:2.2vw;width:11.5vw;height:calc(11.5vw / 8.103);padding-left:0}
+@media (max-width:44rem){
+  body.burned .credit{left:2.2vw;bottom:2.2vw;width:22vw;height:calc(22vw / 8.103)}
+}
 .credit:focus-visible,.sig:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 #menu{display:block;position:fixed;inset:auto 0 0 0;max-width:32rem;margin:0 auto 1rem;
   z-index:78;background:rgba(8,8,10,.96);border:1px solid var(--rule);border-radius:10px;
@@ -3144,6 +3154,7 @@ function applyRig(){
      that can be got wrong by setting two things separately is a rule that will be. */
   b.classList.toggle("rig-hidecredit", RIG.credit==="never" || !!RIG.anon);
   b.classList.toggle("rig-tapcredit",  RIG.credit==="tap" && !RIG.anon);
+  b.classList.toggle("burned", !!RIG.burn && RIG.credit!=="never" && !RIG.anon);
   if(el.ovPlay)   el.ovPlay.style.display   = RIG.play ? "" : "none";
   if(el.ovToggle) el.ovToggle.style.display = RIG.play ? "" : "none";
   /* and a control the DEVICE cannot honour is withheld exactly like one the rig withholds */
