@@ -350,7 +350,7 @@ body.burned .sig{background-image:none}
 .mdis > summary:hover,.mdis[open] > summary{color:var(--ovl-ink)}
 .mdis > summary:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:2px}
 .mdis .mbio:first-of-type{margin-top:.3rem}
-#mVoice{width:100%;max-width:32rem;height:38px}
+#mVoice,#mVoiceAbout{width:100%;max-width:32rem;height:38px}
 /* NO ROUNDED FOCUS RING EITHER. A browser draws its own around a pressed tab, and its own
    is rounded -- which is the shape this interface does not use. */
 .mtab:focus-visible,.mopt:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:0}
@@ -431,7 +431,7 @@ body.ui #bar{display:block}
 }
 
 #mVoiceBox{clear:both;margin:.9rem 0 0}
-#mVoice{width:100%;height:38px}
+#mVoice,#mVoiceAbout{width:100%;height:38px}
 #faultClose{position:absolute;right:.6rem;top:.4rem;border:0;color:var(--ovl-faint);
   font-size:1.2rem;line-height:1;min-height:44px;min-width:44px}
 #faultClose:hover{color:var(--ovl-accent)}
@@ -980,8 +980,10 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="pInviteUrl">Taking part — where it goes</label></div>
         <input type="text" id="pInviteUrl" autocomplete="off" spellcheck="false"
           placeholder="https://ig.me/m/handle · https://wa.me/1555… · a form address"></div>
-      <div class="ctl"><div class="top"><label for="pVoice">Voice recording — an address, when there is one</label></div>
+      <div class="ctl"><div class="top"><label for="pVoice">Voice recording, under The piece — an address, when there is one</label></div>
         <input type="text" id="pVoice" autocomplete="off" spellcheck="false"></div>
+      <div class="ctl"><div class="top"><label for="pVoiceAbout">Voice recording, under The artist — an address, when there is one</label></div>
+        <input type="text" id="pVoiceAbout" autocomplete="off" spellcheck="false"></div>
       <div class="ctl"><div class="top"><label for="pConds">For a person to confirm — one a line</label></div>
         <textarea id="pConds" rows="4" spellcheck="false"></textarea></div>
 
@@ -3476,6 +3478,11 @@ var PIECE={
     { label:"Collect or commission a work", url:"https://chamy.xyz/", where:"share" }
   ],
   voice: "",                       /* a minute of him on the piece, when it is recorded */
+  /* AND A SECOND ONE, IN THE ARTIST. Two recordings do two different jobs: one sits under
+     the work and is about the work, and one sits with him and is him talking about having
+     made it. Putting both in the same pane would have made the second read as a correction
+     of the first. Empty until a file exists; the player is absent, not silent. */
+  voiceAbout: "",
   /* DESCRIBED, FOR ANYONE WHO CANNOT SEE IT. Alt text on a canvas that redraws sixty
      times a second is meaningless, so the description is written once, by hand, and says
      what the work LOOKS LIKE rather than what it is about -- those are different jobs and
@@ -4023,9 +4030,15 @@ function paintPiece(){
   if(a) a.innerHTML=
     '<img id="mFace" alt="'+esc(PIECE.artist)+'" width="76" height="76">'+
     PIECE.bio.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    (PIECE.voiceAbout
+      ? ('<div id="mVoiceBox"><h4 class="msub">The artist on this piece</h4>'
+         +'<audio id="mVoiceAbout" controls preload="none" src="'
+         +esc(PIECE.voiceAbout)+'"></audio></div>')
+      : "")+
     linkRow("about");
   el={}; Array.prototype.forEach.call(document.querySelectorAll("[id]"),function(n){ el[n.id]=n; });
   bindLinks();
+  if(typeof bindVoice==="function") bindVoice();
 }
 function linkRow(where){
   return (PIECE.links||[]).filter(function(L){ return (L.where||"about")===where; })
@@ -4098,10 +4111,55 @@ window.addEventListener("resize",menuSize);
 Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
 function menuShut(){ if(!el.menu) return; el.menu.hidden=true;
-  document.body.classList.remove("menuopen"); menuSay(false); }
+  document.body.classList.remove("menuopen"); menuSay(false);
+  /* and his voice goes with it -- a recording still talking behind a closed panel is a
+     ghost, and the piece would stay ducked under it */
+  voiceStop(); }
 /* ONE GESTURE FOR THE WHOLE INTERFACE. The mark brings the panel and the icons together
-   and takes them away together; the ⓘ afterwards toggles just the reading panel, so the
-   controls can stay while the work plays. */
+   and takes them away together. There is no second control for it: an icon whose only job
+   was to open this panel could only ever close it. */
+/* THE COMMENTARY DUCKS THE WORK, IT DOES NOT REPLACE IT. Stopping the piece to let him
+   talk about it makes the two into alternatives, and the thing being described goes silent
+   exactly while it is described. Broadcast has done it the other way round for eighty
+   years: the bed comes down, the voice sits on top, the bed comes back. Only one of the
+   two recordings can be talking at a time. */
+var VOICES=["mVoice","mVoiceAbout"], duckFrom=null;
+function voiceDuck(on){
+  if(!snd.gain) return;
+  if(on && duckFrom===null) duckFrom = +((el.sndVol && el.sndVol.value) || 1);
+  var base=(duckFrom===null?1:duckFrom), to=on ? base*0.15 : base;
+  try{
+    var t=snd.ctx.currentTime;
+    snd.gain.gain.cancelScheduledValues(t);
+    snd.gain.gain.setValueAtTime(snd.gain.gain.value,t);
+    snd.gain.gain.linearRampToValueAtTime(to,t+0.35);
+  }catch(e){ try{ snd.gain.gain.value=to; }catch(e2){} }
+  if(!on) duckFrom=null;
+}
+function voiceStop(){
+  VOICES.forEach(function(id){
+    var a=document.getElementById(id);
+    try{ if(a && !a.paused) a.pause(); }catch(e){}
+  });
+  voiceDuck(false);
+}
+function bindVoice(){
+  VOICES.forEach(function(id){
+    var a=document.getElementById(id);
+    if(!a || a.__vb) return; a.__vb=1;
+    a.addEventListener("play",function(){
+      VOICES.forEach(function(other){
+        if(other===id) return;
+        var o=document.getElementById(other);
+        try{ if(o && !o.paused) o.pause(); }catch(e){}
+      });
+      voiceDuck(true);
+      if(typeof stat==="function") stat("voice");
+    });
+    a.addEventListener("pause",function(){ voiceDuck(false); });
+    a.addEventListener("ended",function(){ voiceDuck(false); });
+  });
+}
 function uiShow(on){
   if(on && typeof stat==="function") stat("interface");
   document.body.classList.toggle("ui", !!on);
@@ -4277,6 +4335,7 @@ function pFill(){
   el.pAbout.value=(PIECE.about||[]).join("\n");
   el.pBio.value=(PIECE.bio||[]).join("\n");
   el.pVoice.value=PIECE.voice||"";
+  if(el.pVoiceAbout) el.pVoiceAbout.value=PIECE.voiceAbout||"";
   el.pDesc.value=(PIECE.described||[]).join("\n");
   el.pHist.value=(PIECE.history||[]).map(function(h){
     return h.year+" | "+h.note; }).join("\n");
@@ -4312,6 +4371,7 @@ function pGrab(){
   PIECE.accent=el.pAccent?el.pAccent.value:PIECE.accent;
   PIECE.about=lines(el.pAbout.value); PIECE.bio=lines(el.pBio.value);
   PIECE.voice=el.pVoice.value.trim();
+  if(el.pVoiceAbout) PIECE.voiceAbout=el.pVoiceAbout.value.trim();
   PIECE.described=lines(el.pDesc.value);
   PIECE.history=lines(el.pHist.value).map(function(row){
     var i=row.indexOf("|");
