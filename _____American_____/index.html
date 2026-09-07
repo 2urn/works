@@ -119,6 +119,7 @@ body.player{overflow:hidden;background:#000}
    line stays first as the fallback for anything that does not know dvh. */
 body.player .wrap{max-width:none;padding:0;gap:0;height:100vh;height:100dvh}
 body.player .wrap > *:not(.stage){display:none}
+html:not(.booted) .wrap > *:not(.stage){display:none}
 body.player .stage{border:0;border-radius:0;aspect-ratio:auto;
   height:100vh;height:100dvh;width:100vw;width:100dvw}
 body.player .stage canvas{width:100%;height:100%;object-fit:contain}
@@ -489,12 +490,14 @@ body.ui #bar{display:block}
    arriving rather than a screen being switched on. */
 #seqCard.open.out::before{opacity:0;
   transition:opacity 2.5s cubic-bezier(.45,0,.55,1) .5s}
-/* NO FIXED CAP. 660px was a number I picked, and it meant the lockup was 82% of a phone
-   and 31% of a monitor -- the same drawing reading as a title on one screen and a watermark
-   on another. It is a proportion now: nine tenths of the width, held back by the height so
-   a short landscape window cannot make it taller than the frame. Essentially the same at
-   every size, which is the point of a title. */
-.seqStage{position:relative;width:min(92vw,115vh);aspect-ratio:1}
+/* IT GROWS, BUT SLOWLY. A straight proportion of the screen was right on a phone and much
+   too large on an iPad -- 71% of the width there, which is a poster and not a title. The
+   size is a floor plus a slow term now: a small screen needs most of its width for the name
+   to be readable at all, a big one does not, and past that the mark should grow with the
+   room rather than with the pixel count. 82% of a phone held to a third of an iPad, and it
+   still gets bigger on a wall instead of stopping at a number I chose. */
+#seqCard{--stage:min(92vw, 380px + 8vmin)}
+.seqStage{position:relative;width:var(--stage);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
@@ -558,11 +561,16 @@ body.ui #bar{display:block}
 #seqCard.close.out::before{opacity:1}
 #seqCard.close.in #seqWord{opacity:1;transition:opacity .85s ease .85s}
 #seqCard.close.out #seqWord{opacity:0;transition:opacity .8s ease}
-/* clear of the lockup at every width, rather than a margin that guesses how tall it is */
-/* THE TITLE WAITS ITS TURN. It used to start fading up half a second in, while the third
-   word was still travelling, and two things moving at once meant neither was watched. The
-   words are all landed by about 1.2s; this begins after they have stopped. */
-.seqSay{position:absolute;left:0;right:0;bottom:15%;display:flex;flex-direction:column;
+/* HUNG OFF HIS NAME, NOT OFF THE BOTTOM OF THE SCREEN. At 15% from the foot there was a
+   third of a screen of black between the lockup and the title, and it grew every time the
+   mark got smaller. The lockup's ink ends 2.19% of the frame below its centre -- that is
+   where this hangs from, so the gap is the same optical distance at every size.
+   THE TITLE ALSO WAITS ITS TURN. It used to start fading up half a second in, while the
+   third word was still travelling, and two things moving at once meant neither was
+   watched. The words are all landed by about 1.2s; this begins after they have stopped. */
+.seqSay{position:absolute;left:0;right:0;
+  top:calc(50% + var(--stage) * 0.0219 + 1.9rem);
+  display:flex;flex-direction:column;
   align-items:center;gap:.3rem;opacity:0;transition:opacity .6s ease 1.55s}
 #seqCard.open.in .seqSay{opacity:1}
 /* and it leaves WITH the words rather than half a second behind them: the base rule holds
@@ -827,6 +835,15 @@ label.reset,label.reset span{color:var(--accent) !important;
 .notes p{margin:0;font-size:.77rem;color:var(--dim);line-height:1.6;max-width:54ch}
 .notes code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.73rem;color:var(--accent)}
 </style>
+<script>/* NOTHING IS SHOWN UNTIL THE PAGE KNOWS WHICH IT IS. The player class is added by a
+   script that sits five megabytes into this file, so on a slow parse -- an iPad, Chrome,
+   a cold cache -- the browser laid out and PAINTED the whole instrument first and hid it
+   afterwards, which is the flash of a builder interface on a page that is not the builder.
+   The chrome is now hidden from the first frame and revealed once the decision is made.
+   The timer is the failsafe: if the script never gets there, the interface still appears
+   rather than leaving somebody with a blank page and no way in. */
+(function(){var d=document.documentElement;
+  setTimeout(function(){ d.classList.add("booted"); },4000);})();</script>
 
 <div class="wrap">
   <audio id="sndEl" loop preload="auto" crossorigin="anonymous" src="soundtrack.mp3"></audio>
@@ -3804,6 +3821,8 @@ function stampPiece(){
   });
 }
 if(PLAYER){ document.body.classList.add("player"); }
+/* and the interface may now be drawn: the page knows what it is */
+document.documentElement.classList.add("booted");
 
 
 /* ---- embed ----------------------------------------------------------------------
