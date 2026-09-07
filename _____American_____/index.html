@@ -483,7 +483,7 @@ body.ui #bar{display:block}
    as the work coming up rather than being switched on. The card is held open until that
    has finished -- hiding it at the old nine hundred milliseconds would have cropped the
    fade it was there to perform. */
-#seqCard.open.out::before{opacity:0;transition:opacity 1.9s cubic-bezier(.45,0,.55,1)}
+#seqCard.open.out::before{opacity:0;transition:opacity 1.5s cubic-bezier(.45,0,.55,1)}
 .seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -505,9 +505,14 @@ body.ui #bar{display:block}
 #seqDuck{background-color:rgba(255,255,255,.16)}
 #seqDuck i{position:absolute;left:0;right:0;bottom:46.67%;height:0;
   background:#fff;transition:height .5s ease}
+/* IT LEAVES BY GETTING SMALLER. The old curve hung and then rushed, which read as the
+   drawing swelling before it jumped -- charming by accident, and not something anybody
+   chose. It now accelerates cleanly away and shrinks as it goes, so the movement is
+   legibly one thing: it recedes. */
 #seqCard.load #seqDuck{opacity:1;transform:scale(.84);
-  transition:opacity .4s ease,transform .55s cubic-bezier(.6,.02,.9,.2)}
-#seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-16vh,0) scale(.7)}
+  transition:opacity .45s ease,transform .6s cubic-bezier(.22,.7,.3,1)}
+#seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-22vh,0) scale(.36);
+  transition:opacity .5s ease .1s,transform .62s cubic-bezier(.5,0,.78,.3)}
 #seqD{transform:translate3d(-118vw,0,0)}
 #seqS{transform:translate3d(0,-118vh,0)}
 #seqC{transform:translate3d(118vw,0,0)}
@@ -545,8 +550,10 @@ body.ui #bar{display:block}
 /* and it leaves WITH the words rather than half a second behind them: the base rule holds
    the fade back so it arrives after they land, which is wrong on the way out */
 #seqCard.open.out .seqSay{opacity:0;transition:opacity .45s ease}
-#seqTitle{font-family:"Archivo Black","Archivo",sans-serif;font-weight:400;
-  font-size:clamp(.95rem,3vw,1.35rem);letter-spacing:-.01em;color:#fff}
+/* THE TITLE IS SET IN THE PIECE'S OWN FACE, not in the interface's. It is the work's name,
+   the first words anybody reads of it, and it should be in the type the work is made of. */
+#seqTitle{font-family:"Minnerva","Archivo Black","Archivo",sans-serif;font-weight:700;
+  font-size:clamp(1rem,3.2vw,1.45rem);letter-spacing:-.01em;color:#fff}
 #seqBy{color:rgba(255,255,255,.61);font-size:.8rem}
 /* AND FOR ANYONE WHO HAS ASKED FOR LESS OF IT, the travel goes and the fade stays. */
 @media (prefers-reduced-motion:reduce){
@@ -4056,12 +4063,12 @@ function seqLoad(){
    right, so the two movements are one movement rather than a cut. */
 function seqHandOver(){
   var b=el.seqCard;
-  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",3.2); return; }
+  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",3.7); return; }
   /* let the drawing finish filling before anything takes it away */
   var left=Math.max(0, LOAD_MIN-(Date.now()-loadAt))+300;
   seqT3=setTimeout(function(){
     b.classList.add("out");
-    seqT=setTimeout(function(){ seqShow("open",3.2); },240);
+    seqT=setTimeout(function(){ seqShow("open",3.7); },240);
   },left);
 }
 function seqShow(kind,secs){
@@ -4082,16 +4089,24 @@ function seqShow(kind,secs){
      the class that moves it, or there is nothing to interpolate and it simply appears */
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     b.classList.add("in"); }); });
+  /* AND A LONGER TITLE GETS LONGER TO BE READ. This one is short; another piece's may not
+     be, and a card timed to this one would leave a long name half-read. The hold grows with
+     the title, up to two extra seconds, and never falls below what was asked for. */
+  var hold=(secs||2.2);
+  if(kind==="open"){
+    var chars=String(PIECE.title||document.title||"").length;
+    hold += Math.min(2, Math.max(0, chars-24)*0.045);
+  }
   seqT=setTimeout(function(){
     b.classList.remove("in"); b.classList.add("out");
     seqT2=setTimeout(function(){
       /* the credit does not end -- it hands straight back to the title, on the same
          black, and the title is what gives way to the work */
-      if(kind==="close"){ seqShow("open",3.2); return; }
+      if(kind==="close"){ seqShow("open",3.7); return; }
       b.hidden=true; b.className="seq";
       document.body.classList.remove("seqcredit");
-    }, kind==="close" ? 820 : 1950);
-  }, Math.round((secs||2.2)*1000));
+    }, kind==="close" ? 820 : 1550);
+  }, Math.round(hold*1000));
 }
 function cardsFill(){
   if(el.mCardsRow) el.mCardsRow.hidden = !!RIG.anon || !RIG.info;
