@@ -304,6 +304,19 @@ body.burned .sig{background-image:none}
 .mbio + .mbio{margin-top:.55rem}
 .msub{margin:1rem 0 .3rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
   color:var(--ovl-faint);font-weight:600}
+/* THE DISCLOSURE. Square, a line above it, and a marker that is a character rather than a
+   platform triangle -- the triangle is the one rounded thing a browser draws for free. */
+.mdis{margin:1rem 0 0;border-top:1px solid var(--ovl-rule);padding-top:.5rem}
+.mdis > summary{list-style:none;cursor:pointer;min-height:44px;display:flex;
+  align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ovl-faint)}
+.mdis > summary::-webkit-details-marker{display:none}
+.mdis > summary::before{content:"+";font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.95rem;line-height:1;color:var(--ovl-accent)}
+.mdis[open] > summary::before{content:"\2212"}
+.mdis > summary:hover,.mdis[open] > summary{color:var(--ovl-ink)}
+.mdis > summary:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:2px}
+.mdis .mbio:first-of-type{margin-top:.3rem}
 #mVoice{width:100%;max-width:32rem;height:38px}
 /* NO ROUNDED FOCUS RING EITHER. A browser draws its own around a pressed tab, and its own
    is rounded -- which is the shape this interface does not use. */
@@ -3720,9 +3733,15 @@ function paintPiece(){
     '<h3 class="mh">'+esc(PIECE.title)+'</h3>'+
     '<p class="mmeta" id="mMeta"></p>'+
     PIECE.about.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    /* A DISCLOSURE, NOT A WALL OF TEXT. An extended description belongs in the page and
+       not in a downloaded file -- a screen-reader user wants it in context, not somewhere
+       they have to find their way back from -- but it should not lengthen the page for
+       everyone who is not reading it. <details> is the element for exactly this: collapsed
+       by default, announced as a collapsible group, keyboard-operable, and no script. */
     ((PIECE.described&&PIECE.described.length)
-      ? ('<h4 class="msub">Described</h4>'
-         +PIECE.described.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join(""))
+      ? ('<details class="mdis"><summary>Described in full</summary>'
+         +PIECE.described.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")
+         +'</details>')
       : "")+
     (PIECE.voice
       ? ('<h4 class="msub">The artist on this piece</h4>'
