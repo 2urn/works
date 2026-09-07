@@ -444,6 +444,9 @@ label.reset,label.reset span{color:var(--accent) !important;
           <option value="stack">stacked rows</option>
           <option value="spine">book spine — AMERICAN vertical</option>
         </select></div>
+      <div class="ctl"><div class="top"><label for="gap">Gap between groups</label>
+        <output id="gapV">1.00×</output></div>
+        <input type="range" id="gap" min="0.5" max="2" step="0.05" value="1"></div>
       <div class="ctl"><div class="top"><label for="offFirst">First blank baseline</label>
         <output id="offFirstV">0%</output></div>
         <input type="range" id="offFirst" min="-40" max="40" step="0.5" value="0"></div>
@@ -919,6 +922,7 @@ function readControls(){
   V.offThird=+el.offThird.value; V.offName=+el.offName.value;
   V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
+  V.gap=+el.gap.value;
   V.on2s=el.on2s.checked; V.guides=el.guides.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
          gA:el.cGhostA.value,gB:el.cGhostB.value};
@@ -960,6 +964,7 @@ function paintReadouts(){
   say("offThirdV",V.offThird+"%"); say("offNameV",V.offName+"%");
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
+  say("gapV",V.gap.toFixed(2)+"\u00d7");
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -984,7 +989,10 @@ function widthOf(w,px){ tx.font=fontFor(px); return tx.measureText(w).width; }
 
 function solve(W,first,third){
   var H=cv.height, margin=W*V.margin/100, gapPx=W*0.015;
-  var sPx=H*V.spineSize/100, oPx=H*V.outerSize/100, ov=V.overlap;
+  var sPx=H*V.spineSize/100, oPx=H*V.outerSize/100;
+  /* GAP IN THE OVERLAPPING ARRANGEMENT IS THE TUCK, INVERTED -- more gap is less tuck.
+     At 1x nothing moves, at 2x the words stop crossing AMERICAN at all. */
+  var ov=Math.max(0,Math.min(0.48, V.overlap*(2-V.gap)));
   var spent=[],sw,fw,tw,sx0,sx1,fx1,fx0,tx0_,tx1;
   for(var p=0;p<80;p++){
     sw=widthOf(SPINE_SET,sPx); fw=widthOf(first,oPx); tw=widthOf(third,oPx);
@@ -993,7 +1001,9 @@ function solve(W,first,third){
     if(crash<=0&&offL<=0&&offR<=0) break;
     if(crash>0&&ov>0.001){ ov=Math.max(0,ov-Math.max(0.005,(crash/sw)/2));
       if(spent.indexOf("overlap")<0)spent.push("overlap"); continue; }
-    if((offL>0||offR>0)&&oPx>H*0.028){ oPx*=0.975;
+    /* BOTH, BY THE SAME FACTOR. Shrinking only the blanks changed the one proportion
+       the panel is for -- spine against blanks -- every time a long line came through. */
+    if((offL>0||offR>0)&&oPx>H*0.028){ oPx*=0.975; sPx*=0.975;
       if(spent.indexOf("blanks")<0)spent.push("blanks"); continue; }
     if(sPx>H*0.04){ sPx*=0.975;
       if(spent.indexOf("spine")<0)spent.push("spine"); continue; }
@@ -1011,13 +1021,26 @@ function fitOne(word,px,W,margin){
   while(g>W*0.02 && widthOf(word,g) > W-margin*2) g*=0.97;
   return g;
 }
+
+/* PROPORTIONAL FIT. The sizes in the panel are a RELATIONSHIP -- spine to blanks to
+   fourth line -- and fitting each word on its own quietly dissolves it: a long third
+   blank came back smaller than the first, and the two stopped reading as a pair. So ask
+   each word what factor it needs, take the WORST, and scale the whole set by that one
+   number. Advance widths scale linearly with size, so the factor is exact rather than
+   something to converge on in a loop. */
+function fitK(word,px,limit){
+  if(!word || px<=0 || limit<=0) return 1;
+  var w=widthOf(word,px);
+  return (w>limit) ? Math.max(0.05, limit/w) : 1;
+}
 function solveStack(W,H,first,third,name){
-  var margin=W*V.margin/100;
-  var sPx=fitOne(SPINE_SET, H*V.spineSize/100, W, margin);
-  var oPx=H*V.outerSize/100;
-  var fPx=fitOne(first, oPx, W, margin), tPx=fitOne(third, oPx, W, margin);
-  var nPx=name?fitOne(name, H*V.nameSize/100, W, margin):0;
-  var lead=sPx*0.16;
+  var margin=W*V.margin/100, lim=W-margin*2;
+  var sP=H*V.spineSize/100, oPx=H*V.outerSize/100, nP=name?H*V.nameSize/100:0;
+  var k=Math.min(fitK(SPINE_SET,sP,lim), fitK(first,oPx,lim), fitK(third,oPx,lim),
+                 name?fitK(name,nP,lim):1);
+  var sPx=sP*k, fPx=oPx*k, tPx=oPx*k, nPx=nP*k;
+  oPx*=k;
+  var lead=sPx*0.16*V.gap;
   var rows=[fPx,sPx,tPx].concat(name?[nPx]:[]);
   var tot=0; rows.forEach(function(r){ tot+=r*0.78; }); tot+=lead*(rows.length-1);
   var y=H/2-tot/2, ys=[];
@@ -1032,19 +1055,17 @@ function solveStack(W,H,first,third,name){
    the first blank running UP the left edge and the third running DOWN the right, dropped
    a little so the two do not read as one bar. The rotated words are measured against the
    HEIGHT, because that is the direction they now run in. */
-function fitToHeight(word,px,H,margin){
-  var g=Math.max(1,px);
-  while(g>H*0.02 && widthOf(word,g) > H-margin*2) g*=0.97;
-  return g;
-}
 function solveSpine(W,H,first,third,name){
   var mV=H*V.margin/100, mH=W*V.margin/100;
   var sPx=H*V.spineSize/100, n=SPINE_SET.length, lead=sPx*0.92;
   while(n*lead > H-mV*2 && sPx>H*0.02){ sPx*=0.97; lead=sPx*0.92; }
-  var oPx=H*V.outerSize/100;
-  var fPx=fitToHeight(first,oPx,H,mV), tPx=fitToHeight(third,oPx,H,mV);
+  var oPx=H*V.outerSize/100, limV=H-mV*2;
+  /* the two sentences run vertically here, so their limit is the frame HEIGHT -- but
+     they still share one factor, because they are still a pair */
+  var k=Math.min(fitK(first,oPx,limV), fitK(third,oPx,limV));
+  var fPx=oPx*k, tPx=oPx*k;
   var nPx=name?fitOne(name,H*V.nameSize/100,W,mH):0;
-  var cx=W/2, gap=sPx*0.80;
+  var cx=W/2, gap=sPx*0.80*V.gap;
   return { stack:true, spine:true, lead:lead,
     sPx:sPx, oPx:oPx, fPx:fPx, tPx:tPx, nPx:nPx,
     sx0:cx, yS:H/2-(n*lead)/2+sPx*0.35,
@@ -1781,6 +1802,13 @@ Array.prototype.forEach.call(document.querySelectorAll("input[type=checkbox]"),
   function(n){ n.addEventListener("change",refresh); });
 Array.prototype.forEach.call(document.querySelectorAll("select"),function(n){
   n.addEventListener("change",refresh); });
+/* A NEW FRAME SHAPE CHANGES THE THING YOU ARE LOOKING AT, and the control that changes it
+   sits well below the stage -- so the stage comes back to you rather than you scrolling
+   back to it. Same reasoning as the Builder's export panel. */
+if(el.aspect) el.aspect.addEventListener("change",function(){
+  if(el.stageBox && el.stageBox.scrollIntoView)
+    el.stageBox.scrollIntoView({behavior:"smooth",block:"start"});
+});
 el.script.addEventListener("input",refresh);
 el.palPre.addEventListener("change",function(){
   var q=PALETTES[el.palPre.value]; el.palPre.value=""; if(!q) return;
