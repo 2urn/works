@@ -72,12 +72,17 @@
    are unreadable as text on white at full strength. */
 :root{
   --ovl-bg:rgba(8,8,10,.82); --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8;
-  --ovl-faint:#54585E; --ovl-rule:#26262A; --ovl-accent:var(--accent);
+  /* RAISED TO A CONTRAST THAT PASSES. #54585E on this ground is 2.76:1 -- under half of
+     the 4.5:1 small text has to clear, and every use of this token in the panel is TEXT:
+     the mono line under the title, the notes, the section labels, the two icons that carry
+     a state. It read as pale because it was, and "faint" was a description of the intent
+     rather than a licence. 6.22:1 at #8B9199, and still quieter than the body. */
+  --ovl-faint:#8B9199; --ovl-rule:#26262A; --ovl-accent:var(--accent);
   --ovl-shade:rgba(0,0,0,.72);
 }
 body.ovl-light{
   --ovl-bg:rgba(250,250,248,.92); --ovl-ink:#101012; --ovl-dim:#4A4E55;
-  --ovl-faint:#767B83; --ovl-rule:#D6D6D2; --ovl-accent:#8A5200;
+  --ovl-faint:#5F646B; --ovl-rule:#D6D6D2; --ovl-accent:#8A5200;   /* 5.71:1 on paper */
   --ovl-shade:rgba(255,255,255,.66);
 }
 @supports (color:color-mix(in srgb,red 50%,blue)){
@@ -332,8 +337,12 @@ body.burned .sig{background-image:none}
 #mFace{float:left;margin:0 .8rem .4rem 0;width:76px;height:76px}
 .mbio{font-size:.85rem;color:var(--ovl-dim);margin:0;line-height:1.6}
 .mh{margin:0 0 .2rem;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--ovl-ink)}
-.mmeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  color:var(--ovl-faint);margin:0 0 .6rem}
+/* AND THIS LINE IS NOT A FOOTNOTE. Year, medium, length and fingerprint are what a
+   registrar copies down and what tells a visitor what they are looking at -- it is
+   identifying information sitting directly under the title, so it takes the body grey and
+   a size a phone can hold, not the quietest token in the sheet. 7.51:1. */
+.mmeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
+  line-height:1.5;color:var(--ovl-dim);margin:0 0 .6rem}
 .mbio + .mbio{margin-top:.55rem}
 .msub{margin:1rem 0 .3rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
   color:var(--ovl-faint);font-weight:600}
