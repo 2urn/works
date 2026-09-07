@@ -590,7 +590,7 @@ label.reset,label.reset span{color:var(--accent) !important;
     <div data-deck="palette" class="deck">
       <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Palette </button><span class="dsp">— red, white and blue here</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
       <div class="swatches">
-        <label class="sw"><span>first</span><input type="color" id="cFirst" value="#FFFFFF"></label>
+        <label class="sw"><span>first</span><input type="color" id="cFirst" value="#0000FF"></label>
         <label class="sw"><span>American</span><input type="color" id="cSpine" value="#FF0000"></label>
         <label class="sw"><span>third</span><input type="color" id="cThird" value="#FFFFFF"></label>
         <label class="sw"><span>red</span><input type="color" id="cGhostA" value="#FF0000"></label>
@@ -700,15 +700,6 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="degrade">Across the sequence</label>
         <output id="degradeV">0.70</output></div>
         <input type="range" id="degrade" min="0" max="1" step="0.05" value="0.7"></div>
-      <div class="ctl"><div class="top"><label for="crunch">Crunch</label>
-        <output id="crunchV">0.00</output></div>
-        <input type="range" id="crunch" min="0" max="1" step="0.01" value="0"></div>
-      <div class="ctl"><div class="top"><label for="grain">Crunch grain</label>
-        <output id="grainV">0.40</output></div>
-        <input type="range" id="grain" min="0" max="1" step="0.01" value="0.4"></div>
-      <div class="ctl"><div class="top"><label for="crunchThrow">Crunch throw</label>
-        <output id="crunchThrowV">0.50</output></div>
-        <input type="range" id="crunchThrow" min="0" max="1" step="0.01" value="0.5"></div>
       <div class="ctl"><div class="top"><label for="slice">Slice displacement</label>
         <output id="sliceV">0.30</output></div>
         <input type="range" id="slice" min="0" max="1" step="0.05" value="0.3"></div>
@@ -867,7 +858,6 @@ var SP=document.createElement('canvas'), scx=SP.getContext('2d');   // the spine
 var BL=document.createElement('canvas'), bcx=BL.getContext('2d');   // the blanks, additive
 var T=document.createElement('canvas'),  tcx=T.getContext('2d');    // the two composited
 var G=document.createElement('canvas'),  gx =G.getContext('2d');    // after the slicing
-var DP=document.createElement('canvas'), dcx=DP.getContext('2d');   // the displacement scratch
 var tx = tcx;   /* the CURRENT target -- every draw helper writes through this */
 
 var el={};
@@ -924,7 +914,6 @@ function readControls(){
   V.sndSrc=el.sndSrc.value;
   V.vGain=+el.vGain.value; V.vScale=+el.vScale.value; V.vShake=+el.vShake.value;
   V.degrade=+el.degrade.value; V.slice=+el.slice.value; V.burst=+el.burst.value;
-  V.crunch=+el.crunch.value; V.grain=+el.grain.value; V.crunchThrow=+el.crunchThrow.value;
   V.scanOdds=+el.scanOdds.value;
   V.doubles=+el.doubles.value; V.samples=+el.samples.value; V.shutter=+el.shutter.value;
   V.aspectMode=el.aspect.value; V.layoutMode=el.layout.value; autoShape();
@@ -978,8 +967,6 @@ function paintReadouts(){
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
-  say("crunchV",V.crunch.toFixed(2)); say("grainV",V.grain.toFixed(2));
-  say("crunchThrowV",V.crunchThrow.toFixed(2));
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -1487,55 +1474,6 @@ function pass(frame,alpha,L,which){
   tx.restore(); return n;
 }
 
-/* GHOSTING DISPLACEMENT. A noise FIELD, not a handful of random bands: the frame is cut
-   into rows, every row is pushed sideways by two sine waves sampled at that row, and the
-   push is repeated at falling alpha in the ghost colours so the displaced copies TRAIL
-   the solid one instead of replacing it. Two waves at unrelated rates, so the field never
-   resolves into a single scroll a viewer can start predicting.
-
-   CRUNCH IS THE ONLY MAGNITUDE. Row height, throw, how many ghosts, and how far the
-   colours separate all come off it, so one dial takes it from clean to destroyed. Grain
-   and Throw are SHAPE -- they set what crunch does, never whether it does anything, and
-   at crunch 0 the whole pass is skipped however they are set.
-
-   Reads from a scratch copy rather than from the canvas it is writing to: drawing a
-   canvas onto itself row by row reads pixels that the same pass has already moved. */
-function crunch(src, W, H, frame, amt){
-  /* CAPPED, BECAUSE THIS IS THE ONE THING HERE THAT CAN DROP FRAMES. Rows times ghosts
-     is the per-frame cost, and at 4K an uncapped row height put it near a thousand
-     draws a frame. 160 rows is finer than a projector resolves anyway. */
-  var rows=Math.max(6, Math.min(160, Math.round(H/(4+Math.round(V.grain*V.grain*90)))));
-  var rh=Math.ceil(H/rows);
-  var throwPx=W*0.16*amt*(0.25+V.crunchThrow);
-  var ghosts=1+Math.round(amt*2);          /* 1 at a whisper, 3 when it is destroyed */
-  var t=frame*0.11, t2=frame*0.043;
-  dcx.setTransform(1,0,0,1,0,0); dcx.clearRect(0,0,W,H); dcx.drawImage(src,0,0);
-  gx.clearRect(0,0,W,H);
-  var tint=[V.col.gA, V.col.gB];
-  for(var g=ghosts; g>=0; g--){
-    var lead = g/(ghosts+1);               /* 0 is the solid pass, drawn last and on top */
-    var a = (g===0) ? 1 : (0.42*(1-lead)*amt);
-    gx.globalAlpha=a;
-    gx.globalCompositeOperation = (g===0) ? "source-over" : "lighter";
-    for(var y=0; y<H; y+=rh){
-      var u=y/H;
-      var n=Math.sin(u*17.3+t)*0.6 + Math.sin(u*61.7-t2)*0.4;
-      var dx=Math.round(n*throwPx*(1+lead*1.8));
-      var dy=(g===0)?0:Math.round(n*throwPx*0.06*lead);
-      gx.drawImage(dcx.canvas, 0,y,W,rh, dx,y+dy,W,rh);
-    }
-    if(g>0){
-      /* the colour separation IS the ghost -- source-atop tints only what was just laid
-         down, so the ground stays black and the tint never bleeds past the letterforms */
-      gx.globalCompositeOperation="source-atop";
-      gx.globalAlpha=a*0.55*amt;
-      gx.fillStyle=tint[(g-1)%2];
-      gx.fillRect(0,0,W,H);
-    }
-  }
-  gx.globalAlpha=1; gx.globalCompositeOperation="source-over";
-}
-
 function frameAt(frame){
   var W=cv.width,H=cv.height;
   var raw=soundLevel();
@@ -1578,10 +1516,7 @@ function frameAt(frame){
   say("hBlend", V.blendRnd
     ? ("drawn: "+blendFor(V.overBlend,curLine,29)+" over "+blendFor(V.inBlend,curLine,11))
     : (V.overBlend+" over "+V.inBlend));
-  gx.setTransform(1,0,0,1,0,0);
-  var cr=Math.min(1, V.crunch*deg);
-  if(cr>0) crunch(T,W,H,frame,cr);
-  else { gx.clearRect(0,0,W,H); gx.drawImage(T,0,0); }
+  gx.setTransform(1,0,0,1,0,0); gx.clearRect(0,0,W,H); gx.drawImage(T,0,0);
   var sl=Math.min(1,V.slice*deg);
   if(sl>0){
     var r=mulberry(seed+Math.floor(frame));
@@ -1696,14 +1631,12 @@ function size(){
     cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
     T.width=cv.width; T.height=cv.height; G.width=cv.width; G.height=cv.height;
     SP.width=cv.width; SP.height=cv.height; BL.width=cv.width; BL.height=cv.height;
-    DP.width=cv.width; DP.height=cv.height;
     return;
   }
   if(exportSize){
     cv.width=exportSize[0]; cv.height=exportSize[1];
     T.width=cv.width; T.height=cv.height; G.width=cv.width; G.height=cv.height;
     SP.width=cv.width; SP.height=cv.height; BL.width=cv.width; BL.height=cv.height;
-    DP.width=cv.width; DP.height=cv.height;
     return;
   }
   var asp=V.aspect||(16/9);
@@ -1716,7 +1649,7 @@ function size(){
   var w=Math.max(320,Math.round(r.width*dpr));
   var h=Math.max(180,Math.round(document.fullscreenElement?r.height*dpr:w/asp));
   cv.width=w; cv.height=h; T.width=w; T.height=h; G.width=w; G.height=h;
-  SP.width=w; SP.height=h; BL.width=w; BL.height=h; DP.width=w; DP.height=h;
+  SP.width=w; SP.height=h; BL.width=w; BL.height=h;
 }
 
 var running=true,looping=false,t0=performance.now();
