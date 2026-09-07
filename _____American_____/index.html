@@ -462,7 +462,12 @@ body.ui #bar{display:block}
 #seqCard{flex-direction:column;opacity:1}
 #seqCard::before{content:"";position:absolute;inset:0;background:#000;opacity:0;
   transition:opacity .55s ease}
-#seqCard.load::before{opacity:1}
+/* A HUNDRED PER CENT BLACK, AND AT ONCE. The ground used to fade up over half a second,
+   which meant the first moments of a loading screen were not actually a loading screen.
+   Entering the load state is instant; leaving it still takes the base transition, because
+   a transition is read off the state being moved TO. */
+#seqCard.load{background:#000}
+#seqCard.load::before{opacity:1;transition:none}
 /* A SCRIM, NOT A CURTAIN. The work keeps running behind both cards -- that is the whole
    design -- but white marks over a piece made of white type need the ground to come up
    enough to read and not enough to hide what they are over. */
@@ -3995,22 +4000,34 @@ function seqFill(p){
      so nought to one here is nought to the top of the drawing and not of the frame */
   if(el.seqFill) el.seqFill.style.height=(Math.max(0,Math.min(1,p))*28.33).toFixed(2)+"%";
 }
+/* THE FILL IS A LENGTH, NOT A PROGRESS BAR. Reporting real readiness was honest and
+   useless: with the typefaces cached the whole thing resolved in about fifty milliseconds,
+   so the duck-rabbit jumped from a third to full and vanished before anyone saw it fill.
+   It takes LOAD_MIN either way now -- and if the page is genuinely slower than that, it
+   sits full until the page is ready rather than the other way round. */
+var LOAD_MIN=1800, loadAt=0;
 function seqLoad(){
   var b=el.seqCard; if(!b || !cardsOn()) return;
   seqWire(); seqClear();
   b.className="seq load"; b.hidden=false;
-  setTimeout(function(){ b.classList.add("in"); seqFill(0.3); },20);
+  loadAt=Date.now();
+  setTimeout(function(){
+    b.classList.add("in");
+    if(el.seqFill) el.seqFill.style.transition="height "+(LOAD_MIN/1000)+"s linear";
+    seqFill(1);
+  },20);
 }
 /* THE HANDOVER. The duck-rabbit is carried off to the left as his name comes in from the
    right, so the two movements are one movement rather than a cut. */
 function seqHandOver(){
   var b=el.seqCard;
   if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",2.9); return; }
-  seqFill(1);
+  /* let the drawing finish filling before anything takes it away */
+  var left=Math.max(0, LOAD_MIN-(Date.now()-loadAt))+300;
   seqT3=setTimeout(function(){
     b.classList.add("out");
     seqT=setTimeout(function(){ seqShow("open",2.9); },240);
-  },340);
+  },left);
 }
 function seqShow(kind,secs){
   var b=el.seqCard; if(!b || !cardsOn()) return;
@@ -5281,9 +5298,9 @@ if(document.fonts&&document.fonts.load){
     document.fonts.load('700 120px "Minnerva"'),
     document.fonts.load('400 120px "Archivo Black"'),
     document.fonts.load('600 120px "IBM Plex Mono"')
-  ]).then(function(){ seqFill(0.8); start(); checkFont(); settleUp(); },
-         function(){ seqFill(0.8); start(); checkFont(); settleUp(); });
-} else { seqFill(0.8); start(); checkFont(); settleUp(); }
+  ]).then(function(){ start(); checkFont(); settleUp(); },
+         function(){ start(); checkFont(); settleUp(); });
+} else { start(); checkFont(); settleUp(); }
 /* THE FIRST FIT IS TAKEN BEFORE THE PHONE HAS FINISHED DECIDING HOW TALL IT IS. A mobile
    browser reports one innerHeight while its toolbars are still settling and another a
    moment later, and it does not reliably fire a resize in between -- so the spine was
