@@ -443,6 +443,26 @@ body.ui #bar{display:block}
    doing around it. An inverted code is a bet on the scanner, and the one moment this has to
    work is somebody holding up a phone in a room nobody controls. The quiet zone is drawn
    INSIDE the canvas -- four modules of white, which is what a reader looks for. */
+/* THE CARD SITS OVER THE PIECE, IT DOES NOT REPLACE IT. Nothing under here stops: the
+   work goes on drawing behind the card and the soundtrack never learns that anything
+   happened, which is the whole point -- somebody listening rather than watching should
+   hear one continuous thing across a loop boundary. pointer-events:none so a tap during
+   the credit still reaches the work. */
+#seqCard{display:flex;position:fixed;inset:0;z-index:76;pointer-events:none;
+  align-items:center;justify-content:center;text-align:center;
+  opacity:0;transition:opacity .7s ease}
+#seqCard.in{opacity:1}
+#seqCard .seqOpen,#seqCard .seqMark{display:none}
+#seqCard.open .seqOpen{display:block}
+#seqCard.close .seqMark{display:block}
+#seqTitle{font-family:"Archivo Black","Archivo",sans-serif;font-weight:400;
+  font-size:clamp(1.5rem,6vw,3rem);letter-spacing:-.02em;color:#fff;margin:0}
+#seqBy{color:rgba(255,255,255,.61);font-size:.9rem;margin:.7rem 0 0}
+/* THE END CREDIT IS THE MARK ITSELF, in the accent, as a mask -- one white file, any
+   colour a piece asks for, and never a redrawn one. */
+#seqCard .seqMark{width:min(46vw,320px);aspect-ratio:8.103;background-color:var(--accent);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 #qrBox{margin:.7rem 0 0;display:inline-block;background:#fff;line-height:0;
   border:1px solid var(--ovl-rule)}
 #qrC{display:block;width:11rem;height:11rem;
@@ -741,6 +761,8 @@ label.reset,label.reset span{color:var(--accent) !important;
         <input type="range" id="mVol" min="0" max="1" step="0.05" value="0.7" autocomplete="off"></label>
       <label class="mrow"><span>Playing</span>
         <input type="checkbox" id="mPlay" autocomplete="off" checked></label>
+      <label class="mrow" id="mCardsRow"><span>Title and end credit</span>
+        <input type="checkbox" id="mCards" autocomplete="off"></label>
       <div class="mrow"><span>Appearance</span>
         <span class="mseg">
           <button type="button" class="mopt on" data-scheme="auto">Auto</button>
@@ -814,6 +836,14 @@ label.reset,label.reset span{color:var(--accent) !important;
         autocomplete="off" aria-label="Step through this phrase">
       <output id="ovScrubV">0</output>
     </div>
+  </div>
+  <!-- THE TITLE AND THE END CREDIT. Not a gate: this sits OVER the piece, which keeps
+       running underneath, and it never touches the sound. His logo animation drops into
+       .seqOpen when the SVGs arrive; everything around it -- when it appears, how long it
+       holds, what the rig allows -- is already here. -->
+  <div id="seqCard" class="seq" hidden aria-hidden="true">
+    <div class="seqOpen"><h2 id="seqTitle"></h2><p id="seqBy"></p></div>
+    <div class="seqMark" id="seqMark"></div>
   </div>
   <div id="titleCard" hidden>
     <div>
@@ -2507,12 +2537,17 @@ function tick(now){
 
      Only the live loop does this. An export runs its own frame loop and never crosses a
      cycle boundary mid-render, so a rendered file stays exactly what it was. */
+  /* THE BOUNDARY IS A FACT ABOUT THE PIECE, not about the reseeding. It used to be
+     detected only when recycling was on, so with recycling off a pass ended and nothing
+     -- not the count, not the credit -- knew it had. */
   var cyc=Math.floor(raw/total);
-  if(V.recycle && cyc!==cycleNow){
+  if(cyc!==cycleNow){
     cycleNow=cyc;
-    if(cyc>0){ STATS.passes=(STATS.passes||0)+1; statSave(); }
-    seed=baseSeed+cyc*7919;
-    say("hSeed",String(seed));
+    if(cyc>0){
+      STATS.passes=(STATS.passes||0)+1; statSave();
+      if(!exportSize && typeof seqShow==="function") seqShow("close",2.6);
+    }
+    if(V.recycle){ seed=baseSeed+cyc*7919; say("hSeed",String(seed)); }
   }
   var frame=raw%total;
   curFrame=frame;
@@ -3781,21 +3816,26 @@ var PIECE={
    A rig is not the same as an EMBED. Embed is where the piece is delivered -- inside
    somebody else's page, where audio needs a gesture and fullscreen needs permission. The
    two compose: ?embed&rig=gallery is a chromeless wall in an iframe. */
+/* CARDS: whether the piece announces itself when it starts and puts a full stop at the
+   end of a pass. A caption over an unattended wall in a group show is not wanted; a
+   curator sequencing works onto one monitor needs exactly that full stop to know where one
+   ends. The rig sets the default and the panel can overturn it -- except under anon, where
+   it stays off because it carries his name. */
 var RIGS={
-  web:      {play:1, full:1, info:1, scrub:0, credit:"always", burn:1},
-  gallery:  {play:0, full:0, info:0, scrub:0, credit:"never",  wake:1},
-  collector:{play:1, full:1, info:1, scrub:0, credit:"always", title:1, burn:1},
-  print:    {play:1, full:1, info:1, scrub:1, credit:"tap"},
+  web:      {play:1, full:1, info:1, scrub:0, credit:"always", burn:1, cards:1},
+  gallery:  {play:0, full:0, info:0, scrub:0, credit:"never",  wake:1, cards:0},
+  collector:{play:1, full:1, info:1, scrub:0, credit:"always", title:1, burn:1, cards:1},
+  print:    {play:1, full:1, info:1, scrub:1, credit:"tap", cards:1},
   /* PANEL REVIEW. A call gives you two minutes, or five, across everything you submit --
      so the limit is enforced by the piece rather than trusted to whoever is watching. And
      ANONYMITY IS A REFUSAL, NOT A SETTING: a tool that quietly leaves his name on an
      anonymous submission is worse than no tool, so anon overrides the credit column
      outright and the label omits the author rather than being asked not to show it. */
-  panel:    {play:1, full:1, info:1, scrub:0, credit:"never", title:1, anon:1, limit:120},
+  panel:    {play:1, full:1, info:1, scrub:0, credit:"never", title:1, anon:1, limit:120, cards:0},
   /* THE INSTALLER'S RIG. What a machine can check, it checks; what it cannot -- the room
      dark, the sound audible -- it ASKS, and records who said yes and when. */
-  install:  {play:1, full:1, info:1, scrub:1, credit:"tap", pre:1},
-  bare:     {play:0, full:0, info:0, scrub:0, credit:"never"}
+  install:  {play:1, full:1, info:1, scrub:1, credit:"tap", pre:1, cards:1},
+  bare:     {play:0, full:0, info:0, scrub:0, credit:"never", cards:0}
 };
 /* A CALL'S OWN CAP, because two minutes here and five there is the whole point. */
 var RIGLIMIT=0;
@@ -3846,6 +3886,58 @@ function sampleStart(){
   sampleFrom=Date.now(); clearTimeout(sampleT);
   sampleT=setTimeout(sampleEnd, cap*1000);
 }
+/* ---- THE TITLE AND THE END CREDIT ------------------------------------------------
+   A LOOP WITH NO END READS AS A LOOP WITH NO END. The piece can run all day and should,
+   but somebody who has watched it once has reached the end of something, and nothing on
+   screen has ever said so. The credit at the cycle boundary is that full stop -- and it
+   is drawn OVER a piece that never stops, so the next pass is already running behind it.
+
+   THE SOUND IS NOT PART OF THIS. Not one line here touches snd: a person listening rather
+   than watching hears one continuous thing across a boundary they cannot see, which is how
+   it has to be if the soundtrack is ever going to be worth listening to on its own.
+
+   AND THE RIG DECIDES. A title over an unattended wall in a group show is a caption
+   nobody asked for; a curator sequencing a monitor loop needs exactly that full stop to
+   know where one work ends. So the rig sets the default and the panel can overturn it --
+   except where the rig is a refusal, and an anonymous review stays anonymous. */
+var CARDS_KEY="glyph.cards";
+function cardsOn(){
+  if(RIG.anon) return false;
+  var v=null; try{ v=localStorage.getItem(CARDS_KEY); }catch(e){}
+  if(v==="1") return true;
+  if(v==="0") return false;
+  return !!RIG.cards;
+}
+function cardsSet(on){ try{ localStorage.setItem(CARDS_KEY,on?"1":"0"); }catch(e){} }
+var seqT=null, seqT2=null;
+function seqShow(kind,secs){
+  var b=el.seqCard; if(!b || !cardsOn()) return;
+  if(kind==="open"){
+    if(el.seqTitle) el.seqTitle.textContent=PIECE.title||document.title;
+    if(el.seqBy) el.seqBy.textContent=
+      RIG.anon ? (PIECE.year||"") : ((PIECE.artist||"")+" \u00b7 "+(PIECE.year||""));
+  }else if(el.seqMark && typeof WORDMARK==="string"){
+    var u="url('"+WORDMARK+"')";
+    try{ el.seqMark.style.setProperty("-webkit-mask-image",u);
+         el.seqMark.style.setProperty("mask-image",u); }catch(e){}
+  }
+  b.className="seq "+kind;
+  b.hidden=false;
+  clearTimeout(seqT); clearTimeout(seqT2);
+  setTimeout(function(){ b.classList.add("in"); },20);
+  seqT=setTimeout(function(){
+    b.classList.remove("in");
+    seqT2=setTimeout(function(){ b.hidden=true; }, 760);
+  }, Math.round((secs||2.4)*1000));
+}
+function cardsFill(){
+  if(el.mCardsRow) el.mCardsRow.hidden = !!RIG.anon || !RIG.info;
+  if(el.mCards) el.mCards.checked=cardsOn();
+}
+if(el.mCards) el.mCards.addEventListener("change",function(){
+  cardsSet(el.mCards.checked);
+  if(el.mCards.checked) seqShow("open",1.6);       /* say yes by showing what yes means */
+});
 function sampleEnd(){
   setRunning(false); sndStop();
   if(el.ecNote) el.ecNote.textContent=
@@ -4296,6 +4388,7 @@ function menuOpen(tab){
   if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
   if(el.mVol && el.sndVol) el.mVol.value = el.sndVol.value;
   if(el.mPlay) el.mPlay.checked = !!running;
+  cardsFill();
   if(el.mFullNote) el.mFullNote.textContent = CAN_FULL ? ""
     : "This browser cannot go full screen. On iPad and iPhone, Share \u2192 Add to Home "
       +"Screen opens it with no browser chrome at all.";
@@ -5048,6 +5141,10 @@ function start(){
     setRunning(EMBED?false:!reduce); embedShow(running); if(running) sampleStart(); }
   else { setRunning(!reduce); if(running) sampleStart(); }
   scrubShow(!running);
+  cardsFill();
+  /* the title arrives with the piece rather than in front of it: nothing to press, and
+     the work is already running underneath it */
+  if(!RIG.title && running) seqShow("open",2.4);
   /* the marks introduce themselves, then step back */
   if(RIG.credit!=="never") setTimeout(function(){ document.body.classList.add("faded"); }, 6000);
 }
