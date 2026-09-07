@@ -489,7 +489,12 @@ body.ui #bar{display:block}
    arriving rather than a screen being switched on. */
 #seqCard.open.out::before{opacity:0;
   transition:opacity 2.5s cubic-bezier(.45,0,.55,1) .5s}
-.seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
+/* NO FIXED CAP. 660px was a number I picked, and it meant the lockup was 82% of a phone
+   and 31% of a monitor -- the same drawing reading as a title on one screen and a watermark
+   on another. It is a proportion now: nine tenths of the width, held back by the height so
+   a short landscape window cannot make it taller than the frame. Essentially the same at
+   every size, which is the point of a title. */
+.seqStage{position:relative;width:min(92vw,115vh);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
@@ -518,24 +523,32 @@ body.ui #bar{display:block}
   transition:opacity .45s ease,transform .6s cubic-bezier(.22,.7,.3,1)}
 #seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-22vh,0) scale(.36);
   transition:opacity .5s ease .1s,transform .62s cubic-bezier(.5,0,.78,.3)}
-#seqD{transform:translate3d(-118vw,0,0)}
-#seqS{transform:translate3d(0,-118vh,0)}
-#seqC{transform:translate3d(118vw,0,0)}
+/* THEY COME OUT OF THE DARK AND GO BACK INTO IT. Off the screen at both ends -- that is
+   his preference and it is the right one, because a word that starts at the edge has
+   somewhere it came from -- but they now arrive at full strength only as they MEET, and
+   dim as they leave. So the travel reads as emerging rather than sliding, and at a size
+   where the journey is long the far end of it is not a white bar crossing the frame.
+   Fast out there, slow as they lock: the curve spends most of its time decelerating, which
+   is what makes the three of them look like they are finding each other. */
+#seqD{transform:translate3d(-125vw,0,0)}
+#seqS{transform:translate3d(0,-135vh,0)}
+#seqC{transform:translate3d(125vw,0,0)}
 #seqCard.open.in .sqL{opacity:1}
 #seqCard.open.in #seqD,#seqCard.open.in #seqS,#seqCard.open.in #seqC{
-  transform:translate3d(0,0,0);
-  transition:transform 1s cubic-bezier(.16,.9,.28,1),opacity .3s ease}
+  opacity:1;transform:translate3d(0,0,0);
+  transition:transform 1.15s cubic-bezier(.12,.86,.24,1),
+             opacity 1.05s cubic-bezier(.25,.75,.35,1)}
 #seqCard.open.in #seqS{transition-delay:.09s}
 #seqCard.open.in #seqC{transition-delay:.18s}
 #seqCard.open.in #seqWord,#seqCard.open.in #seqDuck{opacity:0}
-#seqCard.open.out #seqD{opacity:1;transform:translate3d(-118vw,0,0);
-  transition:transform .8s cubic-bezier(.6,.02,.9,.2)}
+#seqCard.open.out #seqD{opacity:0;transform:translate3d(-125vw,0,0);
+  transition:transform .95s cubic-bezier(.5,0,.78,.35),opacity .9s ease}
 /* SAID CAME FROM ABOVE AND FALLS. Sending it back the way it arrived read as a rewind;
    going on through is the only exit that reads as one movement. */
-#seqCard.open.out #seqS{opacity:1;transform:translate3d(0,118vh,0);
-  transition:transform .8s cubic-bezier(.6,.02,.9,.2) .06s}
-#seqCard.open.out #seqC{opacity:1;transform:translate3d(118vw,0,0);
-  transition:transform .8s cubic-bezier(.6,.02,.9,.2) .12s}
+#seqCard.open.out #seqS{opacity:0;transform:translate3d(0,135vh,0);
+  transition:transform .95s cubic-bezier(.5,0,.78,.35) .06s,opacity .9s ease .06s}
+#seqCard.open.out #seqC{opacity:0;transform:translate3d(125vw,0,0);
+  transition:transform .95s cubic-bezier(.5,0,.78,.35) .12s,opacity .9s ease .12s}
 /* THE END CREDIT IS THREE BEATS, NOT ONE. The piece goes to black; CHAMY.XYZ fades up on
    it; it fades out and the black is held. Then the title builds on that same black and
    gives way to the work again -- so one pass ends and the next begins as a single movement,
