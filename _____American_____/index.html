@@ -121,6 +121,36 @@ body.rig-tapcredit.showing .sig{opacity:.61}
 .ovscrub input[type=range]{width:min(60vw,22rem)}
 .ovscrub output{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--dim);min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+#titleCard,#endCard{position:fixed;inset:0;z-index:75;display:flex;align-items:center;
+  justify-content:center;background:#000;text-align:center;padding:2rem}
+#titleCard h2,#endCard h2{font-family:"Archivo Black","Archivo",sans-serif;
+  font-size:clamp(1.4rem,4.5vw,2.4rem);margin:0 0 .4rem;letter-spacing:-.02em}
+#titleCard p,#endCard p{color:var(--dim);font-size:.9rem;margin:0 0 1.4rem}
+#titleCard button,#endCard button{border:1px solid var(--accent);color:var(--accent);
+  background:none;border-radius:8px;padding:.7rem 2rem;font-size:.95rem;min-height:48px}
+#titleCard button:hover,#endCard button:hover{background:var(--accent);color:#000}
+#tcNote{margin:1.4rem 0 0;font-size:.75rem;color:var(--faint)}
+#preflight{position:fixed;inset:1rem;max-width:44rem;margin:0 auto;z-index:80;overflow:auto;
+  background:rgba(8,8,10,.97);border:1px solid var(--rule);border-radius:8px;padding:1.2rem}
+#preflight h2{margin:0 0 .8rem;font-size:1.05rem}
+#preflight h3{margin:1.4rem 0 .5rem;font-size:.78rem;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--faint)}
+#preflight .row{display:flex;gap:.7rem;align-items:baseline;padding:.4rem 0;
+  border-bottom:1px solid var(--rule);font-size:.84rem}
+#preflight .row .st{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;
+  flex:0 0 4.2rem;letter-spacing:.06em}
+#preflight .ok .st{color:var(--live)} #preflight .warn .st{color:var(--warn)}
+#preflight .bad .st{color:var(--accent)}
+#preflight .row .fix{display:block;color:var(--dim);font-size:.78rem;margin-top:.15rem}
+#preflight label.ask{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;
+  font-size:.84rem;color:var(--ink);cursor:pointer}
+#preflight label.ask input{margin-top:.25rem;width:1.15rem;height:1.15rem;flex:none}
+#preflight .pfline{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0 0}
+#preflight button{border:1px solid var(--rule);color:var(--dim);border-radius:6px;
+  padding:.45rem .9rem;min-height:40px}
+#preflight button:hover{border-color:var(--accent);color:var(--accent)}
+#pfSaid{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
+  color:var(--faint);margin:.8rem 0 0}
 #label{position:fixed;inset:auto 1rem 1rem 1rem;max-width:34rem;margin:0 auto;z-index:70;
   background:rgba(8,8,10,.95);border:1px solid var(--rule);border-radius:8px;
   padding:1.1rem 1.2rem;color:var(--ink)}
@@ -367,6 +397,31 @@ label.reset,label.reset span{color:var(--accent) !important;
         autocomplete="off" aria-label="Step through this phrase">
       <output id="ovScrubV">0</output>
     </div>
+  </div>
+  <div id="titleCard" hidden>
+    <div>
+      <h2 id="tcTitle">_____ American _____</h2>
+      <p id="tcBy">Dimitry Saïd Chamy · 2026</p>
+      <button type="button" id="tcPlay">Play</button>
+      <p id="tcNote"></p>
+    </div>
+  </div>
+  <div id="endCard" hidden>
+    <div>
+      <h2>End of sample</h2>
+      <p id="ecNote"></p>
+      <button type="button" id="ecAgain">Play again</button>
+    </div>
+  </div>
+  <div id="preflight" hidden>
+    <h2>Before the show</h2>
+    <div id="pfAuto"></div>
+    <h3>Only a person can check these</h3>
+    <div id="pfAsk"></div>
+    <p class="pfline"><button type="button" id="pfRun">Run the checks again</button>
+      <button type="button" id="pfCopy">Copy the record</button>
+      <button type="button" id="pfClose">Close</button></p>
+    <p id="pfSaid"></p>
   </div>
   <div id="label" hidden>
     <h2 id="labTitle">_____ American _____</h2>
@@ -2803,10 +2858,31 @@ if(PLAYER){ document.body.classList.add("player"); }
 var RIGS={
   web:      {play:1, full:1, info:1, scrub:0, credit:"always"},
   gallery:  {play:0, full:0, info:0, scrub:0, credit:"never",  wake:1},
-  collector:{play:1, full:1, info:1, scrub:0, credit:"always"},
+  collector:{play:1, full:1, info:1, scrub:0, credit:"always", title:1},
   print:    {play:1, full:1, info:1, scrub:1, credit:"tap"},
+  /* PANEL REVIEW. A call gives you two minutes, or five, across everything you submit --
+     so the limit is enforced by the piece rather than trusted to whoever is watching. And
+     ANONYMITY IS A REFUSAL, NOT A SETTING: a tool that quietly leaves his name on an
+     anonymous submission is worse than no tool, so anon overrides the credit column
+     outright and the label omits the author rather than being asked not to show it. */
+  panel:    {play:1, full:1, info:1, scrub:0, credit:"never", title:1, anon:1, limit:120},
+  /* THE INSTALLER'S RIG. What a machine can check, it checks; what it cannot -- the room
+     dark, the sound audible -- it ASKS, and records who said yes and when. */
+  install:  {play:1, full:1, info:1, scrub:1, credit:"tap", pre:1},
   bare:     {play:0, full:0, info:0, scrub:0, credit:"never"}
 };
+/* A CALL'S OWN CAP, because two minutes here and five there is the whole point. */
+var RIGLIMIT=0;
+try{ var lm=/[?&]limit=(\d+)/.exec(location.search||""); if(lm) RIGLIMIT=+lm[1]; }catch(e){}
+
+/* WHAT THIS PIECE NEEDS A HUMAN TO CONFIRM. A browser cannot measure the light in a room
+   or what the speakers are actually doing, and pretending otherwise is worse than asking. */
+var CONDITIONS=[
+  "The room is dark enough that the projection reads as light, not as a grey screen.",
+  "Sound is audible from where people stand, and not louder than the next work along.",
+  "The surface is clear of glare, and nothing crosses the beam at head height.",
+  "The machine will not sleep, dim, or show a notification for the length of the show."
+];
 var RIGNAME="web", RIG=RIGS.web;
 try{
   var rm=/[?&]rig=([a-z]+)/.exec(location.search||"");
@@ -2840,13 +2916,128 @@ document.addEventListener("visibilitychange",function(){
   if(!document.hidden && RIG.wake && !wakeHold) holdWake();
 });
 
+/* THE SAMPLE ENDS WHEN THE CALL SAYS IT ENDS. A panel is given two minutes, or five,
+   across everything an artist submits -- so the piece keeps the limit itself rather than
+   trusting whoever is watching to stop. Measured from the moment it starts playing, not
+   from page load, because a panelist reading the label first has not spent their time. */
+var sampleT=null, sampleFrom=0;
+function sampleCap(){ return RIGLIMIT || RIG.limit || 0; }
+function sampleStart(){
+  var cap=sampleCap(); if(!cap) return;
+  sampleFrom=Date.now(); clearTimeout(sampleT);
+  sampleT=setTimeout(sampleEnd, cap*1000);
+}
+function sampleEnd(){
+  setRunning(false); sndStop();
+  if(el.ecNote) el.ecNote.textContent=
+    "This sample runs "+sampleCap()+" seconds, the limit set for this submission.";
+  if(el.endCard) el.endCard.hidden=false;
+}
+if(el.ecAgain) el.ecAgain.addEventListener("click",function(){
+  if(el.endCard) el.endCard.hidden=true;
+  setRunning(true); if(V.sndSrc==="track") sndStart(); sampleStart();
+});
+
+/* THE TITLE CARD, and the gate in front of the piece. Sound cannot start without a gesture
+   anyway, so where a rig wants a title it is the same press that opens the audio. */
+function titleShow(){
+  if(!el.titleCard) return;
+  if(!RIG.title){ el.titleCard.hidden=true; return; }
+  if(el.tcBy) el.tcBy.textContent = RIG.anon ? "2026" : "Dimitry Sa\u00efd Chamy \u00b7 2026";
+  if(el.tcNote) el.tcNote.textContent = sampleCap()
+    ? ("Sample \u2014 "+sampleCap()+" seconds") : "";
+  el.titleCard.hidden=false;
+}
+if(el.tcPlay) el.tcPlay.addEventListener("click",function(){
+  if(el.titleCard) el.titleCard.hidden=true;
+  setRunning(true); if(V.sndSrc==="track") sndStart(); embedShow(true); sampleStart();
+});
+
+/* PREFLIGHT. What a machine can check, it checks. What it cannot -- the room dark, the
+   sound audible from the bench -- it ASKS, and records who said yes and when, because
+   that record is the thing a venue and an artist both want six weeks later.
+   Every line says what to DO, never only what is wrong. */
+function pfRow(state,what,detail,fix){
+  return '<div class="row '+state+'"><span class="st">'+state.toUpperCase()+'</span><span>'
+    +esc(what)+(detail?' <code>'+esc(detail)+'</code>':'')
+    +(fix?'<span class="fix">'+esc(fix)+'</span>':'')+'</span></div>';
+}
+function preflight(){
+  if(!el.pfAuto) return;
+  var out=[], W=window, D=document;
+  var px=(W.devicePixelRatio||1);
+  out.push(pfRow("ok","Frame",W.innerWidth+"\u00d7"+W.innerHeight+" css, \u00d7"+px+" pixel ratio",""));
+  try{
+    var native=(screen.width*px)+"\u00d7"+(screen.height*px);
+    var scaled=(screen.width*px!==W.innerWidth*px);
+    out.push(pfRow(scaled?"warn":"ok","Display", native+" native",
+      scaled?"The window is not filling the display. Go full screen, or check the projector is not scaling.":""));
+  }catch(e){}
+  try{
+    var face='700 48px "'+(V.face||"Minnerva")+'"';
+    var haveFont=(D.fonts&&D.fonts.check)?D.fonts.check(face):true;
+    out.push(pfRow(haveFont?"ok":"bad","Typeface", (V.face||"Minnerva"),
+      haveFont?"":"The piece is drawing in a substitute face. Reload; if it persists the font did not arrive with the page."));
+  }catch(e){}
+  try{
+    var p3=W.matchMedia&&W.matchMedia("(color-gamut: p3)").matches;
+    out.push(pfRow("ok","Colour", p3?"wide gamut":"standard gamut",""));
+  }catch(e){}
+  try{
+    var canWake=("wakeLock" in navigator);
+    out.push(pfRow(canWake?"ok":"warn","Screen sleep", canWake?"can be held awake":"cannot be held awake",
+      canWake?"":"Set the display to never sleep in the machine's own settings."));
+  }catch(e){}
+  try{
+    var canFull=!!(D.fullscreenEnabled||D.webkitFullscreenEnabled);
+    out.push(pfRow(canFull?"ok":"warn","Full screen", canFull?"available":"not available here",
+      canFull?"":"On iPad, Share \u2192 Add to Home Screen opens it with no browser chrome."));
+  }catch(e){}
+  try{
+    var st=(snd&&snd.ctx)?snd.ctx.state:"not started";
+    out.push(pfRow(st==="running"?"ok":"warn","Audio", st,
+      st==="running"?"":"Press play once. Browsers hold sound until someone does."));
+  }catch(e){}
+  out.push(pfRow(navigator.onLine?"ok":"warn","Network", navigator.onLine?"reachable":"offline",
+    navigator.onLine?"":"The piece runs offline. Only this page's own updates need a connection."));
+  el.pfAuto.innerHTML=out.join("");
+
+  if(el.pfAsk && !el.pfAsk.innerHTML){
+    el.pfAsk.innerHTML=CONDITIONS.map(function(c,i){
+      return '<label class="ask"><input type="checkbox" data-ask="'+i+'" autocomplete="off"><span>'
+        +esc(c)+'</span></label>';
+    }).join("");
+  }
+  pfSaid();
+}
+function pfSaid(){
+  if(!el.pfSaid || !el.pfAsk) return;
+  var boxes=el.pfAsk.querySelectorAll ? el.pfAsk.querySelectorAll("input") : [];
+  var n=0; Array.prototype.forEach.call(boxes,function(b){ if(b.checked) n++; });
+  el.pfSaid.textContent = n
+    ? (n+" of "+CONDITIONS.length+" confirmed by hand at "+new Date().toTimeString().slice(0,5))
+    : "Nothing confirmed by hand yet.";
+}
+if(el.pfAsk) el.pfAsk.addEventListener("change",pfSaid);
+if(el.pfRun) el.pfRun.addEventListener("click",preflight);
+if(el.pfClose) el.pfClose.addEventListener("click",function(){ el.preflight.hidden=true; });
+if(el.pfCopy) el.pfCopy.addEventListener("click",function(){
+  var txt=(el.pfAuto.textContent||"")+"\n"+(el.pfSaid.textContent||"")
+    +"\n"+location.href+"\n"+new Date().toISOString();
+  try{ navigator.clipboard.writeText(txt); el.pfCopy.textContent="Copied"; }
+  catch(e){ fault("Could not copy the record", String(e),
+    "Select the panel text and copy it by hand."); }
+});
+
 /* WHAT THE RIG ALLOWS, APPLIED ONCE. A control that a rig withholds is removed rather than
    disabled -- a button that cannot do anything is worse than no button, and in a gallery
    it is also something for a visitor to press. */
 function applyRig(){
   var b=document.body;
-  b.classList.toggle("rig-hidecredit", RIG.credit==="never");
-  b.classList.toggle("rig-tapcredit",  RIG.credit==="tap");
+  /* ANONYMITY OVERRIDES THE CREDIT COLUMN. Not "and also set credit to never" -- a rule
+     that can be got wrong by setting two things separately is a rule that will be. */
+  b.classList.toggle("rig-hidecredit", RIG.credit==="never" || !!RIG.anon);
+  b.classList.toggle("rig-tapcredit",  RIG.credit==="tap" && !RIG.anon);
   if(el.ovPlay)   el.ovPlay.style.display   = RIG.play ? "" : "none";
   if(el.ovToggle) el.ovToggle.style.display = RIG.play ? "" : "none";
   if(el.ovFull)   el.ovFull.style.display   = RIG.full ? "" : "none";
@@ -2854,6 +3045,8 @@ function applyRig(){
   if(el.embedUI && (PLAYER||EMBED))
     el.embedUI.hidden = !(RIG.play||RIG.full||RIG.info||RIG.scrub);
   if(RIG.wake) holdWake();
+  if(RIG.pre && el.preflight){ el.preflight.hidden=false; preflight(); }
+  titleShow();
 }
 
 /* A WALL LABEL, built rather than written twice. The duration is the piece's own arithmetic
@@ -2862,8 +3055,9 @@ function paintLabel(){
   if(!el.labMeta) return;
   var per=Math.max(1,V.hold-V.slip), secs=Math.round(per*lines.length/FPS);
   var mm=Math.floor(secs/60), ss=("0"+(secs%60)).slice(-2);
-  el.labMeta.textContent="Dimitry Saïd Chamy · 2026 · generative projection · "
-    +lines.length+" lines · "+mm+"m"+ss+"s a pass · piece "+(PIECEID||"\u2014");
+  el.labMeta.textContent=(RIG.anon?"":"Dimitry Sa\u00efd Chamy \u00b7 ")
+    +"2026 \u00b7 generative projection \u00b7 "
+    +lines.length+" lines \u00b7 "+mm+"m"+ss+"s a pass \u00b7 piece "+(PIECEID||"\u2014");
 }
 
 function embedShow(playing){
@@ -2934,9 +3128,10 @@ try{ reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catc
 function start(){
   size();
   applyRig();
-  if(EMBED || !RIG.play){ curFrame=Math.round(V.dur*1.35)+V.dur+10;
-    setRunning(EMBED?false:!reduce); embedShow(running); }
-  else setRunning(!reduce);
+  if(RIG.title){ curFrame=Math.round(V.dur*1.35)+V.dur+10; setRunning(false); still(); }
+  else if(EMBED || !RIG.play){ curFrame=Math.round(V.dur*1.35)+V.dur+10;
+    setRunning(EMBED?false:!reduce); embedShow(running); if(running) sampleStart(); }
+  else { setRunning(!reduce); if(running) sampleStart(); }
   scrubShow(!running);
 }
 if(document.fonts&&document.fonts.load){
