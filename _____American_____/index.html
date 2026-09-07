@@ -471,15 +471,14 @@ body.ui #bar{display:block}
 /* A SCRIM, NOT A CURTAIN. The work keeps running behind both cards -- that is the whole
    design -- but white marks over a piece made of white type need the ground to come up
    enough to read and not enough to hide what they are over. */
-/* THE GROUND IS THE THIRD PART OF THE ANIMATION. The lockup builds on pure black --
-   continuous with the loading screen, so the words assemble against nothing at all. Once
-   they have landed and the title has arrived underneath them, the ground lifts and the
-   piece comes up a little behind his name. Then, as the words separate, it goes to nothing
-   and the work is revealed whole. Three states, in the order somebody watching reads them:
-   arrive, settle, give way. */
+/* THE BLACK IS HELD, AND THE SEPARATION IS WHAT LETS THE PIECE IN. The lockup builds on
+   pure black -- continuous with the loading screen -- and the black STAYS while it stands
+   there, so his name has a moment of its own with nothing behind it. Lifting the ground
+   while the words were still assembled put the work under his name, which is not what a
+   title is. The exit is the trigger: as the three words separate the piece fades up into
+   the space they leave, and the two movements are one. */
 #seqCard.open::before{opacity:1;transition:opacity .9s ease}
-#seqCard.open.settled::before{opacity:.5}
-#seqCard.open.out::before{opacity:0;transition:opacity .85s ease}
+#seqCard.open.out::before{opacity:0;transition:opacity .9s ease}
 .seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -4049,12 +4048,12 @@ function seqLoad(){
    right, so the two movements are one movement rather than a cut. */
 function seqHandOver(){
   var b=el.seqCard;
-  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",2.9); return; }
+  if(!b || !cardsOn() || b.className.indexOf("load")<0){ seqShow("open",2.4); return; }
   /* let the drawing finish filling before anything takes it away */
   var left=Math.max(0, LOAD_MIN-(Date.now()-loadAt))+300;
   seqT3=setTimeout(function(){
     b.classList.add("out");
-    seqT=setTimeout(function(){ seqShow("open",2.9); },240);
+    seqT=setTimeout(function(){ seqShow("open",2.4); },240);
   },left);
 }
 function seqShow(kind,secs){
@@ -4075,15 +4074,12 @@ function seqShow(kind,secs){
      the class that moves it, or there is nothing to interpolate and it simply appears */
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     b.classList.add("in"); }); });
-  /* the words land at about 1.2s and the title fades in behind them; the ground lifts
-     just after, so the piece appears once his name is already settled */
-  if(kind==="open") seqT3=setTimeout(function(){ b.classList.add("settled"); },1500);
   seqT=setTimeout(function(){
     b.classList.remove("in"); b.classList.add("out");
     seqT2=setTimeout(function(){
       /* the credit does not end -- it hands straight back to the title, on the same
          black, and the title is what gives way to the work */
-      if(kind==="close"){ seqShow("open",2.9); return; }
+      if(kind==="close"){ seqShow("open",2.4); return; }
       b.hidden=true; b.className="seq";
       document.body.classList.remove("seqcredit");
     }, kind==="close" ? 820 : 900);
