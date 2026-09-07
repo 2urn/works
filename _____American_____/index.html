@@ -1005,9 +1005,17 @@ function glyphsOf(word,px){
 }
 function widthOf(w,px){ tx.font=fontFor(px); return tx.measureText(w).width; }
 
-function solve(W,first,third){
-  var H=cv.height, margin=W*V.margin/100, gapPx=W*0.015;
-  var sPx=H*V.spineSize/100, oPx=H*V.outerSize/100;
+function solve(gs,W,H){
+  var si=spineOf(gs), sg=gs[si<0?0:si];
+  var arms=[]; gs.forEach(function(g,i){ if(g.role==="blank") arms.push(i); });
+  var LI=arms[0], RI=arms[1];
+  var first=LI===undefined?" ":gs[LI].text, third=RI===undefined?" ":gs[RI].text;
+  SPINE_SET=sg.text;
+  var margin=W*V.margin/100, gapPx=W*0.015;
+  /* OVERLAP TREATS THE BLANKS AS ONE SIZE CLASS -- they tuck into the spine as a pair,
+     and a pair that fitted independently would stop reading as one. Extra blanks beyond
+     the first two step further out on alternating sides. */
+  var sPx=H*sg.size/100, oPx=H*(LI===undefined?V.outerSize:gs[LI].size)/100;
   /* GAP IN THE OVERLAPPING ARRANGEMENT IS THE TUCK, INVERTED -- more gap is less tuck.
      At 1x nothing moves, at 2x the words stop crossing AMERICAN at all. */
   var ov=Math.max(0,Math.min(0.48, V.overlap*(2-V.gap)));
@@ -1032,7 +1040,22 @@ function solve(W,first,third){
       if(spent.indexOf("spine")<0)spent.push("spine"); continue; }
     break;
   }
-  return {sPx:sPx,oPx:oPx,ov:ov,sx0:sx0,fx0:fx0,tx0:tx0_,margin:margin,spent:spent,
+  var y=H*0.5+sPx*0.34, place=[];
+  gs.forEach(function(g,i){ place.push(null); });
+  place[si<0?0:si]={ x:sx0, y:y, px:sPx, rot90:0, axis:"h", lead:0 };
+  arms.forEach(function(gi,a){
+    var step=Math.floor(a/2), left=(a%2)===0;
+    var w=widthOf(gs[gi].text,oPx);
+    place[gi]= left
+      ? { x:(fx0 - step*(w+gapPx)), y:y, px:oPx, rot90:0, axis:"h", lead:0 }
+      : { x:(tx0_ + step*(w+gapPx)), y:y, px:oPx, rot90:0, axis:"h", lead:0 };
+  });
+  gs.forEach(function(g,i){
+    if(place[i]) return;
+    var p=fitOne(g.text, H*g.size/100, W, margin);
+    place[i]={ x:(W-widthOf(g.text,p))/2, y:y, px:p, rot90:0, axis:"h", lead:0 };
+  });
+  return {place:place,sPx:sPx,oPx:oPx,ov:ov,margin:margin,spent:spent,
     slack:Math.min(fx0-margin,(W-margin)-tx1), crash:(fx1+gapPx)-tx0_};
 }
 /* PORTRAIT WANTS A DIFFERENT PROBLEM SOLVED. Overlapping only works while there is width
@@ -1056,46 +1079,67 @@ function fitK(word,px,limit){
   var w=widthOf(word,px);
   return (w>limit) ? Math.max(0.05, limit/w) : 1;
 }
-function solveStack(W,H,first,third,name){
+/* SOLVERS TAKE THE GROUPS. They read a group's ROLE -- which is semantic, because a book
+   spine does have to know which group is the spine -- and never its position in a list.
+   Two blanks or five, a coda or none: the layout is over however many groups arrive. */
+function spineOf(gs){ for(var i=0;i<gs.length;i++) if(gs[i].role==="spine") return i; return -1; }
+
+function solveStack(gs,W,H){
   var margin=W*V.margin/100, lim=W-margin*2;
-  var sP=H*V.spineSize/100, oPx=H*V.outerSize/100, nP=name?H*V.nameSize/100:0;
-  var k=Math.min(fitK(SPINE_SET,sP,lim), fitK(first,oPx,lim), fitK(third,oPx,lim),
-                 name?fitK(name,nP,lim):1);
-  var sPx=sP*k, fPx=oPx*k, tPx=oPx*k, nPx=nP*k;
-  oPx*=k;
+  var want=gs.map(function(g){ return H*g.size/100; });
+  /* one factor for the whole set -- the sizes are a relationship (see fitK) */
+  var k=1;
+  gs.forEach(function(g,i){ k=Math.min(k, fitK(g.text, want[i], lim)); });
+  var px=want.map(function(w){ return w*k; });
+  var si=spineOf(gs), sPx=si<0?px[0]:px[si];
   var lead=sPx*0.16*V.gap;
-  var rows=[fPx,sPx,tPx].concat(name?[nPx]:[]);
-  var tot=0; rows.forEach(function(r){ tot+=r*0.78; }); tot+=lead*(rows.length-1);
-  var y=H/2-tot/2, ys=[];
-  rows.forEach(function(r){ y+=r*0.78; ys.push(y); y+=lead; });
-  return { sPx:sPx, oPx:oPx, fPx:fPx, tPx:tPx, nPx:nPx, margin:margin, spent:[],
-    slack:0, crash:0, stack:true,
-    fx0:(W-widthOf(first,fPx))/2, sx0:(W-widthOf(SPINE_SET,sPx))/2,
-    tx0:(W-widthOf(third,tPx))/2, nx0:name?(W-widthOf(name,nPx))/2:0,
-    yF:ys[0], yS:ys[1], yT:ys[2], yN:name?ys[3]:0, ov:0 };
+  var tot=0;
+  px.forEach(function(p){ tot+=p*0.78; });
+  tot+=lead*(px.length-1);
+  var y=H/2-tot/2, place=[];
+  px.forEach(function(p,i){
+    y+=p*0.78;
+    place.push({ x:(W-widthOf(gs[i].text,p))/2, y:y, px:p, rot90:0, axis:"h", lead:0 });
+    y+=lead;
+  });
+  return { place:place, stack:true, margin:margin, spent:[], slack:0, crash:0, ov:0,
+           sPx:sPx, oPx:(si===0?px[Math.min(1,px.length-1)]:px[0]) };
 }
 /* THE BOOK SPINE. American set vertically down the middle like the title on a spine,
    the first blank running UP the left edge and the third running DOWN the right, dropped
    a little so the two do not read as one bar. The rotated words are measured against the
    HEIGHT, because that is the direction they now run in. */
-function solveSpine(W,H,first,third,name){
-  var mV=H*V.margin/100, mH=W*V.margin/100;
-  var sPx=H*V.spineSize/100, n=SPINE_SET.length, lead=sPx*0.92;
-  while(n*lead > H-mV*2 && sPx>H*0.02){ sPx*=0.97; lead=sPx*0.92; }
-  var oPx=H*V.outerSize/100, limV=H-mV*2;
-  /* the two sentences run vertically here, so their limit is the frame HEIGHT -- but
-     they still share one factor, because they are still a pair */
-  var k=Math.min(fitK(first,oPx,limV), fitK(third,oPx,limV));
-  var fPx=oPx*k, tPx=oPx*k;
-  var nPx=name?fitOne(name,H*V.nameSize/100,W,mH):0;
-  var cx=W/2, gap=sPx*0.80*V.gap;
-  return { stack:true, spine:true, lead:lead,
-    sPx:sPx, oPx:oPx, fPx:fPx, tPx:tPx, nPx:nPx,
-    sx0:cx, yS:H/2-(n*lead)/2+sPx*0.35,
-    fx0:cx-gap, yF:H/2+widthOf(first,fPx)/2,
-    tx0:cx+gap, yT:H/2-widthOf(third,tPx)/2+sPx*0.55,
-    nx0:name?(W-widthOf(name,nPx))/2:0, yN:H-mV,
-    margin:mH, spent:[], slack:0, crash:0, ov:0 };
+function solveSpine(gs,W,H){
+  var mV=H*V.margin/100, mH=W*V.margin/100, cx=W/2, limV=H-mV*2;
+  var si=spineOf(gs), sg=gs[si<0?0:si];
+  var sPx=H*sg.size/100, n=sg.text.length, lead=sPx*0.92;
+  while(n*lead > limV && sPx>H*0.02){ sPx*=0.97; lead=sPx*0.92; }
+
+  /* THE ARMS ALTERNATE, however many there are. Two of them is one on each side, which is
+     what this piece has; four would be two a side, stepped further out. They still share
+     one fit factor, because they are still a set. */
+  var arms=[];
+  gs.forEach(function(g,i){ if(g.role==="blank") arms.push(i); });
+  var k=1;
+  arms.forEach(function(i){ k=Math.min(k, fitK(gs[i].text, H*gs[i].size/100, limV)); });
+
+  var gap=sPx*0.80*V.gap, place=[];
+  gs.forEach(function(g,i){ place.push(null); });
+  place[si<0?0:si]={ x:cx, y:H/2-(n*lead)/2+sPx*0.35, px:sPx, rot90:0, axis:"v", lead:lead };
+  arms.forEach(function(gi,a){
+    var p=H*gs[gi].size/100*k, side=(a%2)?1:-1, rank=1+Math.floor(a/2);
+    place[gi]= side<0
+      ? { x:cx-gap*rank, y:H/2+widthOf(gs[gi].text,p)/2, px:p, rot90:-1, axis:"h", lead:0 }
+      : { x:cx+gap*rank, y:H/2-widthOf(gs[gi].text,p)/2+sPx*0.55, px:p, rot90:1, axis:"h", lead:0 };
+  });
+  gs.forEach(function(g,i){
+    if(place[i]) return;                       /* a coda, or anything with no side to take */
+    var p=fitOne(g.text, H*g.size/100, W, mH);
+    place[i]={ x:(W-widthOf(g.text,p))/2, y:H-mV, px:p, rot90:0, axis:"h", lead:0 };
+  });
+  return { place:place, stack:true, spine:true, lead:lead, sPx:sPx,
+           oPx:H*(gs[arms[0]!==undefined?arms[0]:0].size)/100*k,
+           margin:mH, spent:[], slack:0, crash:0, ov:0 };
 }
 function reportFit(f){
   say("fOv",(f.ov*100).toFixed(0)+"%");
@@ -1379,14 +1423,16 @@ function groupsFor(li){
   SPINE_SET = isSpine ? SPINE.toUpperCase() : cased(SPINE);
   var g=[
     { text:cased(lines[li][0]||" "), role:"blank", key:2, ai:0, plate:false,
-      off:V.offFirst, col:V.col.first, start:Math.round(V.dur*0.9), exitPad:4,
+      off:V.offFirst, size:V.outerSize, col:V.col.first,
+      start:Math.round(V.dur*0.9), exitPad:4,
       burstAt:0, bias:V.bias },
     { text:SPINE_SET, role:"spine", key:1, ai:1, plate:true,
-      off:V.offSpine, col:V.col.spine, start:0, exitPad:0,
+      off:V.offSpine, size:V.spineSize, col:V.col.spine, start:0, exitPad:0,
       burstAt:3, bias:V.spineBias, cols:V.spineCols,
       ghostMul:V.spineGhost, dblMul:V.spineDbl },
     { text:cased(lines[li][1]||" "), role:"blank", key:3, ai:2, plate:false,
-      off:V.offThird, col:V.col.third, start:Math.round(V.dur*1.35), exitPad:9,
+      off:V.offThird, size:V.outerSize, col:V.col.third,
+      start:Math.round(V.dur*1.35), exitPad:9,
       burstAt:7, bias:V.bias }
   ];
   /* THE FOURTH LINE: a family name under the frame. It arrives last and it is the only
@@ -1394,26 +1440,19 @@ function groupsFor(li){
      and it settles to the spine's colour, not its own, which is why settleAi is here. */
   var nm=cased(lines[li][2]||"");
   if(nm && stack) g.push({ text:nm, role:"coda", key:4, ai:0, plate:false,
-      off:V.offName, col:V.col.first, start:Math.round(V.dur*1.9), exitPad:14,
+      off:V.offName, size:V.nameSize, col:V.col.first,
+      start:Math.round(V.dur*1.9), exitPad:14,
       burstAt:null, bias:V.bias, ghostMul:0.25, dblMul:0, flatDeg:true, settleAi:1 });
   return g;
 }
 
-/* THE ONE PLACE AN INDEX BECOMES A POSITION. The solvers still speak in this piece's
-   words; what changed is that nothing downstream does. */
+/* THE ONE PLACE AN ARRANGEMENT IS CHOSEN. Every solver takes the groups and hands back a
+   placement for each of them, so a new arrangement is one more line here and nothing else
+   anywhere. */
 function fitFor(gs,W,H){
-  var isSpine=(V.layout==="spine"), stack=(V.layout==="stack")||isSpine;
-  var first=gs[0].text, third=gs[2].text, name=gs[3]?gs[3].text:"";
-  var f=isSpine?solveSpine(W,H,first,third,name)
-       :(stack?solveStack(W,H,first,third,name):solve(W,first,third));
-  var y=H*0.5+f.sPx*0.34;
-  f.place=[
-    {x:f.fx0, y:stack?f.yF:y, px:stack?f.fPx:f.oPx, rot90:isSpine?-1:0, axis:"h", lead:0},
-    {x:f.sx0, y:stack?f.yS:y, px:f.sPx,             rot90:0, axis:isSpine?"v":"h", lead:f.lead},
-    {x:f.tx0, y:stack?f.yT:y, px:stack?f.tPx:f.oPx, rot90:isSpine?1:0,  axis:"h", lead:0}
-  ];
-  if(gs[3]) f.place.push({x:f.nx0, y:f.yN, px:f.nPx, rot90:0, axis:"h", lead:0});
-  return f;
+  if(V.layout==="spine") return solveSpine(gs,W,H);
+  if(V.layout==="stack") return solveStack(gs,W,H);
+  return solve(gs,W,H);
 }
 
 function drawLine(li,local,alpha,deg,which){
