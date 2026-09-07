@@ -268,6 +268,12 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
 .mmeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--faint);margin:0 0 .6rem}
 .mbio + .mbio{margin-top:.55rem}
+.msub{margin:1rem 0 .3rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--faint);font-weight:600}
+#mVoice{width:100%;max-width:32rem;height:38px}
+/* NO ROUNDED FOCUS RING EITHER. A browser draws its own around a pressed tab, and its own
+   is rounded -- which is the shape this interface does not use. */
+.mtab:focus-visible,.mopt:focus-visible{outline:1px solid var(--ink);outline-offset:0}
 .mhist{font-size:.85rem;color:var(--dim);margin:0 0 .55rem;line-height:1.55;max-width:60ch}
 .mhist b{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;
   color:var(--accent);font-weight:600;margin-right:.5rem;font-variant-numeric:tabular-nums}
@@ -524,14 +530,14 @@ label.reset,label.reset span{color:var(--accent) !important;
         role="tab" aria-selected="true" aria-controls="pane-work">The piece</button>
       <button type="button" class="mtab" data-tab="hist" id="tab-hist" hidden
         role="tab" aria-selected="false" aria-controls="pane-hist">History</button>
-      <button type="button" class="mtab" data-tab="part" id="tab-part" hidden
-        role="tab" aria-selected="false" aria-controls="pane-part">Take part</button>
-      <button type="button" class="mtab" data-tab="set" id="tab-set"
-        role="tab" aria-selected="false" aria-controls="pane-set">Settings</button>
-      <button type="button" class="mtab" data-tab="share" id="tab-share"
-        role="tab" aria-selected="false" aria-controls="pane-share">Share</button>
       <button type="button" class="mtab" data-tab="about" id="tab-about"
         role="tab" aria-selected="false" aria-controls="pane-about">The artist</button>
+      <button type="button" class="mtab" data-tab="share" id="tab-share"
+        role="tab" aria-selected="false" aria-controls="pane-share">Share</button>
+      <button type="button" class="mtab" data-tab="set" id="tab-set"
+        role="tab" aria-selected="false" aria-controls="pane-set">Settings</button>
+      <button type="button" class="mtab" data-tab="part" id="tab-part" hidden
+        role="tab" aria-selected="false" aria-controls="pane-part">Take part</button>
     </div>
     <div class="mpane" data-pane="work" id="pane-work" role="tabpanel"
       aria-labelledby="tab-work"></div>
@@ -776,6 +782,8 @@ label.reset,label.reset span{color:var(--accent) !important;
         <textarea id="pBio" rows="4" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pLinks">Links — label | address | tab</label></div>
         <textarea id="pLinks" rows="3" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pDesc">Described — what it looks like, one paragraph a line</label></div>
+        <textarea id="pDesc" rows="4" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pHist">History — year | what happened, one a line</label></div>
         <textarea id="pHist" rows="4" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pInviteNote">Taking part — the invitation</label></div>
@@ -3168,6 +3176,22 @@ var PIECE={
     { label:"Collect or commission a work", url:"https://chamy.xyz/", where:"share" }
   ],
   voice: "",                       /* a minute of him on the piece, when it is recorded */
+  /* DESCRIBED, FOR ANYONE WHO CANNOT SEE IT. Alt text on a canvas that redraws sixty
+     times a second is meaningless, so the description is written once, by hand, and says
+     what the work LOOKS LIKE rather than what it is about -- those are different jobs and
+     the about text already does the second one. */
+  described: [
+    "Three lines of type on black. A first word arrives from one side, AMERICAN holds the "+
+    "centre, and a third word arrives from the other. On a tall screen they turn: AMERICAN "+
+    "stands as a vertical column and the two phrases run up and down its edges like the "+
+    "spine of a book.",
+    "Letters enter one at a time \u2014 falling, spinning, sliding in from off-frame \u2014 "+
+    "each on its own clock, so a phrase assembles rather than appears. They settle into red, "+
+    "white and blue, one colour to each of the three words, and hold for a moment before "+
+    "the next line replaces them. Some blur as they travel. Occasionally scan lines cut "+
+    "across the type like a failing signal. The sound is a rhythmic loop of a spray can "+
+    "being shaken."
+  ],
   /* WHERE IT CAME FROM. A work has a history before it has a file, and this one goes back
      years further than the software does -- which is exactly what a curator, a registrar or
      a collector asks for and what nothing else here records. Dated entries, oldest first,
@@ -3574,6 +3598,14 @@ function paintPiece(){
     '<h3 class="mh">'+esc(PIECE.title)+'</h3>'+
     '<p class="mmeta" id="mMeta"></p>'+
     PIECE.about.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    ((PIECE.described&&PIECE.described.length)
+      ? ('<h4 class="msub">Described</h4>'
+         +PIECE.described.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join(""))
+      : "")+
+    (PIECE.voice
+      ? ('<h4 class="msub">The artist on this piece</h4>'
+         +'<audio id="mVoice" controls preload="none" src="'+esc(PIECE.voice)+'"></audio>')
+      : "")+
     linkRow("work");
   var hist=PIECE.history||[];
   var hp=document.getElementById("pane-hist"), ht=document.getElementById("tab-hist");
@@ -3592,10 +3624,6 @@ function paintPiece(){
   if(a) a.innerHTML=
     '<img id="mFace" alt="'+esc(PIECE.artist)+'" width="76" height="76">'+
     PIECE.bio.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
-    '<div id="mVoiceBox"'+(PIECE.voice?"":" hidden")+'>'+
-      '<p class="mnote">The artist on this piece</p>'+
-      '<audio id="mVoice" controls preload="none"'+
-        (PIECE.voice?' src="'+esc(PIECE.voice)+'"':'')+'></audio></div>'+
     linkRow("about");
   el={}; Array.prototype.forEach.call(document.querySelectorAll("[id]"),function(n){ el[n.id]=n; });
   bindLinks();
@@ -3677,6 +3705,7 @@ function pFill(){
   el.pAbout.value=(PIECE.about||[]).join("\n");
   el.pBio.value=(PIECE.bio||[]).join("\n");
   el.pVoice.value=PIECE.voice||"";
+  el.pDesc.value=(PIECE.described||[]).join("\n");
   el.pHist.value=(PIECE.history||[]).map(function(h){
     return h.year+" | "+h.note; }).join("\n");
   var iv=PIECE.invite||{};
@@ -3709,6 +3738,7 @@ function pGrab(){
   PIECE.accent=el.pAccent?el.pAccent.value:PIECE.accent;
   PIECE.about=lines(el.pAbout.value); PIECE.bio=lines(el.pBio.value);
   PIECE.voice=el.pVoice.value.trim();
+  PIECE.described=lines(el.pDesc.value);
   PIECE.history=lines(el.pHist.value).map(function(row){
     var i=row.indexOf("|");
     return i<0 ? { year:"", note:row.trim() }
