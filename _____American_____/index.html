@@ -3773,9 +3773,22 @@ if(creditEl){
   creditEl.addEventListener("keydown",function(e){
     if((e.key==="Enter"||e.key===" ") && (PLAYER||EMBED)){ e.preventDefault(); menuOpen("work"); }
   });
-  creditEl.addEventListener("click",function(e){ e.preventDefault(); menuOpen("work"); });
+  /* THE MARK IS A TOGGLE, NOT A DOOR. It sits above the panel in the accent while the
+     menu is open, which makes it look like a live control -- so it behaves like one, and
+     the thing you pressed to get here is the thing you press to leave. A second way out
+     costs nothing and is the one a thumb finds without looking. */
+  creditEl.addEventListener("click",function(e){
+    e.preventDefault();
+    if(el.menu && !el.menu.hidden) menuShut(); else menuOpen("work");
+  });
 }
-if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); });
+if(el.sigBtn) el.sigBtn.addEventListener("click",function(){
+  /* his name goes to who made it -- unless it is already showing that, in which case it
+     closes, for the same reason the wordmark does */
+  var open=el.menu && !el.menu.hidden;
+  var onAbout=open && !document.getElementById("pane-about").hidden;
+  if(onAbout) menuShut(); else menuOpen("about");
+});
 /* FIFTEEN SECONDS, SHAPED FOR A FEED. 4:5 rather than 9:16 on purpose: it is the tallest
    ratio Instagram shows in full in the feed, and it has almost none of the danger zones a
    Reel does -- no caption block over the bottom third, no button column down the right.
