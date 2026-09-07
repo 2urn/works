@@ -3148,6 +3148,7 @@ if(el.pfCopy) el.pfCopy.addEventListener("click",function(){
 /* WHAT THE RIG ALLOWS, APPLIED ONCE. A control that a rig withholds is removed rather than
    disabled -- a button that cannot do anything is worse than no button, and in a gallery
    it is also something for a visitor to press. */
+var creditEl=document.querySelector(".credit");
 function applyRig(){
   var b=document.body;
   /* ANONYMITY OVERRIDES THE CREDIT COLUMN. Not "and also set credit to never" -- a rule
@@ -3155,6 +3156,12 @@ function applyRig(){
   b.classList.toggle("rig-hidecredit", RIG.credit==="never" || !!RIG.anon);
   b.classList.toggle("rig-tapcredit",  RIG.credit==="tap" && !RIG.anon);
   b.classList.toggle("burned", !!RIG.burn && RIG.credit!=="never" && !RIG.anon);
+  /* whether the mark is a LINK is a property of the mode, so it is decided here with
+     everything else the mode decides, rather than once at load */
+  if(creditEl && (PLAYER||EMBED)){
+    creditEl.removeAttribute("href"); creditEl.removeAttribute("target");
+    creditEl.setAttribute("role","button"); creditEl.setAttribute("tabindex","0");
+  }
   if(el.ovPlay)   el.ovPlay.style.display   = RIG.play ? "" : "none";
   if(el.ovToggle) el.ovToggle.style.display = RIG.play ? "" : "none";
   /* and a control the DEVICE cannot honour is withheld exactly like one the rig withholds */
@@ -3262,8 +3269,21 @@ if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true
    credit deliberately has none -- release.py rewrites its href and label by matching
    `<a class="credit" href="` exactly, and an id sitting between the two would break that
    rewrite silently on the way out the door. So the listener finds it the other way. */
-var creditEl=document.querySelector(".credit");
-if(creditEl) creditEl.addEventListener("click",function(e){ e.preventDefault(); menuOpen("set"); });
+if(creditEl){
+  /* IN THE PLAYER IT STOPS BEING A LINK. Cancelling the click was not enough: an anchor
+     with an href is still a link on every path we do not handle -- Enter on the keyboard,
+     right-click and open in a new tab, a long press on an iPad -- and any of those takes
+     someone off the wall and onto a website. The mark opens the menu and does nothing
+     else; chamy.xyz is a button inside it, which is where he asked for it.
+
+     The href STAYS IN THE SOURCE and is only dropped at runtime, because release.py
+     rewrites it on the way out and a crawler reading the page should still find the
+     author link. */
+  creditEl.addEventListener("keydown",function(e){
+    if((e.key==="Enter"||e.key===" ") && (PLAYER||EMBED)){ e.preventDefault(); menuOpen("set"); }
+  });
+  creditEl.addEventListener("click",function(e){ e.preventDefault(); menuOpen("set"); });
+}
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); });
 if(el.mSite) el.mSite.addEventListener("click",function(){
   window.open("https://chamy.xyz/","_blank","noopener");
