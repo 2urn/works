@@ -746,23 +746,6 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="margin">Safe margin</label>
         <output id="marginV">5.0%</output></div>
         <input type="range" id="margin" min="0" max="16" step="0.5" value="5"></div>
-      <div class="ctl"><div class="top"><label for="vortex">Vortex</label>
-        <output id="vortexV">0.50</output></div>
-        <input type="range" id="vortex" min="0" max="1" step="0.05" value="0.5"></div>
-      <div class="ctl"><div class="top"><label for="sweepAngle">Sweep angle</label>
-        <output id="sweepAngleV">35°</output></div>
-        <input type="range" id="sweepAngle" min="-180" max="180" step="5" value="35"></div>
-      <div class="ctl"><div class="top"><label for="sweepWidth">Sweep width</label>
-        <output id="sweepWidthV">0.50</output></div>
-        <input type="range" id="sweepWidth" min="0" max="1" step="0.05" value="0.5"></div>
-      <div class="ctl"><div class="top"><label for="vortexR">Vortex radius</label>
-        <output id="vortexRV">0.45</output></div>
-        <input type="range" id="vortexR" min="0" max="1" step="0.05" value="0.45"></div>
-      <label class="tog"><input type="checkbox" id="vortexAlt" checked>
-        Alternate which side each letter swings</label>
-      <div class="ctl"><div class="top"><label for="centrifuge">Centrifugal throw</label>
-        <output id="centrifugeV">0.50</output></div>
-        <input type="range" id="centrifuge" min="0" max="1" step="0.05" value="0.5"></div>
       <div class="ctl"><div class="top"><label for="focus">Depth of field</label>
         <output id="focusV">0.40</output></div>
         <input type="range" id="focus" min="0" max="1" step="0.05" value="0.4"></div>
@@ -948,10 +931,7 @@ function readControls(){
   V.offThird=+el.offThird.value; V.offName=+el.offName.value;
   V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
-  V.focus=+el.focus.value; V.vortex=+el.vortex.value;
-  V.sweepAngle=+el.sweepAngle.value; V.sweepWidth=+el.sweepWidth.value;
-  V.centrifuge=+el.centrifuge.value;
-  V.vortexR=+el.vortexR.value; V.vortexAlt=el.vortexAlt.checked;
+  V.focus=+el.focus.value;
   V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
   V.on2s=el.on2s.checked; V.guides=el.guides.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
@@ -1000,11 +980,6 @@ function paintReadouts(){
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
   say("scanGritV",V.scanGrit.toFixed(2)); say("focusV",V.focus.toFixed(2));
-  say("vortexV",V.vortex.toFixed(2));
-  say("sweepAngleV",Math.round(V.sweepAngle)+"\u00b0");
-  say("sweepWidthV",V.sweepWidth.toFixed(2));
-  say("centrifugeV",V.centrifuge.toFixed(2));
-  say("vortexRV",V.vortexR.toFixed(2));
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -1284,100 +1259,28 @@ function drawWord(word,px,x,y,o){
     }
     tx.save();
     var oxs=o.ox*(o.isExtra?clear:1);
-    /* THE VORTEX. The spine is a column of letters standing on one axis, so a twist about
-       that axis is exactly the z-rotation this engine already speaks -- cos(theta) on
-       scaleX, and a negative cosine is the back of the glyph. The LAG is what makes it a
-       tornado rather than a turning sign: each letter is a little behind the one above it,
-       plus a seeded slip of its own so the column never reads as one rigid object.
-
-       The outer sentences do not spin. They are thrown OUT by it, which is what the arms
-       of a vortex actually do -- and they move as whole words, off the angle at the TOP of
-       the column, so a sentence stays a sentence while the spine turns inside it.
-
-       The turn rate comes off the global Speed rather than a dial of its own, so a vortex
-       stays in tempo with everything else in the piece. */
-    /* AN INVISIBLE FRONT CROSSING THE SCREEN. The turn is not a property of a letter or
-       of its place in a word -- it is a property of WHERE THE LETTER IS STANDING when the
-       front reaches it. Project the glyph's position onto the sweep direction, subtract
-       that from the clock, and the phase travels: a band of turning letters moves across
-       the frame at an angle and everything it passes rotates and settles again behind it.
-
-       This replaced a per-letter lag down the column, and replaced rather than joined it,
-       because a front sweeping straight down IS that lag -- the field is the general case
-       and the column was one angle of it. Sweep width is the wavelength: narrow is a hard
-       edge crossing the frame, wide is one slow breath across the whole picture.
-       The clock is the global Speed, so the front stays in tempo with the piece. */
-    var vSpin=0;
-    if(V.vortex>0){
-      var gxp=x+oxs+(o.axis==="v"?0:(gl.x+gl.w/2));
-      var gyp=y+(o.axis==="v"?i*(o.lead||px*0.92):0);
-      var sa=V.sweepAngle*Math.PI/180;
-      var wl=Math.max(60, W*(0.12+0.9*V.sweepWidth));
-      var proj=gxp*Math.cos(sa)+gyp*Math.sin(sa);
-      /* AND IT TURNS AT THE SPEED OF THE PIECE. At 0.055 a full turn took nearly seven
-         seconds -- slow enough against everything else that the eye tracked the rotation
-         instead of reading the words. THE SPINE TURNS LESS THAN THE BLANKS: it is the
-         fixed word and the one that has to stay readable, and the outer sentences are
-         where the movement reads best anyway. */
-      var amp=V.vortex*Math.PI;
-      vSpin=amp*Math.sin(o.local*0.22*V.speed - proj/wl + cast.jitter*0.04);
-    }
-    /* the orbit: x = r sin(theta) carries the letter AROUND the axis rather than flipping
-       it where it stands, which is what read as the middle word disappearing */
-    var orb=0;
-    if(vSpin && V.vortexR>0){
-      orb=((V.vortexAlt && (i%2))?-1:1)*V.vortexR*px*1.7*Math.sin(vSpin);
-    }
     if(o.rot90){
       /* turn the whole word a quarter turn, then run along it -- reading UP the left
          edge at -90, DOWN the right edge at +90 */
-      var fling=0;
-      if(V.vortex>0 && V.centrifuge>0){
-        fling=(o.rot90>0?1:-1)*W*0.07*V.vortex*V.centrifuge*(0.5+0.5*Math.sin(vSpin));
-      }
-      tx.translate(x+oxs+fling, y);
+      tx.translate(x+oxs, y);
       tx.rotate(o.rot90*Math.PI/2);
       tx.translate(gl.x+gl.w/2+m.dx, m.dy+o.oy);
     } else if(o.axis==="v"){
       /* stacked down a column, each letter on its own row, centred on the column */
-      /* THE AXIS IS NOT THE LETTER. Turning a letter about its own centre makes it flip in
-         place and vanish edge-on, which reads as disappearing rather than as turning. Put
-         the axis off to one side and the letter ORBITS the column instead: x = r sin(theta)
-         carries it around, cos(theta) narrows it as it goes behind. That is the same
-         projection, and it is the difference between a revolving sign and a vortex.
-         Alternating the side letter by letter braids the column rather than hooping it. */
-      tx.translate(x+m.dx+oxs+orb, y+i*(o.lead||px*0.92)+m.dy+o.oy);
+      tx.translate(x+m.dx+oxs, y+i*(o.lead||px*0.92)+m.dy+o.oy);
     } else {
-      /* the front crosses every arrangement, not only the column */
-      tx.translate(x+gl.x+gl.w/2+m.dx+oxs+orb, y+m.dy+o.oy);
+      tx.translate(x+gl.x+gl.w/2+m.dx+oxs, y+m.dy+o.oy);
     }
     if(m.rot) tx.rotate(m.rot);
-    var sxF=m.sx*(1+q*0.5), syF=m.sy*(1-q);
-    /* AMERICAN DOES NOT TURN. It gets SHOVED. Rotation never worked on the spine -- a
-       narrowing letter in a vertical column reads as the word going away, and it is the
-       one word in the piece that cannot go. What works is the offset alone: left, right,
-       left, right down the stack, with the front's phase deciding how far each letter has
-       been pushed, so the shove travels down the column and the letters look like they are
-       moving each other along. The turn stays where he said it reads -- the outer words.
-       So the projection is applied to the blanks and withheld from the spine, and the
-       spine keeps the very same orbit offset that was already carrying it sideways. */
-    if(vSpin && o.ai!==1){
-      var cs=Math.cos(vSpin);
-      sxF*=(cs<0?-1:1)*Math.max(0.28, Math.abs(cs));
-    }
-    tx.scale(sxF, syF);
+    tx.scale(m.sx*(1+q*0.5), m.sy*(1-q));
     /* DEPTH OF FIELD, DERIVED. A letter way out front is out of focus, the way a lens
        would have it -- the blur comes off how far this glyph's own scale has travelled
        from settled, never from a keyframe, so it is always the ones in flight that go
-       soft and never a fixed few. Read off the MOTION scale and not the final one: when
-       it read the final scale, every letter in the vortex was edge-on and therefore
-       blurred, which turned the column to mush and took blurred draws from 138 a dozen
-       frames to 1513. Depth belongs to travel, not to turning.
-       RADIUS is the expensive parameter here, not the count: it is capped against the
-       type size, and anything under half a pixel is skipped rather than costing a filter
-       pass to show nothing. */
+       soft and never a fixed few. RADIUS is the expensive parameter here, not the count:
+       it is capped against the type size, and anything under half a pixel is skipped
+       rather than costing a filter pass to show nothing. */
     if(V.focus>0){
-      var off=Math.abs(Math.abs(m.sx*(1+q*0.5))-1);
+      var off=Math.abs(Math.abs(m.sx)-1);
       var bl=Math.min(px*0.20, off*px*0.28*V.focus);
       if(bl>0.5) tx.filter="blur("+bl.toFixed(1)+"px)";
     }
