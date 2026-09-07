@@ -746,6 +746,15 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="margin">Safe margin</label>
         <output id="marginV">5.0%</output></div>
         <input type="range" id="margin" min="0" max="16" step="0.5" value="5"></div>
+      <div class="ctl"><div class="top"><label for="vortex">Vortex</label>
+        <output id="vortexV">0.50</output></div>
+        <input type="range" id="vortex" min="0" max="1" step="0.05" value="0.5"></div>
+      <div class="ctl"><div class="top"><label for="vortexLag">Vortex lag</label>
+        <output id="vortexLagV">0.50</output></div>
+        <input type="range" id="vortexLag" min="0" max="1" step="0.05" value="0.5"></div>
+      <div class="ctl"><div class="top"><label for="centrifuge">Centrifugal throw</label>
+        <output id="centrifugeV">0.50</output></div>
+        <input type="range" id="centrifuge" min="0" max="1" step="0.05" value="0.5"></div>
       <div class="ctl"><div class="top"><label for="focus">Depth of field</label>
         <output id="focusV">0.40</output></div>
         <input type="range" id="focus" min="0" max="1" step="0.05" value="0.4"></div>
@@ -931,7 +940,8 @@ function readControls(){
   V.offThird=+el.offThird.value; V.offName=+el.offName.value;
   V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
-  V.focus=+el.focus.value;
+  V.focus=+el.focus.value; V.vortex=+el.vortex.value;
+  V.vortexLag=+el.vortexLag.value; V.centrifuge=+el.centrifuge.value;
   V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
   V.on2s=el.on2s.checked; V.guides=el.guides.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
@@ -980,6 +990,8 @@ function paintReadouts(){
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
   say("scanGritV",V.scanGrit.toFixed(2)); say("focusV",V.focus.toFixed(2));
+  say("vortexV",V.vortex.toFixed(2)); say("vortexLagV",V.vortexLag.toFixed(2));
+  say("centrifugeV",V.centrifuge.toFixed(2));
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -1259,10 +1271,32 @@ function drawWord(word,px,x,y,o){
     }
     tx.save();
     var oxs=o.ox*(o.isExtra?clear:1);
+    /* THE VORTEX. The spine is a column of letters standing on one axis, so a twist about
+       that axis is exactly the z-rotation this engine already speaks -- cos(theta) on
+       scaleX, and a negative cosine is the back of the glyph. The LAG is what makes it a
+       tornado rather than a turning sign: each letter is a little behind the one above it,
+       plus a seeded slip of its own so the column never reads as one rigid object.
+
+       The outer sentences do not spin. They are thrown OUT by it, which is what the arms
+       of a vortex actually do -- and they move as whole words, off the angle at the TOP of
+       the column, so a sentence stays a sentence while the spine turns inside it.
+
+       The turn rate comes off the global Speed rather than a dial of its own, so a vortex
+       stays in tempo with everything else in the piece. */
+    var vSpin=0;
+    if(V.vortex>0){
+      var vt=o.local*0.055*V.speed*(0.4+V.vortex);
+      if(o.axis==="v") vSpin=vt - i*V.vortexLag*0.55 + cast.jitter*V.vortexLag*0.05;
+      else if(o.rot90) vSpin=vt;                 /* the top of the column, for the arms */
+    }
     if(o.rot90){
       /* turn the whole word a quarter turn, then run along it -- reading UP the left
          edge at -90, DOWN the right edge at +90 */
-      tx.translate(x+oxs, y);
+      var fling=0;
+      if(V.vortex>0 && V.centrifuge>0){
+        fling=(o.rot90>0?1:-1)*W*0.07*V.vortex*V.centrifuge*(0.5+0.5*Math.sin(vSpin));
+      }
+      tx.translate(x+oxs+fling, y);
       tx.rotate(o.rot90*Math.PI/2);
       tx.translate(gl.x+gl.w/2+m.dx, m.dy+o.oy);
     } else if(o.axis==="v"){
@@ -1272,15 +1306,19 @@ function drawWord(word,px,x,y,o){
       tx.translate(x+gl.x+gl.w/2+m.dx+oxs, y+m.dy+o.oy);
     }
     if(m.rot) tx.rotate(m.rot);
-    tx.scale(m.sx*(1+q*0.5), m.sy*(1-q));
+    var sxF=m.sx*(1+q*0.5), syF=m.sy*(1-q);
+    if(vSpin && o.axis==="v") sxF*=Math.cos(vSpin);
+    tx.scale(sxF, syF);
     /* DEPTH OF FIELD, DERIVED. A letter way out front is out of focus, the way a lens
        would have it -- the blur comes off how far this glyph's own scale has travelled
        from settled, never from a keyframe, so it is always the ones in flight that go
-       soft and never a fixed few. RADIUS is the expensive parameter here, not the count:
-       it is capped against the type size, and anything under half a pixel is skipped
-       rather than costing a filter pass to show nothing. */
+       soft and never a fixed few. Read off the FINAL scale, so a letter turning edge-on
+       in the vortex goes soft for the same reason one flying at the camera does.
+       RADIUS is the expensive parameter here, not the count: it is capped against the
+       type size, and anything under half a pixel is skipped rather than costing a filter
+       pass to show nothing. */
     if(V.focus>0){
-      var off=Math.abs(Math.abs(m.sx)-1);
+      var off=Math.abs(Math.abs(sxF)-1);
       var bl=Math.min(px*0.20, off*px*0.28*V.focus);
       if(bl>0.5) tx.filter="blur("+bl.toFixed(1)+"px)";
     }
