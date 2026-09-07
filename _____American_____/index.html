@@ -224,8 +224,15 @@ body.burned .credit{background-image:none;min-height:44px;min-width:44px}
 .mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--rule);
   color:var(--ink);border-radius:8px;padding:.6rem 1rem;font-size:.86rem;min-height:46px}
 .mbtn:hover{border-color:var(--accent);color:var(--accent)}
-.mclose{margin:1rem 0 0;border:0;color:var(--faint);font-size:.8rem;min-height:44px}
+/* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
+   the width of a sentence for a job a glyph does; what makes it usable to a screen
+   reader is the aria-label, not the size of the target on screen. 44px of touch, one
+   character of ink. */
+.mclose{position:absolute;right:.5rem;top:.35rem;margin:0;border:0;color:var(--faint);
+  font-size:1.5rem;line-height:1;min-width:44px;min-height:44px;padding:0}
 .mclose:hover{color:var(--accent)}
+.mclose:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+#menu{position:fixed}
 .mseg{display:inline-flex;gap:.2rem;border:1px solid var(--rule);border-radius:7px;
   padding:.15rem}
 .mopt{background:none;border:0;border-radius:5px;color:var(--dim);font-size:.75rem;
@@ -479,16 +486,21 @@ label.reset,label.reset span{color:var(--accent) !important;
 
   <a class="credit" href="https://chamy.xyz/" target="_blank"
      rel="noopener author" aria-label="CHAMY·XYZ"></a>
-  <button type="button" class="sig" id="sigBtn" aria-label="About Dimitry Saïd Chamy"></button>
+  <button type="button" class="sig" id="sigBtn" aria-haspopup="dialog" aria-expanded="false"
+    aria-controls="menu" aria-label="About Dimitry Saïd Chamy"></button>
   <div id="faults" hidden><button type="button" id="faultClose" aria-label="Close">×</button></div>
-  <div id="menu" hidden><div class="mband">
+  <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
     <div class="mtabs" role="tablist">
-      <button type="button" class="mtab on" data-tab="work">The piece</button>
-      <button type="button" class="mtab" data-tab="set">Settings</button>
-      <button type="button" class="mtab" data-tab="share">Share</button>
-      <button type="button" class="mtab" data-tab="about">The artist</button>
+      <button type="button" class="mtab on" data-tab="work" id="tab-work"
+        role="tab" aria-selected="true" aria-controls="pane-work">The piece</button>
+      <button type="button" class="mtab" data-tab="set" id="tab-set"
+        role="tab" aria-selected="false" aria-controls="pane-set">Settings</button>
+      <button type="button" class="mtab" data-tab="share" id="tab-share"
+        role="tab" aria-selected="false" aria-controls="pane-share">Share</button>
+      <button type="button" class="mtab" data-tab="about" id="tab-about"
+        role="tab" aria-selected="false" aria-controls="pane-about">The artist</button>
     </div>
-    <div class="mpane" data-pane="work">
+    <div class="mpane" data-pane="work" id="pane-work" role="tabpanel" aria-labelledby="tab-work">
       <h3 class="mh">_____ American _____</h3>
       <p class="mmeta" id="mMeta"></p>
       <p class="mbio">Two pools of words, dealt once and held: a first blank and a third,
@@ -496,7 +508,7 @@ label.reset,label.reset span{color:var(--accent) !important;
         every letter finds its own way in, its own way out, its own colour and its own
         clock, and no two passes cast them the same way.</p>
     </div>
-    <div class="mpane" data-pane="set">
+    <div class="mpane" data-pane="set" id="pane-set" role="tabpanel" aria-labelledby="tab-set">
       <label class="mrow"><span>Sound</span>
         <input type="checkbox" id="mSound" autocomplete="off"></label>
       <label class="mrow"><span>Volume</span>
@@ -514,7 +526,7 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="mbtn" id="mShot">Save this frame</button>
       <p class="mnote" id="mFullNote"></p>
     </div>
-    <div class="mpane" data-pane="share" hidden>
+    <div class="mpane" data-pane="share" id="pane-share" role="tabpanel" aria-labelledby="tab-share" hidden>
       <p class="mnote">Send this piece to someone, or get in touch about it.</p>
       <button type="button" class="mbtn" id="mShare">Share this piece</button>
       <button type="button" class="mbtn" id="mCopy">Copy the link</button>
@@ -523,7 +535,7 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="mbtn" id="mInsta">Instagram</button>
       <p class="mnote" id="mClipNote"></p>
     </div>
-    <div class="mpane" data-pane="about" hidden>
+    <div class="mpane" data-pane="about" id="pane-about" role="tabpanel" aria-labelledby="tab-about" hidden>
       <img id="mFace" alt="Dimitry Saïd Chamy" width="76" height="76">
       <p class="mbio">Dimitry Saïd Chamy is a transdisciplinary artist, educator and
         cultural producer whose work moves between installation, social practice,
@@ -542,8 +554,9 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="mbtn" id="mSite">chamy.xyz</button>
     </div>
   </div>
-    <button type="button" class="mclose" id="mClose" aria-label="Close">Close</button>
-  </div>
+    <button type="button" class="mclose" id="mClose"
+      aria-label="Close this panel" title="Close">×</button>
+  </nav>
   <div id="embedUI" hidden>
     <button type="button" id="ovPlay" aria-label="Play">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
@@ -3319,11 +3332,21 @@ if(el.ovFull) el.ovFull.addEventListener("click",toggleFull);
 /* THE OVERLAY. One panel, three tabs, opened by the marks the piece already carries.
    Everything a visitor might want is here -- sound they can turn off, the transport, a way
    to send it to somebody, and who made it -- and none of it is on screen until asked for. */
+/* THE STATE LIVES IN THE ATTRIBUTE, and the class only paints it. A tab that looks
+   selected and does not say so is selected for people who can see it and for nobody
+   else. */
 function menuTab(name){
   Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
-    b.classList.toggle("on", b.dataset.tab===name); });
+    var on=(b.dataset.tab===name);
+    b.classList.toggle("on", on);
+    b.setAttribute("aria-selected", on?"true":"false");
+  });
   Array.prototype.forEach.call(document.querySelectorAll(".mpane"),function(p){
     p.hidden = p.getAttribute("data-pane")!==name; });
+}
+function menuSay(open){
+  if(el.sigBtn) el.sigBtn.setAttribute("aria-expanded", open?"true":"false");
+  if(creditEl && creditEl.setAttribute) creditEl.setAttribute("aria-expanded", open?"true":"false");
 }
 function menuOpen(tab){
   if(!el.menu) return;
@@ -3341,7 +3364,9 @@ function menuOpen(tab){
   paintLabel();
   menuTab(tab||"work");
   el.menu.hidden=false;
+  menuSay(true);
   menuSize();
+  if(el.mClose) el.mClose.focus();
 }
 /* MEASURED, NOT GUESSED. Each pane is shown for a moment with nothing painted, its natural
    height taken, and the tallest becomes the floor for all of them -- so switching tabs
@@ -3363,7 +3388,11 @@ function menuSize(){
 window.addEventListener("resize",menuSize);
 Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
-if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true; });
+if(el.mClose) el.mClose.addEventListener("click",function(){ el.menu.hidden=true; menuSay(false); });
+/* escape closes it, because a panel that traps you is not accessible however it is labelled */
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape" && el.menu && !el.menu.hidden){ el.menu.hidden=true; menuSay(false); }
+});
 
 /* THE MARKS OPEN IT. The wordmark is the settings, his name is who made it -- and the
    credit stops being a link that leaves the piece, which on a wall is the last thing
