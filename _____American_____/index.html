@@ -255,12 +255,20 @@ body.burned .sig{background-image:none}
   background:var(--ovl-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:0;border-bottom:1px solid var(--ovl-rule);border-radius:0;
   display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
-.mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column}
+/* THE CHAIN THAT LETS IT SCROLL. A flex item will not shrink below its content unless
+   every ancestor says it may -- min-height:0 is that permission, and without it the pane
+   grew past the panel's max-height and was CLIPPED rather than scrolled. Opening the
+   disclosure was the first content long enough to show it, and far enough down that it
+   reached the buttons. */
+.mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column;
+  flex:1 1 auto;min-height:0}
+.mtabs{flex:0 0 auto}
 /* IT SCROLLS WHEN IT GENUINELY HAS TO. "Never a scroll bar" was right about a settings
    panel four rows tall and wrong about a description longer than a phone -- there the
    choice is scrolling or not reading it. The measured height still holds every tab to the
    same size, and the cap stops the panel eating the work; past that, it scrolls. */
-.mpane{min-height:var(--paneH,auto);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mpane{flex:1 1 auto;min-height:var(--paneH,auto);overflow-y:auto;
+  -webkit-overflow-scrolling:touch}
 #menu{overscroll-behavior:contain}
 .mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--ovl-rule)}
 .mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--ovl-dim);
@@ -338,6 +346,7 @@ body.burned .sig{background-image:none}
   padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
   background:linear-gradient(to top,var(--ovl-shade),transparent)}
 body.ui #bar{display:block}
+#bar{z-index:79}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
 .ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
   color:var(--ovl-ink);opacity:.55;display:flex;align-items:center;justify-content:center;
@@ -2326,6 +2335,7 @@ var FAULT_MAX=30, faultRun=0, lastDrew=0, faults=[], faultTaps=0, faultAt=0;
 function fault(what,detail,fix){
   var e={t:new Date().toISOString().slice(11,19), what:what, detail:detail||"", fix:fix||""};
   faults.push(e); if(faults.length>24) faults.shift();
+  STATS.faults=(STATS.faults||0)+1; statSave();
   paintFaults();
 }
 function paintFaults(){
@@ -2373,6 +2383,7 @@ function tick(now){
   var cyc=Math.floor(raw/total);
   if(V.recycle && cyc!==cycleNow){
     cycleNow=cyc;
+    if(cyc>0){ STATS.passes=(STATS.passes||0)+1; statSave(); }
     seed=baseSeed+cyc*7919;
     say("hSeed",String(seed));
   }
@@ -2389,7 +2400,9 @@ function tick(now){
      frame at sixty a second is not diagnosis, it is a stampede. */
   try{
     var d=frameAt(frame);
-    faultRun=0; lastDrew=now;
+    faultRun=0;
+    if(lastDrew) STATS.seen=(STATS.seen||0)+Math.min(1,(now-lastDrew)/1000);
+    lastDrew=now; statSave();
     say("hFrame",String(Math.floor(frame)).padStart(3,"0"));
     say("hDraws",d+" glyph draws");
   }catch(err){
@@ -3506,6 +3519,7 @@ if(el.pfRun) el.pfRun.addEventListener("click",preflight);
 if(el.pfClose) el.pfClose.addEventListener("click",function(){ el.preflight.hidden=true; });
 if(el.pfCopy) el.pfCopy.addEventListener("click",function(){
   var txt=(el.pfAuto.textContent||"")+"\n"+(el.pfSaid.textContent||"")
+    +"\n\n"+statReport()
     +"\n"+location.href+"\n"+new Date().toISOString();
   try{ navigator.clipboard.writeText(txt); el.pfCopy.textContent="Copied"; }
   catch(e){ fault("Could not copy the record", String(e),
@@ -3544,6 +3558,7 @@ function applyRig(){
   if(el.bar) el.bar.hidden = !((PLAYER||EMBED) &&
     (RIG.play||RIG.full||RIG.info||RIG.scrub));
   if(el.bar && el.bar.hidden) document.body.classList.remove("ui");
+  else if(typeof stat==="function") stat("interface","reach");
   if(typeof barPaint==="function") barPaint();
   if(el.ovPlay) el.ovPlay.hidden = true;
   if(RIG.wake) holdWake();
@@ -3679,6 +3694,7 @@ if(el.ovFull) el.ovFull.addEventListener("click",toggleFull);
    selected and does not say so is selected for people who can see it and for nobody
    else. */
 function menuTab(name){
+  if(typeof stat==="function") stat(name,"tab");
   Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
     var on=(b.dataset.tab===name);
     b.classList.toggle("on", on);
@@ -3837,12 +3853,60 @@ function menuShut(){ if(!el.menu) return; el.menu.hidden=true;
    and takes them away together; the ⓘ afterwards toggles just the reading panel, so the
    controls can stay while the work plays. */
 function uiShow(on){
+  if(on && typeof stat==="function") stat("interface");
   document.body.classList.toggle("ui", !!on);
   if(on) menuOpen("work"); else menuShut();
   if(typeof barPaint==="function") barPaint();
 }
 if(el.mClose) el.mClose.addEventListener("click",function(){ uiShow(false); });
 
+
+/* WHAT GOT USED, AND WHAT NEVER GOT FOUND. Two different failures wearing one number: a
+   control nobody pressed is either useless or invisible, and those want opposite fixes. So
+   REACH is counted as well as USE -- how many times a thing was on screen against how many
+   times it was pressed. Zero uses of something never shown is nothing; zero uses of
+   something shown two hundred times is a design fault.
+
+   NOTHING LEAVES THE DEVICE. No network, no third party, no consent to ask for -- a work on
+   a gallery wall that phones home is a work an institution cannot show, and a visitor who
+   tapped a screen did not agree to be measured. The record is local, anonymous, and readable
+   by whoever is standing at the machine. Sending it anywhere is a separate decision and is
+   not made here. */
+var STATS={ from:0, seen:0, use:{}, reach:{}, tab:{}, passes:0, faults:0 };
+try{
+  var kept=JSON.parse(localStorage.getItem("glyph.stats")||"null");
+  if(kept && kept.use) STATS=kept;
+}catch(e){}
+if(!STATS.from) STATS.from=Date.now();
+var statT=0;
+function statSave(){
+  var now=Date.now();
+  if(now-statT<4000) return; statT=now;
+  try{ localStorage.setItem("glyph.stats", JSON.stringify(STATS)); }catch(e){}
+}
+function stat(what,kind){
+  if(!(PLAYER||EMBED)) return;              /* the instrument is not the audience */
+  var bag=(kind==="reach")?STATS.reach:(kind==="tab"?STATS.tab:STATS.use);
+  bag[what]=(bag[what]||0)+1;
+  statSave();
+}
+function statReport(){
+  var mins=Math.round((STATS.seen||0)/60);
+  var lines=["piece "+(PIECEID||"\u2014")+"  ·  "+mins+" minutes watched  ·  "
+             +STATS.passes+" full passes  ·  "+STATS.faults+" faults",
+             "since "+new Date(STATS.from).toISOString().slice(0,10)];
+  var names={}, k;
+  for(k in STATS.reach) names[k]=1;
+  for(k in STATS.use) names[k]=1;
+  Object.keys(names).sort().forEach(function(n){
+    var u=STATS.use[n]||0, r=STATS.reach[n]||0;
+    lines.push("  "+n+": used "+u+(r?(" of "+r+" times offered"):" (never offered)")
+      +((r>20&&u===0)?"   \u2190 shown often, never used":""));
+  });
+  var t=Object.keys(STATS.tab);
+  if(t.length) lines.push("  tabs: "+t.map(function(n){ return n+" "+STATS.tab[n]; }).join(", "));
+  return lines.join("\n");
+}
 /* THE ACTION BAR. Everything that DOES something, as an icon, at the bottom where a thumb
    is -- and the settings that need a slider open above it rather than in the reading
    panel. The bar borrows the Settings pane's own controls rather than duplicating them:
