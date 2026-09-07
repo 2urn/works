@@ -492,8 +492,12 @@ body.ui #bar{display:block}
    and the bar rides its own ink band (y 480 to 1024 of 1920) because a bar climbing the
    whole square would spend most of its travel behind nothing at all. */
 #seqDuck{background-color:rgba(255,255,255,.16)}
+/* WHITE, NOT THE ACCENT. The accent is the piece's own signal colour -- the highlight, the
+   chosen state, the mark in the corner -- and a large yellow drawing before the work has
+   started reads as a brand plate rather than a threshold. At this scale white is quieter
+   and lets the first frame of the piece be the first colour anybody sees. */
 #seqDuck i{position:absolute;left:0;right:0;bottom:46.67%;height:0;
-  background:var(--accent);transition:height .5s ease}
+  background:#fff;transition:height .5s ease}
 #seqCard.load #seqDuck{opacity:1;transition:opacity .4s ease,transform .55s cubic-bezier(.6,.02,.9,.2)}
 #seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-16vh,0) scale(.86)}
 #seqD{transform:translate3d(-118vw,0,0)}
