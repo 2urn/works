@@ -676,6 +676,11 @@ label.reset,label.reset span{color:var(--accent) !important;
       <p class="mnote" id="mFullNote"></p>
     </div>
     <div class="mpane" data-pane="share" id="pane-share" role="tabpanel" aria-labelledby="tab-share" hidden>
+      <div id="mReport" hidden>
+        <p class="mnote" id="mReportNote"></p>
+        <label class="mrow"><span>Count this showing</span>
+          <input type="checkbox" id="mReportOn" autocomplete="off" checked></label>
+      </div>
       <p class="mnote">Send this piece to someone, or get in touch about it.</p>
       <button type="button" class="mbtn" id="mShare">Share this piece</button>
       <button type="button" class="mbtn" id="mCopy">Copy the link</button>
@@ -898,6 +903,10 @@ label.reset,label.reset span{color:var(--accent) !important;
         <textarea id="pDesc" rows="4" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pHist">History — year | what happened, one a line</label></div>
         <textarea id="pHist" rows="4" spellcheck="false"></textarea></div>
+      <div class="ctl"><div class="top"><label for="pReportUrl">Reporting — where one anonymous total is sent</label></div>
+        <input type="text" id="pReportUrl" autocomplete="off" spellcheck="false"
+          placeholder="empty sends nothing and shows no notice"></div>
+      <label class="tog"><input type="checkbox" id="pReportOn"> Report this showing</label>
       <div class="ctl"><div class="top"><label for="pInviteNote">Taking part — the invitation</label></div>
         <textarea id="pInviteNote" rows="3" spellcheck="false"></textarea></div>
       <div class="ctl"><div class="top"><label for="pInviteLabel">Taking part — the button</label></div>
@@ -3325,6 +3334,16 @@ var PIECE={
     { year:"2026", note:"Published as a real-time edition at works.chamy.xyz, drawing its "+
       "own frames rather than playing a rendered file." }
   ],
+  /* REPORTING, DORMANT UNTIL THERE IS SOMEWHERE TO REPORT TO. An institution needs
+     attendance figures to keep its funding, so these numbers are useful rather than
+     invasive -- but ONE ROW PER SHOWING, never one per visitor and never one per event.
+     Minutes shown, passes completed, whether anyone opened the interface, which tabs.
+     No identifier of any kind. Empty url means nothing is sent and no notice is shown,
+     which is the same rule the voice recording and the invitation follow. */
+  report: { url:"", on:false,
+            notice:"This page counts how long the work was shown and which panels were "+
+                   "opened. It is a single anonymous total, sent once, with nothing "+
+                   "stored on your device and nothing that identifies you." },
   /* HOW SOMEONE TAKES PART. Much of his work is participatory and the invitation is
      different every time -- send a word, send a photograph, come and read. So it is
      three fields rather than a feature: what to say, what to call the button, and where
@@ -3804,6 +3823,14 @@ function bindLinks(){
 function menuOpen(tab){
   if(!el.menu) return;
   paintPiece();
+  var rb=document.getElementById("mReport"), r=PIECE.report||{};
+  if(rb){
+    rb.hidden = !(r.url && r.on && (PLAYER||EMBED));
+    var rn=document.getElementById("mReportNote");
+    if(rn) rn.textContent=r.notice||"";
+    var rc=document.getElementById("mReportOn");
+    if(rc) rc.checked=!reportOptedOut();
+  }
   var sl=document.getElementById("shareLinks");
   if(sl){ sl.innerHTML=linkRow("share"); bindLinks(); }
   if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
@@ -3860,6 +3887,47 @@ function uiShow(on){
 }
 if(el.mClose) el.mClose.addEventListener("click",function(){ uiShow(false); });
 
+
+/* ONE ROW, ONCE, WITH NOBODY IN IT. Sent when the page goes away rather than as events
+   happen, because a funder wants a total and a visitor is not a stream. sendBeacon so it
+   survives the tab closing. No id, no session, no timestamp finer than the day -- the
+   moment a row can be tied to a person it stops being an attendance figure and starts
+   being surveillance, and that is a different conversation with a different lawyer.
+
+   THE OPT-OUT IS STORED and that is deliberate: honouring a choice someone made is the one
+   thing local storage is unambiguously allowed for. */
+var REPORTED=false;
+function reportOptedOut(){
+  try{ return localStorage.getItem("glyph.noreport")==="1"; }catch(e){ return false; }
+}
+function reportSetOut(on){
+  try{ on ? localStorage.setItem("glyph.noreport","1")
+          : localStorage.removeItem("glyph.noreport"); }catch(e){}
+}
+function reportOn(){
+  var r=PIECE.report||{};
+  return !!(r.url && r.on && (PLAYER||EMBED) && !RIG.anon && !reportOptedOut());
+}
+function reportSend(){
+  if(REPORTED || !reportOn()) return;
+  REPORTED=true;
+  var row={ piece:PIECEID||"", rig:RIGNAME,
+            day:new Date().toISOString().slice(0,10),
+            seconds:Math.round(STATS.seen||0), passes:STATS.passes||0,
+            opened:(STATS.use&&STATS.use.interface)||0,
+            offered:(STATS.reach&&STATS.reach.interface)||0,
+            tabs:STATS.tab||{}, faults:STATS.faults||0 };
+  try{
+    var blob=new Blob([JSON.stringify(row)],{type:"application/json"});
+    if(navigator.sendBeacon) navigator.sendBeacon(PIECE.report.url, blob);
+  }catch(e){}
+}
+try{
+  document.addEventListener("visibilitychange",function(){
+    if(document.hidden) reportSend();
+  });
+  window.addEventListener("pagehide",reportSend);
+}catch(e){}
 
 /* WHAT GOT USED, AND WHAT NEVER GOT FOUND. Two different failures wearing one number: a
    control nobody pressed is either useless or invisible, and those want opposite fixes. So
@@ -3980,6 +4048,8 @@ function pFill(){
   el.pDesc.value=(PIECE.described||[]).join("\n");
   el.pHist.value=(PIECE.history||[]).map(function(h){
     return h.year+" | "+h.note; }).join("\n");
+  var rp=PIECE.report||{};
+  el.pReportUrl.value=rp.url||""; el.pReportOn.checked=!!rp.on;
   var iv=PIECE.invite||{};
   el.pInviteNote.value=iv.note||""; el.pInviteLabel.value=iv.label||"";
   el.pInviteUrl.value=iv.url||"";
@@ -4016,6 +4086,8 @@ function pGrab(){
     return i<0 ? { year:"", note:row.trim() }
                : { year:row.slice(0,i).trim(), note:row.slice(i+1).trim() };
   }).filter(function(h){ return h.note; });
+  PIECE.report={ url:el.pReportUrl.value.trim(), on:!!el.pReportOn.checked,
+                 notice:(PIECE.report&&PIECE.report.notice)||"" };
   PIECE.invite={ note:el.pInviteNote.value.trim(), label:el.pInviteLabel.value.trim(),
                  url:el.pInviteUrl.value.trim() };
   PIECE.conditions=lines(el.pConds.value);
@@ -4207,6 +4279,9 @@ if(el.mPlay) el.mPlay.addEventListener("change",function(){
 });
 
 /* SHARE, WITH THE SYSTEM SHEET WHERE THERE IS ONE. */
+document.addEventListener("change",function(e){
+  if(e.target && e.target.id==="mReportOn") reportSetOut(!e.target.checked);
+});
 if(el.mShare) el.mShare.addEventListener("click",function(){
   var d={title:"_____ American _____", text:"A real-time piece by Dimitry Sa\u00efd Chamy",
          url:location.href};
