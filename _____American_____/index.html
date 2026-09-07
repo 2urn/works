@@ -480,7 +480,6 @@ body.ui #bar{display:block}
 #seqCard.open::before{opacity:1;transition:opacity .9s ease}
 #seqCard.open.settled::before{opacity:.5}
 #seqCard.open.out::before{opacity:0;transition:opacity .85s ease}
-#seqCard.close::before{opacity:.44}
 .seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -491,12 +490,22 @@ body.ui #bar{display:block}
    nowhere to arrive from. WHILE IT LOADS, IT FILLS: the drawing itself is the progress,
    and the bar rides its own ink band (y 480 to 1024 of 1920) because a bar climbing the
    whole square would spend most of its travel behind nothing at all. */
-#seqDuck{background-color:rgba(255,255,255,.16)}
-/* WHITE, NOT THE ACCENT. The accent is the piece's own signal colour -- the highlight, the
-   chosen state, the mark in the corner -- and a large yellow drawing before the work has
-   started reads as a brand plate rather than a threshold. At this scale white is quieter
-   and lets the first frame of the piece be the first colour anybody sees. */
-#seqDuck i{position:absolute;left:0;right:0;bottom:46.67%;height:0;
+/* THE DUCK-RABBIT LEAVES THE SHARED FRAME. Register is what makes the three words lock,
+   but the loading mark is alone on the screen with nothing to line up with -- so putting it
+   on the words' 1920 square cost it four fifths of its size for no reason at all. At that
+   size his line work was gone: of the drawing's interior detail, TWELVE pixels survived.
+   Cropping the matte to the drawing's own ink (x787-1268, y480-1024 of 1920, which is where
+   the 399% and 353% come from) renders it at the full width of its box instead, and the
+   detail comes back -- 908 pixels of it, the 3.4% of the ink the artwork actually holds.
+   The file is untouched; only the window onto it has moved.
+   AND IT FILLS WHITE, NOT THE ACCENT. The accent is this piece's own signal colour -- the
+   highlight, the chosen state, the mark in the corner -- and a large yellow drawing before
+   the work has started reads as a brand plate rather than a threshold. */
+#seqDuck{inset:0;margin:auto;width:min(38vmin,240px);aspect-ratio:481/544;
+  background-color:rgba(255,255,255,.16);
+  -webkit-mask-size:399.17% 352.94%;mask-size:399.17% 352.94%;
+  -webkit-mask-position:54.69% 34.88%;mask-position:54.69% 34.88%}
+#seqDuck i{position:absolute;left:0;right:0;bottom:0;height:0;
   background:#fff;transition:height .5s ease}
 #seqCard.load #seqDuck{opacity:1;transition:opacity .4s ease,transform .55s cubic-bezier(.6,.02,.9,.2)}
 #seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-16vh,0) scale(.86)}
@@ -518,7 +527,14 @@ body.ui #bar{display:block}
   transition:transform .8s cubic-bezier(.6,.02,.9,.2) .06s}
 #seqCard.open.out #seqC{opacity:1;transform:translate3d(118vw,0,0);
   transition:transform .8s cubic-bezier(.6,.02,.9,.2) .12s}
-#seqCard.close.in #seqWord{opacity:1;transition:opacity .85s ease}
+/* THE END CREDIT IS THREE BEATS, NOT ONE. The piece goes to black; CHAMY.XYZ fades up on
+   it; it fades out and the black is held. Then the title builds on that same black and
+   gives way to the work again -- so one pass ends and the next begins as a single movement,
+   and the black between them is the full stop. No duck-rabbit this time: nothing is
+   loading, and a loading mark on a piece that has been running for ten minutes is a lie. */
+#seqCard.close::before{opacity:1;transition:opacity .8s ease}
+#seqCard.close.out::before{opacity:1}
+#seqCard.close.in #seqWord{opacity:1;transition:opacity .85s ease .85s}
 #seqCard.close.out #seqWord{opacity:0;transition:opacity .8s ease}
 /* clear of the lockup at every width, rather than a margin that guesses how tall it is */
 .seqSay{position:absolute;left:0;right:0;bottom:15%;display:flex;flex-direction:column;
@@ -919,8 +935,8 @@ label.reset,label.reset span{color:var(--accent) !important;
        .seqOpen when the SVGs arrive; everything around it -- when it appears, how long it
        holds, what the rig allows -- is already here. -->
   <div id="seqCard" class="seq" hidden aria-hidden="true">
+    <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
     <div class="seqStage">
-      <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
       <div class="sqL" id="seqD"></div>
       <div class="sqL" id="seqS"></div>
       <div class="sqL" id="seqC"></div>
@@ -2628,7 +2644,7 @@ function tick(now){
     cycleNow=cyc;
     if(cyc>0){
       STATS.passes=(STATS.passes||0)+1; statSave();
-      if(!exportSize && typeof seqShow==="function") seqShow("close",2.6);
+      if(!exportSize && typeof seqShow==="function") seqShow("close",3.4);
     }
     if(V.recycle){ seed=baseSeed+cyc*7919; say("hSeed",String(seed)); }
   }
@@ -4013,9 +4029,9 @@ function seqClear(){ clearTimeout(seqT); clearTimeout(seqT2); clearTimeout(seqT3
    guess: a third once the script has run, most of the way once the typefaces have arrived,
    full when the first frame is about to be drawn. */
 function seqFill(p){
-  /* 28.33% of the stage is the height of the duck-rabbit's own ink inside the 1920 square,
-     so nought to one here is nought to the top of the drawing and not of the frame */
-  if(el.seqFill) el.seqFill.style.height=(Math.max(0,Math.min(1,p))*28.33).toFixed(2)+"%";
+  /* the layer IS the drawing now, cropped to its own ink, so nought to one is nought to
+     the top of the duck-rabbit with no band arithmetic left to get wrong */
+  if(el.seqFill) el.seqFill.style.height=(Math.max(0,Math.min(1,p))*100).toFixed(1)+"%";
 }
 /* THE FILL IS A LENGTH, NOT A PROGRESS BAR. Reporting real readiness was honest and
    useless: with the typefaces cached the whole thing resolved in about fifty milliseconds,
@@ -4070,9 +4086,12 @@ function seqShow(kind,secs){
   seqT=setTimeout(function(){
     b.classList.remove("in"); b.classList.add("out");
     seqT2=setTimeout(function(){
+      /* the credit does not end -- it hands straight back to the title, on the same
+         black, and the title is what gives way to the work */
+      if(kind==="close"){ seqShow("open",2.9); return; }
       b.hidden=true; b.className="seq";
       document.body.classList.remove("seqcredit");
-    }, 900);
+    }, kind==="close" ? 820 : 900);
   }, Math.round((secs||2.2)*1000));
 }
 function cardsFill(){
