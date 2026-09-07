@@ -736,7 +736,9 @@ label.reset,label.reset span{color:var(--accent) !important;
         <input type="range" id="outerSize" min="3" max="18" step="0.5" value="7"></div>
       <div class="ctl"><div class="top"><label for="overlap">Overlap into spine</label>
         <output id="overlapV">0.30</output></div>
-        <input type="range" id="overlap" min="0" max="0.48" step="0.01" value="0.3"></div>
+        <input type="range" id="overlap" min="0" max="0.48" step="0.01" value="0.3">
+        <label class="tog"><input type="checkbox" id="ovByWord">
+          Match the tuck to each phrase</label></div>
       <div class="ctl"><div class="top"><label for="margin">Safe margin</label>
         <output id="marginV">5.0%</output></div>
         <input type="range" id="margin" min="0" max="16" step="0.5" value="5"></div>
@@ -922,7 +924,7 @@ function readControls(){
   V.offThird=+el.offThird.value; V.offName=+el.offName.value;
   V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
-  V.gap=+el.gap.value;
+  V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
   V.on2s=el.on2s.checked; V.guides=el.guides.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
          gA:el.cGhostA.value,gB:el.cGhostB.value};
@@ -996,7 +998,12 @@ function solve(W,first,third){
   var spent=[],sw,fw,tw,sx0,sx1,fx1,fx0,tx0_,tx1;
   for(var p=0;p<80;p++){
     sw=widthOf(SPINE_SET,sPx); fw=widthOf(first,oPx); tw=widthOf(third,oPx);
-    sx0=(W-sw)/2; sx1=sx0+sw; fx1=sx0+ov*sw; fx0=fx1-fw; tx0_=sx1-ov*sw; tx1=tx0_+tw;
+    /* WHAT THE TUCK IS A SHARE OF. Off, it is a share of AMERICAN, so every phrase
+       crosses it by the same number of pixels and a short word looks barely engaged
+       while a long one buries itself. On, it is a share of the PHRASE, so each one
+       overlaps by the same share of ITSELF and long and short read alike. */
+    var fOv=ov*(V.ovByWord?fw:sw), tOv=ov*(V.ovByWord?tw:sw);
+    sx0=(W-sw)/2; sx1=sx0+sw; fx1=sx0+fOv; fx0=fx1-fw; tx0_=sx1-tOv; tx1=tx0_+tw;
     var crash=(fx1+gapPx)-tx0_, offL=margin-fx0, offR=tx1-(W-margin);
     if(crash<=0&&offL<=0&&offR<=0) break;
     if(crash>0&&ov>0.001){ ov=Math.max(0,ov-Math.max(0.005,(crash/sw)/2));
