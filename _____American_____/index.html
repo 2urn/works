@@ -347,6 +347,8 @@ label.reset,label.reset span{color:var(--accent) !important;
       <option value="upper">ALL CAPS</option>
     </select>
     <button type="button" id="reseed">Reseed</button>
+    <label class="tog"><input type="checkbox" id="recycle" checked>
+      New cast each cycle</label>
   </div>
   <div class="looks">
     <span class="tag">Looks</span>
@@ -533,14 +535,14 @@ label.reset,label.reset span{color:var(--accent) !important;
         Blend it additively too</label>
       <div class="ctl"><div class="top"><label for="overBlend">Blanks over American</label></div>
         <select id="overBlend" autocomplete="off"><option value="lighter">add</option>
-          <option value="screen">screen</option>
+          <option value="screen" selected>screen</option>
           <option value="overlay">overlay</option>
           <option value="hard-light">hard light</option>
           <option value="soft-light">soft light</option>
           <option value="color-dodge">colour dodge</option>
           <option value="difference">difference</option>
           <option value="exclusion">exclusion</option>
-          <option value="luminosity" selected>luminosity</option>
+          <option value="luminosity">luminosity</option>
           <option value="source-over">normal</option></select></div>
       <div class="ctl"><div class="top"><label for="inBlend">Among the blanks</label></div>
         <select id="inBlend" autocomplete="off"><option value="lighter" selected>add</option>
@@ -576,7 +578,8 @@ label.reset,label.reset span{color:var(--accent) !important;
           <option value="mix">its own colour</option>
           <option value="flag">red · white · blue</option>
           <option value="cycle">red · white · blue, cycling</option>
-          <option value="rand" selected>red · white · blue, drawn each line</option>
+          <option value="perm" selected>red · white · blue, one of each</option>
+          <option value="rand">red · white · blue, drawn each line</option>
         </select></div>
       <div class="ctl"><div class="top"><label for="settleP">How far it commits</label>
         <output id="settlePV">0.85</output></div>
@@ -871,7 +874,7 @@ var el={};
 Array.prototype.forEach.call(document.querySelectorAll("[id]"),function(n){ el[n.id]=n; });
 function say(id,t){ if(el[id]) el[id].textContent=t; }
 
-var V={}, seed=2026, lines=[], lastFit=null, pool=["bounce"];
+var V={}, seed=2026, baseSeed=2026, cycleNow=0, lines=[], lastFit=null, pool=["bounce"];
 say("hSeed",String(seed));
 
 /* colour helpers -- memoised, because a mix runs per glyph per pass */
@@ -933,7 +936,7 @@ function readControls(){
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
   V.focus=+el.focus.value;
   V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
-  V.on2s=el.on2s.checked; V.guides=el.guides.checked;
+  V.on2s=el.on2s.checked; V.guides=el.guides.checked; V.recycle=el.recycle.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
          gA:el.cGhostA.value,gB:el.cGhostB.value,white:el.cWhite.value};
   V.face=el.face.value; V.caseMode=el.caseMode.value;
@@ -1337,9 +1340,20 @@ function pulsesFor(li){
   return (STOMPC[key]=out||0);
 }
 
+/* SIX WAYS TO DEAL THREE COLOURS TO THREE WORDS. Drawing each actor independently --
+   which is what "drawn each line" does -- collapses all three onto one colour on one
+   line in nine and repeats a colour on two lines in three. That is what made a potent
+   phrase hard to read and then gone. A permutation gives one white, one red and one
+   blue every line, and which word holds which still changes line to line. */
+var PERM=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
+
 /* red · white · blue, one each, optionally rotating line by line */
 function settleColFor(ai,li){
   if(V.settleTo==="mix") return null;
+  if(V.settleTo==="perm"){
+    var pr=mulberry(seed+li*7691+3);
+    return V.flag[PERM[Math.floor(pr()*6)][ai%3]];
+  }
   if(V.settleTo==="rand"){
     /* drawn per line, but seeded -- so it is a different assignment every line and the
        same one every time this seed is played */
@@ -1395,10 +1409,18 @@ function drawLine(li,local,alpha,deg,which){
    line, seeded like everything else. */
 var BLENDS=["lighter","screen","overlay","hard-light","soft-light","color-dodge",
             "difference","exclusion","luminosity"];
-function blendFor(op,li,salt){
+/* THE BLANKS-OVER-AMERICAN BLEND IS NOT A FREE CHOICE. That layer exists to say the
+   blanks are IN FRONT -- brighter where they cross the plate -- and six of the nine
+   modes above darken or invert instead, so a blank crossing AMERICAN came out dimmer
+   than the ground it crossed and read as being behind it. Randomising over the whole
+   list threw that cue away on most lines. These three keep it. The blanks blended
+   AMONG THEMSELVES have no such job and still draw from everything. */
+var OVER_BLENDS=["lighter","screen","color-dodge"];
+function blendFor(op,li,salt,keepFront){
   if(!V.blendRnd) return op;
+  var set=keepFront?OVER_BLENDS:BLENDS;
   var r=mulberry(seed+li*3301+salt);
-  return BLENDS[Math.floor(r()*BLENDS.length)];
+  return set[Math.floor(r()*set.length)];
 }
 /* A CONTROL THAT IS NOT IN PLAY MUST NOT LOOK LIKE ONE. With the randomiser on, these two
    dropdowns were being ignored while still showing a value -- so a mode he had chosen and liked
@@ -1532,7 +1554,7 @@ function frameAt(frame){
   tcx.globalCompositeOperation="source-over";
   tcx.clearRect(0,0,W,H);
   tcx.drawImage(SP,0,0);
-  tcx.globalCompositeOperation=blendFor(V.overBlend, curLine, 29);
+  tcx.globalCompositeOperation=blendFor(V.overBlend, curLine, 29, true);
   tcx.drawImage(BL,0,0);
   tcx.globalCompositeOperation="source-over";
 
@@ -1712,7 +1734,25 @@ var curFrame=null;
 function tick(now){
   if(!running){ looping=false; return; }
   var period=Math.max(1,V.hold-V.slip), total=period*lines.length;
-  var frame=((now-t0)/1000*FPS*V.speed)%total;
+  var raw=(now-t0)/1000*FPS*V.speed;
+  /* A NEW ARRANGEMENT EACH TIME ROUND. Left alone the loop repeats perfectly, and a
+     viewer who watches a whole cycle has seen the piece -- which is the wrong thing for
+     a work whose subject is permutation.
+
+     DERIVED, NOT RANDOM. The next seed comes from the base seed and the cycle number, so
+     a link still replays exactly and a hash still means something, while nobody watching
+     sees the same pass twice. What changes is how each glyph MOVES and what colour it
+     takes; the sequence of words does not shuffle, because that sequence is the piece.
+
+     Only the live loop does this. An export runs its own frame loop and never crosses a
+     cycle boundary mid-render, so a rendered file stays exactly what it was. */
+  var cyc=Math.floor(raw/total);
+  if(V.recycle && cyc!==cycleNow){
+    cycleNow=cyc;
+    seed=baseSeed+cyc*7919;
+    say("hSeed",String(seed));
+  }
+  var frame=raw%total;
   curFrame=frame;
   var d=frameAt(frame);
   say("hFrame",String(Math.floor(frame)).padStart(3,"0"));
@@ -1881,7 +1921,9 @@ if(el.exStill) el.exStill.addEventListener("click", saveStill);
 el.full.addEventListener("click",toggleFull);
 el.mic.addEventListener("click",startMic);
 el.reseed.addEventListener("click",function(){
-  seed=Math.floor(Math.random()*100000); say("hSeed",String(seed)); if(!running) still();
+  /* a hand reseed sets the BASE, so the cycles that follow count on from it */
+  baseSeed=Math.floor(Math.random()*100000); seed=baseSeed; cycleNow=0;
+  say("hSeed",String(seed)); if(!running) still();
 });
 /* A RESIZE CHANGES THE ARRANGEMENT, AND THE ARRANGEMENT OWNS THE BASELINES.
    These three handlers called size() alone, which resolves the new shape and redraws --
