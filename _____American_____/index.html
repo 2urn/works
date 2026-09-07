@@ -1364,41 +1364,82 @@ function settleColFor(ai,li){
   return V.flag[k];
 }
 
-function drawLine(li,local,alpha,deg,which){
-  var W=cv.width,H=cv.height;
-  var first=cased(lines[li][0]||" "), third=cased(lines[li][1]||" ");
-  var name=cased(lines[li][2]||"");
+/* A LINE IS N GROUPS, AND EVERY ARRANGEMENT IS A WAY OF PLACING THEM.
+   This used to be four hand-written actor() calls with 0, 1 and 2 spelled into them --
+   which meant this piece's three actors were a fact about the RENDERER rather than about
+   this piece. A fourth group, a paragraph, a page of them: each would have needed another
+   block here, another branch in every solver, and another set of names in the panel.
+
+   So a line describes itself as an ordered list, and drawing walks it. What is left
+   piece-specific is groupsFor(), which says what THIS work is made of, and fitFor(), which
+   is the one place a group's index becomes a position on screen. A new arrangement is a
+   new branch in fitFor returning N placements; it needs nothing here at all. */
+function groupsFor(li){
   var isSpine=(V.layout==="spine"), stack=(V.layout==="stack")||isSpine;
   SPINE_SET = isSpine ? SPINE.toUpperCase() : cased(SPINE);
+  var g=[
+    { text:cased(lines[li][0]||" "), role:"blank", key:2, ai:0, plate:false,
+      off:V.offFirst, col:V.col.first, start:Math.round(V.dur*0.9), exitPad:4,
+      burstAt:0, bias:V.bias },
+    { text:SPINE_SET, role:"spine", key:1, ai:1, plate:true,
+      off:V.offSpine, col:V.col.spine, start:0, exitPad:0,
+      burstAt:3, bias:V.spineBias, cols:V.spineCols,
+      ghostMul:V.spineGhost, dblMul:V.spineDbl },
+    { text:cased(lines[li][1]||" "), role:"blank", key:3, ai:2, plate:false,
+      off:V.offThird, col:V.col.third, start:Math.round(V.dur*1.35), exitPad:9,
+      burstAt:7, bias:V.bias }
+  ];
+  /* THE FOURTH LINE: a family name under the frame. It arrives last and it is the only
+     part of the line that names a person, so it gets the least glitch and no ghosting --
+     and it settles to the spine's colour, not its own, which is why settleAi is here. */
+  var nm=cased(lines[li][2]||"");
+  if(nm && stack) g.push({ text:nm, role:"coda", key:4, ai:0, plate:false,
+      off:V.offName, col:V.col.first, start:Math.round(V.dur*1.9), exitPad:14,
+      burstAt:null, bias:V.bias, ghostMul:0.25, dblMul:0, flatDeg:true, settleAi:1 });
+  return g;
+}
+
+/* THE ONE PLACE AN INDEX BECOMES A POSITION. The solvers still speak in this piece's
+   words; what changed is that nothing downstream does. */
+function fitFor(gs,W,H){
+  var isSpine=(V.layout==="spine"), stack=(V.layout==="stack")||isSpine;
+  var first=gs[0].text, third=gs[2].text, name=gs[3]?gs[3].text:"";
   var f=isSpine?solveSpine(W,H,first,third,name)
        :(stack?solveStack(W,H,first,third,name):solve(W,first,third));
-  lastFit=f;
-  var y=H*0.5+f.sPx*0.34, drawn=0, exitAt=Math.max(V.dur, V.hold-V.slip);
-  var yF=stack?f.yF:y, yS=stack?f.yS:y, yT=stack?f.yT:y;
-  var pF=stack?f.fPx:f.oPx, pT=stack?f.tPx:f.oPx;
+  var y=H*0.5+f.sPx*0.34;
+  f.place=[
+    {x:f.fx0, y:stack?f.yF:y, px:stack?f.fPx:f.oPx, rot90:isSpine?-1:0, axis:"h", lead:0},
+    {x:f.sx0, y:stack?f.yS:y, px:f.sPx,             rot90:0, axis:isSpine?"v":"h", lead:f.lead},
+    {x:f.tx0, y:stack?f.yT:y, px:stack?f.tPx:f.oPx, rot90:isSpine?1:0,  axis:"h", lead:0}
+  ];
+  if(gs[3]) f.place.push({x:f.nx0, y:f.yN, px:f.nPx, rot90:0, axis:"h", lead:0});
+  return f;
+}
 
-  if(which!==1) drawn+=actor(SPINE_SET,f.sPx,f.sx0,yS,{key:1,li:li,ai:1,local:local,start:0,exitAt:exitAt,
-    ox:0,oy:H*V.offSpine/100,alpha:alpha,color:V.col.spine,burst:burstFor(local+3,SPINE.length,deg),
-    deg:deg,bias:V.spineBias,cols:V.spineCols,ghostMul:V.spineGhost,dblMul:V.spineDbl,
-    settleCol:settleColFor(1,li),
-    axis:isSpine?"v":"h", lead:f.lead});
-  if(which!==0) drawn+=actor(first,pF,f.fx0,yF,{key:2,li:li,ai:0,local:local,
-    start:Math.round(V.dur*0.9),exitAt:exitAt+4,
-    ox:0,oy:H*V.offFirst/100,alpha:alpha,color:V.col.first,burst:burstFor(local,first.length,deg),
-    deg:deg,bias:V.bias,settleCol:settleColFor(0,li),
-    rot90:isSpine?-1:0});
-  if(which!==0) drawn+=actor(third,pT,f.tx0,yT,{key:3,li:li,ai:2,local:local,
-    start:Math.round(V.dur*1.35),exitAt:exitAt+9,
-    ox:0,oy:H*V.offThird/100,alpha:alpha,color:V.col.third,burst:burstFor(local+7,third.length,deg),
-    deg:deg,bias:V.bias,settleCol:settleColFor(2,li),
-    rot90:isSpine?1:0});
-  /* THE FOURTH LINE: a family name under the frame. It arrives last and it is the only
-     part of the line that names a person, so it gets the least glitch and no ghosting. */
-  if(which!==0 && name && stack){
-    drawn+=actor(name,f.nPx,f.nx0,f.yN,{key:4,li:li,ai:0,local:local,
-      start:Math.round(V.dur*1.9),exitAt:exitAt+14,ox:0,oy:H*V.offName/100,alpha:alpha,
-      color:V.col.first,burst:null,deg:1,bias:V.bias,
-      ghostMul:0.25,dblMul:0,settleCol:settleColFor(1,li)});
+function drawLine(li,local,alpha,deg,which){
+  var W=cv.width,H=cv.height;
+  var gs=groupsFor(li);
+  var f=fitFor(gs,W,H);
+  lastFit=f;
+  var drawn=0, exitAt=Math.max(V.dur, V.hold-V.slip);
+  for(var gi=0; gi<gs.length; gi++){
+    var g=gs[gi], p=f.place[gi];
+    if(!p) continue;
+    /* which=0 is the spine plate, which=1 is the blanks -- the two layers frameAt
+       composites. A group says which plate it belongs on rather than the caller
+       counting positions. */
+    if(which===0 && !g.plate) continue;
+    if(which===1 && g.plate) continue;
+    drawn+=actor(g.text, p.px, p.x, p.y, {
+      key:g.key, li:li, ai:g.ai, local:local,
+      start:g.start, exitAt:exitAt+g.exitPad,
+      ox:0, oy:H*g.off/100, alpha:alpha, color:g.col,
+      burst:(g.burstAt===null)?null:burstFor(local+g.burstAt, g.text.length, deg),
+      deg:g.flatDeg?1:deg, bias:g.bias, cols:g.cols,
+      ghostMul:g.ghostMul, dblMul:g.dblMul,
+      settleCol:settleColFor(g.settleAi===undefined?g.ai:g.settleAi, li),
+      rot90:p.rot90, axis:p.axis, lead:p.lead
+    });
   }
   return drawn;
 }
