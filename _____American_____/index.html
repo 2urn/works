@@ -595,6 +595,7 @@ label.reset,label.reset span{color:var(--accent) !important;
         <label class="sw"><span>third</span><input type="color" id="cThird" value="#FFFFFF"></label>
         <label class="sw"><span>red</span><input type="color" id="cGhostA" value="#FF0000"></label>
         <label class="sw"><span>blue</span><input type="color" id="cGhostB" value="#0000FF"></label>
+        <label class="sw"><span>white</span><input type="color" id="cWhite" value="#FFFFFF"></label>
       </div>
       <div class="ctl"><div class="top"><label for="spread">Colour per glyph</label>
         <output id="spreadV">0.45</output></div>
@@ -745,6 +746,9 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="margin">Safe margin</label>
         <output id="marginV">5.0%</output></div>
         <input type="range" id="margin" min="0" max="16" step="0.5" value="5"></div>
+      <div class="ctl"><div class="top"><label for="focus">Depth of field</label>
+        <output id="focusV">0.40</output></div>
+        <input type="range" id="focus" min="0" max="1" step="0.05" value="0.4"></div>
       <div class="ctl"><div class="top"><label for="squash">Squash on landing</label>
         <output id="squashV">0.55</output></div>
         <input type="range" id="squash" min="0" max="1.5" step="0.05" value="0.55"></div>
@@ -927,17 +931,22 @@ function readControls(){
   V.offThird=+el.offThird.value; V.offName=+el.offName.value;
   V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
   V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
+  V.focus=+el.focus.value;
   V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
   V.on2s=el.on2s.checked; V.guides=el.guides.checked;
   V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
-         gA:el.cGhostA.value,gB:el.cGhostB.value};
+         gA:el.cGhostA.value,gB:el.cGhostB.value,white:el.cWhite.value};
   V.face=el.face.value; V.caseMode=el.caseMode.value;
   pool=MKEYS.filter(function(k){var n=el[MOTIONS[k].id];return n&&n.checked;});
   if(!pool.length) pool=["fall"];
   V.spreadSet=[V.col.first,V.col.spine,V.col.gA,V.col.gB,V.col.third]
     .filter(function(c,i,a){return a.indexOf(c)===i;});
   /* red / white / blue, in that order, taken from the palette so one set drives both */
-  V.flag=[V.col.gA, V.col.first, V.col.gB];
+  /* THE WHITE OF "red - white - blue" IS ITS OWN COLOUR. This read V.col.first, so the
+     first blank's swatch was quietly doing double duty as the flag's white -- and the
+     moment that swatch went blue, every white in the piece went with it, in settling
+     and ghosts alike, nowhere near the control that had been touched. */
+  V.flag=[V.col.gA, V.col.white, V.col.gB];
   lines=parseScript(el.script.value);
   paintReadouts();
 }
@@ -970,7 +979,7 @@ function paintReadouts(){
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
-  say("scanGritV",V.scanGrit.toFixed(2));
+  say("scanGritV",V.scanGrit.toFixed(2)); say("focusV",V.focus.toFixed(2));
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -1264,6 +1273,17 @@ function drawWord(word,px,x,y,o){
     }
     if(m.rot) tx.rotate(m.rot);
     tx.scale(m.sx*(1+q*0.5), m.sy*(1-q));
+    /* DEPTH OF FIELD, DERIVED. A letter way out front is out of focus, the way a lens
+       would have it -- the blur comes off how far this glyph's own scale has travelled
+       from settled, never from a keyframe, so it is always the ones in flight that go
+       soft and never a fixed few. RADIUS is the expensive parameter here, not the count:
+       it is capped against the type size, and anything under half a pixel is skipped
+       rather than costing a filter pass to show nothing. */
+    if(V.focus>0){
+      var off=Math.abs(Math.abs(m.sx)-1);
+      var bl=Math.min(px*0.20, off*px*0.28*V.focus);
+      if(bl>0.5) tx.filter="blur("+bl.toFixed(1)+"px)";
+    }
     tx.globalAlpha=o.alpha*e*(o.isExtra?clear:1);
     tx.fillStyle=col;
     tx.fillText(ch,-gl.w/2,0);
