@@ -282,6 +282,24 @@ body.burned .sig{background-image:none}
 .mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--ovl-rule);
   color:var(--ovl-ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
 .mbtn:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
+/* THE BUTTON IS THE PROGRESS BAR. Fifteen seconds of rendering with a sentence
+   underneath the button reads as nothing happening at all -- so the fill and the count go
+   ON the thing that was pressed, which is where the eye already is. */
+.mbtn.busy{position:relative;overflow:hidden;pointer-events:none;
+  border-color:var(--ovl-accent);color:var(--ovl-accent)}
+.mbtn.busy::before{content:"";position:absolute;top:0;bottom:0;left:0;width:var(--p,0%);
+  background:var(--ovl-accent);opacity:.18;pointer-events:none;transition:width .18s linear}
+.mbtn>.lab{position:relative}
+.mbtn.ready{border-color:var(--ovl-accent);color:var(--ovl-accent)}
+/* SAID OUT LOUD, WHERE THE PIECE IS. Handing over a file is the one moment the work has
+   to speak in its own voice. Silence after a save reads as a failure even when it worked,
+   and a sentence inside a panel nobody has open reads as nothing at all. */
+#toastMsg{display:none}
+#toastMsg.on{display:block;position:fixed;z-index:96;left:50%;transform:translateX(-50%);
+  bottom:calc(env(safe-area-inset-bottom,0px) + 4.6rem);max-width:min(30rem,88vw);
+  background:var(--ovl-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--ovl-rule);color:var(--ovl-ink);
+  padding:.6rem .9rem;font-size:.82rem;line-height:1.45;text-align:center}
 /* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
    the width of a sentence for a job a glyph does; what makes it usable to a screen
    reader is the aria-label, not the size of the target on screen. 44px of touch, one
@@ -304,6 +322,13 @@ body.burned .sig{background-image:none}
 .mopt{border-bottom:2px solid transparent}
 .mopt.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent);background:none}
 .mopt:hover{color:var(--ovl-ink)}
+/* AND THE RADIUS HAD TO BE TURNED OFF, not just left undeclared. The comment above has
+   been right since it was written and the interface was still round: button{} in the
+   instrument's own stylesheet sets a 5px radius on every button in the document, so a
+   2px underline curled up at both ends and every panel button was a lozenge. */
+#menu button,#menu input,#menu select,#menu textarea,.mseg,.mbtn,.mtab,.mopt,.mclose,
+#quick,#quick button,.ovbar button,#toastMsg,#preflight,#preflight button,
+#titleCard button,#endCard button,#faults,#label button{border-radius:0}
 #mFace{float:left;margin:0 .8rem .4rem 0;width:76px;height:76px}
 .mbio{font-size:.85rem;color:var(--ovl-dim);margin:0;line-height:1.6}
 .mh{margin:0 0 .2rem;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--ovl-ink)}
@@ -641,6 +666,7 @@ label.reset,label.reset span{color:var(--accent) !important;
      rel="noopener author" aria-label="CHAMY·XYZ"></a>
   <button type="button" class="sig" id="sigBtn" aria-haspopup="dialog" aria-expanded="false"
     aria-controls="menu" aria-label="About Dimitry Saïd Chamy"></button>
+  <div id="toastMsg" role="status" aria-live="polite"></div>
   <div id="faults" hidden><button type="button" id="faultClose" aria-label="Close">×</button></div>
   <div id="bar" hidden>
     <div id="barSet" hidden></div>
@@ -722,7 +748,7 @@ label.reset,label.reset span{color:var(--accent) !important;
           <button type="button" class="mopt" data-clip="30">30s</button>
           <button type="button" class="mopt" data-clip="60">1 min</button>
         </span></div>
-      <button type="button" class="mbtn" id="mClipGo">Export for social media</button>
+      <button type="button" class="mbtn" id="mClipGo"><span class="lab">Export for social media</span></button>
       <span id="shareLinks"></span>
       <p class="mnote" id="mClipNote"></p>
     </div>
@@ -2760,7 +2786,7 @@ function exportFrames(){
   return V.exAmt*V.exFps;
 }
 function renderOut(){
-  if(exportSize) return;
+  if(exportSize) return exportGaveUp("A render is already running.");
   var N=Math.max(1,Math.round(exportFrames()));
   var asp=V.aspect||(16/9);
   var shortSide=V.exRes;
@@ -2773,7 +2799,7 @@ function renderOut(){
   var track=stream&&stream.getVideoTracks?stream.getVideoTracks()[0]:null;
   if(!track||!track.requestFrame){
     say("exNote","This browser will not let the page record its own canvas.");
-    return;
+    return exportGaveUp("This browser will not let the page record its own canvas.");
   }
   /* MP4 FIRST, because a Mac opens it and WebM it does not -- QuickTime will not play
      one and Premiere and After Effects want it converted. Recent Chrome and Safari can
@@ -2788,7 +2814,7 @@ function renderOut(){
   var mime = ["video/mp4;codecs=avc1.42E01E","video/mp4",
               "video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"]
     .filter(function(m){ try{ return MediaRecorder.isTypeSupported(m); }catch(e){ return false; } })[0];
-  if(!mime){ say("exNote","This browser has no video recorder."); return; }
+  if(!mime){ say("exNote","This browser has no video recorder."); return exportGaveUp("This browser has no video recorder."); }
   var ext = mime.indexOf("mp4")>=0 ? "mp4" : "webm";
 
   var wasRunning=running; setRunning(false);
@@ -2801,25 +2827,36 @@ function renderOut(){
     var blob=new Blob(chunks,{type:mime.split(";")[0]});
     exportSize=null; size(); el.exGo.disabled=false;
     setRunning(wasRunning);
-    offerFile(blob, N, w, h, ext);
+    var done=onExportDone; onExportDone=null;
+    if(done) done(blob, N, w, h, ext); else offerFile(blob, N, w, h, ext);
   };
   rec.start();
 
   var k=0, engPerSec=FPS*V.speed, step=1000/V.exFps, t=performance.now();
   var from=(curFrame===null?0:curFrame);
   function one(){
-    if(k>=N){ rec.stop(); return; }
+    if(k>=N){ if(clipTick) clipTick(N,N,"writing"); rec.stop(); return; }
     if(clipCards && k<clipCards.lead) clipCard("title",w,h);
     else if(clipCards && k>=N-clipCards.tail) clipCard("end",w,h);
     else frameAt(from + (k-(clipCards?clipCards.lead:0))*(engPerSec/V.exFps));
     track.requestFrame();
     k++;
     say("exNote","Rendering "+k+" of "+N+" at "+w+"×"+h+"…");
+    if(clipTick) clipTick(k,N,"frame");
     t+=step;
     var wait=Math.max(0,t-performance.now());
     setTimeout(one,wait);
   }
+  if(clipTick) clipTick(0,N,"start");
   one();
+  return true;
+}
+/* An export that never starts still has to tell whoever is waiting, or the button it was
+   pressed from sits at nought per cent for ever. */
+function exportGaveUp(why){
+  var done=onExportDone; onExportDone=null; clipTick=null;
+  if(done) done(null,0,0,0,"",why);
+  return false;
 }
 /* A PNG SEQUENCE, WRITTEN STRAIGHT INTO A FOLDER YOU PICK. This is the one that is
    actually frame accurate: PNG carries no timestamps, so nothing has to be paced to the
@@ -2915,36 +2952,103 @@ function saveStill(){
   shot().then(function(blob){
     exportSize=null; exportAlpha=false; size(); setRunning(wasRunning);
     var name="glyph-"+seed+"-f"+Math.floor(at)+"-"+w+"x"+h+".png";
-    if(!window.claude||!window.claude.use){ say("exNote","No way to hand you a file here."); return; }
-    window.claude.use("downloads").then(function(d){
-      if(!d){ say("exNote","Downloads are not available in this view."); return; }
-      return d.save({filename:name,data:blob}).then(function(){
-        say("exNote","Saved "+name+" — frame "+Math.floor(at)+" at "+w+"×"+h
-          +(el.exAlpha&&el.exAlpha.checked?" with alpha.":" on black."));
+    /* A STILL IS SMALL AND IMMEDIATE, so the tap that asked for it is usually still
+       counted as a gesture and the sheet opens straight away. If it is not, the file is
+       held and the toast says so rather than pretending. */
+    var f=mkFile(blob,name);
+    if(!(window.claude&&window.claude.use) && canShareFile(f) && touchFirst()){
+      navigator.share({files:[f]}).then(function(){
+        tell("exNote","Saved "+name+".");
       },function(err){
-        say("exNote", (err&&err.code)==="declined" ? "Save declined."
-          : "Could not save ("+((err&&err.code)||"unknown")+").");
+        if(((err&&err.name)||"")==="AbortError"){ tell("exNote","Not saved."); return; }
+        anchorOut(blob,name,"exNote",(blob.size/1048576).toFixed(1));
       });
-    });
+      return;
+    }
+    handOff(blob,name,"exNote");
+  });
+}
+/* ---- HANDING OVER THE FILE ------------------------------------------------------
+   THERE ARE THREE ROUTES AND ONLY ONE OF THEM EXISTS AT A TIME. Inside the artifact a
+   downloads capability asks on the page's behalf. On a phone the only route that reaches
+   the camera roll or Files is the system share sheet -- and it needs a tap OF ITS OWN,
+   because by the time a fifteen second clip has finished rendering the tap that started
+   it is long spent and the browser will refuse. Everywhere else an anchor is an anchor.
+
+   The old code knew about the first route and said "Saved." for all three. On the public
+   page there is no window.claude, so the file was assembled, reported saved, and dropped.
+   Nothing now claims a save it did not make. */
+function mkFile(blob,name){
+  try{ return new File([blob],name,{type:blob.type||"application/octet-stream"}); }
+  catch(e){ return null; }
+}
+function touchFirst(){
+  try{ return matchMedia("(pointer:coarse)").matches; }catch(e){ return false; }
+}
+function canShareFile(f){
+  if(!f || !navigator.canShare || !navigator.share) return false;
+  try{ return !!navigator.canShare({files:[f]}); }catch(e){ return false; }
+}
+function tell(note,msg){ say(note,msg); if(PLAYER||EMBED) toast(msg,7); }
+function anchorOut(blob,name,note,mb,ok){
+  var url;
+  try{ url=URL.createObjectURL(blob); }catch(e){
+    tell(note,"This browser would not build a file out of the render."); return "failed"; }
+  var a=document.createElement("a");
+  a.href=url; a.download=name; a.rel="noopener";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} },60000);
+  tell(note, ok || ("Saved "+name+" — "+mb+" MB. It is in your downloads."));
+  return "saved";
+}
+var pending=null;                    /* a file that is made and waiting for a real tap */
+/* Returns "saved" (gone, or on its way), "pending" (needs the second tap), or "failed". */
+function handOff(blob,name,note,after){
+  after=after||function(){};
+  if(!blob || !blob.size){
+    tell(note,"The recorder produced an empty file. Nothing was saved.");
+    after("failed"); return "failed";
+  }
+  var mb=(blob.size/1048576).toFixed(1);
+  if(window.claude && window.claude.use){
+    window.claude.use("downloads").then(function(d){
+      if(!d){ after(anchorOut(blob,name,note,mb)); return; }
+      return d.save({filename:name,data:blob}).then(function(){
+        tell(note,"Saved "+name+" — "+mb+" MB."); after("saved");
+      },function(err){
+        var c=err&&err.code;
+        tell(note, c==="declined" ? "Save declined — nothing was written."
+          : "Could not save ("+(c||"unknown")+"). Nothing was written.");
+        after("failed");
+      });
+    },function(){ after(anchorOut(blob,name,note,mb)); });
+    return "saved";
+  }
+  var f=mkFile(blob,name);
+  if(canShareFile(f) && touchFirst()){
+    pending={file:f,name:name,mb:mb,note:note,blob:blob};
+    after("pending"); return "pending";
+  }
+  var r=anchorOut(blob,name,note,mb);
+  after(r); return r;
+}
+/* THE SECOND TAP. iOS will only open a share sheet from a gesture, so the button turns
+   into the save and the sheet is where Photos and Files actually appear. Cancelling the
+   sheet keeps the file: the render is not thrown away because a thumb slipped. */
+function takePending(after){
+  var p=pending; if(!p) return;
+  after=after||function(){};
+  navigator.share({files:[p.file]}).then(function(){
+    pending=null; tell(p.note,"Saved — "+p.name+", "+p.mb+" MB."); after("saved");
+  },function(err){
+    var n=(err&&err.name)||"";
+    if(n==="AbortError"){ say(p.note,"Not saved. The clip is still here — tap again."); after("pending"); return; }
+    pending=null; after(anchorOut(p.blob,p.name,p.note,p.mb));
   });
 }
 function offerFile(blob,N,w,h,ext){
-  var mb=(blob.size/1048576).toFixed(1);
   var name="glyph-engine-"+seed+"-"+w+"x"+h+"-"+N+"f."+(ext||"webm");
-  if(!window.claude||!window.claude.use){
-    say("exNote","Rendered "+N+" frames, "+mb+" MB — but this view cannot hand you a file.");
-    return;
-  }
-  window.claude.use("downloads").then(function(d){
-    if(!d){ say("exNote","Rendered "+mb+" MB, but downloads are not available in this view."); return; }
-    return d.save({filename:name,data:blob}).then(function(){
-      say("exNote","Saved "+name+" — "+N+" frames, "+mb+" MB.");
-    },function(err){
-      var c=err&&err.code;
-      say("exNote", c==="declined" ? "Save declined — the render is discarded."
-        : "Could not save ("+(c||"unknown")+"). Nothing was written.");
-    });
-  });
+  handOff(blob,name,"exNote");
 }
 
 /* ---- sound ----------------------------------------------------------------------
@@ -3663,6 +3767,18 @@ try{ wmImg=new Image(); wmImg.src=WORDMARK;
    same corner it occupies while the piece plays, at full strength because a card is the
    one frame where it is the subject. */
 var clipCards=null;
+var clipTick=null;            /* set while a social clip is rendering, so it can fill */
+var onExportDone=null;        /* who wants the blob, if not the instrument's own note */
+/* A LINE OF TEXT OVER THE PIECE, THEN GONE. In player mode there is no panel to write
+   into and no console anyone will read; a save either says so on the work or it is
+   indistinguishable from nothing happening. */
+var toastT=null;
+function toast(msg,secs){
+  var b=el.toastMsg; if(!b) return;
+  b.textContent=msg; b.classList.add("on");
+  clearTimeout(toastT);
+  toastT=setTimeout(function(){ b.classList.remove("on"); },(secs||5)*1000);
+}
 function clipCard(kind,W,H){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H);
@@ -4219,7 +4335,27 @@ Array.prototype.forEach.call(document.querySelectorAll("[data-casp]"),function(b
 Array.prototype.forEach.call(document.querySelectorAll("[data-clip]"),function(b){
   b.addEventListener("click",function(){ clipSecs=+b.getAttribute("data-clip"); segPick("data-clip",clipSecs); });
 });
-if(el.mClipGo) el.mClipGo.addEventListener("click",function(){ socialClip(clipSecs); });
+if(el.mClipGo) el.mClipGo.addEventListener("click",function(){
+  if(pending){ takePending(clipAfter); return; }
+  socialClip(clipSecs);
+});
+/* The button says which of the three things it is: idle, filling, or holding a finished
+   file that wants one more tap. Nothing else in this panel moves while it renders. */
+function clipBtn(state,label,pct){
+  var b=el.mClipGo; if(!b) return;
+  b.classList.toggle("busy", state==="busy");
+  b.classList.toggle("ready", state==="ready");
+  if(pct!==undefined) b.style.setProperty("--p", Math.max(0,Math.min(100,Math.round(pct)))+"%");
+  b.innerHTML='<span class="lab">'+esc(label)+'</span>';
+}
+function clipAfter(status){
+  if(status==="pending"){
+    clipBtn("ready","Save the clip — "+(pending?pending.mb:"?")+" MB");
+    say("mClipNote","Rendered. Tap again and choose Save Video, Photos or Files.");
+  }else{
+    clipBtn(null,"Export for social media",0);
+  }
+}
 function socialClip(secs){
   if(!el.exGo || el.exGo.disabled){ return; }
   var keep={};
@@ -4240,22 +4376,37 @@ function socialClip(secs){
   var cardSecs=(secs>=60)?2:(secs>=30?1.4:1.1);
   clipCards={ lead:Math.round(cardSecs*V.exFps), tail:Math.round(cardSecs*V.exFps) };
   var shapeName={"0.5625":"9:16","0.8":"4:5","1":"1:1","1.7778":"16:9"}[clipAsp]||clipAsp;
-  say("mClipNote","Recording "+secs+" seconds at "+shapeName+"\u2026 keep this page in front.");
+  say("mClipNote","Keep this page in front — it records in real time.");
+  clipBtn("busy","Rendering "+shapeName+" … 0%",0);
+  /* WATCHING THE RENDER RATHER THAN POLLING A DISABLED BUTTON. The old code waited for
+     the instrument's Render control to come back to life and then said "Saved.", which it
+     had no way of knowing. The recorder now reports each frame, and reports the file. */
+  clipTick=function(k,N,phase){
+    if(phase==="writing"){ clipBtn("busy","Writing the file …",100); return; }
+    clipBtn("busy","Rendering "+shapeName+" … "+Math.round(k/N*100)+"%", k/N*100);
+  };
+  function restore(){
+    clipTick=null; clipCards=null;
+    for(var k in keep){ if(el[k]) el[k].value=keep[k]; }
+    refresh();
+  }
+  onExportDone=function(blob,N,w,h,ext,why){
+    restore();
+    if(!blob){
+      clipBtn(null,"Export for social media",0);
+      say("mClipNote", why || "The clip could not be recorded.");
+      if(PLAYER||EMBED) toast(why || "The clip could not be recorded.",7);
+      return;
+    }
+    var name="american-"+shapeName.replace(":","x")+"-"+secs+"s-"+seed+"."+(ext||"webm");
+    handOff(blob,name,"mClipNote",clipAfter);
+  };
   try{ renderOut(); }
   catch(e){
     fault("The clip could not be recorded", String(e && e.message || e),
           "Some browsers will not let a page record its own canvas. Chrome will.");
+    exportGaveUp("The clip could not be recorded on this browser.");
   }
-  var watch=setInterval(function(){
-    if(el.exGo && !el.exGo.disabled){
-      clearInterval(watch);
-      clipCards=null;
-      for(var k in keep){ if(el[k]) el[k].value=keep[k]; }
-      refresh();
-      say("mClipNote","Saved. The piece is back the way it was.");
-    }
-  },400);
-  setTimeout(function(){ clearInterval(watch); },120000);
 }
 
 /* NO ADDRESS IN THE SOURCE. A mailto: on a public page is harvested within days, and the
