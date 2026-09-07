@@ -2065,6 +2065,11 @@ function setRunning(on){
   /* the scrubber belongs to the paused state -- it is how you choose a frame once you have
      stopped on one, and it has nothing to say while the piece is running */
   if(typeof scrubShow==="function") scrubShow(!on);
+  /* AND THE PLAY AFFORDANCE FOLLOWS THE TRANSPORT, from here rather than from each of the
+     four places that start or stop the piece. Driving it from the callers left an 88px
+     play button sitting on top of a piece that was already playing, because one of those
+     four paths did not know it had to. */
+  if(typeof embedShow==="function") embedShow(on);
 }
 function step(dir){
   var period=Math.max(1,V.hold-V.slip);
