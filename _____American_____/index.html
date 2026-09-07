@@ -185,6 +185,8 @@ body.player .credit,body.player .sig,body.embed .credit,body.embed .sig{
   opacity:.61;transition:opacity 1.6s ease}
 body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 2.4s ease}
 body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity .25s}
+/* the panel takes the top of the frame, and his name lives there */
+body.menuopen .sig{opacity:0 !important;pointer-events:none}
 /* WHERE THE MARK IS BURNED IN, THE DOM ONE STOPS PAINTING. Both were drawing the wordmark
    into the same corner and it read as two logos, which it was. The pixels carry the mark
    now and this element carries only the TOUCH -- an invisible target laid over the burned
@@ -224,10 +226,10 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
    TALLEST tab, measured once when it opens: constant, because every tab is held to that
    same minimum, and never scrolling, because that minimum is the tallest thing there is.
    The cap only exists so a very small screen still shows some of the work behind it. */
-#menu{display:block;position:fixed;left:0;right:0;bottom:0;z-index:78;
-  padding:.7rem 1.2rem calc(.7rem + env(safe-area-inset-bottom));
-  background:rgba(8,8,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:0;border-top:1px solid var(--rule);border-radius:0;
+#menu{display:block;position:fixed;left:0;right:0;top:0;bottom:auto;z-index:78;
+  padding:calc(.7rem + env(safe-area-inset-top)) 1.2rem .7rem;
+  background:rgba(8,8,10,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:0;border-bottom:1px solid var(--rule);border-radius:0;
   display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
 .mband{max-width:52rem;width:100%;margin:0 auto;display:flex;flex-direction:column}
 .mpane{min-height:var(--paneH,auto)}
@@ -280,6 +282,32 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
 /* six tabs will not sit on one line of a phone, and a row that scrolls sideways is a row
    whose last item nobody finds */
 .mtabs{flex-wrap:wrap}
+/* TWO ZONES. Doing at the bottom, where a thumb is and where the mark already lives;
+   reading and reaching him at the top, out of the way of the hand. They are different
+   kinds of act and putting them in one panel made every one of them look like a setting.
+   Icons below because an action has a shape; words above because a paragraph does not. */
+#bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:78;
+  padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
+  background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0))}
+.barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
+.ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
+  color:var(--ink);opacity:.55;display:flex;align-items:center;justify-content:center;
+  transition:opacity .18s,color .18s}
+.ico svg{width:20px;height:20px;fill:currentColor}
+.ico svg g{stroke:none}
+.ico:hover,.ico.on{opacity:1;color:var(--accent)}
+.ico:focus-visible{outline:1px solid var(--ink);outline-offset:0;opacity:1}
+#barSet{background:rgba(8,8,10,.82);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--rule);
+  padding:.7rem 1rem;margin:0 -1rem .4rem -8.2rem}
+#barSet .inner{max-width:52rem;margin:0 auto}
+@media (max-width:44rem){
+  #bar{padding-left:1rem}
+  #barSet{margin-left:-1rem}
+  .barin{justify-content:space-between}
+  .ico{width:40px;height:40px}
+}
+
 #mVoiceBox{clear:both;margin:.9rem 0 0}
 #mVoice{width:100%;height:38px}
 #faultClose{position:absolute;right:.6rem;top:.4rem;border:0;color:var(--faint);
@@ -524,6 +552,19 @@ label.reset,label.reset span{color:var(--accent) !important;
   <button type="button" class="sig" id="sigBtn" aria-haspopup="dialog" aria-expanded="false"
     aria-controls="menu" aria-label="About Dimitry Saïd Chamy"></button>
   <div id="faults" hidden><button type="button" id="faultClose" aria-label="Close">×</button></div>
+  <div id="bar" hidden>
+    <div id="barSet" hidden></div>
+    <div class="barin">
+      <button type="button" class="ico" id="bPlay" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg></button>
+      <button type="button" class="ico" id="bSound" aria-label="Sound on or off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg></button>
+      <button type="button" class="ico" id="bFull" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM6 15v3h3v2H4v-5zm12 0h2v5h-5v-2h3z"/></svg></button>
+      <button type="button" class="ico" id="bShot" aria-label="Save this frame"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg></button>
+      <button type="button" class="ico" id="bInfo" aria-label="About this piece"
+        aria-haspopup="dialog" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg></button>
+      <button type="button" class="ico" id="bSet" aria-label="Settings"
+        aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zm9 4l2 1.6-2 3.4-2.4-.8a7.6 7.6 0 01-1.7 1l-.4 2.5h-4l-.4-2.5a7.6 7.6 0 01-1.7-1L8 17l-2-3.4L8 12 6 10.4 8 7l2.4.8a7.6 7.6 0 011.7-1L12.5 4h4l.4 2.8c.6.3 1.2.6 1.7 1L21 7l2 3.4L21 12z"/></svg></button>
+    </div>
+  </div>
   <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
     <div class="mtabs" role="tablist">
       <button type="button" class="mtab on" data-tab="work" id="tab-work"
@@ -534,8 +575,6 @@ label.reset,label.reset span{color:var(--accent) !important;
         role="tab" aria-selected="false" aria-controls="pane-about">The artist</button>
       <button type="button" class="mtab" data-tab="share" id="tab-share"
         role="tab" aria-selected="false" aria-controls="pane-share">Share</button>
-      <button type="button" class="mtab" data-tab="set" id="tab-set"
-        role="tab" aria-selected="false" aria-controls="pane-set">Settings</button>
       <button type="button" class="mtab" data-tab="part" id="tab-part" hidden
         role="tab" aria-selected="false" aria-controls="pane-part">Take part</button>
     </div>
@@ -2338,6 +2377,7 @@ function setRunning(on){
      play button sitting on top of a piece that was already playing, because one of those
      four paths did not know it had to. */
   if(typeof embedShow==="function") embedShow(on);
+  if(typeof barPaint==="function") barPaint();
 }
 function step(dir){
   var period=Math.max(1,V.hold-V.slip);
@@ -3437,6 +3477,9 @@ function applyRig(){
      the paused state rather than to a toolbar. */
   if(el.embedUI && (PLAYER||EMBED))
     el.embedUI.hidden = !RIG.scrub;
+  if(el.bar) el.bar.hidden = !((PLAYER||EMBED) &&
+    (RIG.play||RIG.full||RIG.info||RIG.scrub));
+  if(typeof barPaint==="function") barPaint();
   if(el.ovPlay) el.ovPlay.hidden = true;
   if(RIG.wake) holdWake();
   if(RIG.pre && el.preflight){ el.preflight.hidden=false; preflight(); }
@@ -3691,6 +3734,61 @@ Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
 function menuShut(){ if(!el.menu) return; el.menu.hidden=true;
   document.body.classList.remove("menuopen"); menuSay(false); }
 if(el.mClose) el.mClose.addEventListener("click",menuShut);
+
+/* THE ACTION BAR. Everything that DOES something, as an icon, at the bottom where a thumb
+   is -- and the settings that need a slider open above it rather than in the reading
+   panel. The bar borrows the Settings pane's own controls rather than duplicating them:
+   two copies of a volume slider is two things to keep in step and one of them will drift. */
+function barSetOpen(on){
+  if(!el.barSet || !el.bSet) return;
+  var pane=document.getElementById("pane-set");
+  if(on && pane){
+    if(!el.barSet.firstChild){
+      var box=document.createElement("div"); box.className="inner";
+      el.barSet.appendChild(box);
+    }
+    el.barSet.firstChild.appendChild(pane);
+    pane.hidden=false;
+  }
+  el.barSet.hidden=!on;
+  el.bSet.classList.toggle("on",!!on);
+  el.bSet.setAttribute("aria-expanded", on?"true":"false");
+}
+function barPaint(){
+  if(!el.bPlay) return;
+  el.bPlay.classList.toggle("on", !!running);
+  el.bPlay.setAttribute("aria-label", running?"Pause":"Play");
+  var snd_on=(V.sndSrc!=="off");
+  el.bSound.classList.toggle("on", snd_on);
+  el.bSound.setAttribute("aria-label", snd_on?"Turn the sound off":"Turn the sound on");
+  if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
+  if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
+}
+if(el.bPlay) el.bPlay.addEventListener("click",function(){
+  var go=!running; setRunning(go);
+  if(go && V.sndSrc==="track" && !snd.on) sndStart(); else if(!go) sndStop();
+  barPaint();
+});
+if(el.bSound) el.bSound.addEventListener("click",function(){
+  var on=(V.sndSrc==="off");
+  if(el.sndSrc) el.sndSrc.value = on ? "track" : "off";
+  readControls();
+  if(on) sndStart(); else sndStop();
+  barPaint();
+});
+if(el.bFull) el.bFull.addEventListener("click",toggleFull);
+if(el.bShot) el.bShot.addEventListener("click",function(){
+  try{ saveStill(); }
+  catch(e){ fault("The frame could not be saved", String(e&&e.message||e),
+    "Try again once the piece has drawn at least one frame."); }
+});
+if(el.bInfo) el.bInfo.addEventListener("click",function(){
+  if(el.menu && !el.menu.hidden) menuShut(); else menuOpen("work");
+});
+if(el.bSet) el.bSet.addEventListener("click",function(){
+  barSetOpen(el.barSet.hidden);
+});
+
 
 /* THE PANEL THAT FILLS IN THE BLOCK. Editing PIECE and RIGS by hand in a 5MB file is not
    a workflow anybody would choose twice, and the whole argument for making them data was
