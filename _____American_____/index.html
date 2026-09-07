@@ -236,8 +236,8 @@ body.burned .sig{background-image:none;min-height:44px;min-width:44px}
 #menu{position:fixed}
 .mseg{display:inline-flex;gap:.2rem;border:1px solid var(--rule);border-radius:7px;
   padding:.15rem}
-.mopt{background:none;border:0;border-radius:5px;color:var(--dim);font-size:.75rem;
-  font-weight:600;padding:.35rem .55rem;min-height:38px}
+.mopt{background:none;border:0;border-radius:5px;color:var(--dim);font-size:.8rem;
+  font-weight:600;padding:.4rem .7rem;min-height:42px;white-space:nowrap}
 .mopt.on{background:var(--accent);color:#000}
 .mopt:hover{color:var(--ink)}
 #mFace{float:left;margin:0 .8rem .4rem 0;border-radius:6px;width:76px;height:76px}
@@ -530,12 +530,20 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="mbtn" id="mShare">Share this piece</button>
       <button type="button" class="mbtn" id="mCopy">Copy the link</button>
       <p class="mnote">A clip for social: a title, the piece, and the mark at the end.</p>
+      <div class="mrow"><span>Shape</span>
+        <span class="mseg">
+          <button type="button" class="mopt" data-casp="0.5625">Vertical</button>
+          <button type="button" class="mopt on" data-casp="0.8">Feed</button>
+          <button type="button" class="mopt" data-casp="1">Square</button>
+          <button type="button" class="mopt" data-casp="1.7778">Wide</button>
+        </span></div>
       <div class="mrow"><span>Length</span>
         <span class="mseg">
-          <button type="button" class="mopt" data-clip="15">15s</button>
+          <button type="button" class="mopt on" data-clip="15">15s</button>
           <button type="button" class="mopt" data-clip="30">30s</button>
           <button type="button" class="mopt" data-clip="60">1 min</button>
         </span></div>
+      <button type="button" class="mbtn" id="mClipGo">Export for social media</button>
       <span id="shareLinks"></span>
       <p class="mnote" id="mClipNote"></p>
     </div>
@@ -3703,16 +3711,35 @@ if(el.sigBtn) el.sigBtn.addEventListener("click",function(){ menuOpen("about"); 
    Every control it borrows is put back when the recorder stops, watched rather than
    assumed, because a player that quietly leaves the piece in 4:5 afterwards is worse than
    no button at all. */
-Array.prototype.forEach.call(document.querySelectorAll("[data-clip]"),function(b){
-  b.addEventListener("click",function(){ socialClip(+b.dataset.clip); });
+/* PICK, THEN PRESS. Three buttons that each started a render was a row of tiny controls
+   doing something irreversible on a single tap -- and no way to say "vertical, thirty
+   seconds" as one thought. Shape and length are choices now, with one button that acts.
+   FEED IS 4:5 AND STAYS THE DEFAULT: it is the tallest ratio Instagram shows in full in
+   the feed and it has almost none of the danger zones a 9:16 Reel does -- no caption block
+   over the bottom third, no button column down the right. Vertical is there because he
+   asked for it and because a Reel is sometimes the point. */
+var clipAsp="0.8", clipSecs=15;
+function segPick(attr,val){
+  Array.prototype.forEach.call(document.querySelectorAll("["+attr+"]"),function(b){
+    b.classList.toggle("on", b.getAttribute(attr)===String(val)); });
+}
+Array.prototype.forEach.call(document.querySelectorAll("[data-casp]"),function(b){
+  b.addEventListener("click",function(){ clipAsp=b.getAttribute("data-casp"); segPick("data-casp",clipAsp); });
 });
+Array.prototype.forEach.call(document.querySelectorAll("[data-clip]"),function(b){
+  b.addEventListener("click",function(){ clipSecs=+b.getAttribute("data-clip"); segPick("data-clip",clipSecs); });
+});
+if(el.mClipGo) el.mClipGo.addEventListener("click",function(){ socialClip(clipSecs); });
 function socialClip(secs){
   if(!el.exGo || el.exGo.disabled){ return; }
   var keep={};
   ["aspect","margin","exMode","exAmt","exRes","layout"].forEach(function(k){
     if(el[k]) keep[k]=el[k].value; });
-  if(el.aspect) el.aspect.value="0.8";
-  if(el.layout && el.layout.value==="auto") el.layout.value="stack";
+  if(el.aspect) el.aspect.value=clipAsp;
+  /* a shape that is not the screen's needs an arrangement chosen for it, or auto reads the
+     WINDOW and lays the words out for a frame the clip is not going to have */
+  if(el.layout && el.layout.value==="auto")
+    el.layout.value = (+clipAsp<=0.82) ? "spine" : (+clipAsp>=1.06 ? "overlap" : "stack");
   if(el.margin) el.margin.value="9";
   if(el.exMode) el.exMode.value="secs";
   if(el.exAmt)  el.exAmt.value=String(secs);
@@ -3722,7 +3749,8 @@ function socialClip(secs){
      fifteen seconds cannot */
   var cardSecs=(secs>=60)?2:(secs>=30?1.4:1.1);
   clipCards={ lead:Math.round(cardSecs*V.exFps), tail:Math.round(cardSecs*V.exFps) };
-  say("mClipNote","Recording "+secs+" seconds at 4:5\u2026 keep this page in front.");
+  var shapeName={"0.5625":"9:16","0.8":"4:5","1":"1:1","1.7778":"16:9"}[clipAsp]||clipAsp;
+  say("mClipNote","Recording "+secs+" seconds at "+shapeName+"\u2026 keep this page in front.");
   try{ renderOut(); }
   catch(e){
     fault("The clip could not be recorded", String(e && e.message || e),
