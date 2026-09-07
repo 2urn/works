@@ -1319,7 +1319,7 @@ function drawWord(word,px,x,y,o){
          instead of reading the words. THE SPINE TURNS LESS THAN THE BLANKS: it is the
          fixed word and the one that has to stay readable, and the outer sentences are
          where the movement reads best anyway. */
-      var amp=V.vortex*Math.PI*(o.ai===1?0.45:1);
+      var amp=V.vortex*Math.PI;
       vSpin=amp*Math.sin(o.local*0.22*V.speed - proj/wl + cast.jitter*0.04);
     }
     /* the orbit: x = r sin(theta) carries the letter AROUND the axis rather than flipping
@@ -1353,13 +1353,17 @@ function drawWord(word,px,x,y,o){
     }
     if(m.rot) tx.rotate(m.rot);
     var sxF=m.sx*(1+q*0.5), syF=m.sy*(1-q);
-    if(vSpin){
-      /* FLOORED HARD. A true projection takes a letter to zero width edge-on, which is
-         correct for a flat card and reads as the word DISAPPEARING -- and AMERICAN is
-         the one word in the piece that cannot go. 0.42 keeps it a narrow letter rather
-         than a blade; the turn is still legible, it just never spends the word. */
+    /* AMERICAN DOES NOT TURN. It gets SHOVED. Rotation never worked on the spine -- a
+       narrowing letter in a vertical column reads as the word going away, and it is the
+       one word in the piece that cannot go. What works is the offset alone: left, right,
+       left, right down the stack, with the front's phase deciding how far each letter has
+       been pushed, so the shove travels down the column and the letters look like they are
+       moving each other along. The turn stays where he said it reads -- the outer words.
+       So the projection is applied to the blanks and withheld from the spine, and the
+       spine keeps the very same orbit offset that was already carrying it sideways. */
+    if(vSpin && o.ai!==1){
       var cs=Math.cos(vSpin);
-      sxF*=(cs<0?-1:1)*Math.max(0.42, Math.abs(cs));
+      sxF*=(cs<0?-1:1)*Math.max(0.28, Math.abs(cs));
     }
     tx.scale(sxF, syF);
     /* DEPTH OF FIELD, DERIVED. A letter way out front is out of focus, the way a lens
