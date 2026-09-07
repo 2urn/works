@@ -42,3 +42,11 @@ trips the denylist does not happen either, and says which line stopped it.
 ## What is here
 
 Nothing yet.
+
+## `.nojekyll` is load-bearing
+
+GitHub Pages runs Jekyll by default, and Jekyll **silently drops every file and folder
+whose name begins with an underscore** — `_posts`, `_layouts` and so on are its own.
+A work slugged `_____American_____` is exactly that shape, so the first release built
+without error and served a 404. `.nojekyll` turns the processing off and the files are
+served as they are. Do not delete it.
