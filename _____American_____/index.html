@@ -402,6 +402,13 @@ body.ui #bar{display:block}
 .ico svg{width:23px;height:23px;fill:currentColor}
 .ico svg g{stroke:none}
 .ico:hover,.ico.on{opacity:1;color:var(--ovl-accent)}
+/* A STATE, NOT A LABEL. Two of these icons are ever on or off, and at 23px a slash across
+   a speaker is a smudge rather than a sign. So the state is carried by COLOUR -- the accent
+   while it is running or sounding, grey while it is not -- and the play glyph swaps to a
+   pause, which is the one substitution everybody already reads without being told. */
+.ico.state{color:var(--ovl-faint);opacity:.85}
+.ico.state.on{color:var(--ovl-accent);opacity:1}
+.ico.state:hover,.ico.state:focus-visible{opacity:1}
 .ico:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:0;opacity:1}
 #barSet{background:var(--ovl-bg);backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--ovl-rule);
@@ -682,12 +689,10 @@ label.reset,label.reset span{color:var(--accent) !important;
   <div id="bar" hidden>
     <div id="barSet" hidden></div>
     <div class="barin">
-      <button type="button" class="ico" id="bPlay" title="Play or pause" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg></button>
-      <button type="button" class="ico" id="bSound" title="Sound on or off" aria-label="Sound on or off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg></button>
+      <button type="button" class="ico state" id="bPlay" title="Play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg></button>
+      <button type="button" class="ico state" id="bSound" title="Sound off" aria-label="Turn the sound on"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg></button>
       <button type="button" class="ico" id="bFull" title="Full screen" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM6 15v3h3v2H4v-5zm12 0h2v5h-5v-2h3z"/></svg></button>
       <button type="button" class="ico" id="bShot" title="Save this frame" aria-label="Save this frame"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg></button>
-      <button type="button" class="ico" id="bInfo" title="About this piece" aria-label="About this piece"
-        aria-haspopup="dialog" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg></button>
       <button type="button" class="ico" id="bSet" title="Settings" aria-label="Settings"
         aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.74 8.84a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.86 14.52a.5.5 0 00-.12.64l1.92 3.32c.12.22.39.3.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
     </div>
@@ -2431,6 +2436,20 @@ function paintFaults(){
 }
 function esc(s){ return String(s).replace(/[<&>]/g,function(c){
   return c==="<"?"&lt;":c===">"?"&gt;":"&amp;"; }); }
+var disWas=0;
+function smoothTo(box,top){
+  top=Math.max(0,Math.round(top));
+  try{ box.scrollTo({top:top,behavior:"smooth"}); }catch(e){ box.scrollTop=top; }
+}
+function disScroll(d){
+  var pane=(d && d.closest) ? d.closest(".mpane") : null;
+  if(!pane) return;
+  if(d.open){
+    disWas=pane.scrollTop;
+    var pr=pane.getBoundingClientRect(), dr=d.getBoundingClientRect();
+    smoothTo(pane, pane.scrollTop + (dr.top - pr.top));
+  } else smoothTo(pane, disWas);
+}
 
 /* THE FONT IS THE FAILURE NOBODY SEES. A missing face falls back silently and the piece
    still runs -- looking wrong on a wall in a way a glance does not catch. */
@@ -3113,6 +3132,7 @@ function sndStart(){
     snd.on=true; snd.mode="track";
     if(el.sndGo){ el.sndGo.textContent="Sound off"; el.sndGo.classList.add("hot"); }
     say("hVoice","sound on");
+    if(typeof barPaint==="function") barPaint();
   },function(){
     say("vNote","The browser is holding the audio until you click the picture once.");
   });
@@ -3122,6 +3142,9 @@ function sndStop(){
   snd.on=false;
   if(el.sndGo){ el.sndGo.textContent="Sound on"; el.sndGo.classList.remove("hot"); }
   say("hVoice","sound off");
+  /* AND THE BAR FOLLOWS THE SOUND, from here rather than from each of the five places that
+     start or stop it -- the same reason the play affordance is driven from setRunning. */
+  if(typeof barPaint==="function") barPaint();
 }
 function soundLevel(){
   var an = (snd.mode==="mic"&&mic.an) ? mic.an : (snd.on?snd.an:null);
@@ -3977,6 +4000,12 @@ function paintPiece(){
          +'<audio id="mVoice" controls preload="none" src="'+esc(PIECE.voice)+'"></audio>')
       : "")+
     linkRow("work");
+  /* OPENING IT SHOULD LOOK LIKE OPENING IT. The disclosure sits under two paragraphs, so
+     turning it on moved a triangle and nothing else -- everything it revealed was below the
+     bottom of the pane. Opening lifts it to the top; closing puts the pane back exactly
+     where it was, which is what brings the paragraphs above back into view. */
+  var dis=w&&w.querySelector?w.querySelector("details.mdis"):null;
+  if(dis) dis.addEventListener("toggle",function(){ disScroll(dis); });
   var hist=PIECE.history||[];
   var hp=document.getElementById("pane-hist"), ht=document.getElementById("tab-hist");
   if(ht) ht.hidden=!hist.length;
@@ -4188,13 +4217,21 @@ function barSetOpen(on){
   el.bSet.classList.toggle("on",!!on);
   el.bSet.setAttribute("aria-expanded", on?"true":"false");
 }
+var PLAY_D="M8 5v14l11-7z", PAUSE_D="M6 5h4v14H6zM14 5h4v14h-4z";
+function icoPath(btn,d){
+  var p=btn && btn.querySelector && btn.querySelector("path");
+  if(p) p.setAttribute("d",d);
+}
 function barPaint(){
   if(!el.bPlay) return;
   el.bPlay.classList.toggle("on", !!running);
+  icoPath(el.bPlay, running?PAUSE_D:PLAY_D);
   el.bPlay.setAttribute("aria-label", running?"Pause":"Play");
+  el.bPlay.setAttribute("title", running?"Pause":"Play");
   var snd_on=(V.sndSrc!=="off");
   el.bSound.classList.toggle("on", snd_on);
   el.bSound.setAttribute("aria-label", snd_on?"Turn the sound off":"Turn the sound on");
+  el.bSound.setAttribute("title", snd_on?"Sound on":"Sound off");
   if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
   if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
 }
@@ -4216,11 +4253,12 @@ if(el.bShot) el.bShot.addEventListener("click",function(){
   catch(e){ fault("The frame could not be saved", String(e&&e.message||e),
     "Try again once the piece has drawn at least one frame."); }
 });
-if(el.bInfo) el.bInfo.addEventListener("click",function(){
-  if(el.menu && !el.menu.hidden) menuShut(); else menuOpen("work");
-  if(el.bInfo) el.bInfo.setAttribute("aria-expanded",
-    (el.menu && !el.menu.hidden) ? "true" : "false");
-});
+/* THE INFORMATION ICON IS GONE. This bar only exists because the mark was pressed, and
+   pressing the mark is what opened the panel -- so an icon whose whole job was to open the
+   panel could only ever close it, leaving a row of controls floating over a piece with
+   nothing above them and no way back except the mark. Two controls for one state, one of
+   them reachable only in the state it undoes. The mark opens and closes it; that is the
+   whole gesture. */
 if(el.bSet) el.bSet.addEventListener("click",function(){
   barSetOpen(el.barSet.hidden);
 });
