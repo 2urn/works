@@ -490,25 +490,20 @@ body.ui #bar{display:block}
    nowhere to arrive from. WHILE IT LOADS, IT FILLS: the drawing itself is the progress,
    and the bar rides its own ink band (y 480 to 1024 of 1920) because a bar climbing the
    whole square would spend most of its travel behind nothing at all. */
-/* THE DUCK-RABBIT LEAVES THE SHARED FRAME. Register is what makes the three words lock,
-   but the loading mark is alone on the screen with nothing to line up with -- so putting it
-   on the words' 1920 square cost it four fifths of its size for no reason at all. At that
-   size his line work was gone: of the drawing's interior detail, TWELVE pixels survived.
-   Cropping the matte to the drawing's own ink (x787-1268, y480-1024 of 1920, which is where
-   the 399% and 353% come from) renders it at the full width of its box instead, and the
-   detail comes back -- 908 pixels of it, the 3.4% of the ink the artwork actually holds.
-   The file is untouched; only the window onto it has moved.
-   AND IT FILLS WHITE, NOT THE ACCENT. The accent is this piece's own signal colour -- the
-   highlight, the chosen state, the mark in the corner -- and a large yellow drawing before
-   the work has started reads as a brand plate rather than a threshold. */
-#seqDuck{inset:0;margin:auto;width:min(38vmin,240px);aspect-ratio:481/544;
-  background-color:rgba(255,255,255,.16);
-  -webkit-mask-size:399.17% 352.94%;mask-size:399.17% 352.94%;
-  -webkit-mask-position:54.69% 34.88%;mask-position:54.69% 34.88%}
-#seqDuck i{position:absolute;left:0;right:0;bottom:0;height:0;
+/* IT STAYS ON THE SHARED FRAME. Taking it off to recover the interior line work made it
+   large and high and pushed his name and the title to the bottom of the screen -- the
+   registration was doing more work than I credited it with, and the composition it gives
+   is the composition. So the drawing is one of the five layers again, at the size the
+   frame puts it, only a little smaller: the simple clean silhouette IS the loading mark.
+   It fills WHITE rather than the accent. The accent is this piece's own signal colour --
+   the highlight, the chosen state, the mark in the corner -- and a large yellow drawing
+   before the work has started reads as a brand plate rather than a threshold. */
+#seqDuck{background-color:rgba(255,255,255,.16)}
+#seqDuck i{position:absolute;left:0;right:0;bottom:46.67%;height:0;
   background:#fff;transition:height .5s ease}
-#seqCard.load #seqDuck{opacity:1;transition:opacity .4s ease,transform .55s cubic-bezier(.6,.02,.9,.2)}
-#seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-16vh,0) scale(.86)}
+#seqCard.load #seqDuck{opacity:1;transform:scale(.84);
+  transition:opacity .4s ease,transform .55s cubic-bezier(.6,.02,.9,.2)}
+#seqCard.load.out #seqDuck{opacity:0;transform:translate3d(0,-16vh,0) scale(.7)}
 #seqD{transform:translate3d(-118vw,0,0)}
 #seqS{transform:translate3d(0,-118vh,0)}
 #seqC{transform:translate3d(118vw,0,0)}
@@ -935,8 +930,8 @@ label.reset,label.reset span{color:var(--accent) !important;
        .seqOpen when the SVGs arrive; everything around it -- when it appears, how long it
        holds, what the rig allows -- is already here. -->
   <div id="seqCard" class="seq" hidden aria-hidden="true">
-    <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
     <div class="seqStage">
+      <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
       <div class="sqL" id="seqD"></div>
       <div class="sqL" id="seqS"></div>
       <div class="sqL" id="seqC"></div>
@@ -4029,9 +4024,9 @@ function seqClear(){ clearTimeout(seqT); clearTimeout(seqT2); clearTimeout(seqT3
    guess: a third once the script has run, most of the way once the typefaces have arrived,
    full when the first frame is about to be drawn. */
 function seqFill(p){
-  /* the layer IS the drawing now, cropped to its own ink, so nought to one is nought to
-     the top of the duck-rabbit with no band arithmetic left to get wrong */
-  if(el.seqFill) el.seqFill.style.height=(Math.max(0,Math.min(1,p))*100).toFixed(1)+"%";
+  /* 28.33% of the frame is the height of the duck-rabbit's own ink inside the 1920 square,
+     so nought to one here is nought to the top of the drawing and not of the frame */
+  if(el.seqFill) el.seqFill.style.height=(Math.max(0,Math.min(1,p))*28.33).toFixed(2)+"%";
 }
 /* THE FILL IS A LENGTH, NOT A PROGRESS BAR. Reporting real readiness was honest and
    useless: with the typefaces cached the whole thing resolved in about fifty milliseconds,
