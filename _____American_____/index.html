@@ -483,7 +483,12 @@ body.ui #bar{display:block}
    as the work coming up rather than being switched on. The card is held open until that
    has finished -- hiding it at the old nine hundred milliseconds would have cropped the
    fade it was there to perform. */
-#seqCard.open.out::before{opacity:0;transition:opacity 1.5s cubic-bezier(.45,0,.55,1)}
+/* THE WORK WAITS FOR THE WORDS TO BE GONE. Half a second after the separation starts --
+   long enough that the lockup is clearly leaving before anything else asks to be looked at
+   -- and then two and a half seconds to come up, which is slow enough to read as light
+   arriving rather than a screen being switched on. */
+#seqCard.open.out::before{opacity:0;
+  transition:opacity 2.5s cubic-bezier(.45,0,.55,1) .5s}
 .seqStage{position:relative;width:min(92vw,660px);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -4105,7 +4110,7 @@ function seqShow(kind,secs){
       if(kind==="close"){ seqShow("open",3.7); return; }
       b.hidden=true; b.className="seq";
       document.body.classList.remove("seqcredit");
-    }, kind==="close" ? 820 : 1550);
+    }, kind==="close" ? 820 : 3100);
   }, Math.round(hold*1000));
 }
 function cardsFill(){
