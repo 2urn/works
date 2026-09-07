@@ -712,6 +712,9 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="ctl"><div class="top"><label for="scan">Bad scan lines</label>
         <output id="scanV">0.55</output></div>
         <input type="range" id="scan" min="0" max="1" step="0.05" value="0.55"></div>
+      <div class="ctl"><div class="top"><label for="scanGrit">Scan grit</label>
+        <output id="scanGritV">0.45</output></div>
+        <input type="range" id="scanGrit" min="0" max="1" step="0.05" value="0.45"></div>
       <div class="ctl"><div class="top"><label for="scanOdds">How often they hit</label>
         <output id="scanOddsV">0.30</output></div>
         <input type="range" id="scanOdds" min="0" max="1" step="0.05" value="0.3"></div>
@@ -914,7 +917,7 @@ function readControls(){
   V.sndSrc=el.sndSrc.value;
   V.vGain=+el.vGain.value; V.vScale=+el.vScale.value; V.vShake=+el.vShake.value;
   V.degrade=+el.degrade.value; V.slice=+el.slice.value; V.burst=+el.burst.value;
-  V.scanOdds=+el.scanOdds.value;
+  V.scanOdds=+el.scanOdds.value; V.scanGrit=+el.scanGrit.value;
   V.doubles=+el.doubles.value; V.samples=+el.samples.value; V.shutter=+el.shutter.value;
   V.aspectMode=el.aspect.value; V.layoutMode=el.layout.value; autoShape();
   V.nameSize=+el.nameSize.value;
@@ -967,6 +970,7 @@ function paintReadouts(){
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
+  say("scanGritV",V.scanGrit.toFixed(2));
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
@@ -1554,7 +1558,29 @@ function frameAt(frame){
     gx.globalCompositeOperation="destination-out";
     gx.fillStyle="rgba(0,0,0,"+(0.18+0.5*V.scan).toFixed(3)+")";
     var roll=Math.floor(frame*2)%gap;
-    for(var yy=roll; yy<H; yy+=gap) gx.fillRect(0,yy,W,1);
+    /* GRIT: THE LINES THEMSELVES ARE THE FAULT, not a grid laid over one. Clean 1px rules
+       at an even pitch read as a filter -- the eye finds the period in about a second and
+       stops seeing it. Four things break the period, all off one dial and all seeded on
+       the frame so a given second always breaks the same way: thickness varies line to
+       line, weight varies, the line jitters off its own pitch, and some lines are CHEWED
+       into two or three runs instead of crossing the whole frame.
+       At grit 0 this is exactly the clean rule it always was. */
+    var gr=V.scanGrit;
+    var rs=mulberry(seed+Math.floor(frame)*104729);
+    for(var yy=roll; yy<H; yy+=gap){
+      if(gr<=0){ gx.fillRect(0,yy,W,1); continue; }
+      var th=1+Math.floor(rs()*(1+gr*2.2));
+      var yj=yy+Math.round((rs()*2-1)*gr*1.6);
+      gx.globalAlpha=1-rs()*gr*0.75;
+      if(rs()<gr*0.8){
+        /* capped at three runs: this loop already draws a line per pitch, and the pitch
+           at 4K is fine enough that multiplying it without a ceiling is how a texture
+           becomes a dropped frame */
+        var runs=1+Math.floor(rs()*3), step=W/runs, x=0;
+        for(var ri=0;ri<runs;ri++){ gx.fillRect(x,yj,step*(0.45+rs()*0.55),th); x+=step; }
+      } else gx.fillRect(0,yj,W,th);
+    }
+    gx.globalAlpha=1;
     var rb=mulberry(seed+Math.floor(frame/3)*7717);
     var nb=Math.floor(rb()*4*scan);
     for(var bb=0;bb<nb;bb++){
