@@ -341,7 +341,22 @@ body.ui.faded .sig{opacity:.72}
 .mpane{flex:1 1 auto;min-height:var(--paneH,auto);overflow-y:auto;
   -webkit-overflow-scrolling:touch}
 #menu{overscroll-behavior:contain}
-.mtabs{display:flex;gap:.3rem;margin:0 0 .9rem;border-bottom:1px solid var(--ovl-rule)}
+/* THE BAND HOLDS THE MARK AND THE TABS ON ONE LINE, and the rule under them is one rule
+   rather than two that meet at a seam. */
+.mtabrow{display:flex;align-items:stretch;gap:.5rem;margin:0 0 .9rem;
+  border-bottom:1px solid var(--ovl-rule)}
+.mtabs{display:flex;gap:.3rem}
+.mtab.mark{display:flex;align-items:center;padding:.45rem .1rem .45rem 0;
+  border-bottom:2px solid transparent;text-decoration:none;flex:0 0 auto}
+/* AS BIG AS THE ROW WILL TAKE. Measured: his drawing is 150x150 of fine line work, and at
+   26px it puts ink on 4.3% of the box -- it is not a colour or a size away from reading,
+   the strokes are simply thinner than a pixel. Thirty is the most this row can hold
+   without the mark outranking the words beside it. */
+.mtab.mark span{display:block;width:30px;height:30px;background:currentColor;
+  -webkit-mask-size:contain;mask-size:contain;
+  -webkit-mask-position:center;mask-position:center;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mtab.mark:hover{color:var(--ovl-accent)}
 .mtab{background:none;border:0;border-bottom:2px solid transparent;color:var(--ovl-dim);
   font-size:.82rem;font-weight:600;padding:.5rem .7rem;min-height:44px}
 .mtab.on{color:var(--ovl-ink);border-bottom-color:var(--ovl-accent)}
@@ -358,6 +373,8 @@ body.ui.faded .sig{opacity:.72}
 
    Every other control in this overlay declares background:none and lets the panel show
    through. This one was the only one that did not. */
+.mlinks{display:flex;flex-wrap:wrap;gap:.4rem;margin:.9rem 0 0}
+.mlinks .mbtn{flex:1 1 7rem;width:auto;margin:0;padding:.6rem .5rem;text-align:center}
 .mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--ovl-rule);
   background:none;color:var(--ovl-ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
 .mbtn:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
@@ -1374,6 +1391,14 @@ label.reset,label.reset span{color:var(--accent) !important;
   </div>
   <div id="quick" hidden role="menu" aria-label="Quick actions"></div>
   <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
+    <!-- HIS MARK, FIRST IN THE ROW, AND NOT A TAB. It goes home; the four beside it change
+         what you are reading. It sits outside the tablist for that reason -- a link inside
+         a set of tabs is a keyboard trap and a lie to a screen reader -- and it wears the
+         REAL duck-rabbit, masked, not a simplified redrawing of it. The asset is already
+         in the page for the loading sequence, so it costs nothing to show it again. -->
+    <div class="mtabrow">
+    <a id="mHome" class="mtab mark" href="#" rel="noopener"
+      aria-label="chamy.xyz"><span aria-hidden="true"></span></a>
     <div class="mtabs" role="tablist">
       <button type="button" class="mtab on" data-tab="work" id="tab-work"
         role="tab" aria-selected="true" aria-controls="pane-work">The piece</button>
@@ -1383,6 +1408,7 @@ label.reset,label.reset span{color:var(--accent) !important;
         role="tab" aria-selected="false" aria-controls="pane-about">The artist</button>
       <button type="button" class="mtab" data-tab="part" id="tab-part" hidden
         role="tab" aria-selected="false" aria-controls="pane-part">Take part</button>
+    </div>
     </div>
     <div class="mpane" data-pane="work" id="pane-work" role="tabpanel"
       aria-labelledby="tab-work"></div>
@@ -5122,14 +5148,42 @@ function paintPiece(){
     linkRow("about");
   el={}; Array.prototype.forEach.call(document.querySelectorAll("[id]"),function(n){ el[n.id]=n; });
   bindLinks();
+  homeMark();
   if(typeof bindVoice==="function") bindVoice();
 }
+/* THREE ON ONE LINE. Works, chamy.xyz and Instagram were three full-width slabs down the
+   panel -- a column of near-identical rectangles reads as a list of unrelated things, and
+   these are one thing: where else he is. Short labels, so they fit across a phone with
+   room to spare, and they wrap rather than shrink if a piece ever declares a fourth. */
+/* THE MARK WEARS THE REAL DRAWING. SEQ_DUCK is already in the page for the loading
+   sequence, so this is the same bytes shown a second way rather than a simplified redraw
+   of his artwork -- masked, so it takes the colour of the row it sits in and lights up
+   with it. And it goes wherever the piece says home is: the first link the block declares
+   that points at his own domain, so a piece published under a different one still leads
+   somewhere true. */
+function homeMark(){
+  var a=el.mHome; if(!a) return;
+  var span=a.firstChild;
+  if(span && typeof SEQ_DUCK==="string" && SEQ_DUCK){
+    span.style.webkitMaskImage='url("'+SEQ_DUCK+'")';
+    span.style.maskImage='url("'+SEQ_DUCK+'")';
+  }
+  /* THE ROOT, NOT A SUBDOMAIN. A loose match on the name found works.chamy.xyz first --
+     the shelf this piece is already sitting on, which is not home. The host has to BE the
+     domain, or one www in front of it. */
+  var home=null;
+  (PIECE.links||[]).forEach(function(L){
+    if(!home && /^https?:\/\/(www\.)?chamy\.xyz(\/|$)/i.test(L.url||"")) home=L.url; });
+  if(home){ a.setAttribute("href",home); a.setAttribute("target","_blank"); a.hidden=false; }
+  else a.hidden=true;
+}
 function linkRow(where){
-  return (PIECE.links||[]).filter(function(L){ return (L.where||"about")===where; })
-    .map(function(L,i){
-      return '<button type="button" class="mbtn" data-link="'+esc(L.url)+'">'
-        +esc(L.label)+'</button>';
-    }).join("");
+  var L=(PIECE.links||[]).filter(function(x){ return (x.where||"about")===where; });
+  if(!L.length) return "";
+  return '<div class="mlinks">'+L.map(function(x){
+    return '<button type="button" class="mbtn" data-link="'+esc(x.url)+'">'
+      +esc(x.label)+'</button>';
+  }).join("")+'</div>';
 }
 function bindLinks(){
   Array.prototype.forEach.call(document.querySelectorAll("[data-link]"),function(b){
