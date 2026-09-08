@@ -71,7 +71,12 @@
    The accent is darkened for light, because a piece may choose any colour and most of them
    are unreadable as text on white at full strength. */
 :root{
-  --ovl-bg:rgba(8,8,10,.82); --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8;
+  /* LIGHTER, AND LEANING ON THE BLUR INSTEAD. At .82 the panel was a lid: the work
+     stopped existing for as long as anybody read anything, which is the opposite of a piece
+     that is meant to keep running underneath. The blur does the legibility work now -- it
+     takes the high-frequency detail out of whatever is behind, so text stays readable over
+     moving type without the ground having to be nearly solid. */
+  --ovl-bg:rgba(10,10,12,.66); --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8;
   /* RAISED TO A CONTRAST THAT PASSES. #54585E on this ground is 2.76:1 -- under half of
      the 4.5:1 small text has to clear, and every use of this token in the panel is TEXT:
      the mono line under the title, the notes, the section labels, the two icons that carry
@@ -81,7 +86,7 @@
   --ovl-shade:rgba(0,0,0,.72);
 }
 body.ovl-light{
-  --ovl-bg:rgba(250,250,248,.92); --ovl-ink:#101012; --ovl-dim:#4A4E55;
+  --ovl-bg:rgba(250,250,248,.86); --ovl-ink:#101012; --ovl-dim:#4A4E55;
   --ovl-faint:#5F646B; --ovl-rule:#D6D6D2; --ovl-accent:#8A5200;   /* 5.71:1 on paper */
   --ovl-shade:rgba(255,255,255,.66);
 }
@@ -263,7 +268,7 @@ body.burned .sig{background-image:none}
    The cap only exists so a very small screen still shows some of the work behind it. */
 #menu{display:block;position:fixed;left:0;right:0;top:0;bottom:auto;z-index:78;
   padding:calc(.7rem + env(safe-area-inset-top)) 1.2rem .7rem;
-  background:var(--ovl-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);
   border:0;border-bottom:1px solid var(--ovl-rule);border-radius:0;
   display:flex;flex-direction:column;max-height:86dvh;max-height:86vh}
 /* THE CHAIN THAT LETS IT SCROLL. A flex item will not shrink below its content unless
@@ -308,7 +313,7 @@ body.burned .sig{background-image:none}
 #toastMsg{display:none}
 #toastMsg.on{display:block;position:fixed;z-index:96;left:50%;transform:translateX(-50%);
   bottom:calc(env(safe-area-inset-bottom,0px) + 4.6rem);max-width:min(30rem,88vw);
-  background:var(--ovl-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);
   border:1px solid var(--ovl-rule);color:var(--ovl-ink);
   padding:.6rem .9rem;font-size:.82rem;line-height:1.45;text-align:center}
 /* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
@@ -384,7 +389,7 @@ body.burned .sig{background-image:none}
    Big targets on purpose: this is used one-handed, often in the dark, sometimes by someone
    who is also holding a light. */
 #quick{display:block;position:fixed;z-index:95;min-width:13rem;
-  background:var(--ovl-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);
   border:1px solid var(--ovl-rule);padding:.3rem}
 #quick button{display:flex;align-items:center;gap:.7rem;width:100%;border:0;background:none;
   color:var(--ovl-ink);font-size:.88rem;font-weight:500;text-align:left;
@@ -425,8 +430,8 @@ body.ui #bar{display:block}
 .ico.state.on{color:var(--ovl-accent);opacity:1}
 .ico.state:hover,.ico.state:focus-visible{opacity:1}
 .ico:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:0;opacity:1}
-#barSet{background:var(--ovl-bg);backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--ovl-rule);
+#barSet{background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);
+  -webkit-backdrop-filter:blur(20px) saturate(1.15);border-top:1px solid var(--ovl-rule);
   padding:.7rem 1rem;margin:0 -1rem .4rem -8.2rem}
 #barSet .inner{max-width:52rem;margin:0 auto}
 @media (max-width:44rem){
