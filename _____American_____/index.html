@@ -506,6 +506,17 @@ body.cam.ui .lico:nth-child(6){transition-delay:.18s}
 .lsep{width:20px;height:1px;background:var(--ovl-rule);margin:.2rem 0 .3rem;
   filter:opacity(0);transition:filter .34s ease}
 body.cam.ui .lsep{filter:opacity(1)}
+/* AND IN LANDSCAPE IT LIES DOWN. A phone on its side has about 390px of height; the
+   column wanted 230 of them and ran straight up into the signature in the top corner.
+   The axis with room is the other one. Same corner, same order, same marks -- only the
+   direction changes, and the chosen one underlines downwards like every other selected
+   thing in the bar rather than ruling off to its right. */
+@media (max-height:32rem){
+  #barLay{flex-direction:row;gap:.1rem}
+  .lico{border-right-width:0;border-bottom:2px solid transparent}
+  .lico.on{border-bottom-color:var(--ovl-accent)}
+  .lsep{width:1px;height:20px;margin:0 .35rem}
+}
 #bRoomOff{color:var(--ovl-ink)}
 #bRoomOff:hover{color:var(--ovl-accent)}
 .lico svg{width:22px;height:22px;fill:currentColor;display:block}
@@ -1067,7 +1078,11 @@ label.reset,label.reset span{color:var(--accent) !important;
         <input type="checkbox" id="mPlay" autocomplete="off" checked></label>
       <label class="mrow" id="mCardsRow"><span>Title and end credit</span>
         <input type="checkbox" id="mCards" autocomplete="off"></label>
-      <div class="mrow"><span>Appearance</span>
+      <!-- INTERFACE, NOT APPEARANCE. "Appearance" is what a whole page's theme is called
+           and this is not that: the work's colour is the work's, and dark/light only moves
+           the panels, the bar and the marks. A vague word invites the wrong expectation and
+           then reads as a broken control when the piece does not change. -->
+      <div class="mrow"><span>Interface</span>
         <span class="mseg">
           <button type="button" class="mopt on" data-scheme="auto">Auto</button>
           <button type="button" class="mopt" data-scheme="dark">Dark</button>
