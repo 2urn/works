@@ -6396,8 +6396,7 @@ function keyMid(){
     G.push('<span class="kg">Paused</span> \u2014 <b>drag sideways</b> to scrub; '
       +'away from the edge for finer: half, quarter, a tenth.');
   }
-  G.push('<b>Flick up from the bottom edge</b>, or tap it, for the controls. '
-    +'Flick down to hide.');
+  G.push('<b>Tap the bottom edge</b> for the controls. Flick down to hide them.');
   G.push('<b>Press and hold</b> for the shortcuts.');
   G.push('<b>Tap anywhere</b> to wake the marks and start the sound.');
   if(CAN_FULL===false){
@@ -6857,14 +6856,18 @@ document.addEventListener("pointermove",function(e){
   /* far enough, straight enough, and the direction says which way. Up from the edge brings
      the controls; down puts them away again, from anywhere -- the same gesture reversed,
      which is the only version a thumb has to be told about once. */
-  /* AND NOT WHILE A SCRUB IS UNDER WAY. Reaching the finer rates means dragging sideways
-     and then AWAY, which is a large vertical travel by definition -- so the flick would have
-     fired in the middle of the one gesture it must never interrupt. A scrub engages at ten
-     pixels of horizontal travel and holds the pointer from then on. */
-  if(!flicked && !dragged && Math.abs(e.clientX-holdX)<34){
-    var lit=document.body.classList.contains("ui");
-    if(!lit && edgeFrom && (holdY-e.clientY)>44){ flicked=true; uiShow(true); }
-    else if(lit && (e.clientY-holdY)>44){ flicked=true; uiShow(false); }
+  /* THE BOTTOM EDGE BELONGS TO THE OPERATING SYSTEM. A flick up from it is how you leave
+     an app on both iOS and Android -- the gesture never reaches the page, and trying for it
+     only sent him to his home screen. So the way IN is the tap, which he confirmed works,
+     and only the way OUT is a flick: down, starting anywhere on the work, which is nobody
+     else's gesture.
+
+     AND NOT WHILE A SCRUB IS UNDER WAY. Reaching the finer rates means dragging sideways
+     and then AWAY, which is a large vertical travel by definition, so this would fire in
+     the middle of the one gesture it must never interrupt. */
+  if(!flicked && !dragged && Math.abs(e.clientX-holdX)<34
+     && document.body.classList.contains("ui") && (e.clientY-holdY)>44){
+    flicked=true; uiShow(false);
   }
   if(dragFrom===null || flicked) return;
   var dx=e.clientX-holdX, dy=e.clientY-holdY;
