@@ -579,18 +579,13 @@ body.cam.held #bRec{bottom:calc(7.6rem + env(safe-area-inset-bottom))}
   background:var(--ovl-accent);
   transition:width .18s ease,height .18s ease,border-radius .18s ease}
 #bRec.rec .dot{width:26px;height:26px;border-radius:0}
+#bRec .glyph{display:none;width:34px;height:34px;margin:13px auto;fill:var(--ovl-accent)}
+#bRec.ready .dot,#bRec.done .dot{display:none}
+#bRec.ready .glyph,#bRec.done .glyph{display:block}
+/* the tick is the one moment this button is not asking for anything */
+#bRec.done{border-color:var(--ovl-accent)}
+#bRec.done .glyph{fill:var(--ovl-accent)}
 #bRec:focus-visible{outline:2px solid var(--ovl-ink);outline-offset:4px}
-#recSave{display:none;position:fixed;left:50%;transform:translateX(-50%);
-  bottom:calc(5.1rem + env(safe-area-inset-bottom));z-index:82;
-  min-height:52px;padding:.7rem 1.3rem;cursor:pointer;
-  background:var(--ovl-accent);color:#000;border:0;
-  font:inherit;font-size:.86rem;font-weight:700;letter-spacing:.01em;
-  white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.55)}
-body.cam.ui #recSave:not([hidden]){display:block}
-body.cam.held #recSave{bottom:calc(7.6rem + env(safe-area-inset-bottom))}
-#recSave:focus-visible{outline:2px solid var(--ovl-ink);outline-offset:3px}
-/* while a file is waiting, the shutter steps aside rather than sitting under it */
-body.cam.ui.waiting #bRec{display:none}
 #recSay{display:none;position:fixed;left:50%;transform:translateX(-50%);
   bottom:calc(9.4rem + env(safe-area-inset-bottom));z-index:81;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
@@ -1261,16 +1256,19 @@ label.reset,label.reset span{color:var(--accent) !important;
        it that is what a hand expects to find. It is not in the player otherwise: recording
        the work against black is what the share sheet's clip is for, with its own shapes and
        lengths. This one records WHAT YOU ARE LOOKING AT. -->
+  <!-- ONE BUTTON, THE WHOLE LIFE OF ONE FILE. Circle to record, square while it runs, then
+       the save arrow, then a tick. It is the same object throughout, which is why it can
+       carry four faces without any of them being ambiguous -- each one is only ever the
+       thing to do next.
+
+       The save face is not decoration. On a phone the finished file does not go anywhere by
+       itself: handing it to the system share sheet needs a LIVE gesture, and the recorder
+       finishes milliseconds after the press that stopped it, by which point that gesture
+       has expired. The file waits; this is how it is claimed. -->
   <button type="button" id="bRec" hidden aria-label="Record what is on screen"
-    aria-pressed="false"><span class="dot" aria-hidden="true"></span></button>
+    aria-pressed="false"><span class="dot" aria-hidden="true"></span><svg class="glyph"
+    viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d=""/></svg></button>
   <output id="recSay" hidden aria-live="polite"></output>
-  <!-- AND A SECOND, DELIBERATE PRESS. On a phone the finished file does not go anywhere by
-       itself: handing a file to the system share sheet needs a LIVE gesture, and the
-       recorder finishes milliseconds after the press that stopped it, by which time that
-       gesture has expired. So the file waits, and this is how it is claimed. The clip in
-       the share sheet has had this second press since it was built; the shutter shipped
-       without one, so a recording was made, held, and never offered to anybody. -->
-  <button type="button" id="recSave" hidden></button>
   <div id="barLay" role="group" aria-label="Layout">
     <!-- AND NO SECOND WAY OUT. The room's exit lived here while the camera icon was busy
          saving frames. The camera icon is the room now and turns into a struck-through
@@ -5398,6 +5396,7 @@ function recMime(){
     .filter(function(m){ try{ return MediaRecorder.isTypeSupported(m); }catch(e){ return false; } })[0];
 }
 function recPaint(){
+  /* the face is owned by recFace(); this only decides whether the button exists at all */
   /* AND IT HAS TO BE UNHIDDEN BY SOMETHING. The markup ships it hidden, the CSS says
      `body.cam.ui #bRec{display:block}`, and `[hidden]{display:none!important}` beats that
      outright -- so the button existed, was styled, was positioned and was wired, and could
@@ -5467,33 +5466,66 @@ function recStop(){
 }
 /* WHAT HAPPENS TO THE FILE. Three answers, and which one you get is the device's to
    decide: an artifact host saves it outright, a browser with no share sheet downloads it,
-   and a phone puts it in the share sheet -- which needs a live gesture, so it waits here
-   for a press that is unmistakably a press. */
+   and a phone puts it in the share sheet -- which needs a live gesture, so the button
+   changes its face and waits for a press that is unmistakably a press. */
+var REC_SAVE_D="M11 3h2v8.2l3.1-3.1 1.4 1.4L12 15l-5.5-5.5 1.4-1.4L11 11.2V3zM4 17h16v3H4v-3z", REC_DONE_D="M9.6 16.2L5.4 12l-1.5 1.5 5.7 5.7L20.4 8.2 18.9 6.7z";
+var recDoneT=null;
+function recFace(state){
+  var b=el.bRec; if(!b) return;
+  b.classList.toggle("rec",   state==="rec");
+  b.classList.toggle("ready", state==="ready");
+  b.classList.toggle("done",  state==="done");
+  var p=b.querySelector("path");
+  if(p) p.setAttribute("d", state==="done" ? REC_DONE_D
+                          : state==="ready" ? REC_SAVE_D : "");
+  var label = state==="rec"   ? "Stop recording"
+            : state==="ready" ? "Save the recording"
+            : state==="done"  ? "Saved"
+                              : "Record what is on screen";
+  b.setAttribute("aria-label",label);
+  b.setAttribute("title", state==="ready" ? "Save" : state==="done" ? "Saved" : label);
+  b.setAttribute("aria-pressed", state==="rec" ? "true" : "false");
+}
 function recWaiting(on){
+  clearTimeout(recDoneT); recDoneT=null;
   document.body.classList.toggle("waiting", !!on);
+  recFace(on ? "ready" : (recLive ? "rec" : null));
   /* SIZED THE WAY A PERSON READS A SIZE. handOff works in megabytes to one decimal, which
      is right for a rendered clip and prints "0.0 MB" for a short recording -- a number that
      reads as a broken file rather than a small one. */
-  var sz = (pending && pending.blob) ? pending.blob.size : 0;
-  var say = sz>=1048576 ? (sz/1048576).toFixed(1)+" MB"
-          : Math.max(1,Math.round(sz/1024))+" KB";
-  if(el.recSave){
-    el.recSave.hidden = !on;
-    el.recSave.textContent = on ? ("Save "+say) : "";
-    el.recSave.setAttribute("aria-label", on ? ("Save the recording, "+say) : "");
+  if(on && el.recSay){
+    var sz=(pending && pending.blob) ? pending.blob.size : 0;
+    el.recSay.textContent = "Save " + (sz>=1048576 ? (sz/1048576).toFixed(1)+" MB"
+                                                   : Math.max(1,Math.round(sz/1024))+" KB");
   }
-  if(el.recSay) el.recSay.hidden = !!on || !recLive;
+  if(el.recSay) el.recSay.hidden = !on && !recLive;
 }
-if(el.recSave) el.recSave.addEventListener("click",function(){
-  if(!pending || pending.who!=="room") return;
-  takePending(function(status){
-    /* AbortError keeps the file: a thumb that slipped is not a decision to throw a
-       recording away */
-    recWaiting(status==="pending");
-  });
-});
+function recDone(){
+  document.body.classList.remove("waiting");
+  recFace("done");
+  if(el.recSay){ el.recSay.textContent="Saved"; el.recSay.hidden=false; }
+  /* it says so and then gets out of the way, because the next thing anybody wants is to
+     point the phone somewhere else and press it again */
+  recDoneT=setTimeout(function(){
+    if(recLive) return;
+    recFace(null);
+    if(el.recSay) el.recSay.hidden=true;
+  },1800);
+}
+/* ONE PRESS, WHATEVER FACE IT IS WEARING. Idle it records; running it stops; holding a
+   file it hands it over; and the tick is not really a button -- pressing through it starts
+   the next take, which is what somebody reaching for it at that moment means. */
 if(el.bRec) el.bRec.addEventListener("click",function(){
-  if(recLive) recStop(); else recStart();
+  if(recLive){ recStop(); return; }
+  if(pending && pending.who==="room"){
+    takePending(function(status){
+      /* AbortError keeps the file: a thumb that slipped is not a decision to throw a
+         recording away */
+      if(status==="pending") recWaiting(true); else recDone();
+    });
+    return;
+  }
+  recStart();
 });
 /* ---- THE TIMELINE ---------------------------------------------------------------
    It has been in the markup as a pair of step arrows since the beginning and never became
@@ -6292,6 +6324,22 @@ document.addEventListener("pointerdown",function(e){
   if(el.barLay && el.barLay.classList.contains("open")
      && !(e.target && e.target.closest && e.target.closest("#barLay"))){
     layOpen(false);
+  }
+  /* A TAKE YOU DO NOT WANT IS THROWN AWAY BY LOOKING AWAY. The button holding a finished
+     file is asking one question, and there has to be a way to answer no -- otherwise the
+     only route back to recording is through the share sheet. Anywhere but the button means
+     no, the same as it does for the sheets and the arrangements. It says so rather than
+     quietly reverting, because a shutter that silently returns to red looks like a shutter
+     that saved. */
+  if(pending && pending.who==="room"
+     && !(e.target && e.target.closest && e.target.closest("#bRec"))){
+    pending=null;
+    recWaiting(false);
+    if(el.recSay){ el.recSay.textContent="Discarded"; el.recSay.hidden=false;
+      clearTimeout(recDoneT);
+      recDoneT=setTimeout(function(){ if(!recLive && el.recSay) el.recSay.hidden=true; },1400);
+    }
+    return;
   }
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(!el.quick || !el.quick.hidden){ quickShut(); return; }
