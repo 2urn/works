@@ -662,35 +662,30 @@ body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
   border:0;box-shadow:0 1px 4px rgba(0,0,0,.85)}
 /* the rate, said over the track and taking no room in the row */
 /* SMALL, AT THE LEFT EDGE, OUT OF THE WAY OF THE HAND. The thumb is on the picture and
-   the far side of the screen is the one place a right or left hand is not covering. */
-/* IN QUICKLY, OUT SLOWLY. It has to be there by the time the thumb has travelled far
-   enough to need it, and it should not snap off the instant the finger lifts -- a scale
-   that vanishes the moment you stop reading it makes you doubt you read it. */
-/* AND IT DECLARES ITS OWN DISPLAY, because it lives in .wrap and body.player blanks every
-   child of .wrap that is not the stage. That rule has now caught the credit, the signature,
-   the player chrome, the wall label, the fault log and this -- always the same way: the
-   thing is built, positioned, wired, measured, and has a bounding box of zero. It is the
-   first line of this file's own instructions and I still walked into it. */
-#scrubGuide{display:block;position:fixed;left:.9rem;top:0;bottom:0;width:0;z-index:80;
+   the far side of the screen is the one place a right or left hand is not covering.
+
+   EVENLY SPACED, WHATEVER THE WORDS WEIGH. The gaps used to be the thresholds themselves
+   -- sixty, eighty, a hundred pixels apart -- and then a word that would have crossed the
+   scrubber's line was lifted, which shifted its neighbour, so the spacing answered to word
+   length as well. The thresholds are even now and the scale moves as a unit, so the rhythm
+   is the same every time it appears.
+
+   AND THE NOTCH IS CLEARLY NOT A LETTER. Three pixels from the word, a horizontal stroke
+   beside a column of vertical type reads as punctuation: |FASTER, |HALF. */
+#scrubGuide{display:block;position:fixed;left:1rem;top:0;bottom:0;width:0;z-index:80;
   pointer-events:none;opacity:0;transition:opacity .55s ease}
 #scrubGuide.on{opacity:1;transition:opacity .22s ease}
-/* TURNED ON ITS SIDE, AND GROWING UPWARD FROM ITS OWN TICK. Lying flat they were four
-   words wide across the picture, and the lowest of them ran straight through the scrubber's
-   line -- the one horizontal thing on the screen it must not touch. Rotated they are a few
-   millimetres wide, they read up the axis the way an axis is labelled, and because each one
-   rises FROM its tick rather than being centred on it, nothing is drawn below the mark it
-   belongs to. The tick stays horizontal: it is pointing at a height, not at a word. */
+.sgax{position:absolute;left:0;width:1px;background:var(--ovl-faint);opacity:.4;
+  box-shadow:0 0 3px rgba(0,0,0,.95)}
 .sgb{position:absolute;left:0;height:0;color:var(--ovl-faint);
   transition:color .18s ease}
-.sgb::before{content:"";position:absolute;left:0;top:0;width:.4rem;height:1px;
-  background:currentColor}
-.sgb span{position:absolute;left:.6rem;bottom:0;transform-origin:left bottom;
+.sgb::before{content:"";position:absolute;left:0;top:0;width:.32rem;height:1px;
+  background:currentColor;box-shadow:0 0 3px rgba(0,0,0,.95)}
+.sgb span{position:absolute;left:1.15rem;bottom:0;transform-origin:left bottom;
   transform:rotate(-90deg);white-space:nowrap;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.6rem;
-  letter-spacing:.14em;text-transform:uppercase;color:inherit;
+  letter-spacing:.13em;text-transform:uppercase;color:inherit;
   text-shadow:0 1px 3px rgba(0,0,0,.95)}
-.sgax{position:absolute;left:0;width:1px;background:var(--ovl-faint);opacity:.5;
-  box-shadow:0 0 3px rgba(0,0,0,.95)}
 .sgb.on{color:var(--ovl-accent)}
 @media (prefers-reduced-motion:reduce){ #scrubGuide{transition:none} }
 /* IT KEEPS ITS LINE WHETHER OR NOT IT HAS ANYTHING TO SAY, or the track would step up and
@@ -6596,7 +6591,9 @@ var dragFrom=null, dragAt=0, dragX=0, dragged=false, edgeFrom=0, flicked=false;
    screen to confirm it happened. */
 /* ONE TABLE, READ BY BOTH THE MATHS AND THE RULER. They were two lists agreeing by hand,
    which is how a legend ends up describing a gesture the code no longer has. */
-var SCRUB_BANDS=[[0,1,"faster"],[60,0.5,"half"],[140,0.25,"quarter"],[240,0.1,"finer"]];
+/* EVEN STEPS, so the legend beside them can be evenly spaced and still be TRUE:
+   seventy pixels of travel steps down one rate, every time. */
+var SCRUB_BANDS=[[0,1,"faster"],[70,0.5,"half"],[140,0.25,"quarter"],[210,0.1,"finer"]];
 function scrubRate(dy){
   var a=Math.abs(dy), r=1;
   for(var i=0;i<SCRUB_BANDS.length;i++) if(a>=SCRUB_BANDS[i][0]) r=SCRUB_BANDS[i][1];
@@ -6605,47 +6602,33 @@ function scrubRate(dy){
 function guideShow(fromY){
   var g=el.scrubGuide; if(!g) return;
   g.innerHTML="";
-  var top=fromY, drew=0;
-  var ceil=Infinity;
-  try{ if(el.tScrub) ceil=el.tScrub.getBoundingClientRect().top-6; }catch(e){}
-  SCRUB_BANDS.forEach(function(b){
-    var y=fromY-b[0];
-    /* the word rises from its tick, so it needs that much room above it or it is a word
-       running off the top of the screen */
-    if(y<64) return;
+  /* IT SITS CLEAR OF THE TRACK, WHOLE. Lifting one word to clear the scrubber's line made
+     the spacing uneven again, which is the thing being fixed -- so the scale moves as a
+     unit and keeps its own rhythm. The rate is still measured from where the finger
+     actually went down; this is the legend, not the ruler. */
+  var base=fromY;
+  try{ if(el.tScrub) base=Math.min(base, el.tScrub.getBoundingClientRect().top-14); }catch(e){}
+  var step=SCRUB_BANDS[1][0];                 /* even by construction -- see SCRUB_BANDS */
+  var top=base-step*(SCRUB_BANDS.length-1);
+  if(top<64){ base+=64-top; top=64; }
+  var ax=document.createElement("div");
+  ax.className="sgax";
+  ax.style.top=Math.round(top)+"px";
+  ax.style.height=Math.round(base-top)+"px";
+  g.appendChild(ax);
+  SCRUB_BANDS.forEach(function(b,i){
     var d=document.createElement("div");
     d.className="sgb"; d.setAttribute("data-band",String(b[1]));
-    d.style.top=Math.round(y)+"px";
+    d.style.top=Math.round(base-step*i)+"px";
     var w=document.createElement("span"); w.textContent=b[2];
     d.appendChild(w);
     g.appendChild(d);
-    /* THE TICK IS THE MEASUREMENT; THE WORD IS ONLY A LABEL. A drag started low puts a word
-       through the scrubber's line, so the word steps above it and the tick stays where the
-       threshold actually is -- and then two lifted words land on each other, which is what
-       happened the first time. So each one is placed against a running ceiling: never below
-       the track, never inside the word beneath it, and measured after it is in the document
-       because a rotated box is as tall as its text is long. */
-    var want=Math.min(y, ceil);
-    w.style.bottom=Math.round(y-want)+"px";
-    ceil=want - w.getBoundingClientRect().height - 7;
-    if(y<top) top=y;
-    drew++;
   });
-  /* AND THE AXIS ITSELF, because four words down the side of a screen are four words and a
-     line through them is a SCALE -- the thing the thumb is travelling along. Drawn last so
-     it spans exactly the bands that fitted, rather than a distance decided in advance. */
-  if(drew>1){
-    var ax=document.createElement("div");
-    ax.className="sgax";
-    ax.style.top=Math.round(top)+"px";
-    ax.style.height=Math.round(fromY-top)+"px";
-    g.appendChild(ax);
-  }
   g.classList.add("on");
 }
 function guidePaint(rate){
   var g=el.scrubGuide; if(!g) return;
-  Array.prototype.forEach.call(g.children,function(d){
+  Array.prototype.forEach.call(g.querySelectorAll(".sgb"),function(d){
     d.classList.toggle("on", +d.getAttribute("data-band")===rate); });
 }
 function guideHide(){ if(el.scrubGuide) el.scrubGuide.classList.remove("on"); }
