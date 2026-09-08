@@ -102,8 +102,6 @@ body{margin:0;background:var(--void);color:var(--ink);
 h1{font-family:"Archivo Black","Archivo",sans-serif;font-size:clamp(1.35rem,3.2vw,1.9rem);
   margin:0 0 .15rem;letter-spacing:-.02em}
 h1 em{font-style:normal;color:var(--accent)}
-.blurb{color:var(--dim);font-size:.85rem;max-width:64ch;margin:0}
-.blurb b{color:var(--ink);font-weight:600}
 kbd{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   border:1px solid var(--rail);border-bottom-width:2px;border-radius:4px;
   padding:.05rem .3rem;color:var(--dim);background:var(--panel)}
@@ -727,45 +725,13 @@ body.player:hover .ovbar,body.player .ovbar:focus-within{opacity:1}
 .hud b{color:var(--dim);font-weight:500}
 .hud .on{color:var(--live)}
 .hud .hot{color:var(--warn)}
-
-.fit{display:flex;gap:.5rem .9rem;align-items:center;flex-wrap:wrap;
-  border:1px solid var(--rail);border-left:2px solid var(--live);border-radius:6px;
-  background:var(--panel);padding:.55rem .8rem;
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.73rem;
-  font-variant-numeric:tabular-nums}
 .fit.tight{border-left-color:var(--warn)}
 .fit.over{border-left-color:var(--accent)}
-.fit .tag{text-transform:uppercase;letter-spacing:.12em;font-size:.63rem;color:var(--faint)}
-.fit .v{color:var(--ink)}
-.fit .said{color:var(--dim);flex:1 1 13rem}
-
-.transport{display:flex;gap:.55rem;align-items:center;flex-wrap:wrap}
-.keys{font-size:.72rem;color:var(--faint);display:flex;gap:.9rem;flex-wrap:wrap;
-  margin:-.35rem 0 0}
-/* LOOKS. Every dial in this thing is a decision, and a good combination found by accident
-   is worth more than the dial that made it -- so it can be named, kept, and carried to
-   another machine as text. A look can cover everything or just one panel, which is what
-   makes them mixable: a palette from one, a repertoire from another. */
-.looks{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
-  border:1px solid var(--rail);border-radius:6px;background:var(--panel);padding:.5rem .7rem}
-.looks .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.63rem;
-  text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
-.looks input[type=text]{flex:1 1 10rem;min-height:38px;font-size:.8rem}
-.looks button{min-height:38px;padding:.4rem .7rem;font-size:.76rem}
-.looks select{min-height:38px;font-size:.76rem}
-.lkbox{display:flex;gap:.5rem;align-items:flex-start;flex-wrap:wrap;
-  border:1px solid var(--rail);border-radius:6px;background:var(--panel);padding:.6rem .7rem}
-.lkbox textarea{flex:1 1 22rem;min-width:0;font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.72rem;background:var(--void);color:var(--ink);border:1px solid var(--rail);
-  border-radius:5px;padding:.5rem;resize:vertical}
-.lkbox button{min-height:38px;padding:.4rem .7rem;font-size:.76rem}
 button{font:inherit;font-size:.79rem;font-weight:600;cursor:pointer;color:var(--ink);
   background:var(--panel);border:1px solid var(--rail);border-radius:5px;
   padding:.55rem .85rem;min-height:44px;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation}
 button:hover{border-color:var(--accent);color:var(--accent)}
-button.go{background:var(--accent);border-color:var(--accent);color:#fff}
-button.go:hover{color:#fff;filter:brightness(1.1)}
 button.hot{border-color:var(--live);color:var(--live)}
 button:focus-visible{outline:2px solid var(--live);outline-offset:2px}
 input[type=text]{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.84rem;
@@ -775,35 +741,9 @@ input[type=text]:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 select{font:inherit;font-size:.77rem;background:var(--panel);color:var(--ink);
   border:1px solid var(--rail);border-radius:5px;padding:.5rem;min-height:44px}
 select:focus-visible{outline:2px solid var(--live);outline-offset:1px}
-
-.decks{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:.85rem}
-.deck{background:var(--panel);border:1px solid var(--rail);border-radius:8px;
-  padding:.75rem .85rem .9rem;display:flex;flex-direction:column;gap:.55rem}
-.deck.spine{border-color:#3a2a2e}
-.deck h2{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.64rem;
-  text-transform:uppercase;letter-spacing:.14em;color:var(--faint);margin:0;font-weight:600}
-.deck h2 .dsp{color:var(--accent)}
-/* THE HEADING IS THE CONTROL, and the two arrows sit in it rather than on a drag handle:
-   a drag inside a scrolling panel on a tablet fights the scroll gesture and loses, which
-   this project learned once already. Two taps never do. */
-.deck h2.dhead{display:flex;align-items:center;gap:.4rem}
-.deck h2 .dtog{font:inherit;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--dim);background:none;border:0;padding:.3rem .1rem;min-height:34px;
-  cursor:pointer;text-align:left;flex:0 0 auto}
-.deck h2 .dtog::before{content:"\25BE ";color:var(--faint)}
 .deck.shut h2 .dtog::before{content:"\25B8 "}
-.deck h2 .dtog:hover{color:var(--ink);background:none}
-.deck h2 .dsp{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.deck h2 .dmv{font-size:.8rem;line-height:1;color:var(--faint);background:none;border:0;
-  padding:.3rem .35rem;min-height:34px;cursor:pointer;flex:0 0 auto}
-.deck h2 .dmv:hover{color:var(--accent);background:none}
 .deck.shut{gap:0}
 .deck.shut > *:not(h2){display:none}
-.ctl{display:flex;flex-direction:column;gap:.2rem}
-.ctl .top{display:flex;align-items:baseline;gap:.5rem}
-.ctl label{font-size:.76rem;color:var(--dim);flex:1}
-.ctl output{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.73rem;
-  color:var(--ink);font-variant-numeric:tabular-nums}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;
   background:none;cursor:pointer}
 input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rail)}
@@ -813,27 +753,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;
   background:var(--accent);border:0}
 input[type=range]:focus-visible{outline:2px solid var(--live);outline-offset:4px}
-.tog{display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:var(--dim);
-  cursor:pointer;min-height:30px}
-.tog input{accent-color:var(--accent);width:1.05rem;height:1.05rem}
 label.reset,label.reset span{color:var(--accent) !important;
   transition:color .12s}
-.hint{font-size:.72rem;color:var(--faint);margin:0;line-height:1.5}
-.hint b{color:var(--dim);font-weight:600}
 .hint.bad{color:var(--warn)}
-
-.rep{display:grid;grid-template-columns:1fr 1fr;gap:.1rem .6rem}
-.rep .tog{min-height:28px;font-size:.75rem}
-.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(4.2rem,1fr));gap:.4rem}
-.sw{display:flex;flex-direction:column;gap:.22rem}
-.sw span{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
-.sw input[type=color]{-webkit-appearance:none;appearance:none;width:100%;height:32px;
-  padding:0;border:1px solid var(--rail);border-radius:5px;background:none;cursor:pointer}
-.sw input[type=color]::-webkit-color-swatch-wrapper{padding:2px}
-.sw input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
-.sw input[type=color]:focus-visible{outline:2px solid var(--live);outline-offset:2px}
-/* the level meter, so the microphone is visibly doing something before he trusts it */
-.binds{display:flex;flex-direction:column;gap:.25rem}
 .binds .b{display:flex;gap:.5rem;align-items:baseline;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;color:var(--dim)}
 .binds .b code{color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -841,14 +763,6 @@ label.reset,label.reset span{color:var(--accent) !important;
   background:none;border:0}
 .binds .b button:hover{color:var(--accent);background:none}
 #oscLearn.hot{border-color:var(--live);color:var(--live)}
-.meter{height:5px;border-radius:3px;background:var(--rail);overflow:hidden}
-.meter i{display:block;height:100%;width:0;background:var(--live);transition:width .06s linear}
-
-.notes{border-top:1px solid var(--rail);padding-top:1rem;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:.9rem 2rem}
-.notes h3{font-size:.81rem;margin:0 0 .2rem}
-.notes p{margin:0;font-size:.77rem;color:var(--dim);line-height:1.6;max-width:54ch}
-.notes code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.73rem;color:var(--accent)}
 </style>
 <script>/* NOTHING IS SHOWN UNTIL THE PAGE KNOWS WHICH IT IS. The player class is added by a
    script that sits five megabytes into this file, so on a slow parse -- an iPad, Chrome,
@@ -862,12 +776,7 @@ label.reset,label.reset span{color:var(--accent) !important;
 
 <div class="wrap">
   <audio id="sndEl" loop preload="auto" crossorigin="anonymous" src="soundtrack.mp3"></audio>
-  <div>
-    <h1>_____ <em>American</em> _____</h1>
-    <p class="blurb">Every glyph draws its own way in, its own way out, its own colour and
-    its own clock. Additive, no outlines — <b>legibility is not protected in motion</b>, but
-    it can settle clean, and it can settle to the flag.</p>
-  </div>
+  
 
   <a class="credit" href="https://chamy.xyz/" target="_blank"
      rel="noopener author" aria-label="CHAMY·XYZ"></a>
@@ -1046,543 +955,16 @@ label.reset,label.reset span{color:var(--accent) !important;
     </div>
   </div>
 
-  <div class="fit" id="fitBar">
-    <span class="tag">Fit</span>
-    <span>overlap <span class="v" id="fOv">—</span></span>
-    <span>blanks <span class="v" id="fOuter">—</span></span>
-    <span>spine <span class="v" id="fSpine">—</span></span>
-    <span>margin <span class="v" id="fEdge">—</span></span>
-    <span class="said" id="fSaid">—</span>
-  </div>
+  
 
-  <div class="transport">
-    <button type="button" id="play" class="go">Pause</button>
-    <button type="button" id="full">Full screen</button>
-    <button type="button" id="mic">Listen</button>
-    <input type="text" id="script" style="flex:1 1 22rem"
-      value="Afghan|Interpreter, All|Boy, Argentinian|Artist, Australian|Steakhouse, Bahamian|Festival, Barbadian|Jazz, Bolivian|Poodle, Brazilian|Football, Canadian|Bison, Cheap|Gas, Chilean|Pie, Chinese|Economy, Colombian|Express, Costa Rican|Pastoral, Croatian|Original, Cuban|Cafecito, Deranged|Fascists, Dominican|Goddess, Ecuadorian|Singer, Egyptian|Soccer, English|Cheerleader, Filipino|Idol, French|Werewolf, Fresh|Joke, Generous|Spirit, German|Legion, Global|Music, Greek|Muscle, Grenadian|Honey, Guatemalan|Apparel, Guyanese|Diner, Haitian|Dream, Honduran|Barbecue, Hungarian|Gigolo, Iced|Roads, Indian|Movie, Insolvent|Debt, Iranian|Nightmare, Iraqi|Empire, Irish|Songbook, Isolated|Aggression, Israeli|Frontier, Italian|Housewife, Jamaican|Buffalo, Japanese|Girl, Korean|Sweetheart, Lebanese|Dad, Lonely|Men, Mexican|Cowboy, Miccosukee|Sage, Modern|Horror Story, Moroccan|Rodeo, Natural|Splendor, Nicaraguan|Novel, Nigerian|Gospel, Norwegian|Thanksgiving, Ordinary|Beauty, Palestinian|Way, Panamanian|Century, Paraguayan|Mall, Peruvian|Hustle, Portuguese|Eagle, Puerto Rican|Pride, Queer|Film Festival, Romanian|Chopper, Russian|Psycho, Salvadoran|Carnage, Seminole|Gothic, Slovakian|Composer, South African|Trillionaire, Spanish|War, Surreal|Moment, Swift|Graffiti, Swiss|Cheese, Tired|Activists, Trans|Rights, Trinidadian|Grit, Turkish|Chef, Ukrainian|Sniper, Uruguayan|Exceptionalism, Venezuelan|Pain, Vietnamese|Pageant, White|Tesla, Criminalized|Abortions, Documented|Abuse, Bullied|Allies, Alleged|Assault, Caged|Babies, Lynched|Blacks, Crossed|Border, Declined|Cards, Unvaccinated|Children, Nationalized|Christianity, Invaded|Cities, Deported|Citizens, Lapsed|Credibility, Scraped|Culture, Enforced|Curfew, Prolonged|Custody, Investigated|Deaths, Shackled|Detainees, Overcrowded|Detention, Weakened|Dollars, Dodged|Draft, Betrayed|Farmers, Expanded|Footprint, Burned|Forests, Wasted|Futures, Examined|Genders, Endless|Genocides, Melted|Glaciers, Protested|Government, Elected|Grifters, Accused|Guards, Washed|Hands, Collapsed|Health Care, Forgotten|Heroes, Dug|Holes, Imagined|Humiliation, Separated|Infants, Bribed|Inspectors, Questioned|Intelligence, Angered|Karens, Trafficked|Kids, Canned|Laughter, Enriched|Lawmakers, Broken|Laws, Strapped|Legs, Repeated|Lies, Served|Meals, Groomed|Media, Reduced|Medicaid, Launched|Missiles, Detained|Mothers, Remembered|Myths, Gentrified|Neighborhoods, Scooped|News, Divided|Opinions, Executed|Orders, Gaslit|Peoples, Pinged|Phones, Redacted|Presidents, Raised|Prices, Privatized|Prisons, Rescinded|Protections, Unprosecuted|Rapists, Ordered|Removal, Erased|Rights, Texted|Secrets, Disappeared|Shame, Pointed|Sheets, Polluted|Skies, Deprived|Sleep, Tilled|Soil, Buried|Soldiers, Suppressed|Speech, Arrested|Sponsors, Terminated|Status, Punished|Strikers, Indebted|Students, Beleaguered|Teachers, Enshittified|Technologies, Impossible|Thoughts, Deployed|Troops, Reflected|Values, Built|Wall, Abandon|Allies, Arrest|Journalists, Believe|Women, Bomb|Targets, Break|Norms, Censor|Speech, Clear|Docket, Close|Eyes, Coerce|Signatures, Confirm|Address, Corrupt|Judges, Cut|Aid, Deface|Monuments, Degrade|Spirit, Deny|Rights, Describe|Shame, Destroy|Hope, Detain|Citizens, Disenfranchise African|Voters, Dismiss|Assaults, Drain|Swamps, Drive|Cars, Dull|Legs, Enable|Strike, Erase|Peoples, Expand|Detention, Expedite|Removal, Exploit|Workers, Extend|Surveillance, Fasten|Ankle Monitors, Finish|Wall, Follow|Orders, Gas|Protesters, Ignore|Abuse, Impose|Curfew, Increase|Deficits, Influence|Influencers, Invade|Wombs, Issue|Uniform, Kill|Rule of Law, Load|Vans, Love|Fathers, Lower|Masks, Occupy|Cities, Pack|Cells, Pardon|Presidents, Pass|Blame, Point|Fingers, Police|Thoughts, Protect|Predators, Quench|Thirst, Reclaim|Decency, Refuse|Terror, Rename|Institutions, Render|Tariffs, Repatriate|Naturalized Citizens, Rescind|Protections, Resist|Government, Revoke|Visas, Roll|Fingerprints, Run|Raids, Save|Libraries, Screen|Propaganda, Seal|Lips, Send|Letters, Separate|Mothers, Shave|Truths, Shield|Ice Agents, Shoot|Rounds, Silence|Protest, Sing|Songs, Slice|Pies, Sound|Sentiment, Start|Wars, Supply|Weapons, Suppress|Votes, Suspend|Laws, Swing|Dicks, Tell|Lies, Vandalize|Art, Wave|Flags, Weaponize|Check-Ins, Witness|Decline"
-      spellcheck="false" autocomplete="off" aria-label="Lines, as first|third separated by commas">
-    <select id="face" autocomplete="off" aria-label="Typeface">
-      <option value="minnerva" selected>Minnerva Bold</option>
-      <option value="black">Archivo Black</option>
-      <option value="mono">IBM Plex Mono</option>
-    </select>
-    <select id="caseMode" autocomplete="off" aria-label="Letter case">
-      <option value="as">As written</option>
-      <option value="upper">ALL CAPS</option>
-    </select>
-    <button type="button" id="reseed">Reseed</button>
-    <label class="tog"><input type="checkbox" id="recycle" checked>
-      New cast each cycle</label>
-  </div>
-  <div class="looks">
-    <span class="tag">Looks</span>
-    <select id="lkScope" autocomplete="off" aria-label="What a look covers">
-      <option value="*">everything</option>
-    </select>
-    <input type="text" id="lkName" placeholder="name this look" autocomplete="off"
-      spellcheck="false" aria-label="Look name">
-    <button type="button" id="lkSave">Save</button>
-    <select id="lkPick" autocomplete="off" aria-label="Saved looks"><option value="">Saved…</option></select>
-    <button type="button" id="lkDel">Delete</button>
-    <button type="button" id="lkText">Copy / paste</button>
-  </div>
-  <div id="lkBox" class="lkbox" hidden>
-    <textarea id="lkJson" rows="4" spellcheck="false"
-      aria-label="Look as text"></textarea>
-    <button type="button" id="lkApply">Apply this text</button>
-    <span class="hint" id="lkMsg"></span>
-  </div>
-  <p class="keys"><span><kbd>space</kbd> play</span><span><kbd>F</kbd> full screen</span>
-    <span><kbd>H</kbd> hide readout</span><span><kbd>←</kbd> <kbd>→</kbd> step a line</span>
-    <span><kbd>R</kbd> reseed</span><span><kbd>V</kbd> voice</span><span><kbd>esc</kbd> out</span><span><kbd>double-tap</kbd> a label resets it</span></p>
+  
+  
+  
+  
 
-  <div class="decks">
+  
 
-    <div data-deck="arena" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Arena </button><span class="dsp">— OSC in</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <p class="hint" id="oscState">Not connected.</p>
-      <button type="button" id="oscLearn">Learn a control</button>
-      <p class="hint" id="oscLast">—</p>
-      <div id="oscList" class="binds"></div>
-      <button type="button" id="oscClear">Forget all</button>
-      <p class="hint">Arena cannot reach a browser directly — nothing can open a UDP socket
-      from a page — so <code>bridge.py</code> listens for OSC and passes it on. In Arena:
-      <b>Preferences → OSC → Output</b>, host <code>127.0.0.1</code>, port <code>9000</code>.
-      Then <b>Learn</b>, move a fader in Arena, and click the dial it should drive.
-      This only works on <b>localhost</b>; the artifact cannot reach your machine.</p>
-    </div>
-
-    <div data-deck="export" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Export </button><span class="dsp">— off the clock</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="exMode">Length</label></div>
-        <select id="exMode" autocomplete="off">
-          <option value="all">the whole script, once</option>
-          <option value="lines">a number of statements</option>
-          <option value="secs">a fixed duration</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="exAmt" id="exAmtL">Statements</label>
-        <output id="exAmtV">3</output></div>
-        <input type="range" id="exAmt" min="1" max="60" step="1" value="3"></div>
-      <div class="ctl"><div class="top"><label for="exRes">Resolution</label></div>
-        <select id="exRes" autocomplete="off">
-          <option value="720">720 short side</option>
-          <option value="1080" selected>1080 short side</option>
-          <option value="1440">1440 short side</option>
-          <option value="2160">2160 short side</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="exFps">Frame rate</label></div>
-        <select id="exFps" autocomplete="off">
-          <option value="24" selected>24 fps</option>
-          <option value="25">25 fps</option>
-          <option value="30">30 fps</option>
-        </select></div>
-      <label class="tog"><input type="checkbox" id="exAlpha">
-        Transparent background (sequence only)</label>
-      <div class="ctl" style="flex-direction:row;gap:.5rem">
-        <button type="button" id="exGo" style="flex:1">Render video</button>
-        <button type="button" id="exSeq" style="flex:1">PNG sequence</button>
-      </div>
-      <button type="button" id="exStill">Save this frame</button>
-      <!-- CHOOSING THE COVER IS AN AUTHORING ACT. It was in the player's share panel, which
-           put it in front of a visitor: the link preview is the edition's own face, and it
-           is his to pick, not theirs. 1200 x 630 is the size the release writes its poster
-           at, so the frame chosen here IS the poster. -->
-      <button type="button" id="exCover">Save this frame as the cover (1200 × 630)</button>
-      <p class="hint" id="mCoverNote"></p>
-      <p class="hint" id="exNote"><b>Video</b> records H.264 MP4 where the browser can, WebM
-      only if it cannot — but it is paced to the wall clock, so 2160 may stretch.
-      <b>PNG sequence</b> writes straight into a folder you choose: frame accurate at any
-      size, with alpha, and it is what Alley, Arena and After Effects want — but folder
-      access is refused to an embedded page, so it needs <b>localhost</b>.
-      <b>Save this frame</b> writes one PNG at the export resolution and works anywhere.</p>
-    </div>
-
-    <div data-deck="player" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Player </button><span class="dsp">— what the piece says, and which controls it offers</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <p class="hint">Everything a visitor reads comes from here. A second work is this
-      panel filled in differently rather than a player rebuilt — so leave a field empty and
-      the control it feeds simply does not appear.</p>
-      <div class="ctl"><div class="top"><label for="pTitle">Title</label></div>
-        <input type="text" id="pTitle" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pArtist">Artist</label></div>
-        <input type="text" id="pArtist" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pYear">Year</label></div>
-        <input type="text" id="pYear" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pAccent">Accent colour</label></div>
-        <input type="color" id="pAccent" value="#FF9900"></div>
-      <div class="ctl"><div class="top"><label for="pMedium">Medium</label></div>
-        <input type="text" id="pMedium" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pAbout">The piece — one paragraph a line</label></div>
-        <textarea id="pAbout" rows="4" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pBio">The artist — one paragraph a line</label></div>
-        <textarea id="pBio" rows="4" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pLinks">Links — label | address | tab</label></div>
-        <textarea id="pLinks" rows="3" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pDesc">Described — what it looks like, one paragraph a line</label></div>
-        <textarea id="pDesc" rows="4" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pHist">History — year | what happened, one a line</label></div>
-        <textarea id="pHist" rows="4" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pReportUrl">Reporting — where one anonymous total is sent</label></div>
-        <input type="text" id="pReportUrl" autocomplete="off" spellcheck="false"
-          placeholder="empty sends nothing and shows no notice"></div>
-      <label class="tog"><input type="checkbox" id="pReportOn"> Report this showing</label>
-      <div class="ctl"><div class="top"><label for="pInviteNote">Taking part — the invitation</label></div>
-        <textarea id="pInviteNote" rows="3" spellcheck="false"></textarea></div>
-      <div class="ctl"><div class="top"><label for="pInviteLabel">Taking part — the button</label></div>
-        <input type="text" id="pInviteLabel" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pInviteUrl">Taking part — where it goes</label></div>
-        <input type="text" id="pInviteUrl" autocomplete="off" spellcheck="false"
-          placeholder="https://ig.me/m/handle · https://wa.me/1555… · a form address"></div>
-      <div class="ctl"><div class="top"><label for="pVoice">Voice recording, under The piece — an address, when there is one</label></div>
-        <input type="text" id="pVoice" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pVoiceAbout">Voice recording, under The artist — an address, when there is one</label></div>
-        <input type="text" id="pVoiceAbout" autocomplete="off" spellcheck="false"></div>
-      <div class="ctl"><div class="top"><label for="pConds">For a person to confirm — one a line</label></div>
-        <textarea id="pConds" rows="4" spellcheck="false"></textarea></div>
-
-      <p class="hint"><b>Which controls each showing offers.</b> Pick a rig, then say what
-      it may do. Withheld means removed, not greyed out — a button nobody can use is worse
-      than no button, and in a gallery it is also something for a visitor to press.</p>
-      <div class="ctl"><div class="top"><label for="pRig">Rig</label></div>
-        <select id="pRig" autocomplete="off"></select></div>
-      <label class="tog"><input type="checkbox" id="pcPlay"> Play and pause</label>
-      <label class="tog"><input type="checkbox" id="pcFull"> Full screen</label>
-      <label class="tog"><input type="checkbox" id="pcInfo"> What this is</label>
-      <label class="tog"><input type="checkbox" id="pcScrub"> Step to a frame</label>
-      <label class="tog"><input type="checkbox" id="pcTitle"> Open on a title card</label>
-      <label class="tog"><input type="checkbox" id="pcBurn"> Burn the marks into the picture</label>
-      <label class="tog"><input type="checkbox" id="pcWake"> Hold the screen awake</label>
-      <label class="tog"><input type="checkbox" id="pcPre"> Run the installer checks</label>
-      <label class="tog"><input type="checkbox" id="pcAnon"> Anonymous — no name, anywhere</label>
-      <div class="ctl"><div class="top"><label for="pcCredit">The mark</label></div>
-        <select id="pcCredit" autocomplete="off">
-          <option value="always">always visible</option>
-          <option value="tap">only when touched</option>
-          <option value="never">never</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="pcLimit">Sample limit, seconds</label>
-        <output id="pcLimitV">none</output></div>
-        <input type="range" id="pcLimit" min="0" max="600" step="15" value="0"></div>
-      <p class="binds"><button type="button" id="pApply">Apply</button>
-        <button type="button" id="pCopy">Copy the block</button></p>
-      <p class="hint" id="pSaid"></p>
-    </div>
-    <div data-deck="layout" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Layout </button><span class="dsp">— shape, arrangement, baselines</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="aspect">Frame shape</label>
-        <output id="autoShapeV"></output></div>
-        <select id="aspect" autocomplete="off">
-          <option value="auto">auto — follow the screen</option>
-          <option value="1.7778">16:9 landscape</option>
-          <option value="1.3333">4:3</option>
-          <option value="1">1:1 square</option>
-          <option value="0.8">4:5 portrait — Instagram</option>
-          <option value="0.5625">9:16 portrait — reels, stories</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="layout">Arrangement</label></div>
-        <select id="layout" autocomplete="off">
-          <option value="auto">auto — follow the shape</option>
-          <option value="overlap">overlapping</option>
-          <option value="stack">stacked rows</option>
-          <option value="spine">book spine — AMERICAN vertical</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="gap">Gap between groups</label>
-        <output id="gapV">1.00×</output></div>
-        <input type="range" id="gap" min="0.5" max="2" step="0.05" value="1"></div>
-      <div class="ctl"><div class="top"><label for="offFirst">First blank baseline</label>
-        <output id="offFirstV">0%</output></div>
-        <input type="range" id="offFirst" min="-40" max="40" step="0.5" value="0"></div>
-      <div class="ctl"><div class="top"><label for="offSpine">American baseline</label>
-        <output id="offSpineV">0%</output></div>
-        <input type="range" id="offSpine" min="-40" max="40" step="0.5" value="0"></div>
-      <div class="ctl"><div class="top"><label for="offThird">Third blank baseline</label>
-        <output id="offThirdV">0%</output></div>
-        <input type="range" id="offThird" min="-40" max="40" step="0.5" value="0"></div>
-      <div class="ctl"><div class="top"><label for="offName">Fourth line baseline</label>
-        <output id="offNameV">0%</output></div>
-        <input type="range" id="offName" min="-40" max="40" step="0.5" value="0"></div>
-      <p class="hint">Each group's baseline moves on its own, as a share of the frame height —
-      so <b>American</b> can be dropped until it sits optically centred against the blanks,
-      whichever arrangement is running. <b>Book spine</b> wants 9:16 portrait.</p>
-    </div>
-
-    <div data-deck="repertoire" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Repertoire </button><span class="dsp">— how a glyph may arrive</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="rep">
-        <label class="tog"><input type="checkbox" id="rBounce" checked> bounce</label>
-        <label class="tog"><input type="checkbox" id="rFall" checked> fall</label>
-        <label class="tog"><input type="checkbox" id="rRise" checked> rise</label>
-        <label class="tog"><input type="checkbox" id="rLeft" checked> from left</label>
-        <label class="tog"><input type="checkbox" id="rRight" checked> from right</label>
-        <label class="tog"><input type="checkbox" id="rBack" checked> from the back</label>
-        <label class="tog"><input type="checkbox" id="rFront" checked> from the front</label>
-        <label class="tog"><input type="checkbox" id="rSpin" checked> spin</label>
-        <label class="tog"><input type="checkbox" id="rFlipY" checked> turn in Z</label>
-        <label class="tog"><input type="checkbox" id="rFlipX" checked> tip in Z</label>
-        <label class="tog"><input type="checkbox" id="rTumble" checked> tumble</label>
-        <label class="tog"><input type="checkbox" id="rDrop" checked> fall away</label>
-        <label class="tog"><input type="checkbox" id="rSpace" checked> fade &amp; track</label>
-        <label class="tog"><input type="checkbox" id="rSlam" checked> giant, from front</label>
-      </div>
-      <div class="ctl"><div class="top"><label for="bias">Bounce is the default</label>
-        <output id="biasV">0.30</output></div>
-        <input type="range" id="bias" min="0" max="1" step="0.05" value="0.3"></div>
-      <div class="ctl"><div class="top"><label for="coherence">Word holds together</label>
-        <output id="coherenceV">0.55</output></div>
-        <input type="range" id="coherence" min="0" max="1" step="0.05" value="0.55"></div>
-      <label class="tog"><input type="checkbox" id="exitDiff" checked>
-        Exits differ from entrances</label>
-      <label class="tog"><input type="checkbox" id="exitRev">
-        Exits carry on through</label>
-      <div class="ctl"><div class="top"><label for="exitFall">Exits fall</label>
-        <output id="exitFallV">0.60</output></div>
-        <input type="range" id="exitFall" min="0" max="1" step="0.05" value="0.6"></div>
-      <p class="hint">Every motion describes where a glyph sits when it is <b>away</b>, so
-      one whose away-position is above both enters from above and leaves back upward.
-      <b>Carry on through</b> flips that — a letter that fell in from the top keeps going
-      and leaves out the bottom, rather than retreating the way it came.
-      <b>Exits fall</b> pulls the chosen share downward whichever way they were headed,
-      keeping the spin, turn or scale the motion brought with it. Gravity wins over both.</p>
-    </div>
-
-    <div data-deck="american" class="deck spine">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">American </button><span class="dsp">— simpler than the blanks</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="spineCols">Colours it cycles</label>
-        <output id="spineColsV">2</output></div>
-        <input type="range" id="spineCols" min="1" max="4" step="1" value="2"></div>
-      <div class="ctl"><div class="top"><label for="spineGhost">Its ghost layers</label>
-        <output id="spineGhostV">0.45</output></div>
-        <input type="range" id="spineGhost" min="0" max="1" step="0.05" value="0.45"></div>
-      <div class="ctl"><div class="top"><label for="spineDbl">Its second pass</label>
-        <output id="spineDblV">0.25</output></div>
-        <input type="range" id="spineDbl" min="0" max="1" step="0.05" value="0.25"></div>
-      <div class="ctl"><div class="top"><label for="stomp">It stomps mid-hold</label>
-        <output id="stompV">0.45</output></div>
-        <input type="range" id="stomp" min="0" max="1" step="0.05" value="0.45"></div>
-      <div class="ctl"><div class="top"><label for="stompOdds">How often it happens</label>
-        <output id="stompOddsV">0.45</output></div>
-        <input type="range" id="stompOdds" min="0" max="1" step="0.05" value="0.45"></div>
-      <div class="ctl"><div class="top"><label for="stompN">Up to, per hold</label>
-        <output id="stompNV">3</output></div>
-        <input type="range" id="stompN" min="1" max="6" step="1" value="3"></div>
-      <div class="ctl"><div class="top"><label for="pulse">It pulses</label>
-        <output id="pulseV">0.20</output></div>
-        <input type="range" id="pulse" min="0" max="1" step="0.05" value="0.2"></div>
-      <div class="ctl"><div class="top"><label for="spineBias">Its bounce bias</label>
-        <output id="spineBiasV">0.35</output></div>
-        <input type="range" id="spineBias" min="0" max="1" step="0.05" value="0.35"></div>
-      <label class="tog"><input type="checkbox" id="spineAdd" checked>
-        Blend it additively too</label>
-      <div class="ctl"><div class="top"><label for="overBlend">Blanks over American</label></div>
-        <select id="overBlend" autocomplete="off"><option value="lighter">add</option>
-          <option value="screen" selected>screen</option>
-          <option value="overlay">overlay</option>
-          <option value="hard-light">hard light</option>
-          <option value="soft-light">soft light</option>
-          <option value="color-dodge">colour dodge</option>
-          <option value="difference">difference</option>
-          <option value="exclusion">exclusion</option>
-          <option value="luminosity">luminosity</option>
-          <option value="source-over">normal</option></select></div>
-      <div class="ctl"><div class="top"><label for="inBlend">Among the blanks</label></div>
-        <select id="inBlend" autocomplete="off"><option value="lighter" selected>add</option>
-          <option value="screen">screen</option>
-          <option value="overlay">overlay</option>
-          <option value="hard-light">hard light</option>
-          <option value="soft-light">soft light</option>
-          <option value="color-dodge">colour dodge</option>
-          <option value="difference">difference</option>
-          <option value="exclusion">exclusion</option>
-          <option value="luminosity">luminosity</option>
-          <option value="source-over">normal</option></select></div>
-      <label class="tog"><input type="checkbox" id="blendRnd" checked>
-        Draw a blend mode each line</label>
-      <p class="hint">American is the <b>background plate</b>: drawn normally, with the blanks
-      added over it. That is what keeps the small words in front — additive over a plate
-      brightens where they cross. Turn this on and it joins the pile-up instead.
-      <b>Stomp</b> drops it and squashes it again while it is standing still — the landing
-      it already made on arrival, repeated. It is <b>drawn, not counted</b>: most holds get
-      none, some get one, a few get several, and they land where they land rather than on a
-      beat. A regular count read as a metronome; this reads as a thing losing its temper.
-      <b>Pulse</b> is the quiet one underneath — a few breaths in scale, no impact and no
-      travel — and it comes and goes on its own odds.</p>
-    </div>
-
-    <div data-deck="settling" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Settling </button><span class="dsp">— order at rest</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="settle">Clears as it settles</label>
-        <output id="settleV">0.75</output></div>
-        <input type="range" id="settle" min="0" max="1" step="0.05" value="0.75"></div>
-      <div class="ctl"><div class="top"><label for="settleTo">Settles to</label></div>
-        <select id="settleTo" autocomplete="off">
-          <option value="mix">its own colour</option>
-          <option value="flag">red · white · blue</option>
-          <option value="cycle">red · white · blue, cycling</option>
-          <option value="perm" selected>red · white · blue, one of each</option>
-          <option value="rand">red · white · blue, drawn each line</option>
-        </select></div>
-      <div class="ctl"><div class="top"><label for="settleP">How far it commits</label>
-        <output id="settlePV">0.85</output></div>
-        <input type="range" id="settleP" min="0" max="1" step="0.05" value="0.85"></div>
-      <p class="hint">Chaos in motion, order at rest. <b>Clears</b> fades the ghosts and the
-      second pass out as a glyph arrives; <b>commits</b> is how far it lands on its flag
-      colour — at 0.6 it settles toward red without ever being pure red. Neither touches the
-      slice or the letter bursts, so the local glitching survives either way.</p>
-    </div>
-
-    <div data-deck="palette" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Palette </button><span class="dsp">— red, white and blue here</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="swatches">
-        <label class="sw"><span>first</span><input type="color" id="cFirst" value="#0000FF"></label>
-        <label class="sw"><span>American</span><input type="color" id="cSpine" value="#FF0000"></label>
-        <label class="sw"><span>third</span><input type="color" id="cThird" value="#FFFFFF"></label>
-        <label class="sw"><span>red</span><input type="color" id="cGhostA" value="#FF0000"></label>
-        <label class="sw"><span>blue</span><input type="color" id="cGhostB" value="#0000FF"></label>
-        <label class="sw"><span>white</span><input type="color" id="cWhite" value="#FFFFFF"></label>
-      </div>
-      <div class="ctl"><div class="top"><label for="spread">Colour per glyph</label>
-        <output id="spreadV">0.45</output></div>
-        <input type="range" id="spread" min="0" max="1" step="0.05" value="0.45"></div>
-      <div class="ctl"><div class="top"><label for="whiteShare">White's share</label>
-        <output id="whiteShareV">0.20</output></div>
-        <input type="range" id="whiteShare" min="0" max="1" step="0.05" value="0.2"></div>
-      <div class="ctl"><div class="top"><label for="ghost">Ghost offset</label>
-        <output id="ghostV">7.0 px</output></div>
-        <input type="range" id="ghost" min="0" max="40" step="0.5" value="7"></div>
-      <div class="ctl"><div class="top"><label for="ghAstr">Red ghost</label>
-        <output id="ghAstrV">0.70</output></div>
-        <input type="range" id="ghAstr" min="0" max="1" step="0.05" value="0.7"></div>
-      <div class="ctl"><div class="top"><label for="ghBstr">Blue ghost</label>
-        <output id="ghBstrV">1.00</output></div>
-        <input type="range" id="ghBstr" min="0" max="1" step="0.05" value="1"></div>
-      <select id="palPre" autocomplete="off" aria-label="Palette preset">
-        <option value="">Presets…</option>
-        <option value="proj">Saturated flag</option>
-        <option value="pure">Pure RGB primaries</option>
-        <option value="flag">Old Glory (true)</option>
-        <option value="mono">Mono</option>
-      </select>
-      <p class="hint">Pure blue carries about <b>7%</b> of white's luminance, so it will always
-      lose an addition against white — that is physics, not the palette. Its own strength and
-      White's share are the two dials that buy it back. The <b>red</b> and <b>blue</b> swatches
-      are also the colours words settle to.</p>
-    </div>
-
-    <div data-deck="formation" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Formation </button><span class="dsp">— entrances, exits, and the slip</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="speed">Speed</label>
-        <output id="speedV">0.70×</output></div>
-        <input type="range" id="speed" min="0.2" max="2" step="0.05" value="0.7"></div>
-      <div class="ctl"><div class="top"><label for="hold">Line holds for</label>
-        <output id="holdV">86 f</output></div>
-        <input type="range" id="hold" min="20" max="220" step="2" value="86"></div>
-      <div class="ctl"><div class="top"><label for="slip">Slip into the next line</label>
-        <output id="slipV">30 f</output></div>
-        <input type="range" id="slip" min="0" max="140" step="2" value="30"></div>
-      <div class="ctl"><div class="top"><label for="dur">Entrance</label>
-        <output id="durV">14 f</output></div>
-        <input type="range" id="dur" min="2" max="48" step="1" value="14"></div>
-      <div class="ctl"><div class="top"><label for="exitDur">Exit</label>
-        <output id="exitDurV">18 f</output></div>
-        <input type="range" id="exitDur" min="2" max="60" step="1" value="18"></div>
-      <div class="ctl"><div class="top"><label for="travel">Travel distance</label>
-        <output id="travelV">55%</output></div>
-        <input type="range" id="travel" min="0" max="140" step="5" value="55"></div>
-      <div class="ctl"><div class="top"><label for="drift">Blanks drift sideways</label>
-        <output id="driftV">0.35</output></div>
-        <input type="range" id="drift" min="0" max="1" step="0.05" value="0.35"></div>
-      <div class="ctl"><div class="top"><label for="driftTrack">Their tracking drifts</label>
-        <output id="driftTrackV">opens 0.30</output></div>
-        <input type="range" id="driftTrack" min="-1" max="1" step="0.05" value="0.3"></div>
-      <p class="hint">Only while a blank is <b>at rest</b>: it slides along the baseline and
-      its letterspacing changes. The slide takes a direction drawn per line; the tracking
-      does not — <b>right of zero it opens out, left of zero it closes up</b>, because a
-      drawn sign meant half the lines crowded and crowding is the half nobody wants.
-      American holds still: it is what everything else is measured against.</p>
-      <div class="ctl"><div class="top"><label for="stagger">Stagger per character</label>
-        <output id="staggerV">1.5 f</output></div>
-        <input type="range" id="stagger" min="0" max="8" step="0.5" value="1.5"></div>
-    </div>
-
-    <div data-deck="voice" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Voice </button><span class="dsp">— the recitation drives it</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="meter"><i id="vMeter"></i></div>
-      <div class="ctl"><div class="top"><label for="sndSrc">Listening to</label></div>
-        <select id="sndSrc" autocomplete="off">
-          <option value="track" selected>the soundtrack</option>
-          <option value="mic">a microphone</option>
-          <option value="off">nothing</option>
-        </select></div>
-      <div class="ctl" style="flex-direction:row;gap:.5rem">
-        <button type="button" id="sndGo" style="flex:1">Sound on</button>
-        <button type="button" id="mic" style="flex:1">Use microphone</button>
-      </div>
-      <div class="ctl"><div class="top"><label for="sndVol">Volume</label>
-        <output id="sndVolV">0.70</output></div>
-        <input type="range" id="sndVol" min="0" max="1" step="0.05" value="0.7"></div>
-      <label class="mvf" for="sndFile" style="margin-top:.2rem">Use a different track</label>
-      <input type="file" id="sndFile" accept="audio/*">
-      <input type="text" id="sndUrl" placeholder="…or paste a link to an audio file"
-        autocomplete="off" spellcheck="false" aria-label="Soundtrack URL">
-      <div class="ctl"><div class="top"><label for="vGain">Sensitivity</label>
-        <output id="vGainV">4.0×</output></div>
-        <input type="range" id="vGain" min="0" max="12" step="0.5" value="4"></div>
-      <div class="ctl"><div class="top"><label for="vScale">Swells the type</label>
-        <output id="vScaleV">0.18</output></div>
-        <input type="range" id="vScale" min="0" max="0.6" step="0.02" value="0.18"></div>
-      <div class="ctl"><div class="top"><label for="vShake">Shakes the frame</label>
-        <output id="vShakeV">0.25</output></div>
-        <input type="range" id="vShake" min="0" max="1" step="0.05" value="0.25"></div>
-      <p class="hint" id="vNote">A browser will not start audio until someone has touched the
-      page, so the first click anywhere starts it. The soundtrack loops and drives the type;
-      a microphone can take its place, and either way the level is the one input here that is
-      not deterministic.</p>
-    </div>
-
-    <div data-deck="degrade" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Degrade </button><span class="dsp">— it gets worse as it goes</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="degrade">Across the sequence</label>
-        <output id="degradeV">0.70</output></div>
-        <input type="range" id="degrade" min="0" max="1" step="0.05" value="0.7"></div>
-      <div class="ctl"><div class="top"><label for="slice">Slice displacement</label>
-        <output id="sliceV">0.30</output></div>
-        <input type="range" id="slice" min="0" max="1" step="0.05" value="0.3"></div>
-      <div class="ctl"><div class="top"><label for="burst">Letter burst</label>
-        <output id="burstV">0.30</output></div>
-        <input type="range" id="burst" min="0" max="1" step="0.05" value="0.3"></div>
-      <div class="ctl"><div class="top"><label for="doubles">Second pass</label>
-        <output id="doublesV">0.55</output></div>
-        <input type="range" id="doubles" min="0" max="1" step="0.05" value="0.55"></div>
-      <div class="ctl"><div class="top"><label for="scan">Bad scan lines</label>
-        <output id="scanV">0.55</output></div>
-        <input type="range" id="scan" min="0" max="1" step="0.05" value="0.55"></div>
-      <div class="ctl"><div class="top"><label for="scanGrit">Scan grit</label>
-        <output id="scanGritV">0.45</output></div>
-        <input type="range" id="scanGrit" min="0" max="1" step="0.05" value="0.45"></div>
-      <div class="ctl"><div class="top"><label for="scanOdds">How often they hit</label>
-        <output id="scanOddsV">0.30</output></div>
-        <input type="range" id="scanOdds" min="0" max="1" step="0.05" value="0.3"></div>
-      <div class="ctl"><div class="top"><label for="samples">Shutter samples</label>
-        <output id="samplesV">4</output></div>
-        <input type="range" id="samples" min="1" max="12" step="1" value="4"></div>
-      <div class="ctl"><div class="top"><label for="shutter">Shutter angle</label>
-        <output id="shutterV">150°</output></div>
-        <input type="range" id="shutter" min="0" max="360" step="10" value="150"></div>
-    </div>
-
-    <div data-deck="frame" class="deck">
-      <h2 class="dhead"><button type="button" class="dtog" aria-expanded="true">Fit &amp; sizes </button><span class="dsp">— how big, how close</span><button type="button" class="dmv" data-mv="up" title="Move up">↑</button><button type="button" class="dmv" data-mv="down" title="Move down">↓</button></h2>
-      <div class="ctl"><div class="top"><label for="spineSize">Spine size</label>
-        <output id="spineSizeV">13.0%</output></div>
-        <input type="range" id="spineSize" min="5" max="26" step="0.5" value="13"></div>
-      <div class="ctl"><div class="top"><label for="nameSize">Fourth line size</label>
-        <output id="nameSizeV">5.5%</output></div>
-        <input type="range" id="nameSize" min="2" max="14" step="0.5" value="5.5"></div>
-      <div class="ctl"><div class="top"><label for="outerSize">Blank size</label>
-        <output id="outerSizeV">7.0%</output></div>
-        <input type="range" id="outerSize" min="3" max="18" step="0.5" value="7"></div>
-      <div class="ctl"><div class="top"><label for="overlap">Overlap into spine</label>
-        <output id="overlapV">0.30</output></div>
-        <input type="range" id="overlap" min="0" max="0.48" step="0.01" value="0.3">
-        <label class="tog"><input type="checkbox" id="ovByWord">
-          Match the tuck to each phrase</label></div>
-      <div class="ctl"><div class="top"><label for="margin">Safe margin</label>
-        <output id="marginV">5.0%</output></div>
-        <input type="range" id="margin" min="0" max="16" step="0.5" value="5"></div>
-      <div class="ctl"><div class="top"><label for="focus">Depth of field</label>
-        <output id="focusV">0.40</output></div>
-        <input type="range" id="focus" min="0" max="1" step="0.05" value="0.4"></div>
-      <div class="ctl"><div class="top"><label for="squash">Squash on landing</label>
-        <output id="squashV">0.55</output></div>
-        <input type="range" id="squash" min="0" max="1.5" step="0.05" value="0.55"></div>
-      <label class="tog"><input type="checkbox" id="on2s" checked>
-        Animate on 2s (12&nbsp;fps snap)</label>
-      <label class="tog"><input type="checkbox" id="guides">
-        Show the safe area</label>
-    </div>
-
-  </div>
-
-  <div class="notes">
-    <div>
-      <h3>Everything random is seeded — except the voice</h3>
-      <p>Which way each glyph arrives and leaves, its colour, whether it doubles: all from
-      <code>mulberry32</code> keyed on line, actor and glyph, the same generator the Builder
-      uses for arrangement <code>#2026</code>. The microphone is the one live input, and it
-      is live on purpose.</p>
-    </div>
-    <div>
-      <h3>How the fit gives way</h3>
-      <p>Overlap first, then the blanks shrink, and the spine shrinks last — the fixed word
-      is the one thing that never changes, so it is the last thing allowed to move.</p>
-    </div>
-    <div>
-      <h3>The coda never runs on a loop</h3>
-      <p>The homage at the end of the piece is said by a person to people who are present.
-      It is deliberately absent from this script and from anything that plays unattended.</p>
-    </div>
-  </div>
+  
 </div>
 
 <script>
@@ -1705,43 +1087,149 @@ function parseScript(s){
   });
   return out.length?out:[["Afghan","Interpreter"]];
 }
+/* ---- THE SETTINGS, WHICH ARE NOT THE INTERFACE ----------------------------------
+   Every one of these lived in a slider's value= attribute, which meant the engine could
+   only run with the whole instrument in the page: readControls() read the parameters
+   straight off eighty controls, so the published player was the builder with its interface
+   hidden rather than a player at all. They are declared here now, and a control OVERRIDES
+   one wherever a control exists. The instrument is unchanged -- it still owns these values
+   and writing them out is how they ship -- but the piece no longer needs it.
+
+   TAKEN FROM THIS FILE, NOT FROM THE OTHER ONE. The instrument and the performance are not
+   the same document: the instrument carries whatever short score he is tuning against, the
+   performance carries the edition. Generating both from the instrument would have written
+   a six-line workbench over a two-hundred-and-forty-nine-line work. */
+var SHIPPED={
+  aspect:"auto",
+  bias:0.3,
+  blendRnd:true,
+  burst:0.3,
+  cFirst:"#0000FF",
+  cGhostA:"#FF0000",
+  cGhostB:"#0000FF",
+  cSpine:"#FF0000",
+  cThird:"#FFFFFF",
+  cWhite:"#FFFFFF",
+  caseMode:"as",
+  coherence:0.55,
+  degrade:0.7,
+  doubles:0.55,
+  drift:0.35,
+  driftTrack:0.3,
+  dur:14,
+  exAmt:3,
+  exFps:"24",
+  exMode:"all",
+  exRes:"1080",
+  exitDiff:true,
+  exitDur:18,
+  exitFall:0.6,
+  exitRev:false,
+  face:"minnerva",
+  focus:0.4,
+  gap:1,
+  ghAstr:0.7,
+  ghBstr:1,
+  ghost:7,
+  guides:false,
+  hold:86,
+  inBlend:"lighter",
+  layout:"auto",
+  margin:5,
+  nameSize:5.5,
+  offFirst:0,
+  offName:0,
+  offSpine:0,
+  offThird:0,
+  on2s:true,
+  outerSize:7,
+  ovByWord:false,
+  overBlend:"screen",
+  overlap:0.3,
+  pulse:0.2,
+  recycle:true,
+  samples:4,
+  scan:0.55,
+  scanGrit:0.45,
+  scanOdds:0.3,
+  settle:0.75,
+  settleP:0.85,
+  settleTo:"perm",
+  shutter:150,
+  slice:0.3,
+  slip:30,
+  sndSrc:"track",
+  speed:0.7,
+  spineAdd:true,
+  spineBias:0.35,
+  spineCols:2,
+  spineDbl:0.25,
+  spineGhost:0.45,
+  spineSize:13,
+  spread:0.45,
+  squash:0.55,
+  stagger:1.5,
+  stomp:0.45,
+  stompN:3,
+  stompOdds:0.45,
+  travel:55,
+  vGain:4,
+  vScale:0.18,
+  vShake:0.25,
+  whiteShare:0.2,
+  pool:["bounce", "fall", "rise", "left", "right", "back", "front", "spin", "flipY", "flipX", "drop", "tumble", "space", "slam"],
+  sndVol:0.7,
+  script:"Afghan|Interpreter, All|Boy, Argentinian|Artist, Australian|Steakhouse, Bahamian|Festival, Barbadian|Jazz, Bolivian|Poodle, Brazilian|Football, Canadian|Bison, Cheap|Gas, Chilean|Pie, Chinese|Economy, Colombian|Express, Costa Rican|Pastoral, Croatian|Original, Cuban|Cafecito, Deranged|Fascists, Dominican|Goddess, Ecuadorian|Singer, Egyptian|Soccer, English|Cheerleader, Filipino|Idol, French|Werewolf, Fresh|Joke, Generous|Spirit, German|Legion, Global|Music, Greek|Muscle, Grenadian|Honey, Guatemalan|Apparel, Guyanese|Diner, Haitian|Dream, Honduran|Barbecue, Hungarian|Gigolo, Iced|Roads, Indian|Movie, Insolvent|Debt, Iranian|Nightmare, Iraqi|Empire, Irish|Songbook, Isolated|Aggression, Israeli|Frontier, Italian|Housewife, Jamaican|Buffalo, Japanese|Girl, Korean|Sweetheart, Lebanese|Dad, Lonely|Men, Mexican|Cowboy, Miccosukee|Sage, Modern|Horror Story, Moroccan|Rodeo, Natural|Splendor, Nicaraguan|Novel, Nigerian|Gospel, Norwegian|Thanksgiving, Ordinary|Beauty, Palestinian|Way, Panamanian|Century, Paraguayan|Mall, Peruvian|Hustle, Portuguese|Eagle, Puerto Rican|Pride, Queer|Film Festival, Romanian|Chopper, Russian|Psycho, Salvadoran|Carnage, Seminole|Gothic, Slovakian|Composer, South African|Trillionaire, Spanish|War, Surreal|Moment, Swift|Graffiti, Swiss|Cheese, Tired|Activists, Trans|Rights, Trinidadian|Grit, Turkish|Chef, Ukrainian|Sniper, Uruguayan|Exceptionalism, Venezuelan|Pain, Vietnamese|Pageant, White|Tesla, Criminalized|Abortions, Documented|Abuse, Bullied|Allies, Alleged|Assault, Caged|Babies, Lynched|Blacks, Crossed|Border, Declined|Cards, Unvaccinated|Children, Nationalized|Christianity, Invaded|Cities, Deported|Citizens, Lapsed|Credibility, Scraped|Culture, Enforced|Curfew, Prolonged|Custody, Investigated|Deaths, Shackled|Detainees, Overcrowded|Detention, Weakened|Dollars, Dodged|Draft, Betrayed|Farmers, Expanded|Footprint, Burned|Forests, Wasted|Futures, Examined|Genders, Endless|Genocides, Melted|Glaciers, Protested|Government, Elected|Grifters, Accused|Guards, Washed|Hands, Collapsed|Health Care, Forgotten|Heroes, Dug|Holes, Imagined|Humiliation, Separated|Infants, Bribed|Inspectors, Questioned|Intelligence, Angered|Karens, Trafficked|Kids, Canned|Laughter, Enriched|Lawmakers, Broken|Laws, Strapped|Legs, Repeated|Lies, Served|Meals, Groomed|Media, Reduced|Medicaid, Launched|Missiles, Detained|Mothers, Remembered|Myths, Gentrified|Neighborhoods, Scooped|News, Divided|Opinions, Executed|Orders, Gaslit|Peoples, Pinged|Phones, Redacted|Presidents, Raised|Prices, Privatized|Prisons, Rescinded|Protections, Unprosecuted|Rapists, Ordered|Removal, Erased|Rights, Texted|Secrets, Disappeared|Shame, Pointed|Sheets, Polluted|Skies, Deprived|Sleep, Tilled|Soil, Buried|Soldiers, Suppressed|Speech, Arrested|Sponsors, Terminated|Status, Punished|Strikers, Indebted|Students, Beleaguered|Teachers, Enshittified|Technologies, Impossible|Thoughts, Deployed|Troops, Reflected|Values, Built|Wall, Abandon|Allies, Arrest|Journalists, Believe|Women, Bomb|Targets, Break|Norms, Censor|Speech, Clear|Docket, Close|Eyes, Coerce|Signatures, Confirm|Address, Corrupt|Judges, Cut|Aid, Deface|Monuments, Degrade|Spirit, Deny|Rights, Describe|Shame, Destroy|Hope, Detain|Citizens, Disenfranchise African|Voters, Dismiss|Assaults, Drain|Swamps, Drive|Cars, Dull|Legs, Enable|Strike, Erase|Peoples, Expand|Detention, Expedite|Removal, Exploit|Workers, Extend|Surveillance, Fasten|Ankle Monitors, Finish|Wall, Follow|Orders, Gas|Protesters, Ignore|Abuse, Impose|Curfew, Increase|Deficits, Influence|Influencers, Invade|Wombs, Issue|Uniform, Kill|Rule of Law, Load|Vans, Love|Fathers, Lower|Masks, Occupy|Cities, Pack|Cells, Pardon|Presidents, Pass|Blame, Point|Fingers, Police|Thoughts, Protect|Predators, Quench|Thirst, Reclaim|Decency, Refuse|Terror, Rename|Institutions, Render|Tariffs, Repatriate|Naturalized Citizens, Rescind|Protections, Resist|Government, Revoke|Visas, Roll|Fingerprints, Run|Raids, Save|Libraries, Screen|Propaganda, Seal|Lips, Send|Letters, Separate|Mothers, Shave|Truths, Shield|Ice Agents, Shoot|Rounds, Silence|Protest, Sing|Songs, Slice|Pies, Sound|Sentiment, Start|Wars, Supply|Weapons, Suppress|Votes, Suspend|Laws, Swing|Dicks, Tell|Lies, Vandalize|Art, Wave|Flags, Weaponize|Check-Ins, Witness|Decline"
+};
+/* A control if there is one, the shipped value if there is not. */
+function num(id){ var e=el[id]; return e ? +e.value : +SHIPPED[id]; }
+function str(id){ var e=el[id]; return e ? e.value : SHIPPED[id]; }
+function yes(id){ var e=el[id]; return e ? !!e.checked : !!SHIPPED[id]; }
+/* AND THE SAME BOTH WAYS. Anything that borrows a setting and puts it back -- the social
+   clip changes the shape, the arrangement and the margin for the length of a render -- was
+   reaching for a slider by name, which is a thing the player does not have. Read and write
+   go through the same door now, and the door decides where the value actually lives. */
+function getSetting(id){ var e=el[id]; return e ? e.value : SHIPPED[id]; }
+function setSetting(id,v){ var e=el[id]; if(e) e.value=v; else SHIPPED[id]=v; }
 function readControls(){
-  V.bias=+el.bias.value; V.coherence=+el.coherence.value; V.exitDiff=el.exitDiff.checked;
-  V.exitFall=+el.exitFall.value; V.exitRev=el.exitRev.checked;
-  V.drift=+el.drift.value; V.driftTrack=+el.driftTrack.value; V.scan=+el.scan.value;
-  V.spineCols=+el.spineCols.value; V.spineGhost=+el.spineGhost.value;
-  V.spineDbl=+el.spineDbl.value; V.spineBias=+el.spineBias.value;
-  V.spineAdd=el.spineAdd.checked;
-  V.stomp=+el.stomp.value; V.stompN=+el.stompN.value; V.pulse=+el.pulse.value;
-  V.stompOdds=+el.stompOdds.value;
-  V.overBlend=el.overBlend.value; V.inBlend=el.inBlend.value;
-  V.blendRnd=el.blendRnd.checked;
-  V.settle=+el.settle.value; V.settleTo=el.settleTo.value; V.settleP=+el.settleP.value;
-  V.spread=+el.spread.value; V.whiteShare=+el.whiteShare.value; V.ghost=+el.ghost.value;
-  V.ghAstr=+el.ghAstr.value; V.ghBstr=+el.ghBstr.value;
-  V.speed=+el.speed.value;
-  V.hold=+el.hold.value; V.slip=+el.slip.value; V.dur=+el.dur.value;
-  V.exitDur=+el.exitDur.value; V.travel=+el.travel.value; V.stagger=+el.stagger.value;
-  V.sndSrc=el.sndSrc.value;
-  V.vGain=+el.vGain.value; V.vScale=+el.vScale.value; V.vShake=+el.vShake.value;
-  V.degrade=+el.degrade.value; V.slice=+el.slice.value; V.burst=+el.burst.value;
-  V.scanOdds=+el.scanOdds.value; V.scanGrit=+el.scanGrit.value;
-  V.doubles=+el.doubles.value; V.samples=+el.samples.value; V.shutter=+el.shutter.value;
-  V.aspectMode=el.aspect.value; V.layoutMode=el.layout.value; autoShape();
-  V.nameSize=+el.nameSize.value;
-  V.exMode=el.exMode.value; V.exAmt=+el.exAmt.value;
-  V.exRes=+el.exRes.value; V.exFps=+el.exFps.value;
-  V.offFirst=+el.offFirst.value; V.offSpine=+el.offSpine.value;
-  V.offThird=+el.offThird.value; V.offName=+el.offName.value;
-  V.spineSize=+el.spineSize.value; V.outerSize=+el.outerSize.value;
-  V.overlap=+el.overlap.value; V.margin=+el.margin.value; V.squash=+el.squash.value;
-  V.focus=+el.focus.value;
-  V.gap=+el.gap.value; V.ovByWord=el.ovByWord.checked;
-  V.on2s=el.on2s.checked; V.guides=el.guides.checked; V.recycle=el.recycle.checked;
-  V.col={first:el.cFirst.value,spine:el.cSpine.value,third:el.cThird.value,
-         gA:el.cGhostA.value,gB:el.cGhostB.value,white:el.cWhite.value};
-  V.face=el.face.value; V.caseMode=el.caseMode.value;
-  pool=MKEYS.filter(function(k){var n=el[MOTIONS[k].id];return n&&n.checked;});
+  V.bias=num("bias"); V.coherence=num("coherence"); V.exitDiff=yes("exitDiff");
+  V.exitFall=num("exitFall"); V.exitRev=yes("exitRev");
+  V.drift=num("drift"); V.driftTrack=num("driftTrack"); V.scan=num("scan");
+  V.spineCols=num("spineCols"); V.spineGhost=num("spineGhost");
+  V.spineDbl=num("spineDbl"); V.spineBias=num("spineBias");
+  V.spineAdd=yes("spineAdd");
+  V.stomp=num("stomp"); V.stompN=num("stompN"); V.pulse=num("pulse");
+  V.stompOdds=num("stompOdds");
+  V.overBlend=str("overBlend"); V.inBlend=str("inBlend");
+  V.blendRnd=yes("blendRnd");
+  V.settle=num("settle"); V.settleTo=str("settleTo"); V.settleP=num("settleP");
+  V.spread=num("spread"); V.whiteShare=num("whiteShare"); V.ghost=num("ghost");
+  V.ghAstr=num("ghAstr"); V.ghBstr=num("ghBstr");
+  V.speed=num("speed");
+  V.hold=num("hold"); V.slip=num("slip"); V.dur=num("dur");
+  V.exitDur=num("exitDur"); V.travel=num("travel"); V.stagger=num("stagger");
+  V.sndSrc=str("sndSrc");
+  V.vGain=num("vGain"); V.vScale=num("vScale"); V.vShake=num("vShake");
+  V.degrade=num("degrade"); V.slice=num("slice"); V.burst=num("burst");
+  V.scanOdds=num("scanOdds"); V.scanGrit=num("scanGrit");
+  V.doubles=num("doubles"); V.samples=num("samples"); V.shutter=num("shutter");
+  V.aspectMode=str("aspect"); V.layoutMode=str("layout"); autoShape();
+  V.nameSize=num("nameSize");
+  V.exMode=str("exMode"); V.exAmt=num("exAmt");
+  V.exRes=num("exRes"); V.exFps=num("exFps");
+  V.offFirst=num("offFirst"); V.offSpine=num("offSpine");
+  V.offThird=num("offThird"); V.offName=num("offName");
+  V.spineSize=num("spineSize"); V.outerSize=num("outerSize");
+  V.overlap=num("overlap"); V.margin=num("margin"); V.squash=num("squash");
+  V.focus=num("focus");
+  V.gap=num("gap"); V.ovByWord=yes("ovByWord");
+  V.on2s=yes("on2s"); V.guides=yes("guides"); V.recycle=yes("recycle");
+  V.col={first:str("cFirst"),spine:str("cSpine"),third:str("cThird"),
+         gA:str("cGhostA"),gB:str("cGhostB"),white:str("cWhite")};
+  V.face=str("face"); V.caseMode=str("caseMode");
+  /* the motions are checkboxes in the instrument and a list in the player */
+  pool=MKEYS.filter(function(k){ var n=el[MOTIONS[k].id];
+    return n ? n.checked : SHIPPED.pool.indexOf(k)>=0; });
   if(!pool.length) pool=["fall"];
   V.spreadSet=[V.col.first,V.col.spine,V.col.gA,V.col.gB,V.col.third]
     .filter(function(c,i,a){return a.indexOf(c)===i;});
@@ -1751,7 +1239,7 @@ function readControls(){
      moment that swatch went blue, every white in the piece went with it, in settling
      and ghosts alike, nowhere near the control that had been touched. */
   V.flag=[V.col.gA, V.col.white, V.col.gB];
-  lines=parseScript(el.script.value);
+  lines=parseScript(el.script ? el.script.value : SHIPPED.script);
   paintReadouts();
 }
 function paintReadouts(){
@@ -1770,7 +1258,7 @@ function paintReadouts(){
   say("speedV",V.speed.toFixed(2)+"×"); say("holdV",V.hold+" f"); say("slipV",V.slip+" f"); say("durV",V.dur+" f");
   say("exitDurV",V.exitDur+" f"); say("travelV",V.travel+"%");
   say("staggerV",V.stagger.toFixed(1).replace(/\.0$/,"")+" f");
-  say("sndVolV",(+el.sndVol.value).toFixed(2)); say("vGainV",V.vGain.toFixed(1)+"×"); say("vScaleV",V.vScale.toFixed(2));
+  if(el.sndVol) say("sndVolV",(+el.sndVol.value).toFixed(2)); say("vGainV",V.vGain.toFixed(1)+"×"); say("vScaleV",V.vScale.toFixed(2));
   say("vShakeV",V.vShake.toFixed(2));
   say("degradeV",V.degrade.toFixed(2)); say("sliceV",V.slice.toFixed(2));
   say("burstV",V.burst.toFixed(2)); say("doublesV",V.doubles.toFixed(2));
@@ -2840,7 +2328,11 @@ try{
 function syncBaselines(){
   var now=V.layout; if(!baseSets[now]) baseSets[now]=BASE_DEF[now]?BASE_DEF[now].slice():["0","0","0","0"];
   var moved=false;
-  var read=function(){ return BASE_KEYS.map(function(k){ return el[k]?el[k].value:"0"; }); };
+  /* THROUGH THE SAME DOOR AS EVERY OTHER SETTING. This read a slider or gave up and said
+     zero, and wrote to a slider or did nothing at all -- so in a player with no controls
+     every arrangement's baselines came out 0/0/0/0 and the shipped numbers never arrived.
+     The baselines are settings; they live wherever the settings live. */
+  var read=function(){ return BASE_KEYS.map(function(k){ return String(getSetting(k)); }); };
   if(baseAdopt){
     /* A LOOK JUST LANDED and carries its own four numbers -- they become this
        arrangement's set rather than being overwritten by it. */
@@ -2850,7 +2342,7 @@ function syncBaselines(){
        which adopted whatever the sliders happened to say as the arrangement's set --
        so the shipped numbers were overwritten by zeroes before anyone saw them. */
     if(baseNow!==null) baseSets[baseNow]=read();
-    BASE_KEYS.forEach(function(k,i){ if(el[k]) el[k].value=baseSets[now][i]; });
+    BASE_KEYS.forEach(function(k,i){ setSetting(k, baseSets[now][i]); });
     baseNow=now; moved=true;
   } else {
     baseSets[now]=read();
@@ -2930,19 +2422,19 @@ if(el.aspect) el.aspect.addEventListener("change",function(){
   if(el.stageBox && el.stageBox.scrollIntoView)
     el.stageBox.scrollIntoView({behavior:"smooth",block:"start"});
 });
-el.script.addEventListener("input",refresh);
-el.palPre.addEventListener("change",function(){
+if(el.script) el.script.addEventListener("input",refresh);
+if(el.palPre) el.palPre.addEventListener("change",function(){
   var q=PALETTES[el.palPre.value]; el.palPre.value=""; if(!q) return;
   el.cFirst.value=q[0]; el.cSpine.value=q[1]; el.cThird.value=q[2];
   el.cGhostA.value=q[3]; el.cGhostB.value=q[4]; refresh();
 });
-el.play.addEventListener("click",function(){ setRunning(!running); });
+if(el.play) el.play.addEventListener("click",function(){ setRunning(!running); });
 if(el.exGo) el.exGo.addEventListener("click", renderOut);
 if(el.exSeq) el.exSeq.addEventListener("click", renderSequence);
 if(el.exStill) el.exStill.addEventListener("click", saveStill);
-el.full.addEventListener("click",toggleFull);
-el.mic.addEventListener("click",startMic);
-el.reseed.addEventListener("click",function(){
+if(el.full) el.full.addEventListener("click",toggleFull);
+if(el.mic) el.mic.addEventListener("click",startMic);
+if(el.reseed) el.reseed.addEventListener("click",function(){
   /* a hand reseed sets the BASE, so the cycles that follow count on from it */
   baseSeed=Math.floor(Math.random()*100000); seed=baseSeed; cycleNow=0;
   say("hSeed",String(seed)); if(!running) still();
@@ -3066,6 +2558,17 @@ function exportFrames(){
   if(V.exMode==="lines") return Math.min(lines.length,V.exAmt)*period/engPerSec*V.exFps;
   return V.exAmt*V.exFps;
 }
+/* A RENDER IS A STATE, NOT A DISABLED BUTTON. Whether one was running used to be read off
+   the Render control's disabled flag -- an instrument control -- so in a player with no
+   tuning deck the social clip checked a button that does not exist and silently did
+   nothing. The state is its own thing now, and the buttons follow it where there are
+   buttons. */
+var rendering=false;
+function busyRender(on){
+  rendering=!!on;
+  if(el.exGo)  el.exGo.disabled  = !!on;
+  if(el.exSeq) el.exSeq.disabled = !!on;
+}
 function renderOut(){
   if(exportSize) return exportGaveUp("A render is already running.");
   var N=Math.max(1,Math.round(exportFrames()));
@@ -3100,13 +2603,13 @@ function renderOut(){
 
   var wasRunning=running; setRunning(false);
   exportSize=[w,h]; size();
-  el.exGo.disabled=true;
+  busyRender(true);
 
   rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:24000000});
   rec.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
   rec.onstop=function(){
     var blob=new Blob(chunks,{type:mime.split(";")[0]});
-    exportSize=null; size(); el.exGo.disabled=false;
+    exportSize=null; size(); busyRender(false);
     setRunning(wasRunning);
     var done=onExportDone; onExportDone=null;
     if(done) done(blob, N, w, h, ext); else offerFile(blob, N, w, h, ext);
@@ -3174,7 +2677,7 @@ function renderSequence(){
   window.showDirectoryPicker({mode:"readwrite"}).then(function(dir){
     setRunning(false);
     exportSize=[w,h]; exportAlpha=!!(el.exAlpha&&el.exAlpha.checked); size();
-    el.exGo.disabled=true; el.exSeq.disabled=true;
+    busyRender(true);
     var k=0;
     function step(){
       if(k>=N){
@@ -3203,7 +2706,7 @@ function renderSequence(){
     }
     function done(){
       exportSize=null; exportAlpha=false; size();
-      el.exGo.disabled=false; el.exSeq.disabled=false;
+      busyRender(false);
       setRunning(wasRunning);
       say("exNote","Wrote "+N+" frames plus render.txt. Alley or After Effects will "
         +"open frame_00001.png as a sequence.");
@@ -3211,7 +2714,7 @@ function renderSequence(){
     return step();
   }).catch(function(e){
     exportSize=null; exportAlpha=false; size();
-    el.exGo.disabled=false; el.exSeq.disabled=false;
+    busyRender(false);
     var nm=(e&&e.name)||"unknown";
     say("exNote", nm==="AbortError" ? "Cancelled — nothing written."
       : nm==="SecurityError" ? "The browser refused folder access — open this page from localhost."
@@ -3545,7 +3048,7 @@ function sndSetup(){
     snd.an=snd.ctx.createAnalyser(); snd.an.fftSize=1024;
     snd.buf=new Uint8Array(snd.an.fftSize);
     snd.gain=snd.ctx.createGain();
-    snd.gain.gain.value=(el.sndVol?+el.sndVol.value:0.7);
+    snd.gain.gain.value=num("sndVol");
     snd.src=snd.ctx.createMediaElementSource(el.sndEl);
     snd.src.connect(snd.gain); snd.gain.connect(snd.an);
     snd.an.connect(snd.ctx.destination);
@@ -5187,19 +4690,19 @@ function clipAfter(status){
   }
 }
 function socialClip(secs){
-  if(!el.exGo || el.exGo.disabled){ return; }
+  if(rendering) return;
   var keep={};
   ["aspect","margin","exMode","exAmt","exRes","layout"].forEach(function(k){
-    if(el[k]) keep[k]=el[k].value; });
-  if(el.aspect) el.aspect.value=clipAsp;
+    keep[k]=getSetting(k); });
+  setSetting("aspect",clipAsp);
   /* a shape that is not the screen's needs an arrangement chosen for it, or auto reads the
      WINDOW and lays the words out for a frame the clip is not going to have */
-  if(el.layout && el.layout.value==="auto")
-    el.layout.value = (+clipAsp<=0.82) ? "spine" : (+clipAsp>=1.06 ? "overlap" : "stack");
-  if(el.margin) el.margin.value="9";
-  if(el.exMode) el.exMode.value="secs";
-  if(el.exAmt)  el.exAmt.value=String(secs);
-  if(el.exRes)  el.exRes.value="1080";
+  if(getSetting("layout")==="auto")
+    setSetting("layout", (+clipAsp<=0.82) ? "spine" : (+clipAsp>=1.06 ? "overlap" : "stack"));
+  setSetting("margin","9");
+  setSetting("exMode","secs");
+  setSetting("exAmt",String(secs));
+  setSetting("exRes","1080");
   refresh();
   /* a card at each end, scaled to the length -- a minute can afford two seconds of title,
      fifteen seconds cannot */
@@ -5217,7 +4720,7 @@ function socialClip(secs){
   };
   function restore(){
     clipTick=null; clipCards=null;
-    for(var k in keep){ if(el[k]) el[k].value=keep[k]; }
+    for(var k in keep) setSetting(k,keep[k]);
     refresh();
   }
   onExportDone=function(blob,N,w,h,ext,why){
