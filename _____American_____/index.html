@@ -661,6 +661,34 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 .aspico.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent)}
 .mlab{display:flex;align-items:center;color:var(--ovl-dim);font-size:.82rem}
 .tico{width:19px;height:19px;fill:currentColor;color:var(--ovl-faint)}
+/* THE KEY, FULL SCREEN. Same ground as the code: over the work, never instead of it --
+   the piece goes on drawing behind and the sound never learns anything happened. */
+#keyFull{display:none;position:fixed;inset:0;z-index:97;background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;overflow-y:auto;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#keyFull.on{display:flex}
+.keyin{max-width:34rem;width:100%;padding:2rem 1.4rem calc(2rem + env(safe-area-inset-bottom));
+  margin:auto}
+#keyHead{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--ovl-faint);margin:0 0 1.2rem;padding-bottom:.6rem;
+  border-bottom:1px solid var(--ovl-rule)}
+#keyList{margin:0;display:grid;grid-template-columns:2.6rem 1fr;gap:.9rem .9rem;
+  align-items:start}
+#keyList dt{color:var(--ovl-ink);display:flex;align-items:center;justify-content:center;
+  min-height:1.4rem}
+#keyList dt svg{width:22px;height:22px;fill:currentColor;display:block}
+/* A GESTURE HAS NO ICON, and squeezing its name into the icon column set four words on
+   four lines against a 2.6rem gutter, running into the sentence beside it. The column is
+   for marks. A gesture names itself at the head of its own line instead, in the accent, so
+   the two kinds of row still read as one list. */
+.kw{color:var(--ovl-accent);font-weight:600;text-transform:uppercase;font-size:.7rem;
+  letter-spacing:.05em}
+#keyList dd{margin:0;font-size:.86rem;line-height:1.45;color:var(--ovl-dim)}
+#keyList dd b{color:var(--ovl-ink);font-weight:600}
+#keyShut{display:block;width:100%;margin-top:1.6rem;min-height:48px;
+  background:none;border:1px solid var(--ovl-rule);color:var(--ovl-ink);
+  font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
+#keyShut:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* THE CODE, FULL SCREEN */
 #qrFull{display:none;position:fixed;inset:0;z-index:97;background:rgba(0,0,0,.92);
   align-items:center;justify-content:center;flex-direction:column;gap:1.2rem;
@@ -1110,6 +1138,7 @@ label.reset,label.reset span{color:var(--accent) !important;
       <label class="mrow" id="mRoomRow"><span>Camera as the background</span>
         <input type="checkbox" id="mRoom" autocomplete="off"></label>
       <p class="mnote" id="mRoomNote"></p>
+      <button type="button" class="mbtn" id="mKey">What the controls do</button>
       <button type="button" class="mbtn" id="mFull">Full screen</button>
       <button type="button" class="mbtn" id="mShot">Save this frame</button>
       <p class="mnote" id="mFullNote"></p>
@@ -1207,6 +1236,17 @@ label.reset,label.reset span{color:var(--accent) !important;
   <!-- THE CODE, BIG. A code in a panel is a code somebody has to hold a phone very close
        to; full screen it is a thing you hold UP, which is the only way it was ever going to
        be used. Tap anywhere to put it away. -->
+  <!-- WHAT THE CONTROLS DO. The interface has real gestures now -- drag to move through a
+       pass, drag away to go finer, hold for the room, hold for the shortcuts -- and a
+       gesture nobody can see is a gesture nobody finds. This is not the information icon
+       that came out: that one's only job was to close the panel it could not open. This is
+       a KEY, built from what is actually on screen, so it can never describe a control the
+       rig or the device has withheld. -->
+  <div id="keyFull" hidden><div class="keyin">
+    <h2 id="keyHead">What the controls do</h2>
+    <dl id="keyList"></dl>
+    <button type="button" id="keyShut">Close</button>
+  </div></div>
   <div id="qrFull" hidden><canvas id="qrC" width="8" height="8" role="img"
     aria-label="A square code that opens this piece"></canvas><p id="qrUrl"></p></div>
   <div id="titleCard" hidden>
@@ -5444,6 +5484,65 @@ function shFill(){
     +'allow="autoplay; fullscreen" title="'+esc(PIECE.title||"")+'"></iframe>';
   if(el.mEmbed) el.mEmbed.hidden = (PIECE.embed===false);
 }
+/* BUILT FROM WHAT IS ON SCREEN, NOT FROM A LIST SOMEBODY KEEPS UP TO DATE. Every row is
+   conditional on the same thing that decides whether the control exists -- the rig, the
+   device, the camera -- so a key that says the piece can go full screen is a key on a
+   device that can. The icons are the REAL ones, lifted out of the buttons they explain,
+   which is the only version that cannot drift. */
+function keyIcon(id){
+  var b=el[id], s=b && b.querySelector ? b.querySelector("svg") : null;
+  return s ? s.outerHTML : "";
+}
+function keyRows(){
+  var R=[];
+  function row(mark,word,says){ R.push({mark:mark,word:word,says:says}); }
+  row("", "CHAMY\u00b7XYZ, lower left", "Shows and hides these controls.");
+  row("", "The signature, upper right", "About the piece, its history, and how to take part.");
+  if(RIG.play){
+    row(PLAY_D ? '<svg viewBox="0 0 24 24"><path d="'+PLAY_D+'"/></svg>' : "", "",
+        "<b>Play and pause.</b> The space bar does it too.");
+  }
+  row(keyIcon("bSound"), "", "Sound on and off. Tapping the piece lets the sound start.");
+  if(CAN_FULL && RIG.full) row(keyIcon("bFull"), "", "Full screen.");
+  row(keyIcon("bShare"), "", "Send the link, hold up a code, embed it, or make a clip.");
+  if(RIG.play) row(keyIcon("bShot"), "", "<b>Keeps the frame on screen</b> as a picture.");
+  row(keyIcon("bSet"), "", "Sound, interface, layout, and the camera.");
+  if(RIG.play){
+    row("", "Drag across the piece, paused",
+        "<b>Move through the pass.</b> Drag away from the bottom of the screen and it moves "
+        +"more finely \u2014 half, quarter, a tenth.");
+  }
+  row("", "Press and hold the piece", "The few things worth reaching for, where your thumb is.");
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && RIG.play){
+    row(keyIcon("bRoomOff"), "Camera as the background",
+        "In Settings. Puts what your camera sees behind the piece. Nothing is recorded or sent.");
+  }
+  if(RIG.play){
+    row("", "Layout",
+        "How the three words are arranged. In Settings, and on screen while the camera is behind it.");
+  }
+  return R;
+}
+function keyFill(){
+  var L=el.keyList; if(!L) return;
+  L.innerHTML = keyRows().map(function(r){
+    var says = r.mark ? r.says
+             : '<span class="kw">'+esc(r.word)+'</span> \u2014 '+r.says;
+    return '<dt>'+(r.mark||"")+'</dt><dd>'+says+'</dd>';
+  }).join("");
+}
+function keyShow(on){
+  var b=el.keyFull; if(!b) return;
+  if(on) keyFill();
+  b.hidden=!on; b.classList.toggle("on",!!on);
+  if(el.mKey) el.mKey.setAttribute("aria-expanded", on?"true":"false");
+}
+if(el.mKey) el.mKey.addEventListener("click",function(){ barDrawer(null,false); keyShow(true); });
+if(el.keyShut) el.keyShut.addEventListener("click",function(){ keyShow(false); });
+if(el.keyFull) el.keyFull.addEventListener("click",function(e){
+  if(e.target===el.keyFull) keyShow(false); });
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape" && el.keyFull && !el.keyFull.hidden) keyShow(false); });
 function qrFullShow(on){
   var b=el.qrFull; if(!b) return;
   if(on && !qrPaint()){ shSay("This address is too long for a code \u2014 send the link."); return; }
