@@ -959,7 +959,15 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
    happened, which is the whole point -- somebody listening rather than watching should
    hear one continuous thing across a loop boundary. pointer-events:none so a tap during
    the credit still reaches the work. */
-#seqCard{display:flex;position:fixed;inset:0;z-index:76;pointer-events:none;
+/* INSIDE THE STAGE, WHICH IS THE THING IT IS A SEQUENCE FOR. It was a sibling of the
+   stage pinned to the viewport, which is indistinguishable from correct in a player --
+   there the stage IS the window. In the instrument the stage is a box at the top of a
+   page full of controls, and the titles came up over the whole interface: the sliders,
+   the score, the readouts, everything. A card belongs to the work it introduces, not to
+   the screen the work happens to be shown on. Absolute inside a box that is already
+   position:relative and overflow:hidden, so it fills the stage in the workbench and the
+   window in the player without either mode needing a rule of its own. */
+#seqCard{display:flex;position:absolute;inset:0;z-index:76;pointer-events:none;
   align-items:center;justify-content:center;text-align:center;
   opacity:0;transition:opacity .7s ease}
 #seqCard.in{opacity:1}
@@ -1006,7 +1014,9 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
    to be readable at all, a big one does not, and past that the mark should grow with the
    room rather than with the pixel count. 82% of a phone held to a third of an iPad, and it
    still gets bigger on a wall instead of stopping at a number I chose. */
-#seqCard{--stage:min(92vw, 380px + 8vmin)}
+/* and its measure follows the box it is in: in a player the stage is the window, so
+   ninety-two per cent is what ninety-two vw always was */
+#seqCard{--stage:min(92%, 380px + 8vmin)}
 .seqStage{position:relative;width:var(--stage);aspect-ratio:1}
 .seqStage .sqL{position:absolute;inset:0;opacity:0;
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
@@ -1541,16 +1551,6 @@ label.reset,label.reset span{color:var(--accent) !important;
        running underneath, and it never touches the sound. His logo animation drops into
        .seqOpen when the SVGs arrive; everything around it -- when it appears, how long it
        holds, what the rig allows -- is already here. -->
-  <div id="seqCard" class="seq" hidden aria-hidden="true">
-    <div class="seqStage">
-      <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
-      <div class="sqL" id="seqD"></div>
-      <div class="sqL" id="seqS"></div>
-      <div class="sqL" id="seqC"></div>
-      <div class="sqL" id="seqWord"></div>
-    </div>
-    <div class="seqSay"><span id="seqTitle"></span><span id="seqBy"></span></div>
-  </div>
   <!-- THE CODE, BIG. A code in a panel is a code somebody has to hold a phone very close
        to; full screen it is a thing you hold UP, which is the only way it was ever going to
        be used. Tap anywhere to put it away. -->
@@ -1610,6 +1610,16 @@ label.reset,label.reset span{color:var(--accent) !important;
   </div>
   <div class="stage" id="stageBox">
     <canvas id="stage"></canvas>
+    <div id="seqCard" class="seq" hidden aria-hidden="true">
+      <div class="seqStage">
+        <div class="sqL" id="seqDuck"><i id="seqFill"></i></div>
+        <div class="sqL" id="seqD"></div>
+        <div class="sqL" id="seqS"></div>
+        <div class="sqL" id="seqC"></div>
+        <div class="sqL" id="seqWord"></div>
+      </div>
+      <div class="seqSay"><span id="seqTitle"></span><span id="seqBy"></span></div>
+    </div>
     <div class="hud">
       <span><b id="hFrame">000</b> / <span id="hTotal">000</span> f</span>
       <span>line <b id="hLine">1</b></span>
@@ -4676,10 +4686,27 @@ function seqShow(kind,secs){
 function cardsFill(){
   if(el.mCardsRow) el.mCardsRow.hidden = !!RIG.anon || !RIG.info;
   if(el.mCards) el.mCards.checked=cardsOn();
+  if(el.pCards) el.pCards.checked=cardsOn();
 }
 if(el.mCards) el.mCards.addEventListener("change",function(){
   cardsSet(el.mCards.checked);
+  cardsFill();
   if(el.mCards.checked) seqShow("open",1.6);       /* say yes by showing what yes means */
+});
+/* THE SAME ANSWER, REACHED FROM THE INSTRUMENT. Two controls over one stored value, kept in
+   step by both writing it and both being repainted from it -- rather than two copies of a
+   boolean, which is the drift this file has been bitten by more than once. */
+if(el.pCards) el.pCards.addEventListener("change",function(){
+  cardsSet(el.pCards.checked);
+  cardsFill();
+  if(el.pCards.checked) seqShow("open",1.6);
+});
+if(el.pCardsGo) el.pCardsGo.addEventListener("click",function(){
+  /* summoned: it plays once whether or not the piece is showing them */
+  var was=cardsOn();
+  if(!was) cardsSet(true);
+  seqShow("open",1.6);
+  if(!was) setTimeout(function(){ cardsSet(false); cardsFill(); }, 60);
 });
 function sampleEnd(){
   setRunning(false); sndStop();
