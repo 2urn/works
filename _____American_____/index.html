@@ -661,6 +661,30 @@ body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
 #tScrub::-moz-range-thumb{width:2px;height:22px;background:var(--ovl-accent);
   border:0;box-shadow:0 1px 4px rgba(0,0,0,.85)}
 /* the rate, said over the track and taking no room in the row */
+/* SMALL, AT THE LEFT EDGE, OUT OF THE WAY OF THE HAND. The thumb is on the picture and
+   the far side of the screen is the one place a right or left hand is not covering. */
+/* IN QUICKLY, OUT SLOWLY. It has to be there by the time the thumb has travelled far
+   enough to need it, and it should not snap off the instant the finger lifts -- a scale
+   that vanishes the moment you stop reading it makes you doubt you read it. */
+/* AND IT DECLARES ITS OWN DISPLAY, because it lives in .wrap and body.player blanks every
+   child of .wrap that is not the stage. That rule has now caught the credit, the signature,
+   the player chrome, the wall label, the fault log and this -- always the same way: the
+   thing is built, positioned, wired, measured, and has a bounding box of zero. It is the
+   first line of this file's own instructions and I still walked into it. */
+#scrubGuide{display:block;position:fixed;left:.9rem;top:0;bottom:0;width:0;z-index:80;
+  pointer-events:none;opacity:0;transition:opacity .55s ease}
+#scrubGuide.on{opacity:1;transition:opacity .22s ease}
+.sgb{position:absolute;left:0;transform:translateY(-50%);white-space:nowrap;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ovl-faint);
+  text-shadow:0 1px 3px rgba(0,0,0,.95);padding-left:.65rem;
+  transition:color .18s ease}
+.sgb::before{content:"";position:absolute;left:0;top:50%;width:.38rem;height:1px;
+  background:currentColor}
+.sgax{position:absolute;left:0;width:1px;background:var(--ovl-faint);opacity:.5;
+  box-shadow:0 0 3px rgba(0,0,0,.95)}
+.sgb.on{color:var(--ovl-accent)}
+@media (prefers-reduced-motion:reduce){ #scrubGuide{transition:none} }
 /* IT KEEPS ITS LINE WHETHER OR NOT IT HAS ANYTHING TO SAY, or the track would step up and
    down the moment somebody dragged away from it. */
 #tRate{order:-1;min-height:1rem;
@@ -1213,8 +1237,26 @@ label.reset,label.reset span{color:var(--accent) !important;
    The chrome is now hidden from the first frame and revealed once the decision is made.
    The timer is the failsafe: if the script never gets there, the interface still appears
    rather than leaving somebody with a blank page and no way in. */
-(function(){var d=document.documentElement;
-  setTimeout(function(){ d.classList.add("booted"); },4000);})();</script>
+(function(){
+  var d=document.documentElement, done=false;
+  function up(){ if(done) return; done=true; d.classList.add("booted"); }
+  /* AND IT COUNTED FROM THE WRONG MOMENT. Four seconds from the head being parsed is four
+     seconds of DOWNLOAD on a slow connection -- the page is five megabytes, the script that
+     lifts this veil properly is at the bottom of it, and on his office network the failsafe
+     fired while the document was still arriving. So the tail of the markup painted with no
+     veil over it at all: the panels stacked up the screen and the readouts along the
+     bottom, before the loading sequence had even begun. At home it never happened once,
+     because the page was always in before the timer.
+
+     The failsafe exists for a script that never runs, and the moment to start counting is
+     therefore when the script has HAD ITS CHANCE -- DOMContentLoaded, which fires after it.
+     If it ran, the veil is already up and this does nothing. The long stop is for a
+     document that never finishes arriving at all. */
+  if(document.readyState==="loading")
+    document.addEventListener("DOMContentLoaded",function(){ setTimeout(up,2000); });
+  else setTimeout(up,2000);
+  setTimeout(up,30000);
+})();</script>
 
 <div class="wrap">
   <audio id="sndEl" loop preload="auto" crossorigin="anonymous" src="soundtrack.mp3"></audio>
@@ -1289,6 +1331,12 @@ label.reset,label.reset span{color:var(--accent) !important;
     aria-pressed="false"><span class="dot" aria-hidden="true"></span><svg class="glyph"
     viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d=""/></svg></button>
   <output id="recSay" hidden aria-live="polite"></output>
+  <!-- THE AXIS, MADE VISIBLE WHERE IT OPERATES. Moving away from the line makes the scrub
+       finer, and until now the only evidence of that was a word appearing after the fact.
+       The bands are measured from wherever the drag STARTED, not from the screen, so this
+       is drawn when a drag begins and thrown away when it ends -- a ruler that exists for
+       as long as there is something to measure. -->
+  <div id="scrubGuide" aria-hidden="true"></div>
   <div id="barLay" role="group" aria-label="Layout">
     <!-- AND NO SECOND WAY OUT. The room's exit lived here while the camera icon was busy
          saving frames. The camera icon is the room now and turns into a struck-through
@@ -5687,6 +5735,7 @@ function timeTotal(){
    drag the screen, then drag up for finer, then half, quarter, fine. */
 function timeHint(){
   if(el.tRate) el.tRate.textContent="Drag the screen to scrub";
+  guideHide();
 }
 function timeShow(){
   var b=el.barTime; if(!b) return;
@@ -6522,10 +6571,46 @@ var dragFrom=null, dragAt=0, dragX=0, dragged=false;
 
    The readout names the rate while it is not 1, because a gesture nobody can see needs the
    screen to confirm it happened. */
+/* ONE TABLE, READ BY BOTH THE MATHS AND THE RULER. They were two lists agreeing by hand,
+   which is how a legend ends up describing a gesture the code no longer has. */
+var SCRUB_BANDS=[[0,1,"faster"],[60,0.5,"half"],[140,0.25,"quarter"],[240,0.1,"finer"]];
 function scrubRate(dy){
-  var a=Math.abs(dy);
-  return a<60 ? 1 : a<140 ? 0.5 : a<240 ? 0.25 : 0.1;
+  var a=Math.abs(dy), r=1;
+  for(var i=0;i<SCRUB_BANDS.length;i++) if(a>=SCRUB_BANDS[i][0]) r=SCRUB_BANDS[i][1];
+  return r;
 }
+function guideShow(fromY){
+  var g=el.scrubGuide; if(!g) return;
+  g.innerHTML="";
+  var top=fromY, drew=0;
+  SCRUB_BANDS.forEach(function(b){
+    var y=fromY-b[0];
+    if(y<12) return;                     /* a label off the top of the screen is not a label */
+    var d=document.createElement("div");
+    d.className="sgb"; d.setAttribute("data-band",String(b[1]));
+    d.textContent=b[2]; d.style.top=Math.round(y)+"px";
+    g.appendChild(d);
+    if(y<top) top=y;
+    drew++;
+  });
+  /* AND THE AXIS ITSELF, because four words down the side of a screen are four words and a
+     line through them is a SCALE -- the thing the thumb is travelling along. Drawn last so
+     it spans exactly the bands that fitted, rather than a distance decided in advance. */
+  if(drew>1){
+    var ax=document.createElement("div");
+    ax.className="sgax";
+    ax.style.top=Math.round(top)+"px";
+    ax.style.height=Math.round(fromY-top)+"px";
+    g.appendChild(ax);
+  }
+  g.classList.add("on");
+}
+function guidePaint(rate){
+  var g=el.scrubGuide; if(!g) return;
+  Array.prototype.forEach.call(g.children,function(d){
+    d.classList.toggle("on", +d.getAttribute("data-band")===rate); });
+}
+function guideHide(){ if(el.scrubGuide) el.scrubGuide.classList.remove("on"); }
 document.addEventListener("pointermove",function(e){
   if(holdT && (Math.abs(e.clientX-holdX)>12 || Math.abs(e.clientY-holdY)>12)){
     clearTimeout(holdT); holdT=null; }
@@ -6537,8 +6622,10 @@ document.addEventListener("pointermove",function(e){
      diagonally never began at all. There is nothing else on the stage a drag could mean --
      a purely vertical one still moves nothing, because dx never clears ten. */
   if(!dragged && Math.abs(dx)<10){ dragX=e.clientX; return; }
+  if(!dragged) guideShow(holdY);
   dragged=true;
   var tot=timeTotal(), w=Math.max(1,window.innerWidth), rate=scrubRate(dy);
+  guidePaint(rate);
   dragAt += (e.clientX-dragX)/w*tot*rate;
   dragX=e.clientX;
   dragAt=Math.max(0, Math.min(tot-0.001, dragAt));
@@ -6547,15 +6634,15 @@ document.addEventListener("pointermove",function(e){
   if(typeof timePaint==="function") timePaint();
   /* AND THE RATE SAYS ITSELF SOMEWHERE THAT CANNOT PUSH ANYTHING. Appended to the readout
      it grew the row by nine characters mid-drag, which narrowed the track under his thumb. */
-  if(el.tRate)
-    el.tRate.textContent = rate===1   ? "Drag up for finer"
-                         : rate===0.5 ? "half speed"
-                         : rate===0.25? "quarter speed" : "fine";
+  /* the ruler at the edge is saying which band this is, so the line above the track stops
+     saying it too -- one fact, one place */
+  if(el.tRate) el.tRate.textContent="";
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
   if(dragged){
     dragged=false; dragFrom=null;
+    guideHide();
     if(typeof timeHint==="function" && el.barTime && !el.barTime.hidden) timeHint();
     return;                                               /* a drag is not a tap */
   }
