@@ -6616,6 +6616,15 @@ function guideShow(fromY){
   ax.style.top=Math.round(top)+"px";
   ax.style.height=Math.round(base-top)+"px";
   g.appendChild(ax);
+  /* FLUSH AT THE ENDS, CENTRED IN BETWEEN -- how a scale labels its own graduations. The
+     first word starts at its tick and runs up; the last ENDS at its tick and runs down;
+     the ones between are centred on theirs. Every word then sits inside the length of the
+     axis instead of the top one hanging off the end of it, and each tick still points at
+     exactly the height it means.
+
+     Measured after it is in the document, because a box rotated a quarter turn is as tall
+     as its text is long, and these words are not the same length. */
+  var last=SCRUB_BANDS.length-1;
   SCRUB_BANDS.forEach(function(b,i){
     var d=document.createElement("div");
     d.className="sgb"; d.setAttribute("data-band",String(b[1]));
@@ -6623,6 +6632,8 @@ function guideShow(fromY){
     var w=document.createElement("span"); w.textContent=b[2];
     d.appendChild(w);
     g.appendChild(d);
+    var f = i===0 ? 0 : (i===last ? 1 : 0.5);
+    if(f) w.style.bottom = "-" + Math.round(w.getBoundingClientRect().height*f) + "px";
   });
   g.classList.add("on");
 }
