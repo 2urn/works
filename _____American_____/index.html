@@ -674,13 +674,21 @@ body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
 #scrubGuide{display:block;position:fixed;left:.9rem;top:0;bottom:0;width:0;z-index:80;
   pointer-events:none;opacity:0;transition:opacity .55s ease}
 #scrubGuide.on{opacity:1;transition:opacity .22s ease}
-.sgb{position:absolute;left:0;transform:translateY(-50%);white-space:nowrap;
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62rem;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--ovl-faint);
-  text-shadow:0 1px 3px rgba(0,0,0,.95);padding-left:.65rem;
+/* TURNED ON ITS SIDE, AND GROWING UPWARD FROM ITS OWN TICK. Lying flat they were four
+   words wide across the picture, and the lowest of them ran straight through the scrubber's
+   line -- the one horizontal thing on the screen it must not touch. Rotated they are a few
+   millimetres wide, they read up the axis the way an axis is labelled, and because each one
+   rises FROM its tick rather than being centred on it, nothing is drawn below the mark it
+   belongs to. The tick stays horizontal: it is pointing at a height, not at a word. */
+.sgb{position:absolute;left:0;height:0;color:var(--ovl-faint);
   transition:color .18s ease}
-.sgb::before{content:"";position:absolute;left:0;top:50%;width:.38rem;height:1px;
+.sgb::before{content:"";position:absolute;left:0;top:0;width:.4rem;height:1px;
   background:currentColor}
+.sgb span{position:absolute;left:.6rem;bottom:0;transform-origin:left bottom;
+  transform:rotate(-90deg);white-space:nowrap;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.6rem;
+  letter-spacing:.14em;text-transform:uppercase;color:inherit;
+  text-shadow:0 1px 3px rgba(0,0,0,.95)}
 .sgax{position:absolute;left:0;width:1px;background:var(--ovl-faint);opacity:.5;
   box-shadow:0 0 3px rgba(0,0,0,.95)}
 .sgb.on{color:var(--ovl-accent)}
@@ -6583,13 +6591,28 @@ function guideShow(fromY){
   var g=el.scrubGuide; if(!g) return;
   g.innerHTML="";
   var top=fromY, drew=0;
+  var ceil=Infinity;
+  try{ if(el.tScrub) ceil=el.tScrub.getBoundingClientRect().top-6; }catch(e){}
   SCRUB_BANDS.forEach(function(b){
     var y=fromY-b[0];
-    if(y<12) return;                     /* a label off the top of the screen is not a label */
+    /* the word rises from its tick, so it needs that much room above it or it is a word
+       running off the top of the screen */
+    if(y<64) return;
     var d=document.createElement("div");
     d.className="sgb"; d.setAttribute("data-band",String(b[1]));
-    d.textContent=b[2]; d.style.top=Math.round(y)+"px";
+    d.style.top=Math.round(y)+"px";
+    var w=document.createElement("span"); w.textContent=b[2];
+    d.appendChild(w);
     g.appendChild(d);
+    /* THE TICK IS THE MEASUREMENT; THE WORD IS ONLY A LABEL. A drag started low puts a word
+       through the scrubber's line, so the word steps above it and the tick stays where the
+       threshold actually is -- and then two lifted words land on each other, which is what
+       happened the first time. So each one is placed against a running ceiling: never below
+       the track, never inside the word beneath it, and measured after it is in the document
+       because a rotated box is as tall as its text is long. */
+    var want=Math.min(y, ceil);
+    w.style.bottom=Math.round(y-want)+"px";
+    ceil=want - w.getBoundingClientRect().height - 7;
     if(y<top) top=y;
     drew++;
   });
