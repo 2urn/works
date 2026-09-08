@@ -2001,11 +2001,23 @@ function solve(gs,W,H){
     if(crash<=0&&offL<=0&&offR<=0) break;
     if(crash>0&&ov>0.001){ ov=Math.max(0,ov-Math.max(0.005,(crash/sw)/2));
       if(spent.indexOf("overlap")<0)spent.push("overlap"); continue; }
-    /* BOTH, BY THE SAME FACTOR. Shrinking only the blanks changed the one proportion
-       the panel is for -- spine against blanks -- every time a long line came through. */
-    if((offL>0||offR>0)&&oPx>H*0.028){ oPx*=0.975; sPx*=0.975;
+    /* THE BLANKS GIVE WAY, NOT THE WORD THE PIECE IS NAMED AFTER. This shrank both by the
+       same factor to hold the spine-to-blank ratio, and the ratio held -- at the cost of
+       AMERICAN being a different size on nearly every line: 143px against Borders, 103
+       against Interpreter, 76 against Temporary Protected Status. A constant that changes
+       with the phrase beside it has stopped being the constant the piece is built on.
+
+       His reversal, and the trade it makes: a long phrase now changes the RATIO instead of
+       the size. The spine still gives way as a last resort below, because a line that
+       cannot fit has to come from somewhere. */
+    if((offL>0||offR>0)&&oPx>H*0.012){ oPx*=0.975;
       if(spent.indexOf("blanks")<0)spent.push("blanks"); continue; }
-    if(sPx>H*0.04){ sPx*=0.975;
+    /* AND THE SPINE ONLY WHEN THE SPINE ITSELF DOES NOT FIT. It used to be the next thing
+       tried once the blanks reached a floor, and the floor was high enough that an ordinary
+       phrase reached it -- which is how AMERICAN ended up a different size on nearly every
+       line. Now the only thing that can shrink the word the piece is named after is the
+       word itself being wider than the frame. */
+    if(sw > W-margin*2 && sPx>H*0.04){ sPx*=0.975;
       if(spent.indexOf("spine")<0)spent.push("spine"); continue; }
     break;
   }
@@ -2057,9 +2069,15 @@ function solveStack(gs,W,H){
   var margin=W*V.margin/100, lim=W-margin*2;
   var want=gs.map(function(g){ return H*g.size/100; });
   /* one factor for the whole set -- the sizes are a relationship (see fitK) */
+  /* THE SPINE IS NOT IN THE SET THAT SHRINKS. It used to be, so one long phrase took
+     AMERICAN from 196px to 112 -- see solve() for the same reversal and the same reason.
+     The blanks and the coda still share ONE factor, because they are still a relationship
+     to each other; the spine answers only to itself. */
+  var si0=spineOf(gs);
   var k=1;
-  gs.forEach(function(g,i){ k=Math.min(k, fitK(g.text, want[i], lim)); });
-  var px=want.map(function(w){ return w*k; });
+  gs.forEach(function(g,i){ if(i!==si0) k=Math.min(k, fitK(g.text, want[i], lim)); });
+  var px=want.map(function(w,i){
+    return i===si0 ? w*fitK(gs[i].text, w, lim) : w*k; });
   var si=spineOf(gs), sPx=si<0?px[0]:px[si];
   var lead=sPx*0.16*V.gap;
   var tot=0;
