@@ -6182,13 +6182,18 @@ function keyPoint(pins){
 function keyMid(){
   var M=el.keyMid; if(!M) return;
   var G=[];
+  /* NOBODY NEEDS TELLING WHAT THEY ARE TOUCHING. "Drag across the piece", "press and hold
+     the piece", "tap the piece" -- the screen is the piece, and naming it in every line
+     makes an instruction sound like a manual for something else. */
   if(RIG.play){
-    G.push('<span class="kg">Paused</span> \u2014 <b>drag across the piece</b> to move through '
-      +'the pass. Drag away from the bottom of the screen and it moves more finely: half, '
-      +'quarter, a tenth.');
+    G.push('<span class="kg">Paused</span> \u2014 <b>drag sideways</b> to move through the '
+      +'pass. Drag away from the bottom edge and it moves more finely: half, quarter, '
+      +'a tenth.');
   }
-  G.push('<b>Press and hold the piece</b> for the few things worth reaching for.');
-  G.push('<b>Tap the piece</b> to wake the controls, and to let the sound start.');
+  G.push('<b>Flick up from the bottom edge</b>, or tap it, for the controls. '
+    +'Flick down puts them away.');
+  G.push('<b>Press and hold</b> for the few things worth reaching for.');
+  G.push('<b>Tap anywhere</b> to wake the marks, and to let the sound start.');
   if(CAN_FULL===false){
     G.push('<b>Add to Home Screen</b> for the full-screen experience.');
   }
@@ -6547,6 +6552,13 @@ document.addEventListener("pointerdown",function(e){
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(!el.quick || !el.quick.hidden){ quickShut(); return; }
   held=false; holdX=e.clientX; holdY=e.clientY;
+  /* A FLICK UP FROM THE BOTTOM, AND THE WHOLE BOTTOM STRIP. The mark in the corner is the
+     only way in and it is six rem of a screen somebody is holding one-handed -- so the edge
+     the thumb is already resting against opens the controls too, either by being touched or
+     by being flicked away from. It is the gesture every phone uses for exactly this, and it
+     is free here: a scrub needs ten pixels of HORIZONTAL travel before it engages, so a
+     near-vertical flick never becomes one. */
+  edgeFrom = (e.clientY > window.innerHeight - 88) ? e.clientY : 0;
   /* SCRUB ON THE IMAGE, NOT ON THE LINE. A 2px track with a 14px handle at the bottom of a
      phone is a target your thumb covers, sitting under the frame your thumb also covers --
      so you are steering the one thing you cannot see while you steer it. Every phone app
@@ -6563,7 +6575,7 @@ document.addEventListener("pointerdown",function(e){
   clearTimeout(holdT);
   holdT=setTimeout(function(){ held=true; quickOpen(holdX,holdY); }, 480);
 });
-var dragFrom=null, dragAt=0, dragX=0, dragged=false;
+var dragFrom=null, dragAt=0, dragX=0, dragged=false, edgeFrom=0, flicked=false;
 /* AND MOVING AWAY FROM THE LINE MAKES IT FINER. A screen width is the whole pass -- 249
    lines across a phone is two and a half pixels a line, which is fine for finding the
    phrase and useless for finding the moment inside it, which is the thing he asked for in
@@ -6637,7 +6649,19 @@ function guideHide(){ if(el.scrubGuide) el.scrubGuide.classList.remove("on"); }
 document.addEventListener("pointermove",function(e){
   if(holdT && (Math.abs(e.clientX-holdX)>12 || Math.abs(e.clientY-holdY)>12)){
     clearTimeout(holdT); holdT=null; }
-  if(dragFrom===null) return;
+  /* far enough, straight enough, and the direction says which way. Up from the edge brings
+     the controls; down puts them away again, from anywhere -- the same gesture reversed,
+     which is the only version a thumb has to be told about once. */
+  /* AND NOT WHILE A SCRUB IS UNDER WAY. Reaching the finer rates means dragging sideways
+     and then AWAY, which is a large vertical travel by definition -- so the flick would have
+     fired in the middle of the one gesture it must never interrupt. A scrub engages at ten
+     pixels of horizontal travel and holds the pointer from then on. */
+  if(!flicked && !dragged && Math.abs(e.clientX-holdX)<34){
+    var lit=document.body.classList.contains("ui");
+    if(!lit && edgeFrom && (holdY-e.clientY)>44){ flicked=true; uiShow(true); }
+    else if(lit && (e.clientY-holdY)>44){ flicked=true; uiShow(false); }
+  }
+  if(dragFrom===null || flicked) return;
   var dx=e.clientX-holdX, dy=e.clientY-holdY;
   /* A SIDEWAYS INTENTION, and sideways is the only test. Requiring the horizontal travel
      to BEAT the vertical made the fine rates unreachable by the only route to them: going
@@ -6663,6 +6687,17 @@ document.addEventListener("pointermove",function(e){
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
+  /* AND A TAP ON THE STRIP, which is the same idea without the travel. Only when the
+     controls are away: with them up, that strip belongs to them. */
+  if(edgeFrom && !flicked && !dragged && !held
+     && Math.abs(e.clientX-holdX)<12 && Math.abs(e.clientY-edgeFrom)<12
+     && !document.body.classList.contains("ui")){
+    edgeFrom=0;
+    uiShow(true);
+    return;
+  }
+  var wasFlick=flicked; edgeFrom=0; flicked=false;
+  if(wasFlick){ dragged=false; dragFrom=null; guideHide(); return; }
   if(dragged){
     dragged=false; dragFrom=null;
     guideHide();
