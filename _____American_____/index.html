@@ -343,6 +343,26 @@ body.burned .sig{background-image:none}
 #menu button,#menu input,#menu select,#menu textarea,.mseg,.mbtn,.mtab,.mopt,.mclose,
 #quick,#quick button,.ovbar button,#toastMsg,#preflight,#preflight button,
 #titleCard button,#endCard button,#faults,#label button{border-radius:0}
+/* THE PROSE, WHEREVER IT COMES FROM. One block of styles for everything the small
+   markdown emits, so a paragraph in the piece, a list in his biography and a heading in
+   whatever is written next all look like one hand set them. */
+.mbody{color:var(--ovl-dim);font-size:.85rem;line-height:1.6;max-width:60ch}
+.mbody p{margin:0 0 .55rem}
+.mbody p:last-child{margin-bottom:0}
+.mbody h2,.mbody h3,.mbody h4{color:var(--ovl-ink);margin:1.1rem 0 .35rem;
+  font-family:"Archivo",system-ui,sans-serif;letter-spacing:-.01em}
+.mbody h2{font-size:1rem;font-weight:700}
+.mbody h3{font-size:.92rem;font-weight:600}
+.mbody h4{font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ovl-faint)}
+.mbody ul,.mbody ol{margin:.2rem 0 .6rem;padding-left:1.15rem}
+.mbody li{margin:.2rem 0}
+.mbody a{color:var(--ovl-accent);text-decoration:none;border-bottom:1px solid currentColor}
+.mbody a:hover{color:var(--ovl-ink)}
+.mbody code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.92em;
+  color:var(--ovl-ink)}
+.mbody hr{border:0;border-top:1px solid var(--ovl-rule);margin:1rem 0}
+.mbody strong{color:var(--ovl-ink);font-weight:600}
 #mFace{float:left;margin:0 .8rem .4rem 0;width:76px;height:76px}
 .mbio{font-size:.85rem;color:var(--ovl-dim);margin:0;line-height:1.6}
 .mh{margin:0 0 .2rem;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--ovl-ink)}
@@ -405,12 +425,48 @@ body.player .stage,body.embed .stage{-webkit-touch-callout:none;
 /* NOTHING IS ON SCREEN UNTIL THE MARK IS PRESSED. A row of icons living permanently over
    a projected work is furniture; the mark summons the whole interface and dismisses it
    again, which is one gesture to learn instead of six things to ignore. */
-#bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:78;
+/* THE BAR MUST NOT COVER THE MARK THAT SUMMONS IT. It spans the full width at z-index 79
+   and the wordmark sits at 45 underneath it, so once the controls were up the second press
+   landed on the bar and the icons could never be put away. The padding left room for the
+   mark to be SEEN and nothing gave it back the ability to be TOUCHED. The bar passes
+   pointer events through; only the things in it take them. */
+#bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:78;pointer-events:none;
   padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
   background:linear-gradient(to top,var(--ovl-shade),transparent)}
-body.ui #bar{display:block}
+.barin,#barSet,#barShare{pointer-events:auto}
+/* IT IS ALWAYS IN THE LAYOUT, and the icons come and go. Hiding the bar outright gave
+   them nowhere to travel from, so they appeared and vanished; they arrive from the mark
+   now and go back to it, which is the only thing on screen that says where they live. */
+body.player #bar,body.embed #bar{display:block}
+/* the rig still decides whether there is a bar at all; applyRig sets [hidden], and
+   [hidden]{display:none!important} beats the rule above */
 #bar{z-index:79}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
+/* THEY COME FROM THE MARK AND GO BACK TO IT. Appearing in the corner told nobody where
+   they had come from, so the mark that summons them was a secret. They travel now: out of
+   the wordmark, left to right, settling one after another -- and back the same way, which
+   is the sentence "they live in there" said without a word of instruction. */
+/* the fade is a FILTER, not opacity: opacity here would outrank the rules that light an
+   icon up when it is on, and the play button would stop being able to say it is playing */
+.barin > .ico{filter:opacity(0);transform:translateX(-8rem);pointer-events:none;
+  transition:filter .34s ease,transform .52s cubic-bezier(.16,.86,.26,1),
+             opacity .18s,color .18s}
+body.ui .barin > .ico{filter:opacity(1);transform:translateX(0);pointer-events:auto}
+body.ui .barin > .ico:nth-child(2){transition-delay:.045s}
+body.ui .barin > .ico:nth-child(3){transition-delay:.09s}
+body.ui .barin > .ico:nth-child(4){transition-delay:.135s}
+body.ui .barin > .ico:nth-child(5){transition-delay:.18s}
+body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
+/* leaving, the far one goes first, so the row gathers back towards the mark */
+.barin > .ico:nth-child(6){transition-delay:0s}
+.barin > .ico:nth-child(5){transition-delay:.04s}
+.barin > .ico:nth-child(4){transition-delay:.08s}
+.barin > .ico:nth-child(3){transition-delay:.12s}
+.barin > .ico:nth-child(2){transition-delay:.16s}
+.barin > .ico:nth-child(1){transition-delay:.2s}
+@media (prefers-reduced-motion:reduce){
+  .barin > .ico,body.ui .barin > .ico{transform:none;transition:opacity .3s ease}
+}
 .ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
   color:var(--ovl-ink);opacity:.78;display:flex;align-items:center;justify-content:center;
   transition:opacity .18s,color .18s}
@@ -2151,8 +2207,74 @@ function paintFaults(){
   }).join("");
   box.hidden=false;
 }
-function esc(s){ return String(s).replace(/[<&>]/g,function(c){
-  return c==="<"?"&lt;":c===">"?"&gt;":"&amp;"; }); }
+/* ---- A SMALL MARKDOWN, AND NOTHING MORE -------------------------------------------
+   The text in this piece is authored as HTML today, which works exactly until the day
+   something other than his own hand writes it -- an editing panel, a paste, a field on a
+   form -- and then a stray angle bracket is a hole rather than a typo. It is also the
+   wrong unit for a PORTFOLIO: the same paragraphs will have to render on the shelf, in a
+   piece, and in whatever comes next, and three renderers of one text is three chances to
+   look different.
+
+   So: one small language, one renderer, one stylesheet. Carrd's inline set -- bold,
+   italic, links -- plus the two things Carrd does not do and every real page needs,
+   HEADERS and LISTS.
+
+     # ## ###     a heading
+     - item       a list, or 1. for a numbered one
+     ---          a rule
+     **bold**  *italic*  `code`  [text](https://…)
+
+   EVERYTHING ELSE IS ESCAPED. Nothing authored here can emit a tag that is not in that
+   list, which is the property that makes the fields safe to edit from anywhere. */
+function mdInline(t){
+  return t
+    .replace(/`([^`]+)`/g, function(_m,c){ return "<code>"+c+"</code>"; })
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function(_m,txt,url){
+      /* only addresses a browser should follow, and never one that closes the attribute */
+      if(!/^(https?:|mailto:|\.|\/)/i.test(url)) return txt;
+      return '<a href="'+url.replace(/"/g,"&quot;")+'"'
+        +(/^(https?:)/i.test(url) ? ' target="_blank" rel="noopener"' : '')+'>'+txt+'</a>';
+    })
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+}
+function md(src){
+  /* an array is a list of paragraphs, which is how these fields are written */
+  var text = (Object.prototype.toString.call(src)==="[object Array]")
+    ? src.join("\n\n") : String(src==null?"":src);
+  var lines = esc(text).replace(/\r/g,"").split("\n");
+  var out=[], list=null, para=[];
+  function shutPara(){ if(para.length){ out.push("<p>"+mdInline(para.join(" "))+"</p>"); para=[]; } }
+  function shutList(){ if(list){ out.push("</"+list+">"); list=null; } }
+  for(var i=0;i<lines.length;i++){
+    var l=lines[i], m;
+    if(!l.trim()){ shutPara(); shutList(); continue; }
+    if(/^---+\s*$/.test(l)){ shutPara(); shutList(); out.push("<hr>"); continue; }
+    if((m=/^(#{1,3})\s+(.*)$/.exec(l))){
+      shutPara(); shutList();
+      var h=m[1].length+1;                    /* # is h2: the page owns h1 */
+      out.push("<h"+h+">"+mdInline(m[2])+"</h"+h+">"); continue;
+    }
+    if((m=/^\s*[-*]\s+(.*)$/.exec(l))){
+      shutPara();
+      if(list!=="ul"){ shutList(); out.push("<ul>"); list="ul"; }
+      out.push("<li>"+mdInline(m[1])+"</li>"); continue;
+    }
+    if((m=/^\s*\d+[.)]\s+(.*)$/.exec(l))){
+      shutPara();
+      if(list!=="ol"){ shutList(); out.push("<ol>"); list="ol"; }
+      out.push("<li>"+mdInline(m[1])+"</li>"); continue;
+    }
+    shutList(); para.push(l.trim());
+  }
+  shutPara(); shutList();
+  return out.join("");
+}
+/* AND THE QUOTE GOES TOO. Escaping only < & > is enough for text and not for the dozen
+   places this builds an attribute -- a quote in a title, a link or a piece of authored
+   prose could close the attribute it was put in and open another. */
+function esc(s){ return String(s).replace(/[<&>"]/g,function(c){
+  return c==="<"?"&lt;":c===">"?"&gt;":c==='"'?"&quot;":"&amp;"; }); }
 var disWas=0;
 function smoothTo(box,top){
   top=Math.max(0,Math.round(top));
@@ -3400,7 +3522,7 @@ var PIECE={
   accent: "#FF9900",
   about: [
     "Two pools of words, drawn into a sequence: a first blank and a third, with AMERICAN "+
-    "held between them. <em>This</em> edition keeps its order \u2014 but the piece does "+
+    "held between them. *This* edition keeps its order \u2014 but the piece does "+
     "not. The word has as many uses as there are people using it, and its future is not "+
     "settled; it changes with our collective actions, and with our collective failures to "+
     "act. Endless editions can be constructed, devised, curated and performed.",
@@ -3461,22 +3583,22 @@ var PIECE={
      than 2018 and described two showings without naming their curators \u2014 the people who
      put the work in a room are part of the record. */
   history: [
-    { year:"2026", note:"<em>Miami Performance International Festival \u201926</em> \u2014 "+
+    { year:"2026", note:"*Miami Performance International Festival \u201926* \u2014 "+
       "curated by Estefan\u00eda Papescu and Charo Oquet, world premiere performance of "+
       "_____ American _____, Edge Zones, Miami FL" },
     { year:"2026", note:"Published as a real-time edition at works.chamy.xyz \u2014 a "+
       "publication rather than a showing, drawing its own frames rather than playing a "+
       "rendered file" },
-    { year:"2022", note:"<em>Ping Pong Basel</em> \u2014 installation at pop-up art show "+
+    { year:"2022", note:"*Ping Pong Basel* \u2014 installation at pop-up art show "+
       "curated by Sue Irion during Miami Art Week, Miami FL" },
-    { year:"2022", note:"<em>American Graffiti</em> \u2014 single channel video, curated by "+
+    { year:"2022", note:"*American Graffiti* \u2014 single channel video, curated by "+
       "Reniel Diaz, Studio 18, Pembroke Pines FL" },
-    { year:"2018", note:"<em>\u201cAmerican Immigrant\u201d</em> \u2014 pattern, Instagram post" },
+    { year:"2018", note:"*\u201cAmerican Immigrant\u201d* \u2014 pattern, Instagram post" },
     /* THE PAIRING CAME BEFORE THE PATTERN. His 2018 entry dates the pattern, so this one
        carries only what it can carry: the two words put together, and where they were first
        used. Written as 2015 because that is the year he gave for it. */
     { year:"2015", note:"AMERICAN and IMMIGRANT paired, after noticing both were being "+
-      "politicised ahead of the 2016 election \u2014 first by adding <em>immigrant</em> to "+
+      "politicised ahead of the 2016 election \u2014 first by adding *immigrant* to "+
       "his Twitter and Instagram bios" }
   ],
   /* REPORTING, DORMANT UNTIL THERE IS SOMEWHERE TO REPORT TO. An institution needs
@@ -4133,7 +4255,7 @@ function paintPiece(){
   if(w) w.innerHTML=
     '<h3 class="mh">'+esc(PIECE.title)+'</h3>'+
     '<p class="mmeta" id="mMeta"></p>'+
-    PIECE.about.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    '<div class="mbody">'+md(PIECE.about)+'</div>'+
     /* A DISCLOSURE, NOT A WALL OF TEXT. An extended description belongs in the page and
        not in a downloaded file -- a screen-reader user wants it in context, not somewhere
        they have to find their way back from -- but it should not lengthen the page for
@@ -4141,7 +4263,7 @@ function paintPiece(){
        by default, announced as a collapsible group, keyboard-operable, and no script. */
     ((PIECE.described&&PIECE.described.length)
       ? ('<details class="mdis"><summary>Described in full</summary>'
-         +PIECE.described.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")
+         +'<div class="mbody">'+md(PIECE.described)+'</div>'
          +'</details>')
       : "")+
     (PIECE.voice
@@ -4159,19 +4281,19 @@ function paintPiece(){
   var hp=document.getElementById("pane-hist"), ht=document.getElementById("tab-hist");
   if(ht) ht.hidden=!hist.length;
   if(hp) hp.innerHTML=hist.map(function(h){
-    return '<p class="mhist"><b>'+esc(h.year)+'</b> '+h.note+'</p>'; }).join("");
+    return '<p class="mhist"><b>'+esc(h.year)+'</b> '+mdInline(esc(h.note))+'</p>'; }).join("");
   var inv=PIECE.invite||{}, hasInv=!!(inv.url && inv.label);
   var pt=document.getElementById("pane-part"), tb=document.getElementById("tab-part");
   if(tb) tb.hidden=!hasInv;
   if(pt) pt.innerHTML = hasInv
-    ? ('<p class="mbio">'+inv.note+'</p>'
+    ? ('<div class="mbody">'+md(inv.note)+'</div>'
        +'<button type="button" class="mbtn" data-link="'+esc(inv.url)+'">'
        +esc(inv.label)+'</button>')
     : "";
   var a=document.getElementById("pane-about");
   if(a) a.innerHTML=
     '<img id="mFace" alt="'+esc(PIECE.artist)+'" width="76" height="76">'+
-    PIECE.bio.map(function(p){ return '<p class="mbio">'+p+'</p>'; }).join("")+
+    '<div class="mbody">'+md(PIECE.bio)+'</div>'+
     (PIECE.voiceAbout
       ? ('<div id="mVoiceBox"><h4 class="msub">The artist on this piece</h4>'
          +'<audio id="mVoiceAbout" controls preload="none" src="'
