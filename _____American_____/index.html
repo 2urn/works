@@ -712,9 +712,16 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 .tico{width:19px;height:19px;fill:currentColor;color:var(--ovl-faint)}
 /* THE KEY, FULL SCREEN. Same ground as the code: over the work, never instead of it --
    the piece goes on drawing behind and the sound never learns anything happened. */
-#keyFull{display:none;position:fixed;inset:0;z-index:97;background:rgba(0,0,0,.92);
-  align-items:center;justify-content:center;overflow-y:auto;
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+/* THE VEIL IS ITS OWN LAYER, AND IT IS UNDERNEATH. The chrome sits at 45 (the marks) and
+   79 (the bar); this sits at 44, so it quiets the artwork and the camera and nothing else.
+   A light blur, because the point is to push the work back a step, not to hide it -- the
+   guide is read against the piece it is a guide to. */
+#keyVeil{display:block;position:fixed;inset:0;z-index:44;pointer-events:none;
+  background:rgba(0,0,0,.62);opacity:0;transition:opacity .28s ease;
+  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+#keyVeil.on{opacity:1}
+#keyFull{display:none;position:fixed;inset:0;z-index:97;background:none;
+  align-items:center;justify-content:center;overflow-y:auto}
 #keyFull.on{display:flex}
 .keyin{max-width:34rem;width:100%;padding:2rem 1.4rem calc(2rem + env(safe-area-inset-bottom));
   margin:auto}
@@ -760,8 +767,6 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 #keyMid b{color:var(--ovl-ink);font-weight:600}
 #keyMid .kg{color:var(--ovl-accent);font-weight:600;text-transform:uppercase;
   font-size:.7rem;letter-spacing:.05em}
-/* the backdrop only quiets the interface; it never hides it, because the names point AT it */
-#keyFull{background:rgba(0,0,0,.74)}
 .keyin{position:absolute;left:0;right:0;z-index:3;overflow-y:auto;
   overscroll-behavior:contain;max-width:34rem;margin:0 auto;
   padding:0 1.4rem calc(1rem + env(safe-area-inset-bottom))}
@@ -1159,8 +1164,8 @@ label.reset,label.reset span{color:var(--accent) !important;
            wrong place to LOOK for it -- you go to settings to change something, and to
            an i to find out what a thing is. Only one door to it now; the entry in
            Settings came out rather than sit there as a second one. -->
-      <button type="button" class="ico" id="bKey" title="What the controls do"
-        aria-label="What the controls do" aria-expanded="false" aria-controls="keyFull"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zm-1 3h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg></button>
+      <button type="button" class="ico" id="bKey" title="User guide"
+        aria-label="User guide" aria-expanded="false" aria-controls="keyFull"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zm-1 3h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg></button>
       <button type="button" class="ico" id="bSet" title="Settings" aria-label="Settings"
         aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.74 8.84a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.86 14.52a.5.5 0 00-.12.64l1.92 3.32c.12.22.39.3.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
     </div>
@@ -1342,9 +1347,16 @@ label.reset,label.reset span{color:var(--accent) !important;
        that came out: that one's only job was to close the panel it could not open. This is
        a KEY, built from what is actually on screen, so it can never describe a control the
        rig or the device has withheld. -->
+  <!-- TWO LAYERS, NOT ONE. A single sheet over everything darkened and blurred the very
+       controls the arrows are pointing at -- so the diagram named things you could no longer
+       see, which is the one thing a guide cannot do. This one sits UNDER the interface: it
+       quiets the work and the room behind them, and the icons, the marks and the timeline
+       stay exactly as sharp as they were. There is no second veil over the controls at all;
+       they need no dimming, they need the opposite. -->
+  <div id="keyVeil" hidden aria-hidden="true"></div>
   <div id="keyFull" hidden role="dialog" aria-modal="true" aria-labelledby="keyHead"
     tabindex="-1"><div class="keyin">
-    <h2 id="keyHead">What the controls do</h2>
+    <h2 id="keyHead">User Guide</h2>
     <div id="keyMid"></div>
     <button type="button" id="keyShut">Close</button>
   </div><div id="keyPoint" aria-hidden="true"></div></div>
@@ -5614,7 +5626,7 @@ function keyPins(){
     {at:"#bFull",  say:"Full screen"},
     {at:"#bShot",  say:"<b>Your room</b> behind it"},
     {at:"#bShare", say:"Share \u2014 and <b>save the frame</b>"},
-    {at:"#bKey",   say:"This key"},
+    {at:"#bKey",   say:"This guide"},
     {at:"#bSet",   say:"Settings"},
     {at:"#barLay", say:"How the words are <b>arranged</b>"},
     {at:"#tScrub", say:"<b>The moment</b> in this pass"}
@@ -5735,6 +5747,8 @@ function keyShow(on){
     /* it points at controls, so the controls have to be out and measurable */
     if(typeof chromeWake==="function") chromeWake();
     b.hidden=false;
+    if(el.keyVeil){ el.keyVeil.hidden=false; void el.keyVeil.offsetHeight;
+                    el.keyVeil.classList.add("on"); }
     void b.offsetHeight;
     keyFill();
     /* AND AGAIN ONCE THE ICONS HAVE FINISHED ARRIVING. They slide in from the mark over half
@@ -5747,6 +5761,11 @@ function keyShow(on){
   }else{
     b.classList.remove("on");
     b.hidden=true;
+    if(el.keyVeil){
+      el.keyVeil.classList.remove("on");
+      setTimeout(function(){
+        if(el.keyVeil && !el.keyVeil.classList.contains("on")) el.keyVeil.hidden=true; },300);
+    }
     try{ if(keyFrom && keyFrom.focus) keyFrom.focus(); }catch(e){}
     keyFrom=null;
   }
@@ -5757,6 +5776,11 @@ window.addEventListener("resize",function(){
 if(el.bKey) el.bKey.addEventListener("click",function(){
   barDrawer(null,false); keyShow(el.keyFull.hidden); });
 if(el.keyShut) el.keyShut.addEventListener("click",function(){ keyShow(false); });
+/* ANYWHERE OUTSIDE THE READING PANEL PUTS IT AWAY, like every other surface here. The
+   controls are visible underneath on purpose, so a press that lands on one closes the
+   guide rather than working the control -- which is what somebody meant either way. */
+if(el.keyFull) el.keyFull.addEventListener("click",function(e){
+  if(!e.target || !e.target.closest || !e.target.closest(".keyin")) keyShow(false); });
 if(el.keyFull) el.keyFull.addEventListener("click",function(e){
   if(e.target===el.keyFull) keyShow(false); });
 document.addEventListener("keydown",function(e){
