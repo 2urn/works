@@ -35,6 +35,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+/* NO ROUNDED CORNERS. DECLARED ONCE, FIRST, FOR EVERYTHING.
+
+   This is the fourth time a rounded edge has come back, and every previous fix was a
+   patch on the one element he had circled -- so the next element rounded itself and it
+   came back again. The source was never the element: `button`, `select`, `input` and
+   `textarea` each carried a 5px radius from a BASE rule written before the house style
+   existed, so every control added since has been born round, and every fix has been an
+   override on top of a default pointing the wrong way. The default is now square, in the
+   base rules themselves; nothing has to remember to turn it off.
+
+   And the line below it is the guard for the corners this sheet does not name at all --
+   the browser's own rounding, iOS's rounded grey plate over anything you touch, a host
+   reset. Universal selectors carry no specificity, so it loses to every rule in this file
+   and wins against every rule outside it, which is exactly the shape the problem has.
+
+   The round things stay round because they ASK, further down, in a rule of their own: the
+   scrubber handle, the slider thumbs, the play disc in an embed. A handle is a handle. */
+*,*::before,*::after{border-radius:0}
+*{-webkit-tap-highlight-color:transparent}
 /* MINNERVA BOLD, CARRIED IN THE PAGE. The artifact's content policy admits stylesheets
    only from Google's font host, so any other face is silently ignored and the browser
    quietly falls back -- which on a canvas means every measurement is wrong and the whole
@@ -103,7 +122,7 @@ h1{font-family:"Archivo Black","Archivo",sans-serif;font-size:clamp(1.35rem,3.2v
   margin:0 0 .15rem;letter-spacing:-.02em}
 h1 em{font-style:normal;color:var(--accent)}
 kbd{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
-  border:1px solid var(--rail);border-bottom-width:2px;border-radius:4px;
+  border:1px solid var(--rail);border-bottom-width:2px;border-radius:0;
   padding:.05rem .3rem;color:var(--dim);background:var(--panel)}
 
 /* A SQUARE FRAME. A rounded corner around a projection is a corner the projection
@@ -453,6 +472,41 @@ body.player #bar,body.embed #bar{display:block}
   .barin{justify-content:flex-start}
   #barSet .inner,#barShare .inner{margin-left:0}
 }
+/* THE LAYOUT PICKER -- a column in the far corner, present only while the room is behind
+   the piece and the icons are out. Same sharp edges, same underline-not-a-pill. */
+#barLay{display:none;position:fixed;right:1rem;z-index:79;flex-direction:column;
+  gap:.15rem;align-items:center;pointer-events:auto;
+  bottom:calc(3.9rem + env(safe-area-inset-bottom))}
+body.cam.ui #barLay{display:flex}
+#bar[hidden] ~ #barLay{display:none}
+/* AND IT STANDS DOWN FOR A DRAWER. Both live at the bottom right; with a sheet up, the
+   column was sitting on top of it, which is the pile the two drawers were kept apart to
+   avoid. The room is still on and the column comes straight back when the sheet goes. */
+body.cam.ui #bar.open ~ #barLay{display:none}
+.lico{width:44px;height:44px;padding:0;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ovl-faint);
+  border-right:2px solid transparent;
+  -webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
+  filter:opacity(0);transform:translateX(3rem);
+  transition:filter .34s ease,transform .52s cubic-bezier(.16,.86,.26,1),color .18s}
+body.cam.ui .lico{filter:opacity(1);transform:translateX(0)}
+body.cam.ui .lico:nth-child(3){transition-delay:.045s}
+body.cam.ui .lico:nth-child(4){transition-delay:.09s}
+body.cam.ui .lico:nth-child(5){transition-delay:.135s}
+body.cam.ui .lico:nth-child(6){transition-delay:.18s}
+/* the room's exit is not a fourth arrangement, so a rule says so */
+.lsep{width:20px;height:1px;background:var(--ovl-rule);margin:.2rem 0 .3rem;
+  filter:opacity(0);transition:filter .34s ease}
+body.cam.ui .lsep{filter:opacity(1)}
+#bRoomOff{color:var(--ovl-ink)}
+#bRoomOff:hover{color:var(--ovl-accent)}
+.lico svg{width:22px;height:22px;fill:currentColor;display:block}
+.lico:hover{color:var(--ovl-ink)}
+.lico.on{color:var(--ovl-accent);border-right-color:var(--ovl-accent)}
+.lico:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  .lico,body.cam.ui .lico{transform:none;transition:color .18s}
+}
 /* THE TIMELINE. Full width above the icons, because the thing being chosen is a moment in
    a pass and a moment is a length, not a nudge. Sharp ends and a line, like everything
    else here; the handle is the one round thing, because a handle is a handle. */
@@ -524,7 +578,15 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 #barSet,#barShare{background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);
   -webkit-backdrop-filter:blur(20px) saturate(1.15);border-top:1px solid var(--ovl-rule);
   padding:.7rem 1rem;margin:0 -1rem .4rem -8.2rem}
-#barSet .inner,#barShare .inner{max-width:52rem;margin:0 auto}
+#barSet .inner,#barShare .inner{max-width:52rem;margin:0 auto;position:relative}
+/* AT THE TOP, IN THE MIDDLE, WHERE A SHEET IS PULLED DOWN FROM. In the corner it landed
+   on the last icon in the row -- one more thing crowding the row it was meant to help you
+   leave. Centred it is the grabber every bottom sheet has, and it points the way it goes. */
+.dclose{display:block;margin:0 auto .2rem;width:64px;height:26px;padding:0;
+  border:0;background:none;cursor:pointer;color:var(--ovl-faint)}
+.dclose svg{width:40px;height:12px;fill:currentColor;display:block;margin:0 auto}
+.dclose:hover{color:var(--ovl-ink)}
+.dclose:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:2px}
 @media (max-width:44rem){
   /* THE MARK IS ON THE LEFT AND THE ICONS ARE ON THE RIGHT, and on a 390px phone they were
      within six pixels of touching. The icons stay right-aligned -- space-between would have
@@ -862,18 +924,18 @@ body.player:hover .ovbar,body.player .ovbar:focus-within{opacity:1}
 .fit.tight{border-left-color:var(--warn)}
 .fit.over{border-left-color:var(--accent)}
 button{font:inherit;font-size:.79rem;font-weight:600;cursor:pointer;color:var(--ink);
-  background:var(--panel);border:1px solid var(--rail);border-radius:5px;
+  background:var(--panel);border:1px solid var(--rail);border-radius:0;
   padding:.55rem .85rem;min-height:44px;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation}
 button:hover{border-color:var(--accent);color:var(--accent)}
 button.hot{border-color:var(--live);color:var(--live)}
 button:focus-visible{outline:2px solid var(--live);outline-offset:2px}
 input[type=text]{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.84rem;
-  background:var(--panel);color:var(--ink);border:1px solid var(--rail);border-radius:5px;
+  background:var(--panel);color:var(--ink);border:1px solid var(--rail);border-radius:0;
   padding:.5rem .6rem;min-height:44px;min-width:0}
 input[type=text]:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 select{font:inherit;font-size:.77rem;background:var(--panel);color:var(--ink);
-  border:1px solid var(--rail);border-radius:5px;padding:.5rem;min-height:44px}
+  border:1px solid var(--rail);border-radius:0;padding:.5rem;min-height:44px}
 select:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 .deck.shut h2 .dtog::before{content:"\25B8 "}
 .deck.shut{gap:0}
@@ -943,6 +1005,32 @@ label.reset,label.reset span{color:var(--accent) !important;
       <button type="button" class="ico" id="bSet" title="Settings" aria-label="Settings"
         aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.74 8.84a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.86 14.52a.5.5 0 00-.12.64l1.92 3.32c.12.22.39.3.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
     </div>
+  </div>
+  <!-- THE LAYOUT, WHERE IT IS SUDDENLY WORTH CHOOSING. Against black one arrangement is
+       as good as another and the setting can live in a panel. Against a ROOM it becomes a
+       composition decision -- the spine down a doorway, the stack across a horizon -- and
+       it has to be one press away. So it appears with the camera and leaves with it.
+
+       LOWER RIGHT, IN A COLUMN, on every screen -- and it reads two ways because of where
+       the icons are. On a phone the row is already at the right, so the column stands
+       directly above the gear. On a large screen the icons have gone to sit beside the
+       mark on the left, and the column is left alone in the far corner: a separate thing,
+       belonging to the room rather than to the menu. One element, two readings, no
+       breakpoint deciding which. -->
+  <div id="barLay">
+    <!-- AND ITS OWN WAY OUT. "It was unclear how to actually either turn off that setting
+         or to then take a picture." Both halves were the same fault: one icon carrying two
+         unrelated jobs, with the second one hidden under a hold that nothing on screen
+         mentions. The picture stays on the camera icon, where a camera icon belongs. The
+         ROOM -- turning it off -- comes here, at the head of the controls that only exist
+         while the room is on, one press, visible the whole time it is possible. -->
+    <button type="button" class="lico" id="bRoomOff" title="Put the room away"
+      aria-label="Turn the camera background off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 014.6 7L10 9.4A5 5 0 0112 9zm-3.6 1.4l6.2 6.2A5 5 0 018.4 10.4zM3.4 2L22 20.6l-1.4 1.4L2 3.4z"/></svg></button>
+    <div class="lsep" aria-hidden="true"></div>
+    <button type="button" class="lico" data-lay="auto" title="auto" aria-label="Layout: auto"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4h18v2H3V4zM3 18h18v2H3v-2zM3 4h2v16H3V4zM19 4h2v16h-2V4zM7 10.5h10v3H7z"/></svg></button>
+    <button type="button" class="lico" data-lay="spine" title="spine" aria-label="Layout: spine"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 1h2v22h-2V1zM1 5h7v14H1zM16 5h7v14h-7z"/></svg></button>
+    <button type="button" class="lico" data-lay="overlap" title="overlapping" aria-label="Layout: overlapping"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h13v3.5H3zM8 13.5h13V17H8z"/></svg></button>
+    <button type="button" class="lico" data-lay="stack" title="stacked" aria-label="Layout: stacked"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h18v3H3z"/></svg></button>
   </div>
   <div id="quick" hidden role="menu" aria-label="Quick actions"></div>
   <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
@@ -2119,6 +2207,11 @@ function camStart(){
       var p=cam.el.play(); if(p&&p.catch) p.catch(function(){});
       cam.on=true;
       document.body.classList.add("cam");
+      /* SAID ONCE, WHEN IT IS NEEDED. A hold turns it on and a hold turns it off, and
+         nothing on a phone tells you the second half -- there is no hover to read a title
+         on. So the work says it, once, at the only moment it matters. */
+      if(typeof toast==="function")
+        toast("The room is behind it. The camera saves a frame; the corner puts the room away.",7);
       if(typeof barPaint==="function") barPaint();
       if(!running && typeof still==="function") still();
       if(typeof stat==="function") stat("camera");
@@ -2589,6 +2682,29 @@ function tick(now){
   }
   requestAnimationFrame(tick);
 }
+/* THE ROOM DOES NOT STOP WHEN THE WORDS DO. He saw the collision before it happened:
+   in camera mode a viewer wants to hold a moment in the phrase AND keep moving the phone
+   around it, and pause -- which draws exactly one frame and stops -- froze the room along
+   with the type. Read that way the two gestures fight over the same button.
+
+   They do not have to. Pause means HOLD THE WORDS, and with a live ground behind them the
+   camera keeps running underneath: the phrase stands still while the room moves through
+   it, the timeline picks the moment inside the phrase, and the frame you save is the one
+   you aimed. Nothing new to learn and nothing to explain -- the same button, doing the
+   thing it always did, against a background that happens to be alive.
+
+   It costs a frame loop that draws no new type, so it runs only when there IS a room and
+   only while the piece is held; an export runs its own loop and is excluded outright. */
+var holding=false;
+function heldFrame(){
+  return (curFrame===null)?(Math.round(V.dur*1.35)+V.dur+10):curFrame;
+}
+function holdRoom(){
+  if(running || exportSize || !camReady()){ holding=false; return; }
+  try{ frameAt(heldFrame()); }
+  catch(err){ holding=false; return; }   /* still() has already said so; do not shout */
+  requestAnimationFrame(holdRoom);
+}
 function still(){
   /* the frame we were on -- and only before anything has ever run, a representative one,
      so a page opened with motion reduced still shows the piece rather than an empty stage */
@@ -2605,6 +2721,9 @@ function still(){
     return;
   }
   say("hFrame",String(Math.floor(at)).padStart(3,"0")); say("hDraws",d+" glyph draws");
+  if(!holding && !running && !exportSize && camReady()){
+    holding=true; requestAnimationFrame(holdRoom);
+  }
 }
 function setRunning(on){
   running=on;
@@ -4792,6 +4911,18 @@ function barDrawer(which,on){
       if(pane){
         if(!box.firstChild){
           var inner=document.createElement("div"); inner.className="inner";
+          /* A WAY DOWN, IN THE DRAWER. "It's hard to tell when you're looking at all of
+             the icons, which one opened it in the first place." True of both drawers: the
+             icon that opens one is a toggle, and a toggle you cannot pick out of a row of
+             six is a one-way door. A chevron pointing down at the drawer's own top corner
+             says put this away in the direction it will go. */
+          var x=document.createElement("button");
+          x.type="button"; x.className="dclose";
+          x.title="Close"; x.setAttribute("aria-label","Close");
+          x.innerHTML='<svg viewBox="0 0 40 12" aria-hidden="true" focusable="false">'
+            +'<path d="M6 2.4L7.4 1 20 8.2 32.6 1 34 2.4 20 10.6z"/></svg>';
+          x.addEventListener("click",function(){ barDrawer(null,false); });
+          inner.appendChild(x);
           box.appendChild(inner);
         }
         box.firstChild.appendChild(pane);
@@ -4812,6 +4943,10 @@ function barDrawer(which,on){
   /* the sheet is filled when it opens; the code is only drawn when it is asked for */
   if(which==="share" && on && typeof shFill==="function"){ shFill(); shFold(null); }
 }
+function barAnyOpen(){
+  return Object.keys(DRAWERS).some(function(k){
+    var b=el[DRAWERS[k].box]; return b && !b.hidden; });
+}
 function barSetOpen(on){ barDrawer("set",on); }
 var PLAY_D="M8 5v14l11-7z", PAUSE_D="M6 5h4v14H6zM14 5h4v14h-4z";
 function icoPath(btn,d){
@@ -4830,12 +4965,33 @@ function barPaint(){
   el.bSound.setAttribute("title", snd_on?"Sound on":"Sound off");
   if(el.bShot){
     el.bShot.classList.toggle("on", !!cam.on);
-    el.bShot.setAttribute("title", cam.on ? "The room is behind it \u2014 hold to stop"
+    el.bShot.setAttribute("title", cam.on ? "Save this frame \u2014 the room is behind it"
                                           : "Save this frame \u2014 hold for the camera");
   }
   if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
   if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
+  layPaint();
 }
+/* WHICH ARRANGEMENT IS ON. The panel's select stays the one source of truth -- in the
+   player there is no select and the value lives in SHIPPED -- so this reads it back
+   rather than keeping a second copy that could disagree with the piece on screen. */
+function layPaint(){
+  var now=getSetting("layout");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lay]"),function(x){
+    var on=(x.getAttribute("data-lay")===now);
+    x.classList.toggle("on", on);
+    x.setAttribute("aria-pressed", on?"true":"false");
+  });
+}
+if(el.bRoomOff) el.bRoomOff.addEventListener("click",function(){ camStop(); });
+Array.prototype.forEach.call(document.querySelectorAll("[data-lay]"),function(x){
+  x.addEventListener("click",function(){
+    setSetting("layout", x.getAttribute("data-lay"));
+    refresh();          /* re-reads the controls, re-sizes, and redraws if held */
+    layPaint();
+    if(typeof kick==="function") kick();
+  });
+});
 if(el.bPlay) el.bPlay.addEventListener("click",function(){
   var go=!running; setRunning(go);
   if(go && V.sndSrc==="track" && !snd.on) sndStart(); else if(!go) sndStop();
@@ -4843,7 +4999,12 @@ if(el.bPlay) el.bPlay.addEventListener("click",function(){
 });
 if(el.bSound) el.bSound.addEventListener("click",function(){
   var on=(V.sndSrc==="off");
-  if(el.sndSrc) el.sndSrc.value = on ? "track" : "off";
+  /* THROUGH THE DOOR, NOT AT A SLIDER. This wrote to the Sound control in the tuning
+     deck and did nothing at all where there is no deck: the audio stopped, because
+     sndStop() is real, but the SETTING never changed -- so the icon went on saying the
+     sound was on while the piece was silent. The third control this session to reach past
+     the settings store for a slider that is not there. */
+  setSetting("sndSrc", on ? "track" : "off");
   readControls();
   if(on) sndStart(); else sndStop();
   barPaint();
@@ -5285,7 +5446,7 @@ if(el.mShot) el.mShot.addEventListener("click",function(){
 /* SOUND IS SOMETHING YOU CAN TURN OFF. Somebody opening this at a desk needs one obvious
    switch, not a source drop-down four panels deep. */
 if(el.mSound) el.mSound.addEventListener("change",function(){
-  if(el.sndSrc){ el.sndSrc.value = el.mSound.checked ? "track" : "off"; }
+  setSetting("sndSrc", el.mSound.checked ? "track" : "off");
   readControls();
   if(el.mSound.checked) sndStart(); else sndStop();
 });
@@ -5350,7 +5511,7 @@ function quickItems(){
   out.push({ label:(V.sndSrc==="off"?"Sound on":"Sound off"),
     icon:"M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z",
     go:function(){ var on=(V.sndSrc==="off");
-      if(el.sndSrc) el.sndSrc.value=on?"track":"off";
+      setSetting("sndSrc", on?"track":"off");
       readControls(); if(on) sndStart(); else sndStop();
       if(typeof barPaint==="function") barPaint(); } });
   if(RIG.play) out.push({ label:"Export a clip",
@@ -5389,6 +5550,16 @@ function inChrome(t){
     +"#preflight,#titleCard,#endCard,.ovscrub"));
 }
 document.addEventListener("pointerdown",function(e){
+  /* THE WORK ITSELF PUTS THE DRAWER AWAY. Everything but the drawer and the row that owns
+     it -- the piece behind, the marks, anywhere at all -- closes it, which is what every
+     hand already expects of a sheet that came up over something. The icon row is excluded
+     because those icons are toggles: dismissing on the way down and toggling on the way up
+     is a press that closes and reopens in the same gesture. */
+  if(typeof barAnyOpen==="function" && barAnyOpen()
+     && !(e.target && e.target.closest && e.target.closest("#barSet,#barShare,.barin,#barLay"))){
+    barDrawer(null,false);
+    return;
+  }
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(!el.quick || !el.quick.hidden){ quickShut(); return; }
   held=false; holdX=e.clientX; holdY=e.clientY;
