@@ -27,7 +27,7 @@
 <meta name="twitter:description" content="249 lines of _____ American _____, animating themselves. A performance piece by Dimitry Saïd Chamy, first read at Edge Zones, Miami, 5 September 2026.">
 <meta name="twitter:image" content="https://works.chamy.xyz/_____American_____/poster.png">
 </head>
-<body>
+<body class="player">
 <!-- _____ American _____ — © 2026 Dimitry Saïd Chamy / CHAMY·XYZ. All rights reserved.
      The work is published here; the instrument that makes it is not. -->
 <title>_____ American _____</title>
@@ -1275,7 +1275,12 @@ label.reset,label.reset span{color:var(--accent) !important;
   if(document.readyState==="loading")
     document.addEventListener("DOMContentLoaded",function(){ setTimeout(up,2000); });
   else setTimeout(up,2000);
-  setTimeout(up,30000);
+  /* AND NOT THIRTY SECONDS. That was written when the un-booted page showed a stray
+     bordered box; with the body saying `player` from the first byte the wait is plain
+     black, which is what the piece opens on -- but a script that never runs still has to
+     hand somebody an interface, and twelve seconds is the longest that is help rather
+     than punishment. */
+  setTimeout(up,12000);
 })();</script>
 
 <div class="wrap">
