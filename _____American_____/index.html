@@ -563,6 +563,30 @@ body.cam.ui .lsep{filter:opacity(1)}
    alternatives appear only when asked: two buttons at rest instead of five, and the vertical
    pressure goes away rather than being managed. */
 #barLay:not(.open) .lico[data-lay]:not(.on){display:none}
+/* A CIRCLE, WHICH IS ONE OF THE THREE SHAPES THIS INTERFACE USES, and a SQUARE while it is
+   running -- the two marks every recorder has ever used, and neither of them a rounded
+   rectangle. It stands clear of the icon row on one side and the timeline on the other,
+   because on a phone all three want the bottom of the screen. */
+#bRec{display:none;position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(5.1rem + env(safe-area-inset-bottom));z-index:81;
+  width:70px;height:70px;padding:0;background:none;cursor:pointer;
+  border:3px solid rgba(255,255,255,.92);border-radius:50%;
+  box-shadow:0 2px 12px rgba(0,0,0,.55);
+  -webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+body.cam.ui #bRec{display:block}
+body.cam.held #bRec{bottom:calc(7.6rem + env(safe-area-inset-bottom))}
+#bRec .dot{display:block;width:54px;height:54px;border-radius:50%;margin:5px auto;
+  background:var(--ovl-accent);
+  transition:width .18s ease,height .18s ease,border-radius .18s ease}
+#bRec.rec .dot{width:26px;height:26px;border-radius:0}
+#bRec:focus-visible{outline:2px solid var(--ovl-ink);outline-offset:4px}
+#recSay{display:none;position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(9.4rem + env(safe-area-inset-bottom));z-index:81;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
+  letter-spacing:.06em;color:var(--ovl-accent);white-space:nowrap;
+  text-shadow:0 1px 4px rgba(0,0,0,.95);font-variant-numeric:tabular-nums}
+body.cam.ui #recSay:not([hidden]){display:block}
+body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
 #bRoomOff{color:var(--ovl-ink)}
 #bRoomOff:hover{color:var(--ovl-accent)}
 .lico svg{width:22px;height:22px;fill:currentColor;display:block}
@@ -1221,6 +1245,14 @@ label.reset,label.reset span{color:var(--accent) !important;
        mark on the left, and the column is left alone in the far corner: a separate thing,
        belonging to the room rather than to the menu. One element, two readings, no
        breakpoint deciding which. -->
+  <!-- THE SHUTTER, AND ONLY WHILE THERE IS A ROOM. Every camera anybody has ever held puts
+       one big round button at the bottom middle, and the moment the piece has a room behind
+       it that is what a hand expects to find. It is not in the player otherwise: recording
+       the work against black is what the share sheet's clip is for, with its own shapes and
+       lengths. This one records WHAT YOU ARE LOOKING AT. -->
+  <button type="button" id="bRec" hidden aria-label="Record what is on screen"
+    aria-pressed="false"><span class="dot" aria-hidden="true"></span></button>
+  <output id="recSay" hidden aria-live="polite"></output>
   <div id="barLay" role="group" aria-label="Layout">
     <!-- AND NO SECOND WAY OUT. The room's exit lived here while the camera icon was busy
          saving frames. The camera icon is the room now and turns into a struck-through
@@ -2417,6 +2449,9 @@ function camStop(){
   cam.stream=null; cam.on=false;
   document.body.classList.remove("cam");
   if(typeof layOpen==="function") layOpen(false);
+  /* the shutter goes with the room, and a recording in progress is closed rather than
+     abandoned -- an unfinished MediaRecorder keeps the file */
+  if(typeof recStop==="function") recStop();
   if(typeof roomPaint==="function") roomPaint();
   if(typeof barPaint==="function") barPaint();
   if(!running && typeof still==="function") still();
@@ -4750,7 +4785,7 @@ function burnMark(cx,W,H,forceAlpha){
      takes over -- above the bar, in the accent, a button rather than a signature -- and two
      of them at once is a mark drawn twice at two different strengths. An export never sees
      the icons and always burns it. */
-  var uiOut = !exportSize && document.body.classList.contains("ui");
+  var uiOut = !exportSize && !recLive && document.body.classList.contains("ui");
   cx.save();
   cx.globalAlpha=(forceAlpha===undefined)?burnAlpha():forceAlpha;
   cx.globalCompositeOperation="source-over";
@@ -5319,6 +5354,90 @@ if(el.bSound) el.bSound.addEventListener("click",function(){
   if(on) sndStart(); else sndStop();
   barPaint();
 });
+/* ---- THE SHUTTER --------------------------------------------------------------------
+   A DIFFERENT KIND OF RECORDING FROM THE CLIP. The share sheet's clip is rendered OFF the
+   clock: the piece is held, frames are computed one at a time and fed to the recorder at a
+   chosen size and shape, so nothing is dropped and the file is not a screen grab. That is
+   the right answer for a post.
+
+   This is the other answer. With a room behind the piece there is nothing to compute --
+   the camera is arriving in real time and cannot be rendered faster than it happens -- and
+   what somebody wants is the thing in front of them, at the shape of the screen they are
+   holding. So the canvas is recorded as it paints. No pacing, no size change, no held
+   frame: press, point the phone, press again.
+
+   THE MARKS HAVE TO STAY BURNED IN while it runs. They step back when the icons are out,
+   because the live DOM ones take over -- but the DOM is not in the recording, so the file
+   would have arrived unsigned. Recording counts as an export for that decision. */
+var recLive=false, recRec=null, recChunks=null, recStream=null, recT0=0, recTick=null;
+var REC_MAX=60;
+function recMime(){
+  return ["video/mp4;codecs=avc1.42E01E","video/mp4",
+          "video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"]
+    .filter(function(m){ try{ return MediaRecorder.isTypeSupported(m); }catch(e){ return false; } })[0];
+}
+function recPaint(){
+  if(el.bRec){
+    el.bRec.classList.toggle("rec", recLive);
+    el.bRec.setAttribute("aria-pressed", recLive?"true":"false");
+    el.bRec.setAttribute("aria-label", recLive?"Stop recording":"Record what is on screen");
+    el.bRec.setAttribute("title", recLive?"Stop":"Record what you see");
+  }
+  if(el.recSay) el.recSay.hidden=!recLive;
+}
+function recSay(){
+  if(!el.recSay || !recLive) return;
+  var s=Math.min(REC_MAX, Math.floor((performance.now()-recT0)/1000));
+  /* the ceiling is formatted the same way the elapsed time is, or a sixty-second limit
+     prints as 0:00 -- which reads as a recorder that has already run out */
+  el.recSay.textContent="\u25CF "+pad(Math.floor(s/60),1)+":"+pad(s%60,2)
+                       +" / "+pad(Math.floor(REC_MAX/60),1)+":"+pad(REC_MAX%60,2);
+  if(s>=REC_MAX) recStop();
+}
+function recStart(){
+  if(recLive || rendering || exportSize) return;
+  if(typeof MediaRecorder!=="function"){
+    toast("This browser has no video recorder.",6); return;
+  }
+  var mime=recMime();
+  if(!mime){ toast("This browser has no video recorder.",6); return; }
+  try{ recStream=cv.captureStream(30); }catch(e){ recStream=null; }
+  if(!recStream){
+    toast("This browser will not let the page record its own canvas.",6); return;
+  }
+  /* THE SOUND GOES WITH IT, the same tap the clip uses. It is the soundtrack, not the
+     microphone -- this page has never asked for a microphone and does not start now. */
+  if(snd.dest && snd.on){
+    try{ snd.dest.stream.getAudioTracks().forEach(function(t){ recStream.addTrack(t); }); }
+    catch(e){}
+  }
+  recChunks=[];
+  try{ recRec=new MediaRecorder(recStream,{mimeType:mime,videoBitsPerSecond:16000000}); }
+  catch(e){ toast("The recorder would not start ("+(e&&e.name||"unknown")+").",6); return; }
+  recRec.ondataavailable=function(e){ if(e.data&&e.data.size) recChunks.push(e.data); };
+  recRec.onstop=function(){
+    var ext=mime.indexOf("mp4")>=0 ? "mp4" : "webm";
+    var blob=new Blob(recChunks,{type:mime.split(";")[0]});
+    var secs=Math.max(1,Math.round((performance.now()-recT0)/1000));
+    recChunks=null; recRec=null; recStream=null;
+    handOff(blob, "glyph-room-"+seed+"-"+secs+"s."+ext, null);
+  };
+  recLive=true; recT0=performance.now();
+  recRec.start();
+  recPaint(); recSay();
+  recTick=setInterval(recSay,250);
+  if(typeof stat==="function") stat("record");
+}
+function recStop(){
+  if(!recLive) return;
+  recLive=false;
+  clearInterval(recTick); recTick=null;
+  try{ if(recRec && recRec.state!=="inactive") recRec.stop(); }catch(e){}
+  recPaint();
+}
+if(el.bRec) el.bRec.addEventListener("click",function(){
+  if(recLive) recStop(); else recStart();
+});
 /* ---- THE TIMELINE ---------------------------------------------------------------
    It has been in the markup as a pair of step arrows since the beginning and never became
    anything, which is the same as not having it: stepping a frame at a time is not how
@@ -5671,6 +5790,7 @@ function keyPins(){
     {at:"#bSound", say:"Sound"},
     {at:"#bFull",  say:"Full screen"},
     {at:"#bShot",  say:"<b>Camera</b>"},
+    {at:"#bRec",   say:"<b>Record</b> what you see"},
     {at:"#bShare", say:"<b>Share</b>"},
     {at:"#bKey",   say:"This guide"},
     {at:"#bSet",   say:"Settings"},
@@ -6098,7 +6218,7 @@ function quickOpen(x,y){
 }
 function inChrome(t){
   return !!(t && t.closest && t.closest("#menu,#bar,#quick,.credit,.sig,#faults,"
-    +"#preflight,#titleCard,#endCard,.ovscrub"));
+    +"#preflight,#titleCard,#endCard,.ovscrub,#bRec,#barLay,#keyFull"));
 }
 document.addEventListener("pointerdown",function(e){
   /* THE WORK ITSELF PUTS THE DRAWER AWAY. Everything but the drawer and the row that owns
