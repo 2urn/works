@@ -6119,11 +6119,32 @@ if(el.mClipGo) el.mClipGo.addEventListener("click",function(){
    the release writes is that size -- so the frame he picks here IS the poster, rather than
    a still he then has to letterbox. Whatever is on screen when it is pressed: the piece is
    never the same twice and choosing the frame is choosing the still. */
+/* THE COVER REMEMBERS ITSELF. "Did I already choose one, and what did I pick" is otherwise
+   a question you can only answer by leaving the page and looking at the poster the release
+   wrote. A thumbnail is small enough to keep beside the button and honest enough to answer
+   it: the same pixels, at 96 across, stored the moment they are made. */
+var COVER_KEY="glyph.cover";
+function coverThumb(url){
+  var t=el.coverThumb; if(!t) return;
+  if(url){ t.src=url; t.hidden=false; } else t.hidden=true;
+}
+function coverRemember(){
+  try{
+    var c=document.createElement("canvas"); c.width=96; c.height=50;
+    c.getContext("2d").drawImage(cv,0,0,96,50);
+    var u=c.toDataURL("image/jpeg",0.72);
+    localStorage.setItem(COVER_KEY,u);
+    coverThumb(u);
+  }catch(e){}
+}
+try{ coverThumb(localStorage.getItem(COVER_KEY)); }catch(e){}
 function saveCover(){
   if(exportSize) return;
   var at=(curFrame===null?0:curFrame);
   var wasRunning=running; setRunning(false);
   exportSize=[1200,630]; size(); frameAt(at);
+  /* remembered from the poster-sized canvas, before it is put back */
+  coverRemember();
   shot().then(function(blob){
     exportSize=null; size(); setRunning(wasRunning);
     handOff(blob,"american-cover-"+seed+"-f"+Math.floor(at)+"-1200x630.png",
@@ -6134,11 +6155,11 @@ function coverAfter(status){
   var b=el.exCover; if(!b) return;
   if(status==="pending"){
     b.classList.add("hot");
-    b.textContent="Save the cover \u2014 "+(pending?pending.mb:"?");
+    b.textContent="Save \u2014 "+(pending?pending.mb:"?");
     say("mCoverNote","Ready. Press again and choose where it goes.");
   }else{
     b.classList.remove("hot");
-    b.textContent="Save this frame as the cover (1200 \u00d7 630)";
+    b.textContent="Cover";
   }
 }
 if(el.exCover) el.exCover.addEventListener("click",function(){
