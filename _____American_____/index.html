@@ -4359,6 +4359,12 @@ var PIECE={
     "co-founding faculty of the Ratcliffe Art + Design Incubator at Florida International "+
     "University, where he keeps his studio."
   ],
+  /* THE MARK BESIDE THE TABS, which goes to the root domain. An icon-scale export of the
+     duck-rabbit belongs here -- solid, no hairlines -- as a data URI or a path beside the
+     page. The sequence's version is 150x150 of fine line work and puts ink on four per
+     cent of a thirty-pixel box; it is a drawing made for a different scale, not a size to
+     tune. Empty, and the mark is simply not there. */
+  homeIcon: "",
   /* the navigation, filled in rather than written into the markup */
   links: [
     /* THE WAY BACK. With one work published it never came up that a piece is a page on
@@ -5164,9 +5170,19 @@ function paintPiece(){
 function homeMark(){
   var a=el.mHome; if(!a) return;
   var span=a.firstChild;
-  if(span && typeof SEQ_DUCK==="string" && SEQ_DUCK){
-    span.style.webkitMaskImage='url("'+SEQ_DUCK+'")';
-    span.style.maskImage='url("'+SEQ_DUCK+'")';
+  /* AND IT WAITS FOR A MARK THAT CAN BE SEEN. The sequence's duck-rabbit is 150x150 of
+     fine line work: at thirty pixels it puts ink on four per cent of the box, and the
+     strokes are thinner than a pixel. That is not a size to tune, it is a drawing made for
+     a different scale, and the answer is not to thicken his artwork on the way past.
+
+     PIECE.homeIcon is where an icon-scale export goes -- solid, no hairlines -- and until
+     there is one the mark is simply absent. The wordmark is not a substitute: it is
+     already standing in the corner of the screen doing another job. */
+  var art=PIECE.homeIcon||"";
+  if(!art){ a.hidden=true; return; }
+  if(span){
+    span.style.webkitMaskImage='url("'+art+'")';
+    span.style.maskImage='url("'+art+'")';
   }
   /* THE ROOT, NOT A SUBDOMAIN. A loose match on the name found works.chamy.xyz first --
      the shelf this piece is already sitting on, which is not home. The host has to BE the
