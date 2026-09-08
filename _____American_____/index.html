@@ -3103,7 +3103,17 @@ function tick(now){
     cycleNow=cyc;
     if(cyc>0){
       STATS.passes=(STATS.passes||0)+1; statSave();
-      if(!exportSize && typeof seqShow==="function") seqShow("close",3.4);
+      /* A CREDIT BELONGS TO A PERFORMANCE, NOT TO A WORKBENCH. The cards run at every pass
+         boundary and the close hands straight back to the title, which is right for an
+         edition whose pass is five and a half minutes. The instrument's script is six
+         lines: a pass there is about eight seconds, and seven of them were the sequence --
+         so the builder sat replaying its own loading animation while somebody was trying
+         to tune a slider. It is gated twice, because either alone would be a guess: not in
+         the instrument at all, and not on any pass too short for a credit to be a credit
+         rather than an interruption. Previewing them is still one press in Settings. */
+      var passSecs=total/Math.max(1,FPS*(V.speed||1));
+      if(!exportSize && (PLAYER||EMBED) && passSecs>=45
+         && typeof seqShow==="function") seqShow("close",3.4);
     }
     if(V.recycle){ seed=baseSeed+cyc*7919; say("hSeed",String(seed)); }
   }
