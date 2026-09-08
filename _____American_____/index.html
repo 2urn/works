@@ -580,6 +580,17 @@ body.cam.held #bRec{bottom:calc(7.6rem + env(safe-area-inset-bottom))}
   transition:width .18s ease,height .18s ease,border-radius .18s ease}
 #bRec.rec .dot{width:26px;height:26px;border-radius:0}
 #bRec:focus-visible{outline:2px solid var(--ovl-ink);outline-offset:4px}
+#recSave{display:none;position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(5.1rem + env(safe-area-inset-bottom));z-index:82;
+  min-height:52px;padding:.7rem 1.3rem;cursor:pointer;
+  background:var(--ovl-accent);color:#000;border:0;
+  font:inherit;font-size:.86rem;font-weight:700;letter-spacing:.01em;
+  white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.55)}
+body.cam.ui #recSave:not([hidden]){display:block}
+body.cam.held #recSave{bottom:calc(7.6rem + env(safe-area-inset-bottom))}
+#recSave:focus-visible{outline:2px solid var(--ovl-ink);outline-offset:3px}
+/* while a file is waiting, the shutter steps aside rather than sitting under it */
+body.cam.ui.waiting #bRec{display:none}
 #recSay{display:none;position:fixed;left:50%;transform:translateX(-50%);
   bottom:calc(9.4rem + env(safe-area-inset-bottom));z-index:81;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
@@ -1253,6 +1264,13 @@ label.reset,label.reset span{color:var(--accent) !important;
   <button type="button" id="bRec" hidden aria-label="Record what is on screen"
     aria-pressed="false"><span class="dot" aria-hidden="true"></span></button>
   <output id="recSay" hidden aria-live="polite"></output>
+  <!-- AND A SECOND, DELIBERATE PRESS. On a phone the finished file does not go anywhere by
+       itself: handing a file to the system share sheet needs a LIVE gesture, and the
+       recorder finishes milliseconds after the press that stopped it, by which time that
+       gesture has expired. So the file waits, and this is how it is claimed. The clip in
+       the share sheet has had this second press since it was built; the shutter shipped
+       without one, so a recording was made, held, and never offered to anybody. -->
+  <button type="button" id="recSave" hidden></button>
   <div id="barLay" role="group" aria-label="Layout">
     <!-- AND NO SECOND WAY OUT. The room's exit lived here while the camera icon was busy
          saving frames. The camera icon is the room now and turns into a struck-through
@@ -5429,8 +5447,11 @@ function recStart(){
     var blob=new Blob(recChunks,{type:mime.split(";")[0]});
     var secs=Math.max(1,Math.round((performance.now()-recT0)/1000));
     recChunks=null; recRec=null; recStream=null;
-    handOff(blob, "glyph-room-"+seed+"-"+secs+"s."+ext, null);
+    var r=handOff(blob, "glyph-room-"+seed+"-"+secs+"s."+ext, "recSay",
+                  null, "room");
+    recWaiting(r==="pending");
   };
+  recWaiting(false);   /* a new take replaces one that was never claimed */
   recLive=true; recT0=performance.now();
   recRec.start();
   recPaint(); recSay();
@@ -5444,6 +5465,33 @@ function recStop(){
   try{ if(recRec && recRec.state!=="inactive") recRec.stop(); }catch(e){}
   recPaint();
 }
+/* WHAT HAPPENS TO THE FILE. Three answers, and which one you get is the device's to
+   decide: an artifact host saves it outright, a browser with no share sheet downloads it,
+   and a phone puts it in the share sheet -- which needs a live gesture, so it waits here
+   for a press that is unmistakably a press. */
+function recWaiting(on){
+  document.body.classList.toggle("waiting", !!on);
+  /* SIZED THE WAY A PERSON READS A SIZE. handOff works in megabytes to one decimal, which
+     is right for a rendered clip and prints "0.0 MB" for a short recording -- a number that
+     reads as a broken file rather than a small one. */
+  var sz = (pending && pending.blob) ? pending.blob.size : 0;
+  var say = sz>=1048576 ? (sz/1048576).toFixed(1)+" MB"
+          : Math.max(1,Math.round(sz/1024))+" KB";
+  if(el.recSave){
+    el.recSave.hidden = !on;
+    el.recSave.textContent = on ? ("Save "+say) : "";
+    el.recSave.setAttribute("aria-label", on ? ("Save the recording, "+say) : "");
+  }
+  if(el.recSay) el.recSay.hidden = !!on || !recLive;
+}
+if(el.recSave) el.recSave.addEventListener("click",function(){
+  if(!pending || pending.who!=="room") return;
+  takePending(function(status){
+    /* AbortError keeps the file: a thumb that slipped is not a decision to throw a
+       recording away */
+    recWaiting(status==="pending");
+  });
+});
 if(el.bRec) el.bRec.addEventListener("click",function(){
   if(recLive) recStop(); else recStart();
 });
