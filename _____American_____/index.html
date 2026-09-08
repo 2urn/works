@@ -1825,6 +1825,7 @@ var SHIPPED={
   outerSize:7,
   blankCap:61,
   ovByWord:false,
+  ovKeep:40,
   overBlend:"screen",
   overlap:0.3,
   pulse:0.2,
@@ -1902,6 +1903,7 @@ function readControls(){
   V.offThird=num("offThird"); V.offName=num("offName");
   V.spineSize=num("spineSize"); V.outerSize=num("outerSize");
   V.blankCap=num("blankCap");
+  V.ovKeep=num("ovKeep");
   V.overlap=num("overlap"); V.margin=num("margin"); V.squash=num("squash");
   V.focus=num("focus");
   V.gap=num("gap"); V.ovByWord=yes("ovByWord");
@@ -1951,6 +1953,7 @@ function paintReadouts(){
   say("offFirstV",V.offFirst+"%"); say("offSpineV",V.offSpine+"%");
   say("offThirdV",V.offThird+"%"); say("offNameV",V.offName+"%");
   say("blankCapV",Math.round(V.blankCap)+"%");
+  say("ovKeepV",Math.round(V.ovKeep)+"%");
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
@@ -2010,6 +2013,9 @@ function solve(gs,W,H){
        while a long one buries itself. On, it is a share of the PHRASE, so each one
        overlaps by the same share of ITSELF and long and short read alike. */
     var fOv=ov*(V.ovByWord?fw:sw), tOv=ov*(V.ovByWord?tw:sw);
+    /* and never so far that the word has nothing left outside -- see the deck */
+    var keepF=(V.ovKeep||0)/100;
+    fOv=Math.min(fOv, fw*(1-keepF)); tOv=Math.min(tOv, tw*(1-keepF));
     sx0=(W-sw)/2; sx1=sx0+sw; fx1=sx0+fOv; fx0=fx1-fw; tx0_=sx1-tOv; tx1=tx0_+tw;
     var crash=(fx1+gapPx)-tx0_, offL=margin-fx0, offR=tx1-(W-margin);
     /* CROSSING IS ALLOWED; RUNNING OFF THE SCREEN IS NOT. A phrase like Temporary Protected
