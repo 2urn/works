@@ -517,6 +517,13 @@ body.cam.ui .lsep{filter:opacity(1)}
   .lico.on{border-bottom-color:var(--ovl-accent)}
   .lsep{width:1px;height:20px;margin:0 .35rem}
 }
+/* COLLAPSED TO THE ONE IT IS ON. Capturing and keeping a frame is universal -- every piece
+   will want it. An ARRANGEMENT is local to a work built out of three words, and giving it
+   four permanent buttons ranked it with the things that matter and pushed the column up
+   into the signature in the corner. It shows what it is on, auto to begin with, and the
+   alternatives appear only when asked: two buttons at rest instead of five, and the vertical
+   pressure goes away rather than being managed. */
+#barLay:not(.open) .lico[data-lay]:not(.on){display:none}
 #bRoomOff{color:var(--ovl-ink)}
 #bRoomOff:hover{color:var(--ovl-accent)}
 .lico svg{width:22px;height:22px;fill:currentColor;display:block}
@@ -1095,6 +1102,14 @@ label.reset,label.reset span{color:var(--accent) !important;
           <button type="button" class="mopt" data-arr="spine"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 1h2v22h-2V1zM1 5h7v14H1zM16 5h7v14h-7z"/></svg><span>Vertical</span></button>
           <button type="button" class="mopt" data-arr="stack"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h18v3H3z"/></svg><span>Stacked</span></button>
         </span></div>
+      <!-- THE WAY IN, SAID OUT LOUD. Holding the camera icon was the only route into the
+           room, and a hold is invisible: nothing on screen mentioned it, and the first press
+           put an operating-system permission dialog in front of somebody who had not asked
+           for one. A feature that raises a permission prompt has to be requested in words.
+           The hold stays, as a shortcut for the person who already knows. -->
+      <label class="mrow" id="mRoomRow"><span>Camera as the background</span>
+        <input type="checkbox" id="mRoom" autocomplete="off"></label>
+      <p class="mnote" id="mRoomNote"></p>
       <button type="button" class="mbtn" id="mFull">Full screen</button>
       <button type="button" class="mbtn" id="mShot">Save this frame</button>
       <p class="mnote" id="mFullNote"></p>
@@ -2207,6 +2222,8 @@ function camStop(){
   try{ if(cam.stream) cam.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
   cam.stream=null; cam.on=false;
   document.body.classList.remove("cam");
+  if(typeof layOpen==="function") layOpen(false);
+  if(typeof roomPaint==="function") roomPaint();
   if(typeof barPaint==="function") barPaint();
   if(!running && typeof still==="function") still();
 }
@@ -2234,7 +2251,8 @@ function camStart(){
          nothing on a phone tells you the second half -- there is no hover to read a title
          on. So the work says it, once, at the only moment it matters. */
       if(typeof toast==="function")
-        toast("The room is behind it. The camera saves a frame; the corner puts the room away.",7);
+        toast("The room is behind it. The camera icon saves a frame.",6);
+      if(typeof roomPaint==="function") roomPaint();
       if(typeof barPaint==="function") barPaint();
       if(!running && typeof still==="function") still();
       if(typeof stat==="function") stat("camera");
@@ -2247,6 +2265,8 @@ function camStart(){
       /* SAID WHERE IT CAN BE READ. A fault goes to a log that is hidden in the player --
          which is right for a gallery and useless to somebody standing there wondering
          whether they pressed the thing hard enough. */
+      cam.on=false;
+      if(typeof roomPaint==="function") roomPaint();   /* the tick goes back, or it lies */
       if(typeof toast==="function") toast(why,6);
       fault("The camera did not open", n||String(err&&err.message||err), why);
     });
@@ -4718,13 +4738,7 @@ function menuOpen(tab){
   var sl=document.getElementById("shareLinks");
   if(sl){ sl.innerHTML=linkRow("share"); bindLinks(); }
   if(typeof shFill==="function") shFill();
-  if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
-  if(el.mVol && el.sndVol) el.mVol.value = el.sndVol.value;
-  if(el.mPlay) el.mPlay.checked = !!running;
-  cardsFill();
-  if(el.mFullNote) el.mFullNote.textContent = CAN_FULL ? ""
-    : "This browser cannot go full screen. On iPad and iPhone, Share \u2192 Add to Home "
-      +"Screen opens it with no browser chrome at all.";
+  setFill();
   if(el.mFace && !el.mFace.getAttribute("src")) el.mFace.setAttribute("src", PORTRAIT);
   if(el.mVoiceBox) el.mVoiceBox.hidden = !VOICE;
   if(VOICE && el.mVoice && !el.mVoice.getAttribute("src")) el.mVoice.setAttribute("src", VOICE);
@@ -4969,6 +4983,8 @@ function barDrawer(which,on){
   }
   /* the sheet is filled when it opens; the code is only drawn when it is asked for */
   if(which==="share" && on && typeof shFill==="function"){ shFill(); shFold(null); }
+  if(which==="set" && on && typeof setFill==="function") setFill();
+  if(any && typeof layOpen==="function") layOpen(false);
 }
 function barAnyOpen(){
   return Object.keys(DRAWERS).some(function(k){
@@ -5014,21 +5030,71 @@ function barPaint(){
 /* WHICH ARRANGEMENT IS ON. The panel's select stays the one source of truth -- in the
    player there is no select and the value lives in SHIPPED -- so this reads it back
    rather than keeping a second copy that could disagree with the piece on screen. */
+/* THE ROOM'S OWN ROW. It says what it is, whether it is on, and -- before you press it --
+   that a permission is coming, because a dialog you did not expect is a dialog you refuse. */
+/* THE SETTINGS PANE IS PAINTED WHEREVER IT APPEARS. It lives in the panel's markup and is
+   MOVED into the gear drawer, so there is one copy of the controls -- but only the panel
+   painted it, and the drawer is how anybody actually reaches it. Opened from the gear, the
+   tickboxes showed whatever the markup shipped with rather than what the piece was doing.
+   One function, called from both doors. */
+function setFill(){
+  if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
+  /* AND THE VOLUME READS AND WRITES THE SETTING. It mirrored el.sndVol -- the tuning deck's
+     slider, which the strip removes -- so in the player it never showed the real level and
+     never recorded a new one. The fifth control this session reaching past the store for a
+     slider that is not there. */
+  if(el.mVol) el.mVol.value = getSetting("sndVol");
+  if(el.mPlay) el.mPlay.checked = !!running;
+  roomPaint();
+  if(typeof layPaint==="function") layPaint();
+  cardsFill();
+  if(el.mFullNote) el.mFullNote.textContent = CAN_FULL ? ""
+    : "This browser cannot go full screen. On iPad and iPhone, Share \u2192 Add to Home "
+      +"Screen opens it with no browser chrome at all.";
+}
+function roomPaint(){
+  var can=!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  if(el.mRoomRow) el.mRoomRow.hidden = !(can && RIG.play);
+  if(el.mRoom) el.mRoom.checked = !!cam.on;
+  if(el.mRoomNote) el.mRoomNote.textContent = !can ? ""
+    : (cam.on ? "The piece is drawing over what the camera sees. Nothing is recorded or sent."
+              : "Puts what your camera sees behind the piece. Your browser will ask first.");
+}
 function layPaint(){
   var now=getSetting("layout");
+  var shut=!!(el.barLay && !el.barLay.classList.contains("open"));
   Array.prototype.forEach.call(document.querySelectorAll("[data-lay],[data-arr]"),function(x){
-    var on=((x.getAttribute("data-lay")||x.getAttribute("data-arr"))===now);
+    var v=x.getAttribute("data-lay")||x.getAttribute("data-arr"), on=(v===now);
     x.classList.toggle("on", on);
     x.setAttribute("aria-pressed", on?"true":"false");
+    /* the one left on show when the rest are put away is a door, and has to say so */
+    if(x.getAttribute("data-lay") && on)
+      x.setAttribute("aria-expanded", shut?"false":"true");
   });
+  if(el.barLay){
+    var face=el.barLay.querySelector(".lico.on");
+    if(face) face.setAttribute("title",
+      shut ? (face.getAttribute("aria-label")||"Layout")+" \u2014 press for the others"
+           : "Layout");
+  }
 }
 if(el.bRoomOff) el.bRoomOff.addEventListener("click",function(){ camStop(); });
+function layOpen(on){
+  if(!el.barLay) return;
+  el.barLay.classList.toggle("open", !!on);
+  layPaint();
+}
+if(el.mRoom) el.mRoom.addEventListener("change",function(){
+  if(el.mRoom.checked) camStart(); else camStop();
+});
 Array.prototype.forEach.call(document.querySelectorAll("[data-lay]"),function(x){
   x.addEventListener("click",function(){
+    /* collapsed, the only one you can reach is the one in use, so the first press can only
+       mean "show me the others" -- and once they are showing, every press is a choice */
+    if(el.barLay && !el.barLay.classList.contains("open")){ layOpen(true); return; }
     setSetting("layout", x.getAttribute("data-lay"));
     refresh();          /* re-reads the controls, re-sizes, and redraws if held */
-    layPaint();
-    if(typeof kick==="function") kick();
+    layOpen(false);     /* which paints both pickers on its way out */
   });
 });
 if(el.bPlay) el.bPlay.addEventListener("click",function(){
@@ -5512,7 +5578,8 @@ if(el.mSound) el.mSound.addEventListener("change",function(){
   if(el.mSound.checked) sndStart(); else sndStop();
 });
 if(el.mVol) el.mVol.addEventListener("input",function(){
-  if(el.sndVol) el.sndVol.value=el.mVol.value;
+  setSetting("sndVol", el.mVol.value);
+  readControls();
   if(snd.gain) snd.gain.gain.value=+el.mVol.value;
 });
 if(el.mPlay) el.mPlay.addEventListener("change",function(){
@@ -5620,6 +5687,11 @@ document.addEventListener("pointerdown",function(e){
      && !(e.target && e.target.closest && e.target.closest("#barSet,#barShare,.barin,#barLay"))){
     barDrawer(null,false);
     return;
+  }
+  /* and the choices put themselves away the moment you look elsewhere */
+  if(el.barLay && el.barLay.classList.contains("open")
+     && !(e.target && e.target.closest && e.target.closest("#barLay"))){
+    layOpen(false);
   }
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(!el.quick || !el.quick.hidden){ quickShut(); return; }
