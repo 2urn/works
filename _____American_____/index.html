@@ -216,6 +216,8 @@ body.rig-tapcredit.showing .sig{opacity:.61}
    and back for four seconds whenever the screen is touched. */
 body.player .credit,body.player .sig,body.embed .credit,body.embed .sig{
   opacity:.61;transition:opacity 1.6s ease}
+/* the top-right mark is an element, not pixels, so it takes its ground from CSS */
+body.cam .sig,body.cam .credit{filter:drop-shadow(0 0 7px rgba(0,0,0,.9))}
 body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 3s ease}
 body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity .25s}
 /* the panel takes the top of the frame, and his name lives there */
@@ -442,6 +444,23 @@ body.player #bar,body.embed #bar{display:block}
    [hidden]{display:none!important} beats the rule above */
 #bar{z-index:79}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
+/* THE TIMELINE. Full width above the icons, because the thing being chosen is a moment in
+   a pass and a moment is a length, not a nudge. Sharp ends and a line, like everything
+   else here; the handle is the one round thing, because a handle is a handle. */
+#barTime{display:flex;align-items:center;gap:.7rem;padding:.1rem 0 .5rem;
+  pointer-events:auto}
+#tScrub{flex:1 1 auto;-webkit-appearance:none;appearance:none;height:26px;
+  background:none;margin:0}
+#tScrub::-webkit-slider-runnable-track{height:2px;background:var(--ovl-rule)}
+#tScrub::-moz-range-track{height:2px;background:var(--ovl-rule)}
+#tScrub::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:14px;height:14px;border-radius:50%;background:var(--ovl-accent);
+  border:0;margin-top:-6px}
+#tScrub::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+  background:var(--ovl-accent);border:0}
+#tScrub:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:4px}
+#tSay{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
+  color:var(--ovl-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 /* THEY COME FROM THE MARK AND GO BACK TO IT. Appearing in the corner told nobody where
    they had come from, so the mark that summons them was a secret. They travel now: out of
    the wordmark, left to right, settling one after another -- and back the same way, which
@@ -849,6 +868,14 @@ label.reset,label.reset span{color:var(--accent) !important;
   <div id="bar" hidden>
     <div id="barShare" hidden></div>
     <div id="barSet" hidden></div>
+    <!-- THE TIMELINE, which never launched. Choosing the moment is most of choosing the
+         still: the piece is never the same twice, and a frame you liked has gone by the
+         time you have found the button. It appears while the piece is held. -->
+    <div id="barTime" hidden>
+      <input type="range" id="tScrub" min="0" max="1000" step="1" value="0"
+        autocomplete="off" aria-label="Move through this pass">
+      <output id="tSay">line 1 &middot; 0f</output>
+    </div>
     <div class="barin">
       <button type="button" class="ico state" id="bPlay" title="Play" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg></button>
       <button type="button" class="ico state" id="bSound" title="Sound off" aria-label="Turn the sound on"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg></button>
@@ -1970,6 +1997,107 @@ function pass(frame,alpha,L,which){
   tx.restore(); return n;
 }
 
+/* ---- THE ROOM BEHIND THE WORK ---------------------------------------------------
+   The piece is drawn on black because it is ADDITIVE: every glyph adds light, nothing
+   outlines it, and black is the only ground that lets that read. Put a camera behind it
+   and the whole argument breaks -- against a white wall the words simply stop existing.
+
+   The answer is not to dim the room. It is to give every letter its own black: the type
+   plate is drawn once as a MATTE, softened at the edges and filled black, immediately
+   under the additive pass. The blend then has the ground it needs exactly where it needs
+   it, letter-shaped, and the rest of the frame is the room as it is. Nobody watching sees
+   a veil, because there is not one.
+
+   A rendered file with a transparent background never gets this: alpha and a camera are
+   two different answers to the same question, and the transparent one is for compositing
+   the type over other footage later. */
+var cam={on:false,el:null,stream:null,dark:0.86,soft:0};
+var MT=document.createElement("canvas"), mcx=MT.getContext("2d");
+function camStop(){
+  try{ if(cam.stream) cam.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  cam.stream=null; cam.on=false;
+  document.body.classList.remove("cam");
+  if(typeof barPaint==="function") barPaint();
+  if(!running && typeof still==="function") still();
+}
+function camStart(){
+  var md=navigator.mediaDevices;
+  if(!md||!md.getUserMedia){
+    fault("This browser gives the page no camera", "mediaDevices is absent",
+          "Open the piece in Safari or Chrome, over https.");
+    return;
+  }
+  md.getUserMedia({video:{facingMode:{ideal:"environment"},
+                          width:{ideal:1280}, height:{ideal:1280}}, audio:false})
+    .then(function(st){
+      cam.stream=st;
+      if(!cam.el){
+        cam.el=document.createElement("video");
+        cam.el.setAttribute("playsinline","");   /* or iOS takes the whole screen */
+        cam.el.muted=true; cam.el.autoplay=true;
+      }
+      cam.el.srcObject=st;
+      var p=cam.el.play(); if(p&&p.catch) p.catch(function(){});
+      cam.on=true;
+      document.body.classList.add("cam");
+      if(typeof barPaint==="function") barPaint();
+      if(!running && typeof still==="function") still();
+      if(typeof stat==="function") stat("camera");
+    },function(err){
+      var n=(err&&err.name)||"";
+      fault("The camera did not open",
+            n||String(err&&err.message||err),
+            n==="NotAllowedError"
+              ? "The browser refused, or the permission was declined. It can be given back "
+                +"in the address bar."
+              : "Another app may be holding the camera. Close it and try again.");
+    });
+}
+/* ONE IMAGE, ITS OWN SHAPE, IN BLACK. Cached per source, because a mark is drawn every
+   frame and building a matte sixty times a second for a picture that never changes is the
+   kind of waste that only shows up on somebody else's phone. */
+var shades={};
+function camShade(img){
+  var key=(img&&img.src)?img.src.slice(-24):"x";
+  if(shades[key]) return shades[key];
+  var c=document.createElement("canvas");
+  c.width=img.naturalWidth||64; c.height=img.naturalHeight||64;
+  var q=c.getContext("2d");
+  q.drawImage(img,0,0);
+  q.globalCompositeOperation="source-in";
+  q.fillStyle="#000"; q.fillRect(0,0,c.width,c.height);
+  shades[key]=c;
+  return c;
+}
+function camReady(){
+  return cam.on && cam.el && cam.el.readyState>=2 && cam.el.videoWidth>0;
+}
+/* COVER, NOT CONTAIN. The frame is the piece's shape and the camera's is whatever the
+   device gives; letterboxing a room reads as a mistake, so it fills and crops. */
+function drawCam(cx,W,H){
+  var vw=cam.el.videoWidth, vh=cam.el.videoHeight;
+  var s=Math.max(W/vw,H/vh), dw=vw*s, dh=vh*s;
+  cx.drawImage(cam.el, Math.round((W-dw)/2), Math.round((H-dh)/2),
+               Math.round(dw), Math.round(dh));
+}
+/* THE LETTER-SHAPED GROUND. The plate's own alpha, spread a little so the dark reaches
+   just past the edge of each stroke, filled black and laid under the light. */
+function camMatte(cx,W,H,plate){
+  if(MT.width!==W||MT.height!==H){ MT.width=W; MT.height=H; }
+  mcx.setTransform(1,0,0,1,0,0);
+  mcx.globalCompositeOperation="source-over";
+  mcx.clearRect(0,0,W,H);
+  var soft=Math.max(1.5, Math.min(W,H)*0.006);
+  try{ mcx.filter="blur("+soft.toFixed(1)+"px)"; }catch(e){}
+  mcx.drawImage(plate,0,0);
+  try{ mcx.filter="none"; }catch(e){}
+  mcx.globalCompositeOperation="source-in";
+  mcx.fillStyle="#000"; mcx.fillRect(0,0,W,H);
+  mcx.globalCompositeOperation="source-over";
+  cx.globalAlpha=cam.dark;
+  cx.drawImage(MT,0,0);
+  cx.globalAlpha=1;
+}
 function frameAt(frame){
   var W=cv.width,H=cv.height;
   var raw=soundLevel();
@@ -2088,8 +2216,20 @@ function frameAt(frame){
   /* The black is painted here and nowhere else, so leaving it out is the whole of what
      "transparent background" means -- the type comes out on alpha, ready to sit over
      other footage rather than carrying its own black into the mix. */
-  if(!exportAlpha){ ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H); }
-  ctx.drawImage(G,0,0);
+  if(exportAlpha){
+    /* no ground at all: the type comes out on alpha, ready to sit over other footage,
+       which is a different answer to the same question the camera answers */
+    ctx.drawImage(G,0,0);
+  }else if(camReady()){
+    drawCam(ctx,W,H);
+    camMatte(ctx,W,H,G);                 /* every letter brings its own black */
+    ctx.globalCompositeOperation="lighter";
+    ctx.drawImage(G,0,0);
+    ctx.globalCompositeOperation="source-over";
+  }else{
+    ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H);
+    ctx.drawImage(G,0,0);
+  }
   if(V.guides&&lastFit){
     ctx.strokeStyle="rgba(95,191,160,.45)"; ctx.lineWidth=1; ctx.setLineDash([5,5]);
     ctx.beginPath();
@@ -2418,6 +2558,7 @@ function setRunning(on){
      four paths did not know it had to. */
   if(typeof embedShow==="function") embedShow(on);
   if(typeof barPaint==="function") barPaint();
+  if(typeof timeShow==="function") timeShow();
 }
 function step(dir){
   var period=Math.max(1,V.hold-V.slip);
@@ -4158,6 +4299,17 @@ function burnMark(cx,W,H,forceAlpha){
   cx.save();
   cx.globalAlpha=(forceAlpha===undefined)?burnAlpha():forceAlpha;
   cx.globalCompositeOperation="source-over";
+  /* AND OVER A ROOM IT NEEDS ITS OWN GROUND TOO. White at 61% on a cream wall is not a
+     mark, it is a rumour -- so the same trick the letters get: the drawing once in soft
+     black underneath, then the mark on top of it. */
+  if(camReady() && !exportSize){
+    cx.save();
+    try{ cx.filter="blur("+Math.max(2,w*0.05).toFixed(1)+"px)"; }catch(e){}
+    cx.globalAlpha=Math.min(1,(cx.globalAlpha||.61)*1.5);
+    cx.drawImage(camShade(wmImg), x, y, Math.round(w), Math.round(h));
+    cx.restore();
+    cx.globalAlpha=(forceAlpha===undefined)?burnAlpha():forceAlpha;
+  }
   cx.drawImage(wmImg, x, y, Math.round(w), Math.round(h));
   /* AND HIS NAME, TOP RIGHT, IN THE PIXELS TOO. A rendered file leaves the page and the
      DOM marks do not go with it -- so an exported clip carried the brand and not the
@@ -4176,6 +4328,13 @@ function burnMark(cx,W,H,forceAlpha){
         }
       }
     }catch(e){}
+    if(camReady() && !exportSize){
+      cx.save();
+      try{ cx.filter="blur("+Math.max(2,w2*0.05).toFixed(1)+"px)"; }catch(e){}
+      cx.globalAlpha=Math.min(1,(cx.globalAlpha||.61)*1.5);
+      cx.drawImage(camShade(nmImg), x2, y2, Math.round(w2), Math.round(h2));
+      cx.restore();
+    }
     cx.drawImage(nmImg, x2, y2, Math.round(w2), Math.round(h2));
   }
   cx.restore();
@@ -4585,6 +4744,11 @@ function barPaint(){
   el.bSound.classList.toggle("on", snd_on);
   el.bSound.setAttribute("aria-label", snd_on?"Turn the sound off":"Turn the sound on");
   el.bSound.setAttribute("title", snd_on?"Sound on":"Sound off");
+  if(el.bShot){
+    el.bShot.classList.toggle("on", !!cam.on);
+    el.bShot.setAttribute("title", cam.on ? "The room is behind it \u2014 hold to stop"
+                                          : "Save this frame \u2014 hold for the camera");
+  }
   if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
   if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
 }
@@ -4600,8 +4764,57 @@ if(el.bSound) el.bSound.addEventListener("click",function(){
   if(on) sndStart(); else sndStop();
   barPaint();
 });
+/* ---- THE TIMELINE ---------------------------------------------------------------
+   It has been in the markup as a pair of step arrows since the beginning and never became
+   anything, which is the same as not having it: stepping a frame at a time is not how
+   anybody finds a moment they saw. It is a length now, over one whole pass, and it appears
+   whenever the piece is held -- which is exactly when somebody is looking for a frame to
+   keep, or for the moment to put the room behind. */
+function timeTotal(){
+  var per=Math.max(1,V.hold-V.slip);
+  return per*Math.max(1,lines.length);
+}
+function timeShow(){
+  var b=el.barTime; if(!b) return;
+  b.hidden = !!running || !RIG.play;
+  if(!b.hidden) timePaint();
+}
+function timeSay(f,tot){
+  if(!el.tSay) return;
+  var per=Math.max(1,V.hold-V.slip);
+  var line=Math.min(lines.length, Math.floor(f/per)+1);
+  el.tSay.textContent="line "+line+" of "+lines.length+" \u00b7 "+Math.round(f%per)+"f";
+}
+function timePaint(){
+  if(!el.tScrub || !el.barTime || el.barTime.hidden) return;
+  var tot=timeTotal(), f=(curFrame===null?0:curFrame);
+  el.tScrub.value=String(Math.round(f/tot*1000));
+  timeSay(f,tot);
+}
+if(el.tScrub) el.tScrub.addEventListener("input",function(){
+  var tot=timeTotal();
+  curFrame=(+el.tScrub.value)/1000*tot;
+  timeSay(curFrame,tot);
+  if(!running) still();
+});
 if(el.bFull) el.bFull.addEventListener("click",toggleFull);
+/* TAP KEEPS THE FRAME, HOLD PUTS THE ROOM BEHIND IT. One control, one subject -- the
+   image -- rather than a second save-shaped icon beside the share glyph. */
+var shotHold=null, shotHeld=false;
+if(el.bShot){
+  el.bShot.addEventListener("pointerdown",function(){
+    shotHeld=false; clearTimeout(shotHold);
+    shotHold=setTimeout(function(){
+      shotHeld=true;
+      if(cam.on) camStop(); else camStart();
+    },520);
+  });
+  ["pointerup","pointerleave","pointercancel"].forEach(function(ev){
+    el.bShot.addEventListener(ev,function(){ clearTimeout(shotHold); });
+  });
+}
 if(el.bShot) el.bShot.addEventListener("click",function(){
+  if(shotHeld){ shotHeld=false; return; }
   try{ saveStill(); }
   catch(e){ fault("The frame could not be saved", String(e&&e.message||e),
     "Try again once the piece has drawn at least one frame."); }
