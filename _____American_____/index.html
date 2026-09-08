@@ -354,6 +354,14 @@ body.burned .sig{background-image:none}
 /* NO ROUNDED RECTANGLES. Lines, sharp corners or circles -- a rounded box is the one
    shape this interface does not use. A chosen option is a COLOUR and an UNDERLINE,
    the same way a chosen tab is, so the two read as the same kind of thing. */
+/* THE SAME FOUR MARKS IN BOTH PLACES. He asked for the on-screen picker's icons above
+   these labels, and it is the right ask twice over: a word like "Horizontal" describes the
+   result and the mark shows it, and having met one of them you have met the other. They
+   are lifted off the same buttons rather than redrawn, and the probe refuses if the two
+   sets ever stop matching. */
+.mseg.lay .mopt{display:inline-flex;flex-direction:column;align-items:center;gap:.3rem;
+  padding:.4rem .5rem;font-size:.66rem;letter-spacing:.02em;min-height:56px}
+.mseg.lay svg{width:20px;height:20px;fill:currentColor;display:block}
 .mopt{border-bottom:2px solid transparent}
 .mopt.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent);background:none}
 .mopt:hover{color:var(--ovl-ink)}
@@ -1027,10 +1035,10 @@ label.reset,label.reset span{color:var(--accent) !important;
     <button type="button" class="lico" id="bRoomOff" title="Put the room away"
       aria-label="Turn the camera background off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 014.6 7L10 9.4A5 5 0 0112 9zm-3.6 1.4l6.2 6.2A5 5 0 018.4 10.4zM3.4 2L22 20.6l-1.4 1.4L2 3.4z"/></svg></button>
     <div class="lsep" aria-hidden="true"></div>
-    <button type="button" class="lico" data-lay="auto" title="auto" aria-label="Layout: auto"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4h18v2H3V4zM3 18h18v2H3v-2zM3 4h2v16H3V4zM19 4h2v16h-2V4zM7 10.5h10v3H7z"/></svg></button>
-    <button type="button" class="lico" data-lay="spine" title="spine" aria-label="Layout: spine"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 1h2v22h-2V1zM1 5h7v14H1zM16 5h7v14h-7z"/></svg></button>
-    <button type="button" class="lico" data-lay="overlap" title="overlapping" aria-label="Layout: overlapping"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h13v3.5H3zM8 13.5h13V17H8z"/></svg></button>
-    <button type="button" class="lico" data-lay="stack" title="stacked" aria-label="Layout: stacked"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h18v3H3z"/></svg></button>
+    <button type="button" class="lico" data-lay="auto" title="Auto" aria-label="Layout: Auto"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4h18v2H3V4zM3 18h18v2H3v-2zM3 4h2v16H3V4zM19 4h2v16h-2V4zM7 10.5h10v3H7z"/></svg></button>
+    <button type="button" class="lico" data-lay="overlap" title="Horizontal" aria-label="Layout: Horizontal"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h13v3.5H3zM8 13.5h13V17H8z"/></svg></button>
+    <button type="button" class="lico" data-lay="spine" title="Vertical" aria-label="Layout: Vertical"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 1h2v22h-2V1zM1 5h7v14H1zM16 5h7v14h-7z"/></svg></button>
+    <button type="button" class="lico" data-lay="stack" title="Stacked" aria-label="Layout: Stacked"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h18v3H3z"/></svg></button>
   </div>
   <div id="quick" hidden role="menu" aria-label="Quick actions"></div>
   <nav id="menu" aria-label="About this piece and its settings" hidden><div class="mband">
@@ -1066,11 +1074,11 @@ label.reset,label.reset span{color:var(--accent) !important;
           <button type="button" class="mopt" data-scheme="light">Light</button>
         </span></div>
       <div class="mrow"><span>Layout</span>
-        <span class="mseg">
-          <button type="button" class="mopt on" data-arr="auto">Auto</button>
-          <button type="button" class="mopt" data-arr="overlap">Horizontal</button>
-          <button type="button" class="mopt" data-arr="spine">Vertical</button>
-          <button type="button" class="mopt" data-arr="stack">Stacked</button>
+        <span class="mseg lay">
+          <button type="button" class="mopt on" data-arr="auto"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4h18v2H3V4zM3 18h18v2H3v-2zM3 4h2v16H3V4zM19 4h2v16h-2V4zM7 10.5h10v3H7z"/></svg><span>Auto</span></button>
+          <button type="button" class="mopt" data-arr="overlap"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h13v3.5H3zM8 13.5h13V17H8z"/></svg><span>Horizontal</span></button>
+          <button type="button" class="mopt" data-arr="spine"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 1h2v22h-2V1zM1 5h7v14H1zM16 5h7v14h-7z"/></svg><span>Vertical</span></button>
+          <button type="button" class="mopt" data-arr="stack"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h18v3H3z"/></svg><span>Stacked</span></button>
         </span></div>
       <button type="button" class="mbtn" id="mFull">Full screen</button>
       <button type="button" class="mbtn" id="mShot">Save this frame</button>
@@ -4705,8 +4713,7 @@ function menuOpen(tab){
   if(el.mFace && !el.mFace.getAttribute("src")) el.mFace.setAttribute("src", PORTRAIT);
   if(el.mVoiceBox) el.mVoiceBox.hidden = !VOICE;
   if(VOICE && el.mVoice && !el.mVoice.getAttribute("src")) el.mVoice.setAttribute("src", VOICE);
-  Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(o){
-    o.classList.toggle("on", el.layout && o.dataset.arr===el.layout.value); });
+  layPaint();
   paintLabel();
   menuTab(tab||"work");
   el.menu.hidden=false;
@@ -4994,8 +5001,8 @@ function barPaint(){
    rather than keeping a second copy that could disagree with the piece on screen. */
 function layPaint(){
   var now=getSetting("layout");
-  Array.prototype.forEach.call(document.querySelectorAll("[data-lay]"),function(x){
-    var on=(x.getAttribute("data-lay")===now);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lay],[data-arr]"),function(x){
+    var on=((x.getAttribute("data-lay")||x.getAttribute("data-arr"))===now);
     x.classList.toggle("on", on);
     x.setAttribute("aria-pressed", on?"true":"false");
   });
@@ -5450,12 +5457,25 @@ function socialClip(secs){
    see the vertical setting anyway, and the piece has nothing to hide about how it works.
    Vertical, horizontal and square are what these arrangements ARE from the outside; spine,
    overlap and stack are what they are called inside, and nobody out here needs to know. */
-Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(b){
+/* AND IT HAS NEVER WORKED IN THE PUBLISHED PIECE. Two faults wearing one row.
+
+   It wrote to el.layout -- the tuning deck's select, which the strip removes -- so in the
+   player the press went nowhere and the arrangement never changed. The fourth control this
+   session to reach past the settings store for a slider that is not there.
+
+   And it PAINTED itself the same way: classList.toggle("on", el.layout && ...) passes
+   `undefined` as the second argument when there is no select, and toggle() ignores an
+   undefined force and FLIPS instead -- so every time the panel opened, three of the four
+   options lit up and the one actually in use did not. It looked like a bug in the piece.
+
+   Both selectors were `.mopt`, which is also the Appearance row, so choosing Dark cleared
+   the layout and choosing a layout cleared Dark. One painter now, reading the setting; one
+   handler, bound to the layout buttons alone. */
+Array.prototype.forEach.call(document.querySelectorAll("[data-arr]"),function(b){
   b.addEventListener("click",function(){
-    if(el.layout) el.layout.value=b.dataset.arr;
+    setSetting("layout", b.getAttribute("data-arr"));
     refresh();
-    Array.prototype.forEach.call(document.querySelectorAll(".mopt"),function(o){
-      o.classList.toggle("on", o===b); });
+    layPaint();
   });
 });
 
