@@ -5267,6 +5267,9 @@ function barPaint(){
   if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
   if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
   layPaint();
+  /* driven from here, which runs on every transport change and every camera change, rather
+     than from the two places that happen to know the room came on */
+  if(typeof recPaint==="function") recPaint();
 }
 /* WHICH ARRANGEMENT IS ON. The panel's select stays the one source of truth -- in the
    player there is no select and the value lives in SHIPPED -- so this reads it back
@@ -5377,6 +5380,12 @@ function recMime(){
     .filter(function(m){ try{ return MediaRecorder.isTypeSupported(m); }catch(e){ return false; } })[0];
 }
 function recPaint(){
+  /* AND IT HAS TO BE UNHIDDEN BY SOMETHING. The markup ships it hidden, the CSS says
+     `body.cam.ui #bRec{display:block}`, and `[hidden]{display:none!important}` beats that
+     outright -- so the button existed, was styled, was positioned and was wired, and could
+     never appear. My own check set hidden=false by hand in order to measure where it sat,
+     which tested the position and skipped the only question that mattered. */
+  if(el.bRec) el.bRec.hidden = !(cam.on && RIG.play);
   if(el.bRec){
     el.bRec.classList.toggle("rec", recLive);
     el.bRec.setAttribute("aria-pressed", recLive?"true":"false");
