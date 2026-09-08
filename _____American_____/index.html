@@ -365,12 +365,24 @@ body.ui.faded .sig{opacity:.72}
 /* SAID OUT LOUD, WHERE THE PIECE IS. Handing over a file is the one moment the work has
    to speak in its own voice. Silence after a save reads as a failure even when it worked,
    and a sentence inside a panel nobody has open reads as nothing at all. */
-#toastMsg{display:none}
-#toastMsg.on{display:block;position:fixed;z-index:96;left:50%;transform:translateX(-50%);
-  bottom:calc(env(safe-area-inset-bottom,0px) + 4.6rem);max-width:min(30rem,88vw);
-  background:var(--ovl-bg);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);
-  border:1px solid var(--ovl-rule);color:var(--ovl-ink);
-  padding:.6rem .9rem;font-size:.82rem;line-height:1.45;text-align:center}
+/* A NOTE, NOT A PANEL, AND NOWHERE NEAR THE BUTTON. It was an opaque bordered box sitting
+   4.6rem from the bottom -- which is exactly where the shutter is, so the one message that
+   says a recording was saved covered the very button that was trying to show a tick. He
+   never saw either face.
+
+   Everything else that speaks over the work is a line of type with a shadow under it: the
+   frame count, the scrub rate, the callouts. This is the same thing now. It sits at the
+   top, where nothing else lives, it fades rather than appearing and vanishing, and it takes
+   no presses -- an annotation on the work rather than a dialogue with it. */
+#toastMsg{display:block;position:fixed;z-index:96;left:50%;transform:translateX(-50%);
+  top:calc(env(safe-area-inset-top,0px) + 4.4rem);max-width:min(26rem,82vw);
+  text-align:center;text-wrap:balance;pointer-events:none;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.74rem;line-height:1.5;letter-spacing:.02em;
+  color:var(--ovl-accent);text-shadow:0 1px 4px rgba(0,0,0,.95);
+  opacity:0;transition:opacity .32s ease}
+#toastMsg.on{opacity:1}
+@media (prefers-reduced-motion:reduce){ #toastMsg{transition:none} }
 /* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
    the width of a sentence for a job a glyph does; what makes it usable to a screen
    reader is the aria-label, not the size of the target on screen. 44px of touch, one
@@ -3729,6 +3741,13 @@ function qrMatrix(text){
    The old code knew about the first route and said "Saved." for all three. On the public
    page there is no window.claude, so the file was assembled, reported saved, and dropped.
    Nothing now claims a save it did not make. */
+/* ONE PLACE THAT SAYS HOW BIG SOMETHING IS. Megabytes to one decimal is right for a
+   rendered clip and prints "0.0" for a four-second recording, which reads as a broken file
+   rather than a small one. */
+function sizeSay(bytes){
+  return bytes>=1048576 ? (bytes/1048576).toFixed(1)+" MB"
+                        : Math.max(1,Math.round(bytes/1024))+" KB";
+}
 function mkFile(blob,name){
   try{ return new File([blob],name,{type:blob.type||"application/octet-stream"}); }
   catch(e){ return null; }
@@ -3740,7 +3759,10 @@ function canShareFile(f){
   if(!f || !navigator.canShare || !navigator.share) return false;
   try{ return !!navigator.canShare({files:[f]}); }catch(e){ return false; }
 }
-function tell(note,msg){ say(note,msg); if(PLAYER||EMBED) toast(msg,7); }
+/* AND IT DOES NOT LINGER. Seven seconds is the length of an instruction, and these are
+   outcomes -- the thing already happened, and a note about it that outstays the moment
+   stops being information and becomes something to wait out. */
+function tell(note,msg){ say(note,msg); if(PLAYER||EMBED) toast(msg,3.4); }
 function anchorOut(blob,name,note,mb,ok){
   var url;
   try{ url=URL.createObjectURL(blob); }catch(e){
@@ -3760,12 +3782,12 @@ function handOff(blob,name,note,after,who){
     tell(note,"The recorder produced an empty file. Nothing was saved.");
     after("failed"); return "failed";
   }
-  var mb=(blob.size/1048576).toFixed(1);
+  var mb=sizeSay(blob.size);
   if(window.claude && window.claude.use){
     window.claude.use("downloads").then(function(d){
       if(!d){ after(anchorOut(blob,name,note,mb)); return; }
       return d.save({filename:name,data:blob}).then(function(){
-        tell(note,"Saved "+name+" — "+mb+" MB."); after("saved");
+        tell(note,"Saved "+name+" — "+mb+"."); after("saved");
       },function(err){
         var c=err&&err.code;
         tell(note, c==="declined" ? "Save declined — nothing was written."
@@ -3792,7 +3814,8 @@ function takePending(after){
   var p=pending; if(!p) return;
   after=after||function(){};
   navigator.share({files:[p.file]}).then(function(){
-    pending=null; tell(p.note,"Saved — "+p.name+", "+p.mb+" MB."); after("saved");
+    /* the name is thirty characters nobody reads, and the share sheet showed it anyway */
+    pending=null; tell(p.note,"Saved — "+p.mb+"."); after("saved");
   },function(err){
     var n=(err&&err.name)||"";
     if(n==="AbortError"){ say(p.note,"Not saved. The clip is still here — tap again."); after("pending"); return; }
@@ -4712,7 +4735,7 @@ function toast(msg,secs){
   var b=el.toastMsg; if(!b) return;
   b.textContent=msg; b.classList.add("on");
   clearTimeout(toastT);
-  toastT=setTimeout(function(){ b.classList.remove("on"); },(secs||5)*1000);
+  toastT=setTimeout(function(){ b.classList.remove("on"); },(secs||3.4)*1000);
 }
 function clipCard(kind,W,H){
   ctx.setTransform(1,0,0,1,0,0);
@@ -5432,10 +5455,18 @@ function recStart(){
     toast("This browser will not let the page record its own canvas.",6); return;
   }
   /* THE SOUND GOES WITH IT, the same tap the clip uses. It is the soundtrack, not the
-     microphone -- this page has never asked for a microphone and does not start now. */
+     microphone -- this page has never asked for a microphone and does not start now.
+
+     A CLONE, NOT THE TRACK ITSELF. snd.dest's track belongs to the audio graph and outlives
+     every recording; handing the same live track to a second MediaStream is the kind of
+     thing Safari refuses quietly, and stopping it at the end of a take would take the
+     soundtrack with it. A clone can be given away and thrown away. */
   if(snd.dest && snd.on){
-    try{ snd.dest.stream.getAudioTracks().forEach(function(t){ recStream.addTrack(t); }); }
-    catch(e){}
+    try{
+      snd.dest.stream.getAudioTracks().forEach(function(t){
+        recStream.addTrack(t.clone ? t.clone() : t);
+      });
+    }catch(e){}
   }
   recChunks=[];
   try{ recRec=new MediaRecorder(recStream,{mimeType:mime,videoBitsPerSecond:16000000}); }
@@ -5445,23 +5476,44 @@ function recStart(){
     var ext=mime.indexOf("mp4")>=0 ? "mp4" : "webm";
     var blob=new Blob(recChunks,{type:mime.split(";")[0]});
     var secs=Math.max(1,Math.round((performance.now()-recT0)/1000));
-    recChunks=null; recRec=null; recStream=null;
+    recChunks=null; recRec=null;
+    recRelease();
     var r=handOff(blob, "glyph-room-"+seed+"-"+secs+"s."+ext, "recSay",
                   null, "room");
     recWaiting(r==="pending");
   };
   recWaiting(false);   /* a new take replaces one that was never claimed */
   recLive=true; recT0=performance.now();
-  recRec.start();
+  /* A CHUNK A SECOND, rather than everything at the end. If a take is interrupted there is
+     still a file, and on a browser that hands nothing over until stop() a long recording is
+     one large allocation held until the very moment it is least welcome. */
+  recRec.start(1000);
   recPaint(); recSay();
   recTick=setInterval(recSay,250);
   if(typeof stat==="function") stat("record");
+}
+/* AND EVERY TAKE GIVES BACK WHAT IT TOOK. The first recording worked and the ones after it
+   did not: the button said it was recording, stop produced nothing, and no message appeared.
+   A canvas hands out ONE capture track, and this never stopped the one it was given -- so
+   the second captureStream() came back attached to a track the first recording still held,
+   the recorder started against a source that was never going to deliver a frame, and the
+   only symptom was silence. Both tracks in the stream are ours -- the video from the canvas
+   and a clone of the soundtrack -- so both are stopped, and the next take asks the canvas
+   for a genuinely new one. */
+function recRelease(){
+  if(recStream){
+    try{ recStream.getTracks().forEach(function(t){ try{ t.stop(); }catch(e){} }); }catch(e){}
+  }
+  recStream=null;
 }
 function recStop(){
   if(!recLive) return;
   recLive=false;
   clearInterval(recTick); recTick=null;
-  try{ if(recRec && recRec.state!=="inactive") recRec.stop(); }catch(e){}
+  /* onstop releases the tracks; if there was nothing to stop, nothing will, so this does */
+  var asked=false;
+  try{ if(recRec && recRec.state!=="inactive"){ recRec.stop(); asked=true; } }catch(e){}
+  if(!asked) recRelease();
   recPaint();
 }
 /* WHAT HAPPENS TO THE FILE. Three answers, and which one you get is the device's to
@@ -5495,8 +5547,7 @@ function recWaiting(on){
      reads as a broken file rather than a small one. */
   if(on && el.recSay){
     var sz=(pending && pending.blob) ? pending.blob.size : 0;
-    el.recSay.textContent = "Save " + (sz>=1048576 ? (sz/1048576).toFixed(1)+" MB"
-                                                   : Math.max(1,Math.round(sz/1024))+" KB");
+    el.recSay.textContent = "Save " + sizeSay(sz);
   }
   if(el.recSay) el.recSay.hidden = !on && !recLive;
 }
@@ -5807,7 +5858,7 @@ function coverAfter(status){
   var b=el.exCover; if(!b) return;
   if(status==="pending"){
     b.classList.add("hot");
-    b.textContent="Save the cover \u2014 "+(pending?pending.mb:"?")+" MB";
+    b.textContent="Save the cover \u2014 "+(pending?pending.mb:"?");
     say("mCoverNote","Ready. Press again and choose where it goes.");
   }else{
     b.classList.remove("hot");
@@ -6095,7 +6146,7 @@ function clipBtn(state,label,pct){
 }
 function clipAfter(status){
   if(status==="pending"){
-    clipBtn("ready","Save the clip — "+(pending?pending.mb:"?")+" MB");
+    clipBtn("ready","Save the clip — "+(pending?pending.mb:"?"));
     say("mClipNote","Rendered. Tap again and choose Save Video, Photos or Files.");
   }else{
     clipBtn(null,"Export for social media",0);
