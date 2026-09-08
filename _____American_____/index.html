@@ -2534,6 +2534,7 @@ function camStart(){
       if(typeof roomPaint==="function") roomPaint();
       if(typeof barPaint==="function") barPaint();
       if(!running && typeof still==="function") still();
+      camFirstFrame();
       if(typeof stat==="function") stat("camera");
     },function(err){
       var n=(err&&err.name)||"";
@@ -2565,6 +2566,44 @@ function camShade(img){
   q.fillStyle="#000"; q.fillRect(0,0,c.width,c.height);
   shades[key]=c;
   return c;
+}
+/* THE ROOM ARRIVES A MOMENT AFTER IT IS ASKED FOR. getUserMedia hands back a stream and
+   the piece redraws immediately -- but the video element has no picture yet, readyState is
+   still 0, camReady() is false, and that redraw paints the black ground. While the piece is
+   RUNNING nobody notices: the next frame is sixteen milliseconds away and by then the feed
+   has started. Held, there is no next frame. So the screen stayed black until something
+   else happened to redraw it, which for him was touching the screen to scrub -- and the
+   room appeared as if scrubbing had turned it on.
+
+   It watches for the first frame instead of assuming one. Two seconds of looking, then it
+   stops asking; a feed that has not produced a picture by then has a fault of its own and
+   the toast will have said so. */
+function camFirstFrame(){
+  var tries=0, done=false;
+  function ready(){
+    if(done || !cam.on) return;
+    if(!camReady()) return;
+    done=true;
+    if(!running && typeof still==="function") still();
+  }
+  /* A TIMER, NOT AN ANIMATION FRAME. The piece is HELD when this matters -- that is the
+     whole reason the screen stayed black -- and a page that is not animating is exactly
+     where asking for the next frame is least reliable. A throttled tab delivers no frames
+     and this would have waited for ever, which is the same silence it was written to fix.
+     Both events as well, because on a good day one of them makes the loop unnecessary. */
+  try{
+    if(cam.el){
+      cam.el.addEventListener("loadedmetadata",ready);
+      cam.el.addEventListener("playing",ready);
+      cam.el.addEventListener("canplay",ready);
+    }
+  }catch(e){}
+  (function look(){
+    if(done || !cam.on) return;
+    ready();
+    if(done || ++tries>60) return;
+    setTimeout(look,50);
+  })();
 }
 function camReady(){
   return cam.on && cam.el && cam.el.readyState>=2 && cam.el.videoWidth>0;
@@ -5642,13 +5681,21 @@ function timeTotal(){
    space, and only one of them can be the thing you are doing -- choosing the moment, or
    doing something with it. Pausing puts the sheet away; opening a sheet puts the timeline
    away and leaves the piece exactly where it was held. */
+/* AND THE LINE ABOVE THE TRACK SAYS WHAT TO DO BEFORE IT REPORTS ON WHAT IS BEING DONE.
+   It opened by naming a rate, which is an answer to a question nobody has asked yet -- the
+   gesture has to be found before its precision means anything. It teaches, then reports:
+   drag the screen, then drag up for finer, then half, quarter, fine. */
+function timeHint(){
+  if(el.tRate) el.tRate.textContent="Drag the screen to scrub";
+}
 function timeShow(){
   var b=el.barTime; if(!b) return;
   b.hidden = !!running || !RIG.play;
   if(!b.hidden){
     if(typeof barAnyOpen==="function" && barAnyOpen()) barDrawer(null,false);
+    timeHint();
     timePaint();
-  }
+  }else if(el.tRate) el.tRate.textContent="";
 }
 /* NOTHING IN THE READOUT CHANGES WIDTH. Line 7 became line 12 became line 249 and the
    frame ran 1f to 249f, so the string grew and shrank -- and because it sits in the same
@@ -6501,12 +6548,17 @@ document.addEventListener("pointermove",function(e){
   /* AND THE RATE SAYS ITSELF SOMEWHERE THAT CANNOT PUSH ANYTHING. Appended to the readout
      it grew the row by nine characters mid-drag, which narrowed the track under his thumb. */
   if(el.tRate)
-    el.tRate.textContent = rate<1
-      ? (rate===0.5?"half speed":rate===0.25?"quarter speed":"fine") : "";
+    el.tRate.textContent = rate===1   ? "Drag up for finer"
+                         : rate===0.5 ? "half speed"
+                         : rate===0.25? "quarter speed" : "fine";
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
-  if(dragged){ dragged=false; dragFrom=null; return; }  /* a drag is not a tap */
+  if(dragged){
+    dragged=false; dragFrom=null;
+    if(typeof timeHint==="function" && el.barTime && !el.barTime.hidden) timeHint();
+    return;                                               /* a drag is not a tap */
+  }
   dragFrom=null;
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(held){ held=false; return; }            /* the hold already did something */
