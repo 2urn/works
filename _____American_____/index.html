@@ -374,14 +374,22 @@ body.ui.faded .sig{opacity:.72}
    frame count, the scrub rate, the callouts. This is the same thing now. It sits at the
    top, where nothing else lives, it fades rather than appearing and vanishing, and it takes
    no presses -- an annotation on the work rather than a dialogue with it. */
+/* ABOVE THE BUTTON, WHERE THE EYE ALREADY IS. At the top it was out of the way and also
+   out of sight -- during a recording nobody is looking at the top of the screen. It goes
+   back down to where the work is being done, in the same light type as the frame count and
+   the scrub rate, and it stacks ABOVE the shutter's own line rather than on it: the two are
+   never saying the same thing, so they are never in the same place. */
 #toastMsg{display:block;position:fixed;z-index:96;left:50%;transform:translateX(-50%);
-  top:calc(env(safe-area-inset-top,0px) + 4.4rem);max-width:min(26rem,82vw);
+  bottom:calc(env(safe-area-inset-bottom,0px) + 7.6rem);max-width:min(26rem,82vw);
   text-align:center;text-wrap:balance;pointer-events:none;
   font-family:"IBM Plex Mono",ui-monospace,monospace;
   font-size:.74rem;line-height:1.5;letter-spacing:.02em;
   color:var(--ovl-accent);text-shadow:0 1px 4px rgba(0,0,0,.95);
   opacity:0;transition:opacity .32s ease}
 #toastMsg.on{opacity:1}
+/* the shutter's own readout owns 9.4rem, and 11.9rem once the timeline is out */
+body.cam.ui #toastMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 11.9rem)}
+body.cam.ui.held #toastMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 14.4rem)}
 @media (prefers-reduced-motion:reduce){ #toastMsg{transition:none} }
 /* AN X, AND A LABEL THAT SAYS WHAT IT DOES. A button reading "Close" was a word taking
    the width of a sentence for a job a glyph does; what makes it usable to a screen
@@ -1340,6 +1348,12 @@ label.reset,label.reset span{color:var(--accent) !important;
            put an operating-system permission dialog in front of somebody who had not asked
            for one. A feature that raises a permission prompt has to be requested in words.
            The hold stays, as a shortcut for the person who already knows. -->
+      <div class="mrow" id="mVqRow"><span>Video quality</span>
+        <span class="mseg">
+          <button type="button" class="mopt on" data-vq="auto">Auto</button>
+          <button type="button" class="mopt" data-vq="high">High</button>
+          <button type="button" class="mopt" data-vq="low">Low</button>
+        </span></div>
       <label class="mrow" id="mRoomRow"><span>Camera as the background</span>
         <input type="checkbox" id="mRoom" autocomplete="off"
           aria-describedby="mRoomNote"></label>
@@ -1656,6 +1670,8 @@ function parseScript(s){
    a six-line workbench over a two-hundred-and-forty-nine-line work. */
 var SHIPPED={
   aspect:"auto",
+  /* what a recording is worth in bits -- auto derives it from the frame, see recBits() */
+  vq:"auto",
   bias:0.3,
   blendRnd:true,
   burst:0.3,
@@ -5328,6 +5344,7 @@ function setFill(){
      slider that is not there. */
   if(el.mVol) el.mVol.value = getSetting("sndVol");
   if(el.mPlay) el.mPlay.checked = !!running;
+  vqPaint();
   roomPaint();
   if(typeof layPaint==="function") layPaint();
   cardsFill();
@@ -5335,6 +5352,20 @@ function setFill(){
     : "This browser cannot go full screen. On iPad and iPhone, Share \u2192 Add to Home "
       +"Screen opens it with no browser chrome at all.";
 }
+function vqPaint(){
+  var now=getSetting("vq");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-vq]"),function(x){
+    var on=(x.getAttribute("data-vq")===now);
+    x.classList.toggle("on", on);
+    x.setAttribute("aria-pressed", on?"true":"false");
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll("[data-vq]"),function(b){
+  b.addEventListener("click",function(){
+    setSetting("vq", b.getAttribute("data-vq"));
+    vqPaint();
+  });
+});
 function roomPaint(){
   var can=!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
   if(el.mRoomRow) el.mRoomRow.hidden = !(can && RIG.play);
@@ -5413,6 +5444,23 @@ if(el.bSound) el.bSound.addEventListener("click",function(){
    would have arrived unsigned. Recording counts as an export for that decision. */
 var recLive=false, recRec=null, recChunks=null, recStream=null, recT0=0, recTick=null;
 var REC_MAX=60;
+/* WHAT A RECORDING IS WORTH IN BITS. His nine-second take came back at twenty-six
+   megabits -- the rate is a hint and Safari treated it as one -- which puts the sixty-second
+   ceiling near two hundred megabytes, held in memory as chunks and handed to the share sheet
+   in one piece. That is the size at which a hand-off fails rather than merely takes a while,
+   and a take that cannot be handed over is a take that is gone.
+
+   AUTO IS DERIVED, NOT A NUMBER SOMEBODY PICKED. Quarter of a bit per pixel per frame, off
+   the canvas as it actually is, so a phone in portrait and a desktop at 4K each get a rate
+   that suits their own frame instead of one that was right for whichever screen this was
+   last tested on. High and Low are that, doubled and halved. */
+function recBits(){
+  var W=cv.width||1080, H=cv.height||1920;
+  var base=Math.round(W*H*30*0.25);
+  var q=getSetting("vq");
+  var r = q==="high" ? base*2 : q==="low" ? base*0.45 : base;
+  return Math.max(2000000, Math.min(40000000, Math.round(r)));
+}
 function recMime(){
   return ["video/mp4;codecs=avc1.42E01E","video/mp4",
           "video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"]
@@ -5469,7 +5517,7 @@ function recStart(){
     }catch(e){}
   }
   recChunks=[];
-  try{ recRec=new MediaRecorder(recStream,{mimeType:mime,videoBitsPerSecond:16000000}); }
+  try{ recRec=new MediaRecorder(recStream,{mimeType:mime,videoBitsPerSecond:recBits()}); }
   catch(e){ toast("The recorder would not start ("+(e&&e.name||"unknown")+").",6); return; }
   recRec.ondataavailable=function(e){ if(e.data&&e.data.size) recChunks.push(e.data); };
   recRec.onstop=function(){
