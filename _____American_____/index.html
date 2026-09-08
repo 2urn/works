@@ -218,7 +218,7 @@ body.rig-tapcredit.showing .sig{opacity:.61}
    and back for four seconds whenever the screen is touched. */
 body.player .credit,body.player .sig,body.embed .credit,body.embed .sig{
   opacity:.61;transition:opacity 1.6s ease}
-body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 2.4s ease}
+body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 3s ease}
 body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity .25s}
 /* the panel takes the top of the frame, and his name lives there */
 body.menuopen .sig{opacity:0 !important;pointer-events:none}
@@ -4440,10 +4440,27 @@ function clipCard(kind,W,H){
    And it FADES WITH THE OTHER ONE. The alpha is read from the same body state the CSS
    uses, so the pair arrive together, step back together, and come back together on a tap.
    An export is a finished frame rather than a screen, so it always carries full strength. */
+/* THE BURNED MARK HAS TO FADE ITSELF. The DOM marks step back on a CSS transition; this
+   one is painted into the canvas a frame at a time, so it took the new value whole and
+   simply switched off. Three seconds down, a third of a second back -- slow to withdraw,
+   quick to answer a touch, which is the same asymmetry the stylesheet already uses. */
+var BURN_FULL=0.61, BURN_LOW=0.10, burnNow=BURN_FULL, burnAt=0;
 function burnAlpha(){
-  if(exportSize) return 0.61;
+  if(exportSize) return BURN_FULL;
   var b=document.body.classList;
-  return (b.contains("faded") && !b.contains("chrome")) ? 0.10 : 0.61;
+  var want=(b.contains("faded") && !b.contains("chrome")) ? BURN_LOW : BURN_FULL;
+  var t=performance.now();
+  /* a long gap means the tab was away; do not spend the whole fade in one frame */
+  var dt=burnAt ? Math.min(0.2,(t-burnAt)/1000) : 0;
+  burnAt=t;
+  var step=dt/(want<burnNow ? 3 : 0.3)*(BURN_FULL-BURN_LOW);
+  if(burnNow>want) burnNow=Math.max(want, burnNow-step);
+  else if(burnNow<want) burnNow=Math.min(want, burnNow+step);
+  /* AND A PAUSED PIECE STILL FADES. Only the render loop calls this, so on a held frame the
+     mark would stop halfway and stay there -- ask for one more frame until it arrives. */
+  if(Math.abs(burnNow-want)>0.002 && !running && typeof still==="function")
+    requestAnimationFrame(function(){ try{ still(); }catch(e){} });
+  return burnNow;
 }
 function burnMark(cx,W,H,forceAlpha){
   if(forceAlpha===undefined && !RIG.burn) return;
