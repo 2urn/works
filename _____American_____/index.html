@@ -675,17 +675,26 @@ body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
 #scrubGuide{display:block;position:fixed;left:1rem;top:0;bottom:0;width:0;z-index:80;
   pointer-events:none;opacity:0;transition:opacity .55s ease}
 #scrubGuide.on{opacity:1;transition:opacity .22s ease}
-.sgax{position:absolute;left:0;width:1px;background:var(--ovl-faint);opacity:.4;
-  box-shadow:0 0 3px rgba(0,0,0,.95)}
-.sgb{position:absolute;left:0;height:0;color:var(--ovl-faint);
+/* WHITE WITH A SOFT HALO, THE SAME AS THE READOUT UNDER THE TRACK. A CENTRED glow rather
+   than a dropped one: over an unknown ground the shadow is the thing doing the separating,
+   and an offset shadow only defends one side of a letter. Softening it too far was my
+   first answer and it left white type on a concrete floor, which is the same failure in
+   the other direction. Faint grey is a
+   considered restraint against black and turns to mud the moment the room is a concrete
+   floor in daylight -- dark type on a dark shadow, which is the one combination that
+   cannot win on either ground. Everything that speaks over the work is now the same thing:
+   near-white, and a shadow soft enough to lift it without drawing itself. */
+.sgax{position:absolute;left:0;width:1px;background:var(--ovl-ink);opacity:.4;
+  box-shadow:0 0 5px rgba(0,0,0,.65)}
+.sgb{position:absolute;left:0;height:0;color:var(--ovl-ink);
   transition:color .18s ease}
 .sgb::before{content:"";position:absolute;left:0;top:0;width:.32rem;height:1px;
-  background:currentColor;box-shadow:0 0 3px rgba(0,0,0,.95)}
+  background:currentColor;opacity:.8;box-shadow:0 0 5px rgba(0,0,0,.65)}
 .sgb span{position:absolute;left:1.15rem;bottom:0;transform-origin:left bottom;
   transform:rotate(-90deg);white-space:nowrap;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.6rem;
   letter-spacing:.13em;text-transform:uppercase;color:inherit;
-  text-shadow:0 1px 3px rgba(0,0,0,.95)}
+  text-shadow:0 0 5px rgba(0,0,0,.65),0 1px 3px rgba(0,0,0,.5)}
 .sgb.on{color:var(--ovl-accent)}
 @media (prefers-reduced-motion:reduce){ #scrubGuide{transition:none} }
 /* IT KEEPS ITS LINE WHETHER OR NOT IT HAS ANYTHING TO SAY, or the track would step up and
@@ -693,12 +702,12 @@ body.cam.held #recSay{bottom:calc(11.9rem + env(safe-area-inset-bottom))}
 #tRate{order:-1;min-height:1rem;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;
   letter-spacing:.04em;color:var(--ovl-accent);white-space:nowrap;
-  text-shadow:0 1px 3px rgba(0,0,0,.9)}
+  text-shadow:0 0 5px rgba(0,0,0,.65),0 1px 3px rgba(0,0,0,.5)}
 #tScrub:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:4px}
 /* AND IT IS READ AGAINST A ROOM, NOT AGAINST BLACK. Faint grey is a considered choice over
    a black ground and an unreadable one over somebody's bedroom. */
 body.cam #tSay{color:var(--ovl-ink)}
-#tSay{flex:0 0 auto;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.9);
+#tSay{flex:0 0 auto;text-align:center;text-shadow:0 0 5px rgba(0,0,0,.65),0 1px 3px rgba(0,0,0,.5);
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--ovl-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 /* THEY COME FROM THE MARK AND GO BACK TO IT. Appearing in the corner told nobody where
