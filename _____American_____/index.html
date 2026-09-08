@@ -855,7 +855,7 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   letter-spacing:.05em}
 #keyList dd{margin:0;font-size:.86rem;line-height:1.45;color:var(--ovl-dim)}
 #keyList dd b{color:var(--ovl-ink);font-weight:600}
-#keyShut{display:block;width:100%;margin-top:1.6rem;min-height:48px;
+#keyShut{display:block;width:100%;margin-top:1.1rem;min-height:48px;
   background:none;border:1px solid var(--ovl-rule);color:var(--ovl-ink);
   font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
 #keyShut:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
@@ -883,7 +883,7 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   transform:translateY(-100%);padding-bottom:0;line-height:1.15}
 .kname b{color:var(--ovl-accent);font-weight:600}
 @media (max-width:26rem){ .kname{font-size:.66rem} }
-#keyMid p{margin:0 0 .85rem;font-size:.86rem;line-height:1.5;color:var(--ovl-dim)}
+#keyMid p{margin:0 0 .6rem;font-size:.83rem;line-height:1.45;color:var(--ovl-dim)}
 #keyMid p:last-child{margin-bottom:0}
 #keyMid b{color:var(--ovl-ink);font-weight:600}
 #keyMid .kg{color:var(--ovl-accent);font-weight:600;text-transform:uppercase;
@@ -6185,17 +6185,20 @@ function keyMid(){
   /* NOBODY NEEDS TELLING WHAT THEY ARE TOUCHING. "Drag across the piece", "press and hold
      the piece", "tap the piece" -- the screen is the piece, and naming it in every line
      makes an instruction sound like a manual for something else. */
+  /* SHORT ENOUGH THAT THE WAY OUT IS ON THE SCREEN. Four sentences of explanation pushed
+     Close below the fold, so the one control in the panel had to be scrolled to -- and a
+     guide you have to scroll to leave is a guide that has stopped helping. Each line is one
+     gesture and one outcome; nothing here needs a subordinate clause. */
   if(RIG.play){
-    G.push('<span class="kg">Paused</span> \u2014 <b>drag sideways</b> to move through the '
-      +'pass. Drag away from the bottom edge and it moves more finely: half, quarter, '
-      +'a tenth.');
+    G.push('<span class="kg">Paused</span> \u2014 <b>drag sideways</b> to scrub; '
+      +'away from the edge for finer: half, quarter, a tenth.');
   }
   G.push('<b>Flick up from the bottom edge</b>, or tap it, for the controls. '
-    +'Flick down puts them away.');
-  G.push('<b>Press and hold</b> for the few things worth reaching for.');
-  G.push('<b>Tap anywhere</b> to wake the marks, and to let the sound start.');
+    +'Flick down to hide.');
+  G.push('<b>Press and hold</b> for the shortcuts.');
+  G.push('<b>Tap anywhere</b> to wake the marks and start the sound.');
   if(CAN_FULL===false){
-    G.push('<b>Add to Home Screen</b> for the full-screen experience.');
+    G.push('<b>Add to Home Screen</b> for full screen.');
   }
   M.innerHTML=G.map(function(t){ return "<p>"+t+"</p>"; }).join("");
 }
