@@ -2766,7 +2766,25 @@ function setRunning(on){
   if(el.play){ el.play.textContent=on?"Pause":"Play"; el.play.classList.toggle("go",on); }
   say("hRun",on?"running":"held");
   if(el.hRun) el.hRun.classList.toggle("on",on);
-  if(on){ if(!looping){looping=true;t0=performance.now();requestAnimationFrame(tick);} }
+  /* RESUME WHERE IT STOPPED. t0 was set to NOW on every start, and the frame is derived
+     from how long ago t0 was -- so pausing and playing again did not continue the piece, it
+     began it. Nobody watching a loop notices; anybody who pauses to look at a line and then
+     presses play does, immediately.
+     The clock is wound back instead, far enough that the piece is already at the frame it
+     was on. The CYCLE goes back in too, or resuming would look like a boundary had been
+     crossed and the end credit would come up on a piece that had simply been paused. And it
+     resumes from curFrame rather than from a remembered clock reading, so a frame chosen
+     with the scrubber while it was held is the frame it carries on from. */
+  if(on){
+    if(!looping){
+      looping=true;
+      var period=Math.max(1,V.hold-V.slip), total=period*Math.max(1,lines.length);
+      var at=(Math.max(0,cycleNow)*total)+(curFrame===null?0:curFrame);
+      var sp=FPS*(V.speed||1);
+      t0=performance.now()-(sp>0 ? at*1000/sp : 0);
+      requestAnimationFrame(tick);
+    }
+  }
   else still();
   /* the scrubber belongs to the paused state -- it is how you choose a frame once you have
      stopped on one, and it has nothing to say while the piece is running */
