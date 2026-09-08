@@ -159,12 +159,13 @@ body.player,body.embed{background:#000}
    exported frame or a rendered file. */
 /* AND THE MARKS CLEAR THE NOTCH AND THE HOME BAR. env() is 0 where there is no inset,
    so max() just leaves the desktop where it was. */
-.credit{position:fixed;z-index:45;
+.credit{position:fixed;z-index:80;
   left:max(1rem, env(safe-area-inset-left));
   bottom:max(.9rem, env(safe-area-inset-bottom));
   display:none;pointer-events:auto;text-decoration:none;
   width:6rem;height:calc(6rem / 8.103);opacity:.61;transition:opacity .2s;
-  background:url("data:image/png;base64,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") left center/contain no-repeat}
+  --wm:url("data:image/png;base64,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");
+  background:var(--wm) left center/contain no-repeat}
 body.player .credit,body.embed .credit{display:block}
 /* AND SO IS THE CHROME. Same trap as the credit, two hundred lines apart: .wrap hides
    every child that is not the stage at (0,3,1), and #embedUI lives in .wrap. */
@@ -257,6 +258,23 @@ body.menuopen .sig{opacity:0 !important;pointer-events:none}
    accent wordmark came out five times its size and lay across the work. The painted box is
    explicit now, and the touch area is an invisible pad AROUND it that cannot change it. */
 body.burned .credit{background-image:none}
+/* AND WHEN THE ICONS ARE OUT, IT IS A BUTTON AGAIN AND SAYS SO. The mark is burned into the
+   canvas while the piece is alone, which put it UNDER the bar -- and the bar's gradient sat
+   on top of the one thing you press to make the bar go away. So while the icons are out the
+   burned one steps back and this one takes over: above everything, at full strength, in the
+   accent, like every other live control on the screen.
+
+   The artwork is not touched. The same file becomes a MASK and the accent is painted
+   through it, which is a way of showing his mark, not a second version of it. */
+body.ui .credit{
+  background-image:none;background-color:var(--ovl-accent);
+  -webkit-mask:var(--wm) left center/contain no-repeat;
+          mask:var(--wm) left center/contain no-repeat}
+/* AND IT OUTRANKS EVERY OTHER OPACITY THE MARK IS GIVEN. .player, .embed, .faded and
+   .showing all set one at two classes deep; a rule that only matches at the same weight is
+   a rule decided by the order somebody happened to write things in. */
+body.player.ui .credit,body.embed.ui .credit,body.ui.showing .credit,
+body.ui.faded .credit{opacity:1}
 .credit::before,.sig::before{content:"";position:absolute;inset:-14px -10px;display:block}
 /* AND IT CLIMBS OVER THE PANEL WITHOUT MOVING. The touch target is 44px tall and the
    mark is twelve, so a mask centred in that box painted the wordmark sixteen pixels
@@ -459,9 +477,13 @@ body.player .stage,body.embed .stage{-webkit-touch-callout:none;
    landed on the bar and the icons could never be put away. The padding left room for the
    mark to be SEEN and nothing gave it back the ability to be TOUCHED. The bar passes
    pointer events through; only the things in it take them. */
+/* AND NO GROUND WHEN THERE IS NOTHING STANDING ON IT. The gradient exists to hold a row of
+   icons; with the icons gone it was a permanent smudge across the bottom of the work, and
+   it was covering the mark that brings the icons back. It arrives and leaves with them. */
 #bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:78;pointer-events:none;
   padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)) 8.2rem;
-  background:linear-gradient(to top,var(--ovl-shade),transparent)}
+  background:none;transition:background .34s ease}
+body.ui #bar{background:linear-gradient(to top,var(--ovl-shade),transparent)}
 .barin,#barSet,#barShare{pointer-events:auto}
 /* IT IS ALWAYS IN THE LAYOUT, and the icons come and go. Hiding the bar outright gave
    them nowhere to travel from, so they appeared and vanished; they arrive from the mark
@@ -486,6 +508,9 @@ body.player #bar,body.embed #bar{display:block}
   gap:.15rem;align-items:center;pointer-events:auto;
   bottom:calc(3.9rem + env(safe-area-inset-bottom))}
 body.cam.ui #barLay{display:flex}
+/* AND IT STEPS UP WHEN THE TIMELINE COMES OUT, so the two never share a line -- at any
+   width, including with the arrangements opened out to all four. */
+body.cam.held #barLay{bottom:calc(6.4rem + env(safe-area-inset-bottom))}
 #bar[hidden] ~ #barLay{display:none}
 /* AND IT STANDS DOWN FOR A DRAWER. Both live at the bottom right; with a sheet up, the
    column was sitting on top of it, which is the pile the two drawers were kept apart to
@@ -540,15 +565,33 @@ body.cam.ui .lsep{filter:opacity(1)}
   pointer-events:auto}
 #tScrub{flex:1 1 auto;-webkit-appearance:none;appearance:none;height:26px;
   background:none;margin:0}
-#tScrub::-webkit-slider-runnable-track{height:2px;background:var(--ovl-rule)}
-#tScrub::-moz-range-track{height:2px;background:var(--ovl-rule)}
+/* IT HAS TO READ OVER A ROOM. A hairline and a small disc were designed against black and
+   the camera put a lit kitchen behind them. Not a blend mode -- a blend mode over an
+   unknown image is a guess that fails on the one wall that happens to match. Every part
+   carries its own dark edge instead, which works over anything because it does not depend
+   on what is under it. And the handle becomes a BAR: a disc has no edge to line up with a
+   moment, and this is an instrument for choosing one. */
+#tScrub::-webkit-slider-runnable-track{height:3px;background:var(--ovl-rule);
+  box-shadow:0 0 0 1px rgba(0,0,0,.75)}
+#tScrub::-moz-range-track{height:3px;background:var(--ovl-rule);
+  box-shadow:0 0 0 1px rgba(0,0,0,.75)}
 #tScrub::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:14px;height:14px;border-radius:50%;background:var(--ovl-accent);
-  border:0;margin-top:-6px}
-#tScrub::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
-  background:var(--ovl-accent);border:0}
+  width:5px;height:22px;background:var(--ovl-accent);
+  border:0;margin-top:-9.5px;box-shadow:0 0 0 1.5px rgba(0,0,0,.85)}
+#tScrub::-moz-range-thumb{width:5px;height:22px;background:var(--ovl-accent);
+  border:0;box-shadow:0 0 0 1.5px rgba(0,0,0,.85)}
+/* the rate, said over the track and taking no room in the row */
+#tRate{position:absolute;left:50%;transform:translateX(-50%);bottom:2.1rem;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;
+  letter-spacing:.04em;color:var(--ovl-accent);white-space:nowrap;
+  text-shadow:0 1px 3px rgba(0,0,0,.9)}
+#barTime{position:relative}
 #tScrub:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:4px}
-#tSay{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
+/* AND IT IS READ AGAINST A ROOM, NOT AGAINST BLACK. Faint grey is a considered choice over
+   a black ground and an unreadable one over somebody's bedroom. */
+body.cam #tSay{color:var(--ovl-ink)}
+#tSay{flex:0 0 auto;text-shadow:0 1px 3px rgba(0,0,0,.9);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--ovl-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 /* THEY COME FROM THE MARK AND GO BACK TO IT. Appearing in the corner told nobody where
    they had come from, so the mark that summons them was a secret. They travel now: out of
@@ -696,6 +739,43 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
 #keyShut:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* THE CODE, FULL SCREEN */
+/* THE KEY POINTS AT THE THINGS IT NAMES, wherever they are. A hairline rises from each
+   control to its own name at its own height, so no two leaders cross and no name sits on
+   another's line. Positions are measured off the real buttons when it opens, again when the
+   icons have finished sliding in, and again if the window changes -- so it is right on a
+   phone, on a desktop, sideways, and with whatever the rig withheld simply absent. Nothing
+   here is a coordinate somebody typed, and none of it is one picture. */
+#keyPoint{position:absolute;inset:0;pointer-events:none;z-index:4}
+.klead{position:absolute;width:1px;background:var(--ovl-accent);opacity:.9}
+.klead::after{content:"";position:absolute;left:-2.5px;bottom:-1px;
+  width:6px;height:6px;background:var(--ovl-accent);
+  clip-path:polygon(50% 100%,0 0,100% 0)}
+.kname{position:absolute;font-size:.72rem;font-weight:600;letter-spacing:.02em;
+  color:var(--ovl-ink);white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.95);
+  transform:translateY(-100%);padding-bottom:.2rem}
+.kname b{color:var(--ovl-accent);font-weight:600}
+@media (max-width:26rem){ .kname{font-size:.66rem} }
+#keyMid p{margin:0 0 .85rem;font-size:.86rem;line-height:1.5;color:var(--ovl-dim)}
+#keyMid p:last-child{margin-bottom:0}
+#keyMid b{color:var(--ovl-ink);font-weight:600}
+#keyMid .kg{color:var(--ovl-accent);font-weight:600;text-transform:uppercase;
+  font-size:.7rem;letter-spacing:.05em}
+/* the backdrop only quiets the interface; it never hides it, because the names point AT it */
+#keyFull{background:rgba(0,0,0,.74)}
+.keyin{position:absolute;left:0;right:0;z-index:3;overflow-y:auto;
+  overscroll-behavior:contain;max-width:34rem;margin:0 auto;
+  padding:0 1.4rem calc(1rem + env(safe-area-inset-bottom))}
+#keyFull{align-items:flex-start}
+/* SIDEWAYS, THE TWO LAYERS STAND APART. The names run LEFT from icons at the right edge, so
+   the sentences take the left half and the diagram keeps the right. Centred, they would be
+   drawn straight through each other on a phone held on its side. */
+@media (max-height:32rem){
+  #keyFull{justify-content:flex-start}
+  .keyin{max-width:24rem;padding-left:1.4rem;padding-right:.6rem}
+  #keyMid p{font-size:.78rem;margin-bottom:.6rem}
+  #keyHead{margin-bottom:.8rem}
+  #keyShut{margin-top:1rem;min-height:42px}
+}
 /* IT RISES, AND IT GOES BACK WHERE IT CAME FROM. The code appeared and vanished, which is
    the one behaviour nothing else here has: every other surface travels, and dismissing one
    returns you to the thing that opened it. It comes up from the sheet and drops back into
@@ -1057,7 +1137,8 @@ label.reset,label.reset span{color:var(--accent) !important;
     <!-- THE TIMELINE, which never launched. Choosing the moment is most of choosing the
          still: the piece is never the same twice, and a frame you liked has gone by the
          time you have found the button. It appears while the piece is held. -->
-    <div id="barTime" hidden>
+    <div id="barTime" hidden role="group" aria-label="Move through this pass"><span
+      id="tRate" hidden aria-hidden="true"></span>
       <input type="range" id="tScrub" min="0" max="1000" step="1" value="0"
         autocomplete="off" aria-label="Move through this pass">
       <output id="tSay">line 1 &middot; 0f</output>
@@ -1073,6 +1154,13 @@ label.reset,label.reset span{color:var(--accent) !important;
            happens, with everything sharing needs behind it. -->
       <button type="button" class="ico" id="bShare" title="Share" aria-label="Share"
         aria-expanded="false" aria-controls="barShare"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l4 4h-3v8h-2V7H8l4-4zM5 13v6h14v-6h2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6h2z"/></svg></button>
+      <!-- AN i, WHERE AN i IS LOOKED FOR: last but one, immediately before the gear.
+           The key was a button inside Settings, which is a fine place for it and the
+           wrong place to LOOK for it -- you go to settings to change something, and to
+           an i to find out what a thing is. Only one door to it now; the entry in
+           Settings came out rather than sit there as a second one. -->
+      <button type="button" class="ico" id="bKey" title="What the controls do"
+        aria-label="What the controls do" aria-expanded="false" aria-controls="keyFull"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zm-1 3h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg></button>
       <button type="button" class="ico" id="bSet" title="Settings" aria-label="Settings"
         aria-expanded="false" aria-controls="barSet"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.07 7.07 0 000-1.88l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7 7 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.74 8.84a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.86 14.52a.5.5 0 00-.12.64l1.92 3.32c.12.22.39.3.6.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.48 0 .6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1112 8.4a3.6 3.6 0 010 7.2z"/></svg></button>
     </div>
@@ -1088,7 +1176,7 @@ label.reset,label.reset span{color:var(--accent) !important;
        mark on the left, and the column is left alone in the far corner: a separate thing,
        belonging to the room rather than to the menu. One element, two readings, no
        breakpoint deciding which. -->
-  <div id="barLay">
+  <div id="barLay" role="group" aria-label="Layout">
     <!-- AND NO SECOND WAY OUT. The room's exit lived here while the camera icon was busy
          saving frames. The camera icon is the room now and turns into a struck-through
          camera to say so, and a second struck-through camera directly above it would be
@@ -1148,9 +1236,9 @@ label.reset,label.reset span{color:var(--accent) !important;
            for one. A feature that raises a permission prompt has to be requested in words.
            The hold stays, as a shortcut for the person who already knows. -->
       <label class="mrow" id="mRoomRow"><span>Camera as the background</span>
-        <input type="checkbox" id="mRoom" autocomplete="off"></label>
+        <input type="checkbox" id="mRoom" autocomplete="off"
+          aria-describedby="mRoomNote"></label>
       <p class="mnote" id="mRoomNote"></p>
-      <button type="button" class="mbtn" id="mKey">What the controls do</button>
       <button type="button" class="mbtn" id="mFull">Full screen</button>
       <p class="mnote" id="mFullNote"></p>
     </div>
@@ -1254,12 +1342,14 @@ label.reset,label.reset span{color:var(--accent) !important;
        that came out: that one's only job was to close the panel it could not open. This is
        a KEY, built from what is actually on screen, so it can never describe a control the
        rig or the device has withheld. -->
-  <div id="keyFull" hidden><div class="keyin">
+  <div id="keyFull" hidden role="dialog" aria-modal="true" aria-labelledby="keyHead"
+    tabindex="-1"><div class="keyin">
     <h2 id="keyHead">What the controls do</h2>
-    <dl id="keyList"></dl>
+    <div id="keyMid"></div>
     <button type="button" id="keyShut">Close</button>
-  </div></div>
-  <div id="qrFull" hidden><div class="qrin"><canvas id="qrC" width="8" height="8" role="img"
+  </div><div id="keyPoint" aria-hidden="true"></div></div>
+  <div id="qrFull" hidden role="dialog" aria-modal="true"
+    aria-label="A code that opens this piece" tabindex="-1"><div class="qrin"><canvas id="qrC" width="8" height="8" role="img"
     aria-label="A square code that opens this piece"></canvas><p id="qrUrl"></p></div></div>
   <div id="titleCard" hidden>
     <div>
@@ -2280,6 +2370,17 @@ function camStop(){
   if(!running && typeof still==="function") still();
 }
 function camStart(){
+  /* SAID BEFORE THE DIALOG, ONCE, EVER. The permission prompt is the operating system's and
+     arrives in the same gesture, so there is no room to ask first -- but the sentence is
+     still there behind it and still there after it is dismissed, which is exactly when
+     somebody wants to know what just happened and whether it was safe. */
+  try{
+    if(!localStorage.getItem("glyph.camAsked")){
+      localStorage.setItem("glyph.camAsked","1");
+      if(typeof toast==="function")
+        toast("Your browser is about to ask for the camera. Nothing is recorded or sent.",8);
+    }
+  }catch(e){}
   var md=navigator.mediaDevices;
   if(!md||!md.getUserMedia){
     fault("This browser gives the page no camera", "mediaDevices is absent",
@@ -2847,6 +2948,11 @@ function setRunning(on){
      four places that start or stop the piece. Driving it from the callers left an 88px
      play button sitting on top of a piece that was already playing, because one of those
      four paths did not know it had to. */
+  /* HELD IS A STATE THE STYLESHEET CAN SEE. The timeline appears when the piece is held and
+     it wants the same strip of screen the layout picker is standing on -- his screenshot has
+     the frame count running underneath the arrangement icon. CSS cannot ask whether a
+     sibling is showing, so the body says it. */
+  document.body.classList.toggle("held", !on);
   if(typeof embedShow==="function") embedShow(on);
   if(typeof barPaint==="function") barPaint();
   if(typeof timeShow==="function") timeShow();
@@ -4588,13 +4694,18 @@ function burnMark(cx,W,H,forceAlpha){
       }
     }
   }catch(e){}
+  /* THE BURNED ONE STEPS BACK WHILE THE LIVE ONE IS OUT. With the icons up the DOM mark
+     takes over -- above the bar, in the accent, a button rather than a signature -- and two
+     of them at once is a mark drawn twice at two different strengths. An export never sees
+     the icons and always burns it. */
+  var uiOut = !exportSize && document.body.classList.contains("ui");
   cx.save();
   cx.globalAlpha=(forceAlpha===undefined)?burnAlpha():forceAlpha;
   cx.globalCompositeOperation="source-over";
   /* AND OVER A ROOM IT NEEDS ITS OWN GROUND TOO. White at 61% on a cream wall is not a
      mark, it is a rumour -- so the same trick the letters get: the drawing once in soft
      black underneath, then the mark on top of it. */
-  if(camReady() && !exportSize){
+  if(camReady() && !exportSize && !uiOut){
     cx.save();
     try{ cx.filter="blur("+Math.max(2,w*0.05).toFixed(1)+"px)"; }catch(e){}
     cx.globalAlpha=Math.min(1,(cx.globalAlpha||.61)*1.5);
@@ -4602,7 +4713,11 @@ function burnMark(cx,W,H,forceAlpha){
     cx.restore();
     cx.globalAlpha=(forceAlpha===undefined)?burnAlpha():forceAlpha;
   }
-  cx.drawImage(wmImg, x, y, Math.round(w), Math.round(h));
+  /* ONLY THE WORDMARK STEPS BACK. The signature is drawn from the same alpha a few lines
+     down, so zeroing it up here would have taken his name off the top corner as well --
+     and the whole reason the wordmark is stepping back is that the DOM one is standing in
+     for it. Nothing is standing in for the signature. */
+  if(!uiOut) cx.drawImage(wmImg, x, y, Math.round(w), Math.round(h));
   /* AND HIS NAME, TOP RIGHT, IN THE PIXELS TOO. A rendered file leaves the page and the
      DOM marks do not go with it -- so an exported clip carried the brand and not the
      person, which is backwards. Same pair, same relationship: 6.96rem against 6rem, so
@@ -5176,11 +5291,22 @@ function timeShow(){
     timePaint();
   }
 }
+/* NOTHING IN THE READOUT CHANGES WIDTH. Line 7 became line 12 became line 249 and the
+   frame ran 1f to 249f, so the string grew and shrank -- and because it sits in the same
+   flex row as the track, the TRACK resized with it and the handle jumped sideways while he
+   was steering with it. Tabular figures line the digits up; they cannot make a shorter
+   string as long as a longer one. Leading zeros can, and a frame counter reading 007 is a
+   frame counter, not a mistake. The pass length sets the padding, so a piece with 12 lines
+   pads to two and this one to three. */
+function pad(n,w){ n=String(Math.max(0,Math.round(n)));
+  while(n.length<w) n="0"+n; return n; }
 function timeSay(f,tot){
   if(!el.tSay) return;
   var per=Math.max(1,V.hold-V.slip);
   var line=Math.min(lines.length, Math.floor(f/per)+1);
-  el.tSay.textContent="line "+line+" of "+lines.length+" \u00b7 "+Math.round(f%per)+"f";
+  var lw=String(lines.length).length, fw=String(Math.round(per)).length;
+  el.tSay.textContent="line "+pad(line,lw)+" of "+lines.length
+                     +" \u00b7 "+pad(f%per,fw)+"f";
 }
 function timePaint(){
   if(!el.tScrub || !el.barTime || el.barTime.hidden) return;
@@ -5472,69 +5598,178 @@ function shFill(){
     +'allow="autoplay; fullscreen" title="'+esc(PIECE.title||"")+'"></iframe>';
   if(el.mEmbed) el.mEmbed.hidden = (PIECE.embed===false);
 }
-/* BUILT FROM WHAT IS ON SCREEN, NOT FROM A LIST SOMEBODY KEEPS UP TO DATE. Every row is
-   conditional on the same thing that decides whether the control exists -- the rig, the
-   device, the camera -- so a key that says the piece can go full screen is a key on a
-   device that can. The icons are the REAL ones, lifted out of the buttons they explain,
-   which is the only version that cannot drift. */
-function keyIcon(id){
-  var b=el[id], s=b && b.querySelector ? b.querySelector("svg") : null;
-  return s ? s.outerHTML : "";
+/* WHAT IS ANCHORED, AND WHERE. Each entry names a real element -- by id, or by the selector
+   the app itself uses for the marks, which have no id on purpose -- and the layer asks that
+   element where it is. An entry whose element is missing or hidden is not drawn at all,
+   which is how a key for a rig with no play button ends up not mentioning play.
+
+   MAIN MENU BEFORE CONTROLS, his order: the menu is the piece and the controls are the
+   apparatus, and the apparatus comes second. */
+function keyPins(){
+  var P=[
+    {at:"#sigBtn", say:"<b>Main menu</b>"},
+    {at:".credit", say:"<b>Controls</b>"},
+    {at:"#bPlay",  say:"Play and pause"},
+    {at:"#bSound", say:"Sound"},
+    {at:"#bFull",  say:"Full screen"},
+    {at:"#bShot",  say:"<b>Your room</b> behind it"},
+    {at:"#bShare", say:"Share \u2014 and <b>save the frame</b>"},
+    {at:"#bKey",   say:"This key"},
+    {at:"#bSet",   say:"Settings"},
+    {at:"#barLay", say:"How the words are <b>arranged</b>"},
+    {at:"#tScrub", say:"<b>The moment</b> in this pass"}
+  ];
+  return P.filter(function(p){
+    var e=document.querySelector(p.at);
+    if(!e) return false;
+    var r=e.getBoundingClientRect();
+    if(r.width<4 || r.height<4) return false;
+    if(getComputedStyle(e).visibility==="hidden") return false;
+    p.rect=r;
+    /* WHICH SIDE IT HANGS ON IS A FACT ABOUT WHERE IT IS, not something declared once and
+       then wrong on the next screen. A name under a mark already sitting on the bottom edge
+       is a name off the bottom of the screen. Top third gets it below; everything else above. */
+    p.below=(r.top + r.height/2) < window.innerHeight*0.34;
+    return true;
+  });
 }
-function keyRows(){
-  var R=[];
-  function row(mark,word,says){ R.push({mark:mark,word:word,says:says}); }
-  row("", "CHAMY\u00b7XYZ, lower left", "Shows and hides these controls.");
-  row("", "The signature, upper right", "About the piece, its history, and how to take part.");
-  if(RIG.play){
-    row(PLAY_D ? '<svg viewBox="0 0 24 24"><path d="'+PLAY_D+'"/></svg>' : "", "",
-        "<b>Play and pause.</b> The space bar does it too.");
+var keyBox=[0,0];
+function keyPoint(pins){
+  var L=el.keyPoint; if(!L) return;
+  L.innerHTML="";
+  var corner={".credit":1,"#sigBtn":1};
+  var bar=pins.filter(function(p){ return !corner[p.at]; });
+  /* THE TALLEST LEADER GOES TO THE RIGHTMOST CONTROL, which is the one arrangement in which
+     no leader can pass through a name: every name runs LEFT from its own leader, and a
+     leader further left is always shorter, so it never reaches the band a name occupies. */
+  bar.sort(function(a,b){ return a.rect.left-b.rect.left; });
+  var step=Math.max(24, Math.min(34, window.innerHeight/26));
+  function name(html){
+    var n=document.createElement("div");
+    n.className="kname"; n.innerHTML=html; n.style.left="0";
+    L.appendChild(n); return n;
   }
-  row(keyIcon("bSound"), "", "Sound on and off. Tapping the piece lets the sound start.");
-  if(CAN_FULL && RIG.full) row(keyIcon("bFull"), "", "Full screen.");
-  row(keyIcon("bShare"), "", "Send the link, hold up a code, embed it, or make a clip.");
-  if(RIG.play) row("", "Share \u2192 Save frame", "<b>Keeps the frame on screen</b> as a picture.");
-  row(keyIcon("bSet"), "", "Sound, interface, layout, and the camera.");
-  if(RIG.play){
-    row("", "Drag across the piece, paused",
-        "<b>Move through the pass.</b> Drag away from the bottom of the screen and it moves "
-        +"more finely \u2014 half, quarter, a tenth.");
+  function lead(x,top,h,flip){
+    var d=document.createElement("div");
+    d.className="klead";
+    d.style.left=Math.round(x)+"px"; d.style.top=Math.round(top)+"px";
+    d.style.height=Math.max(6,Math.round(h))+"px";
+    if(flip){ d.style.transform="rotate(180deg)"; d.style.transformOrigin="top center"; }
+    L.appendChild(d); return d;
   }
-  row("", "Press and hold the piece", "The few things worth reaching for, where your thumb is.");
-  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && RIG.play){
-    row(keyIcon("bShot"), "",
-        "<b>Your room behind the piece.</b> Press again to put it away. Nothing is recorded or sent.");
+  /* STACKED OFF ONE BASELINE, NOT OFF EACH CONTROL'S OWN TOP. The scrubber lives a row
+     above the icons, so an offset counted from each anchor put its name at the same height
+     as the next one's and the two sat on top of each other. Every name is measured from the
+     highest thing in the group, which is what makes the steps strictly increasing; the
+     leaders are simply different lengths, which is what a callout diagram looks like. */
+  var base=Math.min.apply(null, bar.map(function(p){ return p.rect.top; }));
+  bar.forEach(function(p,i){
+    var x=p.rect.left+p.rect.width/2;
+    var top=Math.max(8, base - 10 - (i+1)*step);
+    lead(x, top, p.rect.top-4-top, false);
+    var n=name(p.say);
+    n.style.top=Math.round(top)+"px";
+    /* MEASURED WITH A LEFT ALREADY SET. Left unset, an absolutely positioned box reports
+       whatever width the browser happened to give it where it parked it, and the clamp that
+       keeps a name on screen was working from the wrong number. */
+    var w=n.getBoundingClientRect().width;
+    n.style.left=Math.max(8, x-w-5)+"px";
+  });
+  /* AND THE SENTENCES TAKE WHAT THE DIAGRAM LEAVES. The callouts grow upward with the number
+     of controls, so a block parked in the middle of the screen was being drawn straight
+     through them -- the Close button sitting on top of "save the frame". The block is fitted
+     between the lowest corner name and the highest leader instead, measured from what was
+     actually just drawn, and it scrolls if that gap is tight. */
+  keyBox=[8, window.innerHeight-8];
+  /* the two marks stand alone in corners, so their names sit on whichever side has room */
+  pins.filter(function(p){ return corner[p.at]; }).forEach(function(p){
+    var x=p.rect.left+p.rect.width/2, len=Math.round(step*0.8);
+    var n=name(p.say), y;
+    if(p.below){ lead(x, p.rect.bottom+4, len, true); y=p.rect.bottom+4+len+18; }
+    else       { lead(x, p.rect.top-4-len, len, false); y=p.rect.top-4-len; }
+    n.style.top=Math.round(y)+"px";
+    var w=n.getBoundingClientRect().width;
+    n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, x-w/2)))+"px";
+  });
+  var tops=[], bots=[];
+  Array.prototype.forEach.call(L.querySelectorAll(".kname"),function(n){
+    var r=n.getBoundingClientRect();
+    if(r.top < window.innerHeight*0.4) bots.push(r.bottom); else tops.push(r.top);
+  });
+  keyBox=[ bots.length?Math.max.apply(null,bots)+16:8,
+           tops.length?Math.min.apply(null,tops)-16:window.innerHeight-8 ];
+  var box=document.querySelector(".keyin");
+  if(box){
+    box.style.top=Math.round(keyBox[0])+"px";
+    box.style.maxHeight=Math.round(Math.max(140, keyBox[1]-keyBox[0]))+"px";
   }
-  if(RIG.play){
-    row("", "Layout",
-        "How the three words are arranged. In Settings, and on screen while the camera is behind it.");
-  }
-  return R;
 }
-function keyFill(){
-  var L=el.keyList; if(!L) return;
-  L.innerHTML = keyRows().map(function(r){
-    var says = r.mark ? r.says
-             : '<span class="kw">'+esc(r.word)+'</span> \u2014 '+r.says;
-    return '<dt>'+(r.mark||"")+'</dt><dd>'+says+'</dd>';
-  }).join("");
+/* AND THE THINGS THAT ARE NOT ANYWHERE. A gesture has no button to point at, so it is said
+   in the middle, where there is room for a sentence. */
+function keyMid(){
+  var M=el.keyMid; if(!M) return;
+  var G=[];
+  if(RIG.play){
+    G.push('<span class="kg">Paused</span> \u2014 <b>drag across the piece</b> to move through '
+      +'the pass. Drag away from the bottom of the screen and it moves more finely: half, '
+      +'quarter, a tenth.');
+  }
+  G.push('<b>Press and hold the piece</b> for the few things worth reaching for.');
+  G.push('<b>Tap the piece</b> to wake the controls, and to let the sound start.');
+  if(CAN_FULL===false){
+    G.push('This browser cannot go full screen. <b>Share \u2192 Add to Home Screen</b> opens '
+      +'it with no browser chrome at all.');
+  }
+  M.innerHTML=G.map(function(t){ return "<p>"+t+"</p>"; }).join("");
 }
+function keyFill(){ keyMid(); keyPoint(keyPins()); }
+/* A LAYER OVER EVERYTHING IS A DIALOGUE, AND A DIALOGUE TAKES THE FOCUS AND GIVES IT BACK.
+   Without that, somebody on a keyboard opens the key and their focus is still on the icon
+   underneath it: tab goes on walking through a page they can no longer see, Escape has
+   nothing to act on, and a screen reader is never told anything opened at all. */
+var keyFrom=null;
 function keyShow(on){
   var b=el.keyFull; if(!b) return;
-  if(on) keyFill();
-  b.hidden=!on; b.classList.toggle("on",!!on);
-  if(el.mKey) el.mKey.setAttribute("aria-expanded", on?"true":"false");
+  if(on){
+    keyFrom=document.activeElement;
+    /* it points at controls, so the controls have to be out and measurable */
+    if(typeof chromeWake==="function") chromeWake();
+    b.hidden=false;
+    void b.offsetHeight;
+    keyFill();
+    /* AND AGAIN ONCE THE ICONS HAVE FINISHED ARRIVING. They slide in from the mark over half
+       a second, so measuring the moment the key opens measures them mid-flight and leaves
+       every badge behind where its control used to be -- which is exactly what it looked
+       like: numbers sitting one icon to the left of the things they number. */
+    setTimeout(function(){ if(el.keyFull && !el.keyFull.hidden) keyFill(); }, 640);
+    b.classList.add("on");
+    try{ (el.keyShut||b).focus(); }catch(e){}
+  }else{
+    b.classList.remove("on");
+    b.hidden=true;
+    try{ if(keyFrom && keyFrom.focus) keyFrom.focus(); }catch(e){}
+    keyFrom=null;
+  }
+  if(el.bKey) el.bKey.setAttribute("aria-expanded", on?"true":"false");
 }
-if(el.mKey) el.mKey.addEventListener("click",function(){ barDrawer(null,false); keyShow(true); });
+window.addEventListener("resize",function(){
+  if(el.keyFull && !el.keyFull.hidden) keyFill(); });
+if(el.bKey) el.bKey.addEventListener("click",function(){
+  barDrawer(null,false); keyShow(el.keyFull.hidden); });
 if(el.keyShut) el.keyShut.addEventListener("click",function(){ keyShow(false); });
 if(el.keyFull) el.keyFull.addEventListener("click",function(e){
   if(e.target===el.keyFull) keyShow(false); });
 document.addEventListener("keydown",function(e){
-  if(e.key==="Escape" && el.keyFull && !el.keyFull.hidden) keyShow(false); });
+  if(e.key!=="Escape") return;
+  if(el.keyFull && !el.keyFull.hidden){ keyShow(false); return; }
+  if(el.qrFull && !el.qrFull.hidden) qrFullShow(false);
+});
+var qrFrom=null;
 function qrFullShow(on){
   var b=el.qrFull; if(!b) return;
   if(on && !qrPaint()){ shSay("This address is too long for a code \u2014 send the link."); return; }
   if(on){
+    qrFrom=document.activeElement;
     barDrawer(null,false);   /* it takes the sheet's place rather than stacking on it */
     b.hidden=false;
     /* THE BROWSER MUST SEE WHERE IT STARTS BEFORE IT IS TOLD WHERE TO GO, and asking for
@@ -5544,8 +5779,11 @@ function qrFullShow(on){
        layout property forces the same thing synchronously and cannot be skipped. */
     void b.offsetHeight;
     b.classList.add("on");
+    try{ b.focus(); }catch(e){}
   }else{
     b.classList.remove("on");
+    try{ if(qrFrom && qrFrom.focus) qrFrom.focus(); }catch(e){}
+    qrFrom=null;
     setTimeout(function(){
       if(el.qrFull && !el.qrFull.classList.contains("on")) el.qrFull.hidden=true; },300);
     barDrawer("share",true);
@@ -5860,8 +6098,13 @@ document.addEventListener("pointermove",function(e){
   curFrame=dragAt;
   still();
   if(typeof timePaint==="function") timePaint();
-  if(el.tSay && rate<1)
-    el.tSay.textContent += " \u00b7 " + (rate===0.5?"half":rate===0.25?"quarter":"fine");
+  /* AND THE RATE SAYS ITSELF SOMEWHERE THAT CANNOT PUSH ANYTHING. Appended to the readout
+     it grew the row by nine characters mid-drag, which narrowed the track under his thumb. */
+  if(el.tRate){
+    el.tRate.textContent = rate<1
+      ? (rate===0.5?"half speed":rate===0.25?"quarter speed":"fine") : "";
+    el.tRate.hidden = (rate>=1);
+  }
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
