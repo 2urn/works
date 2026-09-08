@@ -350,8 +350,16 @@ body.ui.faded .sig{opacity:.72}
 .mrow input[type=range]{width:11rem}
 .mrow input[type=checkbox]{width:1.25rem;height:1.25rem;accent-color:var(--ovl-accent)}
 .mnote{color:var(--ovl-faint);font-size:.78rem;margin:.6rem 0 0;max-width:44ch}
+/* AND IT DECLARES ITS OWN GROUND. It set a colour and a border and no background, so it
+   inherited button{background:var(--panel)} from the instrument's base rules -- the
+   BUILDER's dark plate, which has nothing to do with the overlay's scheme. Dark plate and
+   light ink looked deliberate for as long as the overlay was dark; in light mode it is
+   dark text on a dark box, which is how three links became three empty rectangles.
+
+   Every other control in this overlay declares background:none and lets the panel show
+   through. This one was the only one that did not. */
 .mbtn{display:block;width:100%;margin:.4rem 0 0;border:1px solid var(--ovl-rule);
-  color:var(--ovl-ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
+  background:none;color:var(--ovl-ink);padding:.6rem 1rem;font-size:.86rem;min-height:46px}
 .mbtn:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* THE BUTTON IS THE PROGRESS BAR. Fifteen seconds of rendering with a sentence
    underneath the button reads as nothing happening at all -- so the fill and the count go
