@@ -4935,6 +4935,11 @@ function barDrawer(which,on){
   });
   /* two frames, so the browser sees the closed position before the open one */
   var any=Object.keys(DRAWERS).some(function(k){ return el[DRAWERS[k].box] && !el[DRAWERS[k].box].hidden; });
+  /* the other half of the same rule -- see timeShow() */
+  if(el.barTime){
+    if(any) el.barTime.hidden=true;
+    else if(typeof timeShow==="function") timeShow();
+  }
   if(el.bar){
     if(!any) el.bar.classList.remove("open");
     else requestAnimationFrame(function(){ requestAnimationFrame(function(){
@@ -4963,10 +4968,22 @@ function barPaint(){
   el.bSound.classList.toggle("on", snd_on);
   el.bSound.setAttribute("aria-label", snd_on?"Turn the sound off":"Turn the sound on");
   el.bSound.setAttribute("title", snd_on?"Sound on":"Sound off");
+  /* IT LIGHTS WHEN THERE IS A FRAME WORTH KEEPING. "The paused state should have direct
+     access to the SAVE image feature." It always did -- this is that button -- but it was
+     lit to say the ROOM was on, which the layout column now says on its own, and unlit at
+     the one moment it is the obvious thing to press. So the light moves to where the action
+     is: held, there is a frame you chose, and the icon says so and names itself plainly.
+
+     No second save button anywhere. Sharing a LINK and keeping an IMAGE are different
+     verbs, and putting the image behind Send -- which would mean one thing running and
+     another thing held -- is the exact fault the camera icon just had. */
   if(el.bShot){
-    el.bShot.classList.toggle("on", !!cam.on);
-    el.bShot.setAttribute("title", cam.on ? "Save this frame \u2014 the room is behind it"
-                                          : "Save this frame \u2014 hold for the camera");
+    var keep=!running && RIG.play;
+    el.bShot.classList.toggle("on", keep);
+    el.bShot.setAttribute("title",
+      keep    ? "Save this frame"
+      : cam.on? "Save this frame \u2014 the room is behind it"
+              : "Save this frame \u2014 hold for the camera");
   }
   if(el.bFull) el.bFull.style.display=(CAN_FULL&&RIG.full)?"":"none";
   if(el.bShot) el.bShot.style.display=RIG.play?"":"none";
@@ -5019,10 +5036,19 @@ function timeTotal(){
   var per=Math.max(1,V.hold-V.slip);
   return per*Math.max(1,lines.length);
 }
+/* THE TIMELINE AND A DRAWER ARE NEVER BOTH UP. He found this scrubbing with the share
+   sheet open: the sheet sat over the very frames he was choosing between, so he was
+   steering something he could not see. They come from the same edge and they want the same
+   space, and only one of them can be the thing you are doing -- choosing the moment, or
+   doing something with it. Pausing puts the sheet away; opening a sheet puts the timeline
+   away and leaves the piece exactly where it was held. */
 function timeShow(){
   var b=el.barTime; if(!b) return;
   b.hidden = !!running || !RIG.play;
-  if(!b.hidden) timePaint();
+  if(!b.hidden){
+    if(typeof barAnyOpen==="function" && barAnyOpen()) barDrawer(null,false);
+    timePaint();
+  }
 }
 function timeSay(f,tot){
   if(!el.tSay) return;
@@ -5563,15 +5589,68 @@ document.addEventListener("pointerdown",function(e){
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(!el.quick || !el.quick.hidden){ quickShut(); return; }
   held=false; holdX=e.clientX; holdY=e.clientY;
+  /* SCRUB ON THE IMAGE, NOT ON THE LINE. A 2px track with a 14px handle at the bottom of a
+     phone is a target your thumb covers, sitting under the frame your thumb also covers --
+     so you are steering the one thing you cannot see while you steer it. Every phone app
+     that got this right scrubs INDIRECTLY: drag across the picture, and the line becomes a
+     readout rather than a target. The whole screen is the track, the thumb is nowhere near
+     the frame's centre, and the number under it says where you are.
+
+     It exists only while the piece is held, which is the only state that has a frame to
+     choose, so it collides with nothing: a drag past 10px already cancels the press-and-
+     hold, and a tap that turned into a drag stops being a tap. */
+  dragFrom = (!running && RIG.play && el.barTime && !el.barTime.hidden)
+             ? (curFrame===null ? 0 : curFrame) : null;
+  dragAt=dragFrom; dragX=e.clientX; dragged=false;
   clearTimeout(holdT);
   holdT=setTimeout(function(){ held=true; quickOpen(holdX,holdY); }, 480);
 });
+var dragFrom=null, dragAt=0, dragX=0, dragged=false;
+/* AND MOVING AWAY FROM THE LINE MAKES IT FINER. A screen width is the whole pass -- 249
+   lines across a phone is two and a half pixels a line, which is fine for finding the
+   phrase and useless for finding the moment inside it, which is the thing he asked for in
+   the first place. Every pixel of horizontal travel has to be able to mean two different
+   amounts, and the axis nobody is using is the one going away from your thumb.
+
+   So: drag sideways to move, and drag AWAY to slow down -- full pass at the line, half,
+   quarter, and a tenth once your finger is up in the picture. It is the iOS scrubber's
+   gesture, which is the one gesture for this a phone has already taught everybody, and it
+   is why the track can stay a hairline: precision comes from the hand, not from a longer
+   target. The rate is accumulated per move rather than recomputed from the start, so
+   changing precision mid-drag adjusts what happens NEXT instead of jumping.
+
+   The readout names the rate while it is not 1, because a gesture nobody can see needs the
+   screen to confirm it happened. */
+function scrubRate(dy){
+  var a=Math.abs(dy);
+  return a<60 ? 1 : a<140 ? 0.5 : a<240 ? 0.25 : 0.1;
+}
 document.addEventListener("pointermove",function(e){
   if(holdT && (Math.abs(e.clientX-holdX)>12 || Math.abs(e.clientY-holdY)>12)){
     clearTimeout(holdT); holdT=null; }
+  if(dragFrom===null) return;
+  var dx=e.clientX-holdX, dy=e.clientY-holdY;
+  /* A SIDEWAYS INTENTION, and sideways is the only test. Requiring the horizontal travel
+     to BEAT the vertical made the fine rates unreachable by the only route to them: going
+     up into the picture is a large vertical movement by definition, so a drag that started
+     diagonally never began at all. There is nothing else on the stage a drag could mean --
+     a purely vertical one still moves nothing, because dx never clears ten. */
+  if(!dragged && Math.abs(dx)<10){ dragX=e.clientX; return; }
+  dragged=true;
+  var tot=timeTotal(), w=Math.max(1,window.innerWidth), rate=scrubRate(dy);
+  dragAt += (e.clientX-dragX)/w*tot*rate;
+  dragX=e.clientX;
+  dragAt=Math.max(0, Math.min(tot-0.001, dragAt));
+  curFrame=dragAt;
+  still();
+  if(typeof timePaint==="function") timePaint();
+  if(el.tSay && rate<1)
+    el.tSay.textContent += " \u00b7 " + (rate===0.5?"half":rate===0.25?"quarter":"fine");
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
+  if(dragged){ dragged=false; dragFrom=null; return; }  /* a drag is not a tap */
+  dragFrom=null;
   if(!(PLAYER||EMBED) || inChrome(e.target)) return;
   if(held){ held=false; return; }            /* the hold already did something */
   if(el.quick && !el.quick.hidden){ quickShut(); return; }
