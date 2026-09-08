@@ -4732,10 +4732,10 @@ function bindVoice(){
     a.addEventListener("ended",function(){ voiceDuck(false); });
   });
 }
-function uiShow(on){
+function uiShow(on,tab){
   if(on && typeof stat==="function") stat("interface");
   document.body.classList.toggle("ui", !!on);
-  if(on) menuOpen("work"); else menuShut();
+  if(on) menuOpen(tab||"work"); else menuShut();
   if(typeof barPaint==="function") barPaint();
 }
 if(el.mClose) el.mClose.addEventListener("click",function(){ uiShow(false); });
@@ -5025,11 +5025,15 @@ if(creditEl){
   });
 }
 if(el.sigBtn) el.sigBtn.addEventListener("click",function(){
-  /* his name goes to who made it -- unless it is already showing that, in which case it
-     closes, for the same reason the wordmark does */
+  /* HIS NAME BRINGS THE WHOLE INTERFACE, not just the reading panel. It used to open the
+     menu on its own, so touching one mark gave you the panel and the controls and touching
+     the other gave you half of that -- two marks, two different interfaces, for no reason
+     anybody could see. Both summon the same thing now; they differ only in where they land,
+     which is what a mark is FOR: the wordmark opens on the work, his name opens on him.
+     And each closes what it opened, for the same reason the other does. */
   var open=el.menu && !el.menu.hidden;
   var onAbout=open && !document.getElementById("pane-about").hidden;
-  if(onAbout) menuShut(); else menuOpen("about");
+  if(onAbout) uiShow(false); else uiShow(true,"about");
 });
 /* FIFTEEN SECONDS, SHAPED FOR A FEED. 4:5 rather than 9:16 on purpose: it is the tallest
    ratio Instagram shows in full in the feed, and it has almost none of the danger zones a
