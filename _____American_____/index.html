@@ -902,6 +902,12 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 #keyPoint{position:absolute;inset:0;pointer-events:none;z-index:4;
   opacity:0;transition:opacity .3s ease}
 #keyPoint.on{opacity:1}
+/* AND WHAT IS BEING POINTED AT CANNOT BE PRESSED. The controls are deliberately above the
+   veil so the arrows have something to point to -- which also left them working, so a tap
+   meant for the guide could put the whole row away and leave the arrows aimed at nothing.
+   They stay lit and stop answering; the only thing a press does now is close the guide. */
+body.keyopen .barin,body.keyopen .credit,body.keyopen .sig,
+body.keyopen #barLay,body.keyopen #bRec,body.keyopen #barTime{pointer-events:none}
 @media (prefers-reduced-motion:reduce){ #keyPoint{transition:none} }
 .klead{position:absolute;width:1px;background:var(--ovl-accent);opacity:.9}
 .klead::after{content:"";position:absolute;left:-2.5px;bottom:-1px;
@@ -6431,10 +6437,13 @@ function keyShow(on){
       if(el.keyPoint) el.keyPoint.classList.add("on");
     }, wasOut ? 30 : 620);
     b.classList.add("on");
+    document.body.classList.add("keyopen");
     try{ (el.keyShut||b).focus(); }catch(e){}
   }else{
     b.classList.remove("on");
     b.hidden=true;
+    document.body.classList.remove("keyopen");
+    chromeWake();     /* re-arm the fade, which was held off while it was open */
     if(el.keyVeil){
       el.keyVeil.classList.remove("on");
       setTimeout(function(){
@@ -6660,7 +6669,14 @@ var chromeT=null;
 function chromeWake(){
   document.body.classList.add("chrome");
   clearTimeout(chromeT);
-  chromeT=setTimeout(function(){ document.body.classList.remove("chrome"); },4200);
+  chromeT=setTimeout(function(){
+    /* NOT WHILE SOMETHING IS POINTING AT THEM. The marks step back four seconds after the
+       last touch, which is right for a work being watched and wrong for a guide whose whole
+       content is arrows aimed at those marks: nobody touches the screen while they are
+       reading it, so the things being named quietly faded out from under their labels. */
+    if(el.keyFull && !el.keyFull.hidden) return;
+    document.body.classList.remove("chrome");
+  },4200);
 }
 
 /* PRESS AND HOLD, AND THE TAP MOVES TO THE RELEASE. Play and pause used to fire on
