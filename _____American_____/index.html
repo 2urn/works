@@ -1823,6 +1823,7 @@ var SHIPPED={
   offThird:0,
   on2s:true,
   outerSize:7,
+  blankCap:61,
   ovByWord:false,
   overBlend:"screen",
   overlap:0.3,
@@ -1900,6 +1901,7 @@ function readControls(){
   V.offFirst=num("offFirst"); V.offSpine=num("offSpine");
   V.offThird=num("offThird"); V.offName=num("offName");
   V.spineSize=num("spineSize"); V.outerSize=num("outerSize");
+  V.blankCap=num("blankCap");
   V.overlap=num("overlap"); V.margin=num("margin"); V.squash=num("squash");
   V.focus=num("focus");
   V.gap=num("gap"); V.ovByWord=yes("ovByWord");
@@ -1948,6 +1950,7 @@ function paintReadouts(){
   if(el.exAmt) el.exAmt.disabled = (V.exMode==="all");
   say("offFirstV",V.offFirst+"%"); say("offSpineV",V.offSpine+"%");
   say("offThirdV",V.offThird+"%"); say("offNameV",V.offName+"%");
+  say("blankCapV",Math.round(V.blankCap)+"%");
   say("nameSizeV",V.nameSize.toFixed(1)+"%"); say("spineSizeV",V.spineSize.toFixed(1)+"%"); say("outerSizeV",V.outerSize.toFixed(1)+"%");
   say("overlapV",V.overlap.toFixed(2)); say("marginV",V.margin.toFixed(1)+"%");
   say("gapV",V.gap.toFixed(2)+"\u00d7");
@@ -1981,16 +1984,27 @@ function solve(gs,W,H){
   var first=LI===undefined?" ":gs[LI].text, third=RI===undefined?" ":gs[RI].text;
   SPINE_SET=sg.text;
   var margin=W*V.margin/100, gapPx=W*0.015;
-  /* OVERLAP TREATS THE BLANKS AS ONE SIZE CLASS -- they tuck into the spine as a pair,
-     and a pair that fitted independently would stop reading as one. Extra blanks beyond
-     the first two step further out on alternating sides. */
-  var sPx=H*sg.size/100, oPx=H*(LI===undefined?V.outerSize:gs[LI].size)/100;
+  /* EACH BLANK FITS ITS OWN SIDE. They were one size class, locked together, so the
+     shorter word came down to whatever the longer one could manage -- and a long phrase on
+     the right made a short word on the left small for no reason of its own. Nothing about
+     the piece needs them equal: where they sit and what they say already tells you they
+     are not AMERICAN. So each one is fitted to the space between AMERICAN and its own edge
+     of the screen, and they are free to differ.
+
+     ONE CEILING: neither may be larger than AMERICAN. That is the only relationship left,
+     and it is the one that matters -- the word the piece is named after is the biggest
+     thing on the screen or the picture stops making sense. */
+  var sPx=H*sg.size/100;
+  var want0=H*(LI===undefined?V.outerSize:gs[LI].size)/100;
+  var want1=H*(RI===undefined?V.outerSize:gs[RI].size)/100;
+  var cap=sPx*(V.blankCap||61)/100;
+  var fPx=Math.min(want0,cap), tPx=Math.min(want1,cap), oPx=Math.min(want0,cap);
   /* GAP IN THE OVERLAPPING ARRANGEMENT IS THE TUCK, INVERTED -- more gap is less tuck.
      At 1x nothing moves, at 2x the words stop crossing AMERICAN at all. */
   var ov=Math.max(0,Math.min(0.48, V.overlap*(2-V.gap)));
   var spent=[],sw,fw,tw,sx0,sx1,fx1,fx0,tx0_,tx1;
   for(var p=0;p<80;p++){
-    sw=widthOf(SPINE_SET,sPx); fw=widthOf(first,oPx); tw=widthOf(third,oPx);
+    sw=widthOf(SPINE_SET,sPx); fw=widthOf(first,fPx); tw=widthOf(third,tPx);
     /* WHAT THE TUCK IS A SHARE OF. Off, it is a share of AMERICAN, so every phrase
        crosses it by the same number of pixels and a short word looks barely engaged
        while a long one buries itself. On, it is a share of the PHRASE, so each one
@@ -1998,9 +2012,19 @@ function solve(gs,W,H){
     var fOv=ov*(V.ovByWord?fw:sw), tOv=ov*(V.ovByWord?tw:sw);
     sx0=(W-sw)/2; sx1=sx0+sw; fx1=sx0+fOv; fx0=fx1-fw; tx0_=sx1-tOv; tx1=tx0_+tw;
     var crash=(fx1+gapPx)-tx0_, offL=margin-fx0, offR=tx1-(W-margin);
-    if(crash<=0&&offL<=0&&offR<=0) break;
-    if(crash>0&&ov>0.001){ ov=Math.max(0,ov-Math.max(0.005,(crash/sw)/2));
-      if(spent.indexOf("overlap")<0)spent.push("overlap"); continue; }
+    /* CROSSING IS ALLOWED; RUNNING OFF THE SCREEN IS NOT. A phrase like Temporary Protected
+       Status is at the limit of what a horizontal frame can hold, and the old loop treated
+       the two blanks touching as a failure -- so it pulled the tuck out and then shrank the
+       long phrase until they cleared each other, which is how a phrase ends up too small to
+       read in the name of not overlapping. They may cross. What must hold is the ORDER: the
+       first word still begins to the left of the third, so the line still reads left to
+       right, and they are different colours, so the eye separates them the way it separates
+       any two words it already knows. */
+    var ordered=(fx0 < tx0_);
+    if(offL<=0&&offR<=0&&ordered) break;
+    if(!ordered && Math.max(fPx,tPx)>H*0.012){
+      if(tPx>=fPx) tPx*=0.975; else fPx*=0.975;
+      if(spent.indexOf("order")<0)spent.push("order"); continue; }
     /* THE BLANKS GIVE WAY, NOT THE WORD THE PIECE IS NAMED AFTER. This shrank both by the
        same factor to hold the spine-to-blank ratio, and the ratio held -- at the cost of
        AMERICAN being a different size on nearly every line: 143px against Borders, 103
@@ -2010,8 +2034,12 @@ function solve(gs,W,H){
        His reversal, and the trade it makes: a long phrase now changes the RATIO instead of
        the size. The spine still gives way as a last resort below, because a line that
        cannot fit has to come from somewhere. */
-    if((offL>0||offR>0)&&oPx>H*0.012){ oPx*=0.975;
-      if(spent.indexOf("blanks")<0)spent.push("blanks"); continue; }
+    /* only the side that is actually running off the screen comes down */
+    var moved=false;
+    if(offL>0 && fPx>H*0.012){ fPx*=0.975; moved=true; }
+    if(offR>0 && tPx>H*0.012){ tPx*=0.975; moved=true; }
+    if(moved){ if(spent.indexOf("blanks")<0)spent.push("blanks"); continue; }
+
     /* AND THE SPINE ONLY WHEN THE SPINE ITSELF DOES NOT FIT. It used to be the next thing
        tried once the blanks reached a floor, and the floor was high enough that an ordinary
        phrase reached it -- which is how AMERICAN ended up a different size on nearly every
@@ -2026,17 +2054,20 @@ function solve(gs,W,H){
   place[si<0?0:si]={ x:sx0, y:y, px:sPx, rot90:0, axis:"h", lead:0 };
   arms.forEach(function(gi,a){
     var step=Math.floor(a/2), left=(a%2)===0;
-    var w=widthOf(gs[gi].text,oPx);
+    /* the first two carry their own size; any beyond them follow the side they land on */
+    var px=left?fPx:tPx;
+    var w=widthOf(gs[gi].text,px);
     place[gi]= left
-      ? { x:(fx0 - step*(w+gapPx)), y:y, px:oPx, rot90:0, axis:"h", lead:0 }
-      : { x:(tx0_ + step*(w+gapPx)), y:y, px:oPx, rot90:0, axis:"h", lead:0 };
+      ? { x:(fx0 - step*(w+gapPx)), y:y, px:px, rot90:0, axis:"h", lead:0 }
+      : { x:(tx0_ + step*(w+gapPx)), y:y, px:px, rot90:0, axis:"h", lead:0 };
   });
   gs.forEach(function(g,i){
     if(place[i]) return;
     var p=fitOne(g.text, H*g.size/100, W, margin);
     place[i]={ x:(W-widthOf(g.text,p))/2, y:y, px:p, rot90:0, axis:"h", lead:0 };
   });
-  return {place:place,sPx:sPx,oPx:oPx,ov:ov,margin:margin,spent:spent,
+  oPx=Math.max(fPx,tPx);
+  return {place:place,sPx:sPx,oPx:oPx,fPx:fPx,tPx:tPx,ov:ov,margin:margin,spent:spent,
     slack:Math.min(fx0-margin,(W-margin)-tx1), crash:(fx1+gapPx)-tx0_};
 }
 /* PORTRAIT WANTS A DIFFERENT PROBLEM SOLVED. Overlapping only works while there is width
@@ -2069,15 +2100,18 @@ function solveStack(gs,W,H){
   var margin=W*V.margin/100, lim=W-margin*2;
   var want=gs.map(function(g){ return H*g.size/100; });
   /* one factor for the whole set -- the sizes are a relationship (see fitK) */
-  /* THE SPINE IS NOT IN THE SET THAT SHRINKS. It used to be, so one long phrase took
-     AMERICAN from 196px to 112 -- see solve() for the same reversal and the same reason.
-     The blanks and the coda still share ONE factor, because they are still a relationship
-     to each other; the spine answers only to itself. */
+  /* EVERY LINE ANSWERS ONLY TO ITSELF, AND NONE OF THEM MAY OUTGROW THE SPINE. This was
+     one factor across the whole set, so a single long phrase took AMERICAN down with it,
+     and then -- once the spine was exempted -- a long phrase still dragged the short blank
+     beside it down for no reason of its own. Nothing here needs to match: position and
+     spelling already say which word is which. What does matter is the ceiling. */
   var si0=spineOf(gs);
-  var k=1;
-  gs.forEach(function(g,i){ if(i!==si0) k=Math.min(k, fitK(g.text, want[i], lim)); });
+  var sPxWant=want[si0<0?0:si0]*fitK(gs[si0<0?0:si0].text, want[si0<0?0:si0], lim);
+  var capS=sPxWant*(V.blankCap||61)/100;
   var px=want.map(function(w,i){
-    return i===si0 ? w*fitK(gs[i].text, w, lim) : w*k; });
+    if(i===si0) return sPxWant;
+    return Math.min(w*fitK(gs[i].text, w, lim), capS);
+  });
   var si=spineOf(gs), sPx=si<0?px[0]:px[si];
   var lead=sPx*0.16*V.gap;
   var tot=0;
