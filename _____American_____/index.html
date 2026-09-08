@@ -147,6 +147,13 @@ html:not(.booted) .wrap > *:not(.stage){display:none}
    never touched it. Frame count, line, seed, blend, piece hash -- an instrument's readout
    sitting over the work until the script five megabytes down said otherwise. */
 html:not(.booted) .hud{display:none}
+/* THE VERTICAL HALF OF THE GESTURE WAS BEING EATEN. Drag sideways to move, drag AWAY to go
+   finer -- and the finer half did nothing on his phone, at any height. Nothing was wrong
+   with the arithmetic: without a touch-action the browser claims a vertical drag as a pan
+   before the page ever sees it, so dy stayed near zero and the rate stayed at one. The
+   stage takes its own gestures now. There is nothing to scroll behind it and nothing to
+   zoom; a drag on the work is the work's. */
+body.player .stage,body.embed .stage,#stage{touch-action:none}
 body.player .stage{border:0;border-radius:0;aspect-ratio:auto;
   height:100vh;height:100dvh;width:100vw;width:100dvw}
 body.player .stage canvas{width:100%;height:100%;object-fit:contain}
@@ -561,9 +568,16 @@ body.cam.ui .lsep{filter:opacity(1)}
 /* THE TIMELINE. Full width above the icons, because the thing being chosen is a moment in
    a pass and a moment is a length, not a nudge. Sharp ends and a line, like everything
    else here; the handle is the one round thing, because a handle is a handle. */
-#barTime{display:flex;align-items:center;gap:.7rem;padding:.1rem 0 .5rem;
-  pointer-events:auto}
-#tScrub{flex:1 1 auto;-webkit-appearance:none;appearance:none;height:26px;
+/* CENTRED, AND STACKED. It was a row -- rate, track, readout -- which made the readout a
+   thing off to one side and made the track a different length depending on what the readout
+   happened to say. Everything a scrubber tells you is about the SAME point, so it is one
+   column: the rate above the line, the line, the position under it, all centred. */
+/* AND CENTRED ON THE SCREEN, not on what is left of it. The bar keeps 8.2rem clear on the
+   left so the mark has somewhere to live; the timeline sits above that row, where the mark
+   is not, so it steps back out of the padding and takes the whole width. */
+#barTime{display:flex;flex-direction:column;align-items:center;gap:.1rem;
+  padding:.1rem 0 .5rem;pointer-events:auto;margin-left:-7.2rem}
+#tScrub{width:100%;-webkit-appearance:none;appearance:none;height:26px;
   background:none;margin:0}
 /* IT HAS TO READ OVER A ROOM. A hairline and a small disc were designed against black and
    the camera put a lit kitchen behind them. Not a blend mode -- a blend mode over an
@@ -571,26 +585,32 @@ body.cam.ui .lsep{filter:opacity(1)}
    carries its own dark edge instead, which works over anything because it does not depend
    on what is under it. And the handle becomes a BAR: a disc has no edge to line up with a
    moment, and this is an instrument for choosing one. */
-#tScrub::-webkit-slider-runnable-track{height:3px;background:var(--ovl-rule);
-  box-shadow:0 0 0 1px rgba(0,0,0,.75)}
-#tScrub::-moz-range-track{height:3px;background:var(--ovl-rule);
-  box-shadow:0 0 0 1px rgba(0,0,0,.75)}
+/* A SOFT SHADOW, NOT A DRAWN EDGE. A hard black ring is a second colour in the mark and it
+   read as a border -- an outlined pill, which is the one shape this interface does not use.
+   A shadow is not part of the object; it lifts it off whatever is behind, room or black,
+   without adding anything to look at. And the handle is a LINE, two pixels of it: a disc
+   has a centre but no edge, and the whole job here is to say exactly where. */
+#tScrub::-webkit-slider-runnable-track{height:2px;background:var(--ovl-rule);
+  box-shadow:0 1px 3px rgba(0,0,0,.7)}
+#tScrub::-moz-range-track{height:2px;background:var(--ovl-rule);
+  box-shadow:0 1px 3px rgba(0,0,0,.7)}
 #tScrub::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:5px;height:22px;background:var(--ovl-accent);
-  border:0;margin-top:-9.5px;box-shadow:0 0 0 1.5px rgba(0,0,0,.85)}
-#tScrub::-moz-range-thumb{width:5px;height:22px;background:var(--ovl-accent);
-  border:0;box-shadow:0 0 0 1.5px rgba(0,0,0,.85)}
+  width:2px;height:22px;background:var(--ovl-accent);
+  border:0;margin-top:-10px;box-shadow:0 1px 4px rgba(0,0,0,.85)}
+#tScrub::-moz-range-thumb{width:2px;height:22px;background:var(--ovl-accent);
+  border:0;box-shadow:0 1px 4px rgba(0,0,0,.85)}
 /* the rate, said over the track and taking no room in the row */
-#tRate{position:absolute;left:50%;transform:translateX(-50%);bottom:2.1rem;
+/* IT KEEPS ITS LINE WHETHER OR NOT IT HAS ANYTHING TO SAY, or the track would step up and
+   down the moment somebody dragged away from it. */
+#tRate{order:-1;min-height:1rem;
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;
   letter-spacing:.04em;color:var(--ovl-accent);white-space:nowrap;
   text-shadow:0 1px 3px rgba(0,0,0,.9)}
-#barTime{position:relative}
 #tScrub:focus-visible{outline:1px solid var(--ovl-ink);outline-offset:4px}
 /* AND IT IS READ AGAINST A ROOM, NOT AGAINST BLACK. Faint grey is a considered choice over
    a black ground and an unreadable one over somebody's bedroom. */
 body.cam #tSay{color:var(--ovl-ink)}
-#tSay{flex:0 0 auto;text-shadow:0 1px 3px rgba(0,0,0,.9);
+#tSay{flex:0 0 auto;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.9);
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
   color:var(--ovl-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 /* THEY COME FROM THE MARK AND GO BACK TO IT. Appearing in the corner told nobody where
@@ -669,6 +689,7 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
      hold the smaller mark this width already asks for. */
   #bar{padding-left:6rem}
   #barSet,#barShare{margin-left:-6rem}
+  #barTime{margin-left:-5rem}
   .ico{width:40px;height:40px}
   /* five tabs, one line: wrapping left "Take part" alone on a second row, which reads as a
      mistake rather than as emphasis */
@@ -752,14 +773,21 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
    icons have finished sliding in, and again if the window changes -- so it is right on a
    phone, on a desktop, sideways, and with whatever the rig withheld simply absent. Nothing
    here is a coordinate somebody typed, and none of it is one picture. */
-#keyPoint{position:absolute;inset:0;pointer-events:none;z-index:4}
+/* PLACED FIRST, SHOWN SECOND. The icons slide in from the mark over half a second, so the
+   layer was being drawn against them mid-flight and then corrected when they landed --
+   which is exactly what it looked like: every label jumbled, then jumping into place. It is
+   laid out while it cannot be seen and fades in once it is right. */
+#keyPoint{position:absolute;inset:0;pointer-events:none;z-index:4;
+  opacity:0;transition:opacity .3s ease}
+#keyPoint.on{opacity:1}
+@media (prefers-reduced-motion:reduce){ #keyPoint{transition:none} }
 .klead{position:absolute;width:1px;background:var(--ovl-accent);opacity:.9}
 .klead::after{content:"";position:absolute;left:-2.5px;bottom:-1px;
   width:6px;height:6px;background:var(--ovl-accent);
   clip-path:polygon(50% 100%,0 0,100% 0)}
 .kname{position:absolute;font-size:.72rem;font-weight:600;letter-spacing:.02em;
   color:var(--ovl-ink);white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.95);
-  transform:translateY(-100%);padding-bottom:.2rem}
+  transform:translateY(-100%);padding-bottom:0;line-height:1.15}
 .kname b{color:var(--ovl-accent);font-weight:600}
 @media (max-width:26rem){ .kname{font-size:.66rem} }
 #keyMid p{margin:0 0 .85rem;font-size:.86rem;line-height:1.5;color:var(--ovl-dim)}
@@ -1143,7 +1171,7 @@ label.reset,label.reset span{color:var(--accent) !important;
          still: the piece is never the same twice, and a frame you liked has gone by the
          time you have found the button. It appears while the piece is held. -->
     <div id="barTime" hidden role="group" aria-label="Move through this pass"><span
-      id="tRate" hidden aria-hidden="true"></span>
+      id="tRate" aria-hidden="true"></span>
       <input type="range" id="tScrub" min="0" max="1000" step="1" value="0"
         autocomplete="off" aria-label="Move through this pass">
       <output id="tSay">line 1 &middot; 0f</output>
@@ -5316,9 +5344,15 @@ function timeSay(f,tot){
   if(!el.tSay) return;
   var per=Math.max(1,V.hold-V.slip);
   var line=Math.min(lines.length, Math.floor(f/per)+1);
-  var lw=String(lines.length).length, fw=String(Math.round(per)).length;
+  /* NOT FRAMES. "40f" is the engine's count inside one line -- a number with no meaning
+     outside this file, on the one readout a viewer actually reads. A scrubber says where you
+     are, and where you are in a piece that runs is a TIME. The line count stays because a
+     line is what this work is made of; the frame count goes. */
+  var lw=String(lines.length).length;
+  var sp=FPS*(V.speed||1), secs=sp>0 ? f/sp : 0;
+  var mm=Math.floor(secs/60), ss=Math.floor(secs%60);
   el.tSay.textContent="line "+pad(line,lw)+" of "+lines.length
-                     +" \u00b7 "+pad(f%per,fw)+"f";
+                     +" \u00b7 "+mm+":"+pad(ss,2);
 }
 function timePaint(){
   if(!el.tScrub || !el.barTime || el.barTime.hidden) return;
@@ -5684,8 +5718,11 @@ function keyPoint(pins){
     /* MEASURED WITH A LEFT ALREADY SET. Left unset, an absolutely positioned box reports
        whatever width the browser happened to give it where it parked it, and the clamp that
        keeps a name on screen was working from the wrong number. */
+    /* BUTTED UP AGAINST ITS OWN ARROW. A few pixels of air read as a label near a line
+       rather than a label ON it, and with nine of them stacked the eye stops pairing them.
+       The right edge of the word IS the top of the leader. */
     var w=n.getBoundingClientRect().width;
-    n.style.left=Math.max(8, x-w-5)+"px";
+    n.style.left=Math.max(8, x-w)+"px";
   });
   /* AND THE SENTENCES TAKE WHAT THE DIAGRAM LEAVES. The callouts grow upward with the number
      of controls, so a block parked in the middle of the screen was being drawn straight
@@ -5745,17 +5782,21 @@ function keyShow(on){
   if(on){
     keyFrom=document.activeElement;
     /* it points at controls, so the controls have to be out and measurable */
+    var wasOut=document.body.classList.contains("ui");
     if(typeof chromeWake==="function") chromeWake();
     b.hidden=false;
     if(el.keyVeil){ el.keyVeil.hidden=false; void el.keyVeil.offsetHeight;
                     el.keyVeil.classList.add("on"); }
     void b.offsetHeight;
-    keyFill();
-    /* AND AGAIN ONCE THE ICONS HAVE FINISHED ARRIVING. They slide in from the mark over half
-       a second, so measuring the moment the key opens measures them mid-flight and leaves
-       every badge behind where its control used to be -- which is exactly what it looked
-       like: numbers sitting one icon to the left of the things they number. */
-    setTimeout(function(){ if(el.keyFull && !el.keyFull.hidden) keyFill(); }, 640);
+    keyMid();
+    if(el.keyPoint) el.keyPoint.classList.remove("on");
+    /* nothing to wait for if the icons were already out; half a second if we just called
+       them out ourselves */
+    setTimeout(function(){
+      if(!el.keyFull || el.keyFull.hidden) return;
+      keyFill();
+      if(el.keyPoint) el.keyPoint.classList.add("on");
+    }, wasOut ? 30 : 620);
     b.classList.add("on");
     try{ (el.keyShut||b).focus(); }catch(e){}
   }else{
@@ -6124,11 +6165,9 @@ document.addEventListener("pointermove",function(e){
   if(typeof timePaint==="function") timePaint();
   /* AND THE RATE SAYS ITSELF SOMEWHERE THAT CANNOT PUSH ANYTHING. Appended to the readout
      it grew the row by nine characters mid-drag, which narrowed the track under his thumb. */
-  if(el.tRate){
+  if(el.tRate)
     el.tRate.textContent = rate<1
       ? (rate===0.5?"half speed":rate===0.25?"quarter speed":"fine") : "";
-    el.tRate.hidden = (rate>=1);
-  }
 });
 document.addEventListener("pointerup",function(e){
   clearTimeout(holdT); holdT=null;
