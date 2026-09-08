@@ -559,10 +559,16 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   border-radius:0;padding:.55rem .7rem;resize:vertical}
 /* SHAPE IS A SHAPE. Four rectangles at the ratios they name -- nothing about "Feed" or
    "Wide" is legible until you already know what they mean, and a rectangle always is. */
-.aspico{background:none;border:0;padding:.35rem .45rem;min-height:42px;
-  color:var(--ovl-faint);border-bottom:2px solid transparent}
-.aspico svg{width:22px;height:22px;display:block}
-.aspico rect{fill:none;stroke:currentColor;stroke-width:1.6}
+/* FILLED, AND SAYING WHICH IT IS. Outlined at 22px, 4:5 and 1:1 differed by three
+   pixels and read as the same small square. Each shape now fills the box on its longest
+   side, so the four are as far apart as they can be -- and the ratio is written under it,
+   because a proportion is a number as well as a shape and he asked for the number. */
+.aspico{background:none;border:0;padding:.3rem .4rem .25rem;min-height:46px;
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;
+  color:var(--ovl-faint);border-bottom:2px solid transparent;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.02em}
+.aspico svg{width:26px;height:26px;display:block}
+.aspico rect{fill:currentColor;opacity:.9}
 .aspico:hover{color:var(--ovl-ink)}
 .aspico.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent)}
 .mlab{display:flex;align-items:center;color:var(--ovl-dim);font-size:.82rem}
@@ -1017,12 +1023,12 @@ label.reset,label.reset span{color:var(--accent) !important;
         <button type="button" class="mbtn" id="embedCopy"><span class="lab">Copy the embed</span></button>
       </div>
       <div id="clipBox" hidden>
-        <div class="mrow"><span class="mlab">Shape</span>
+        <div class="mrow"><span class="mlab"><svg class="tico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h2v4h8v8h4v2h-4v4h-2v-4H5V5H1V3h4V1h2v2zm0 4v8h8V7H7z"/></svg></span>
           <span class="mseg">
-          <button type="button" class="aspico" data-casp="0.5625" title="9:16, vertical" aria-label="9:16, vertical"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="7.0" y="3.0" width="10" height="18"/></svg></button>
-          <button type="button" class="aspico on" data-casp="0.8" title="4:5, feed" aria-label="4:5, feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="4.0" width="13" height="16"/></svg></button>
-          <button type="button" class="aspico" data-casp="1" title="1:1, square" aria-label="1:1, square"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.0" y="4.0" width="16" height="16"/></svg></button>
-          <button type="button" class="aspico" data-casp="1.7778" title="16:9, wide" aria-label="16:9, wide"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.0" y="6.5" width="20" height="11"/></svg></button>
+          <button type="button" class="aspico" data-casp="0.5625" title="9:16" aria-label="9:16"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6.38" y="2.00" width="11.25" height="20.00"/></svg><span>9:16</span></button>
+          <button type="button" class="aspico on" data-casp="0.8" title="4:5" aria-label="4:5"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.00" y="2.00" width="16.00" height="20.00"/></svg><span>4:5</span></button>
+          <button type="button" class="aspico" data-casp="1" title="1:1" aria-label="1:1"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.00" y="2.00" width="20.00" height="20.00"/></svg><span>1:1</span></button>
+          <button type="button" class="aspico" data-casp="1.7778" title="16:9" aria-label="16:9"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.00" y="6.38" width="20.00" height="11.25"/></svg><span>16:9</span></button>
           </span></div>
         <div class="mrow"><span class="mlab"><svg class="tico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 110 14 7 7 0 010-14zm1 3h-2v5.6l4 2.4 1-1.7-3-1.8V8z"/></svg></span>
           <span class="mseg">
