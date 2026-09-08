@@ -444,6 +444,15 @@ body.player #bar,body.embed #bar{display:block}
    [hidden]{display:none!important} beats the rule above */
 #bar{z-index:79}
 .barin{display:flex;gap:.35rem;justify-content:flex-end;align-items:center}
+/* THEY SETTLE BESIDE THE MARK, NOT IN THE FAR CORNER. On a phone the far right IS beside
+   the mark -- there is no room for it to be anything else. On a large screen it is the
+   other side of the room, and icons that came out of a mark and then travelled two feet
+   away from it have lost the only thing that said where they live. Past a width where the
+   two can be apart, they stop next to it. */
+@media (min-width:60rem){
+  .barin{justify-content:flex-start}
+  #barSet .inner,#barShare .inner{margin-left:0}
+}
 /* THE TIMELINE. Full width above the icons, because the thing being chosen is a moment in
    a pass and a moment is a length, not a nudge. Sharp ends and a line, like everything
    else here; the handle is the one round thing, because a handle is a handle. */
@@ -486,7 +495,10 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
 @media (prefers-reduced-motion:reduce){
   .barin > .ico,body.ui .barin > .ico{transform:none;transition:opacity .3s ease}
 }
-.ico{width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
+/* NO CALLOUT ON A HELD ICON. iOS answers a long press on a control with its own menu
+   or a selection, either of which eats the gesture before the page sees it end. */
+.ico{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
+  width:44px;height:44px;min-height:44px;padding:0;border:0;background:none;
   color:var(--ovl-ink);opacity:.78;display:flex;align-items:center;justify-content:center;
   transition:opacity .18s,color .18s}
 /* BIGGER, AND BRIGHTER AT REST. 20px of a thin glyph at 55% is a guessing game --
@@ -529,6 +541,41 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   #menu{max-height:68dvh;max-height:68vh}
 }
 
+/* ---- THE SHARE SHEET ------------------------------------------------------------- */
+.shrow{display:flex;gap:.2rem;margin:.2rem 0 .9rem;flex-wrap:wrap}
+.shico{flex:1 1 4rem;min-width:4rem;display:flex;flex-direction:column;align-items:center;
+  gap:.45rem;background:none;border:0;padding:.7rem .2rem;color:var(--ovl-dim);
+  font-size:.68rem;letter-spacing:.01em;min-height:64px;transition:color .18s}
+.shico svg{width:23px;height:23px;fill:currentColor}
+.shico:hover,.shico:focus-visible,.shico.on{color:var(--ovl-accent);outline:0}
+.shico span{white-space:nowrap}
+/* the address, shown rather than promised */
+.shurl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;
+  color:var(--ovl-dim);background:rgba(255,255,255,.05);border:1px solid var(--ovl-rule);
+  padding:.55rem .7rem;margin:0 0 .5rem;overflow-x:auto;white-space:nowrap;
+  -webkit-overflow-scrolling:touch;user-select:all;-webkit-user-select:all}
+#embedCode{width:100%;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;
+  color:var(--ovl-dim);background:rgba(255,255,255,.05);border:1px solid var(--ovl-rule);
+  border-radius:0;padding:.55rem .7rem;resize:vertical}
+/* SHAPE IS A SHAPE. Four rectangles at the ratios they name -- nothing about "Feed" or
+   "Wide" is legible until you already know what they mean, and a rectangle always is. */
+.aspico{background:none;border:0;padding:.35rem .45rem;min-height:42px;
+  color:var(--ovl-faint);border-bottom:2px solid transparent}
+.aspico svg{width:22px;height:22px;display:block}
+.aspico rect{fill:none;stroke:currentColor;stroke-width:1.6}
+.aspico:hover{color:var(--ovl-ink)}
+.aspico.on{color:var(--ovl-accent);border-bottom-color:var(--ovl-accent)}
+.mlab{display:flex;align-items:center;color:var(--ovl-dim);font-size:.82rem}
+.tico{width:19px;height:19px;fill:currentColor;color:var(--ovl-faint)}
+/* THE CODE, FULL SCREEN */
+#qrFull{display:none;position:fixed;inset:0;z-index:97;background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;flex-direction:column;gap:1.2rem;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#qrFull.on{display:flex}
+#qrFull canvas{width:min(78vw,78vh,460px);height:min(78vw,78vh,460px);
+  image-rendering:pixelated;image-rendering:crisp-edges;background:#fff}
+#qrUrl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.76rem;
+  color:rgba(255,255,255,.66);margin:0;max-width:80vw;text-align:center;word-break:break-all}
 /* THE CODE IS A THING TO POINT A CAMERA AT, so it is dark on light whatever the panel is
    doing around it. An inverted code is a bet on the scanner, and the one moment this has to
    work is somebody holding up a phone in a room nobody controls. The quiet zone is drawn
@@ -924,7 +971,7 @@ label.reset,label.reset span{color:var(--accent) !important;
           <button type="button" class="mopt" data-scheme="dark">Dark</button>
           <button type="button" class="mopt" data-scheme="light">Light</button>
         </span></div>
-      <div class="mrow"><span>Arrangement</span>
+      <div class="mrow"><span>Layout</span>
         <span class="mseg">
           <button type="button" class="mopt on" data-arr="auto">Auto</button>
           <button type="button" class="mopt" data-arr="overlap">Horizontal</button>
@@ -943,28 +990,49 @@ label.reset,label.reset span{color:var(--accent) !important;
         <label class="mrow"><span>Count this showing</span>
           <input type="checkbox" id="mReportOn" autocomplete="off" checked></label>
       </div>
-      <p class="mnote">Send this piece to someone, or get in touch about it.</p>
-      <button type="button" class="mbtn" id="mShare">Share this piece</button>
-      <button type="button" class="mbtn" id="mCopy">Copy the link</button>
-      <p class="mnote" id="qrSay">Or hold a phone up to this.</p>
-      <div id="qrBox" hidden><canvas id="qrC" width="8" height="8" role="img"
-        aria-label="A square code that opens this piece"></canvas></div>
-      <p class="mnote">A clip for social: a title, the piece, and the mark at the end.</p>
-      <div class="mrow"><span>Shape</span>
-        <span class="mseg">
-          <button type="button" class="mopt" data-casp="0.5625">Vertical</button>
-          <button type="button" class="mopt on" data-casp="0.8">Feed</button>
-          <button type="button" class="mopt" data-casp="1">Square</button>
-          <button type="button" class="mopt" data-casp="1.7778">Wide</button>
-        </span></div>
-      <div class="mrow"><span>Length</span>
-        <span class="mseg">
-          <button type="button" class="mopt on" data-clip="15">15s</button>
-          <button type="button" class="mopt" data-clip="30">30s</button>
-          <button type="button" class="mopt" data-clip="60">1 min</button>
-        </span></div>
-      <button type="button" class="mbtn" id="mClipGo"><span class="lab">Export for social media</span></button>
-      <p class="mnote" id="mClipNote"></p>
+      <!-- FEWER WORDS, MORE ACTIONS. This was a page of labelled buttons with two
+           segmented pickers under it, which is a settings screen wearing a share sheet.
+           Four things you can DO, as icons, with the address you are actually sending shown
+           the way Vimeo shows it -- visible, selectable, and copyable without a dialogue --
+           and everything the video export needs folded away until it is asked for. -->
+      <div class="shrow">
+        <!-- NOT THE SHARE GLYPH AGAIN. That one belongs to the icon in the bar that OPENED this
+             drawer; using it here as well would make the same mark mean both "the sharing
+             things" and "one of the sharing things". A plane is the act of sending, which
+             is what this is. -->
+        <button type="button" class="shico" id="mShare" title="Send to…" aria-label="Send to…"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 21l20-9L2 3v7l14 2-14 2v7z"/></svg><span>Send</span></button>
+        <button type="button" class="shico" id="mCopy" title="Copy link" aria-label="Copy link"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.6 13.4a4 4 0 010-5.7l2.8-2.8a4 4 0 015.7 5.7l-1.4 1.4-1.4-1.4 1.4-1.4a2 2 0 10-2.9-2.9l-2.8 2.8a2 2 0 000 2.9l-1.4 1.4zm2.8-2.8a4 4 0 010 5.7l-2.8 2.8a4 4 0 01-5.7-5.7l1.4-1.4 1.4 1.4-1.4 1.4a2 2 0 102.9 2.9l2.8-2.8a2 2 0 000-2.9l1.4-1.4z"/></svg><span>Copy link</span></button>
+        <button type="button" class="shico" id="mQR" title="QR code" aria-label="QR code" aria-expanded="false" aria-controls="qrFull"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zM13 3h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zM13 13h3v3h-3v-3zm5 0h3v3h-3v-3zm-5 5h3v3h-3v-3zm5 0h3v3h-3v-3z"/></svg><span>QR code</span></button>
+        <button type="button" class="shico" id="mEmbed" title="Embed" aria-label="Embed" aria-expanded="false" aria-controls="embedBox"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg><span>Embed</span></button>
+        <button type="button" class="shico" id="mClipOpen" title="Make a clip" aria-label="Make a clip" aria-expanded="false" aria-controls="clipBox"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h10a2 2 0 012 2v1.2l4-2.4v10.4l-4-2.4V16a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z"/></svg><span>Make a clip</span></button>
+      </div>
+      <!-- THE ADDRESS YOU ARE ACTUALLY SENDING. Sharing something without being shown what
+           is being shared is a small act of faith nobody should have to make. -->
+      <p class="shurl"><span id="shUrl"></span></p>
+      <p class="mnote" id="mShareSay">Send this piece to someone.</p>
+      <div id="embedBox" hidden>
+        <p class="mnote">Paste this where the piece should run. It carries its own
+        everything; nothing else has to be uploaded.</p>
+        <textarea id="embedCode" rows="3" readonly spellcheck="false"></textarea>
+        <button type="button" class="mbtn" id="embedCopy"><span class="lab">Copy the embed</span></button>
+      </div>
+      <div id="clipBox" hidden>
+        <div class="mrow"><span class="mlab">Shape</span>
+          <span class="mseg">
+          <button type="button" class="aspico" data-casp="0.5625" title="9:16, vertical" aria-label="9:16, vertical"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="7.0" y="3.0" width="10" height="18"/></svg></button>
+          <button type="button" class="aspico on" data-casp="0.8" title="4:5, feed" aria-label="4:5, feed"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="4.0" width="13" height="16"/></svg></button>
+          <button type="button" class="aspico" data-casp="1" title="1:1, square" aria-label="1:1, square"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.0" y="4.0" width="16" height="16"/></svg></button>
+          <button type="button" class="aspico" data-casp="1.7778" title="16:9, wide" aria-label="16:9, wide"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.0" y="6.5" width="20" height="11"/></svg></button>
+          </span></div>
+        <div class="mrow"><span class="mlab"><svg class="tico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 110 14 7 7 0 010-14zm1 3h-2v5.6l4 2.4 1-1.7-3-1.8V8z"/></svg></span>
+          <span class="mseg">
+            <button type="button" class="mopt on" data-clip="15">15s</button>
+            <button type="button" class="mopt" data-clip="30">30s</button>
+            <button type="button" class="mopt" data-clip="60">1m</button>
+          </span></div>
+        <button type="button" class="mbtn" id="mClipGo"><span class="lab">Export for social media</span></button>
+        <p class="mnote" id="mClipNote"></p>
+      </div>
       <span id="shareLinks"></span>
     </div>
     <div class="mpane" data-pane="about" id="pane-about" role="tabpanel"
@@ -1004,6 +1072,11 @@ label.reset,label.reset span{color:var(--accent) !important;
     </div>
     <div class="seqSay"><span id="seqTitle"></span><span id="seqBy"></span></div>
   </div>
+  <!-- THE CODE, BIG. A code in a panel is a code somebody has to hold a phone very close
+       to; full screen it is a thing you hold UP, which is the only way it was ever going to
+       be used. Tap anywhere to put it away. -->
+  <div id="qrFull" hidden><canvas id="qrC" width="8" height="8" role="img"
+    aria-label="A square code that opens this piece"></canvas><p id="qrUrl"></p></div>
   <div id="titleCard" hidden>
     <div>
       <h2 id="tcTitle">_____ American _____</h2>
@@ -2045,12 +2118,15 @@ function camStart(){
       if(typeof stat==="function") stat("camera");
     },function(err){
       var n=(err&&err.name)||"";
-      fault("The camera did not open",
-            n||String(err&&err.message||err),
-            n==="NotAllowedError"
-              ? "The browser refused, or the permission was declined. It can be given back "
-                +"in the address bar."
-              : "Another app may be holding the camera. Close it and try again.");
+      var why = n==="NotAllowedError"
+        ? "The camera was refused. Allow it in the address bar and hold again."
+        : (n==="NotFoundError" ? "This device has no camera the page can reach."
+                               : "The camera would not open ("+(n||"unknown")+").");
+      /* SAID WHERE IT CAN BE READ. A fault goes to a log that is hidden in the player --
+         which is right for a gallery and useless to somebody standing there wondering
+         whether they pressed the thing hard enough. */
+      if(typeof toast==="function") toast(why,6);
+      fault("The camera did not open", n||String(err&&err.message||err), why);
     });
 }
 /* ONE IMAGE, ITS OWN SHAPE, IN BLACK. Cached per source, because a mark is drawn every
@@ -3692,6 +3768,7 @@ var PIECE={
     { label:"Instagram",                 url:"https://www.instagram.com/2urn_" },
     { label:"Collect or commission a work", url:"https://chamy.xyz/", where:"share" }
   ],
+  embed: true,          /* may this be put in somebody else's page */
   voice: "",                       /* a minute of him on the piece, when it is recorded */
   /* AND A SECOND ONE, IN THE ARTIST. Two recordings do two different jobs: one sits under
      the work and is about the work, and one sits with him and is him talking about having
@@ -4492,7 +4569,7 @@ function menuOpen(tab){
   }
   var sl=document.getElementById("shareLinks");
   if(sl){ sl.innerHTML=linkRow("share"); bindLinks(); }
-  if(typeof qrPaint==="function") qrPaint();
+  if(typeof shFill==="function") shFill();
   if(el.mSound) el.mSound.checked = (V.sndSrc!=="off");
   if(el.mVol && el.sndVol) el.mVol.value = el.sndVol.value;
   if(el.mPlay) el.mPlay.checked = !!running;
@@ -4726,7 +4803,8 @@ function barDrawer(which,on){
     else requestAnimationFrame(function(){ requestAnimationFrame(function(){
       if(el.bar) el.bar.classList.add("open"); }); });
   }
-  if(which==="share" && on && typeof qrPaint==="function") qrPaint();
+  /* the sheet is filled when it opens; the code is only drawn when it is asked for */
+  if(which==="share" && on && typeof shFill==="function"){ shFill(); shFold(null); }
 }
 function barSetOpen(on){ barDrawer("set",on); }
 var PLAY_D="M8 5v14l11-7z", PAUSE_D="M6 5h4v14H6zM14 5h4v14h-4z";
@@ -4999,6 +5077,8 @@ function segPick(attr,val){
 Array.prototype.forEach.call(document.querySelectorAll("[data-casp]"),function(b){
   b.addEventListener("click",function(){ clipAsp=b.getAttribute("data-casp"); segPick("data-casp",clipAsp); });
 });
+/* AND EMBEDDING IS THE WORK'S OWN PERMISSION, not the showing's: a piece that may be put
+   in somebody else's page may be put in any of them, and one that may not, may not. */
 Array.prototype.forEach.call(document.querySelectorAll("[data-clip]"),function(b){
   b.addEventListener("click",function(){ clipSecs=+b.getAttribute("data-clip"); segPick("data-clip",clipSecs); });
 });
@@ -5040,19 +5120,17 @@ if(el.exCover) el.exCover.addEventListener("click",function(){
     "Try again once the piece has drawn a frame."); }
 });
 /* ---- THE CODE ON THE WALL ------------------------------------------------------- */
+function shareUrl(){
+  var u=""; try{ u=(location && location.href) || ""; }catch(e){}
+  return u.replace(/[?&](tune|look|r|k|v)=[^&]*/g,"").replace(/\?$/,"");
+}
 function qrPaint(){
-  var box=el.qrBox, cq=el.qrC, sayer=el.qrSay;
-  if(!box || !cq || !cq.getContext) return;
-  var url=""; try{ url=(location && location.href) || ""; }catch(e){}
+  var cq=el.qrC;
+  if(!cq || !cq.getContext) return false;
+  var url=shareUrl();
   var m = url ? qrMatrix(url) : null;
-  if(!m){
-    box.hidden=true;
-    if(sayer) sayer.textContent="This address is too long to hold up to a phone \u2014 "
-      +"use the link.";
-    return;
-  }
-  if(sayer) sayer.textContent="Or hold a phone up to this.";
-  box.hidden=false;
+  if(!m) return false;
+  if(el.qrUrl) el.qrUrl.textContent=url;
   var n=m.length, quiet=4, S=8, side=(n+quiet*2)*S, r, j;
   cq.width=side; cq.height=side;
   var c=cq.getContext("2d");
@@ -5060,7 +5138,46 @@ function qrPaint(){
   c.fillStyle="#000000";
   for(r=0;r<n;r++) for(j=0;j<n;j++)
     if(m[r][j]) c.fillRect((j+quiet)*S,(r+quiet)*S,S,S);
+  return true;
 }
+/* ---- THE SHARE SHEET ------------------------------------------------------------
+   Five acts, each its own icon, and the address in plain sight the way Vimeo shows it:
+   somebody sending a link should be able to see the link. Everything that needs more than
+   a tap -- the code, the embed, the clip -- folds out of the row rather than sitting under
+   it, so the sheet is four lines tall until it is asked to be more. */
+function shSay(t){ if(el.mShareSay) el.mShareSay.textContent=t; }
+function shFold(which){
+  [["clipBox","mClipOpen"],["embedBox","mEmbed"]].forEach(function(p){
+    var box=el[p[0]], btn=el[p[1]];
+    if(!box||!btn) return;
+    var on=(p[0]===which) && box.hidden;
+    box.hidden=!on;
+    btn.classList.toggle("on",on);
+    btn.setAttribute("aria-expanded", on?"true":"false");
+  });
+}
+function shFill(){
+  if(el.shUrl) el.shUrl.textContent=shareUrl();
+  if(el.embedCode) el.embedCode.value=
+    '<iframe src="'+shareUrl()+'?embed" width="960" height="540" frameborder="0" '
+    +'allow="autoplay; fullscreen" title="'+esc(PIECE.title||"")+'"></iframe>';
+  if(el.mEmbed) el.mEmbed.hidden = (PIECE.embed===false);
+}
+function qrFullShow(on){
+  var b=el.qrFull; if(!b) return;
+  if(on && !qrPaint()){ shSay("This address is too long for a code \u2014 send the link."); return; }
+  b.hidden=!on; b.classList.toggle("on",!!on);
+  if(el.mQR) el.mQR.setAttribute("aria-expanded", on?"true":"false");
+}
+if(el.qrFull) el.qrFull.addEventListener("click",function(){ qrFullShow(false); });
+if(el.mQR) el.mQR.addEventListener("click",function(){ qrFullShow(el.qrFull.hidden); });
+if(el.mEmbed) el.mEmbed.addEventListener("click",function(){ shFold("embedBox"); });
+if(el.mClipOpen) el.mClipOpen.addEventListener("click",function(){ shFold("clipBox"); });
+if(el.embedCopy) el.embedCopy.addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(el.embedCode.value);
+       el.embedCopy.innerHTML='<span class="lab">Copied</span>'; }
+  catch(e){ el.embedCode.select&&el.embedCode.select(); }
+});
 /* The button says which of the three things it is: idle, filling, or holding a finished
    file that wants one more tap. Nothing else in this panel moves while it renders. */
 function clipBtn(state,label,pct){
@@ -5180,14 +5297,17 @@ document.addEventListener("change",function(e){
   if(e.target && e.target.id==="mReportOn") reportSetOut(!e.target.checked);
 });
 if(el.mShare) el.mShare.addEventListener("click",function(){
-  var d={title:"_____ American _____", text:"A real-time piece by Dimitry Sa\u00efd Chamy",
-         url:location.href};
+  var d={title:PIECE.title||document.title,
+         text:RIG.anon ? "" : ((PIECE.medium||"")+" by "+(PIECE.artist||"")),
+         url:shareUrl()};
   if(navigator.share) navigator.share(d).catch(function(){});
   else if(el.mCopy) el.mCopy.click();
 });
 if(el.mCopy) el.mCopy.addEventListener("click",function(){
-  try{ navigator.clipboard.writeText(location.href); el.mCopy.textContent="Link copied"; }
-  catch(e){ el.mCopy.textContent="Copy failed \u2014 use the address bar"; }
+  /* the LABEL never changes -- an icon that renames itself stops being the same control.
+     What happened is said underneath, where the rest of this sheet says things. */
+  try{ navigator.clipboard.writeText(shareUrl()); shSay("Link copied."); }
+  catch(e){ shSay("Copy it from the address above."); }
 });
 if(el.faultClose) el.faultClose.addEventListener("click",function(){
   el.faults.hidden=true; document.body.classList.remove("owning");
@@ -5214,6 +5334,9 @@ function quickItems(){
       ?"M6 5h4v14H6zM14 5h4v14h-4z":"M8 5v14l11-7z"),
     go:function(){ var g=!running; setRunning(g);
       if(g && V.sndSrc==="track" && !snd.on) sndStart(); else if(!g) sndStop(); } });
+  out.push({ label:(cam.on?"Back to black":"Put the room behind it"),
+    icon:"M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z",
+    go:function(){ if(cam.on) camStop(); else camStart(); } });
   out.push({ label:"Save this frame",
     icon:"M9 4l-1.5 2H4v14h16V6h-3.5L15 4H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z",
     go:function(){ try{ saveStill(); }catch(e){ fault("The frame could not be saved",
