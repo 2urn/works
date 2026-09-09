@@ -106,11 +106,37 @@
 }
 body.ovl-light{
   --ovl-bg:rgba(250,250,248,.86); --ovl-ink:#101012; --ovl-dim:#4A4E55;
-  --ovl-faint:#5F646B; --ovl-rule:#D6D6D2; --ovl-accent:#8A5200;   /* 5.71:1 on paper */
+  /* AND A RULE YOU CAN SEE. #D6D6D2 on this ground is 1.29:1 -- a hairline that exists in
+     the file and not on the screen, which made every button in the panel read as a word
+     floating in space rather than a thing to press. The dark theme's rule carries 1.9:1
+     against its own ground; this one now carries the same. */
+  --ovl-faint:#5F646B; --ovl-rule:#A9A9A3; --ovl-accent:#8A5200;   /* 5.71:1 on paper */
   --ovl-shade:rgba(255,255,255,.66);
 }
 @supports (color:color-mix(in srgb,red 50%,blue)){
   body.ovl-light{ --ovl-accent:color-mix(in srgb, var(--accent) 62%, #000); }
+}
+/* BUT NOT THE THINGS STANDING ON THE WORK. Light mode is for the PANEL -- a sheet of
+   paper you read -- and the panel is opaque, so paper is a fair ground for it. The bar,
+   the two marks, the quick menu and the guide's arrows are not on paper. They are on the
+   piece, and the piece is always black.
+
+   Given the light tokens they took a WHITE scrim and NEAR-BLACK ink: readable at the very
+   bottom where the scrim is solid, invisible higher up where it fades into the work, and
+   a grey smear across the bottom of the piece the whole time. He is right that the
+   gradient is the problem, but taking it away alone would leave black icons on black.
+   They keep the dark treatment in both themes instead: no smear, and ink that reads
+   against what is actually behind it.
+
+   This is the same rule the stylesheet already states one way -- the work stays black,
+   the interface does not have to -- said the other way: whatever sits ON the work is
+   still the work's neighbour, and takes the work's contrast. */
+body.ovl-light #bar, body.ovl-light #barLay, body.ovl-light #barTime,
+body.ovl-light .credit, body.ovl-light .sig, body.ovl-light #quick,
+body.ovl-light #keyPoint, body.ovl-light #toastMsg{
+  --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8; --ovl-faint:#8B9199;
+  --ovl-rule:#26262A; --ovl-shade:rgba(0,0,0,.72);
+  --ovl-accent:var(--accent);
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--void);color:var(--ink);
@@ -6403,6 +6429,19 @@ if(el.sigBtn) el.sigBtn.addEventListener("click",function(){
      And each closes what it opened, for the same reason the other does. */
   var open=el.menu && !el.menu.hidden;
   if(open) menuShut(); else menuOpen("work");
+});
+/* AND THE WORK IS THE WAY OUT. The panel covers the top of the screen and the piece keeps
+   playing underneath it, so the piece is the obvious thing to touch to get back to it --
+   and touching it did nothing, which left the close button as the only exit on a phone
+   where it sits at the far corner. Anywhere outside the panel now closes it. The two
+   marks are excluded because they toggle it themselves: without that, the tap that opens
+   the panel would bubble up here and shut it in the same gesture. */
+document.addEventListener("click", function(e){
+  if(!el.menu || el.menu.hidden) return;
+  if(!e.target || !e.target.closest) return;
+  if(e.target.closest("#menu")) return;
+  if(e.target.closest(".sig,.credit")) return;
+  menuShut();
 });
 /* FIFTEEN SECONDS, SHAPED FOR A FEED. 4:5 rather than 9:16 on purpose: it is the tallest
    ratio Instagram shows in full in the feed, and it has almost none of the danger zones a
