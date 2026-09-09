@@ -6630,10 +6630,13 @@ function keyPoint(pins){
        is centred, so on a wide screen the two sit a hundred pixels apart -- and breaking
        the leader there does not read as one run interrupted, it reads as a six-pixel stub
        under a name that is nowhere near it. On a phone, where the bar reaches the edge,
-       they are all but collinear and the break is exactly right. So the geometry decides:
-       within half an icon of each other, break; otherwise the gear keeps its own leader. */
+       they are all but collinear and the break is exactly right -- he has confirmed the
+       picker sits directly above the gear there. So the geometry decides: within one icon
+       of each other, break; otherwise the gear keeps its own leader. One icon rather than
+       half of one because "above" on a phone need not be above to the pixel, and the two
+       cases are 126px apart on the wide screen, nowhere near either threshold. */
     if(p.at==="#bSet" && pLay && pLay.rect.bottom < p.rect.top
-       && Math.abs((pLay.rect.left+pLay.rect.width/2)-x) < p.rect.width*0.5){
+       && Math.abs((pLay.rect.left+pLay.rect.width/2)-x) < p.rect.width){
       /* the continuation: it starts under the picker, not under the name */
       lead(x, pLay.rect.bottom+4, p.rect.top-4-(pLay.rect.bottom+4), false);
       var n2=name(p.say);
