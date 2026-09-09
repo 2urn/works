@@ -912,6 +912,13 @@ body.keyopen #barLay,body.keyopen #bRec,body.keyopen #barTime{pointer-events:non
 .klead::after{content:"";position:absolute;left:-2.5px;bottom:-1px;
   width:6px;height:6px;background:var(--ovl-accent);
   clip-path:polygon(50% 100%,0 0,100% 0)}
+/* A LEADER THAT RUNS ACROSS. His signature stands in the top corner and everything the
+   guide has to SAY is underneath it -- so a name hanging below the mark was taking a line
+   out of the help text to say two words. Turned on its side it takes none: the name and
+   its arrow sit beside the mark on one line. */
+.klead.h{height:1px;background:var(--ovl-accent)}
+.klead.h::after{left:auto;right:-1px;bottom:-2.5px;
+  clip-path:polygon(100% 50%,0 0,0 100%)}
 .kname{position:absolute;font-size:.72rem;font-weight:600;letter-spacing:.02em;
   color:var(--ovl-ink);white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.95);
   transform:translateY(-100%);padding-bottom:0;line-height:1.15}
@@ -6472,14 +6479,48 @@ function keyPoint(pins){
      actually just drawn, and it scrolls if that gap is tight. */
   keyBox=[8, window.innerHeight-8];
   /* the two marks stand alone in corners, so their names sit on whichever side has room */
+  /* THE NAME COMES OFF THE SIDE OF THE MARK, NOT OUT FROM UNDER IT. Centred under a
+     leader and dropped eighteen pixels clear, "Main menu" read as a caption floating in
+     the corner rather than as a label ON his signature. It now sits to the LEFT of its
+     arrow -- the same relationship every name in the bar already has -- and its baseline
+     lands on the bottom edge of the mark, which is where CHAMY ends. Two marks, two
+     corners: the one at bottom-left mirrors it, so its name runs right of the arrow and
+     sits on the top edge instead. */
+  /* MEASURED OFF THE ARTWORK, not guessed at. The signature is a lockup, not a line of
+     type: DIMITRY runs across the top, SAID is turned on its side under the Y, and CHAMY
+     runs down the right. Scanning the mask for ink puts Dimitry's baseline -- the D
+     through the R, before the Y drops -- at 0.2105 of the box height. That is the line the
+     arrow arrives on, so it points at a letter rather than at a rectangle. */
+  var NAME_BASE=0.2105;
+  function leadH(x,y,w){
+    var d=document.createElement("div");
+    d.className="klead h";
+    d.style.left=Math.round(x)+"px"; d.style.top=Math.round(y)+"px";
+    d.style.width=Math.max(8,Math.round(w))+"px"; d.style.height="1px";
+    L.appendChild(d); return d;
+  }
   pins.filter(function(p){ return corner[p.at]; }).forEach(function(p){
     var x=p.rect.left+p.rect.width/2, len=Math.round(step*0.8);
-    var n=name(p.say), y;
-    if(p.below){ lead(x, p.rect.bottom+4, len, true); y=p.rect.bottom+4+len+18; }
-    else       { lead(x, p.rect.top-4-len, len, false); y=p.rect.top-4-len; }
+    var n=name(p.say), y, left;
+    var w0=n.getBoundingClientRect().width;
+    if(p.below){
+      /* HIS NAME, POINTED AT SIDEWAYS. The arrow runs in from the left and lands on
+         Dimitry's baseline; the name sits to the left of it, on the same line. Nothing is
+         taken from the column of help text below. */
+      y=p.rect.top+p.rect.height*NAME_BASE;
+      var lx=Math.max(8+w0+6, p.rect.left-6-len);
+      leadH(lx, y, p.rect.left-2-lx);
+      n.style.top=Math.round(y+3)+"px";            /* baseline on that same line */
+      n.style.left=Math.round(Math.max(8, lx-6-w0))+"px";
+      return;
+    }
+    /* the wordmark in the other corner keeps its upright arrow: there is nothing under it
+       to make room for, and a sideways one would run into the bar */
+    lead(x, p.rect.top-4-len, len, false);
+    y=p.rect.top-3; left=x+5;
     n.style.top=Math.round(y)+"px";
     var w=n.getBoundingClientRect().width;
-    n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, x-w/2)))+"px";
+    n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, left)))+"px";
   });
   var tops=[], bots=[];
   Array.prototype.forEach.call(L.querySelectorAll(".kname"),function(n){
