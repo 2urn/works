@@ -1271,6 +1271,8 @@ input[type=text]:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 select{font:inherit;font-size:.77rem;background:var(--panel);color:var(--ink);
   border:1px solid var(--rail);border-radius:0;padding:.5rem;min-height:44px}
 select:focus-visible{outline:2px solid var(--live);outline-offset:1px}
+.decks.settling .deck{transition:none}
+@media (prefers-reduced-motion:reduce){ .deck{transition:none} }
 .deck.drag{opacity:.5;outline:1px solid var(--accent);outline-offset:-1px}
 .decks.dragging .dgrip{cursor:grabbing}
 /* THE TRIANGLE IS THE STATE, so it has to be seen. It inherited the heading's .64rem and
@@ -3576,6 +3578,7 @@ if(DECKS) DECKS.addEventListener("click", function(e){
   if(b.classList.contains("dtog")){
     var shut=deck.classList.toggle("shut");
     b.setAttribute("aria-expanded", shut?"false":"true");
+    deckPlace(false);                 /* it keeps its column -- that is the whole point */
     savePanels(); return;
   }
   if(b.dataset.mv){
@@ -3584,6 +3587,7 @@ if(DECKS) DECKS.addEventListener("click", function(e){
     else if(b.dataset.mv==="down" && at<all.length-1){
       if(all[at+2]) DECKS.insertBefore(deck, all[at+2]); else DECKS.appendChild(deck);
     }
+    deckPlace(true);                  /* the order changed, so the deal changes with it */
     savePanels(); return;
   }
 });
@@ -3609,16 +3613,74 @@ if(DECKS) DECKS.addEventListener("click", function(e){
     if(!over||over===drag||over.parentNode!==DECKS) return;
     var r=over.getBoundingClientRect();
     DECKS.insertBefore(drag, ((e.clientY-r.top)>r.height/2) ? over.nextSibling : over);
+    deckPlace(true);
   });
   function stop(){
     if(!drag) return;
     drag.classList.remove("drag"); DECKS.classList.remove("dragging");
-    drag=null; savePanels();
+    drag=null; deckPlace(true); savePanels();
   }
   DECKS.addEventListener("pointerup", stop);
   DECKS.addEventListener("pointercancel", stop);
 })();
+/* ---- placing the decks ------------------------------------------------------------
+   Dealt to the shortest column, and then left alone. The reassign flag is the whole
+   point: it is true when the ORDER or the WIDTH changed, and false when a card merely
+   opened or shut. Opening a card moves the cards below it in its own column and nothing
+   else on the screen. */
+var DCOL=[], dPlacing=false, dTimer=null;
+function deckPlace(reassign){
+  if(!DECKS || dPlacing) return;
+  var W=DECKS.clientWidth; if(!W) return;
+  dPlacing=true;
+  var gap=parseFloat(getComputedStyle(DECKS).columnGap); if(!(gap>0)) gap=14;
+  var n=Math.max(1, Math.floor((W+gap)/(248+gap)));
+  var w=Math.floor((W-(n-1)*gap)/n);
+  var list=deckList(), i;
+  /* measured at the width they will be drawn at, or every height is the wrong height */
+  list.forEach(function(d){ d.style.position="absolute"; d.style.width=w+"px"; });
+  var held=0; DCOL.forEach(function(c){ held+=c.length; });
+  if(reassign || DCOL.length!==n || held!==list.length){
+    var h=[]; DCOL=[];
+    for(i=0;i<n;i++){ DCOL.push([]); h.push(0); }
+    list.forEach(function(d){
+      var k=0; for(var j=1;j<n;j++) if(h[j]<h[k]) k=j;
+      DCOL[k].push(d); h[k]+=d.offsetHeight+gap;
+    });
+  }
+  var tall=0;
+  DCOL.forEach(function(col,k){
+    var y=0;
+    col.forEach(function(d){
+      d.style.left=(k*(w+gap))+"px";
+      d.style.top=y+"px";
+      y+=d.offsetHeight+gap;
+    });
+    if(y>tall) tall=y;
+  });
+  DECKS.style.height=Math.max(0,tall-gap)+"px";
+  dPlacing=false;
+}
+function deckSoon(reassign){
+  clearTimeout(dTimer);
+  dTimer=setTimeout(function(){ deckPlace(reassign); },0);
+}
 loadPanels();
+if(DECKS){
+  /* the first pass lands without animating, because nothing moved -- it arrived */
+  DECKS.classList.add("settling");
+  deckPlace(true);
+  setTimeout(function(){ DECKS.classList.remove("settling"); },60);
+  /* A CARD CAN CHANGE HEIGHT WITHOUT ANYBODY PRESSING ANYTHING -- a textarea grows, a
+     hint appears, a font finally arrives. Watching the cards catches all of it, and the
+     placing flag keeps our own width write from waking the observer again. */
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(function(){ if(!dPlacing) deckSoon(false); });
+    deckList().forEach(function(d){ ro.observe(d); });
+  }
+  window.addEventListener("resize",function(){ deckSoon(true); });
+  window.addEventListener("orientationchange",function(){ deckSoon(true); });
+}
 
 /* ---- rendering out --------------------------------------------------------------
    OFF THE CLOCK, not a screen grab: every frame is a pure function of the frame number
