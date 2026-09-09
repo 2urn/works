@@ -972,9 +972,17 @@ body.keyopen #barLay,body.keyopen #bRec,body.keyopen #barTime{pointer-events:non
 #keyMid b{color:var(--ovl-ink);font-weight:600}
 #keyMid .kg{color:var(--ovl-accent);font-weight:600;text-transform:uppercase;
   font-size:.7rem;letter-spacing:.05em}
+/* AND THE SENTENCES GET SOMETHING TO SIT ON. They were set straight onto the piece,
+   which is fine on the black between lines and unreadable the moment a formation is
+   behind them -- in the room, with a camera image back there, they are simply gone. The
+   ARROWS still float, because they have to point at things out in the open; only the
+   block of text takes a ground, and it takes the same one every other panel takes. */
 .keyin{position:absolute;left:0;right:0;z-index:3;overflow-y:auto;
   overscroll-behavior:contain;max-width:34rem;margin:0 auto;
-  padding:0 1.4rem calc(1rem + env(safe-area-inset-bottom))}
+  background:var(--ovl-bg);
+  backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);
+  border-top:1px solid var(--ovl-rule);border-bottom:1px solid var(--ovl-rule);
+  padding:.9rem 1.4rem calc(.9rem + env(safe-area-inset-bottom))}
 #keyFull{align-items:flex-start}
 /* SIDEWAYS, THE TWO LAYERS STAND APART. The names run LEFT from icons at the right edge, so
    the sentences take the left half and the diagram keeps the right. Centred, they would be
@@ -6672,27 +6680,43 @@ function keyPoint(pins){
      and a second one picks up below that button and carries on to Settings. The two names
      stay stacked one above the other in the same order as the two buttons, so the reading
      order of the names is the reading order of the things. */
-  var pLay=null;
-  bar.forEach(function(p){ if(p.at==="#barLay") pLay=p; });
+  var pLay=null, pSet=null;
+  bar.forEach(function(p){ if(p.at==="#barLay") pLay=p; if(p.at==="#bSet") pSet=p; });
+  /* ONLY WHEN THEY ACTUALLY LINE UP. The picker is fixed to the right edge and the bar is
+     centred, so on a wide screen the two sit a hundred pixels apart, and breaking the
+     leader there reads as a stub under a name nowhere near it. On a phone the bar reaches
+     the edge and they are all but collinear, which is where this belongs. */
+  var pair = !!(pLay && pSet && pLay.rect.bottom < pSet.rect.top
+    && Math.abs((pLay.rect.left+pLay.rect.width/2)-(pSet.rect.left+pSet.rect.width/2))
+       < pSet.rect.width);
+  /* AND THE NAMES GO IN THE ORDER THE BUTTONS DO. The row is sorted left to right and
+     these two are within a few pixels of each other, so which one ended up on top was
+     whatever the sort happened to decide -- and it decided Settings, above a picker that
+     is above the gear. Moved to the end of the row the picker takes the top slot, and
+     Text Layout sits over Settings the way the picker sits over the gear. */
+  if(pair) bar=bar.filter(function(p){ return p!==pLay; }).concat([pLay]);
+  var setFoot=null;
   bar.forEach(function(p,i){
     var x=p.rect.left+p.rect.width/2;
     var top=Math.max(8, base - 10 - (i+1)*step);
-    /* ONLY WHEN THEY ACTUALLY LINE UP. The picker is fixed to the right edge and the bar
-       is centred, so on a wide screen the two sit a hundred pixels apart -- and breaking
-       the leader there does not read as one run interrupted, it reads as a six-pixel stub
-       under a name that is nowhere near it. On a phone, where the bar reaches the edge,
-       they are all but collinear and the break is exactly right -- he has confirmed the
-       picker sits directly above the gear there. So the geometry decides: within one icon
-       of each other, break; otherwise the gear keeps its own leader. One icon rather than
-       half of one because "above" on a phone need not be above to the pixel, and the two
-       cases are 126px apart on the wide screen, nowhere near either threshold. */
-    if(p.at==="#bSet" && pLay && pLay.rect.bottom < p.rect.top
-       && Math.abs((pLay.rect.left+pLay.rect.width/2)-x) < p.rect.width){
-      /* the continuation: it starts under the picker, not under the name */
-      lead(x, pLay.rect.bottom+4, p.rect.top-4-(pLay.rect.bottom+4), false);
+    /* ONE RUN OF LINE FOR THE PAIR, IN TWO PIECES. The lower of the two names gets no
+       line of its own -- it would be a stub pointing at nothing, which is what was on the
+       screen. The line starts under BOTH names, comes down to the picker, stops, and
+       picks up again underneath it to land on the gear. */
+    if(pair && p===pSet){
       var n2=name(p.say);
       n2.style.top=Math.round(top)+"px";
       n2.style.left=Math.max(8, x-n2.getBoundingClientRect().width)+"px";
+      setFoot=top+5;
+      return;
+    }
+    if(pair && p===pLay){
+      var from=(setFoot===null?top:setFoot);
+      lead(x, from, pLay.rect.top-4-from, false);
+      lead(x, pLay.rect.bottom+4, pSet.rect.top-4-(pLay.rect.bottom+4), false);
+      var n3=name(p.say);
+      n3.style.top=Math.round(top)+"px";
+      n3.style.left=Math.max(8, x-n3.getBoundingClientRect().width)+"px";
       return;
     }
     lead(x, top, p.rect.top-4-top, false);
