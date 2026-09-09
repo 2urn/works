@@ -6555,11 +6555,11 @@ function keyPins(){
     {at:"#bSound", say:"Sound"},
     {at:"#bFull",  say:"Full Screen"},
     {at:"#bShot",  say:"<b>Camera</b>"},
-    {at:"#bRec",   say:"<b>Record</b> What You See"},
+    {at:"#bRec",   say:"<b>Screen Record</b>"},
     {at:"#bShare", say:"<b>Share</b>"},
     {at:"#bKey",   say:"This Guide"},
     {at:"#bSet",   say:"Settings"},
-    {at:"#barLay", say:"How The Words Are <b>Arranged</b>"}
+    {at:"#barLay", say:"<b>Text Layout</b>"}
   ];
   return P.filter(function(p){
     var e=document.querySelector(p.at);
@@ -6608,6 +6608,12 @@ function keyPoint(pins){
      highest thing in the group, which is what makes the steps strictly increasing; the
      leaders are simply different lengths, which is what a callout diagram looks like. */
   var base=Math.min.apply(null, bar.map(function(p){ return p.rect.top; }));
+  /* AND THE ROW HAS A FOOT. Every arrow over the bar stops four pixels above its own
+     icon, and the icons share a top -- so those seven tips sit on one line. The wordmark
+     in the corner does not share that top, so its arrow was landing twenty pixels lower
+     than the rest and the row of tips had one out of place. It stops on the same line
+     now; the mark it points at is just below it, which is all a callout has to do. */
+  var barFoot=Math.max.apply(null, bar.map(function(p){ return p.rect.top; }))-4;
   bar.forEach(function(p,i){
     var x=p.rect.left+p.rect.width/2;
     var top=Math.max(8, base - 10 - (i+1)*step);
@@ -6688,7 +6694,7 @@ function keyPoint(pins){
        beside it for a word, and a sideways arrow would run into the icon row. So it reads
        downward instead: the name sits directly ABOVE its arrow, the arrow points down,
        and the mark is under it. Same three things in the same order, turned a quarter. */
-    var lt=p.rect.top-4-len;
+    var lt=(isFinite(barFoot)?barFoot:p.rect.top-4)-len;
     lead(x, lt, len, false);
     y=lt-3; left=x-w0/2;
     n.style.top=Math.round(y)+"px";
