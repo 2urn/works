@@ -1259,6 +1259,8 @@ input[type=text]:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 select{font:inherit;font-size:.77rem;background:var(--panel);color:var(--ink);
   border:1px solid var(--rail);border-radius:0;padding:.5rem;min-height:44px}
 select:focus-visible{outline:2px solid var(--live);outline-offset:1px}
+.deck.drag{opacity:.5;outline:1px solid var(--accent);outline-offset:-1px}
+.decks.dragging .dgrip{cursor:grabbing}
 .deck.shut h2 .dtog::before{content:"\25B8 "}
 .deck.shut{gap:0}
 .deck.shut > *:not(h2){display:none}
@@ -3566,6 +3568,37 @@ if(DECKS) DECKS.addEventListener("click", function(e){
     savePanels(); return;
   }
 });
+/* DRAGGING A CARD. Only the grip starts it -- see the note on .dgrip -- and the drop
+   target is decided by which card the pointer is actually over rather than by arithmetic
+   on the pointer's travel, because in a column layout the cards move under the finger as
+   soon as the first swap happens. Past the halfway line of a card means after it. */
+(function(){
+  if(!DECKS) return;
+  var drag=null;
+  DECKS.addEventListener("pointerdown", function(e){
+    var g=e.target&&e.target.closest?e.target.closest(".dgrip"):null; if(!g) return;
+    var deck=g.closest("[data-deck]"); if(!deck) return;
+    drag=deck; deck.classList.add("drag"); DECKS.classList.add("dragging");
+    try{ g.setPointerCapture(e.pointerId); }catch(err){}
+    e.preventDefault();
+  });
+  DECKS.addEventListener("pointermove", function(e){
+    if(!drag) return;
+    e.preventDefault();
+    var n=document.elementFromPoint(e.clientX,e.clientY);
+    var over=n&&n.closest?n.closest("[data-deck]"):null;
+    if(!over||over===drag||over.parentNode!==DECKS) return;
+    var r=over.getBoundingClientRect();
+    DECKS.insertBefore(drag, ((e.clientY-r.top)>r.height/2) ? over.nextSibling : over);
+  });
+  function stop(){
+    if(!drag) return;
+    drag.classList.remove("drag"); DECKS.classList.remove("dragging");
+    drag=null; savePanels();
+  }
+  DECKS.addEventListener("pointerup", stop);
+  DECKS.addEventListener("pointercancel", stop);
+})();
 loadPanels();
 
 /* ---- rendering out --------------------------------------------------------------
@@ -5002,17 +5035,71 @@ function toast(msg,secs){
   clearTimeout(toastT);
   toastT=setTimeout(function(){ b.classList.remove("on"); },(secs||3.4)*1000);
 }
+/* THE CLIP OPENS THE WAY THE PAGE OPENS. A recorded video began on a line of type while
+   the page itself begins on the duck-rabbit, so the two openings were different works.
+   It is the SAME drawing -- SEQ_DUCK, the file the loading sequence runs -- painted here
+   rather than masked, because a canvas has no mask-image.
+
+   HIS ARTWORK IS NOT RECOLOURED ON THE WAY PAST. The SVG is black-filled; drawing it on
+   black would draw nothing. So it goes to an offscreen canvas whole, and source-in fills
+   white THROUGH its own alpha -- a matte, the same thing the stylesheet does, and the
+   path is never touched. If the image has not decoded yet the card is simply the type it
+   always was, because a title card that waits is worse than one that is plain. */
+var cardDuck=null, cardDuckOK=false;
+(function(){
+  try{
+    var im=new Image();
+    im.onload=function(){ cardDuckOK=true; };
+    im.onerror=function(){ cardDuckOK=false; };
+    im.src=SEQ_DUCK;
+    cardDuck=im;
+  }catch(e){}
+})();
+/* AND IT IS SIZED TO THE INK, NOT TO THE FILE. Every mark in the sequence is drawn on one
+   shared 1920 registration frame -- that frame IS the composition, which is why the loader
+   uses the square whole -- so the duck-rabbit's own ink is only 28.33% of the height of
+   the file, sitting between y 480 and y 1024 of 1920. Asking for a box 20% of the frame
+   therefore asked for a drawing 5.7% of it, which is the thumbnail the first render came
+   back with. These two numbers are the same ones seqFill() rides its bar on. */
+var MARK_INK=0.2833, MARK_TOP=0.25;      /* of the file: the ink's height, and where it starts */
+function cardMark(W,H,inkH){
+  if(!cardDuckOK||!cardDuck) return 0;
+  var nh=cardDuck.naturalHeight||1, nw=cardDuck.naturalWidth||nh;
+  var bh=Math.round(inkH/MARK_INK), bw=Math.round(bh*(nw/nh));
+  /* a wide drawing in a narrow frame is held back to the frame, not cropped by it */
+  if(bw>W*0.86){ bh=Math.round(bh*(W*0.86)/bw); bw=Math.round(W*0.86); }
+  if(bw<1||bh<1) return 0;
+  try{
+    var oc=document.createElement("canvas"); oc.width=bw; oc.height=bh;
+    var o=oc.getContext("2d");
+    o.drawImage(cardDuck,0,0,bw,bh);
+    o.globalCompositeOperation="source-in";
+    o.fillStyle="#FFFFFF"; o.fillRect(0,0,bw,bh);
+    return oc;
+  }catch(e){ return 0; }
+}
 function clipCard(kind,W,H){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.fillStyle="#000"; ctx.fillRect(0,0,W,H);
   if(kind==="title"){
+    /* the drawing sits above the title, and the type drops to make room for it. With no
+       drawing the type stays where it always sat, dead centre. */
+    var oc=cardMark(W,H,H*0.13);
+    var base=oc ? H*0.635 : H*0.50;
+    if(oc){
+      /* placed by the bottom of the INK, so the empty lower half of the frame hangs
+         behind the type instead of pushing the drawing up the card */
+      var inkBot=base-H*0.115;
+      ctx.drawImage(oc, Math.round(W/2-oc.width/2),
+                        Math.round(inkBot-(MARK_TOP+MARK_INK)*oc.height));
+    }
     ctx.textAlign="center"; ctx.textBaseline="alphabetic";
     ctx.fillStyle="#FFFFFF";
     ctx.font=fontFor(Math.round(H*0.070));
-    ctx.fillText(document.title, W/2, H*0.50);
+    ctx.fillText(document.title, W/2, base);
     ctx.fillStyle="rgba(255,255,255,.5)";
     ctx.font='500 '+Math.round(H*0.024)+'px "Archivo",system-ui,-apple-system,sans-serif';
-    if(!RIG.anon) ctx.fillText("Dimitry Sa\u00efd Chamy \u00b7 2026", W/2, H*0.50+H*0.055);
+    if(!RIG.anon) ctx.fillText("Dimitry Sa\u00efd Chamy \u00b7 2026", W/2, base+H*0.055);
     ctx.textAlign="start";
   } else {
     burnMark(ctx,W,H,0.61);
