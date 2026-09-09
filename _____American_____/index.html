@@ -131,8 +131,20 @@ body.ovl-light{
    This is the same rule the stylesheet already states one way -- the work stays black,
    the interface does not have to -- said the other way: whatever sits ON the work is
    still the work's neighbour, and takes the work's contrast. */
-body.ovl-light #bar, body.ovl-light #barLay, body.ovl-light #barTime,
-body.ovl-light .credit, body.ovl-light .sig, body.ovl-light #quick,
+/* AND THE TEST IS "DOES IT BRING ITS OWN GROUND", NOT "IS IT NEAR THE BAR". The first
+   go at this put the dark tokens on #bar -- but the settings and share drawers are
+   CHILDREN of #bar and each paints itself a sheet of paper with --ovl-bg, so they
+   inherited white ink onto white paper and every label in the settings drawer vanished.
+   Same mistake with #quick, which is also a paper panel.
+
+   So: #bar takes only the shade, because the shade IS the gradient and the drawers do not
+   read it. The full dark set goes to the things that paint no ground at all and therefore
+   have the WORK behind them -- the icon row, the pickers, the two marks, the guide's
+   arrows and the toast. Anything with a background of its own is a panel, and panels
+   follow the theme. */
+body.ovl-light #bar{ --ovl-shade:rgba(0,0,0,.72); }
+body.ovl-light .barin, body.ovl-light #barLay, body.ovl-light #barTime,
+body.ovl-light .credit, body.ovl-light .sig,
 body.ovl-light #keyPoint, body.ovl-light #toastMsg{
   --ovl-ink:#FFFFFF; --ovl-dim:#9AA0A8; --ovl-faint:#8B9199;
   --ovl-rule:#26262A; --ovl-shade:rgba(0,0,0,.72);
