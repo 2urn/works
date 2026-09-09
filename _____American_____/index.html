@@ -6614,9 +6614,33 @@ function keyPoint(pins){
      than the rest and the row of tips had one out of place. It stops on the same line
      now; the mark it points at is just below it, which is all a callout has to do. */
   var barFoot=Math.max.apply(null, bar.map(function(p){ return p.rect.top; }))-4;
+  /* TWO BUTTONS, ONE RUN OF ARROW. The layout picker only appears in the room, and when
+     it does it sits between the labels and the gear -- so the gear's leader ran the whole
+     way down PAST it, which reads as a line ignoring a button rather than a line arriving
+     at one. His fix, and it is the right one: the arrow comes down to Text Layout, stops,
+     and a second one picks up below that button and carries on to Settings. The two names
+     stay stacked one above the other in the same order as the two buttons, so the reading
+     order of the names is the reading order of the things. */
+  var pLay=null;
+  bar.forEach(function(p){ if(p.at==="#barLay") pLay=p; });
   bar.forEach(function(p,i){
     var x=p.rect.left+p.rect.width/2;
     var top=Math.max(8, base - 10 - (i+1)*step);
+    /* ONLY WHEN THEY ACTUALLY LINE UP. The picker is fixed to the right edge and the bar
+       is centred, so on a wide screen the two sit a hundred pixels apart -- and breaking
+       the leader there does not read as one run interrupted, it reads as a six-pixel stub
+       under a name that is nowhere near it. On a phone, where the bar reaches the edge,
+       they are all but collinear and the break is exactly right. So the geometry decides:
+       within half an icon of each other, break; otherwise the gear keeps its own leader. */
+    if(p.at==="#bSet" && pLay && pLay.rect.bottom < p.rect.top
+       && Math.abs((pLay.rect.left+pLay.rect.width/2)-x) < p.rect.width*0.5){
+      /* the continuation: it starts under the picker, not under the name */
+      lead(x, pLay.rect.bottom+4, p.rect.top-4-(pLay.rect.bottom+4), false);
+      var n2=name(p.say);
+      n2.style.top=Math.round(top)+"px";
+      n2.style.left=Math.max(8, x-n2.getBoundingClientRect().width)+"px";
+      return;
+    }
     lead(x, top, p.rect.top-4-top, false);
     var n=name(p.say);
     n.style.top=Math.round(top)+"px";
