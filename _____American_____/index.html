@@ -964,8 +964,17 @@ body.ui .barin > .ico:nth-child(6){transition-delay:.225s}
   letter-spacing:.05em}
 #keyList dd{margin:0;font-size:.86rem;line-height:1.45;color:var(--ovl-dim)}
 #keyList dd b{color:var(--ovl-ink);font-weight:600}
-#keyShut{display:block;width:100%;margin-top:1.1rem;min-height:48px;
-  background:none;border:1px solid var(--ovl-rule);color:var(--ovl-ink);
+/* THE WAY OUT DOES NOT SCROLL AWAY. On a short screen -- a small phone, or any phone on
+   its side -- the sentences are longer than the room left for them, and the Close button
+   went off the bottom of the box with them. Measured before this: 117px over on a
+   320x568 and 129px with the phone sideways, with the button unreachable in both. The
+   step shrinks first to give the words what room there is, and this catches whatever is
+   still left over: the button sits on the floor of the block whatever the block is doing.
+   A scroll is a nuisance; a way out you cannot reach is a trap. */
+#keyShut{position:sticky;bottom:0;z-index:2;
+  display:block;width:100%;margin-top:1.1rem;min-height:48px;
+  background:var(--ovl-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--ovl-rule);color:var(--ovl-ink);
   font:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
 #keyShut:hover{border-color:var(--ovl-accent);color:var(--ovl-accent)}
 /* THE CODE, FULL SCREEN */
@@ -3314,6 +3323,36 @@ function checkFont(){
   }catch(e){}
 }
 
+/* THE PIECE DOES NOT RUN WHILE NOBODY IS WATCHING.
+   ------------------------------------------------------------------------------------
+   Saved to a home screen, this is an app iOS SUSPENDS rather than closes. Flicking it off
+   the switcher often does not kill it; tapping the icon RESUMES the same page. And while
+   it is suspended requestAnimationFrame stops -- but performance.now() does not, because
+   it is a clock and clocks do not care whether anyone is looking.
+
+   So the first tick after a resume read a `now` that had moved on by however long the
+   phone had been in a pocket, and (now - t0) jumped by minutes. The piece did not
+   continue; it TELEPORTED -- landing wherever that arithmetic put it, which on some
+   returns was inside the end credit. That is the "it played the outro when I tapped the
+   icon" fault, and the soundtrack stuttering was the same event from the audio side.
+
+   (It is also, embarrassingly, the answer to an earlier report I mis-diagnosed as being
+   about the exported clip's cards. It was never the export. It was this.)
+
+   The fix is to give the clock back the time it was not running: t0 moves forward by
+   exactly the hidden interval, so the frame after a resume is the frame before the
+   suspend. The piece holds its place rather than either jumping or restarting. */
+var hidAt=null;
+document.addEventListener("visibilitychange",function(){
+  if(document.hidden){ if(hidAt===null) hidAt=performance.now(); return; }
+  if(hidAt!==null){ t0 += performance.now()-hidAt; hidAt=null; }
+  /* and the sound comes back cleanly rather than resuming mid-buffer */
+  try{ if(snd.ctx && snd.ctx.state==="suspended" && snd.ctx.resume) snd.ctx.resume(); }catch(e){}
+});
+window.addEventListener("pageshow",function(e){
+  /* a bfcache restore is the same story with a different event */
+  if(e && e.persisted && hidAt!==null){ t0 += performance.now()-hidAt; hidAt=null; }
+});
 function tick(now){
   if(!running){ looping=false; return; }
   var period=Math.max(1,V.hold-V.slip), total=period*lines.length;
@@ -6699,7 +6738,7 @@ function keyPins(){
     return true;
   });
 }
-var keyBox=[0,0];
+var keyBox=[0,0], keyTight=0, keyPass=0;
 function keyPoint(pins){
   var L=el.keyPoint; if(!L) return;
   L.innerHTML="";
@@ -6712,7 +6751,7 @@ function keyPoint(pins){
   /* AND THEY GET AIR. Twenty-four pixels between names that are thirteen tall reads as a
      list crammed against itself; the names are the slowest thing on the screen to read
      and the only thing the guide is for. */
-  var step=Math.max(28, Math.min(40, window.innerHeight/22));
+  var step=keyTight || Math.max(28, Math.min(40, window.innerHeight/22));
   function name(html){
     var n=document.createElement("div");
     n.className="kname"; n.innerHTML=html; n.style.left="0";
@@ -6897,7 +6936,26 @@ function keyPoint(pins){
   if(box){
     box.style.top=Math.round(keyBox[0])+"px";
     box.style.maxHeight=Math.round(Math.max(140, keyBox[1]-keyBox[0]))+"px";
+    /* THE DIAGRAM GIVES WAY TO THE WORDS. The stack of names grows by a fixed step per
+       control, and on a short screen it ate the room the sentences needed -- so the guide
+       scrolled and the Close button went off the bottom of it. Measured: 117px over on a
+       320x568, 129px over with a phone on its side.
+
+       The names are the part that can afford to be tighter; the sentences are the part
+       somebody is actually reading, and a button they cannot reach is worse than a
+       cramped diagram. So if the text does not fit, the step shrinks by exactly the
+       overflow spread across the stack and the whole layout is drawn once more. One
+       retry, and a floor of 18px so the names never touch. */
+    var over=box.scrollHeight-box.clientHeight;
+    if(over>1 && bar.length && keyPass<4 && step>18){
+      var give=Math.ceil(over/bar.length)+1;
+      keyTight=Math.max(18, step-give);
+      keyPass++;
+      keyPoint(pins);
+      return;
+    }
   }
+  keyTight=0; keyPass=0;
 }
 /* AND THE THINGS THAT ARE NOT ANYWHERE. A gesture has no button to point at, so it is said
    in the middle, where there is room for a sentence. */
