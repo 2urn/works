@@ -6456,21 +6456,21 @@ function shFill(){
    apparatus, and the apparatus comes second. */
 function keyPins(){
   var P=[
-    {at:"#sigBtn", say:"<b>Main menu</b>"},
+    {at:"#sigBtn", say:"<b>Main Menu</b>"},
     {at:".credit", say:"<b>Controls</b>"},
     /* PAUSING IS HOW YOU GET TO SCRUBBING, so the button says all three. They were two
        callouts, and the second one was pinned to #tScrub -- which spans the whole width,
        so its centre landed in the middle of the icon row and its leader crossed the
        others on the way down. One name, one leader, and the invariant below holds again. */
-    {at:"#bPlay",  say:"Play / pause / scrub"},
+    {at:"#bPlay",  say:"Play / Pause / Scrub"},
     {at:"#bSound", say:"Sound"},
-    {at:"#bFull",  say:"Full screen"},
+    {at:"#bFull",  say:"Full Screen"},
     {at:"#bShot",  say:"<b>Camera</b>"},
-    {at:"#bRec",   say:"<b>Record</b> what you see"},
+    {at:"#bRec",   say:"<b>Record</b> What You See"},
     {at:"#bShare", say:"<b>Share</b>"},
-    {at:"#bKey",   say:"This guide"},
+    {at:"#bKey",   say:"This Guide"},
     {at:"#bSet",   say:"Settings"},
-    {at:"#barLay", say:"How the words are <b>arranged</b>"}
+    {at:"#barLay", say:"How The Words Are <b>Arranged</b>"}
   ];
   return P.filter(function(p){
     var e=document.querySelector(p.at);
@@ -6594,10 +6594,14 @@ function keyPoint(pins){
       n.style.left=Math.round(Math.max(8, lx-9-w0))+"px";
       return;
     }
-    /* the wordmark in the other corner keeps its upright arrow: there is nothing under it
-       to make room for, and a sideways one would run into the bar */
-    lead(x, p.rect.top-4-len, len, false);
-    y=p.rect.top-3; left=x+5;
+    /* THE OTHER CORNER READS THE SAME WAY ROUND: name, then arrow, then the mark. It
+       cannot do it sideways -- the wordmark sits ON the left edge, so there is no room
+       beside it for a word, and a sideways arrow would run into the icon row. So it reads
+       downward instead: the name sits directly ABOVE its arrow, the arrow points down,
+       and the mark is under it. Same three things in the same order, turned a quarter. */
+    var lt=p.rect.top-4-len;
+    lead(x, lt, len, false);
+    y=lt-3; left=x-w0/2;
     n.style.top=Math.round(y)+"px";
     var w=n.getBoundingClientRect().width;
     n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, left)))+"px";
