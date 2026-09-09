@@ -915,7 +915,12 @@ body.keyopen #barLay,body.keyopen #bRec,body.keyopen #barTime{pointer-events:non
 .kname{position:absolute;font-size:.72rem;font-weight:600;letter-spacing:.02em;
   color:var(--ovl-ink);white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.95);
   transform:translateY(-100%);padding-bottom:0;line-height:1.15}
-.kname b{color:var(--ovl-accent);font-weight:600}
+/* ONE COLOUR FOR ALL OF THEM. Half the names were orange and half were white, on no rule
+   a reader could find -- it was simply which ones had been written with a <b> in them. A
+   callout diagram is a key, and a key that colours some of its entries is claiming a
+   distinction it does not have. They are all the ink colour; the accent stays on the
+   leaders, where it means "this line points at that thing". */
+.kname b{color:inherit;font-weight:600}
 @media (max-width:26rem){ .kname{font-size:.66rem} }
 #keyMid p{margin:0 0 .6rem;font-size:.83rem;line-height:1.45;color:var(--ovl-dim)}
 #keyMid p:last-child{margin-bottom:0}
@@ -6384,7 +6389,11 @@ function keyPins(){
   var P=[
     {at:"#sigBtn", say:"<b>Main menu</b>"},
     {at:".credit", say:"<b>Controls</b>"},
-    {at:"#bPlay",  say:"Play and pause"},
+    /* PAUSING IS HOW YOU GET TO SCRUBBING, so the button says all three. They were two
+       callouts, and the second one was pinned to #tScrub -- which spans the whole width,
+       so its centre landed in the middle of the icon row and its leader crossed the
+       others on the way down. One name, one leader, and the invariant below holds again. */
+    {at:"#bPlay",  say:"Play / pause / scrub"},
     {at:"#bSound", say:"Sound"},
     {at:"#bFull",  say:"Full screen"},
     {at:"#bShot",  say:"<b>Camera</b>"},
@@ -6392,8 +6401,7 @@ function keyPins(){
     {at:"#bShare", say:"<b>Share</b>"},
     {at:"#bKey",   say:"This guide"},
     {at:"#bSet",   say:"Settings"},
-    {at:"#barLay", say:"How the words are <b>arranged</b>"},
-    {at:"#tScrub", say:"<b>Scrub timeline</b>"}
+    {at:"#barLay", say:"How the words are <b>arranged</b>"}
   ];
   return P.filter(function(p){
     var e=document.querySelector(p.at);
@@ -6419,7 +6427,10 @@ function keyPoint(pins){
      no leader can pass through a name: every name runs LEFT from its own leader, and a
      leader further left is always shorter, so it never reaches the band a name occupies. */
   bar.sort(function(a,b){ return a.rect.left-b.rect.left; });
-  var step=Math.max(24, Math.min(34, window.innerHeight/26));
+  /* AND THEY GET AIR. Twenty-four pixels between names that are thirteen tall reads as a
+     list crammed against itself; the names are the slowest thing on the screen to read
+     and the only thing the guide is for. */
+  var step=Math.max(28, Math.min(40, window.innerHeight/22));
   function name(html){
     var n=document.createElement("div");
     n.className="kname"; n.innerHTML=html; n.style.left="0";
