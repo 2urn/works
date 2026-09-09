@@ -6720,7 +6720,10 @@ function keyPoint(pins){
        and the mark is under it. Same three things in the same order, turned a quarter. */
     var lt=(isFinite(barFoot)?barFoot:p.rect.top-4)-len;
     lead(x, lt, len, false);
-    y=lt-3; left=x-w0/2;
+    /* AND IT DROPS FIVE PIXELS. Sitting three above its arrow put it within a couple of
+       pixels of Play / Pause / Scrub, which starts just to its right -- two names on
+       almost one line, reading as one phrase. Five lower and they are plainly two. */
+    y=lt+2; left=x-w0/2;
     n.style.top=Math.round(y)+"px";
     var w=n.getBoundingClientRect().width;
     n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, left)))+"px";
