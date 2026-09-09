@@ -1660,8 +1660,13 @@ label.reset,label.reset span{color:var(--accent) !important;
       <div class="seqSay"><span id="seqTitle"></span><span id="seqBy"></span></div>
     </div>
     <div class="hud">
-      <span><b id="hFrame">000</b> / <span id="hTotal">000</span> f</span>
-      <span>line <b id="hLine">1</b></span>
+      <!-- THE PIECE'S OWN CLOCK COMES FIRST. This led with 000/000 f, which is the
+           engine's tick and not a unit anybody composes in -- the score counts LINES, the
+           randomiser keys on the line index, and the player's own bar has always said
+           "line 163 of 249". The frame count keeps its place at the end of the row, where
+           the engine's internals belong. -->
+      <span>line <b id="hLine">1</b> / <span id="hLines">000</span></span>
+      <span id="hClock">0:00 / 0:00</span>
       <span>degrade <b id="hDeg">1.0×</b></span>
       <span>seed <b id="hSeed">2026</b></span>
       <span id="hRun" class="on">running</span>
@@ -1669,6 +1674,7 @@ label.reset,label.reset span{color:var(--accent) !important;
       <span id="hBlend">—</span>
       <span id="hPiece">—</span>
       <span id="hDraws">—</span>
+      <span><b id="hFrame">000</b> / <span id="hTotal">000</span> f</span>
     </div>
   </div>
 
@@ -1978,8 +1984,16 @@ function paintReadouts(){
   say("settleV",V.settle.toFixed(2)); say("settlePV",V.settleP.toFixed(2));
   say("spreadV",V.spread.toFixed(2)); say("whiteShareV",V.whiteShare.toFixed(2)); say("ghostV",V.ghost.toFixed(1)+" px");
   say("ghAstrV",V.ghAstr.toFixed(2)); say("ghBstrV",V.ghBstr.toFixed(2));
-  say("speedV",V.speed.toFixed(2)+"×"); say("holdV",V.hold+" f"); say("slipV",V.slip+" f"); say("durV",V.dur+" f");
-  say("exitDurV",V.exitDur+" f"); say("travelV",V.travel+"%");
+  /* FRAMES FOR AUTHORING, SECONDS FOR JUDGING. You time an entrance in frames because
+     that is the unit you are working in -- but nobody can feel eighty-six of them, and how
+     long eighty-six lasts depends on Speed, a control on the other side of the panel. Both
+     numbers now, so the trade is visible where it is being made. And the multiplier gets
+     the noun it never had: 0.70x of WHAT was the question, and the answer is a line. */
+  say("speedV",V.speed.toFixed(2)+"× · "+secsSay(linePeriod())+" a line");
+  say("holdV",V.hold+" f · "+secsSay(V.hold));
+  say("slipV",V.slip+" f · "+secsSay(V.slip));
+  say("durV",V.dur+" f · "+secsSay(V.dur));
+  say("exitDurV",V.exitDur+" f · "+secsSay(V.exitDur)); say("travelV",V.travel+"%");
   say("staggerV",V.stagger.toFixed(1).replace(/\.0$/,"")+" f");
   if(el.sndVol) say("sndVolV",(+el.sndVol.value).toFixed(2)); say("vGainV",V.vGain.toFixed(1)+"×"); say("vScaleV",V.vScale.toFixed(2));
   say("vShakeV",V.vShake.toFixed(2));
@@ -2000,6 +2014,32 @@ function paintReadouts(){
   say("squashV",V.squash.toFixed(2));
   var period=Math.max(1,V.hold-V.slip);
   say("hTotal",String(period*lines.length).padStart(3,"0"));
+  say("hLines",String(lines.length).padStart(3,"0"));
+  hudClock();
+}
+/* ONE LINE'S WORTH OF CLOCK. hold is how long a line is ON, slip is how much of it the
+   next one takes back -- so the piece advances by the DIFFERENCE, and that difference,
+   not hold, is what a line costs. Everything in seconds is derived through here, so
+   moving Speed moves every one of them at once. */
+function linePeriod(){ return Math.max(1, V.hold - V.slip); }
+function engFps(){ return FPS * Math.max(0.01, V.speed); }
+function secsSay(f){
+  var s=f/engFps();
+  return (s<10 ? s.toFixed(1) : String(Math.round(s)))+" s";
+}
+function clockSay(f){
+  var s=Math.max(0, f/engFps());
+  return Math.floor(s/60)+":"+("0"+Math.floor(s%60)).slice(-2);
+}
+/* IT REMEMBERS WHERE IT WAS. The clock is written from the two places that draw a frame,
+   which on a page sitting still have not run yet -- so the total read 0:00 until somebody
+   pressed play. Called with no argument it keeps its position and re-reads the total,
+   which is what a change of Speed needs: the same frame, a different length. */
+var hudAt=0;
+function hudClock(f){
+  if(typeof f==="number") hudAt=f;
+  if(!lines || !lines.length) return;
+  say("hClock", clockSay(hudAt)+" / "+clockSay(linePeriod()*lines.length));
 }
 
 function cased(w){ return V.caseMode==="upper"?w.toUpperCase():w; }
@@ -3240,7 +3280,7 @@ function tick(now){
     faultRun=0;
     if(lastDrew) STATS.seen=(STATS.seen||0)+Math.min(1,(now-lastDrew)/1000);
     lastDrew=now; statSave();
-    say("hFrame",String(Math.floor(frame)).padStart(3,"0"));
+    say("hFrame",String(Math.floor(frame)).padStart(3,"0")); hudClock(frame);
     say("hDraws",d+" glyph draws");
   }catch(err){
     faultRun++;
@@ -3297,7 +3337,8 @@ function still(){
           "The last good frame is still on screen. Reload if it does not come back.");
     return;
   }
-  say("hFrame",String(Math.floor(at)).padStart(3,"0")); say("hDraws",d+" glyph draws");
+  say("hFrame",String(Math.floor(at)).padStart(3,"0")); hudClock(at);
+  say("hDraws",d+" glyph draws");
   if(!holding && !running && !exportSize && camReady()){
     holding=true; requestAnimationFrame(holdRoom);
   }
