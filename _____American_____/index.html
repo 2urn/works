@@ -6566,14 +6566,32 @@ function keyPoint(pins){
     var n=name(p.say), y, left;
     var w0=n.getBoundingClientRect().width;
     if(p.below){
-      /* HIS NAME, POINTED AT SIDEWAYS. The arrow runs in from the left and lands on
-         Dimitry's baseline; the name sits to the left of it, on the same line. Nothing is
-         taken from the column of help text below. */
+      /* HIS NAME, POINTED AT SIDEWAYS. The arrow runs in from the left and stops short of
+         the mark; the name sits to the left of it. Nothing is taken from the column of
+         help text below.
+
+         TWO LINES, NOT ONE, and they are different lines. The NAME sits on Dimitry's
+         baseline, because that is the line his artwork is set on. The ARROW sits half an
+         x-height above it -- through the middle of the lower-case, where a horizontal rule
+         between words belongs. Both are measured rather than assumed: a zero-height box
+         aligned to the baseline reports where the baseline actually is, and a box one ex
+         tall reports this font's x-height, whatever the font turns out to be. */
       y=p.rect.top+p.rect.height*NAME_BASE;
-      var lx=Math.max(8+w0+6, p.rect.left-6-len);
-      leadH(lx, y, p.rect.left-2-lx);
-      n.style.top=Math.round(y+3)+"px";            /* baseline on that same line */
-      n.style.left=Math.round(Math.max(8, lx-6-w0))+"px";
+      n.style.top=Math.round(y)+"px";
+      var pb=document.createElement("span");
+      pb.style.cssText="display:inline-block;width:0;height:0;vertical-align:baseline";
+      var px=document.createElement("span");
+      px.style.cssText="display:inline-block;width:0;height:1ex;vertical-align:baseline";
+      n.appendChild(pb); n.appendChild(px);
+      var baseAt=pb.getBoundingClientRect().top;
+      var ex=px.getBoundingClientRect().height ||
+             parseFloat(getComputedStyle(n).fontSize)*0.52;
+      n.removeChild(pb); n.removeChild(px);
+      n.style.top=Math.round(y+(y-baseAt))+"px";   /* baseline lands exactly on Dimitry's */
+      var right=p.rect.left-9;                     /* air between the head and the mark */
+      var lx=Math.max(8+w0+9, right-len);
+      leadH(lx, y-ex/2, right-lx);                 /* through the middle of the x-height */
+      n.style.left=Math.round(Math.max(8, lx-9-w0))+"px";
       return;
     }
     /* the wordmark in the other corner keeps its upright arrow: there is nothing under it
