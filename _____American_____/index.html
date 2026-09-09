@@ -1285,6 +1285,17 @@ select:focus-visible{outline:2px solid var(--live);outline-offset:1px}
 .deck.shut h2 .dtog::before{content:"\25B8"}
 .deck.shut{gap:0}
 .deck.shut > *:not(h2){display:none}
+/* WHAT HAS BEEN MOVED OFF ITS DEFAULT. A panel of eighty-three numbers tells you nothing
+   about which four of them you changed, and the answer used to be to remember. The number
+   itself carries it: at the shipped value it is the ink colour like everything else, and
+   away from it, it is the accent. No dot, no badge, no second element to keep in line --
+   the value IS the indicator, so nothing moves when it lights up.
+
+   A SHUT CARD SAYS IT TOO, with its triangle. Grey means everything inside is as it
+   shipped; white means something in there is not, and it is worth opening. Between the two
+   you can shut the whole panel and still see where you have been. */
+.ctl output.moved{color:var(--accent)}
+.deck.shut.dirty h2 .dtog::before{color:var(--ink)}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;
   background:none;cursor:pointer}
 input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rail)}
@@ -3447,8 +3458,45 @@ document.addEventListener("click",function(e){
   tapId=id; tapAt=t;
 });
 
+/* THE COMPARISON IS AGAINST SHIPPED, which is the same object the stripped player reads
+   when there is no control to ask -- so "changed" here means changed from what the piece
+   publishes, not from whatever the panel happened to open with. A control the defaults do
+   not name is not judged: it has no default to be away from. */
+function markChanged(){
+  var decks=document.querySelectorAll(".deck");
+  if(!decks.length) return;
+  Array.prototype.forEach.call(decks,function(d){
+    var dirty=false;
+    Array.prototype.forEach.call(d.querySelectorAll("input,select"),function(e){
+      if(!e.id || !(e.id in SHIPPED)) return;
+      var moved, bi=BASE_KEYS.indexOf(e.id);
+      if(bi>=0){
+        /* A BASELINE IS NOT MEASURED AGAINST THE PIECE, IT IS MEASURED AGAINST ITS OWN
+           ARRANGEMENT. The four of them are swapped in whenever the layout resolves
+           somewhere new, so on any frame that is not the shipped one they legitimately
+           differ from SHIPPED -- which lit three of them orange on a page nobody had
+           touched. Compared against BASE_DEF for the arrangement actually showing, they
+           are quiet until somebody tunes one. */
+        var def=(BASE_DEF[V.layout]||[])[bi];
+        moved = (def===undefined) ? false : (+e.value)!==(+def);
+      }
+      else if(e.type==="checkbox") moved = (!!e.checked) !== (!!SHIPPED[e.id]);
+      else if(e.type==="range")    moved = (+e.value) !== (+SHIPPED[e.id]);
+      else if(e.type==="color")
+        /* the browser hands a colour back lower-cased whatever was written in, so #FF0000
+           came out #ff0000 and every actor read as repainted */
+        moved = String(e.value).toLowerCase() !== String(SHIPPED[e.id]).toLowerCase();
+      else                         moved = String(e.value) !== String(SHIPPED[e.id]);
+      if(moved) dirty=true;
+      var out=document.getElementById(e.id+"V");
+      if(out) out.classList.toggle("moved", moved);
+    });
+    d.classList.toggle("dirty", dirty);
+  });
+}
 function refresh(){
   readControls();
+  markChanged();
   if(syncBaselines()) readControls();   /* the swap moved the sliders; re-read them */
   paintBlendState(); stampPiece();
   if(snd.gain && el.sndVol) snd.gain.gain.value=+el.sndVol.value;
