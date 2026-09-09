@@ -288,13 +288,48 @@ body.rig-tapcredit.showing .sig{opacity:.61}
    knows whose this is, then down to almost nothing so the work is alone on the wall --
    and back for four seconds whenever the screen is touched. */
 body.player .credit,body.player .sig,body.embed .credit,body.embed .sig{
-  opacity:.61;transition:opacity 1.6s ease}
+  opacity:.61;
+  transition:opacity 1.6s ease, transform .42s cubic-bezier(.16,.84,.28,1)}
 /* the top-right mark is an element, not pixels, so it takes its ground from CSS */
 body.cam .sig,body.cam .credit{filter:drop-shadow(0 0 7px rgba(0,0,0,.9))}
 body.faded .credit,body.faded .sig{opacity:.1;transition:opacity 3s ease}
 body.faded.chrome .credit,body.faded.chrome .sig{opacity:.61;transition:opacity .25s}
-/* the panel takes the top of the frame, and his name lives there */
-body.menuopen .sig{opacity:0 !important;pointer-events:none}
+/* THE CORNER HANDS OVER. The panel takes the top of the frame, which is where his name
+   lives -- and on a phone there is not enough height for the two of them to share it. It
+   used to be a straight swap: the name blinked out, an X blinked in. It is a handover
+   now. His name LEAVES, to the right and off the edge, while the duck-rabbit arrives from
+   the left, and the tabs come in behind the duck one after another -- trailing it, in his
+   words, like eggs it laid. Reversed on the way out, because a thing that came from
+   somewhere has somewhere to go back to. */
+body.menuopen .sig{
+  opacity:0 !important; pointer-events:none;
+  transform:translateX(132%);
+  transition:transform .40s cubic-bezier(.55,0,.85,.25), opacity .26s ease .06s}
+/* THE PANEL COMES DOWN, and it can only do that if it is not display:none while it
+   moves -- so menuShut takes the class off, lets the transition run, and only then sets
+   hidden. Nothing in it can be touched on the way out. */
+#menu{transform:translateY(-101%);
+  transition:transform .40s cubic-bezier(.16,.84,.28,1)}
+body.menuopen #menu{transform:none}
+body:not(.menuopen) #menu{pointer-events:none}
+/* THE DUCK LEADS AND THE TABS FOLLOW. One step of 55ms between them: enough that the eye
+   reads an order rather than a jumble, short enough that the last one is not late. */
+#menu .mtab.mark,#menu .mtabs .mtab{opacity:0;transform:translateX(-22px)}
+body.menuopen #menu .mtab.mark,body.menuopen #menu .mtabs .mtab{
+  opacity:1;transform:none;
+  transition:transform .44s cubic-bezier(.16,.84,.28,1) var(--in,0s),
+             opacity .30s ease var(--in,0s)}
+body.menuopen #menu .mtab.mark{--in:.09s}
+body.menuopen #menu .mtabs .mtab:nth-child(1){--in:.20s}
+body.menuopen #menu .mtabs .mtab:nth-child(2){--in:.255s}
+body.menuopen #menu .mtabs .mtab:nth-child(3){--in:.31s}
+body.menuopen #menu .mtabs .mtab:nth-child(4){--in:.365s}
+body.menuopen #menu .mtabs .mtab:nth-child(5){--in:.42s}
+@media (prefers-reduced-motion:reduce){
+  body.menuopen .sig,#menu,#menu .mtab.mark,#menu .mtabs .mtab{transition:none}
+  #menu{transform:none}
+  #menu .mtab.mark,#menu .mtabs .mtab{opacity:1;transform:none}
+}
 /* WHERE THE MARK IS BURNED IN, THE DOM ONE STOPS PAINTING. Both were drawing the wordmark
    into the same corner and it read as two logos, which it was. The pixels carry the mark
    now and this element carries only the TOUCH -- an invisible target laid over the burned
@@ -5369,9 +5404,15 @@ function burnMark(cx,W,H,forceAlpha){
      band in the accent and stops being part of the work -- but the burned one kept
      painting underneath it, so there were two wordmarks in the corner a few pixels apart.
      One at a time: the interface has it while the interface is up. */
+  /* AND IT ASKS THE PANEL, NOT THE CLASS. The class comes off the moment the panel starts
+     travelling back up, and the panel is on screen for another four tenths of a second
+     after that -- so keying on the class brought the burned mark back UNDERNEATH the
+     panel that was still leaving, which is the two-wordmarks fault this note was written
+     about in the first place. The panel being on screen is the fact that matters. */
+  var panelUp = (el && el.menu) ? !el.menu.hidden
+                                : document.body.classList.contains("menuopen");
   if(forceAlpha===undefined && !exportSize &&
-     (document.body.classList.contains("menuopen") ||
-      document.body.classList.contains("seqcredit"))) return;
+     (panelUp || document.body.classList.contains("seqcredit"))) return;
   if(!wmImg || !wmImg.complete || !wmImg.naturalWidth) return;
   var cssW=0;
   try{ if(!exportSize) cssW=cv.getBoundingClientRect().width; }catch(e){}
@@ -5646,7 +5687,13 @@ function menuOpen(tab){
   layPaint();
   paintLabel();
   menuTab(tab||"work");
+  /* SHOWN, LAID OUT, THEN MOVED. A transition from display:none never runs -- the browser
+     has nothing to move FROM. offsetHeight forces the layout in between, which is the same
+     trick the reveal uses elsewhere in this file and for the same reason: requestAnimation
+     Frame cannot be relied on here. */
+  clearTimeout(menuT);
   el.menu.hidden=false;
+  void el.menu.offsetHeight;
   document.body.classList.add("menuopen");
   menuSay(true);
   menuSize();
@@ -5674,8 +5721,18 @@ function menuSize(){
 window.addEventListener("resize",menuSize);
 Array.prototype.forEach.call(document.querySelectorAll(".mtab"),function(b){
   b.addEventListener("click",function(){ menuTab(b.dataset.tab); }); });
-function menuShut(){ if(!el.menu) return; el.menu.hidden=true;
-  document.body.classList.remove("menuopen"); menuSay(false);
+var menuT=null;
+/* AND IT GOES BACK UP BEFORE IT GOES AWAY. hidden is display:none and would cut the
+   animation off at the first frame, so the class comes off, the panel travels, and hidden
+   lands after it -- unless it was reopened in the meantime, which the class re-check
+   catches. */
+function menuShut(){ if(!el.menu) return;
+  document.body.classList.remove("menuopen");
+  clearTimeout(menuT);
+  menuT=setTimeout(function(){
+    if(!document.body.classList.contains("menuopen")) el.menu.hidden=true;
+  }, 440);
+  menuSay(false);
   /* and his voice goes with it -- a recording still talking behind a closed panel is a
      ghost, and the piece would stay ducked under it */
   voiceStop(); }
@@ -6814,11 +6871,26 @@ function keyPoint(pins){
     var w=n.getBoundingClientRect().width;
     n.style.left=Math.round(Math.max(8, Math.min(window.innerWidth-w-8, left)))+"px";
   });
+  /* THE MARKS ARE NOT SOMETHING THE TEXT MAY SIT ON. This measured only the NAMES, so the
+     block began sixteen pixels under the word "Main Menu" -- and that word sits on
+     Dimitry's BASELINE, with half his signature still below it. The block's ground then
+     cut his name in half across the middle. It is his name and his own lettering; it is
+     not a surface for a paragraph to overlap.
+
+     So every pin's own rectangle is measured too, not just its label. A mark in the top of
+     the frame pushes the block down past the BOTTOM of the mark; a control in the bottom
+     pulls it up above the TOP of the control. The text gets what is left, which is the
+     right way round: the marks and the controls are what the guide is about, and the
+     sentences are the part that can move. */
   var tops=[], bots=[];
-  Array.prototype.forEach.call(L.querySelectorAll(".kname"),function(n){
-    var r=n.getBoundingClientRect();
+  function keep(r){
+    if(!r || r.width<2) return;
     if(r.top < window.innerHeight*0.4) bots.push(r.bottom); else tops.push(r.top);
+  }
+  Array.prototype.forEach.call(L.querySelectorAll(".kname"),function(n){
+    keep(n.getBoundingClientRect());
   });
+  pins.forEach(function(p){ keep(p.rect); });
   keyBox=[ bots.length?Math.max.apply(null,bots)+16:8,
            tops.length?Math.min.apply(null,tops)-16:window.innerHeight-8 ];
   var box=document.querySelector(".keyin");
