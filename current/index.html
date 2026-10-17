@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017213209"</script>
+<script>window.__BUILD__="20261017215038"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -3108,7 +3108,7 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopMic(){if(!AUD.mic)return;try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
 function stopAudio(){AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
 function startBeat(name,fromPreset){
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
@@ -3129,9 +3129,10 @@ async function startMic(given){
   if(!ensureCtx()){toast('This browser has no Web Audio.');return}
   // raw sound first (no voice cleanup); some browsers (iPhone apps other than Safari among them) refuse those settings, so plain audio next
   let st,err=null;
+  audioSessionFor(true);
   for(const c of [{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}},{audio:true}]){
     try{st=await navigator.mediaDevices.getUserMedia(c);break}catch(e){err=e;if(e&&e.name==='NotAllowedError')break}}
-  if(!st){const e=err||{},n=e.name||'Error',inside=(()=>{try{return window.top!==window.self}catch(_){return true}})();
+  if(!st){audioSessionFor(false);const e=err||{},n=e.name||'Error',inside=(()=>{try{return window.top!==window.self}catch(_){return true}})();
     const why={NotAllowedError:inside?'the microphone is blocked inside Claude · open Current on its own or as an app':'microphone not allowed · allow it for this site in the browser’s settings, then try again',
       NotFoundError:'no microphone found on this device',
       NotReadableError:'the microphone is busy · close a call or another app using it, then try again',
@@ -3168,6 +3169,9 @@ function silentWav(){const n=800,b=new Uint8Array(44+n),v=new DataView(b.buffer)
   v.setUint32(24,8000,true);v.setUint32(28,8000,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);b.fill(128,44);
   return URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}
 try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(_){}
+// iPhone: 'playback' keeps sound going past the silent switch but refuses the microphone (InvalidStateError:
+// AudioSession category is not compatible with audio capture). Listening switches it to play-and-record, and back after.
+function audioSessionFor(listen){try{if(navigator.audioSession)navigator.audioSession.type=listen?'play-and-record':'playback'}catch(_){}}
 function unlockAudio(){
   if(!AUD.silent&&navigator.maxTouchPoints>0){try{const a=AUD.silent=new Audio(silentWav());a.loop=true;a.setAttribute('playsinline','');a.volume=0}catch(_){}}
   if(AUD.src!=='off'||AUD.ctx)ensureCtx();
@@ -3263,15 +3267,15 @@ $('srFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)retur
   if(!SRC.show)SRC.show=.5;syncSrc()};
 $('srCam').onclick=async()=>{
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('no camera in this browser');return}
-  const V={facingMode:'user',width:{ideal:1280}};let st=null,heard=false;
+  const V={facingMode:'user',width:{ideal:1280}};let st=null,heard=false;audioSessionFor(true);
   // the camera brings its microphone: one permission, and the field moves to whatever the camera hears
   for(const a of [{echoCancellation:false,noiseSuppression:false,autoGainControl:false},true]){
     try{st=await navigator.mediaDevices.getUserMedia({video:V,audio:a});heard=true;break}catch(e){if(e&&e.name==='NotAllowedError')break}}
   try{if(!st)st=await navigator.mediaDevices.getUserMedia({video:V,audio:false});   // no microphone allowed: the picture alone
     stopSource();SRC.stream=st;SRC.kind='camera';SRC.gcode=null;bgVid.muted=true;bgVid.srcObject=st;await bgVid.play().catch(()=>{});if(!SRC.show)SRC.show=.5;syncSrc();
     if(heard&&st.getAudioTracks().length){startMic(new MediaStream(st.getAudioTracks()));toast('camera and its microphone · the field moves to what it hears')}
-    else toast('camera under the field (no microphone) · trace takes this frame')}
-  catch(err){toast(err&&err.name==='NotAllowedError'?'camera blocked: this viewer or the browser said no':'camera unavailable here: try a picture or a video')}};
+    else{audioSessionFor(false);toast('camera under the field (no microphone) · trace takes this frame')}}
+  catch(err){audioSessionFor(false);toast(err&&err.name==='NotAllowedError'?'camera blocked: this viewer or the browser said no':'camera unavailable here: try a picture or a video')}};
 $('srShow').onclick=()=>{SRC.show=SHOWS[(SHOWS.indexOf(SRC.show)+1)%SHOWS.length];syncSrc()};
 $('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(SRC.gcode&&$('gcode').value===SRC.gcode)traceSource()};
 $('srMir').onclick=()=>{SRC.mirror=!SRC.mirror;syncSrc()};
