@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017215846"</script>
+<script>window.__BUILD__="20261017220908"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="CHAMY·XYZ">
 <meta property="og:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="CURRENT on the app's blue, with a still of the particles in pink and blue, the Dimitry Saïd Chamy namemark and the CHAMY·XYZ word">
+<meta property="og:image:alt" content="CURRENT in white over a full-bleed still of pink and blue particles on black, the Dimitry Saïd Chamy namemark, and CHAMY·XYZ in the app's blue">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
@@ -1355,8 +1355,14 @@ function evalEffective(t){
     let dn=nrm(mp.dst,E[mp.dst]);
     if(mp.how==='follow'){const tg=mp.amt<0?1-sn:sn;dn+=(tg-dn)*Math.abs(mp.amt)}else dn+=mp.amt*(sn-rest);
     E[mp.dst]=dnrm(mp.dst,dn)}
+  if(reactNow()){   // a look with no sound links of its own still answers the sound
+    E.speed=dnrm('speed',nrm('speed',E.speed)+SIGNALS.level*.32+SIGNALS.beat*.12);
+    E.strength=dnrm('strength',nrm('strength',E.strength)+SIGNALS.beat*.22+SIGNALS.bass*.1)}
   E.count=Math.max(100,Math.round(E.count/100)*100);
 }
+const SOUND_SIG=new Set(['bass','mid','high','level','beat']);
+function reactNow(){try{return AUD.src!=='off'&&AUD.react&&!lookListens()}catch(_){return false}}   // AUD is declared further down
+function lookListens(){for(const k in S.mods){const m=S.mods[k];if(m&&SOUND_SIG.has(m.shape))return true}return S.maps.some(m=>SOUND_SIG.has(m.src))}
 let fieldFall=4,lastBuild=0;
 const ARROW_DEFAULT='#e8f1f2';
 // line colors, after Chladni Kit's sands; a second color alternates grain by grain, in time (on the beat when a beat plays) or by motion
@@ -2200,13 +2206,15 @@ document.addEventListener('pointerdown',e=>{const m=$('plist');if(!m.hidden&&!m.
   const r=$('rlist');if(!r.hidden&&!r.contains(e.target)&&!e.target.closest('#pRand,#randMx'))closeRlist()},true);
 // one gesture reader for a playbar button: tap, hold (520ms), right-click = hold
 function wireTapHold(el,h){
-  let g=null;
+  let g=null,lastHold=0;
+  const hold=()=>{lastHold=performance.now();h.hold()};
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();
-    g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;h.hold();if(navigator.vibrate)navigator.vibrate(12)}},520)}});
+    g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},520)}});
   el.addEventListener('pointermove',e=>{if(g&&e.pointerId===g.id&&Math.hypot(e.clientX-g.x,e.clientY-g.y)>14){clearTimeout(g.t);g=null}});
   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const held=g.held;g=null;if(!held&&e.type==='pointerup')h.tap()};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
-  el.addEventListener('contextmenu',e=>{e.preventDefault();h.hold()});
+  el.addEventListener('contextmenu',e=>{e.preventDefault();   // a phone's long press fires this as well as the timer; one press is one hold, or the shelf opens and shuts at once
+    if(g){clearTimeout(g.t);if(g.held)return;g.held=true}else if(performance.now()-lastHold<900)return;hold()});
   el.addEventListener('click',e=>{if(e.detail===0)h.tap()})}
 const togList=()=>$('plist').hidden?openPlist():closePlist();
 wireTapHold($('pPrev'),{tap:()=>stepPreset(-1),hold:togList});
@@ -3073,7 +3081,7 @@ const BEATS={
   'Fibonacci 110':{bpm:110,k:'xxx.x..x....x...',s:'.....x.......x..',h:'xxxxxxxxxxxxxxxx',b:'x.......x.......'},
   'Pulse 60':{bpm:60,k:'x...............',s:'................',h:'........x.......',b:'x...............'}
 };
-const AUD={ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
+const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
 function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
@@ -3108,7 +3116,7 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
 function stopAudio(){AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
 function startBeat(name,fromPreset){
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
@@ -3143,8 +3151,9 @@ async function startMic(given){
   hookMic(st,false)}
 function hookMic(st,cam){
   stopAudio();AUD.userOff=false;
-  const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);   // analyser only: nothing reaches the speakers
-  AUD.mic={stream:st,node:g,cam};AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08};syncAud();
+  const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
+  AUD.mic={stream:st,node:g,sink:z,cam};if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
+  AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08};syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.src==='mic')stopAudio()});
   if(!cam)toast('microphone · the room moves the field')}
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
@@ -3205,11 +3214,14 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
     const v=+$('audVol').value,n=SND_VOLS.find(x=>x>v+.01)??SND_VOLS[0];$('audVol').value=n;$('audVol').dispatchEvent(new Event('input'));syncSndShelf()});
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land: on the beat grid. Tap to change',()=>{
     const i=QUANT_STEPS.findIndex(q=>q[0]===QUANT);QUANT=QUANT_STEPS[(i+1)%QUANT_STEPS.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
+  add('sdReact','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h3l2-5 3 10 3-8 2 3h5"/></svg>','When a look has no sound links of its own, the sound still moves it: louder is faster, beats push harder. Tap to switch',()=>{
+    AUD.react=!AUD.react;try{localStorage.setItem('current.react',AUD.react?'on':'off')}catch(_){}syncSndShelf();toast(AUD.react?'the sound moves every look':'only looks with their own sound links move')});
   syncSndShelf()}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src)));
   $('sdVol').querySelector('.lab').textContent='vol '+Math.round(+$('audVol').value*100)+'%';
-  $('sdQuant').querySelector('.lab').textContent='lands '+(QUANT_STEPS.find(q=>q[0]===QUANT)||[0,'off'])[1]}
+  $('sdQuant').querySelector('.lab').textContent='lands '+(QUANT_STEPS.find(q=>q[0]===QUANT)||[0,'off'])[1];
+  const r=$('sdReact');if(r){r.setAttribute('aria-pressed',String(AUD.react));r.querySelector('.lab').textContent=lookListens()?'own links':AUD.react?'react on':'react off'}}
 wireTapHold($('pSnd'),{tap:()=>{if(sndOpen){sndOpen=false;syncSteer();return}toggleSound()},hold:()=>{sndOpen=!sndOpen;if(sndOpen){srcOpen=false;pickOpen=false;buildSndShelf()}syncSteer()}});
 $('pSnd').setAttribute('aria-haspopup','true');$('pSnd').setAttribute('aria-controls','shelfSnd');
 function readAudio(dt){
