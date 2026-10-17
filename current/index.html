@@ -606,6 +606,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
     <div id="bgLayer" aria-hidden="true"><img id="bgImg" alt=""><video id="bgVid" muted playsinline loop></video></div>
     <canvas id="cv" aria-label="Particles flowing through a vector field built from the G-code toolpath"></canvas>
     <canvas id="ov" aria-hidden="true" style="pointer-events:none"></canvas>
+    <canvas id="fg" aria-hidden="true" style="pointer-events:none"></canvas>
     <div class="hud" id="hud"></div>
     
   </div>
@@ -1268,7 +1269,7 @@ const ALTS={grain:'Grain by grain: every particle keeps one of the two colors.',
 const GROUNDS={dark:null,paper:'#efeae0'};
 const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
-const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
+const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d'),fg=document.getElementById('fg'),fctx=fg.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
 let W=0,H=0,DPR=1,field=null,GW=0,GH=0,CELL=8,segsPx=[],parsed=null;
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
@@ -1454,10 +1455,13 @@ function clearTrails(){if(TRANSP)ctx.clearRect(0,0,W,H);else{ctx.fillStyle=css('
 function fadeTrails(a){if(TRANSP){ctx.globalCompositeOperation='destination-out';ctx.globalAlpha=Math.max(a,.012);ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='source-over'}
   else{ctx.globalAlpha=a;ctx.fillStyle=css('--stage');ctx.fillRect(0,0,W,H)}ctx.globalAlpha=1}
 
-function drawOverlay(){
+// finger marks (magnet ring, steer brush, loop ghost, rec dot) live on their own canvas, which captures leave out
+function drawFingerMarks(){
   if((ACTIVE==='magnet'||MGR.loop)&&Math.abs(S.magnet||0)>.004){const sz=performance.now()-MAG.sizing<900,a=sz?.7:Math.min(.45,UN.magW*.45);
     if(a>.02){const R=Math.min(W,H)*MAG.r,x=sz?MAG.sx:UN.fx,y=sz?MAG.sy:UN.fy;ctx.save();ctx.globalAlpha=a;ctx.lineWidth=1.5;ctx.strokeStyle=UN.magSg<0?'#ff7a52':'#55b8c9';
       ctx.setLineDash(UN.magSg<0?[6,6]:[]);ctx.beginPath();ctx.arc(x,y,R,0,Math.PI*2);ctx.stroke();ctx.restore()}}
+  drawSteer()}
+function drawOverlay(){
   if(S.lensShow&&LENS_H&&S.lensMode!=='off'){ctx.fillStyle=css('--accent');
     for(let gy=0;gy<GH;gy+=2)for(let gx=0;gx<GW;gx+=2){const h=LENS_H[gy*GW+gx];if(h<.04)continue;ctx.globalAlpha=h*.05;ctx.fillRect(gx*CELL-CELL,gy*CELL-CELL,CELL*2,CELL*2)}
     ctx.globalAlpha=1}
@@ -1537,7 +1541,7 @@ function frame(now){
   else{if(!S.lineOff){if(two){ctx.strokeStyle=S.line;ctx.stroke(pA);ctx.strokeStyle=S.line2;ctx.stroke(pB)}else ctx.stroke()}
     if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
-  steerTick(dt,now);octx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();drawSteer()}finally{ctx=tctx}liveMarkers();drawMeters();
+  steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
 }
 function hud(){
   const n=parsed?parsed.segs.length:0,t=parsed?parsed.segs.filter(s=>s.travel).length:0;
@@ -1547,7 +1551,7 @@ function hud(){
 // ---------- Build / resize ----------
 function resize(){
   const r=document.getElementById('stage').getBoundingClientRect();DPR=Math.min(2,devicePixelRatio||1);
-  W=Math.max(50,r.width);H=Math.max(50,r.height);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);ov.width=W*DPR;ov.height=H*DPR;octx.setTransform(DPR,0,0,DPR,0,0);
+  W=Math.max(50,r.width);H=Math.max(50,r.height);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);ov.width=W*DPR;ov.height=H*DPR;octx.setTransform(DPR,0,0,DPR,0,0);fg.width=W*DPR;fg.height=H*DPR;fctx.setTransform(DPR,0,0,DPR,0,0);
   if(parsed){buildField();resetParticles();clearTrails()}
 }
 function build(keep){
