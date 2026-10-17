@@ -9,10 +9,10 @@
 (function(){
 'use strict';
 const CSS=`.sft{position:fixed;z-index:60;left:0;top:0;max-width:min(260px,calc(100vw - 16px));padding:6px 9px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .14s,transform .14s;
-  background:rgba(10,12,13,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.14);border-radius:8px;font:500 11.5px/1.3 var(--sans,system-ui,sans-serif);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  background:rgba(10,12,13,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.14);border-radius:8px;font:500 14px/1.35 var(--sans,system-ui,sans-serif);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .sft.show{opacity:1;transform:none}
-.sft small{display:block;margin-top:2px;font:400 10.5px/1.3 var(--mono,ui-monospace,monospace);color:#8a9396;letter-spacing:.02em}
-.sft kbd{display:inline-block;min-width:1.4em;margin-left:6px;padding:0 4px;border:1px solid rgba(255,255,255,.22);border-radius:4px;font:500 10px/1.5 var(--mono,ui-monospace,monospace);color:#b9c2c5;text-align:center}
+.sft small{display:block;margin-top:3px;font:400 12.5px/1.35 var(--mono,ui-monospace,monospace);color:#8a9396;letter-spacing:.02em}
+.sft kbd{display:inline-block;min-width:1.4em;margin-left:6px;padding:0 4px;border:1px solid rgba(255,255,255,.22);border-radius:4px;font:600 13px/1.5 var(--mono,ui-monospace,monospace);color:#eef1f2;text-align:center}
 @media (prefers-reduced-motion:reduce){.sft{transition:none}}`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function parse(el,keys){
