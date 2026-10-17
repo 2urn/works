@@ -1,4 +1,5 @@
 <!doctype html><html><head>
+<script>window.__BUILD__="20261017211032"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -27,6 +28,8 @@
 
 <meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
+<script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
+<script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <script src="vendor/opentype.min.js"></script>
 <style>
 /* Layout: square studio chrome — stage (canvas) left, instrument panel right; stacks on phone */
@@ -154,6 +157,10 @@ body:not(.player) #dscMark{opacity:0}
 .cx-row.cx-shut .cx-f::before{content:"+"}
 .cx-row.cx-shut .cx-body{display:none}
 .cx-body{padding:0 0 12px 2.2em}
+/* "long press" line under a guide entry: what holding the control reveals */
+.lp{display:flex;align-items:baseline;gap:7px;margin-top:6px;font:400 13px/1.4 var(--sans);color:var(--fg)}
+.lp::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-1px)}
+.lp b{flex:none;font:700 13px/1.4 var(--sans);color:var(--accent)}
 .cx-body p{margin:0 0 6px;font-size:13px;line-height:1.45;max-width:36ch}
 /* a row with icons stacks: the icons and their name, then what it does underneath */
 .idx dl:has(.gdt){grid-template-columns:minmax(0,1fr);gap:4px}
@@ -557,6 +564,55 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shseg button:focus-visible{outline:2px solid #55b8c9;outline-offset:-4px}
 @media (pointer:coarse){.shseg button{width:34px}}
 .si.chip{width:auto;min-width:52px;padding:6px 10px}#toolTrack .si.chip[aria-pressed="true"] .w{color:#55b8c9}.si.chip .w{font:600 12px/1 var(--mono);letter-spacing:.06em}
+
+/* DISPLAY (from Pullula's index): the drawer beside the stage or over it, and how much of the stage shows through it.
+   Beside only on a wide window; the stage, the bar and everything centred on it move over by the drawer's width. */
+@media (min-width:900px){html[data-drawer=beside] body:not(.player){--dw:min(360px,88vw)}
+  html[data-drawer=beside] .hud{left:14px}
+  html[data-drawer=beside] body:not(.player) .panel{box-shadow:none}
+  /* beside, nothing sits behind the drawer, so glass would only blur the stage's edge: it stays solid */
+  html[data-drawer=beside] body:not(.player) .panel{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;text-shadow:none}}
+.stage{left:var(--dw,0px);transition:left .32s cubic-bezier(.2,.7,.2,1)}
+html body #playbar,html body #playname{left:var(--dw,0px);transition:left .32s cubic-bezier(.2,.7,.2,1)}
+html body .shelf,html body #plist,html body #shotPop,html body #rlist,html body #fontList,html body #wordList,html body #toast{left:calc(50% + var(--dw,0px) / 2)}
+@media (prefers-reduced-motion:reduce){.stage,html body #playbar,html body #playname{transition:none}}
+/* panes: solid / frosted (glass: the stage blurred behind) / sheer / clear (the controls alone, each with a halo) */
+html[data-panes=frosted] .panel{background:color-mix(in srgb,var(--panel) 62%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.15);backdrop-filter:blur(16px) saturate(1.15)}
+html[data-panes=see] .panel{background:color-mix(in srgb,var(--panel) 72%,transparent)}
+html[data-panes=clear] .panel{background:transparent;box-shadow:none;text-shadow:0 0 2px var(--panel),0 0 6px var(--panel)}
+html[data-panes=frosted] .panel,html[data-panes=see] .panel{box-shadow:0 0 30px rgba(0,0,0,.18)}
+/* the Display group: a gear, then rows of word switches */
+.dsp-gear{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:2px}
+.dsp-row{display:grid;grid-template-columns:5.5em minmax(0,1fr);align-items:center;gap:6px;min-height:40px;border-bottom:1px solid var(--line)}
+.dsp-row[hidden]{display:none}
+.dsp-lab{font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dsp-seg{display:flex;flex-wrap:wrap;gap:0 14px}
+.dsp-seg button{min-height:34px;padding:0;border:0;background:none;color:var(--muted);font:500 13px/1 var(--sans);cursor:pointer}
+.dsp-seg button[aria-checked=true]{color:var(--fg);font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px}
+.dsp-seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dsp-note{margin:8px 0 0;font-size:12px;line-height:1.45;color:var(--muted);max-width:38ch}
+
+/* YOUR OWN COLOR: hold a color dot still (right-click on a computer) for a hex field and the device's color field */
+#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:#0f1213;color:#eef1f2;border:1px solid #23292b}
+#colorPick[hidden]{display:none}
+.cpBody{padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px}
+.cpField{position:relative;display:block;height:64px;border:1px solid #2b3235;cursor:pointer;overflow:hidden}
+.cpField input{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;opacity:0}
+.cpField .cpTap{position:absolute;left:8px;bottom:6px;font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#fff;mix-blend-mode:difference;pointer-events:none}
+.cpHexRow{display:flex;align-items:center;gap:6px;height:40px;padding:0 6px 0 10px;border:1px solid #2b3235;background:#050708}
+.cpHexRow:focus-within{border-color:#55b8c9}
+.cpHash{font:500 16px var(--mono);color:#6b7578}
+#cpHex{flex:1;min-width:0;border:0;background:none;color:#eef1f2;font:500 16px var(--mono);letter-spacing:.06em;text-transform:lowercase;outline:none}
+#cpHex.bad{color:#ff7a52}
+#cpSw{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.3);flex:none}
+#colorPick .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#8a9396;padding:2px 0 0}
+.cpRecent{display:flex;flex-wrap:wrap;gap:8px;min-height:24px}
+.cpRecent button{width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.3);padding:0;cursor:pointer}
+.cpRecent em{font:400 12px var(--sans);color:#6b7578;font-style:normal}
+#colorPick .spActs{padding:4px 0 0}
+.si.dot.own i{box-shadow:0 0 0 2px #0f1213,0 0 0 3.5px rgba(255,255,255,.55)}
+/* tools: ••• ("more"), turned upright on Android to its own ⋮ */
+html.android .ham{transform:rotate(90deg);transform-box:fill-box;transform-origin:center}
 #pSteer .ham{display:none}#pSteer.multi:not(.lit) .ham{display:inline}#pSteer.multi:not(.lit) .ico{display:none}
 body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 #pSteer.busy:not(.lit)::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#ff7a52}
@@ -617,7 +673,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
       <h2 class="idx-name">CURRENT</h2>
       <p class="idx-say">Current is one of the tools I am exploring for audiovisual interactivity and performance: an artist and designer&rsquo;s instruments for experiences that range from the phone in your hand to immersive environments.</p>
       <section class="cx-grp" id="guide"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="guideL"><span>Guide</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or trace a picture or the camera.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field, or traced into toolpaths of its own.</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself. Hold either arrow for the list.</dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself. Hold for the random matrix: which values roll.</dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video. Hold for the mode, the shape of the frame, and sharing.</dd><dt>Sound</dt><dd>On or off: beats, or a sound file of your own, that the field moves to.</dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.</dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. Recent words, a word sequencer, and the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>pinch</dt><dd>The reach of your touch.</dd><dt>twist</dt><dd>Its strength.</dd><dt>wheel</dt><dd>Reach on a computer; with shift, strength.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt><kbd>p</kbd></dt><dd>Open or close this index.</dd><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous or next preset.</dd><dt><kbd>r</kbd></dt><dd>A random look.</dd><dt><kbd>s</kbd></dt><dd>Steer.</dd><dt><kbd>m</kbd></dt><dd>Sound on or off.</dd><dt><kbd>esc</kbd></dt><dd>Close what is open.</dd></dl></div></li></ol></div></section>
+        <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or trace a picture or the camera. Many buttons do more when you hold them (a long press; a right-click on a computer). Each one is marked <b style="color:var(--accent)">Hold</b> below.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field, or traced into toolpaths of its own.</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself.<span class="lp"><b>Hold</b> <span>any of the three: the list of looks. In the list, hold a look to edit its toolpath.</span></span></dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself.<span class="lp"><b>Hold</b> <span>the random matrix: which values roll.</span></span></dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video.<span class="lp"><b>Hold</b> <span>the mode, the shape of the frame, and sharing.</span></span></dd><dt>Sound</dt><dd>On or off: beats, a sound file of your own, or the microphone, that the field moves to.<span class="lp"><b>Hold</b> <span>the sound shelf: the beats, your own file, the microphone, volume and timing.</span></span></dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.<span class="lp"><b>Hold</b> <span>hides or shows the open tool&rsquo;s shelf.</span></span></dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.<span class="lp"><b>Hold</b> <span>a color still for your own (a hex value or the color field); hold and drag up or down for its opacity.</span></span></dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. Recent words, a word sequencer, and the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>pinch</dt><dd>The reach of your touch.</dd><dt>twist</dt><dd>Its strength.</dd><dt>wheel</dt><dd>Reach on a computer; with shift, strength.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt><kbd>p</kbd></dt><dd>Open or close this index.</dd><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous or next preset.</dd><dt><kbd>r</kbd></dt><dd>A random look.</dd><dt><kbd>s</kbd></dt><dd>Steer.</dd><dt><kbd>m</kbd></dt><dd>Sound on or off.</dd><dt><kbd>esc</kbd></dt><dd>Close what is open.</dd></dl></div></li></ol></div></section>
     </div>
     <div class="ph">
       <div>
@@ -781,7 +837,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
   <button id="pRand" type="button" aria-label="Random look. Drag up or down to set how much changes, left or right to set how often it rolls by itself. Hold for the random matrix" aria-haspopup="dialog" aria-controls="rlist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/></svg></button>
   <button id="pShot" type="button" data-mode="still" aria-label="Capture. Press and hold for mode, shape and sharing" aria-haspopup="dialog" aria-controls="shotPop" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle id="pShotDot" cx="12" cy="12" r="5.4" fill="currentColor"/><rect id="pShotSq" x="8" y="8" width="8" height="8" rx="1.5" fill="#ff5a52"/></svg><span id="pRecTime" aria-hidden="true"></span></button>
   <button id="pSnd" type="button" aria-pressed="false" aria-label="Sound on or off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="w" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="x" d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-  <button id="pSteer" type="button" aria-pressed="false" aria-haspopup="true" aria-expanded="false" aria-controls="shelfPick" aria-label="Tools"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><g class="ham"><path d="M5 7h14M5 12h14M5 17h14"/></g><g class="ico"><g transform="translate(-.7 0)"><path class="ghost" d="M21.4 10.8a4 4 0 0 1-3.8 5.2c-2 0-3.6-1.4-5.6-4"/><path d="M12 12c-2-2.6-3.6-4-5.6-4a4 4 0 0 0 0 8c2 0 3.6-1.4 5.6-4c2-2.6 3.6-4 5.6-4c1.9 0 3.4 1.2 3.9 3"/><path d="M19.6 11.3 21.6 12.7 23 10.6"/></g></g></svg></button>
+  <button id="pSteer" type="button" aria-pressed="false" aria-haspopup="true" aria-expanded="false" aria-controls="shelfPick" aria-label="Tools"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><g class="ham"><circle cx="5.5" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r="2" fill="currentColor" stroke="none"/></g><g class="ico"><g transform="translate(-.7 0)"><path class="ghost" d="M21.4 10.8a4 4 0 0 1-3.8 5.2c-2 0-3.6-1.4-5.6-4"/><path d="M12 12c-2-2.6-3.6-4-5.6-4a4 4 0 0 0 0 8c2 0 3.6-1.4 5.6-4c2-2.6 3.6-4 5.6-4c1.9 0 3.4 1.2 3.9 3"/><path d="M19.6 11.3 21.6 12.7 23 10.6"/></g></g></svg></button>
 </div>
 <div class="shelf" id="shelfSteer" role="toolbar" aria-label="Steer and loop tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="stRec" type="button" aria-pressed="false" aria-label="Record a loop of your steering gesture"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle class="dot" cx="12" cy="12" r="6" fill="currentColor" stroke="none"/><rect class="sq" x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">rec</span></button><button class="si" id="stLoop" type="button" aria-pressed="false" disabled aria-label="Play or stop the recorded loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M17.8 2.8 17.6 6.4 14 6.2"/></svg><span class="lab" id="stLoopV">loop</span></button><button class="si" id="stSize" type="button" aria-label="Brush size. Tap to change, or pinch with two fingers while steering"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" stroke-dasharray="2.2 2.6"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span class="lab" id="stSizeV">brush M</span></button><button class="si" id="stRes" type="button" aria-pressed="false" aria-label="Restore brush: painting wipes your steering under the brush, bringing back the G-code field there"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.2 3.8v3.5h3.5"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg><span class="lab">restore</span></button><button class="si" id="stHold" type="button" aria-label="How long painted direction lasts. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3.5h10M7 20.5h10"/><path d="M8 3.5c0 4.5 8 4.6 8 8.5s-8 4-8 8.5M16 3.5c0 4.5-8 4.6-8 8.5s8 4 8 8.5"/></svg><span class="lab" id="stHoldV">hold 14s</span></button><button class="si" id="stClr" type="button" aria-label="Clear the painted direction and the loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 19.5h11"/><path d="M4.3 14.9 13.6 5.6a1.8 1.8 0 0 1 2.5 0l3.3 3.3a1.8 1.8 0 0 1 0 2.5l-7.6 7.6a1.8 1.8 0 0 1-1.3.5H8.4a1.8 1.8 0 0 1-1.3-.5l-2.8-2.8a.9.9 0 0 1 0-1.3z"/><path d="m9.4 9.8 5.3 5.3"/></svg><span class="lab">clear</span></button></div></div>
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
@@ -790,6 +846,12 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 <div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></svg><span class="lab">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button><button class="si" id="srOff" type="button" aria-label="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">off</span></button></div></div>
 <input type="file" id="srFile" hidden aria-hidden="true">
 <div id="playname" aria-live="polite"></div>
+<div id="colorPick" role="dialog" aria-modal="false" aria-labelledby="cpTitle" hidden><div class="mxh"><span id="cpTitle">Your color</span><button type="button" class="tb" id="cpClose">close</button></div>
+  <div class="cpBody"><label class="cpField"><input type="color" id="cpWheel" aria-label="Pick a color from the color field"><span class="cpTap">touch to open the color field</span></label>
+  <div class="cpHexRow"><span class="cpHash" aria-hidden="true">#</span><input id="cpHex" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="7" aria-label="Hex value, like ff6fa5"><i id="cpSw" aria-hidden="true"></i></div>
+  <div class="sub">recent</div><div class="cpRecent" id="cpRecent"></div>
+  <div class="spActs"><button type="button" class="spGo ghost" id="cpCancel">cancel</button><button type="button" class="spGo" id="cpUse">use it</button></div></div></div>
+
 <div id="plist" role="dialog" aria-label="Presets and auto play" hidden>
   <div class="mxh"><span>Presets</span><button class="tb" id="plClose" type="button" aria-label="Close the preset list">Close</button></div>
   <div id="plAuto"></div>
@@ -1745,7 +1807,7 @@ function applyLookNow(p,idx,instant){
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(gr!==S.ground){S.ground=gr;applyGround()}syncLine();
-  S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&AUD.src!==p.audio&&!AUD.file)startBeat(p.audio,true);
+  S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&AUD.src!==p.audio&&!AUD.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
   $('gcode').value=p.gen();
@@ -2701,34 +2763,45 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
   const btn=(label,svg,aria,fn,pressed,cls)=>{const b=document.createElement('button');b.type='button';b.className='si'+(cls?' '+cls:'');b.innerHTML=svg+(label!=null?'<span class="lab">'+label+'</span>':'');
     b.setAttribute('aria-label',aria);if(pressed!=null)b.setAttribute('aria-pressed',String(!!pressed));b.onclick=()=>{fn();buildToolShelf()};t.appendChild(b);return b};
   // a color dot: tap picks it; tap the lit one again to turn that color off; press, hold and drag up/down for its opacity
-  const dot=(c,aria,fn,on,alpha)=>{const b=document.createElement('button');b.type='button';b.className='si dot'+(c?'':' none');
+  const dot=(c,aria,fn,on,alpha,pick)=>{const b=document.createElement('button');b.type='button';b.className='si dot'+(c?'':' none');
     b.innerHTML='<i'+(c?' style="background:'+c+(alpha&&on?';opacity:'+Math.max(.15,alpha.get()):'')+'"':'')+'></i>'+(alpha&&on?'<span class="lab">'+Math.round(alpha.get()*100)+'%</span>':'');
-    b.setAttribute('aria-label',aria+(alpha?'. Hold and drag up or down for opacity':''));if(on!=null)b.setAttribute('aria-pressed',String(!!on));
+    b.setAttribute('aria-label',aria+(alpha?'. Hold and drag up or down for opacity':'')+(pick&&c?'. Hold still (or right-click) for your own color':''));if(pick&&c)b.dataset.tip=aria+'. Hold for your own color'+(alpha?', or hold and drag up or down for opacity':'')+'.';if(on!=null)b.setAttribute('aria-pressed',String(!!on));
     let g=null;
-    b.addEventListener('pointerdown',e=>{if(e.button>0)return;g={y:e.clientY,x:e.clientX,id:e.pointerId,mode:'tap',a0:alpha?alpha.get():0,t:alpha?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='alpha';try{b.setPointerCapture(g.id)}catch(_){}
-      if(!on)fn();if(navigator.vibrate)navigator.vibrate(10);t.style.overflowX='hidden';toast('opacity '+Math.round(alpha.get()*100)+'% · drag up or down')}},420):0}});
+    b.addEventListener('pointerdown',e=>{if(e.button>0)return;g={y:e.clientY,x:e.clientX,id:e.pointerId,mode:'tap',a0:alpha?alpha.get():0,t:(!alpha&&pick&&c)?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='pick';if(navigator.vibrate)navigator.vibrate(10)}},480):alpha?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='alpha';g.ay=g.y;try{b.setPointerCapture(g.id)}catch(_){}
+      if(!on)fn();if(navigator.vibrate)navigator.vibrate(10);t.style.overflowX='hidden';toast('opacity '+Math.round(alpha.get()*100)+'% · drag up or down'+(pick&&c?' · let go for your own color':''))}},420):0}});
     b.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id)return;
       if(g.mode==='tap'&&Math.hypot(e.clientX-g.x,e.clientY-g.y)>10){clearTimeout(g.t);g=null;return}   // a sideways swipe scrolls the shelf
       if(g.mode==='alpha'){e.preventDefault();const v=Math.max(.05,Math.min(1,g.a0+(g.y-e.clientY)/160));alpha.set(v);
         const i=b.querySelector('i');if(i)i.style.opacity=Math.max(.15,v);let l=b.querySelector('.lab');if(!l){l=document.createElement('span');l.className='lab';b.appendChild(l)}l.textContent=Math.round(v*100)+'%'}});
-    const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const m=g.mode;g=null;t.style.overflowX='';
-      if(m==='tap'&&e.type==='pointerup'){fn();buildToolShelf()}else if(m==='alpha'){toast('opacity '+Math.round(alpha.get()*100)+'%');buildToolShelf()}};
-    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>e.preventDefault());
+    const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const m=g.mode,g0y=g.ay??g.y,g0a=g.a0;g=null;t.style.overflowX='';
+      if(m==='tap'&&e.type==='pointerup'){fn();buildToolShelf()}
+      else if(m==='pick'&&e.type==='pointerup'){openColorPick(pick,c)}
+      else if(m==='alpha'){if(pick&&c&&e.type==='pointerup'&&Math.abs(e.clientY-g0y)<6&&Math.abs(alpha.get()-g0a)<.01)openColorPick(pick,c);else{toast('opacity '+Math.round(alpha.get()*100)+'%');buildToolShelf()}}};
+    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>{e.preventDefault();if(pick&&c&&e.pointerType!=='touch'&&!g)openColorPick(pick,c)});
     b.addEventListener('click',e=>{if(e.detail===0){fn();buildToolShelf()}});
     b.style.touchAction='pan-x';t.appendChild(b);return b};
   const lineA={get:()=>S.lineAlpha,set:v=>{S.lineAlpha=v;S.lineOff=false}},arrA={get:()=>S.arrowAlpha,set:v=>{S.arrowAlpha=v;if(!S.flags.arrows){S.flags.arrows=true;$('c-arrows').checked=true}syncArrow()}};
   const grp=txt=>{const g=document.createElement('span');g.className='shg';g.textContent=txt;t.appendChild(g)};
   const sep=()=>{const g=document.createElement('span');g.className='sep';t.appendChild(g)};
   if(ACTIVE==='color'){
+    const PK={line:{title:'Line color',get:()=>S.line,set:v=>{S.line=v;S.lineOff=false;syncLine()}},
+      second:{title:'Second color',get:()=>S.line2||S.line,set:v=>{S.line2=v;syncLine()}},
+      touch:{title:'Touch color',get:()=>S.touchColor||'#ff6fa5',set:v=>{S.touchColor=v}},
+      arrows:{title:'Arrow color',get:()=>S.arrowColor,set:v=>setArrow(v)}};
+    const known=(v,list)=>!v||list.some(x=>x[1].toLowerCase()===String(v).toLowerCase());
+    const own=(v,pk,alpha)=>{const d=dot(v,pk.title+' '+v+' (your own)',()=>openColorPick(pk,v),true,alpha,pk);d.classList.add('own')};
     grp('line');dot(null,'No lines: hide the particles',()=>{S.lineOff=!S.lineOff;clearTrails()},S.lineOff);
     for(const [n,c] of LINE_COLORS){const on=!S.lineOff&&S.line.toLowerCase()===c.toLowerCase();
-      dot(c,'Line color '+n,()=>{if(on){S.lineOff=true;clearTrails()}else{S.line=c;S.lineOff=false}syncLine()},on,lineA)}
+      dot(c,'Line color '+n,()=>{if(on){S.lineOff=true;clearTrails()}else{S.line=c;S.lineOff=false}syncLine()},on,lineA,PK.line)}
+    if(!S.lineOff&&!known(S.line,LINE_COLORS))own(S.line,PK.line,lineA);
     sep();grp('second');dot(null,'No second color',()=>{S.line2=null;syncLine()},!S.line2);
     for(const [n,c] of LINE_COLORS){const on=(S.line2||'').toLowerCase()===c.toLowerCase();
-      dot(c,'Second color '+n,()=>{S.line2=on?null:c;syncLine()},on,lineA)}
+      dot(c,'Second color '+n,()=>{S.line2=on?null:c;syncLine()},on,lineA,PK.second)}
+    if(S.line2&&!known(S.line2,LINE_COLORS))own(S.line2,PK.second,lineA);
     sep();grp('touch');dot(null,'No touch color: the finger and the magnet only move the colors already there',()=>{S.touchColor=null},!S.touchColor);
     for(const [n,c] of LINE_COLORS){const on=(S.touchColor||'').toLowerCase()===c.toLowerCase();
-      dot(c,'Touch color '+n+': mixed in where the finger or magnet is working, then fades back',()=>{S.touchColor=on?null:c;if(!on)toast('touch color '+n.toLowerCase()+' · drag on the field')},on)}
+      dot(c,'Touch color '+n+': mixed in where the finger or magnet is working, then fades back',()=>{S.touchColor=on?null:c;if(!on)toast('touch color '+n.toLowerCase()+' · drag on the field')},on,null,PK.touch)}
+    if(S.touchColor&&!known(S.touchColor,LINE_COLORS))own(S.touchColor,PK.touch,null);
     sep();
     if(S.line2){const ks=Object.keys(ALTS),nm={grain:'grain',time:'in time',motion:'motion'};
       // the icon itself says which mix: grains, a clock, or fast-vs-slow
@@ -2739,7 +2812,8 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" '+(S.ground==='paper'?'fill="#efeae0" stroke="#efeae0"':'fill="#050708"')+'/><path d="M7 15c2.5-4 5-5 10-6" stroke="'+(S.ground==='paper'?'#121212':'currentColor')+'"/></svg>','Ground, now '+S.ground+'. Tap for '+(S.ground==='paper'?'dark':'paper'),()=>{const ks=Object.keys(GROUNDS);S.ground=ks[(ks.indexOf(S.ground)+1)%ks.length];applyGround();syncLine()});
     sep();grp('arrows');dot(null,'No arrows',()=>{S.flags.arrows=!S.flags.arrows;$('c-arrows').checked=S.flags.arrows;clearTrails()},!S.flags.arrows);
     for(const [n,c] of ARROW_SWATCHES){const on=S.flags.arrows&&S.arrowColor.toLowerCase()===c.toLowerCase();
-      dot(c,'Arrow color '+n,()=>{if(on){S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()}else setArrow(c)},on,arrA)}}
+      dot(c,'Arrow color '+n,()=>{if(on){S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()}else setArrow(c)},on,arrA,PK.arrows)}
+    if(S.flags.arrows&&!known(S.arrowColor,ARROW_SWATCHES))own(S.arrowColor,PK.arrows,arrA)}
   if(ACTIVE==='text'){
     // the flip: text cursor (type the word, the default) | F outline (choose the typeface)
     const flip=document.createElement('button');flip.type='button';flip.className='shflip';flip.setAttribute('role','switch');flip.setAttribute('aria-checked',String(TEXT_FLIP));
@@ -2981,7 +3055,8 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopAudio(){AUD.loopOn=false;AUD.want=null;if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
+function stopMic(){if(!AUD.mic)return;try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopAudio(){AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
 function startBeat(name,fromPreset){
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
   stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();prerenderBeats();
@@ -2992,6 +3067,20 @@ function startBeat(name,fromPreset){
     ()=>toast('could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function startFile(){if(!AUD.fileBuf||!ensureCtx())return;stopAudio();AUD.want=null;const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.bus);n.start();AUD.node=n;AUD.src='file';syncAud()}
+/* MICROPHONE: the room drives the field. The mic feeds only the analyser, never the speakers (no feedback), with the
+   browser's voice cleanup off so music and claps read as they are. Inside claude.ai the browser may refuse it; on the
+   tool's own address or installed as an app it asks once. */
+async function startMic(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('no microphone in this browser');return}
+  if(!ensureCtx()){toast('This browser has no Web Audio.');return}
+  let st;try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}
+  catch(e){const inside=(()=>{try{return window.top!==window.self}catch(_){return true}})();
+    toast(e&&e.name==='NotAllowedError'?(inside?'the microphone is blocked inside Claude · open Current on its own or as an app':'microphone not allowed · allow it in the browser’s site settings'):e&&e.name==='NotFoundError'?'no microphone found':'could not open the microphone');return}
+  stopAudio();AUD.userOff=false;
+  const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);   // analyser only: nothing reaches the speakers
+  AUD.mic={stream:st,node:g};AUD.src='mic';AUD.last='mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08};syncAud();
+  st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.src==='mic')stopAudio()});
+  toast('microphone · the room moves the field')}
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
   f.arrayBuffer().then(b=>AUD.ctx.decodeAudioData(b)).then(buf=>{AUD.fileBuf=buf;AUD.file=f.name;startFile();toast('playing '+f.name)})
    .catch(()=>toast('Could not read that file. Try an mp3, wav or m4a.'));e.target.value=''});
@@ -2999,12 +3088,12 @@ $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.val
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
 function syncAud(){audSeg.innerHTML='';
-  const opts=['off',...Object.keys(BEATS)].concat(AUD.fileBuf?['file']:[]);
+  const opts=['off',...Object.keys(BEATS)].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
-    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:'Play the built-in beat '+o);
-    b.onclick=()=>{if(o==='off')stopAudio();else if(o==='file')startFile();else startBeat(o)};audSeg.appendChild(b)}
+    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':'Play the built-in beat '+o);
+    b.onclick=()=>{if(o==='off')stopAudio();else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.setAttribute('aria-label',(on?'Sound on. Tap to stop':'Sound off. Tap to play')+'. Hold for beats, your file and settings');
+  sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
    stays silent otherwise). Every tap/click/key resumes it. iPhone mute switch: ask for the playback session
@@ -3021,6 +3110,7 @@ function unlockAudio(){
 ['pointerdown','touchend','click','keydown'].forEach(t=>window.addEventListener(t,unlockAudio,{capture:true,passive:true}));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AUD.ctx&&AUD.src!=='off')AUD.ctx.resume().catch(()=>{})});
 function soundOn(){
+  if(AUD.last==='mic'){startMic();return}
   if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&BEATS[AUD.last]?AUD.last:'Four on the floor');
   if(+$('audVol').value<.05){$('audVol').value=.6;$('audVol').dispatchEvent(new Event('input'))}
   const name=AUD.src==='file'?AUD.file:AUD.src.toLowerCase();toast('sound: '+name);
@@ -3039,6 +3129,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
+  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
   if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
   add('sdVol','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/></svg>','Volume. Tap to change',()=>{
@@ -3479,5 +3570,76 @@ document.querySelectorAll('.cx-grpbtn').forEach(b=>b.onclick=()=>{const g=b.clos
 document.querySelectorAll('.cx-go').forEach(b=>b.onclick=()=>{const r=b.closest('.cx-row'),on=r.classList.toggle('cx-shut');b.setAttribute('aria-expanded',String(!on))});
 </script>
 
+<script src="surface/install.js"></script>
+<script src="surface/tips.js"></script>
+<script>/* Surface · Tips: hover labels on a computer, long-press labels on shelf buttons */
+try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t};
+  tip('pSnd','Sound on or off. Hold for beats, your own file, the microphone and volume.');
+  tip('pSteer','Tools. Hold to hide or show the open shelf.');
+  tip('pSrc','Source: a picture, a video or the camera.');
+  tip('duckBtn','Index and settings.');
+  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',keys:{pPrev:'←',pNext:'→',pRand:'r',pSnd:'m',duckBtn:'p'}})}catch(e){console.warn('tips',e)}</script>
+<script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
+try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false)})}catch(e){console.warn('install guide',e)}</script>
+
+<script>/* DISPLAY group in the index: drawer beside/over (wide windows), panes solid/frosted/sheer/clear. Kept per browser. */
+(function(){const idx=document.getElementById('idx');if(!idx)return;const H=document.documentElement;
+  const gear='<svg class="dsp-gear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+  const ROWS=[
+    {key:'drawer',lab:'Drawer',store:'current.drawer',wide:true,opts:[['beside','Beside','The drawer beside the stage: the stage moves over and both stay in view'],['over','Over','The drawer slides over the stage']]},
+    {key:'panes',lab:'Panes',store:'current.panes',opts:[['solid','Solid','The drawer solid'],['frosted','Frosted','The drawer frosted glass: the stage blurred behind it'],['see','Sheer','The drawer sheer: thinned, see-through'],['clear','Clear','The drawer clear: only its words and controls']]}];
+  const sec=document.createElement('section');sec.className='cx-grp';sec.id='display';
+  sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="displayL">'+gear+'<span>Display</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="displayL">'+
+    ROWS.map(r=>'<div class="dsp-row" data-row="'+r.key+'"><span class="dsp-lab" id="dsp-'+r.key+'">'+r.lab+'</span><div class="dsp-seg" role="radiogroup" aria-labelledby="dsp-'+r.key+'">'+
+      r.opts.map(o=>'<button type="button" role="radio" data-k="'+r.key+'" data-v="'+o[0]+'" aria-label="'+o[2]+'">'+o[1]+'</button>').join('')+'</div></div>').join('')+
+    '<p class="dsp-note">Beside needs a wide window; on a phone the drawer always slides over the stage.</p></div>';
+  const gb=sec.querySelector('.cx-grpbtn');gb.onclick=()=>{const on=sec.classList.toggle('cx-shut');gb.setAttribute('aria-expanded',String(!on))};
+  const inst=document.getElementById('install');if(inst&&inst.parentNode===idx)inst.after(sec);else idx.appendChild(sec);
+  const wideQ=matchMedia('(min-width:900px)');
+  const sync=()=>{ROWS.forEach(r=>{const v=H.dataset[r.key];sec.querySelectorAll('[data-k="'+r.key+'"]').forEach(b=>{const on=b.dataset.v===v;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1})});
+    sec.querySelector('[data-row=drawer]').hidden=!wideQ.matches;sec.querySelector('.dsp-note').hidden=wideQ.matches};
+  sec.querySelectorAll('.dsp-seg button').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);H.dataset[r.key]=b.dataset.v;try{localStorage.setItem(r.store,b.dataset.v)}catch(e){}sync()};
+    b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const bs=[...b.parentNode.children],i=bs.indexOf(b),n=bs[(i+(/Right|Down/.test(e.key)?1:bs.length-1))%bs.length];n.click();n.focus()}});
+  wideQ.addEventListener?.('change',sync);sync()})();
+</script>
+
+<script>/* YOUR OWN COLOR picker: a hex field (typed, or pasted with or without #, 3 or 6 digits) and the device's own color field. */
+(function(){const P=$('colorPick'),hex=$('cpHex'),wh=$('cpWheel'),sw=$('cpSw');let pk=null,prev=null,cur='#ffffff';
+  const norm=v=>{v=String(v||'').trim().replace(/^#/,'').toLowerCase();if(/^[0-9a-f]{3}$/.test(v))v=v.split('').map(x=>x+x).join('');return /^[0-9a-f]{6}$/.test(v)?'#'+v:null};
+  const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
+  const remember=v=>{const r=[v,...recent().filter(x=>x!==v)].slice(0,10);try{localStorage.setItem('current.colors',JSON.stringify(r))}catch(_){}};
+  const show=(v,live)=>{cur=v;sw.style.background=v;wh.value=v;if(document.activeElement!==hex)hex.value=v.slice(1);hex.classList.remove('bad');P.querySelector('.cpField').style.background=v;if(live&&pk)pk.set(v)};
+  function paintRecent(){const r=recent(),box=$('cpRecent');box.innerHTML='';if(!r.length){box.innerHTML='<em>none yet</em>';return}
+    r.forEach(v=>{const b=document.createElement('button');b.type='button';b.style.background=v;b.setAttribute('aria-label','Use '+v);b.onclick=()=>show(v,true);box.appendChild(b)})}
+  window.openColorPick=(p,start)=>{pk=p;prev=p.get();{const sh=document.querySelector('.shelf.open');P.style.bottom=sh?Math.round(innerHeight-sh.getBoundingClientRect().top+10)+'px':''}$('cpTitle').textContent=p.title+': your own';const v=norm(prev)||norm(start)||'#ffffff';show(v,false);paintRecent();P.hidden=false;
+    if(matchMedia('(hover: hover) and (pointer: fine)').matches)setTimeout(()=>{hex.focus();hex.select()},30)};
+  const close=(keep)=>{if(P.hidden)return;if(!keep&&pk&&prev)pk.set(prev);P.hidden=true;pk=null;if(typeof buildToolShelf==='function')buildToolShelf()};
+  hex.addEventListener('input',()=>{const v=norm(hex.value);hex.classList.toggle('bad',!v&&hex.value.length>0);if(v)show(v,true)});
+  hex.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('cpUse').click()}if(e.key==='Escape'){e.preventDefault();close(false)}});
+  hex.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData)?.getData('text');const v=norm(t);if(v){e.preventDefault();hex.value=v.slice(1);show(v,true)}});
+  wh.addEventListener('input',()=>show(wh.value,true));
+  $('cpUse').onclick=()=>{if(pk){pk.set(cur);remember(cur);toast(pk.title.toLowerCase()+' '+cur)}close(true)};
+  $('cpCancel').onclick=$('cpClose').onclick=()=>close(false);
+  document.addEventListener('pointerdown',e=>{if(!P.hidden&&!P.contains(e.target)&&!e.target.closest('.si.dot'))close(true)},true);
+  ['pointerdown','contextmenu'].forEach(ev=>P.addEventListener(ev,e=>e.stopPropagation()))})();
+</script>
+<script>(function(){var B=window.__BUILD__,T0=Date.now(),busy=false,shown=false;if(!B)return;
+function fresh(){var go=function(){location.reload()};var ps=[];
+ if("caches"in window)ps.push(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x.indexOf("current-")===0}).map(function(x){return caches.delete(x)}))}));
+ if(navigator.serviceWorker)ps.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.update().catch(function(){})}))}));
+ Promise.all(ps).then(go,go)}
+function pill(){if(shown)return;shown=true;var d=document.createElement("div");d.setAttribute("role","status");
+ d.style.cssText="position:fixed;z-index:99;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:4px 4px 4px 14px;border-radius:999px;background:rgba(14,14,16,.9);color:#eef1f2;border:1px solid rgba(255,255,255,.18);font:500 12px/1 system-ui,sans-serif;white-space:nowrap;max-width:calc(100vw - 24px);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)";
+ d.innerHTML='<span>A newer version is ready</span><button type="button" style="min-height:32px;padding:0 14px;border:0;border-radius:999px;background:var(--accent,#55b8c9);color:#04181c;font:600 12px/1 system-ui,sans-serif;cursor:pointer">Update</button><button type="button" aria-label="Later" style="width:32px;height:32px;border:0;background:none;color:#8a9396;font:16px/1 system-ui;cursor:pointer">\u00d7</button>';
+ var b=d.querySelectorAll("button");b[0].onclick=fresh;b[1].onclick=function(){d.remove();shown=false};document.body.appendChild(d)}
+window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;
+ return fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(v){busy=false;
+  if(!v||!v.build)return"offline";if(v.build===B)return"current";
+  var early=auto&&Date.now()-T0<15000,k="upd:"+v.build;
+  if(early){try{if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");fresh();return"new"}}catch(e){}}
+  pill();return"new"},function(){busy=false;return"offline"})};
+addEventListener("load",function(){setTimeout(function(){window.checkForUpdate(true)},1200)});
+document.addEventListener("visibilitychange",function(){if(!document.hidden)window.checkForUpdate(false)});
+setInterval(function(){if(!document.hidden)window.checkForUpdate(false)},1800000)})();</script>
 <script>if("serviceWorker"in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script>
 </body></html>
