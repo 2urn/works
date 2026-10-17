@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017212943"</script>
+<script>window.__BUILD__="20261017213209"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -311,7 +311,10 @@ body #playbar>#pShot.busy{opacity:.55}
 .owSoc button{font:500 12px/1 var(--sans);padding:9px 12px;border:1px solid #2b3235;background:transparent;color:#b9c2c5;border-radius:999px;cursor:pointer}
 .owSoc button:hover{color:#eef1f2;border-color:#55b8c9}
 #imgwrap .owNote{max-width:min(460px,100%)}
-#imgclose{margin-bottom:auto;flex:none}
+#imgwrap .owNote:last-of-type{margin-bottom:auto}
+#imgX{position:fixed;z-index:41;top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #2b3235;border-radius:50%;background:rgba(15,18,19,.85);color:#eef1f2;cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#imgX svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+#imgX:hover{border-color:#55b8c9}#imgX:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
 
 /* random: drag sets how much (up/down) and how often (left/right); hold opens the matrix */
 #pRand{position:relative;touch-action:none}
@@ -919,12 +922,14 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
   </div>
 </div>
 <div id="imgwrap" role="dialog" aria-label="Your capture">
+  <button id="imgX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   <div class="owStage"><img id="imgout" alt="A capture of the toolpath field" hidden><video id="vidout" playsinline loop muted controls hidden></video></div>
   <div id="owHead">Share the piece</div>
   <p id="owMeta"></p>
   <div class="owRow" id="owFile">
     <button class="owBtn pri" id="owSave" type="button" aria-label="Save the file to this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>save</button>
     <button class="owBtn" id="owShare" type="button" aria-label="Share the file: the system share sheet, for Instagram, TikTok, Messages, Photos" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M7 11H5.5v8.5h13V11H17"/></svg>share file</button>
+    <button class="owBtn" id="owClose" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>close</button>
   </div>
   <div class="owRow" id="owLinks">
     <button class="owBtn" id="owSend" type="button" aria-label="Send the link with the system share sheet" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 3.5 3.5 10.5l7 2.6 2.6 7z"/><path d="m10.5 13.1 4.6-4.6"/></svg>send</button>
@@ -937,7 +942,6 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
   <div id="owEmbedBox" hidden><textarea id="owEmbedCode" rows="3" readonly spellcheck="false" aria-label="Embed code"></textarea><button class="tb" id="owEmbedCopy" type="button">copy the embed</button><p class="owNote">Plays wherever the page is public. A private claude.ai link will not load for other people.</p></div>
   <div class="owSoc" id="owSoc" role="group" aria-label="Post the link"></div>
   <p class="owNote" id="owNote"></p>
-  <button class="pill" id="imgclose" type="button" aria-label="Close">close</button>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="launch" role="dialog" aria-modal="true" aria-label="Current" hidden>
@@ -2537,7 +2541,7 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
   $('owEmbedCode').value='<iframe src="'+u+'" width="960" height="540" style="border:0" allow="autoplay; fullscreen; camera; microphone" title="'+SHARE_TITLE+'"></iframe>';
   const soc=$('owSoc');soc.innerHTML='';SOC.forEach(([n,t])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-label','Post the link to '+n);
     b.onclick=()=>{const href=t.replace('{u}',E(u)).replace('{t}',E(SHARE_TITLE)).replace('{tu}',E(SHARE_TITLE+' '+u));const win=window.open(href,'_blank','noopener');if(!win&&href.startsWith('mailto:'))location.href=href};soc.appendChild(b)});
-  fold(null);w.classList.add('show');$('imgclose').focus()}
+  fold(null);w.classList.add('show');$('imgX').focus({preventScroll:true})}
 function closeOut(){$('imgwrap').classList.remove('show');try{$('vidout').pause()}catch(_){}}
 function fold(which){[['owQRBox','owQR'],['owEmbedBox','owEmbed']].forEach(([box,btn])=>{const on=box===which&&$(box).hidden;$(box).hidden=!on;$(btn).setAttribute('aria-expanded',String(on))})}
 function qrDraw(c,text,S){const m=qrMatrix(text);if(!m)return false;const n=m.length,q=4,side=(n+q*2)*S;c.width=c.height=side;const g=c.getContext('2d');
@@ -2554,7 +2558,7 @@ $('owQR').onclick=()=>{fold('owQRBox');if(!$('owQRBox').hidden&&!qrDraw($('owQRC
 $('owQRSave').onclick=()=>$('owQRC').toBlob(b=>b&&saveBlob('current-qr.png',b),'image/png');
 $('owEmbed').onclick=()=>fold('owEmbedBox');
 $('owEmbedCopy').onclick=()=>copyText($('owEmbedCode').value,'Embed');
-$('imgclose').onclick=closeOut;
+$('imgX').onclick=$('owClose').onclick=closeOut;
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeShotPop();closeOut()}});
 syncShot();
 $('bPlay').onclick=()=>setPlayer(true);
