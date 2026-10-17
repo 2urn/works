@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017212536"</script>
+<script>window.__BUILD__="20261017212656"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -167,6 +167,8 @@ body:not(.player) #dscMark{opacity:0}
 .idx dl:has(.gdt) dd{margin:0 0 10px}
 .gdt{display:flex;align-items:center;gap:4px;flex-wrap:wrap;white-space:normal}
 .gdt small{font:500 10px/1 var(--mono);color:var(--muted);margin-left:2px;letter-spacing:.04em}
+.gi-pill{display:inline-flex;align-items:stretch;height:30px;border-radius:999px;overflow:hidden;background:#0e0e10;border:1px solid rgba(255,255,255,.14);flex:none}
+.gi-seg{display:grid;place-items:center;width:34px;color:#eef1f2}.gi-seg+.gi-seg{border-left:1px solid rgba(255,255,255,.12)}.gi-seg svg{width:18px;height:18px;display:block}
 .gi{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#0e0e10;color:#eef1f2;border:1px solid rgba(255,255,255,.14);flex:none}
 .gi svg{width:18px;height:18px;display:block}
 .gi.t svg{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -3624,6 +3626,7 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
       if(drop[id])c.querySelectorAll(drop[id]).forEach(e=>e.remove());c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));c.removeAttribute('id');return cell(c)}).filter(Boolean);
     else if(typeof IC==='object'&&IC[t]){const w=document.createElement('span');w.innerHTML=svgI(t);const c=cell(w.firstChild);c.classList.add('t');icons=[c]}
     if(!icons.length)return;
+    if(t==='\u2039 \u25b6 \u203a'){const pill=document.createElement('span');pill.className='gi-pill';pill.setAttribute('aria-hidden','true');icons.forEach(i=>{i.className='gi-seg';pill.append(i)});icons=[pill]}   // the presets are one pill on the bar, so one pill here
     const lab=document.createElement('small');lab.textContent=t==='\u2039 \u25b6 \u203a'?'presets':t;dt.textContent='';dt.classList.add('gdt');dt.append(...icons,lab)});
 })();
 /* THE CODEX LIST: a group's chevron folds the group; a row's name folds the row */
