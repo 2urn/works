@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017212656"</script>
+<script>window.__BUILD__="20261017212943"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -2429,12 +2429,16 @@ function qrMatrix(text){
 // ---------- Capture: still / video / gif, and every way out of the page (Fracture's shutter, American's share sheet) ----------
 const SHARE_URL='https://works.chamy.xyz/current/',SHARE_TITLE='Current';
 function shareUrl(){try{if(window.top===window.self&&/^https?:$/.test(location.protocol))return location.href.split('#')[0].split('?')[0]}catch(_){}return SHARE_URL}
-const CAP_SHAPES=[['screen',0,'this screen'],['9:16',9/16,'story, reel, TikTok'],['4:5',.8,'feed post'],['1:1',1,'square'],['16:9',16/9,'video, YouTube']];
+const CAP_SHAPES=[['screen',0,'this screen'],['9:16',9/16,'story, reel, TikTok: 1080×1920'],['4:5',.8,'Instagram feed post: 1080×1350'],['1:1',1,'square: 1080×1080'],['16:9',16/9,'Full HD, YouTube: 1920×1080']];
 const GIF_FPS=12,GIF_SIDE=540,VID_SIDE=1920,STILL_SIDE=4096;
 const CAP={mode:'still',shape:'screen',gif:5};
 try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif'].includes(o.mode))CAP.mode=o.mode;if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif}catch(_){}
 function capSave(){try{localStorage.setItem('toolpath-capture',JSON.stringify(CAP))}catch(_){}}
-function capDims(side){const sw=cv.width,sh=cv.height,s=CAP_SHAPES.find(x=>x[0]===CAP.shape)||CAP_SHAPES[0],a=s[1]||sw/sh;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
+// stills and video in a set shape come out at the sizes the platforms want: Full HD video, Instagram's 1080-wide stills
+const CAP_SIZES={'9:16':[1080,1920],'4:5':[1080,1350],'1:1':[1080,1080],'16:9':[1920,1080]};
+function capDims(side){if(side!==GIF_SIDE&&CAP_SIZES[CAP.shape])return CAP_SIZES[CAP.shape].slice();
+  if(side===VID_SIDE){const a=cv.width/cv.height;return a>=1?[1920,Math.round(1920/a)&~1]:[Math.round(1920*a)&~1,1920]}   // this screen's shape, Full HD on its long side
+  const sw=cv.width,sh=cv.height,s=CAP_SHAPES.find(x=>x[0]===CAP.shape)||CAP_SHAPES[0],a=s[1]||sw/sh;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
   const k=Math.min(1,side/Math.max(cw,ch));return[Math.max(2,Math.round(cw*k)&~1),Math.max(2,Math.round(ch*k)&~1)]}
 let capSrc=null,CAPBG='#000';
 function frameInto(dst,w,h,fill){capSrc=stillCanvas(capSrc);const sw=capSrc.width,sh=capSrc.height,a=w/h;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
@@ -2500,7 +2504,7 @@ function buildShotPop(){const mk=(id,items,cur,set)=>{const el=$(id);el.innerHTM
   mk('shotGif',[[3,'3s'],[5,'5s'],[8,'8s']],CAP.gif,v=>CAP.gif=v);
   $('shotGifRow').hidden=CAP.mode!=='gif';
   const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);$('shotDims').textContent=w+'×'+h;
-  const m=pickMime();$('shotHint').textContent=CAP.mode==='still'?'A PNG at full resolution.':CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.';
+  const m=pickMime();$('shotHint').textContent=CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.';
   $('shotGo').textContent=REC?'stop':ENC?'making…':CAP.mode==='still'?'take the still':'start recording';$('shotGo').disabled=ENC}
 function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof closeRlist==='function')closeRlist();buildShotPop();$('shotPop').hidden=false;$('pShot').setAttribute('aria-expanded','true')}
 function closeShotPop(){$('shotPop').hidden=true;$('pShot').setAttribute('aria-expanded','false')}
