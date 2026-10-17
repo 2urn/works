@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017211032"</script>
+<script>window.__BUILD__="20261017212216"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -512,6 +512,35 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .wlRun .rlSaveBtn{height:32px;padding:0 14px}.wlRun .rlSaveBtn.stop{background:#ff7a52}
 .wlRun .rlSaveBtn:disabled{background:#23292b;color:#6b7578;cursor:default}
 .wlRun span{font:400 12px/1.3 var(--sans);color:#8a9396}
+/* the sequencer's play: a long loop with play (stop) at its left; dashes run round it while words take turns */
+.wlLoop{flex:none;width:96px;height:32px;padding:0;border:0;background:none;color:#55b8c9;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wlLoop svg{display:block;width:96px;height:32px}
+.wlLoop .trk{fill:rgba(85,184,201,.12);stroke:currentColor;stroke-width:1.6}
+.wlLoop .gl{fill:currentColor}
+.wlLoop text{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;fill:currentColor}
+.wlLoop.on{color:#04181c}.wlLoop.on .trk{fill:#55b8c9;stroke:#55b8c9;stroke-dasharray:6 5;animation:wlrun 1.1s linear infinite}
+.wlLoop.on .trk{stroke:#04181c;stroke-opacity:.45}
+@keyframes wlrun{to{stroke-dashoffset:-22}}
+.wlLoop:disabled{color:#4a5254;cursor:default}.wlLoop:disabled .trk{fill:none}
+.wlLoop:focus-visible{outline:2px solid #55b8c9;outline-offset:2px;border-radius:16px}
+.wlAdd{display:flex;align-items:center;gap:6px;margin:6px 14px 8px;padding:0 4px 0 8px;height:40px;border:1px dashed #2f3639;border-radius:10px}
+.wlAdd.few{border-color:#55b8c9;border-style:solid}
+.wlAdd .pl{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#55b8c9;color:#04181c;flex:none}
+.wlAdd .pl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.wlAdd input{flex:1;min-width:0;border:0;background:none;color:#eef1f2;font:500 16px var(--mono);outline:none}
+.wlAdd input::placeholder{color:#6b7578}
+.wlAdd button{flex:none;height:30px;padding:0 10px;border:0;border-radius:8px;background:#1f4f58;color:#eef1f2;font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.wlHint{margin:4px 14px 0;font:400 12px/1.4 var(--sans);color:#b9c2c5}
+/* a word sequence is playing: a small loop badge on the text tool, and on the dots when another tool is open */
+#pickTrack .si.seqon{position:relative}
+#pickTrack .si.seqon::after,#pSteer.seqon::before{content:"";position:absolute;top:6px;right:8px;width:12px;height:7px;border-radius:4px;border:1.6px solid #55b8c9;box-sizing:border-box;animation:seqblink 1.4s ease-in-out infinite}
+#pSteer.seqon::before{top:4px;right:2px}
+body #playbar>#pSteer.lit.seqon::before{border-color:#04181c}
+@keyframes seqblink{50%{opacity:.35}}
+/* any shelf up: the dots light too, so they read as the way to close it */
+body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border-color:#55b8c9;color:#eef1f2}
+@media (prefers-reduced-motion:reduce){.wlLoop.on .trk,#pickTrack .si.seqon::after,#pSteer.seqon::before{animation:none}}
+
 #wlItems{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #wlItems .fl>button.pick .nm{font:500 16px/1.2 var(--mono)}
 .fl>button.inq{flex:none;width:40px;background:transparent;border:0;color:#6b7578;cursor:pointer;display:grid;place-items:center;font:700 11px/1 var(--mono)}
@@ -673,7 +702,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
       <h2 class="idx-name">CURRENT</h2>
       <p class="idx-say">Current is one of the tools I am exploring for audiovisual interactivity and performance: an artist and designer&rsquo;s instruments for experiences that range from the phone in your hand to immersive environments.</p>
       <section class="cx-grp" id="guide"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="guideL"><span>Guide</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or trace a picture or the camera. Many buttons do more when you hold them (a long press; a right-click on a computer). Each one is marked <b style="color:var(--accent)">Hold</b> below.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field, or traced into toolpaths of its own.</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself.<span class="lp"><b>Hold</b> <span>any of the three: the list of looks. In the list, hold a look to edit its toolpath.</span></span></dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself.<span class="lp"><b>Hold</b> <span>the random matrix: which values roll.</span></span></dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video.<span class="lp"><b>Hold</b> <span>the mode, the shape of the frame, and sharing.</span></span></dd><dt>Sound</dt><dd>On or off: beats, a sound file of your own, or the microphone, that the field moves to.<span class="lp"><b>Hold</b> <span>the sound shelf: the beats, your own file, the microphone, volume and timing.</span></span></dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.<span class="lp"><b>Hold</b> <span>hides or shows the open tool&rsquo;s shelf.</span></span></dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.<span class="lp"><b>Hold</b> <span>a color still for your own (a hex value or the color field); hold and drag up or down for its opacity.</span></span></dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. Recent words, a word sequencer, and the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>pinch</dt><dd>The reach of your touch.</dd><dt>twist</dt><dd>Its strength.</dd><dt>wheel</dt><dd>Reach on a computer; with shift, strength.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt><kbd>p</kbd></dt><dd>Open or close this index.</dd><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous or next preset.</dd><dt><kbd>r</kbd></dt><dd>A random look.</dd><dt><kbd>s</kbd></dt><dd>Steer.</dd><dt><kbd>m</kbd></dt><dd>Sound on or off.</dd><dt><kbd>esc</kbd></dt><dd>Close what is open.</dd></dl></div></li></ol></div></section>
+        <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or trace a picture or the camera. Many buttons do more when you hold them (a long press; a right-click on a computer). Each one is marked <b style="color:var(--accent)">Hold</b> below.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field, or traced into toolpaths of its own.</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself.<span class="lp"><b>Hold</b> <span>any of the three: the list of looks. In the list, hold a look to edit its toolpath.</span></span></dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself.<span class="lp"><b>Hold</b> <span>the random matrix: which values roll.</span></span></dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video.<span class="lp"><b>Hold</b> <span>the mode, the shape of the frame, and sharing.</span></span></dd><dt>Sound</dt><dd>On or off: beats, a sound file of your own, or the microphone, that the field moves to.<span class="lp"><b>Hold</b> <span>the sound shelf: the beats, your own file, the microphone, volume and timing.</span></span></dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.<span class="lp"><b>Hold</b> <span>hides or shows the open tool&rsquo;s shelf.</span></span></dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.<span class="lp"><b>Hold</b> <span>a color still for your own (a hex value or the color field); hold and drag up or down for its opacity.</span></span></dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. The clock in the word field opens your words: add a few, press the loop, and they take turns on the field (a small loop on the text icon while they play). The F switch picks the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>pinch</dt><dd>The reach of your touch.</dd><dt>twist</dt><dd>Its strength.</dd><dt>wheel</dt><dd>Reach on a computer; with shift, strength.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt><kbd>p</kbd></dt><dd>Open or close this index.</dd><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous or next preset.</dd><dt><kbd>r</kbd></dt><dd>A random look.</dd><dt><kbd>s</kbd></dt><dd>Steer.</dd><dt><kbd>m</kbd></dt><dd>Sound on or off.</dd><dt><kbd>esc</kbd></dt><dd>Close what is open.</dd></dl></div></li></ol></div></section>
     </div>
     <div class="ph">
       <div>
@@ -1990,16 +2019,18 @@ function seqTick(dt){if(!SEQ.on)return;
     else{SEQ.t+=dt;if(SEQ.t>=.6){SEQ.t=0;hit=true}}   // no sound: a steady 100 bpm, four beats to the bar
     if(hit&&++SEQ.beats>=4){SEQ.beats=0;seqStep()}return}
   SEQ.t+=dt;if(SEQ.t>=+SEQ.every){SEQ.t=0;seqStep()}}
-function seqStart(){if(!store.seq.length){toast('pick words for the sequence first');return}SEQ.on=true;SEQ.t=0;SEQ.beats=0;SEQ.i=-1;seqStep();toast('sequence playing · '+store.seq.length+' word'+(store.seq.length>1?'s':''))}
-function seqStop(){SEQ.on=false;SEQ.cur=null;if(ACTIVE==='text')buildToolShelf();if(!$('wordList').hidden)renderWordList()}
+function seqStart(){if(!store.seq.length){toast('pick words for the sequence first');return}SEQ.on=true;SEQ.t=0;SEQ.beats=0;SEQ.i=-1;syncSlot();seqStep();toast('sequence playing · '+store.seq.length+' word'+(store.seq.length>1?'s':''))}
+function seqStop(){SEQ.on=false;SEQ.cur=null;syncSlot();if(ACTIVE==='text')buildToolShelf();if(!$('wordList').hidden)renderWordList()}
 function seqToggle(w){const i=store.seq.indexOf(w);if(i>=0)store.seq.splice(i,1);else store.seq.push(w);persist();if(!store.seq.length&&SEQ.on)seqStop();renderWordList();if(ACTIVE==='text')buildToolShelf()}
 function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';box.innerHTML='';
   const segs=(arr,cur,aria,fn)=>{const d=document.createElement('div');d.className='segs';d.setAttribute('role','group');d.setAttribute('aria-label',aria);
     for(const [v,l] of arr){const b=document.createElement('button');b.type='button';b.className='sg';b.textContent=l;b.setAttribute('aria-pressed',String(cur===v));b.onclick=()=>{fn(v);persist();renderWordList()};d.appendChild(b)}return d};
   const h=document.createElement('div');h.className='sub';h.textContent='Sequence';sq.appendChild(h);
-  const run=document.createElement('div');run.className='wlRun';const pb=document.createElement('button');pb.type='button';pb.className='rlSaveBtn'+(SEQ.on?' stop':'');
-  pb.textContent=SEQ.on?'Stop':'Play';pb.disabled=!SEQ.on&&!store.seq.length;pb.setAttribute('aria-label',SEQ.on?'Stop the word sequence':'Play the word sequence');pb.onclick=()=>{SEQ.on?seqStop():seqStart();renderWordList()};
-  const nt=document.createElement('span');nt.textContent=store.seq.length?store.seq.length+' word'+(store.seq.length>1?'s':'')+(SEQ.on&&SEQ.cur?' · now '+SEQ.cur:''):'Tap + beside words to add them';
+  const run=document.createElement('div');run.className='wlRun';const pb=document.createElement('button');pb.type='button';pb.className='wlLoop'+(SEQ.on?' on':'');
+  // a long loop: the track the words go round; play (or stop) at its left; the dashes run round it while it plays
+  pb.innerHTML='<svg viewBox="0 0 96 32" aria-hidden="true"><rect class="trk" x="2" y="2" width="92" height="28" rx="14"/>'+(SEQ.on?'<rect x="12" y="10" width="11" height="11" rx="2" class="gl"/>':'<path d="M13 9.5v13l11-6.5z" class="gl"/>')+'<text x="58" y="20.5" text-anchor="middle">'+(SEQ.on?'stop':'play')+'</text></svg>';
+  pb.disabled=!SEQ.on&&!store.seq.length;pb.setAttribute('aria-label',SEQ.on?'Stop the word sequence':'Play the word sequence');pb.onclick=()=>{SEQ.on?seqStop():seqStart();renderWordList()};
+  const nt=document.createElement('span');nt.textContent=store.seq.length?store.seq.length+' word'+(store.seq.length>1?'s':'')+(SEQ.on&&SEQ.cur?' · now '+SEQ.cur:'')+(store.seq.length===1?' · add one more to take turns':''):'Tap + beside a word to put it in the sequence';
   run.append(pb,nt);sq.appendChild(run);
   sq.appendChild(segs([['order','in order'],['mix','auto mix']],SEQ.order,'Sequence order',v=>{SEQ.order=v;store.seqOrder=v}));
   sq.appendChild(segs(Object.entries(SEQ_EVERY),SEQ.every,'Change words every',v=>{SEQ.every=v;store.seqEvery=v;SEQ.t=0;SEQ.beats=0}));
@@ -2016,6 +2047,14 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
     x.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
     x.onclick=()=>{store.words=store.words.filter(v=>v!==w);const k=store.seq.indexOf(w);if(k>=0)store.seq.splice(k,1);if(!store.seq.length&&SEQ.on)seqStop();persist();renderRecent();renderWordList();if(ACTIVE==='text')buildToolShelf()};
     row.append(inq,b,x);box.appendChild(row)}
+  { // add a word without tracing it: typed here it joins the list and the sequence
+    const few=words.length<2,row=document.createElement('form');row.className='wlAdd'+(few?' few':'');
+    row.innerHTML='<span class="pl" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></span><input type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="'+(few?'add a word to sequence them':'add a word')+'" aria-label="Add a word to the list and the sequence"><button type="submit">add</button>';
+    if(few){const hint=document.createElement('p');hint.className='wlHint';hint.textContent=words.length?'Words take turns on the field. Add a second one, then press play.':'Add words, then press play: they take turns on the field.';box.appendChild(hint)}
+    row.onsubmit=e=>{e.preventDefault();const v=row.querySelector('input').value.trim().slice(0,48);if(!v)return;
+      store.words=[v,...store.words.filter(x=>x!==v)].slice(0,14);if(!store.seq.includes(v))store.seq.push(v);persist();if(typeof renderRecent==='function')renderRecent();renderWordList();if(ACTIVE==='text')buildToolShelf();
+      const n=$('wlItems').querySelector('.wlAdd input');if(n)n.focus()};
+    box.appendChild(row)}
   const ft=document.createElement('div');ft.className='wlFoot';
   const tb=(l,a,fn)=>{const b=document.createElement('button');b.type='button';b.className='tb';b.textContent=l;b.setAttribute('aria-label',a);b.onclick=fn;ft.appendChild(b)};
   tb('add all','Add every recent word to the sequence',()=>{for(const w of words)if(!store.seq.includes(w))store.seq.push(w);persist();renderWordList();if(ACTIVE==='text')buildToolShelf()});
@@ -2661,6 +2700,9 @@ function syncSlot(){const el=$('pSteer'),multi=TOOLS.length>1,act=multi?ACTIVE:'
   el.classList.toggle('multi',multi);el.classList.toggle('lit',!!act&&(act!=='steer'||STEER.on||railOpen));
   el.querySelector('.ico').innerHTML=IC[act||'steer'];
   el.classList.toggle('busy',(!!STEER.loop&&act!=='steer')||(!!MGR.loop&&act!=='magnet'));
+  el.classList.toggle('shelfopen',!!(pickOpen||srcOpen||sndOpen||(act&&act!=='steer'&&toolShown)));   // any shelf up: the dots light, and tapping them closes it
+  el.classList.toggle('seqon',!!SEQ.on);
+  const tb=$('pickTrack').querySelector('[data-tool=text]');if(tb)tb.classList.toggle('seqon',!!SEQ.on);
   const t=TOOLS.find(x=>x.id===act);
   el.setAttribute('aria-label',multi&&!act?'Tools: tap for steer, color, text, magnet and view':(t?t.aria:'Steer')+'. Tap to close it, hold to hide or show its shelf');
   el.setAttribute('aria-pressed',String(!!act));el.setAttribute('aria-expanded',String(pickOpen||!!act));
@@ -2677,7 +2719,8 @@ function collapseTool(quiet){const was=ACTIVE;ACTIVE=null;railOpen=false;
   if(!quiet)syncSteer()}
 // slot gestures
 (function(){const el=$('pSteer');let g=null,lastUp=0;
-  const tap=()=>{if(TOOLS.length<2){setSteer(!STEER.on);return}
+  const tap=()=>{if(srcOpen||sndOpen){srcOpen=false;sndOpen=false;syncSteer();return}   // the dots close the sound or source shelf too
+    if(TOOLS.length<2){setSteer(!STEER.on);return}
     if(ACTIVE)collapseTool();else{pickOpen=!pickOpen;if(pickOpen){srcOpen=false;sndOpen=false}syncSteer()}};
   const hold=()=>{if(TOOLS.length<2||ACTIVE==='steer'){ACTIVE=TOOLS.length<2?null:'steer';srcOpen=false;sndOpen=false;pickOpen=false;railOpen=!railOpen||STEER.on;if(STEER.on)STEER.on=false;syncSteer();return}
     if(ACTIVE){toolShown=!toolShown;syncSteer()}else{pickOpen=!pickOpen;syncSteer()}};
@@ -3141,7 +3184,7 @@ function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src)));
   $('sdVol').querySelector('.lab').textContent='vol '+Math.round(+$('audVol').value*100)+'%';
   $('sdQuant').querySelector('.lab').textContent='lands '+(QUANT_STEPS.find(q=>q[0]===QUANT)||[0,'off'])[1]}
-wireTapHold($('pSnd'),{tap:toggleSound,hold:()=>{sndOpen=!sndOpen;if(sndOpen){srcOpen=false;pickOpen=false;buildSndShelf()}syncSteer()}});
+wireTapHold($('pSnd'),{tap:()=>{if(sndOpen){sndOpen=false;syncSteer();return}toggleSound()},hold:()=>{sndOpen=!sndOpen;if(sndOpen){srcOpen=false;pickOpen=false;buildSndShelf()}syncSteer()}});
 $('pSnd').setAttribute('aria-haspopup','true');$('pSnd').setAttribute('aria-controls','shelfSnd');
 function readAudio(dt){
   const decay=k=>{SIGNALS[k]*=Math.exp(-dt*5)};
