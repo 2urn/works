@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018184052"</script>
+<script>window.__BUILD__="20261018184310"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -264,6 +264,19 @@ body:not(.player) #dscMark{opacity:0}
 .colo-lic pre{margin:4px 0 8px;white-space:pre-wrap;font:400 10.5px/1.45 var(--mono);color:var(--muted)}
 /* the player: the drawer carries the colophon only, open */
 #panel{padding-top:calc(var(--gut) + var(--nmh) + 14px + env(safe-area-inset-top,0px));padding-right:var(--gut)}
+/* THE DRAWER'S SCROLLBAR (Dimitry, 18 Oct). Two things. The gutter is reserved before the bar exists, so folding the
+   index short and opening it long never shifts the column sideways (stable: it only reserves where the system draws a
+   classic bar; overlay bars, as on phones and a trackpad Mac, take no room and none is held). And the bar is the
+   interface's own: a thin thumb in the text colour at low strength, no track (the light-grey channel goes), a little
+   stronger while the drawer is pointed at or the thumb is held. scrollbar-color for Chrome and Firefox; the
+   -webkit- rules for Safari, which Chrome ignores once scrollbar-color is set. */
+#panel{scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--fg) 18%,transparent) transparent}
+#panel:hover{scrollbar-color:color-mix(in srgb,var(--fg) 32%,transparent) transparent}
+#panel::-webkit-scrollbar{width:8px;height:8px;background:transparent}
+#panel::-webkit-scrollbar-track,#panel::-webkit-scrollbar-corner{background:transparent;border:0}
+#panel::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--fg) 18%,transparent);border-radius:4px;border:2px solid transparent;background-clip:padding-box}
+#panel:hover::-webkit-scrollbar-thumb{background-color:color-mix(in srgb,var(--fg) 32%,transparent)}
+#panel::-webkit-scrollbar-thumb:active{background-color:color-mix(in srgb,var(--accent) 70%,transparent)}
 /* THE CODEX LIST in the index (Pullula's Index): a group's name with its chevron, open; under it a numbered list,
    a number and a name on one baseline, a rule under each row, each row open with its fold at the right edge. */
 .cx-grp{border-top:1px solid var(--line);margin-top:14px}
