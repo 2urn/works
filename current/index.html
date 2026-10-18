@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018112327"</script>
+<script>window.__BUILD__="20261018151622"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -72,6 +72,8 @@
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <script src="vendor/opentype.min.js"></script>
 <script src="surface/auto.js"></script>
+<script src="surface/capture.js"></script>
+<script src="surface/hints.js"></script>
 <script src="surface/reset.js"></script>
 <style>
 /* Layout: square studio chrome — stage (canvas) left, instrument panel right; stacks on phone */
@@ -364,17 +366,9 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShotSq{display:none}#pShot.rec #pShotDot{display:none}#pShot.rec #pShotSq{display:inline}
 #pRecTime{position:absolute;left:50%;top:100%;transform:translate(-50%,5px);font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#eef1f2;text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none}
 #pShot.rec #pRecTime{color:#ff8a84}
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:#0f1213;color:#eef1f2;border:1px solid #23292b}
-#shotPop[hidden]{display:none}
-#shotPop .spBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 10px}
-#shotPop .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#8a9396;padding:12px 14px 4px}
-#shotPop .segs{padding:2px 14px}
-#shotPop[hidden] .segs{display:none}
-#shotDims{color:#55b8c9;letter-spacing:.06em;text-transform:none;font-weight:500;margin-left:8px}
-.spActs{display:flex;gap:6px;padding:12px 14px 2px}
-.spGo{flex:1;min-height:40px;font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;background:#55b8c9;color:#04181c;border:1px solid #55b8c9;border-radius:0;cursor:pointer}
-.spGo.ghost{background:transparent;color:#eef1f2;border-color:#2b3235}
-.spGo.ghost:hover{border-color:#55b8c9}
+#pSnd{--sh-ring:rgba(85,184,201,.85)}.sh-here{--sh-acc:#55b8c9}
+/* the capture panel is Surface's (surface/capture.js, Fracture's layout); Current only places it and gives it the blue */
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985)}
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
@@ -548,7 +542,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #plItems .lk.cur .th{outline:1.5px solid #55b8c9}
 #plItems .lk>button.cp{width:auto;padding:4px 6px;margin-left:4px;font:500 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#5b6467;border:1px solid #23292b}
 #plItems .lk>button.cp:hover{color:#eef1f2}
-.shelf .sep{flex:none;width:1px;margin:8px 4px;background:rgba(255,255,255,.14)}
+.shelf .sep{flex:none;width:1px;margin:10px 5px;background:rgba(255,255,255,.18)}   /* light rules between a drawer's families (18 Oct) */
 body #playbar>#pSteer[aria-pressed="true"]{background:#55b8c9;color:#04181c}
 body #playbar>#pSteer.looping:not([aria-pressed="true"]){border-color:#55b8c9;color:#55b8c9}
 body #playbar>#pSrc.on{border-color:#55b8c9;color:#55b8c9}
@@ -1009,9 +1003,9 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
 <div class="shelf" id="shelfTool" role="toolbar" aria-label="Tool settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="toolTrack"></div></div>
 <div class="shelf" id="shelfSnd" role="toolbar" aria-label="Sound: beats, your file and settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="sndTrack"></div></div>
-<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></svg><span class="lab">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button><button class="si" id="srOff" type="button" aria-label="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">off</span></button></div></div>
+<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></svg><span class="lab">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srOff" type="button" aria-label="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">off</span></button></div></div>
 <input type="file" id="srFile" hidden aria-hidden="true">
-<div id="playname" aria-live="polite"></div>
+<div id="playname" class="sh-title" aria-live="polite"></div>
 <div id="colorPick" role="dialog" aria-modal="false" aria-labelledby="cpTitle" hidden><div class="mxh"><span id="cpTitle">Your color</span><button type="button" class="tb" id="cpClose">close</button></div>
   <div class="cpBody"><label class="cpField"><input type="color" id="cpWheel" aria-label="Pick a color from the color field"><span class="cpTap">touch to open the color field</span></label>
   <div class="cpHexRow"><span class="cpHash" aria-hidden="true">#</span><input id="cpHex" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="7" aria-label="Hex value, like ff6fa5"><i id="cpSw" aria-hidden="true"></i></div>
@@ -1043,16 +1037,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
   <div class="mxh"><span>Random</span><button class="tb" id="rlClose" type="button" aria-label="Close the random matrix">Close</button></div>
   <div id="rlBody"></div>
 </div>
-<div id="shotPop" role="dialog" aria-label="Capture: mode, shape and sharing" hidden>
-  <div class="mxh"><span>Capture<b id="shotDims"></b></span><button class="tb" id="shotClose" type="button" aria-label="Close the capture options">Close</button></div>
-  <div class="spBody">
-    <div class="sub">Mode</div><div class="segs" id="shotModes" role="group" aria-label="What the shutter makes"></div>
-    <div class="sub">Shape</div><div class="segs" id="shotShapes" role="group" aria-label="Shape of the capture"></div>
-    <div id="shotGifRow"><div class="sub">GIF length</div><div class="segs" id="shotGif" role="group" aria-label="GIF length"></div></div>
-    <div class="spActs"><button class="spGo" id="shotGo" type="button">capture</button><button class="spGo ghost" id="shotLink" type="button">share the piece</button></div>
-    <p class="rlHint" id="shotHint"></p>
-  </div>
-</div>
+<div id="shotPop" hidden></div>
 <div id="imgwrap" role="dialog" aria-label="Your capture">
   <button id="imgX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   <div class="owStage"><img id="imgout" alt="A capture of the toolpath field" hidden><video id="vidout" playsinline loop muted controls hidden></video></div>
@@ -2676,20 +2661,21 @@ function syncShot(){const b=$('pShot');b.dataset.mode=CAP.mode;b.classList.toggl
 function shutter(){if(ENC)return;if(REC){REC.kind==='video'?REC.rec.stop():stopGif();return}
   if(CAP.mode==='video')startVideo();else if(CAP.mode==='gif')startGif();else capStill()}
 /* the hold-panel */
-function buildShotPop(){const mk=(id,items,cur,set)=>{const el=$(id);el.innerHTML='';items.forEach(([v,lab,tip])=>{const b=document.createElement('button');b.type='button';b.className='sg';b.textContent=lab;if(tip)b.title=tip;
-    b.setAttribute('aria-pressed',String(v===cur));b.disabled=!!(REC||ENC);b.onclick=()=>{set(v);capSave();syncShot()};el.appendChild(b)})};
-  mk('shotModes',[['still','still'],['video','video'],['gif','gif']],CAP.mode,v=>CAP.mode=v);
-  mk('shotShapes',CAP_SHAPES.map(x=>[x[0],x[0],x[2]]),CAP.shape,v=>CAP.shape=v);
-  mk('shotGif',[[3,'3s'],[5,'5s'],[8,'8s']],CAP.gif,v=>CAP.gif=v);
-  $('shotGifRow').hidden=CAP.mode!=='gif';
-  const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);$('shotDims').textContent=w+'×'+h;
-  const m=pickMime();$('shotHint').textContent=CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.';
-  $('shotGo').textContent=REC?'stop':ENC?'making…':CAP.mode==='still'?'take the still':'start recording';$('shotGo').disabled=ENC}
-function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof closeRlist==='function')closeRlist();buildShotPop();$('shotPop').hidden=false;$('pShot').setAttribute('aria-expanded','true')}
-function closeShotPop(){$('shotPop').hidden=true;$('pShot').setAttribute('aria-expanded','false')}
-$('shotClose').onclick=closeShotPop;
-$('shotGo').onclick=()=>{closeShotPop();shutter()};
-$('shotLink').onclick=()=>{closeShotPop();openOut(false)};
+/* the panel: Surface's capture card (Fracture's layout); the engine above stays Current's own */
+const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and sharing',
+  modes:[['still','still'],['video','video'],['gif','gif']],
+  shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
+  extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]}],
+  get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();syncShot()},busy:()=>!!(REC||ENC),
+  dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
+  hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
+    return CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
+  primary:{label:()=>REC?'stop':ENC?'making…':CAP.mode==='still'?'save':'record',disabled:()=>ENC,run:()=>{closeShotPop();shutter()}},
+  secondary:{label:'share',run:()=>{closeShotPop();openOut(false)}},
+  onClose:()=>$('pShot').setAttribute('aria-expanded','false')});
+function buildShotPop(){SHOT.build()}
+function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof closeRlist==='function')closeRlist();SHOT.open();$('pShot').setAttribute('aria-expanded','true')}
+function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
 document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot'))closeShotPop()},true);
 (el=>{let g=null;
   el.addEventListener('pointerdown',e=>{if(e.button)return;g={id:e.pointerId,held:false,t:setTimeout(()=>{if(g){g.held=true;openShotPop()}},450)}});
@@ -3088,6 +3074,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     // the magnet: tap turns it on/off; drag up for attract, down through zero for repel; the ring shows which and how much.
     // Its reach is pinched on the stage while this shelf is open (wheel over the button on a computer).
     // lines: one glyph — four rules, the chosen count lit and the rest faint, the count (or A for auto) small at lower right. Tap cycles.
+    sep();   // field | lines | recent
     const LM=['1','2','3','4','auto'],lm=linesMode(),lnm={auto:'auto, fit the screen',1:'1 line',2:'2 lines',3:'3 lines',4:'4 lines'},nxt=LM[(LM.indexOf(lm)+1)%LM.length];
     const LY=[5,9.5,14,18.5],LW=[16,16,12,11],nLit=lm==='auto'?4:+lm;
     btn(null,'<svg class="lng" viewBox="0 0 24 24" aria-hidden="true">'+LY.map((y,i)=>'<path d="M3 '+y+'h'+LW[i]+'"'+(i<nLit&&lm!=='auto'?'':' opacity=".3"')+'/>').join('')
@@ -3530,10 +3517,14 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   // STOP / PLAY (Dimitry, 18 Oct): one button that stops whatever plays, or plays the last sound again; volume is a drag on the bar's speaker
   add('sdOff','stop',SND_STOP,'Stop the sound',()=>{if(AUD.src!=='off'){AUD.userOff=true;stopAudio()}else{AUD.userOff=false;soundOn()}syncSndShelf()});
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
+  /* light rules between the families (Dimitry, 18 Oct): beats | bytes | sources | settings */
+  const rule=()=>{const g=document.createElement('span');g.className='sep';g.setAttribute('aria-hidden','true');t.appendChild(g)};
+  rule();
   for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
   if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
   add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
+  rule();
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
@@ -4041,7 +4032,7 @@ try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,
     {key:'drawer',lab:'Drawer',store:'current.drawer',wide:true,opts:[['beside','Beside','The drawer beside the stage: the stage moves over and both stay in view'],['over','Over','The drawer slides over the stage']]},
     {key:'panes',lab:'Panes',store:'current.panes',opts:[['solid','Solid','The drawer solid'],['frosted','Frosted','The drawer frosted glass: the stage blurred behind it'],['see','Sheer','The drawer sheer: thinned, see-through'],['clear','Clear','The drawer clear: only its words and controls']]}];
   const sec=document.createElement('section');sec.className='cx-grp';sec.id='display';
-  sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="displayL">'+gear+'<span>Display</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="displayL">'+
+  sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="displayL">'+gear+'<span>Settings</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="displayL">'+
     ROWS.map(r=>'<div class="dsp-row" data-row="'+r.key+'"><span class="dsp-lab" id="dsp-'+r.key+'">'+r.lab+'</span><div class="dsp-seg" role="radiogroup" aria-labelledby="dsp-'+r.key+'">'+
       r.opts.map(o=>'<button type="button" role="radio" data-k="'+r.key+'" data-v="'+o[0]+'" aria-label="'+o[2]+'">'+o[1]+'</button>').join('')+'</div></div>').join('')+
     '<p class="dsp-note">Beside needs a wide window; on a phone the drawer always slides over the stage.</p></div>';
@@ -4053,6 +4044,21 @@ try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,
   sec.querySelectorAll('.dsp-seg button').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);H.dataset[r.key]=b.dataset.v;try{localStorage.setItem(r.store,b.dataset.v)}catch(e){}sync()};
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const bs=[...b.parentNode.children],i=bs.indexOf(b),n=bs[(i+(/Right|Down/.test(e.key)?1:bs.length-1))%bs.length];n.click();n.focus()}});
   wideQ.addEventListener?.('change',sync);sync()})();
+/* Surface · Hints: a Hints row in Display, and the first visit points at the speaker once the cover has gone */
+try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-note');
+  /* Current's own segmented row, the same as Drawer and Panes; the level itself is Surface's */
+  const L=SurfaceHints.LEVELS,row=document.createElement('div');row.className='dsp-row';row.dataset.row='hints';
+  row.innerHTML='<span class="dsp-lab" id="dsp-hints">Hints</span><div class="dsp-seg" role="radiogroup" aria-labelledby="dsp-hints">'+
+    L.map(l=>'<button type="button" role="radio" data-v="'+l[0]+'" aria-label="Hints: '+l[1]+'. '+l[2]+'">'+(l[0]==='all'?'All':l[0]==='titles'?'Titles':'None')+'</button>').join('')+'</div>';
+  const again=document.createElement('div');again.className='dsp-row';again.innerHTML='<span class="dsp-lab"></span><div class="dsp-seg"><button type="button" class="dsp-again" aria-label="Show the first-run hints again">Show hints again</button></div>';
+  const hn=document.createElement('p');hn.className='dsp-note dsp-hnote';hn.textContent='Titles keeps the preset names as the looks change. None is a clean stage for performing. Hover and hold labels stay either way.';
+  if(dl){dl.insertBefore(row,nt||null);dl.insertBefore(again,nt||null);dl.insertBefore(hn,nt||null)}
+  const hs=()=>row.querySelectorAll('button').forEach(b=>{const on=b.dataset.v===SurfaceHints.level;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1});
+  row.querySelectorAll('button').forEach(b=>b.onclick=()=>{SurfaceHints.set(b.dataset.v);hs()});
+  again.querySelector('button').onclick=()=>{SurfaceHints.replay();hs();if(typeof toast==='function')toast('hints will show again')};
+  document.addEventListener('surface:hints',hs);hs();
+  SurfaceHints.start({key:'current',target:'#pSnd',isOn:()=>{const b=document.getElementById('pSnd');return !!b&&(b.classList.contains('on')||b.getAttribute('aria-pressed')==='true')},
+    wait:()=>!document.getElementById('launch'),after:3200})}catch(e){console.warn('hints',e)}
 </script>
 <script>/* Surface · Sections: the index as a mini Codex. Drag a section by its grip, keep one open with its pin, fold all,
    focus (one open at a time), less text (the tools without the explanations). Remembered on this device. */
@@ -4111,7 +4117,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.11.0';
+const APP_VERSION='0.12.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
