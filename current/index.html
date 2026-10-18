@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018184808"</script>
+<script>window.__BUILD__="20261018185353"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -70,12 +70,7 @@
 
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
-<script>(function(){const H=document.documentElement;
-  const app=()=>{try{return navigator.standalone===true||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches}catch(e){return false}};
-  function gap(){if(!app()){H.style.removeProperty('--vgap');return}
-    const land=innerWidth>innerHeight,sh=land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
-    const g=Math.round(sh-innerHeight);H.style.setProperty('--vgap',(g>0&&g<120?g:0)+'px')}
-  gap();addEventListener('resize',gap);addEventListener('orientationchange',()=>setTimeout(gap,300))})();</script>
+<!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
 <script src="vendor/opentype.min.js"></script>
 <script src="surface/auto.js"></script>
 <script src="surface/capture.js"></script>
