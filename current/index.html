@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018190337"</script>
+<script>window.__BUILD__="20261018190608"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3414,7 +3414,13 @@ function shelfOverflow(){document.querySelectorAll('.shelf').forEach(sh=>{const 
   const atL=t.scrollLeft<4,atR=t.scrollLeft+t.clientWidth>=t.scrollWidth-4;sh.classList.toggle('atL',atL);sh.classList.toggle('atR',atR);
   sh.querySelector('.shv.l').disabled=atL;sh.querySelector('.shv.r').disabled=atR})}
 document.querySelectorAll('.shelf').forEach(sh=>{const t=sh.querySelector('.track');t.addEventListener('scroll',shelfOverflow,{passive:true});
-  sh.querySelector('.shv.l').onclick=()=>t.scrollBy({left:-t.clientWidth*.7});sh.querySelector('.shv.r').onclick=()=>t.scrollBy({left:t.clientWidth*.7});
+  /* the arrows step a tool at a time to a real stopping place, clamped to the ends (Dimitry, 18 Oct: on his iPhone a
+     tap ran past the last tool and left a gap; a relative scrollBy with snapping can overshoot in Safari) */
+  const step=dir=>{const max=Math.max(0,t.scrollWidth-t.clientWidth),pad=parseFloat(getComputedStyle(t).scrollPaddingLeft)||0,
+      items=[...t.children].filter(e=>e.offsetWidth>8),want=t.scrollLeft+dir*t.clientWidth*.7;
+    let to=dir>0?max:0;for(const e of (dir>0?items:items.slice().reverse())){const x=e.offsetLeft-pad;if(dir>0?x>=want-1:x<=want+1){to=x;break}}
+    t.scrollTo({left:Math.max(0,Math.min(max,Math.round(to)))})};
+  sh.querySelector('.shv.l').onclick=()=>step(-1);sh.querySelector('.shv.r').onclick=()=>step(1);
   // vertical wheel scrolls the shelf sideways on a desktop
   t.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)&&t.scrollWidth>t.clientWidth){t.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
   ['pointerdown','contextmenu'].forEach(ev=>sh.addEventListener(ev,e=>e.stopPropagation()))});
@@ -3905,7 +3911,8 @@ function syncSrc(){{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle
   $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';
   $('srMir').setAttribute('aria-pressed',String(SRC.mirror));$('srMir').hidden=SRC.kind!=='camera';
   ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail','srAuto'].forEach(k=>$(k).disabled=SRC.kind==='none');
-  $('srTrace').disabled=SRC.kind!=='picture';   // trace takes one still frame: on a moving video or camera its outlines go stale at once (Dimitry, 18 Oct)syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
+  $('srTrace').disabled=SRC.kind!=='picture';   // trace takes one still frame: on a moving video or camera its outlines go stale at once (Dimitry, 18 Oct)
+  syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
   $('pSrc').classList.toggle('on',SRC.kind!=='none');gestCap();
   setTransp();layoutBg();syncShelves()}
 /* Gestures, field or picture: while a picture, video or camera is loaded (and not traced), a small switch at the top of
@@ -4561,7 +4568,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',also:'#co
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.7';
+const APP_VERSION='0.15.8';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
