@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261017223900"</script>
+<script>window.__BUILD__="20261018001527"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -1868,7 +1868,7 @@ const QUANT_STEPS=[[0,'off'],[2,'8th'],[4,'beat'],[8,'half bar'],[16,'bar']];
 let QUANT=2,pendLook=null;
 try{const q=JSON.parse(localStorage.getItem('toolpath-quant'));if(QUANT_STEPS.some(x=>x[0]===q))QUANT=q}catch(_){}
 function beatDelay(){
-  if(!QUANT||!AUD.ctx||!AUD.loopOn||!BEATS[AUD.src]||AUD.ctx.state!=='running')return 0;
+  if(!QUANT||!AUD.ctx||!AUD.loopOn||!(BEATS[AUD.src]||BYTES[AUD.src])||AUD.ctx.state!=='running')return 0;
   // the loop started at t0 and never drifts (it runs on the audio clock), so the grid is exact
   const c=AUD.ctx.currentTime,dur=AUD.dur,now=(c-AUD.t0)/dur,k=Math.ceil((now+.08)/QUANT)*QUANT;
   return Math.max(0,(AUD.t0+k*dur-c)*1000)}
@@ -3118,6 +3118,64 @@ const BEATS={
   'Fibonacci 110':{bpm:110,k:'xxx.x..x....x...',s:'.....x.......x..',h:'xxxxxxxxxxxxxxxx',b:'x.......x.......'},
   'Pulse 60':{bpm:60,k:'x...............',s:'................',h:'........x.......',b:'x...............'}
 };
+/* ---------- Bytebeat (the Bytebeat Reef engine): one-line formulas in t, which counts 8000 times a second; the result is read as a byte.
+   Rendered once into a long mono loop, like the beats, so it never stutters. Letters n l o p a b c are fixed here (the Reef moves them live). ---------- */
+const BYTES={
+  'Byte ladder':{bpm:117.1875,f:'t*((t>>12|t>>8)&(n*7)&t>>4)'},
+  'Byte weave':{bpm:117.1875,f:'t&t>>((l>>1)+5)|t*2&t>>(o+5)'},
+  'Byte chord':{bpm:117.1875,f:'t*2&t>>9|t*3&t>>8|t*(p+2)&t>>10'},
+  'Byte tide':{bpm:117.1875,f:'t*(((t>>9)^((t>>9)-1)^1)%(n+3))'},
+  'Byte 42':{bpm:117.1875,f:'t*(42&t>>10)'},
+  'Byte fractal':{bpm:117.1875,f:'t&t>>8'}
+};
+const BB_LET=[9,8,3,2,4,4,4];   // n l o p a b c
+function bbParse(src){
+  const s=String(src),T=[],re=/\s*(?:(0[xX][0-9a-fA-F]+|\d*\.?\d+(?:[eE][-+]?\d+)?)|([A-Za-z_$][\w$]*)|(>>>|===|!==|>>|<<|<=|>=|==|!=|&&|\|\||\*\*|[-+*\/%&|^~!<>?:(),.]))/y;
+  let i=0;while(i<s.length){re.lastIndex=i;const m=re.exec(s);if(!m){if(/^\s*$/.test(s.slice(i)))break;return null;}i=re.lastIndex;
+    T.push(m[1]!==undefined?{k:"n",v:Number(m[1])}:m[2]!==undefined?{k:"i",v:m[2]}:{k:"o",v:m[3]});}
+  const F={"|":(a,b)=>a|b,"^":(a,b)=>a^b,"&":(a,b)=>a&b,"==":(a,b)=>a==b,"!=":(a,b)=>a!=b,"===":(a,b)=>a===b,"!==":(a,b)=>a!==b,
+    "<":(a,b)=>a<b,">":(a,b)=>a>b,"<=":(a,b)=>a<=b,">=":(a,b)=>a>=b,"<<":(a,b)=>a<<b,">>":(a,b)=>a>>b,">>>":(a,b)=>a>>>b,
+    "+":(a,b)=>a+b,"-":(a,b)=>a-b,"*":(a,b)=>a*b,"/":(a,b)=>a/b,"%":(a,b)=>a%b};
+  const L=[["||"],["&&"],["|"],["^"],["&"],["==","!=","===","!=="],["<",">","<=",">="],["<<",">>",">>>"],["+","-"],["*","/","%"]];
+  const V={t:0,n:1,l:2,o:3,p:4,a:5,b:6,c:7},C={PI:Math.PI,E:Math.E};
+  const M={sin:Math.sin,cos:Math.cos,tan:Math.tan,abs:Math.abs,floor:Math.floor,ceil:Math.ceil,sqrt:Math.sqrt,pow:Math.pow,min:Math.min,max:Math.max,
+    random:Math.random,round:Math.round,sign:Math.sign,log:Math.log,exp:Math.exp,atan:Math.atan,atan2:Math.atan2,hypot:Math.hypot,int:Math.floor};
+  let k=0;const is=v=>T[k]&&T[k].k==="o"&&T[k].v===v,eat=v=>is(v)?(k++,true):false,need=v=>{if(!eat(v))throw 0;};
+  function seq(){let a=tern();while(eat(",")){const x=a,b=tern();a=e=>(x(e),b(e));}return a;}
+  function tern(){const c=bin(0);if(eat("?")){const a=tern();need(":");const b=tern();return e=>c(e)?a(e):b(e);}return c;}
+  function bin(lv){if(lv>=L.length)return pw();let a=bin(lv+1);for(;;){const t=T[k];if(!(t&&t.k==="o"&&L[lv].includes(t.v)))return a;k++;
+    const x=a,b=bin(lv+1),op=t.v;a=op==="||"?e=>x(e)||b(e):op==="&&"?e=>x(e)&&b(e):(f=>e=>f(x(e),b(e)))(F[op]);}}
+  function pw(){const a=un();if(eat("**")){const b=pw();return e=>Math.pow(a(e),b(e));}return a;}
+  function un(){if(eat("-")){const a=un();return e=>-a(e);}if(eat("+")){const a=un();return e=>+a(e);}
+    if(eat("~")){const a=un();return e=>~a(e);}if(eat("!")){const a=un();return e=>!a(e);}return prim();}
+  function prim(){const t=T[k++];if(!t)throw 0;if(t.k==="n"){const v=t.v;return()=>v;}
+    if(t.k==="o"){if(t.v==="("){const a=seq();need(")");return a;}throw 0;}
+    let nm=t.v;if(nm==="Math"){need(".");const u=T[k++];if(!u||u.k!=="i")throw 0;nm=u.v;}
+    if(is("(")){k++;const g=M[nm];if(!g)throw 0;const A=[];if(!eat(")")){do A.push(tern());while(eat(","));need(")");}
+      if(A.length===0)return()=>g();if(A.length===1){const a=A[0];return e=>g(a(e));}if(A.length===2){const a=A[0],b=A[1];return e=>g(a(e),b(e));}
+      return e=>g(...A.map(f=>f(e)));}
+    if(nm in V&&t.v!=="Math"){const j=V[nm];return e=>e[j];}if(nm in C){const v=C[nm];return()=>v;}throw 0;}
+  try{const root=seq();if(k!==T.length)return null;const E=[0,0,0,0,0,0,0,0];
+    return(t,n,l,o,p,a,b,c)=>{E[0]=t;E[1]=n;E[2]=l;E[3]=o;E[4]=p;E[5]=a;E[6]=b;E[7]=c;return root(E);};}catch(e){return null;}
+}
+
+let BB_EVAL=null;
+function bbCompile(src){
+  if(BB_EVAL!==false){try{const f=new Function('t','n','l','o','p','a','b','c','const {sin,cos,tan,abs,floor,ceil,sqrt,pow,min,max,random,PI}=Math;const int=Math.floor;return ('+src+');');
+      f(1000,...BB_LET);BB_EVAL=true;return f}catch(e){if(e instanceof EvalError||/eval|unsafe|Content Security/i.test(String(e&&e.message)))BB_EVAL=false}}
+  try{const f=bbParse(src);if(!f)return null;f(1000,...BB_LET);return f}catch(e){return null}}
+function renderByte(name){
+  if(BEAT_BUF[name])return BEAT_BUF[name];
+  return BEAT_BUF[name]=new Promise((res,rej)=>{
+    const fn=bbCompile(BYTES[name].f);if(!fn){rej(new Error('formula'));return}
+    const sr=AUD.ctx.sampleRate,T=1<<18,len=Math.round(T*sr/8000),out=AUD.ctx.createBuffer(1,len,sr),d=out.getChannelData(0);
+    const [n,l,o,p,a,b,c]=BB_LET,raw=new Float32Array(T);let xp=0,yp=0,pk=1e-6;
+    for(let t=0;t<T;t++){let v=fn(t,n,l,o,p,a,b,c);v=Number.isFinite(v)?(v&255)/128-1:0;const y=v-xp+.995*yp;xp=v;yp=y;raw[t]=y}   // DC blocker
+    for(let i=0;i<len;i++){const v=raw[Math.min(T-1,Math.floor(i*8000/sr))];d[i]=v;const m=Math.abs(v);if(m>pk)pk=m}   // sample-and-hold: the bytebeat crunch
+    const k=.7/pk,fade=Math.round(sr*.008);for(let i=0;i<len;i++)d[i]*=k;
+    for(let i=0;i<fade;i++){const g=i/fade;d[i]*=g;d[len-1-i]*=g}   // soften the loop seam
+    res(out)}).catch(e=>{delete BEAT_BUF[name];throw e})}
+const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
 function ensureCtx(){
@@ -3141,6 +3199,7 @@ function hat(X,t){noiseHit(X,t,'highpass',7200,.7,.22,.045)}
 function bassNote(X,t,len){const c=X.c,o=c.createOscillator(),lp=c.createBiquadFilter(),g=c.createGain();o.type='sawtooth';o.frequency.value=55;lp.type='lowpass';lp.frequency.value=380;env(g,t,.32,len);o.connect(lp).connect(g).connect(X.out);o.start(t);o.stop(t+len+.05)}
 const BEAT_BUF={};   // name -> Promise<AudioBuffer>
 function renderBeat(name){
+  if(BYTES[name])return renderByte(name);
   if(BEAT_BUF[name])return BEAT_BUF[name];
   const pat=BEATS[name],sr=AUD.ctx.sampleRate,dur=60/pat.bpm/4,bar=dur*16,len=Math.ceil(bar*sr);
   const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
@@ -3156,13 +3215,13 @@ function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.
 function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
 function stopAudio(){AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
 function startBeat(name,fromPreset){
-  const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
+  const pat=BEATS[name]||BYTES[name];if(!pat)return;if(!ensureCtx())return;
   stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();prerenderBeats();
   renderBeat(name).then(buf=>{if(AUD.want!==name)return;   // stopped or switched while rendering
     const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;
     AUD.beat=c.createGain();AUD.beat.connect(AUD.bus);n.connect(AUD.beat);
     const t0=c.currentTime+.05;n.start(t0);AUD.node=n;AUD.t0=t0;AUD.dur=60/pat.bpm/4;AUD.loopOn=true},
-    ()=>toast('could not build that beat here'));
+    ()=>toast(BYTES[name]?'could not run that bytebeat here':'could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function startFile(){if(!AUD.fileBuf||!ensureCtx())return;stopAudio();AUD.want=null;const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.bus);n.start();AUD.node=n;AUD.src='file';syncAud()}
 /* MICROPHONE: the room drives the field. The mic feeds only the analyser, never the speakers (no feedback), with the
@@ -3200,9 +3259,9 @@ $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.val
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
 function syncAud(){audSeg.innerHTML='';
-  const opts=['off',...Object.keys(BEATS)].concat(AUD.fileBuf?['file']:[],['mic']);
+  const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES)].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
-    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':'Play the built-in beat '+o);
+    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':BYTES[o]?'Play the bytebeat '+o+': '+BYTES[o].f:'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off')stopAudio();else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
   sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
@@ -3226,7 +3285,7 @@ function unlockAudio(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AUD.ctx&&AUD.src!=='off')AUD.ctx.resume().catch(()=>{})});
 function soundOn(){
   if(AUD.last==='mic'){startMic();return}
-  if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&BEATS[AUD.last]?AUD.last:'Four on the floor');
+  if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&(BEATS[AUD.last]||BYTES[AUD.last])?AUD.last:'Four on the floor');
   if(+$('audVol').value<.05){$('audVol').value=.6;$('audVol').dispatchEvent(new Event('input'))}
   const name=AUD.src==='file'?AUD.file:AUD.src.toLowerCase();toast('sound: '+name);
   // say so if the browser still refuses, so the cause is visible rather than silent
@@ -3242,6 +3301,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   const add=(id,label,svg,aria,fn)=>{const b=document.createElement('button');b.className='si';b.type='button';if(id)b.id=id;b.innerHTML=svg+'<span class="lab">'+label+'</span>';b.setAttribute('aria-label',aria);b.onclick=fn;t.appendChild(b);return b};
   add('sdOff','off','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>','Sound off',()=>{AUD.userOff=true;stopAudio()}).dataset.src='off';
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
+  for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
@@ -3775,7 +3835,7 @@ try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.9';
+const APP_VERSION='0.9.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
