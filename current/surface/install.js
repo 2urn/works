@@ -187,10 +187,11 @@ function mount(o){
 
   function render(){
     clearTimeout(timer);
-    if(standalone()){body.innerHTML=`<p class="sfi-state"><b>Installed.</b> You are in ${app} as an app. It opens from its own icon and keeps working offline once it has loaded.</p>`+ver();wireVer();return}
+    /* ver and wireVer are declared before the installed branch uses them (they were after it, which threw and left the section empty in the installed app) */
     const ver=()=>window.__BUILD__?`<p class="sfi-note" style="margin-top:10px">Version ${esc(String(window.__BUILD__).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5'))} · <button type="button" class="sfi-chk" style="padding:0;border:0;background:none;color:var(--sfi-acc);font:inherit;text-decoration:underline;cursor:pointer">check for updates</button></p>`:'';
     const wireVer=()=>{const b=body.querySelector('.sfi-chk');if(!b||typeof window.checkForUpdate!=='function')return;
       b.onclick=()=>{b.textContent='checking…';window.checkForUpdate(false).then(r=>{b.textContent=r==='current'?'you have the newest':r==='new'?'a newer version is ready':'could not check (offline?)'})}};
+    if(standalone()){body.innerHTML=`<p class="sfi-state"><b>Installed.</b> You are in ${app} as an app. It opens from its own icon and keeps working offline once it has loaded.</p>`+ver();wireVer();return}
     if(embedded()){body.innerHTML=`<p class="sfi-lead">${app} can live on your phone or computer as its own app: full screen, its own icon, and it keeps working offline.</p>
       <p class="sfi-state">Here inside Claude, installing would save Claude, not ${app}. Open the public version and install it from there:</p>
       <a class="sfi-go" href="${esc(o.url)}" target="_blank" rel="noopener">${ICON_EXT}Open ${app}</a> <button type="button" class="sfi-go ghost" data-copy>Copy link</button>`;
