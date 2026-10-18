@@ -36,13 +36,18 @@
   'use strict';
   const PROSE = '.cx-lead,.cx-body>p:not(.cx-acts):not(:has(a,button,input)),.cx-body dd,.cx-body .lp,.note,.sfs-prose';   // a paragraph holding a link or a control is a tool, not prose (Contact)
   const CSS = `
-.sfs-bar{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;margin:14px 0 2px;padding:0}
-.sfs-bar button{min-height:32px;padding:0;border:0;background:none;color:var(--muted,#8a9396);font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sfs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
+/* the Codex's page tools, as icons (from Pullula's page settings): the name shows in the hint as each is pointed at */
+.sfs-bar button{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sfs-bar .sfs-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sfs-hint{margin-right:auto;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#8a9396);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
+.sfs-hint.on{opacity:1}
 .sfs-bar button:hover{color:var(--fg,#eef1f2)}
 .sfs-bar button[aria-pressed="true"]{color:var(--accent,#55b8c9)}
 .sfs-bar button[hidden]{display:none}
 .sfs-bar button:focus-visible,.sfs-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
-@media (pointer:coarse){.sfs-bar button{min-height:44px}}
+@media (pointer:coarse){.sfs-bar button{width:44px;height:44px}}
 .sfs-root>.sfs-sec{position:relative;border-top:2px solid var(--fg,#eef1f2)}
 .sfs-root>.sfs-sec>.cx-grpbtn{padding-right:88px}
 .sfs-keep{position:absolute;top:0;right:34px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.55;font-size:16px;-webkit-tap-highlight-color:transparent}
@@ -110,22 +115,39 @@
 
     /* the toolbar */
     const bar = document.createElement('div'); bar.className = 'sfs-bar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', o.label + ': sections');
-    const mk = (txt, aria, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = txt; b.setAttribute('aria-label', aria); b.onclick = fn; bar.appendChild(b); return b; };
+    /* icons from the Codex's page settings (Pullula): fold (−), open (+), one at a time, explanations; reset is a turn-back arrow.
+       Each button carries its name three ways: aria-label for screen readers, title for a desktop hover, and the hint at the
+       left of the row while it is pointed at or focused (and briefly after a tap, for touch). */
+    const ICO = { fold: '<path d="M5 12h14"/>', open: '<path d="M5 12h14M12 5v14"/>', one: '<path d="M5 5h14M5 19h14"/><rect x="5" y="9" width="14" height="6" rx="1"/>',
+      why: '<path d="M5 7h14M5 12h14M5 17h9"/>', reset: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v3.8h3.8"/>', link: '<path d="M14 5h5v5M19 5l-8 8"/><path d="M17 14v5H5V7h5"/>' };
+    const hint = document.createElement('span'); hint.className = 'sfs-hint'; hint.setAttribute('aria-hidden', 'true'); bar.appendChild(hint);
+    let ht = 0;
+    const show = (b, ms) => { clearTimeout(ht); hint.textContent = b.dataset.name; hint.classList.add('on'); if (ms) ht = setTimeout(() => hint.classList.remove('on'), ms); };
+    const hide = () => { clearTimeout(ht); hint.classList.remove('on'); };
+    const mk = (txt, aria, fn, ico) => { const b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (ICO[ico] || ICO.link) + '</svg><span class="sfs-name">' + txt + '</span>';
+      b.dataset.name = txt; b.title = aria; b.setAttribute('aria-label', aria);
+      b.onclick = e => { fn(e); if (e.pointerType === 'touch' || !e.detail) show(b, 1400); };
+      b.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') show(b); });
+      b.addEventListener('pointerleave', hide); b.addEventListener('focus', () => show(b)); b.addEventListener('blur', hide);
+      bar.appendChild(b); return b; };
+    const setIco = (b, ico, txt) => { b.querySelector('svg').innerHTML = ICO[ico]; b.dataset.name = txt; b.querySelector('.sfs-name').textContent = txt; };
     const kept = s => (st.keep || []).indexOf(s.id) >= 0;
-    const bFold = mk('fold all', 'Fold every section that is not kept open', () => { const all = secs().filter(s => !kept(s)).every(s => s.classList.contains('cx-shut')); secs().forEach(s => { if (!kept(s)) setShut(s, !all); }); persist(); say(all ? 'All sections open' : 'Sections folded, kept ones stay open'); });
-    const bFocus = mk('focus', 'Focus: one section open at a time', () => {
+    const bFold = mk('fold all', 'Fold every section that is not kept open', () => { const all = secs().filter(s => !kept(s)).every(s => s.classList.contains('cx-shut')); secs().forEach(s => { if (!kept(s)) setShut(s, !all); }); persist(); say(all ? 'All sections open' : 'Sections folded, kept ones stay open'); }, 'fold');
+    const bFocus = mk('one at a time', 'One at a time: opening a section folds the others', () => {
       st.focus = !st.focus;
       if (st.focus) { const open = secs().filter(s => !s.classList.contains('cx-shut') && !kept(s)); open.slice(1).forEach(s => setShut(s, true)); }
       persist(); say(st.focus ? 'Focus on: one section at a time' : 'Focus off');
-    });
-    const bBrief = mk('less text', 'Less text: hide the explanations, keep the tools', () => { st.brief = !st.brief; persist(); say(st.brief ? 'Showing the tools only' : 'Showing the explanations'); });
-    for (const l of (o.links || [])) mk(l.label, l.aria || l.label, l.run);   // the tool's own jumps (e.g. licenses)
-    const bReset = mk('reset order', 'Put the sections back in their first order', () => { applyOrder(DEFAULT); persist(); say('Order reset'); });
+    }, 'one');
+    const bBrief = mk('less text', 'Less text: hide the explanations, keep the tools', () => { st.brief = !st.brief; persist(); say(st.brief ? 'Showing the tools only' : 'Showing the explanations'); }, 'why');
+    for (const l of (o.links || [])) mk(l.label, l.aria || l.label, l.run, l.icon || 'link');   // the tool's own jumps (e.g. licenses)
+    const bReset = mk('reset order', 'Put the sections back in their first order', () => { applyOrder(DEFAULT); persist(); say('Order reset'); }, 'reset');
     const first = movable()[0] || secs()[0];
     root.insertBefore(bar, first);
     function sync() {
       const loose = secs().filter(s => !kept(s)), all = loose.length && loose.every(s => s.classList.contains('cx-shut'));
-      bFold.textContent = all ? 'open all' : 'fold all'; bFold.setAttribute('aria-label', all ? 'Open every section' : 'Fold every section');
+      setIco(bFold, all ? 'open' : 'fold', all ? 'open all' : 'fold all');
+      const fl = all ? 'Open every section' : 'Fold every section that is not kept open'; bFold.setAttribute('aria-label', fl); bFold.title = fl;
       bFocus.setAttribute('aria-pressed', String(!!st.focus)); bBrief.setAttribute('aria-pressed', String(!!st.brief));
       (briefScope || root).classList.toggle('sfs-brief', !!st.brief);
       bReset.hidden = movable().map(s => s.id).join() === DEFAULT.join();

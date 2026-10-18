@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018074947"</script>
+<script>window.__BUILD__="20261018075440"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -185,7 +185,7 @@ body:not(.player) #duckLab{opacity:0}
 body:not(.player) #dscMark{opacity:0}
 .colo-nm{position:absolute;top:calc(var(--gut) + env(safe-area-inset-top,0px));right:calc(var(--gut) - var(--nm-in));height:var(--nmh);min-width:44px;padding:0;border:0;background:none;color:var(--fg);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .colo-nm:hover{opacity:.7}
-.colo{margin-top:auto;border-top:1px solid var(--line)}
+#colo.colo{margin-top:auto;border-top:2px solid var(--fg)}   /* the same thick rule as every section; it stays last and is not dragged (Dimitry, 18 Oct) */
 .colo>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;list-style:none;font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .colo>summary::-webkit-details-marker{display:none}
 .colo>summary::after{content:"+";margin-left:auto;font-size:13px}.colo[open]>summary::after{content:"\2212"}
@@ -268,7 +268,7 @@ body:not(.player) #dscMark{opacity:0}
 .idx-name{margin:0;font:700 34px/1 "Minnerva Title","Anton",sans-serif;letter-spacing:.1em;color:var(--fg)}
 .idx .colo-word{margin:10px 0 0}
 .idx.vertical .colo-word{transform:rotate(90deg);transform-origin:left top;margin:0 0 0 calc(var(--u) * 132 / 114.75)}
-.idx-say{margin:16px 0 0;font-size:14px;line-height:1.5;max-width:38ch}
+.idx .idx-say{margin:3em 0 0;font-size:14px;line-height:1.5;max-width:38ch}
 .idx details{border-top:1px solid var(--line);margin-top:14px}
 .idx summary{display:flex;align-items:center;min-height:44px;cursor:pointer;list-style:none;font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .idx summary::-webkit-details-marker{display:none}
@@ -283,7 +283,7 @@ body:not(.player) #dscMark{opacity:0}
 .idx kbd.arr{font:700 19px/1.27 var(--sans)}
 /* in the full tool the builder's own heading would repeat the name */
 .idx~.ph>div{display:none}
-[data-export=player] .colo{margin-top:14px}
+[data-export=player] #colo.colo{margin-top:14px}
 @media (prefers-reduced-motion:reduce){.lc-frost,.lc-body{transition:opacity .2s ease}#launch.going .lc-body{filter:none;transform:none}.lc-duck-c{transition:none}.colo-more,#dscMark{transition:none}}
 /* ---------- Fracture's player chrome, worn by Current (teal accent) ---------- */
 .ph{display:flex;align-items:flex-start;gap:8px}
@@ -974,7 +974,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
     <section class="cx-grp colo cx-shut" id="colo"><button type="button" class="cx-grpbtn" aria-expanded="false" aria-controls="coloL"><span>Colophon</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="cx-gbody" id="coloL"><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>About</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>I am Dimitry Sa&iuml;d Chamy. Current is one of the tools I am building for audiovisual interactivity and performance. Learn with me as I develop digital instruments for experiences that range from the phone in your hand to participatory immersive environments.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Made by</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Dimitry Sa&iuml;d Chamy &middot; <a href="https://works.chamy.xyz/">CHAMY&middot;XYZ</a>, 2026. An independent brand and publishing imprint, founded by Dimitry Sa&iuml;d Chamy &mdash; artist, designer, cultural producer.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>Open source</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Current stands on ideas, methods, standards, open-source code and open typefaces. Each is credited below, the foundations first, even where our code is new, with its license where it has one. I support exploring open source, and sharing back what is learned.</p><p class="cx-acts"><button type="button" class="cx-play" data-licenses>show every license</button></p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>AI ratio</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><div class="ratio" aria-hidden="true"><i style="width:70%"></i></div>      
       <p>70% human, 30% AI, by the artist&rsquo;s own estimate.</p>
-      <p>Current is made with AI-assisted development, in conversation with Claude (Anthropic), and says so. I support exploring that openly: naming the tools, showing the ratio, and keeping the decisions with the artist.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Your work stays here</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Presets, looks, gestures and captures are kept in this browser. Camera and microphone, if you turn them on, never leave the device. Adding a typeface by name loads it from Google Fonts.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>06</i><span>Contact</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a></p><p><a href="https://www.instagram.com/2urn_" target="_blank" rel="noopener">Instagram @2urn_</a></p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>07</i><span>Made with</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><ul class="colo-made" id="coloMade"></ul></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>08</i><span>License</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body">
+      <p>Current is made with AI-assisted development, in conversation with Claude (Anthropic), and says so. I support exploring that openly: naming the tools, showing the ratio, and keeping the decisions with the artist.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Your work stays here</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Presets, looks, gestures and captures are kept in this browser. Camera and microphone, if you turn them on, never leave the device. Adding a typeface by name loads it from Google Fonts.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>06</i><span>Contact</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p class="sfs-prose">For live performances, workshops and exhibitions, or to talk about the work:</p><p><a href="mailto:hi@chamy.xyz" aria-label="Email hi@chamy.xyz">hi@chamy.xyz</a></p><p><a href="https://www.instagram.com/2urn_" target="_blank" rel="noopener">Instagram @2urn_</a></p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>07</i><span>Made with</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><ul class="colo-made" id="coloMade"></ul></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>08</i><span>License</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body">
 <p><b>Free for personal use.</b> You may use Current, here or installed on your own devices, for your own non-commercial play, study, teaching and making.</p>
 <p><b>Not for commercial use</b> without a license: performances, installations, broadcasts, client work, products or anything sold or paid for. To ask, write to <a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a>.</p>
 <p><b>What you make.</b> Stills, GIFs and videos you capture are yours to keep and share for non-commercial purposes; please credit &ldquo;Current by Dimitry Sa&iuml;d Chamy&rdquo;.</p>
@@ -4033,7 +4033,7 @@ function showLicenses(){setPlayer(false);const colo=$('colo'),made=$('coloMade')
   if(row&&row.classList.contains('cx-shut')){row.classList.remove('cx-shut');row.querySelector('.cx-go').setAttribute('aria-expanded','true')}
   full.open=true;setTimeout(()=>{const pn=$('panel');pn.scrollTo({top:pn.scrollTop+row.getBoundingClientRect().top-pn.getBoundingClientRect().top-76,behavior:'smooth'})},340)}
 document.querySelectorAll('[data-licenses]').forEach(b=>b.onclick=showLicenses);
-try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'Index',briefScope:'#panel',links:[{label:'licenses',aria:'Show every open-source license, in full',run:showLicenses}]})}catch(e){console.warn('sections',e)}</script>
+try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'Index',briefScope:'#panel'})}catch(e){console.warn('sections',e)}</script>
 
 <script>/* YOUR OWN COLOR picker: a hex field (typed, or pasted with or without #, 3 or 6 digits) and the device's own color field. */
 (function(){const P=$('colorPick'),hex=$('cpHex'),wh=$('cpWheel'),sw=$('cpSw');let pk=null,prev=null,cur='#ffffff';
@@ -4082,7 +4082,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.10.4';
+const APP_VERSION='0.10.5';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
