@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018194741"</script>
+<script>window.__BUILD__="20261018200015"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -75,6 +75,7 @@
 <script src="surface/auto.js"></script>
 <script src="surface/capture.js"></script>
 <script src="surface/hints.js"></script>
+<script src="surface/keys.js"></script>
 <script src="surface/reset.js"></script>
 
 <style>
@@ -271,6 +272,18 @@ body:not(.player) #dscMark{opacity:0}
 .air-disc{background:var(--cream);border:1px solid var(--rule);border-radius:2px;padding:10px 12px;margin:6px 0 10px}
 .air-disc>div{font:500 10px/1 'DM Mono',var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
 .air-disc p{margin:0!important;font:italic 400 14px/1.5 'Instrument Serif',Georgia,serif;color:var(--ink)}
+#saveAs{position:fixed;inset:0;z-index:61;display:flex;align-items:center;justify-content:center;padding:16px;background:rgb(var(--ui-g,14 14 16) / .6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#saveAs form{width:min(380px,100%);display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--ui-line);background:var(--ui-solid);color:var(--ui-ink);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+#saveAs label{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
+#saveAs input{min-height:46px;padding:0 12px;border:1px solid var(--ui-line);border-radius:8px;background:transparent;color:var(--ui-ink);font:500 17px/1 var(--sans)}
+#saveAs input:focus{outline:2px solid #55b8c9;outline-offset:1px}
+#saveAs div{display:flex;justify-content:flex-end;gap:8px}
+#saveAs button{min-height:44px;padding:0 18px;border:1px solid var(--ui-line);border-radius:999px;background:none;color:var(--ui-ink);font:600 13px/1 var(--sans);cursor:pointer}
+#saveAs button[type=submit]{background:#55b8c9;border-color:#55b8c9;color:#04181c}
+/* dark drawer, dark card (Dimitry, 18 Oct: the paper read as white): the body turns to ink too, a step lighter than the
+   top, and the brand's colours stay. The top is ink already. */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .air .air-body{--warm:#191714;--cream:#221f1a;--ink:#ede5d0;--mid:#a39a88;--rule:#34302a}}
+:root[data-theme="dark"] .air .air-body{--warm:#191714;--cream:#221f1a;--ink:#ede5d0;--mid:#a39a88;--rule:#34302a}
 .air-note{margin:0!important;font:400 10px/1.5 'DM Mono',var(--mono);color:var(--mid)}.air-note a{color:var(--red)}
 .colo .ratio{display:flex;height:4px;margin:6px 0 6px;background:var(--line)}.colo .ratio i{display:block;background:var(--fg)}
 .colo-made{list-style:none;margin:0;padding:0}
@@ -1147,7 +1160,7 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
             <div class="air-bar"><div><span>Execution &middot; hybrid</span><span>58</span></div><p><i style="width:58%"></i></p></div>
             <div class="air-bar"><div><span>Prompting &amp; direction &middot; deep</span><span>88</span></div><p><i style="width:88%"></i></p></div>
             <div class="air-bar"><div><span>Ideation &amp; research</span><span>70</span></div><p><i style="width:70%"></i></p></div>
-            <div class="air-bar"><div><span>Curation &amp; selection</span><span>50</span></div><p><i style="width:50%"></i></p></div>
+            <div class="air-bar"><div><span>Curation &middot; rubric default</span><span>50</span></div><p><i style="width:50%"></i></p></div>
             <div class="air-bar"><div><span>Self-assessment</span><span>70</span></div><p><i style="width:70%"></i></p></div>
           </div>
           <ul class="air-flags">
@@ -2705,7 +2718,7 @@ function wireTapHold(el,h){
   let g=null,lastHold=0;
   const hold=()=>{lastHold=performance.now();h.hold()};
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();
-    g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},520)}});
+    g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   el.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id)return;
     if(g.drag){h.drag('move',e.clientX-g.x,e.clientY-g.y);return}
     if(Math.hypot(e.clientX-g.x,e.clientY-g.y)>14){clearTimeout(g.t);
@@ -2726,7 +2739,7 @@ wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'
   const show=()=>{placeName();const n=$('playname');n.textContent='random '+Math.round(RAND.amt*100)+'% · '+tempoTxt(RAND.tempo);n.classList.add('show');clearTimeout(hideT)};
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}
     g={id:e.pointerId,x:e.clientX,y:e.clientY,drag:false,held:false,a0:RAND.amt,t0:Math.max(0,RAND_TEMPOS.indexOf(RAND.tempo)),
-      t:setTimeout(()=>{if(g&&!g.drag){g.held=true;openRlist();if(navigator.vibrate)navigator.vibrate(12)}},520)}});
+      t:setTimeout(()=>{if(g&&!g.drag){g.held=true;openRlist();if(navigator.vibrate)navigator.vibrate(12)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   el.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id||g.held)return;const dx=e.clientX-g.x,dy=e.clientY-g.y;
     if(!g.drag&&Math.hypot(dx,dy)>12){g.drag=true;clearTimeout(g.t);el.classList.add('dragging')}
     if(!g.drag)return;
@@ -3028,7 +3041,7 @@ function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof 
 function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
 document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot'))closeShotPop()},true);
 (el=>{let g=null;
-  el.addEventListener('pointerdown',e=>{if(e.button)return;g={id:e.pointerId,held:false,t:setTimeout(()=>{if(g){g.held=true;openShotPop()}},450)}});
+  el.addEventListener('pointerdown',e=>{if(e.button)return;g={id:e.pointerId,held:false,t:setTimeout(()=>{if(g){g.held=true;openShotPop()}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const st=g;g=null;if(e.type==='pointerup'&&!st.held){closeShotPop();shutter()}};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
   el.addEventListener('contextmenu',e=>{e.preventDefault();if(g){clearTimeout(g.t);g.held=true}openShotPop()});
@@ -3272,10 +3285,10 @@ function collapseTool(quiet){const was=ACTIVE;ACTIVE=null;railOpen=false;
     if(ACTIVE)collapseTool();else{pickOpen=!pickOpen;if(pickOpen){srcOpen=false;sndOpen=false}syncSteer()}};
   const hold=()=>{if(TOOLS.length<2||ACTIVE==='steer'){ACTIVE=TOOLS.length<2?null:'steer';srcOpen=false;sndOpen=false;pickOpen=false;railOpen=!railOpen||STEER.on;if(STEER.on)STEER.on=false;syncSteer();return}
     if(ACTIVE){toolShown=!toolShown;syncSteer()}else{pickOpen=!pickOpen;syncSteer()}};
-  el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();g={held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},480)}});
+  el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();g={held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   const end=e=>{if(!g)return;clearTimeout(g.t);const held=g.held;g=null;lastUp=performance.now();if(!held&&e.type==='pointerup')tap()};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
-  el.addEventListener('contextmenu',e=>e.preventDefault());
+  el.addEventListener('contextmenu',e=>{e.preventDefault();if(!g)hold()});   // right-click and the menu key hold, as on every bar button; a phone's long press is already one
   el.addEventListener('click',e=>{if(e.detail===0&&performance.now()-lastUp>700)tap()})})();  // keyboard Enter/Space
 function magIcon(v){const rep=v<0;
   // just the horseshoe, poles down toward the field it pulls on; the ring around it says attract or repel
@@ -3367,7 +3380,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     b.innerHTML='<i'+(c?' style="background:'+c+(alpha&&on?';opacity:'+Math.max(.15,alpha.get()):'')+'"':'')+'></i>'+(alpha&&on?'<span class="lab">'+Math.round(alpha.get()*100)+'%</span>':'');
     b.setAttribute('aria-label',aria+(alpha?'. Hold and drag up or down for opacity':'')+(pick&&c?'. Hold still (or right-click) for your own color':''));if(pick&&c)b.dataset.tip=aria+'. Hold for your own color'+(alpha?', or hold and drag up or down for opacity':'')+'.';if(on!=null)b.setAttribute('aria-pressed',String(!!on));
     let g=null;
-    b.addEventListener('pointerdown',e=>{if(e.button>0)return;g={y:e.clientY,x:e.clientX,id:e.pointerId,mode:'tap',a0:alpha?alpha.get():0,t:(!alpha&&pick&&c)?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='pick';if(navigator.vibrate)navigator.vibrate(10)}},480):alpha?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='alpha';g.ay=g.y;try{b.setPointerCapture(g.id)}catch(_){}
+    b.addEventListener('pointerdown',e=>{if(e.button>0)return;g={y:e.clientY,x:e.clientX,id:e.pointerId,mode:'tap',a0:alpha?alpha.get():0,t:(!alpha&&pick&&c)?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='pick';if(navigator.vibrate)navigator.vibrate(10)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520)):alpha?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='alpha';g.ay=g.y;try{b.setPointerCapture(g.id)}catch(_){}
       if(!on)fn();if(navigator.vibrate)navigator.vibrate(10);t.style.overflowX='hidden';toast('opacity '+Math.round(alpha.get()*100)+'% · drag up or down'+(pick&&c?' · let go for your own color':''))}},420):0}});
     b.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id)return;
       if(g.mode==='tap'&&Math.hypot(e.clientX-g.x,e.clientY-g.y)>10){clearTimeout(g.t);g=null;return}   // a sideways swipe scrolls the shelf
@@ -4561,9 +4574,8 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
     if(t==='\u2039 \u25b6 \u203a'){const pill=document.createElement('span');pill.className='gi-pill';pill.setAttribute('aria-hidden','true');icons.forEach(i=>{i.className='gi-seg';pill.append(i)});icons=[pill]}   // the presets are one pill on the bar, so one pill here
     const lab=document.createElement('small');lab.textContent=t==='\u2039 \u25b6 \u203a'?'presets':t;dt.textContent='';dt.classList.add('gdt');dt.append(...icons,lab);
     /* its keys, at the right of the row (Dimitry, 18 Oct): the same caps as the Keys list, so either place teaches them */
-    const K={'\u2039 \u25b6 \u203a':[['\u2190','arr'],['\u2192','arr']],'Random':[['r']],'Capture':[['c']],'Sound':[['m']],'text':[['t']],'Full screen':[['f'],['space','wide']],'steer':[['s']]}[t];
-    if(K){const g=document.createElement('span');g.className='gk';g.setAttribute('aria-label','Keys: '+K.map(k=>k[0]).join(', '));
-      for(const [k,c] of K){const e=document.createElement('kbd');e.textContent=k;if(c)e.className=c;e.setAttribute('aria-hidden','true');g.append(e)}dt.append(g)}});
+    const K={'\u2039 \u25b6 \u203a':'prev next','Random':'random','Capture':'capture','Sound':'sound','text':'current.text','Full screen':'fullscreen hide','steer':'current.steer','magnet':'current.magnet','view':'current.view'}[t];
+    if(K){const g=document.createElement('span');g.className='gk';g.dataset.acts=K;dt.append(g)}});
 })();
 /* THE CODEX LIST: a group's chevron folds the group; a row's name folds the row */
 document.querySelectorAll('.cx-grpbtn').forEach(b=>b.onclick=()=>{const g=b.closest('.cx-grp'),on=g.classList.toggle('cx-shut');b.setAttribute('aria-expanded',String(!on))});
@@ -4594,13 +4606,57 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script src="surface/install.js"></script>
 <script src="surface/tips.js"></script>
 <script src="surface/sections.js"></script>
-<script src="surface/keys.js"></script>
-<script>/* THE KEYS, one list: the big sheet (the bar's keys button, or ?) and the guide's Keys list are both built from it.
-   Studio-wide keys first, the same in every tool; Current's own after (Dimitry, 18 Oct). */
-(function(){const KEYS=[{name:'Every studio tool',keys:[{k:['space'],d:'Hide or bring back every control, in full screen too'},{k:['f'],d:'Full screen'},{k:['m'],d:'Sound on or off'},{k:['c'],d:'Capture: a still, a GIF or a video, in the mode you set'},{k:['r'],d:'A random look'},{k:['\u2190','\u2192'],d:'Previous or next preset'},{k:['p'],d:'Open or close the index'},{k:['?'],d:'These keys'},{k:['esc'],d:'Close what is open; leave full screen'}]},{name:'Current',keys:[{k:['s'],d:'Steer: paint direction into the field'},{k:['t'],d:'Text: type a word to trace'}]}];
-  try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:KEYS})}catch(e){console.warn('keys',e)}
-  const dl=document.getElementById('keysDl');if(dl){for(const g of KEYS)for(const r of g.keys){const dt=document.createElement('dt');r.k.forEach((k,i)=>{const kb=document.createElement('kbd');kb.textContent=k;if(/[\u2190\u2192]/.test(k))kb.className='arr';if(k.length>2)kb.className='wide';if(i)dt.append(' ');dt.append(kb)});const dd=document.createElement('dd');dd.textContent=r.d+'.';dl.append(dt,dd)}}
+<script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
+   by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
+   actions first, with the same ids and default keys in every tool; Current's own after. */
+(function(){
+  const tool=(id)=>{if(ACTIVE===id)collapseTool();else{if(!document.body.classList.contains('player'))setPlayer(true);selectTool(id)}};
+  const SH=[
+    {id:'hide',d:'Hide or bring back every control, in full screen too',keys:['space']},
+    {id:'fullscreen',d:'Full screen',keys:['f']},
+    {id:'sound',d:'Sound on or off',keys:['m'],run:()=>toggleSound()},
+    {id:'capture',d:'Capture: a still, a GIF or a video, in the mode you set',keys:['c'],run:()=>{if(!$('launch'))shutter()}},
+    {id:'random',d:'A random look',keys:['r'],run:()=>randomLook(true)},
+    {id:'prev',d:'Previous preset',keys:['←'],repeat:true,run:()=>stepPreset(-1)},
+    {id:'next',d:'Next preset',keys:['→'],repeat:true,run:()=>stepPreset(1)},
+    {id:'auto',d:'Auto: the presets play themselves',keys:['a'],run:()=>$('pAuto').click()},
+    /* save (Dimitry, 18 Oct: something someone will do a lot): straight away, no box. A look you saved yourself is
+       updated; anything else is saved as a new one with a name made for it. Shift adds the box, to name it. */
+    {id:'save',d:'Save this look as a preset',keys:['mod+s'],run:()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:autoName())}},
+    {id:'saveas',d:'Save as a new preset, and name it',keys:['shift+mod+s'],run:()=>saveAsBox()}];
+  const PR=[];for(let n=1;n<=9;n++)PR.push({id:'preset'+n,d:'Preset '+n,keys:[String(n)],run:()=>{const i=n-1;if(PRESETS[i])applyLook(PRESETS[i],i)}});
+  SH.push({id:'index',d:'Open or close the index',keys:['p','i'],run:()=>setPlayer(!document.body.classList.contains('player'))},
+    {id:'keys',d:'These keys',keys:['?'],fixed:true},
+    {id:'close',d:'Close what is open; leave full screen',keys:['esc'],fixed:true});
+  const CU=[
+    {id:'current.steer',d:'Steer: paint direction into the field',keys:['s'],run:()=>{if(STEER.on){if(TOOLS.length>1)collapseTool();else setSteer(false)}else setSteer(true)}},
+    {id:'current.text',d:'Text: type a word to trace',keys:['t'],run:()=>tool('text')},
+    {id:'current.magnet',d:'Magnet: pull or push the current',keys:['g'],run:()=>tool('magnet')},
+    {id:'current.view',d:'View: arrows, toolpath, glow, trails',keys:['v'],run:()=>tool('view')},
+    {id:'current.color',d:'Color',keys:[],run:()=>tool('color')},
+    {id:'current.frame',d:'Frame: move, scale and turn the drawing',keys:[],run:()=>tool('frame')},
+    {id:'current.path',d:'Path: edit or draw the toolpath',keys:[],run:()=>tool('path')},
+    {id:'current.camera',d:'Camera: on, the other camera, off',keys:['C'],run:()=>$('srCam').click()},
+    {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
+  const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Presets',compact:true,d:'Go straight to preset 1 to 9',actions:PR},{name:'Current',actions:CU}];
+  try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:GROUPS});SurfaceKeys.toolbar('#playbar','Player')}catch(e){console.warn('keys',e)}
+  const cap=k=>{const kb=document.createElement('kbd');kb.textContent=k;if(/[←→]/.test(k))kb.className='arr';if(k.length>2)kb.className='wide';return kb};
+  const draw=()=>{const dl=document.getElementById('keysDl');if(dl){dl.textContent='';for(const g of GROUPS){if(g.compact){const ks=g.actions.map(a=>SurfaceKeys.keyFor(a.id)[0]).filter(Boolean);if(ks.length){const dt=document.createElement('dt');dt.append(cap(ks[0]+'\u2013'+ks[ks.length-1]));const dd=document.createElement('dd');dd.textContent=g.d+'.';dl.append(dt,dd)}continue}for(const a of g.actions){const ks=SurfaceKeys.keyFor(a.id);if(!ks.length)continue;
+      const dt=document.createElement('dt');ks.forEach((k,i)=>{if(i)dt.append(' ');dt.append(cap(k))});const dd=document.createElement('dd');dd.textContent=a.d+'.';dl.append(dt,dd)}}}
+    document.querySelectorAll('.gk[data-acts]').forEach(g=>{g.textContent='';const ks=g.dataset.acts.split(' ').flatMap(id=>SurfaceKeys.keyFor(id));g.hidden=!ks.length;
+      ks.forEach(k=>{const e=cap(k);e.setAttribute('aria-hidden','true');g.append(e)});g.setAttribute('aria-label','Keys: '+ks.join(', '))})};
+  document.addEventListener('surface:keys',draw);draw();
   const ko=document.getElementById('keysOpen');if(ko)ko.onclick=()=>{setPlayer(true);setTimeout(()=>SurfaceKeys.open(),300)};
+  /* SAVE AS: a small naming box over the stage, the same in the player and the full tool, since the player shows no save row */
+  function saveAsBox(){if($('saveAs'))return;const w=document.createElement('div');w.id='saveAs';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.setAttribute('aria-label','Save as a new preset');
+    w.innerHTML='<form><label for="saveAsName">Save as a new preset</label><input id="saveAsName" maxlength="32" autocomplete="off" spellcheck="false"><div><button type="button" data-x>Cancel</button><button type="submit">Save</button></div></form>';
+    document.body.append(w);const inp=$('saveAsName'),last=document.activeElement;prefillName(inp);inp.focus();
+    const done=()=>{w.remove();try{last&&last.focus&&last.focus({preventScroll:true})}catch(_){}};
+    w.querySelector('form').onsubmit=e=>{e.preventDefault();savePreset(inp.value);done()};w.querySelector('[data-x]').onclick=done;
+    w.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();done()}e.stopPropagation()});
+    w.addEventListener('pointerdown',e=>{if(e.target===w)done()})}
+  /* the speaker: up and down set the volume from the keyboard, as dragging does with a finger */
+  $('pSnd').addEventListener('keydown',e=>{if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;e.preventDefault();const vi=$('audVol');vi.value=Math.max(0,Math.min(1,+vi.value+(e.key==='ArrowUp'?.05:-.05)));vi.dispatchEvent(new Event('input'));toast('volume '+Math.round(+vi.value*100)+'%')});
 })();</script>
 <script>/* Surface · Tips: hover labels on a computer, long-press labels on shelf buttons */
 try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t};
@@ -4723,6 +4779,8 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',also:'#co
       const on=de.classList.contains('bare');if(!on&&somethingOpen()){/* close what is open first, then hide */document.body.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))}
       bare(!on);try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(_){}}
     else if(e.key==='Escape'){if(de.classList.contains('bare')){bare(false);e.stopImmediatePropagation()}}
+       /* Tab while the controls are away brings them back, so a keyboard or a switch is never left with nothing to reach (WCAG 2.2.1, 2.4.11) */
+       else if(e.key==='Tab'&&de.classList.contains('bare')){bare(false)}
     else if(e.key==='f'&&!e.metaKey&&!e.ctrlKey&&can)toggleFull()},true);
   /* three fingers on the stage, as Fracture: hide or bring back */
   let tri=0;$('stage').addEventListener('touchstart',e=>{if(e.touches.length===3){const t=performance.now();if(t-tri>600){tri=t;bare(!de.classList.contains('bare'))}}},{passive:true});
