@@ -26,6 +26,9 @@
        key: 'current',                  // where its state is kept (localStorage 'surface.sections.<key>')
        section: '.cx-grp',              // what a section is (direct children of root only)
        fixed: '.colo',                  // sections that fold with the rest but keep their place
+       also: '#colo',                   // optional: sections OUTSIDE the column (a colophon below it) that fold, focus
+                                        //   and keep with the rest, and never move. Without it fold all stops at the
+                                        //   column's edge and a colophon below stays open (Dimitry, 18 Oct)
        prose: '.cx-lead,...',           // what LESS TEXT hides (see PROSE below for the default)
        label: 'Index',                  // the toolbar's accessible name
        briefScope: '#panel',            // optional: where LESS TEXT applies, if wider than root
@@ -65,6 +68,7 @@
 .sfs-root.sfs-dragging{-webkit-user-select:none;user-select:none}
 .sfs-root.sfs-dragging .sfs-grip{cursor:grabbing}
 .sfs-root>.sfs-sec.sfs-fixed>.cx-grpbtn{padding-right:48px}.sfs-fixed>.sfs-keep{right:-6px}
+.sfs-sec.sfs-out{position:relative}.sfs-out>.cx-grpbtn{padding-right:48px}
 .sfs-sec.sfs-lift{z-index:5;background:var(--panel,#0f1213);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:box-shadow .15s}
 .sfs-root.sfs-dragging>.sfs-sec:not(.sfs-lift){transition:transform .14s ease}
 .sfs-brief ${PROSE.split(',').map(s => s.trim()).join(',.sfs-brief ')}{display:none!important}
@@ -89,8 +93,9 @@
     }
     const KEY = 'surface.sections.' + (o.key || 'default');
     const briefScope = o.briefScope ? (typeof o.briefScope === 'string' ? document.querySelector(o.briefScope) : o.briefScope) : null;   // less text can reach past the column (a colophon below it)
-    const secs = () => [...root.children].filter(c => c.matches(o.section));
-    const isFixed = s => !!(o.fixed && s.matches(o.fixed));
+    const extra = () => o.also ? [...document.querySelectorAll(o.also)].filter(x => x.parentNode !== root) : [];
+    const secs = () => [...root.children].filter(c => c.matches(o.section)).concat(extra());
+    const isFixed = s => s.parentNode !== root || !!(o.fixed && s.matches(o.fixed));
     const movable = () => secs().filter(s => !isFixed(s));
     const DEFAULT = movable().map(s => s.id);
     let st = load(KEY);
@@ -154,12 +159,14 @@
     }
 
     /* folding: the tool's own handler runs on the button first; this follows it */
-    root.addEventListener('click', e => {
+    const onFold = e => {
       const b = e.target.closest && e.target.closest('.cx-grpbtn'); if (!b) return;
-      const s = b.parentNode; if (!s || s.parentNode !== root || !s.matches(o.section)) return;
+      const s = b.parentNode; if (!s || secs().indexOf(s) < 0) return;
       if (st.focus && !s.classList.contains('cx-shut')) secs().forEach(x => { if (x !== s && !kept(x)) setShut(x, true); });
       persist();
-    });
+    };
+    root.addEventListener('click', onFold);
+    for (const x of extra()) x.addEventListener('click', onFold);
 
     /* grips */
     for (const s of movable()) {
@@ -177,6 +184,7 @@
       g.addEventListener('pointerdown', e => drag(e, s, g));
     }
     for (const s of secs()) if (isFixed(s)) s.classList.add('sfs-sec', 'sfs-fixed');
+    for (const s of extra()) s.classList.add('sfs-out');
     /* keep pins, on every section */
     for (const s of secs()) {
       const k = document.createElement('button'); k.type = 'button'; k.className = 'sfs-keep'; k.innerHTML = '<span class="sfs-pin" aria-hidden="true"></span>';
