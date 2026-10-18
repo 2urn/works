@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018203631"</script>
+<script>window.__BUILD__="20261018203802"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -433,8 +433,11 @@ html:not([data-stats="on"]) .hud{display:none!important}
 html[data-stats="on"] .hud{display:block!important;z-index:6}
 /* top right, under where the namemark stands on arrival, on every screen: clear of the bar, the thumbs and the drawer;
    its own x turns it off (Dimitry, 18 Oct) */
-html[data-stats="on"] .hud{top:calc(env(safe-area-inset-top,0px) + 90px);bottom:auto!important;left:auto!important;right:max(16px,env(safe-area-inset-right,0px));
-  max-width:min(680px,calc(100vw - 32px));display:flex!important;align-items:flex-start;gap:8px;text-align:right;line-height:1.45}
+html[data-stats="on"] .hud{top:calc(env(safe-area-inset-top,0px) + 20px);transition:opacity .4s ease;bottom:auto!important;left:auto!important;right:max(16px,env(safe-area-inset-right,0px));
+  max-width:min(680px,calc(100vw - 96px));display:flex!important;align-items:flex-start;gap:8px;text-align:right;line-height:1.45}
+/* it takes the namemark's corner, and steps aside whenever the namemark is there: on arrival, and when it comes back
+   (Dimitry, 18 Oct: fade while the namemark is visible, or wait till it leaves) */
+html:has(#dscMark:not(.tucked)) .hud{opacity:0!important;pointer-events:none}html:has(#dscMark:not(.tucked)) #hudX{pointer-events:none}
 #hudX{pointer-events:auto;flex:none;width:28px;height:28px;margin:-6px -8px 0 0;border:0;border-radius:50%;background:none;color:inherit;font:400 18px/1 var(--sans);cursor:pointer;opacity:.75}
 #hudX:hover,#hudX:focus-visible{opacity:1;background:rgb(255 255 255 / .1)}#hudX:focus-visible{outline:2px solid #55b8c9}
 @media (max-width:820px){html[data-stats="on"] body:not(.player) .hud{display:none!important}}
