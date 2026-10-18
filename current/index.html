@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018063517"</script>
+<script>window.__BUILD__="20261018064535"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -112,6 +112,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .check input{accent-color:var(--accent)}
 textarea{width:100%;box-sizing:border-box;min-height:150px;font:11.5px/1.5 var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:0;padding:8px;resize:vertical}
 .actions{display:flex;gap:6px;flex-wrap:wrap}
+.bbActs .btn{display:inline-flex;align-items:center;gap:6px;min-height:36px}.bbActs .btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.bbActs #bbPlay svg{fill:currentColor;stroke:none}
 .btn{font:500 12px var(--sans);padding:8px 12px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);border-radius:0;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--fg)}
 .stats{font:11px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
@@ -806,8 +807,8 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
       <div class="cx-gbody bbBox" id="bbL">
         <label class="sr-only" for="bbFx">Bytebeat formula</label>
         <textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea>
-        <div class="actions"><button class="btn" id="bbPlay" type="button">Play formula</button><button class="btn ghost" id="bbBack" type="button">Back to playing</button></div>
-        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. Letters <b>n l o p</b> are the sliders below (each can be modulated with ~ or mapped to); <b>a b c</b> are 4. Ctrl/⌘+Enter plays. While yours plays, playing again swaps the formula without restarting.</p>
+        <div class="actions bbActs"><button class="btn" id="bbPlay" type="button" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span>Play formula</span></button><button class="btn ghost" id="bbBack" type="button" hidden title="Undo your edits: put back the formula that is playing"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo edits</span></button></div>
+        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. <b>n l o p</b> are the sliders below (each can take a ~ or a mapping); <b>a b c</b> are 4. <b>Play formula</b> (or Ctrl/⌘+Enter) starts it; while it plays, the same button stops it, or reads <b>Play changes</b> once you edit and swaps them in without restarting. <b>Undo edits</b> puts back what is playing.</p>
         <div id="bbSliders"></div>
       </div>
     </section>
@@ -3338,9 +3339,22 @@ function openBytebeat(){sndOpen=false;syncSteer();setPlayer(false);
   const fx=$('bbFx');if(!fx.value.trim())fx.value=isByte(AUD.src)?bbFormula(AUD.src):(BB_USER||BYTES['Byte 42'].f);
   setTimeout(()=>{const pn=$('panel'),top=pn.scrollTop+g.getBoundingClientRect().top-pn.getBoundingClientRect().top-76;   // clear of the duck-rabbit and the namemark
     pn.scrollTo({top:Math.max(0,top),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});try{fx.focus({preventScroll:true})}catch(_){}},340)}   // after the drawer's slide
-$('bbPlay').addEventListener('click',bbPlay);
+$('bbPlay').addEventListener('click',()=>{if($('bbPlay').dataset.st==='stop'){AUD.userOff=true;stopAudio();toast('bytebeat stopped');return}bbPlay()});
 $('bbFx').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();bbPlay()}});
-$('bbBack').addEventListener('click',()=>{$('bbFx').value=isByte(AUD.src)?bbFormula(AUD.src):BB_USER;bbMsg()});
+/* THE BOX'S TWO BUTTONS SAY WHAT THEY WILL DO (Dimitry, 18 Oct): Play formula / Stop playing / Play changes, and Undo edits
+   only while the box differs from what is playing, so a playing formula can be stopped from here, not only from the bar. */
+const BB_ICO={play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12"/></svg>'};
+function bbPlaying(){return isByte(AUD.src)&&AUD.src!=='off'}
+function bbRef(){return bbPlaying()?bbFormula(AUD.src):BB_USER}
+function bbBtns(){const b=$('bbPlay'),k=$('bbBack');if(!b)return;try{AUD}catch(_){return}   // AUD is declared further down; the first sync comes from syncAud
+  const box=$('bbFx').value.trim(),on=bbPlaying(),same=on&&box===bbFormula(AUD.src).trim();
+  const st=same?'stop':on&&AUD.src==='Byte yours'&&box?'swap':'play';
+  if(b.dataset.st!==st){b.dataset.st=st;b.innerHTML=(st==='stop'?BB_ICO.stop:BB_ICO.play)+'<span>'+(st==='stop'?'Stop playing':st==='swap'?'Play changes':'Play formula')+'</span>'}
+  b.setAttribute('aria-label',st==='stop'?'Stop the bytebeat that is playing':st==='swap'?'Play your changes without restarting the clock':'Play the formula in the box');
+  k.hidden=!on||same||!box&&!bbFormula(AUD.src)}
+$('bbBack').addEventListener('click',()=>{$('bbFx').value=bbRef();bbMsg();bbBtns();$('bbFx').focus()});
+$('bbFx').addEventListener('input',bbBtns);bbBtns();
 $('bbFx').value=BB_USER||BYTES['Byte 42'].f;
 const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
@@ -3426,7 +3440,7 @@ $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.file
 $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.value).toFixed(2);if(AUD.vol)AUD.vol.gain.value=+e.target.value});
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
-function syncAud(){audSeg.innerHTML='';
+function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
     b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
@@ -4031,7 +4045,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.9.16';
+const APP_VERSION='0.9.17';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
