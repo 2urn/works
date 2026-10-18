@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018190608"</script>
+<script>window.__BUILD__="20261018191052"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -153,7 +153,11 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
    stood 32px off Settings where every other section is 14px apart (Dimitry, 18 Oct). Cancel the gap's share. */
 #panel>#colo{margin-top:-4px}
 body #playbar{transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .5s ease}
-#duckBtn,#duckLab,#dscMark{transition:translate .6s cubic-bezier(.65,0,.35,1),opacity .5s ease,visibility 0s}
+#duckBtn,#duckLab,#dscMark{transition:translate .6s cubic-bezier(.65,0,.35,1),opacity .5s ease,visibility 0s,left .28s cubic-bezier(.4,0,.6,1)}
+/* ON A PHONE the drawer's right side is busy: the scrollbar's room and a strip of the stage showing past its edge. Even
+   16px margins then read as tight on the left (Dimitry, 18 Oct). The left margin grows to 26px, and the duck-rabbit and
+   CLOSE move in with it while the drawer is open, so they stay on the text's edge; closed, they go back to the corner. */
+@media (max-width:600px){#panel{padding-left:max(26px,env(safe-area-inset-left,0px));width:calc(min(360px,88vw) - 10px)}body:not(.player){--dL:max(20px,env(safe-area-inset-left,0px))}}
 html.bare #duckBtn,html.bare #duckLab,html.bare #dscMark{translate:0 calc(-100% - 40px - env(safe-area-inset-top,0px))}
 html.bare body #playbar{transform:translateY(calc(100% + 40px + env(safe-area-inset-bottom,0px)));opacity:0}
 html.bare #playbar,html.bare #playbar *,html.bare #duckBtn,html.bare #duckLab,html.bare #dscMark,html.bare .shelf,html.bare .shelf *,html.bare #playname,html.bare .hud,html.bare #gestSw{pointer-events:none!important}
@@ -217,7 +221,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 #dscMark.tucked{opacity:0}
 /* THE WORD "INDEX" introduces the duck-rabbit (Pullula's "Sections"): there on arrival, to the right of the mark,
    then it fades and slides in behind it with the namemark; pointing at the mark brings it back */
-#duckLab{position:fixed;z-index:24;top:calc(10px + env(safe-area-inset-top,0px));left:calc(max(10px,env(safe-area-inset-left,0px)) + 50px);height:52px;display:flex;align-items:center;
+#duckLab{position:fixed;z-index:24;top:calc(10px + env(safe-area-inset-top,0px));left:calc(var(--dL,max(10px,env(safe-area-inset-left,0px))) + 50px);height:52px;display:flex;align-items:center;
   font:600 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.55);pointer-events:none;
   transition:opacity .45s ease,transform .6s cubic-bezier(.5,0,.78,.3)}
 #duckLab.tucked{opacity:0;transform:translateX(-1.4rem)}
@@ -374,7 +378,7 @@ body.player .panel{transform:translateX(-102%);visibility:hidden;transition:tran
 body.player .hud{display:none}
 @media (max-width:820px),(max-height:559px){.hud{display:none}}
 /* the duck-rabbit: Index / settings */
-#duckBtn{position:fixed;z-index:25;top:calc(10px + env(safe-area-inset-top,0px));left:max(10px,env(safe-area-inset-left,0px));width:48px;height:52px;display:grid;place-items:center;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
+#duckBtn{position:fixed;z-index:25;top:calc(10px + env(safe-area-inset-top,0px));left:var(--dL,max(10px,env(safe-area-inset-left,0px)));width:48px;height:52px;display:grid;place-items:center;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
 .duck{width:30px;height:34px;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,.55))}
 .dk-base{fill:#808080}
 .dk-fill{fill:#fff;transition:fill .2s}
