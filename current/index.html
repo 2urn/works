@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018163141"</script>
+<script>window.__BUILD__="20261018163403"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3833,8 +3833,14 @@ function traceSource(){const el=srcEl();if(!el)return;
   const ink=(x,y)=>{const X=Math.min(tw-1,Math.max(0,Math.round(x))),Y=Math.min(th-1,Math.max(0,Math.round(y)));const v=L[Y*tw+X];return inv?v>thr:v<thr};
   const gc=traceMask(ink,tw,th,'Source ('+SRC.kind+')',{frame:true,minLen:14,max:420,step:3});
   if(SRC.before==null)SRC.before=presetIdx;   // remembered, so remove can give the stage back
+  const was={...BGF};   // where the picture sits on screen now: cover fit, then any zoom, move and turn
   SRC.gcode=gc;$('gcode').value=gc;Object.assign(BGF,{x:0,y:0,s:1,r:0});presetIdx=-1;curName='Traced '+SRC.kind;syncPresetBtns();
-  if(!SRC.show)SRC.show=.25;build();syncSrc();
+  if(!SRC.show)SRC.show=.25;build();
+  /* keep the picture where it was (Dimitry, 18 Oct: trace made it jump and look flattened). The traced field is fitted
+     whole inside the stage, while the picture was shown to cover it, so set the frame to put the fitted picture back
+     exactly over the covered one: same size, place and turn. The field lands on the shapes you were looking at. */
+  if(FIT&&FIT.w){const cs=Math.max(W/iw,H/ih);Object.assign(FRAME,{x:was.x,y:was.y,r:was.r,s:iw*cs*was.s/FIT.w});frameChanged(true)}
+  syncSrc();
   const n=(gc.match(/G1 Z0/g)||[]).length;toast(n?'traced: '+n+' shapes now steer the field':'nothing to trace: try light ink')}
 $('srTrace').onclick=traceSource;
 /* drive in the drawer: tap on or off, drag left or right for how much (the mix and wet rule); the amount is the
@@ -4320,7 +4326,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.13.2';
+const APP_VERSION='0.13.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
