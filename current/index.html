@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018001527"</script>
+<script>window.__BUILD__="20261018002753"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -698,6 +698,9 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 .mb[aria-pressed="true"][aria-expanded="true"]{color:var(--bg)}
 .moded{border-left:2px solid var(--path);padding:6px 0 6px 10px;margin:-2px 0 4px;display:flex;flex-direction:column;gap:8px}
 .moded[hidden]{display:none}
+#bbFx{min-height:64px}
+.bbBox{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+#bbMsg.bad{color:var(--path)}
 .moded .modes button{font-size:11px;padding:4px 6px}
 .moded .row{grid-template-columns:62px minmax(0,1fr) 44px}
 /* mapping */
@@ -821,6 +824,13 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
         <span class="val" id="audGainV">1.00</span>
       </div>
       <div class="meters" id="meters" aria-hidden="true"></div>
+      <div class="bbBox">
+        <label class="glabel" for="bbFx">Bytebeat formula</label>
+        <textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea>
+        <div class="actions"><button class="btn" id="bbPlay" type="button">Play formula</button><button class="btn ghost" id="bbBack" type="button">Back to playing</button></div>
+        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. Letters <b>n l o p</b> are the sliders below (each can be modulated with ~ or mapped to); <b>a b c</b> are 4. Ctrl/⌘+Enter plays. While yours plays, playing again swaps the formula without restarting.</p>
+        <div id="bbSliders"></div>
+      </div>
       <div class="morphrow"><span>Changes land on</span><div class="modes" id="quantSeg" role="group" aria-label="With a built-in beat playing, new looks wait for this point in the rhythm"></div></div>
     </div>
 
@@ -879,7 +889,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
     <section class="cx-grp colo" id="colo"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="coloL"><span>Colophon</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="cx-gbody" id="coloL"><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>AI ratio</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><div class="ratio" aria-hidden="true"><i style="width:70%"></i></div>      
       <p>70% human, 30% AI, by the artist&rsquo;s own estimate.</p>
-      <p>Current is made with AI-assisted development, in conversation with Claude (Anthropic), and says so. I support exploring that openly: naming the tools, showing the ratio, and keeping the decisions with the artist.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Open source</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Current is built on open-source software and open typefaces, each credited with its license below. I support exploring open source, and sharing back what is learned.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>Your work stays here</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Presets, looks, gestures and captures are kept in this browser. Camera and microphone, if you turn them on, never leave the device. Adding a typeface by name loads it from Google Fonts.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Made by</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Dimitry Sa&iuml;d Chamy &middot; <a href="https://works.chamy.xyz/">CHAMY&middot;XYZ</a>, 2026. An independent brand and publishing imprint, founded by Dimitry Sa&iuml;d Chamy &mdash; artist, designer, cultural producer.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Contact</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a></p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>06</i><span>Made with</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><ul class="colo-made" id="coloMade"></ul></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>07</i><span>License</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body">
+      <p>Current is made with AI-assisted development, in conversation with Claude (Anthropic), and says so. I support exploring that openly: naming the tools, showing the ratio, and keeping the decisions with the artist.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Open source</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Current is built on open-source software and open typefaces, each credited with its license below. I support exploring open source, and sharing back what is learned.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>Your work stays here</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Presets, looks, gestures and captures are kept in this browser. Camera and microphone, if you turn them on, never leave the device. Adding a typeface by name loads it from Google Fonts.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Made by</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Dimitry Sa&iuml;d Chamy &middot; <a href="https://works.chamy.xyz/">CHAMY&middot;XYZ</a>, 2026. An independent brand and publishing imprint, founded by Dimitry Sa&iuml;d Chamy &mdash; artist, designer, cultural producer.</p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Contact</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a></p><p><a href="https://www.instagram.com/2urn_" target="_blank" rel="noopener">Instagram @2urn_</a></p></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>06</i><span>Made with</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><ul class="colo-made" id="coloMade"></ul></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>07</i><span>License</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body">
 <p><b>Free for personal use.</b> You may use Current, here or installed on your own devices, for your own non-commercial play, study, teaching and making.</p>
 <p><b>Not for commercial use</b> without a license: performances, installations, broadcasts, client work, products or anything sold or paid for. To ask, write to <a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a>.</p>
 <p><b>What you make.</b> Stills, GIFs and videos you capture are yours to keep and share for non-commercial purposes; please credit &ldquo;Current by Dimitry Sa&iuml;d Chamy&rdquo;.</p>
@@ -1242,7 +1252,7 @@ function flattenPath(cmds,loops){let cur=null,x=0,y=0;
 
 
 // ---------- Presets (named, so the controls don't need dialing) ----------
-const DEFAULTS={falloff:4,strength:1,speed:1.4,count:2600,fade:0.06,life:160,lens:0,wobble:0,magnet:0,pulse:0,lag:1.5,dots:0};
+const DEFAULTS={falloff:4,strength:1,speed:1.4,count:2600,fade:0.06,life:160,lens:0,wobble:0,magnet:0,pulse:0,lag:1.5,dots:0,bbn:9,bbl:8,bbo:3,bbp:2,bbrate:1};
 const textGen=()=>genText(document.getElementById('word').value,document.getElementById('font').value);
 const PRESETS=[
   {name:'Type: Counter-flow',gen:textGen,mode:'along',inside:'reverse',p:{falloff:2.2,speed:1.3,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
@@ -1293,6 +1303,15 @@ const PRESETS=[
     mods:{fade:{shape:'high',per:1,depth:.5},speed:{shape:'level',per:1,depth:.6}}},
   {name:'Beat: Breathing Lens',gen:genSpiral,mode:'along',lensMode:'swirl',blur:8,audio:'Halftime 70',p:{falloff:5,speed:1.4,fade:0.05,lens:.8},flags:{arrows:false,path:false,travel:false,feed:true},
     mods:{lens:{shape:'bass',per:1,depth:.7}},maps:[{src:'beat',dst:'speed',how:'push',amt:.6}]},
+  // bytebeats: the song's letters are sliders, so these looks move the music itself
+  {name:'Byte: Ladder Climb',gen:genRaster,mode:'along',audio:'Byte ladder',p:{falloff:3,speed:1.3,fade:0.06,bbn:9,bbrate:1},flags:{arrows:false,path:false,travel:false,feed:false},
+    mods:{bbn:{shape:'tri',per:16,depth:.7},falloff:{shape:'level',per:1,depth:.5}}},
+  {name:'Byte: Chord Drift',gen:genRose,mode:'orbit',audio:'Byte chord',line:'#ede6d6',line2:'#336bf2',alt:'time',p:{falloff:4,speed:1.5,fade:0.05,bbp:2,bbrate:1},flags:{arrows:false,path:false,travel:false,feed:true},
+    mods:{bbp:{shape:'random',per:2.5,depth:.8}},maps:[{src:'high',dst:'speed',how:'push',amt:.6}]},
+  {name:'Byte: Touch Tide',gen:genWoven,mode:'weave',audio:'Byte tide',p:{falloff:2.5,speed:1.2,fade:0.04,bbn:7,bbrate:.9},flags:{arrows:false,path:false,travel:false,feed:false},
+    mods:{bbn:{shape:'touch',per:1,depth:.9}},maps:[{src:'touch',dst:'bbrate',how:'push',amt:.4}]},
+  {name:'Byte: Slow Weave',gen:genHatch,mode:'across',audio:'Byte weave',line:'#ff6b2b',p:{falloff:3,speed:1.1,fade:0.05,bbl:8,bbo:3,bbrate:.75},flags:{arrows:false,path:false,travel:false,feed:false},
+    mods:{bbrate:{shape:'sine',per:20,depth:.45},bbo:{shape:'saw',per:8,depth:.6}},maps:[{src:'bbrate',dst:'speed',how:'follow',amt:.5}]},
 ];
 const MODES={
   along:'Particles travel the way the tool travelled.',
@@ -1638,7 +1657,7 @@ function frame(now){
   simT+=dt;stepMorph(dt);readAudio(dt);
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   const tvx=TOUCH.vx,tvy=TOUCH.vy;TOUCH.vx*=.5;TOUCH.vy*=.5;
-  evalEffective(simT);
+  evalEffective(simT);bbTick();
   unsteadyTick(dt);
   // rebuild only when Reach needs to leave the range already built (a narrower range keeps blending inside it)
   {const[lo,hi]=fallRange();if((lo<FLO*.97||hi>FHI*1.03+.02||(!FB&&Math.abs(lo-FLO)>FLO*.03))&&now-lastBuild>400)buildField();
@@ -1717,7 +1736,14 @@ const SLIDERS=[
   ['pulse','Beat pulse',0,1,0.01,'Each beat swings the whole current to one side, then the other'],
   ['lag','Lag',0.2,6,0.1,'Seconds the magnet takes to let go after the finger lifts'],
   ['dots','Dots',0,6,1,'Trails as dotted single pixels. 0 draws lines; 1 leaves a dot every frame; higher spaces the dots further apart'],
+  // the bytebeat's letters live in the Audio group, but they are ordinary sliders: modulate them (~), map to them, save them in looks
+  ['bbn','Byte n',1,16,1,'Bytebeat letter n: changes the song while it plays'],
+  ['bbl','Byte l',2,16,1,'Bytebeat letter l'],
+  ['bbo','Byte o',0,8,1,'Bytebeat letter o'],
+  ['bbp','Byte p',0,8,1,'Bytebeat letter p'],
+  ['bbrate','Byte rate',0.25,2,0.01,'Bytebeat rate: 1 is 8000 steps a second; lower is slower and deeper, higher is faster and brighter'],
 ];
+const BB_SLIDERS=new Set(['bbn','bbl','bbo','bbp','bbrate']);
 SLIDERS.forEach(([k,,mn,mx,st])=>RANGES[k]=[mn,mx,st]);
 const LABEL=Object.fromEntries(SLIDERS.map(s=>[s[0],s[1]]));
 const FIELD_KEYS=new Set(['falloff']);
@@ -1728,8 +1754,8 @@ const MODSTASH={};
 SLIDERS.forEach(([k,lab,mn,mx,st,aria])=>{
   const row=document.createElement('div');row.className='row';
   row.innerHTML=`<label class="name" for="s-${k}" title="Double-click to reset">${lab}</label><div class="rw" id="rw-${k}"><input type="range" id="s-${k}" min="${mn}" max="${mx}" step="${st}" aria-label="${aria}"><i class="live"></i></div><span class="val" id="v-${k}"></span><button class="mb" id="mb-${k}" type="button" aria-pressed="false" aria-expanded="false" aria-controls="md-${k}" aria-label="Modulate ${lab}" title="Modulate ${lab}">~</button>`;
-  sl.appendChild(row);
-  const ed=document.createElement('div');ed.className='moded';ed.id='md-'+k;ed.hidden=true;sl.appendChild(ed);
+  const host=BB_SLIDERS.has(k)?$('bbSliders'):sl;host.appendChild(row);
+  const ed=document.createElement('div');ed.className='moded';ed.id='md-'+k;ed.hidden=true;host.appendChild(ed);
   const inp=row.querySelector('input');
   inp.addEventListener('input',()=>{MORPH=null;S[k]=+inp.value;syncVals();if(FIELD_KEYS.has(k))scheduleField()});
   row.querySelector('label').addEventListener('dblclick',()=>{MORPH=null;S[k]=baseline[k];inp.value=S[k];syncVals();if(FIELD_KEYS.has(k))scheduleField()});
@@ -1868,7 +1894,7 @@ const QUANT_STEPS=[[0,'off'],[2,'8th'],[4,'beat'],[8,'half bar'],[16,'bar']];
 let QUANT=2,pendLook=null;
 try{const q=JSON.parse(localStorage.getItem('toolpath-quant'));if(QUANT_STEPS.some(x=>x[0]===q))QUANT=q}catch(_){}
 function beatDelay(){
-  if(!QUANT||!AUD.ctx||!AUD.loopOn||!(BEATS[AUD.src]||BYTES[AUD.src])||AUD.ctx.state!=='running')return 0;
+  if(!QUANT||!AUD.ctx||!AUD.loopOn||!(BEATS[AUD.src]||isByte(AUD.src))||AUD.ctx.state!=='running')return 0;
   // the loop started at t0 and never drifts (it runs on the audio clock), so the grid is exact
   const c=AUD.ctx.currentTime,dur=AUD.dur,now=(c-AUD.t0)/dur,k=Math.ceil((now+.08)/QUANT)*QUANT;
   return Math.max(0,(AUD.t0+k*dur-c)*1000)}
@@ -1879,7 +1905,7 @@ function applyLook(p,idx,instant){
   pendLook=setTimeout(()=>{pendLook=null;applyLookNow(p,idx,instant)},d-6)}
 function applyLookNow(p,idx,instant){
   presetIdx=idx;curName=p.name;
-  const to={...DEFAULTS,...p.p};
+  const to={...DEFAULTS,...p.p};for(const k of BB_SLIDERS)if(!(p.p&&k in p.p))to[k]=S[k];
   const mdur=idx>=0?morphFor(p):AUTO.morph,doMorph=!instant&&booted&&mdur>0.05;
   if(doMorph){MORPH={from:{},to,t:0,dur:mdur,af:S.arrowColor,at:p.arrow||ARROW_DEFAULT,aaf:S.arrowAlpha,aat:p.arrowAlpha||.55};for(const k in to)MORPH.from[k]=S[k]}
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
@@ -3164,17 +3190,66 @@ function bbCompile(src){
   if(BB_EVAL!==false){try{const f=new Function('t','n','l','o','p','a','b','c','const {sin,cos,tan,abs,floor,ceil,sqrt,pow,min,max,random,PI}=Math;const int=Math.floor;return ('+src+');');
       f(1000,...BB_LET);BB_EVAL=true;return f}catch(e){if(e instanceof EvalError||/eval|unsafe|Content Security/i.test(String(e&&e.message)))BB_EVAL=false}}
   try{const f=bbParse(src);if(!f)return null;f(1000,...BB_LET);return f}catch(e){return null}}
-function renderByte(name){
-  if(BEAT_BUF[name])return BEAT_BUF[name];
-  return BEAT_BUF[name]=new Promise((res,rej)=>{
-    const fn=bbCompile(BYTES[name].f);if(!fn){rej(new Error('formula'));return}
-    const sr=AUD.ctx.sampleRate,T=1<<18,len=Math.round(T*sr/8000),out=AUD.ctx.createBuffer(1,len,sr),d=out.getChannelData(0);
-    const [n,l,o,p,a,b,c]=BB_LET,raw=new Float32Array(T);let xp=0,yp=0,pk=1e-6;
-    for(let t=0;t<T;t++){let v=fn(t,n,l,o,p,a,b,c);v=Number.isFinite(v)?(v&255)/128-1:0;const y=v-xp+.995*yp;xp=v;yp=y;raw[t]=y}   // DC blocker
-    for(let i=0;i<len;i++){const v=raw[Math.min(T-1,Math.floor(i*8000/sr))];d[i]=v;const m=Math.abs(v);if(m>pk)pk=m}   // sample-and-hold: the bytebeat crunch
-    const k=.7/pk,fade=Math.round(sr*.008);for(let i=0;i<len;i++)d[i]*=k;
-    for(let i=0;i<fade;i++){const g=i/fade;d[i]*=g;d[len-1-i]*=g}   // soften the loop seam
-    res(out)}).catch(e=>{delete BEAT_BUF[name];throw e})}
+/* LIVE VOICE (bytebeat now plays live, not from a rendered loop, so its letters can move while it sounds).
+   One core, two hosts, as in Bytebeat Reef: an AudioWorklet when the page allows it, a ScriptProcessor otherwise. */
+class BBCore{
+  constructor(sr,comp){this.sr=sr;this.comp=comp;this.t=0;this.rate=8000/sr;this.L=[9,8,3,2,4,4,4];this.f=null;this.xp=0;this.yp=0;this.hold=0;this.lt=-1}
+  set(m){if(m.stop){this.f=null;return true}
+    if(m.f!==undefined){const f=this.comp(m.f);if(!f)return false;this.f=f}
+    if(m.reset){this.t=0;this.lt=-1}if(m.L)this.L=m.L;if(m.rate!==undefined)this.rate=8000*m.rate/this.sr;return true}
+  fill(out){const f=this.f,L=this.L;if(!f){out.fill(0);return}
+    for(let i=0;i<out.length;i++){const ti=Math.floor(this.t);
+      if(ti!==this.lt){this.lt=ti;let v;try{v=f(ti,L[0],L[1],L[2],L[3],L[4],L[5],L[6])}catch(e){v=0}
+        v=Number.isFinite(v)?(v&255)/128-1:0;const y=v-this.xp+.995*this.yp;this.xp=v;this.yp=y;this.hold=y*.42}   // DC blocker; held between steps: the crunch
+      out[i]=this.hold;this.t+=this.rate}}
+}
+const BB_SRC=bbParse.toString()+'\n'+BBCore.toString()+`
+function comp(s){try{const f=new Function('t','n','l','o','p','a','b','c','const {sin,cos,tan,abs,floor,ceil,sqrt,pow,min,max,random,PI}=Math;const int=Math.floor;return ('+s+');');f(1000,9,8,3,2,4,4,4);return f}catch(e){}
+  try{const f=bbParse(s);if(f){f(1000,9,8,3,2,4,4,4);return f}}catch(e){}return null}
+class BBV extends AudioWorkletProcessor{constructor(){super();this.c=new BBCore(sampleRate,comp);this.port.onmessage=e=>{const ok=this.c.set(e.data);if(e.data.f!==undefined)this.port.postMessage({ok})}}
+  process(_,o){this.c.fill(o[0][0]);return true}}
+registerProcessor('current-bytebeat',BBV);`;
+const BBV={ready:null,mode:null,post:null,out:null,sent:''};
+function bbVoice(){if(BBV.ready)return BBV.ready;
+  return BBV.ready=(async()=>{const c=AUD.ctx;
+    if(c.audioWorklet&&window.AudioWorkletNode){try{
+      const url=URL.createObjectURL(new Blob([BB_SRC],{type:'application/javascript'}));
+      await Promise.race([c.audioWorklet.addModule(url),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),3000))]);
+      const n=new AudioWorkletNode(c,'current-bytebeat',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[1]});
+      n.port.onmessage=e=>{if(e.data&&e.data.ok===false)toast('that formula would not run')};
+      BBV.mode='worklet';BBV.post=m=>n.port.postMessage(m);BBV.out=n;return}catch(e){}}
+    const core=new BBCore(c.sampleRate,bbCompile),sp=c.createScriptProcessor(1024,0,1);
+    sp.onaudioprocess=e=>core.fill(e.outputBuffer.getChannelData(0));
+    BBV.mode='main';BBV.post=m=>core.set(m);BBV.out=sp})()}
+let BB_USER='';try{BB_USER=localStorage.getItem('current.bytebeat')||''}catch(_){}
+const isByte=n=>!!BYTES[n]||(n==='Byte yours'&&!!BB_USER);
+const bbFormula=n=>n==='Byte yours'?BB_USER:(BYTES[n]||{}).f||'';
+const bbLetters=()=>{const v=k=>Math.round(+(E[k]??S[k]));return[v('bbn'),v('bbl'),v('bbo'),v('bbp'),4,4,4]};
+const bbRate=()=>+(+(E.bbrate??S.bbrate)).toFixed(3);
+function startByte(name,fromPreset){
+  if(!ensureCtx())return;
+  stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();
+  const f=bbFormula(name);if(document.activeElement!==$('bbFx'))$('bbFx').value=f;bbMsg();
+  bbVoice().then(()=>{if(AUD.want!==name)return;
+    const L=bbLetters(),r=bbRate();BBV.post({f,L,rate:r,reset:true});BBV.sent=L.join()+'|'+r;
+    BBV.out.connect(AUD.bus);AUD.bbOn=true;AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r;AUD.loopOn=true},
+    ()=>toast('could not start the bytebeat here'));
+  if(fromPreset)toast('bytebeat: '+name.replace(/^Byte /,'')+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
+function stopByte(){if(!AUD.bbOn)return;AUD.bbOn=false;try{BBV.post({stop:true});BBV.out.disconnect()}catch(_){}}
+// every frame: send the letters and rate as the modulators and mappings move them (only when they change)
+function bbTick(){if(!AUD.bbOn||!BBV.post)return;const L=bbLetters(),r=bbRate(),k=L.join()+'|'+r;if(k===BBV.sent)return;BBV.sent=k;BBV.post({L,rate:r})}
+function bbMsg(err){const m=$('bbMsg');m.classList.toggle('bad',!!err);if(err)m.textContent=err;else if(m.dataset.base)m.innerHTML=m.dataset.base}
+function bbPlay(){const fx=$('bbFx').value.trim();if(!fx){bbMsg('Type a formula first, for example t*(42&t>>10).');return}
+  if(!$('bbMsg').dataset.base)$('bbMsg').dataset.base=$('bbMsg').innerHTML;
+  if(!bbCompile(fx)){bbMsg('That formula does not run: check the brackets and use only t, n, l, o, p, a, b, c, numbers, operators and Math functions.');return}
+  bbMsg();BB_USER=fx;try{localStorage.setItem('current.bytebeat',fx)}catch(_){}
+  AUD.userOff=false;
+  if(AUD.src==='Byte yours'&&AUD.bbOn){BBV.post({f:fx});syncAud();toast('formula swapped');return}   // live coding: the clock keeps running
+  startByte('Byte yours');toast('playing your formula')}
+$('bbPlay').addEventListener('click',bbPlay);
+$('bbFx').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();bbPlay()}});
+$('bbBack').addEventListener('click',()=>{$('bbFx').value=isByte(AUD.src)?bbFormula(AUD.src):BB_USER;bbMsg()});
+$('bbFx').value=BB_USER||BYTES['Byte 42'].f;
 const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
@@ -3199,7 +3274,6 @@ function hat(X,t){noiseHit(X,t,'highpass',7200,.7,.22,.045)}
 function bassNote(X,t,len){const c=X.c,o=c.createOscillator(),lp=c.createBiquadFilter(),g=c.createGain();o.type='sawtooth';o.frequency.value=55;lp.type='lowpass';lp.frequency.value=380;env(g,t,.32,len);o.connect(lp).connect(g).connect(X.out);o.start(t);o.stop(t+len+.05)}
 const BEAT_BUF={};   // name -> Promise<AudioBuffer>
 function renderBeat(name){
-  if(BYTES[name])return renderByte(name);
   if(BEAT_BUF[name])return BEAT_BUF[name];
   const pat=BEATS[name],sr=AUD.ctx.sampleRate,dur=60/pat.bpm/4,bar=dur*16,len=Math.ceil(bar*sr);
   const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
@@ -3213,15 +3287,16 @@ function renderBeat(name){
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
 function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
-function stopAudio(){AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
+function stopAudio(){stopByte();AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
 function startBeat(name,fromPreset){
-  const pat=BEATS[name]||BYTES[name];if(!pat)return;if(!ensureCtx())return;
+  if(isByte(name)){startByte(name,fromPreset);return}
+  const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
   stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();prerenderBeats();
   renderBeat(name).then(buf=>{if(AUD.want!==name)return;   // stopped or switched while rendering
     const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;
     AUD.beat=c.createGain();AUD.beat.connect(AUD.bus);n.connect(AUD.beat);
     const t0=c.currentTime+.05;n.start(t0);AUD.node=n;AUD.t0=t0;AUD.dur=60/pat.bpm/4;AUD.loopOn=true},
-    ()=>toast(BYTES[name]?'could not run that bytebeat here':'could not build that beat here'));
+    ()=>toast('could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function startFile(){if(!AUD.fileBuf||!ensureCtx())return;stopAudio();AUD.want=null;const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.bus);n.start();AUD.node=n;AUD.src='file';syncAud()}
 /* MICROPHONE: the room drives the field. The mic feeds only the analyser, never the speakers (no feedback), with the
@@ -3259,9 +3334,9 @@ $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.val
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
 function syncAud(){audSeg.innerHTML='';
-  const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES)].concat(AUD.fileBuf?['file']:[],['mic']);
+  const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
-    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':BYTES[o]?'Play the bytebeat '+o+': '+BYTES[o].f:'Play the built-in beat '+o);
+    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off')stopAudio();else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
   sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
@@ -3285,7 +3360,7 @@ function unlockAudio(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AUD.ctx&&AUD.src!=='off')AUD.ctx.resume().catch(()=>{})});
 function soundOn(){
   if(AUD.last==='mic'){startMic();return}
-  if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&(BEATS[AUD.last]||BYTES[AUD.last])?AUD.last:'Four on the floor');
+  if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&(BEATS[AUD.last]||isByte(AUD.last))?AUD.last:'Four on the floor');
   if(+$('audVol').value<.05){$('audVol').value=.6;$('audVol').dispatchEvent(new Event('input'))}
   const name=AUD.src==='file'?AUD.file:AUD.src.toLowerCase();toast('sound: '+name);
   // say so if the browser still refuses, so the cause is visible rather than silent
@@ -3302,6 +3377,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   add('sdOff','off','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>','Sound off',()=>{AUD.userOff=true;stopAudio()}).dataset.src='off';
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
+  if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
@@ -3835,7 +3911,7 @@ try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.9.1';
+const APP_VERSION='0.9.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
