@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018210316"</script>
+<script>window.__BUILD__="20261018212310"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -147,14 +147,6 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* full screen sits alone in the bar's right corner; the keys button ends the row, and to its right is where a
    pointed-at button's key appears, joined to it by a dotted wire (Dimitry, 18 Oct) */
 body #playbar>#pFull{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:0;bottom:0;margin-block:auto}
-#keyWire{position:fixed;inset:0;z-index:9;pointer-events:none;overflow:visible;opacity:0;transition:opacity .15s}
-#keyWire.on{opacity:1}
-#keyWire path{fill:none;stroke:rgba(255,255,255,.62);filter:drop-shadow(0 0 2px rgba(0,0,0,.7));stroke-width:1.2;stroke-dasharray:1.5 4;stroke-linecap:round}
-#keyChip{position:fixed;z-index:9;pointer-events:none;display:flex;gap:4px;align-items:center;opacity:0;transform:translateX(-4px);transition:opacity .15s,transform .15s}
-#keyChip.on{opacity:1;transform:none}
-#keyChip kbd{min-width:26px;height:26px;padding:0 7px;display:grid;place-items:center;box-sizing:border-box;border:1px solid rgb(var(--ui-hi,255 255 255) / .28);border-radius:6px;
-  background:rgb(var(--ui-g,14 14 16) / .72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);font:600 12px/1 var(--mono)}
-@media (prefers-reduced-motion:reduce){#keyWire,#keyChip{transition:none}}
 #pFull .fsOut{display:none}#pFull[aria-pressed="true"] .fsIn{display:none}#pFull[aria-pressed="true"] .fsOut{display:inline}
 /* hidden means gone, not just invisible (Dimitry, 18 Oct: the hidden bar's buttons still took clicks): the bar slides
    down below the screen and everything else fades and stops taking the pointer, children included */
@@ -482,9 +474,11 @@ body #pAuto.on{background:#55b8c9;color:#04181c}
 body #playbar>#pShot{width:clamp(44px,13vw,76px);height:clamp(44px,13vw,76px)}
 body #playbar>#pShot svg{width:clamp(24px,7vw,34px);height:clamp(24px,7vw,34px)}
 @media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}body #playbar>#pShot{width:58px;height:58px}}
+/* the shared offset for panels above the bar (see placeName): tighter on a phone, roomier on a big screen */
+:root{--pop-gap:12px}@media (max-width:560px){:root{--pop-gap:10px}}@media (min-width:1400px){:root{--pop-gap:16px}}
 #playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
 #playname.show{opacity:1}
-#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(84px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #plist[hidden]{display:none}
 .mxh{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 4px 0 14px;border-bottom:1px solid var(--ui-line);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
 .tb{background:transparent;border:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px;cursor:pointer}
@@ -522,7 +516,7 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShot.rec #pRecTime{color:#ff8a84}
 #pSnd{--sh-ring:rgba(85,184,201,.85)}.sh-here{--sh-acc:#55b8c9}
 /* the capture panel is Surface's (surface/capture.js, Fracture's layout); Current only places it and gives it the blue */
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985)}
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
@@ -568,7 +562,7 @@ body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-g
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
-#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #rlist[hidden]{display:none}
 #rlBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
@@ -770,7 +764,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shface:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
-#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #fontList[hidden]{display:none}
 /* recent words + word sequencer: the backward clock in the word field opens it */
 .shfield{width:258px}
@@ -778,7 +772,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:#55b8c9}
 .shhist:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
-#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
@@ -914,7 +908,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .dsp-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px;max-width:38ch}.dsp-list li{font-size:12.5px;line-height:1.45;color:var(--muted)}.dsp-list b{color:var(--fg);font-weight:700}
 
 /* YOUR OWN COLOR: hold a color dot still (right-click on a computer) for a hex field and the device's color field */
-#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(176px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #colorPick[hidden]{display:none}
 .cpBody{padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px}
 .cpField{position:relative;display:block;height:64px;border:1px solid #2b3235;cursor:pointer;overflow:hidden}
@@ -3618,7 +3612,12 @@ function placeShelves(){const pb=$('playbar').getBoundingClientRect();if(!pb.hei
 function placeName(){const n=$('playname');let b=null;
   const kids=[...$('playbar').children].map(c=>c.getBoundingClientRect()).filter(r=>r.height);if(kids.length)b=Math.round(innerHeight-Math.min(...kids.map(r=>r.top))+14);
   document.querySelectorAll('.shelf.open').forEach(sh=>{const sb=parseFloat(sh.style.bottom)||0;b=Math.max(b||0,Math.round(sb+sh.offsetHeight+12))});
-  n.style.bottom=b==null?'':b+'px';}
+  n.style.bottom=b==null?'':b+'px';
+  /* --pop-base, from the bottom: the higher of the caption line (the preset name, over the bar or an open shelf) and
+     the top of the shelf row (where a drawer of tools sits, open or not). Every panel that opens above the bar sits at
+     --pop-base + --pop-gap, so none covers the bar, a caption or a shelf, and they all start on the same line */
+  if(b!=null){let top=b+(n.offsetHeight||12);document.querySelectorAll('.shelf').forEach(sh=>{const sb=parseFloat(sh.style.bottom)||0;if(sb)top=Math.max(top,Math.round(sb+sh.offsetHeight))});
+    document.documentElement.style.setProperty('--pop-base',top+'px')}}
 function shelfOverflow(){document.querySelectorAll('.shelf').forEach(sh=>{const t=sh.querySelector('.track'),o=t.scrollWidth>t.clientWidth+2;sh.classList.toggle('ovl',o);
   const atL=t.scrollLeft<4,atR=t.scrollLeft+t.clientWidth>=t.scrollWidth-4;sh.classList.toggle('atL',atL);sh.classList.toggle('atR',atR);
   sh.querySelector('.shv.l').disabled=atL;sh.querySelector('.shv.r').disabled=atR})}
@@ -4694,23 +4693,6 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
     {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
   const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Presets',compact:true,d:'Go straight to preset 1 to 9',actions:PR},{name:'Current',actions:CU}];
   try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:GROUPS});SurfaceKeys.toolbar('#playbar','Player')}catch(e){console.warn('keys',e)}
-  /* the key wire: point at a bar button on a computer and, if it has a key, a dotted wire runs from it to the keys button
-     and the key shows just right of it. No key (or the keys button itself), no wire. */
-  try{const KEYOF={pSnd:'sound',pShot:'capture',pRand:'random',pPrev:'prev',pNext:'next',pAuto:'auto',pSteer:'current.steer'};
-    const NS='http://www.w3.org/2000/svg',wire=document.createElementNS(NS,'svg');wire.id='keyWire';wire.setAttribute('aria-hidden','true');
-    const path=document.createElementNS(NS,'path');wire.appendChild(path);document.body.appendChild(wire);
-    const chip=document.createElement('div');chip.id='keyChip';chip.setAttribute('aria-hidden','true');document.body.appendChild(chip);
-    const fine=matchMedia('(hover: hover) and (pointer: fine)');let off=0;
-    const hide=()=>{wire.classList.remove('on');chip.classList.remove('on')};
-    const show=b=>{const kb=$('pKeys');if(!kb||kb.hidden||!fine.matches)return hide();const id=KEYOF[b.id];const ks=id?(SurfaceKeys.keyFor(id)||[]).filter(Boolean):[];
-      if(!ks.length)return hide();
-      const r=b.getBoundingClientRect(),q=kb.getBoundingClientRect(),y=Math.min(r.top,q.top)-10,ax=r.left+r.width/2,bx=q.left+q.width/2;
-      path.setAttribute('d','M'+ax+' '+(r.top-2)+' L'+ax+' '+y+' L'+bx+' '+y+' L'+bx+' '+(q.top-2));
-      chip.textContent='';ks.slice(0,2).forEach(k=>{const e=document.createElement('kbd');e.textContent=k.replace('mod+','\u2318').replace('shift+','\u21e7');chip.appendChild(e)});
-      chip.style.left=(q.right+10)+'px';chip.style.top=(q.top+q.height/2-13)+'px';wire.classList.add('on');chip.classList.add('on')};
-    $('playbar').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const b=e.target.closest('#playbar button');if(!b||b.id==='pKeys'||b.id==='pFull'){hide();return}clearTimeout(off);show(b)});
-    $('playbar').addEventListener('pointerout',e=>{if(e.pointerType!=='mouse')return;const to=e.relatedTarget;if(to&&to.closest&&to.closest('#playbar button'))return;clearTimeout(off);off=setTimeout(hide,120)});
-    ['pointerdown','keydown','scroll'].forEach(t=>addEventListener(t,()=>hide(),{passive:true,capture:true}))}catch(e){console.warn('key wire',e)}
   const cap=k=>{const kb=document.createElement('kbd');kb.textContent=k;if(/[←→]/.test(k))kb.className='arr';if(k.length>2)kb.className='wide';return kb};
   const draw=()=>{const dl=document.getElementById('keysDl');if(dl){dl.textContent='';for(const g of GROUPS){if(g.compact){const ks=g.actions.map(a=>SurfaceKeys.keyFor(a.id)[0]).filter(Boolean);if(ks.length){const dt=document.createElement('dt');dt.append(cap(ks[0]+'\u2013'+ks[ks.length-1]));const dd=document.createElement('dd');dd.textContent=g.d+'.';dl.append(dt,dd)}continue}for(const a of g.actions){const ks=SurfaceKeys.keyFor(a.id);if(!ks.length)continue;
       const dt=document.createElement('dt');ks.forEach((k,i)=>{if(i)dt.append(' ');dt.append(cap(k))});const dd=document.createElement('dd');dd.textContent=a.d+'.';dl.append(dt,dd)}}}
@@ -4735,7 +4717,11 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
   tip('pSteer','Tools. Hold to hide or show the open shelf.');
   tip('pSrc','Source: a picture, a video or the camera.');
   tip('duckBtn','Index and settings.');
-  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',keys:{duckBtn:'p'}   /* the bar's keys show at the keys button now, on the dotted wire */})}catch(e){console.warn('tips',e)}</script>
+  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',keys:{duckBtn:'p'},
+    /* on a computer a bar button's name and key read just right of the keys button, where keys are set; nothing over the button */
+    anchor:'#pKeys',anchorAt:'right',anchorFor:'#playbar button:not(#pKeys):not(#pFull)',
+    keyFor:el=>{const id={pSnd:'sound',pShot:'capture',pRand:'random',pPrev:'prev',pNext:'next',pAuto:'auto',pSteer:'current.steer'}[el.id];
+      const k=id&&(SurfaceKeys.keyFor(id)||[])[0];return k?k.replace('mod+','\u2318').replace('shift+','\u21e7'):''}})}catch(e){console.warn('tips',e)}</script>
 <script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
 try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false)})}catch(e){console.warn('install guide',e)}</script>
 
@@ -4897,7 +4883,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.9';
+const APP_VERSION='0.15.10';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

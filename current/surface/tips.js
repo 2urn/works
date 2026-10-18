@@ -9,23 +9,26 @@
    stacks above it (or below, if there is no room above), and moves at once when a caption appears or leaves.
    anchor (+ anchorFor): on a computer, labels for anchorFor (default: scope) appear above one element, the keys
    button, so names and keys are read in the place they are set; never over the button being pointed at.
+   anchorAt:'right' puts that label just right of the anchor, on its line, as one plain line: the name and its key,
+   or the name alone (no hold line: the Guide has it). keyFor(el) returns a button's key when keys:{} is not enough.
    Mount: SurfaceTips.mount({scope:'#playbar button, .shelf .si', keys:{pPrev:'←'}, noHold:'.dot,.mag,[data-hold]', avoid:'#playname,#toast'}) */
 (function(){
 'use strict';
 const CSS=`.sft{position:fixed;z-index:60;left:0;top:0;max-width:min(260px,calc(100vw - 16px));padding:6px 9px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .14s,transform .14s;
   background:rgb(var(--ui-g,14 14 16) / .92);color:var(--ui-ink,#eef1f2);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);border-radius:8px;font:500 14px/1.35 var(--sans,system-ui,sans-serif);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .sft.show{opacity:1;transform:none}
+.sft.side{transform:translateX(-4px);white-space:nowrap;padding:4px 8px}.sft.side.show{transform:none}
 .sft small{display:block;margin-top:3px;font:400 12.5px/1.35 var(--mono,ui-monospace,monospace);color:var(--ui-dim,#8a9396);letter-spacing:.02em}
 .sft kbd{display:inline-block;min-width:1.4em;margin-left:6px;padding:0 4px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);border-radius:4px;font:600 13px/1.5 var(--mono,ui-monospace,monospace);color:var(--ui-ink,#eef1f2);text-align:center}
 @media (prefers-reduced-motion:reduce){.sft{transition:none}}`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function parse(el,keys){
+function parse(el,keys,kf){
   const raw=(el.dataset.tip||el.getAttribute('aria-label')||el.title||'').trim();if(!raw)return null;
   const parts=raw.split(/(?<=[.!?])\s+/);let name=parts[0].replace(/[.:]$/,'');
   const ci=name.indexOf(': ');if(ci>0&&ci<28)name=name.slice(0,ci);
   if(name.length>60)name=name.slice(0,58).replace(/\s+\S*$/,'')+'…';
   const hold=parts.find(p=>/^(press and )?hold\b/i.test(p));
-  const k=keys&&el.id&&keys[el.id];
+  const k=keys&&el.id&&keys[el.id]||kf&&kf(el)||'';
   return {name,hold:hold?hold.replace(/^(press and )?hold( for)?\s*/i,'').replace(/\.$/,''):'',key:k||''};
 }
 function mount(o){
@@ -37,7 +40,9 @@ function mount(o){
   // anchor: on a computer, labels for o.anchorFor gather above one place (the keys button: where every key is set)
   function home(el){if(!o.anchor||!fine.matches||!el.matches(o.anchorFor||o.scope))return null;const a=document.querySelector(o.anchor);
     if(!a||a.hidden||a===el)return null;const q=a.getBoundingClientRect();return q.width>0&&q.height>0?q:null}
+  const side=el=>o.anchorAt==='right'&&!!home(el);
   function place(el){const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
+    if(side(el)){const q=home(el);tip.style.left=Math.min(q.right+10,innerWidth-w-8)+'px';tip.style.top=Math.round(q.top+q.height/2-h/2)+'px';return}
     let x=r.left+r.width/2-w/2,y=r.top-h-8;if(y<6)y=r.bottom+8;
     const q=home(el);if(q){const ax=Math.min(q.right,innerWidth-8)-w,ay=q.top-h-8;
       // never over the thing being pointed at: if the gathered place would cover it, stay beside it instead
@@ -55,7 +60,7 @@ function mount(o){
       const q=a.getBoundingClientRect();return q.width>0&&q.height>0})}
   // a caption that appears (or leaves) while a label is up moves the label at once
   if(o.avoid)new MutationObserver(()=>{if(cur&&tip.classList.contains('show'))requestAnimationFrame(()=>{if(cur)place(cur)})}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class'],childList:true,characterData:true});
-  function show(el,touch){const p=parse(el,o.keys);if(!p)return;cur=el;
+  function show(el,touch){const p=parse(el,o.keys,o.keyFor);if(!p)return;cur=el;const sd=!touch&&side(el);tip.classList.toggle('side',sd);if(sd)p.hold='';
     tip.innerHTML=esc(p.name)+(p.key?'<kbd>'+esc(p.key)+'</kbd>':'')+(p.hold?'<small>'+(touch?'hold':'hold or right-click')+' · '+esc(p.hold)+'</small>':'');
     tip.classList.add('show');place(el)}
   function hide(){clearTimeout(t);cur=null;tip.classList.remove('show')}
