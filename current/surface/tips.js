@@ -5,7 +5,11 @@
    does not count as a tap). The bar's own buttons keep their hold actions; their labels are in the Guide.
    The label comes from the button's data-tip, else from its aria-label: the first sentence is the name, a sentence
    starting "Hold" or "Press and hold" becomes the hold line.
-   Mount: SurfaceTips.mount({scope:'#playbar button, .shelf .si', keys:{pPrev:'←'}, noHold:'.dot,.mag,[data-hold]'}) */
+   avoid: selectors of captions a label must never cover (a preset name, a toast). While one is showing, the label
+   stacks above it (or below, if there is no room above), and moves at once when a caption appears or leaves.
+   anchor (+ anchorFor): on a computer, labels for anchorFor (default: scope) appear above one element, the keys
+   button, so names and keys are read in the place they are set; never over the button being pointed at.
+   Mount: SurfaceTips.mount({scope:'#playbar button, .shelf .si', keys:{pPrev:'←'}, noHold:'.dot,.mag,[data-hold]', avoid:'#playname,#toast'}) */
 (function(){
 'use strict';
 const CSS=`.sft{position:fixed;z-index:60;left:0;top:0;max-width:min(260px,calc(100vw - 16px));padding:6px 9px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .14s,transform .14s;
@@ -30,8 +34,27 @@ function mount(o){
   const tip=document.createElement('div');tip.className='sft';tip.setAttribute('role','tooltip');tip.id='sft';document.body.appendChild(tip);
   let cur=null,t=0;
   const fine=matchMedia('(hover: hover) and (pointer: fine)');
+  // anchor: on a computer, labels for o.anchorFor gather above one place (the keys button: where every key is set)
+  function home(el){if(!o.anchor||!fine.matches||!el.matches(o.anchorFor||o.scope))return null;const a=document.querySelector(o.anchor);
+    if(!a||a.hidden||a===el)return null;const q=a.getBoundingClientRect();return q.width>0&&q.height>0?q:null}
   function place(el){const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
-    let x=r.left+r.width/2-w/2,y=r.top-h-8;if(y<6)y=r.bottom+8;x=Math.max(8,Math.min(innerWidth-w-8,x));tip.style.left=x+'px';tip.style.top=y+'px'}
+    let x=r.left+r.width/2-w/2,y=r.top-h-8;if(y<6)y=r.bottom+8;
+    const q=home(el);if(q){const ax=Math.min(q.right,innerWidth-8)-w,ay=q.top-h-8;
+      // never over the thing being pointed at: if the gathered place would cover it, stay beside it instead
+      if(ay>=6&&!(ax<r.right&&ax+w>r.left&&ay<r.bottom&&ay+h>r.top)){x=ax;y=ay}}
+    x=Math.max(8,Math.min(innerWidth-w-8,x));
+    // never cover a caption that is showing (o.avoid): stack above it, or below it if there is no room above
+    for(let pass=0;pass<3;pass++){let moved=false;
+      for(const a of avoids()){const q=inkBox(a);
+        if(x<q.right+4&&x+w>q.left-4&&y<q.bottom+6&&y+h>q.top-6){const up=q.top-h-6;y=up>=6?up:q.bottom+6;moved=true}}
+      if(!moved)break}
+    tip.style.left=x+'px';tip.style.top=y+'px'}
+  // the caption's words, not its box: a full-width caption only gets in the way where its text is
+  function inkBox(a){try{const g=document.createRange();g.selectNodeContents(a);const q=g.getBoundingClientRect();if(q.width>0)return q}catch(_){}return a.getBoundingClientRect()}
+  function avoids(){if(!o.avoid)return [];return [...document.querySelectorAll(o.avoid)].filter(a=>{if(!a.textContent.trim())return false;const s=getComputedStyle(a);if(s.display==='none'||s.visibility==='hidden'||+s.opacity<.05&&!a.classList.contains('show'))return false;
+      const q=a.getBoundingClientRect();return q.width>0&&q.height>0})}
+  // a caption that appears (or leaves) while a label is up moves the label at once
+  if(o.avoid)new MutationObserver(()=>{if(cur&&tip.classList.contains('show'))requestAnimationFrame(()=>{if(cur)place(cur)})}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class'],childList:true,characterData:true});
   function show(el,touch){const p=parse(el,o.keys);if(!p)return;cur=el;
     tip.innerHTML=esc(p.name)+(p.key?'<kbd>'+esc(p.key)+'</kbd>':'')+(p.hold?'<small>'+(touch?'hold':'hold or right-click')+' · '+esc(p.hold)+'</small>':'');
     tip.classList.add('show');place(el)}

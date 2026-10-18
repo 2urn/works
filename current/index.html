@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018204043"</script>
+<script>window.__BUILD__="20261018205309"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -4707,7 +4707,7 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
   tip('pSteer','Tools. Hold to hide or show the open shelf.');
   tip('pSrc','Source: a picture, a video or the camera.');
   tip('duckBtn','Index and settings.');
-  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',keys:{pPrev:'←',pNext:'→',pRand:'r',pSnd:'m',duckBtn:'p'}})}catch(e){console.warn('tips',e)}</script>
+  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',anchor:'#pKeys',anchorFor:'#playbar button',keys:{pPrev:'←',pNext:'→',pRand:'r',pSnd:'m',duckBtn:'p'}})}catch(e){console.warn('tips',e)}</script>
 <script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
 try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false)})}catch(e){console.warn('install guide',e)}</script>
 
