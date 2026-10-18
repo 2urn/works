@@ -168,6 +168,8 @@ const CSS=`
 @media (prefers-reduced-motion:reduce){.sfi-stage [data-l]{transition:none}.sfi-tap.on,.sfi-stage [data-l].on .sfi-pop{animation:none}.sfi-hint{transition:none}}
 `;
 const ICON_DL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></svg>';
+/* inside Claude the button leaves for the public page, so it wears the external-link mark; on the web, installing keeps the download mark */
+const ICON_EXT='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const store={get(k){try{return JSON.parse(localStorage.getItem('surface-install:'+k))}catch(_){return null}},set(k,v){try{localStorage.setItem('surface-install:'+k,JSON.stringify(v))}catch(_){}}};
 
@@ -191,7 +193,7 @@ function mount(o){
       b.onclick=()=>{b.textContent='checking…';window.checkForUpdate(false).then(r=>{b.textContent=r==='current'?'you have the newest':r==='new'?'a newer version is ready':'could not check (offline?)'})}};
     if(embedded()){body.innerHTML=`<p class="sfi-lead">${app} can live on your phone or computer as its own app: full screen, its own icon, and it keeps working offline.</p>
       <p class="sfi-state">Here inside Claude, installing would save Claude, not ${app}. Open the public version and install it from there:</p>
-      <a class="sfi-go" href="${esc(o.url)}" target="_blank" rel="noopener">${ICON_DL}Open ${app}</a> <button type="button" class="sfi-go ghost" data-copy>Copy link</button>`;
+      <a class="sfi-go" href="${esc(o.url)}" target="_blank" rel="noopener">${ICON_EXT}Open ${app}</a> <button type="button" class="sfi-go ghost" data-copy>Copy link</button>`;
       const cp=body.querySelector('[data-copy]');cp.onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(o.url):Promise.reject()).then(()=>{cp.textContent='Copied'},()=>{cp.textContent=o.url})};return}
     const sc=SCENES[plat];
     let h=`<p class="sfi-lead">Keep ${app} as its own app: full screen, its own icon, and it keeps working offline.</p>`;
