@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018205309"</script>
+<script>window.__BUILD__="20261018210316"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -144,6 +144,17 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* FULL SCREEN AND NO UI (Dimitry, 17 Oct): a full-screen button on the bar where the browser can do it (not iPhone);
    the space bar, or a three-finger tap, takes every control away and brings it back (Fracture's gesture). Not Esc: in full
    screen the browser keeps Esc for leaving full screen, so it could never mean anything else there. */
+/* full screen sits alone in the bar's right corner; the keys button ends the row, and to its right is where a
+   pointed-at button's key appears, joined to it by a dotted wire (Dimitry, 18 Oct) */
+body #playbar>#pFull{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:0;bottom:0;margin-block:auto}
+#keyWire{position:fixed;inset:0;z-index:9;pointer-events:none;overflow:visible;opacity:0;transition:opacity .15s}
+#keyWire.on{opacity:1}
+#keyWire path{fill:none;stroke:rgba(255,255,255,.62);filter:drop-shadow(0 0 2px rgba(0,0,0,.7));stroke-width:1.2;stroke-dasharray:1.5 4;stroke-linecap:round}
+#keyChip{position:fixed;z-index:9;pointer-events:none;display:flex;gap:4px;align-items:center;opacity:0;transform:translateX(-4px);transition:opacity .15s,transform .15s}
+#keyChip.on{opacity:1;transform:none}
+#keyChip kbd{min-width:26px;height:26px;padding:0 7px;display:grid;place-items:center;box-sizing:border-box;border:1px solid rgb(var(--ui-hi,255 255 255) / .28);border-radius:6px;
+  background:rgb(var(--ui-g,14 14 16) / .72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);font:600 12px/1 var(--mono)}
+@media (prefers-reduced-motion:reduce){#keyWire,#keyChip{transition:none}}
 #pFull .fsOut{display:none}#pFull[aria-pressed="true"] .fsIn{display:none}#pFull[aria-pressed="true"] .fsOut{display:inline}
 /* hidden means gone, not just invisible (Dimitry, 18 Oct: the hidden bar's buttons still took clicks): the bar slides
    down below the screen and everything else fades and stops taking the pointer, children included */
@@ -4683,6 +4694,23 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
     {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
   const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Presets',compact:true,d:'Go straight to preset 1 to 9',actions:PR},{name:'Current',actions:CU}];
   try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:GROUPS});SurfaceKeys.toolbar('#playbar','Player')}catch(e){console.warn('keys',e)}
+  /* the key wire: point at a bar button on a computer and, if it has a key, a dotted wire runs from it to the keys button
+     and the key shows just right of it. No key (or the keys button itself), no wire. */
+  try{const KEYOF={pSnd:'sound',pShot:'capture',pRand:'random',pPrev:'prev',pNext:'next',pAuto:'auto',pSteer:'current.steer'};
+    const NS='http://www.w3.org/2000/svg',wire=document.createElementNS(NS,'svg');wire.id='keyWire';wire.setAttribute('aria-hidden','true');
+    const path=document.createElementNS(NS,'path');wire.appendChild(path);document.body.appendChild(wire);
+    const chip=document.createElement('div');chip.id='keyChip';chip.setAttribute('aria-hidden','true');document.body.appendChild(chip);
+    const fine=matchMedia('(hover: hover) and (pointer: fine)');let off=0;
+    const hide=()=>{wire.classList.remove('on');chip.classList.remove('on')};
+    const show=b=>{const kb=$('pKeys');if(!kb||kb.hidden||!fine.matches)return hide();const id=KEYOF[b.id];const ks=id?(SurfaceKeys.keyFor(id)||[]).filter(Boolean):[];
+      if(!ks.length)return hide();
+      const r=b.getBoundingClientRect(),q=kb.getBoundingClientRect(),y=Math.min(r.top,q.top)-10,ax=r.left+r.width/2,bx=q.left+q.width/2;
+      path.setAttribute('d','M'+ax+' '+(r.top-2)+' L'+ax+' '+y+' L'+bx+' '+y+' L'+bx+' '+(q.top-2));
+      chip.textContent='';ks.slice(0,2).forEach(k=>{const e=document.createElement('kbd');e.textContent=k.replace('mod+','\u2318').replace('shift+','\u21e7');chip.appendChild(e)});
+      chip.style.left=(q.right+10)+'px';chip.style.top=(q.top+q.height/2-13)+'px';wire.classList.add('on');chip.classList.add('on')};
+    $('playbar').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const b=e.target.closest('#playbar button');if(!b||b.id==='pKeys'||b.id==='pFull'){hide();return}clearTimeout(off);show(b)});
+    $('playbar').addEventListener('pointerout',e=>{if(e.pointerType!=='mouse')return;const to=e.relatedTarget;if(to&&to.closest&&to.closest('#playbar button'))return;clearTimeout(off);off=setTimeout(hide,120)});
+    ['pointerdown','keydown','scroll'].forEach(t=>addEventListener(t,()=>hide(),{passive:true,capture:true}))}catch(e){console.warn('key wire',e)}
   const cap=k=>{const kb=document.createElement('kbd');kb.textContent=k;if(/[←→]/.test(k))kb.className='arr';if(k.length>2)kb.className='wide';return kb};
   const draw=()=>{const dl=document.getElementById('keysDl');if(dl){dl.textContent='';for(const g of GROUPS){if(g.compact){const ks=g.actions.map(a=>SurfaceKeys.keyFor(a.id)[0]).filter(Boolean);if(ks.length){const dt=document.createElement('dt');dt.append(cap(ks[0]+'\u2013'+ks[ks.length-1]));const dd=document.createElement('dd');dd.textContent=g.d+'.';dl.append(dt,dd)}continue}for(const a of g.actions){const ks=SurfaceKeys.keyFor(a.id);if(!ks.length)continue;
       const dt=document.createElement('dt');ks.forEach((k,i)=>{if(i)dt.append(' ');dt.append(cap(k))});const dd=document.createElement('dd');dd.textContent=a.d+'.';dl.append(dt,dd)}}}
@@ -4707,7 +4735,7 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
   tip('pSteer','Tools. Hold to hide or show the open shelf.');
   tip('pSrc','Source: a picture, a video or the camera.');
   tip('duckBtn','Index and settings.');
-  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',anchor:'#pKeys',anchorFor:'#playbar button',keys:{pPrev:'←',pNext:'→',pRand:'r',pSnd:'m',duckBtn:'p'}})}catch(e){console.warn('tips',e)}</script>
+  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',keys:{duckBtn:'p'}   /* the bar's keys show at the keys button now, on the dotted wire */})}catch(e){console.warn('tips',e)}</script>
 <script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
 try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false)})}catch(e){console.warn('install guide',e)}</script>
 
@@ -4869,7 +4897,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.8';
+const APP_VERSION='0.15.9';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
