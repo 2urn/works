@@ -31,6 +31,9 @@
                                         //   column's edge and a colophon below stays open (Dimitry, 18 Oct)
        prose: '.cx-lead,...',           // what LESS TEXT hides (see PROSE below for the default)
        label: 'Index',                  // the toolbar's accessible name
+       start: {folded: true, focus: true}, // optional: how a FIRST visit opens (nothing saved yet). folded: every
+                                        //   section and every row inside them shut, so the index arrives as a short
+                                        //   menu; focus: one at a time on. Someone who has arranged it keeps theirs.
        briefScope: '#panel',            // optional: where LESS TEXT applies, if wider than root
        links: [{label, aria, run}]      // optional: the tool's own jumps in the toolbar (Current: licenses)
      })
@@ -117,6 +120,11 @@
     const setShut = (s, shut) => { s.classList.toggle('cx-shut', shut); const b = s.querySelector(':scope>.cx-grpbtn'); if (b) b.setAttribute('aria-expanded', String(!shut)); };
     const persist = () => { st.order = movable().map(s => s.id); st.shut = secs().filter(s => s.classList.contains('cx-shut')).map(s => s.id); save(KEY, st); sync(); };
     if (Array.isArray(st.shut)) for (const s of secs()) setShut(s, st.shut.indexOf(s.id) >= 0);
+    else if (o.start && o.start.folded) for (const s of secs()) {
+      setShut(s, true);
+      s.querySelectorAll('.cx-row').forEach(r => { r.classList.add('cx-shut'); const g = r.querySelector(':scope>.cx-go'); if (g) g.setAttribute('aria-expanded', 'false'); });
+    }
+    if (st.focus === undefined && o.start && o.start.focus) st.focus = true;
 
     /* the toolbar */
     const bar = document.createElement('div'); bar.className = 'sfs-bar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', o.label + ': sections');
