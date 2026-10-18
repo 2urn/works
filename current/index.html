@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018072407"</script>
+<script>window.__BUILD__="20261018072625"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -222,6 +222,8 @@ body:not(.player) #dscMark{opacity:0}
 .cx-grpbtn[aria-expanded=false] .cx-ch{transform:rotate(-90deg)}
 .cx-grp.cx-shut>.cx-gbody{display:none}
 .cx-lead{margin:0 0 8px;font-size:13px;line-height:1.45;max-width:38ch}
+/* two lines of space between every section title and its intro (Dimitry, 18 Oct): two of the intro's own lines */
+.cx-gbody>.cx-lead:first-child,.cx-gbody>p:first-child,.cx-gbody>.note:first-child{margin-top:2.9em}
 .cx-list{list-style:none;margin:0;padding:0}
 .cx-row{border-bottom:1px solid var(--line)}
 .cx-go{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;align-items:baseline;width:100%;min-height:44px;padding:10px 0;border:0;background:none;color:var(--fg);cursor:pointer;text-align:left}
@@ -4054,7 +4056,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.10.0';
+const APP_VERSION='0.10.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
