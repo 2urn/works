@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018213253"</script>
+<script>window.__BUILD__="20261018235331"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -147,6 +147,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* full screen sits alone in the bar's right corner; the keys button ends the row, and to its right is where a
    pointed-at button's key appears, joined to it by a dotted wire (Dimitry, 18 Oct) */
 body #playbar>#pFull{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:0;bottom:0;margin-block:auto}
+@media (max-width:620px){body #playbar>#pFull{position:static;margin:0}}   /* no room for a corner of its own: it sat over the tools button */
 #pFull .fsOut{display:none}#pFull[aria-pressed="true"] .fsIn{display:none}#pFull[aria-pressed="true"] .fsOut{display:inline}
 /* hidden means gone, not just invisible (Dimitry, 18 Oct: the hidden bar's buttons still took clicks): the bar slides
    down below the screen and everything else fades and stops taking the pointer, children included */
@@ -475,15 +476,19 @@ body #playbar>#pShot{width:clamp(44px,13vw,76px);height:clamp(44px,13vw,76px)}
 body #playbar>#pShot svg{width:clamp(24px,7vw,34px);height:clamp(24px,7vw,34px)}
 @media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}body #playbar>#pShot{width:58px;height:58px}}
 /* the shared offset for panels above the bar (see placeName): tighter on a phone, roomier on a big screen */
-:root{--pop-gap:12px}@media (max-width:560px){:root{--pop-gap:10px}}@media (min-width:1400px){:root{--pop-gap:16px}}
+:root{--pop-gap:12px;
+  /* the room a panel has above that line: up to just under the duck-rabbit, so it clears the status bar, the Dynamic Island and the duck */
+  --pop-room:calc(100dvh - var(--pop-base,110px) - var(--pop-gap,12px) - env(safe-area-inset-top,0px) - 70px)}@media (max-width:560px){:root{--pop-gap:10px}}@media (min-width:1400px){:root{--pop-gap:16px}}
 #playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
 #playname.show{opacity:1}
-#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #plist[hidden]{display:none}
 .mxh{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 4px 0 14px;border-bottom:1px solid var(--ui-line);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
 .tb{background:transparent;border:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px;cursor:pointer}
 .tb:hover{color:var(--ui-ink)}
-#plAuto{padding:4px 14px 8px;border-bottom:1px solid var(--ui-line)}
+#plAuto{padding:8px 14px 6px;border-bottom:1px solid var(--ui-line);display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;align-items:center}
+#plAuto>.sub{padding:0;align-self:start;line-height:30px}
+#plAuto>.segs:last-child{grid-column:1/-1;gap:0 4px;margin:2px -10px 0}
 #plAuto .sub,#plItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 0 2px}
 #plItems .sub{padding:12px 14px 4px}
 .segs{display:flex;flex-wrap:wrap;gap:0 12px}
@@ -522,7 +527,7 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShot.rec #pRecTime{color:#ff8a84}
 #pSnd{--sh-ring:rgba(85,184,201,.85)}.sh-here{--sh-acc:#55b8c9}
 /* the capture panel is Surface's (surface/capture.js, Fracture's layout); Current only places it and gives it the blue */
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px,var(--pop-room,100vh));--cap-acc:#55b8c9;--cap-on:#04181c}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985)}
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
@@ -562,13 +567,14 @@ body #playbar>#pShot.busy{opacity:.55}
   background:conic-gradient(#55b8c9 calc(var(--amt,.6)*360deg),rgb(var(--ui-hi) / .08) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
 body #playbar>#pRand.on,body #playbar>#pSnd.on{background:#55b8c9;color:#04181c}
+#pSnd{position:relative}#pSnd.micOn::before{content:'';position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#e5484d;box-shadow:0 0 0 2px var(--ui-solid,#0f1213);pointer-events:none}   /* a microphone is live */
 body #playbar>#pSnd,#sdMix,#sdWet{touch-action:none}
 html:has(#pSnd.vdrag) .sft{display:none!important}   /* the tip would cover the level readout while you drag */
 body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-gradient(to top,#55b8c9 calc(var(--vol,.6)*100%),rgba(85,184,201,.18) 0);color:#04181c}
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
-#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #rlist[hidden]{display:none}
 #rlBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
@@ -620,7 +626,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #plItems .lk .bd{min-width:0;display:grid;grid-template-columns:62px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:10px;padding:6px 0}
 #plItems .lk .bd>button.thb{grid-row:1/3;width:62px;height:42px;padding:0;border-radius:6px;display:block}
 #plItems .lk .bd>button.thb .th{display:block;width:62px;height:42px}
-#plItems .sub>span:last-child{white-space:nowrap}#plItems .sub button.tb{width:auto;display:inline-block;padding:4px 0 4px 10px}
+#plItems .sub>span:last-child{white-space:nowrap}#plItems .sub button.tb{width:auto;display:inline-block;padding:4px 0 4px 10px;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--ui-dim);min-height:30px}#plItems .sub button.tb:hover{color:var(--ui-ink);background:none}
 #plItems .lk .bd>button.nm{padding:2px 0 0;min-height:0}
 #plItems .lk .acts{display:flex;gap:2px;align-items:center;margin-left:-6px}
 #plItems .lk .acts button{width:30px;height:28px;padding:0;display:grid;place-items:center;color:#6b7578;border-radius:7px}
@@ -770,7 +776,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shface:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
-#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #fontList[hidden]{display:none}
 /* recent words + word sequencer: the backward clock in the word field opens it */
 .shfield{width:258px}
@@ -778,7 +784,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:#55b8c9}
 .shhist:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
-#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
@@ -3009,8 +3015,8 @@ const SHARE_URL='https://works.chamy.xyz/current/',SHARE_TITLE='Current';
 function shareUrl(){try{if(window.top===window.self&&/^https?:$/.test(location.protocol))return location.href.split('#')[0].split('?')[0]}catch(_){}return SHARE_URL}
 const CAP_SHAPES=[['screen',0,'this screen'],['9:16',9/16,'story, reel, TikTok: 1080×1920'],['4:5',.8,'Instagram feed post: 1080×1350'],['1:1',1,'square: 1080×1080'],['16:9',16/9,'Full HD, YouTube: 1920×1080']];
 const GIF_FPS=12,GIF_SIDE=540,VID_SIDE=1920,STILL_SIDE=4096;
-const CAP={mode:'still',shape:'screen',gif:5};
-try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif'].includes(o.mode))CAP.mode=o.mode;if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif}catch(_){}
+const CAP={mode:'still',shape:'screen',gif:5,snd:'both'};
+try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif'].includes(o.mode))CAP.mode=o.mode;if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif;if(['music','both','mic'].includes(o.snd))CAP.snd=o.snd}catch(_){}
 function capSave(){try{localStorage.setItem('toolpath-capture',JSON.stringify(CAP))}catch(_){}}
 // stills and video in a set shape come out at the sizes the platforms want: Full HD video, Instagram's 1080-wide stills
 const CAP_SIZES={'9:16':[1080,1920],'4:5':[1080,1350],'1:1':[1080,1080],'16:9':[1920,1080]};
@@ -3044,7 +3050,14 @@ async function capStill(){try{const[w,h]=capDims(STILL_SIDE),c=frameInto(documen
 /* video: the composite (source + field + overlay) painted to its own canvas at 30 fps, with the sound when it is on */
 const REC_MIMES=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1.42E01E','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm;codecs=vp9','video/webm'];
 const pickMime=()=>typeof MediaRecorder==='undefined'||!HTMLCanvasElement.prototype.captureStream?null:REC_MIMES.find(m=>{try{return MediaRecorder.isTypeSupported(m)}catch(_){return false}});
-function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];if(!RECDEST){RECDEST=AUD.ctx.createMediaStreamDestination();AUD.vol.connect(RECDEST)}return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
+/* a video's sound: what plays (after the volume), and the camera's microphone on its own gain, never the speakers.
+   With both live, the capture panel's "sound" row picks music, both or the mic (CAP.snd). */
+function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=AUD.ctx;
+  if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();AUD.vol.connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
+  if(AUD.mic&&AUD.mic.cam&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
+  recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
+function bothLive(){return !!(AUD.mic&&AUD.mic.cam&&AUD.src!=='off'&&AUD.src!=='mic')}
+function recMix(){if(!AUD.recMus)return;const m=bothLive()?(CAP.snd||'both'):'both';AUD.recMus.gain.value=m==='mic'?0:1;AUD.recMic.gain.value=m==='music'?0:.7}
 function startVideo(){const mime=pickMime();if(!mime){toast('This browser cannot record video here. Try GIF.');return}
   const[w,h]=capDims(VID_SIDE),c=document.createElement('canvas');CAPBG=css('--stage')||'#000';frameInto(c,w,h,true);
   const vt=c.captureStream(30).getVideoTracks(),make=t=>{try{return new MediaRecorder(new MediaStream(t),{mimeType:mime,videoBitsPerSecond:12e6})}catch(_){return null}};
@@ -3081,7 +3094,9 @@ function shutter(){if(ENC)return;if(REC){REC.kind==='video'?REC.rec.stop():stopG
 const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and sharing',
   modes:[['still','still'],['video','video'],['gif','gif']],
   shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
-  extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]}],
+  extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]},
+    // with the camera's mic and music both live: what the video's sound holds (the field always hears both)
+    {key:'snd',label:'Sound in the video',show:s=>s.mode==='video'&&bothLive(),items:[['music','music','Sound in the video: the music only'],['both','music + mic','Sound in the video: the music and the camera’s microphone'],['mic','mic','Sound in the video: the camera’s microphone only']]}],
   get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();syncShot()},busy:()=>!!(REC||ENC),
   dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
   hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
@@ -3916,8 +3931,8 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopMic(){if(!AUD.mic)return;setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
-function stopAudio(){if(AUD.userOff)stopLayer();stopByte();AUD.loopOn=false;AUD.want=null;stopMic();if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src='off';syncAud()}
+function stopMic(force){if(!AUD.mic)return;if(AUD.mic.cam&&!force)return;/* the camera's mic stays until the camera goes or the sound is switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopAudio(){if(AUD.userOff)stopLayer();stopByte();AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src=AUD.mic?'mic':'off';syncAud()}
 function startBeat(name,fromPreset){
   if(window.cxCount&&name)cxCount('sound: '+(name==='Byte yours'?'own formula':name),1);
   if(isByte(name)){startByte(name,fromPreset);return}
@@ -3951,11 +3966,18 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
       OverconstrainedError:'this microphone refused the settings · try again'}[n];
     toast(why||('could not open the microphone ('+n+(e.message?': '+String(e.message).slice(0,60):'')+') · try Safari or Chrome'));console.warn('mic',e);return}
   hookMic(st,false)}
+/* THE CAMERA'S MICROPHONE JOINS, IT DOES NOT REPLACE (Dimitry, 18 Oct). Turning the camera on used to swap the beat or
+   file for the microphone, and turning it off left silence, so a recording ended with the music gone and no clear way
+   back. Now: if something is playing, the camera's mic is added under it (the field hears both, a recording holds both)
+   and the music never stops; with nothing playing, the mic is the sound, as before. A red dot on the sound button says
+   a microphone is live. The room microphone on its own (the mic button, no camera) is still never recorded. */
 function hookMic(st,cam){
-  stopAudio();AUD.userOff=false;
+  const join=cam&&AUD.src!=='off'&&AUD.src!=='mic';
+  if(join)stopMic(true);else stopAudio();AUD.userOff=false;
   const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
   AUD.mic={stream:st,node:g,sink:z,cam};if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
-  AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08};syncAud();
+  if(cam&&AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // the camera's sound goes into the video, never to the speakers
+  if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.src==='mic')stopAudio()});
   if(!cam)toast('microphone · the room moves the field')}
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
@@ -3968,9 +3990,9 @@ function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
     b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
-    b.onclick=()=>{if(o==='off')stopAudio();else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
+    b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
+  sb.classList.toggle('micOn',!!AUD.mic);sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':AUD.mic?'Sound on, with the camera’s microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
    stays silent otherwise). Every tap/click/key resumes it. iPhone mute switch: ask for the playback session
@@ -4036,7 +4058,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   rule();
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
-  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
+  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
   if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
@@ -4053,7 +4075,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
     AUD.react=!AUD.react;try{localStorage.setItem('current.react',AUD.react?'on':'off')}catch(_){}syncSndShelf();toast(AUD.react?'the sound moves every look':'only looks with their own sound links move')});
   syncSndShelf()}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
-  t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src)));
+  t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src||(b.dataset.src==='mic'&&!!AUD.mic))));
   {const m=$('sdMix');if(m){m.querySelector('.lab').textContent=AUD.lay?(BEAT_SHORT[AUD.lay]||'beat')+' '+Math.round(BLEND*100)+'%':'mix';m.setAttribute('aria-pressed',String(!!AUD.lay));
     m.setAttribute('aria-label',AUD.lay?'Blend: '+AUD.lay+' under the sound at '+Math.round(BLEND*100)+'%. Tap for the next beat, drag left or right to blend':'Blend: tap to put a beat under the sound, then drag left or right to blend the two')}}
   {const w=$('sdWet');if(w){w.querySelector('.lab').textContent=WET?'wet '+Math.round(WET*100)+'%':'dry';w.setAttribute('aria-pressed',String(WET>0));
@@ -4117,7 +4139,7 @@ function picTick(){if(SRC.kind==='none')return;const b=bgfEff(),key=[b.x,b.y,b.s
   if(key===PICAUTO.last)return;PICAUTO.last=key;layoutBg();
   const now=performance.now();if((E.drive||0)>.005&&now-PICAUTO.t>90){PICAUTO.t=now;try{buildDrive()}catch(_){}}}
 function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=0;if(typeof TRACE!=='undefined'&&TRACE.on){TRACE.on=false;TRACE.segs=[];if(parsed){fitSegments();buildField()}}   // the old picture's drive field goes with it (0.13.6: it used to linger and steer the next picture)
-  if(AUD&&AUD.mic&&AUD.mic.cam)stopAudio();if(SRC.stream){SRC.stream.getTracks().forEach(t=>t.stop());SRC.stream=null}
+  if(AUD&&AUD.mic&&AUD.mic.cam){const alone=AUD.src==='mic';stopMic(true);if(alone)stopAudio();else syncAud()}if(SRC.stream){SRC.stream.getTracks().forEach(t=>t.stop());SRC.stream=null}
   try{bgVid.pause()}catch(_){}bgVid.removeAttribute('src');bgVid.srcObject=null;
   if(SRC.url){URL.revokeObjectURL(SRC.url);SRC.url=null}bgImg.removeAttribute('src')}
 function syncSrc(){{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle('flip',on);const l=$('srCamV');if(l)l.textContent=on?(SRC.facing==='user'?'front':'back'):'camera'}
@@ -4177,7 +4199,7 @@ $('srCam').onclick=async()=>{
     try{st=await navigator.mediaDevices.getUserMedia({video:V,audio:a});heard=true;break}catch(e){if(e&&e.name==='NotAllowedError')break}}
   try{if(!st)st=await navigator.mediaDevices.getUserMedia({video:V,audio:false});   // no microphone allowed: the picture alone
     if(SRC.kind==='none')SRC.frame0={...FRAME};stopSource();SRC.stream=st;SRC.kind='camera';SRC.flipped=false;{const vt=st.getVideoTracks()[0],fm=vt&&vt.getSettings?vt.getSettings().facingMode:null;if(fm)SRC.facing=fm==='environment'?'environment':'user';SRC.mirror=SRC.facing==='user'}SRC.gcode=null;bgVid.muted=true;bgVid.srcObject=st;await bgVid.play().catch(()=>{});if(!SRC.show)SRC.show=.5;syncSrc();
-    if(heard&&st.getAudioTracks().length){startMic(new MediaStream(st.getAudioTracks()));toast('camera and its microphone · the field moves to what it hears')}
+    if(heard&&st.getAudioTracks().length){const was=AUD.src!=='off'&&AUD.src!=='mic'?(AUD.src==='file'?(AUD.file||'your file'):AUD.src.toLowerCase()):'';startMic(new MediaStream(st.getAudioTracks()));toast(was?'camera on · its microphone joins '+was+': the field hears both, a video records both':'camera and its microphone · the field moves to what it hears',3600)}
     else{audioSessionFor(false);toast('camera under the field (no microphone) · drive lets it steer')}}
   catch(err){audioSessionFor(false);toast(err&&err.name==='NotAllowedError'?'camera blocked: this viewer or the browser said no':'camera unavailable here: try a picture or a video')}};
 $('srShow').onclick=()=>{SRC.show=SHOWS[(SHOWS.indexOf(SRC.show)+1)%SHOWS.length];syncSrc()};
@@ -4889,7 +4911,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.11';
+const APP_VERSION='0.16.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
