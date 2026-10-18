@@ -28,7 +28,8 @@
        fixed: '.colo',                  // sections that fold with the rest but keep their place
        prose: '.cx-lead,...',           // what LESS TEXT hides (see PROSE below for the default)
        label: 'Index',                  // the toolbar's accessible name
-       briefScope: '#panel'             // optional: where LESS TEXT applies, if wider than root
+       briefScope: '#panel',            // optional: where LESS TEXT applies, if wider than root
+       links: [{label, aria, run}]      // optional: the tool's own jumps in the toolbar (Current: licenses)
      })
    API: SurfaceSections.open(id) opens one section (respecting focus) and returns it. */
 (function () {
@@ -118,6 +119,7 @@
       persist(); say(st.focus ? 'Focus on: one section at a time' : 'Focus off');
     });
     const bBrief = mk('less text', 'Less text: hide the explanations, keep the tools', () => { st.brief = !st.brief; persist(); say(st.brief ? 'Showing the tools only' : 'Showing the explanations'); });
+    for (const l of (o.links || [])) mk(l.label, l.aria || l.label, l.run);   // the tool's own jumps (e.g. licenses)
     const bReset = mk('reset order', 'Put the sections back in their first order', () => { applyOrder(DEFAULT); persist(); say('Order reset'); });
     const first = movable()[0] || secs()[0];
     root.insertBefore(bar, first);
