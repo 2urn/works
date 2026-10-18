@@ -34,17 +34,24 @@
     "  font:600 11px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 6px #000;",
     "  opacity:0;transition:opacity .5s ease}",
     ".sh-here.show{opacity:1}",
+    ".sh-here span{display:block;white-space:nowrap;text-align:center}",
     ".sh-here svg{width:18px;height:22px;fill:none;stroke:var(--sh-acc,var(--sc-acc,#fff));stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 4px #000);animation:sh-bob 1.1s ease-in-out infinite}",
     "@keyframes sh-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}",
     ".sh-pulse{animation:sh-pulse 1.3s ease-out 3}",
     "@keyframes sh-pulse{0%{box-shadow:0 0 0 0 var(--sh-ring,rgba(255,255,255,.7))}100%{box-shadow:0 0 0 18px rgba(0,0,0,0)}}",
     "@media (prefers-reduced-motion:reduce){.sh-here svg,.sh-pulse{animation:none}.sh-here{transition:none}}",
-    ".sh-ctl{display:grid;gap:8px;padding:2px 0 6px}",
-    ".sh-seg{display:flex;flex-wrap:wrap;gap:0 14px}",
+    ".sh-ctl{display:grid;gap:10px;padding:4px 0 8px}",
+    ".sh-row{display:flex;align-items:center;gap:0 14px}",
+    ".sh-seg{display:flex;flex-wrap:wrap;gap:0 14px;flex:1}",
+    ".sh-re{flex:none;width:36px;height:36px;margin-left:auto;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--sc-muted,#a8a8a8);cursor:pointer}",
+    ".sh-re:hover,.sh-re:focus-visible{color:var(--sc-fg,#fff)}",
+    ".sh-re svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}",
+    ".sh-list{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-width:38ch}",
+    ".sh-list li{font-size:12.5px;line-height:1.45;color:var(--sc-muted,#a8a8a8)}",
+    ".sh-list b{color:var(--sc-fg,#fff);font-weight:700}",
     ".sh-seg button,.sh-again{min-height:36px;padding:0;border:0;background:none;color:var(--sc-muted,#a8a8a8);cursor:pointer;font:500 10.5px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.1em;text-transform:uppercase}",
     ".sh-seg button:hover,.sh-again:hover{color:var(--sc-fg,#fff)}",
     ".sh-seg button[aria-checked=true]{color:var(--sh-acc,var(--sc-acc,#fff));font-weight:700}",
-    ".sh-again{justify-self:start;text-decoration:underline;text-underline-offset:3px}",
     ".sh-note{margin:0;font-size:12px;line-height:1.4;color:var(--sc-muted,#a8a8a8);max-width:36ch}"
   ].join("\n");
   function css() { if (document.getElementById("sh-css")) return; var s = document.createElement("style"); s.id = "sh-css"; s.textContent = CSS; document.head.appendChild(s); }
@@ -82,7 +89,15 @@
     el.innerHTML = "<span></span><svg viewBox=\"0 0 18 22\"><path d=\"M9 2v17M3 13l6 6 6-6\"/></svg>";
     el.firstChild.textContent = opts.text || "Start here";
     document.body.appendChild(el);
-    var place = function () { var b = t.getBoundingClientRect(); el.style.left = (b.left + b.width / 2) + "px"; el.style.top = (b.top - el.offsetHeight - 8) + "px"; };
+    /* the arrow sits on the button's centre; the words stay on one line, centred over it, and slide in from the
+       screen's edge only as far as they must (Dimitry, 18 Oct: "align better") */
+    var lab = el.firstChild;
+    var place = function () {
+      var b = t.getBoundingClientRect(); el.style.left = (b.left + b.width / 2) + "px"; el.style.top = (b.top - el.offsetHeight - 8) + "px";
+      lab.style.transform = ""; var r = lab.getBoundingClientRect(), pad = 10, dx = 0;
+      if (r.right > innerWidth - pad) dx = innerWidth - pad - r.right; else if (r.left < pad) dx = pad - r.left;
+      if (dx) lab.style.transform = "translateX(" + dx.toFixed(1) + "px)";
+    };
     place();
     t.classList.add("sh-pulse");
     requestAnimationFrame(function () { el.classList.add("show"); });
@@ -119,7 +134,10 @@
     arm(true);
   }
 
-  /* the Display controls */
+  /* the Settings controls */
+  var RESET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 12a6.5 6.5 0 1 0 2-4.7"/><path d="M5 3.8v4.4h4.4"/></svg>';
+  var NOTES = "<li><b>Titles</b> keeps the preset names as the looks change.</li><li><b>None</b> is a clean stage for performing.</li>" +
+    "<li><b>Hover and hold</b> labels stay either way.</li><li><b>\u21BA</b> shows the first-visit hints again.</li>";
   function controls(host, o) {
     css(); o = o || {};
     var h = typeof host === "string" ? document.querySelector(host) : host; if (!h) return null;
@@ -135,15 +153,16 @@
       });
     }
     draw();
-    var again = document.createElement("button"); again.type = "button"; again.className = "sh-again"; again.textContent = "show hints again";
-    again.setAttribute("aria-label", "Show the first-run hints again");
-    again.onclick = function () { draw(); if (o.onReplay) o.onReplay(); replay(); setTimeout(draw, 0); say("Hints will show again"); };
-    var note = document.createElement("p"); note.className = "sh-note";
-    note.textContent = "Titles only keeps the preset names as the looks change. None is a clean stage for performing. The labels you get by hovering or holding a button stay either way.";
-    w.append(seg, again, note); h.appendChild(w);
+    /* show the hints again: a reset icon at the row's end (Dimitry, 18 Oct) */
+    var again = document.createElement("button"); again.type = "button"; again.className = "sh-re"; again.innerHTML = RESET;
+    again.setAttribute("aria-label", "Show the first-run hints again"); again.title = "Show the hints again";
+    again.onclick = function () { if (o.onReplay) o.onReplay(); replay(); draw(); say("Hints will show again"); };
+    var row = document.createElement("div"); row.className = "sh-row"; row.append(seg, again);
+    var list = document.createElement("ul"); list.className = "sh-list"; list.innerHTML = NOTES;
+    w.append(row, list); h.appendChild(w);
     document.addEventListener("surface:hints", draw);
     return w;
   }
 
-  window.SurfaceHints = { start: start, set: set, replay: replay, controls: controls, LEVELS: LEVELS, get level() { return level; } };
+  window.SurfaceHints = { start: start, set: set, replay: replay, controls: controls, LEVELS: LEVELS, RESET: RESET, NOTES: NOTES, get level() { return level; } };
 })();
