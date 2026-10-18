@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018183727"</script>
+<script>window.__BUILD__="20261018184052"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -154,6 +154,9 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* THE MOTION, so it reads as going away and coming back (Dimitry, 18 Oct): the bar slides down off the bottom edge and
    fades as it goes; the marks at the top slide up off the top edge and fade; coming back, both slide in from their
    edges. The translate property moves them, so it never fights the transforms they already use (INDEX's tuck). */
+/* the Colophon sits outside the index column, so the drawer's own 18px gap stacked on its 14px top margin and it
+   stood 32px off Settings where every other section is 14px apart (Dimitry, 18 Oct). Cancel the gap's share. */
+#panel>#colo{margin-top:-4px}
 body #playbar{transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .5s ease}
 #duckBtn,#duckLab,#dscMark{transition:translate .6s cubic-bezier(.65,0,.35,1),opacity .5s ease,visibility 0s}
 html.bare #duckBtn,html.bare #duckLab,html.bare #dscMark{translate:0 calc(-100% - 40px - env(safe-area-inset-top,0px))}
