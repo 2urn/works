@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018012822"</script>
+<script>window.__BUILD__="20261018013427"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -708,7 +708,8 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 .moded{border-left:2px solid var(--path);padding:6px 0 6px 10px;margin:-2px 0 4px;display:flex;flex-direction:column;gap:8px}
 .moded[hidden]{display:none}
 #bbFx{min-height:64px}
-.bbBox{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.bbBox{display:flex;flex-direction:column;gap:8px;padding:2px 0 8px}
+.cx-grp.cx-shut>.bbBox{display:none}
 #bbMsg.bad{color:var(--path)}
 .moded .modes button{font-size:11px;padding:4px 6px}
 .moded .row{grid-template-columns:62px minmax(0,1fr) 44px}
@@ -837,16 +838,15 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
       <div class="morphrow"><span>Changes land on</span><div class="modes" id="quantSeg" role="group" aria-label="With a built-in beat playing, new looks wait for this point in the rhythm"></div></div>
     </div>
 
-    <div class="group bbgrp">
-      <div class="glabel">Bytebeat</div>
-      <div class="bbBox">
+    <section class="cx-grp bbgrp" id="bbGroup"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="bbL"><span>Bytebeat</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="cx-gbody bbBox" id="bbL">
         <label class="sr-only" for="bbFx">Bytebeat formula</label>
         <textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea>
         <div class="actions"><button class="btn" id="bbPlay" type="button">Play formula</button><button class="btn ghost" id="bbBack" type="button">Back to playing</button></div>
         <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. Letters <b>n l o p</b> are the sliders below (each can be modulated with ~ or mapped to); <b>a b c</b> are 4. Ctrl/⌘+Enter plays. While yours plays, playing again swaps the formula without restarting.</p>
         <div id="bbSliders"></div>
       </div>
-    </div>
+    </section>
 
     <div class="group" id="sliders">
       <div class="glabel">Field &amp; particles</div>
@@ -3856,7 +3856,9 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
     const lab=document.createElement('small');lab.textContent=t==='\u2039 \u25b6 \u203a'?'presets':t;dt.textContent='';dt.classList.add('gdt');dt.append(...icons,lab)});
 })();
 /* THE CODEX LIST: a group's chevron folds the group; a row's name folds the row */
-document.querySelectorAll('.cx-grpbtn').forEach(b=>b.onclick=()=>{const g=b.closest('.cx-grp'),on=g.classList.toggle('cx-shut');b.setAttribute('aria-expanded',String(!on))});
+document.querySelectorAll('.cx-grpbtn').forEach(b=>b.onclick=()=>{const g=b.closest('.cx-grp'),on=g.classList.toggle('cx-shut');b.setAttribute('aria-expanded',String(!on));
+  if(g.id==='bbGroup')try{localStorage.setItem('current.bbFold',on?'shut':'open')}catch(_){}});
+try{if(localStorage.getItem('current.bbFold')==='shut'){$('bbGroup').classList.add('cx-shut');$('bbGroup').querySelector('.cx-grpbtn').setAttribute('aria-expanded','false')}}catch(_){}
 document.querySelectorAll('.cx-go').forEach(b=>b.onclick=()=>{const r=b.closest('.cx-row'),on=r.classList.toggle('cx-shut');b.setAttribute('aria-expanded',String(!on))});
 /* THE SOUND LESSONS: play starts that piece; try puts a variation in the Bytebeat box and plays it */
 document.querySelectorAll('#soundGuide .cx-play').forEach(b=>b.onclick=()=>{AUD.userOff=false;
@@ -3945,7 +3947,7 @@ try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.9.6';
+const APP_VERSION='0.9.7';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
