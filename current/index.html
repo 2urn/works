@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018175337"</script>
+<script>window.__BUILD__="20261018180021"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -70,6 +70,12 @@
 
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
+<script>(function(){const H=document.documentElement;
+  const app=()=>{try{return navigator.standalone===true||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches}catch(e){return false}};
+  function gap(){if(!app()){H.style.removeProperty('--vgap');return}
+    const land=innerWidth>innerHeight,sh=land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height);
+    const g=Math.round(sh-innerHeight);H.style.setProperty('--vgap',(g>0&&g<120?g:0)+'px')}
+  gap();addEventListener('resize',gap);addEventListener('orientationchange',()=>setTimeout(gap,300))})();</script>
 <script src="vendor/opentype.min.js"></script>
 <script src="surface/auto.js"></script>
 <script src="surface/capture.js"></script>
@@ -168,9 +174,9 @@ html.bare.idle,html.bare.idle *{cursor:none!important}
 .lc-duck-c{object-fit:fill;clip-path:inset(100% 0 0 0);transition:clip-path 1.6s cubic-bezier(.45,.05,.25,1)}
 #launch.ready .lc-duck-c{clip-path:inset(0 0 0 0)}
 .lc-word{font:600 12px/1 var(--sans);letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;color:#fff;opacity:.9}
-.lc-foot{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px));margin:0;text-align:center;font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);transition:opacity .7s ease}
+.lc-foot{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));margin:0;text-align:center;font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);transition:opacity .7s ease}
 #launch.going .lc-foot{opacity:0}
-@media (max-height:460px){.lc-foot{bottom:calc(8px + env(safe-area-inset-bottom,0px))}.lc-below{padding-top:14px}.lc-above{padding-bottom:12px}}
+@media (max-height:460px){.lc-foot{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px))}.lc-below{padding-top:14px}.lc-above{padding-bottom:12px}}
 .lc-title{margin:0;align-self:center;font:700 clamp(34px,11vw,96px)/1 "Minnerva Title","Minnerva","Anton",ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;margin-right:-.14em;color:#fff;text-shadow:0 0 40px rgba(0,0,0,.35)}
 .lc-go{padding:6px 10px;border:0;border-radius:0;background:none;color:#fff;display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.8vh,16px);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 0 14px rgba(0,0,0,.35));transition:transform .2s ease,opacity .2s ease;opacity:.92}
 .lc-go:hover{transform:scale(1.06);opacity:1}.lc-go:focus-visible{outline:none}
@@ -306,7 +312,11 @@ body:not(.player) #dscMark{opacity:0}
 /* The stage is the whole screen. Settings live in a drawer on the left behind the duck-rabbit (as in Pullula);
    steering lives on a rail on the right. body.player = the drawer is closed. */
 .app{display:block}
-.stage{position:fixed;inset:0;min-height:0;height:100dvh}
+.stage{position:fixed;inset:0;min-height:0;height:auto;bottom:calc(-1 * var(--vgap,0px))}
+/* --vgap (18 Oct): as an app on an iPhone's home screen, iOS can lay the page out one status bar short of the screen,
+   leaving a black band under the stage with the bar lifted by the same amount. The script measures the shortfall
+   (the screen's height minus the window's) and the stage and everything anchored to the bottom reach down by it.
+   In a browser tab it is 0. (It was height:100dvh, which is the short height in that case.) */
 .panel{position:fixed;z-index:20;top:0;left:0;bottom:0;width:min(360px,88vw);max-height:none;border-left:0;border-right:1px solid var(--line);
   padding-top:calc(64px + env(safe-area-inset-top,0px));transform:none;transition:transform .32s cubic-bezier(.2,.7,.2,1),visibility 0s;box-shadow:0 0 40px rgba(0,0,0,.35)}
 body.player .panel{transform:translateX(-102%);visibility:hidden;transition:transform .28s cubic-bezier(.4,0,.6,1),visibility 0s .28s}
@@ -330,7 +340,7 @@ body:not(.player) .dk-fill{animation:duckInk 1.5s ease both}
 html.paper body.player .dk-fill{fill:#121212}html.paper body.player .duck{filter:none}
 #duckBtn:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
 #playbar,#playbar button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.6vw,18px);padding:0 clamp(6px,3vw,16px);pointer-events:none}
+body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(14px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.6vw,18px);padding:0 clamp(6px,3vw,16px);pointer-events:none}
 body #playbar>button{pointer-events:auto;flex:none;width:clamp(36px,10.4vw,54px);height:clamp(36px,10.4vw,54px);padding:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g) / .62);border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ui-ink);cursor:pointer;transition:transform .12s ease,background .12s ease}
 body #playbar>button:active{transform:scale(.92)}
 #playbar svg{width:24px;height:24px;display:block}
@@ -342,10 +352,10 @@ body #pAuto.on{background:#55b8c9;color:#04181c}
 #pAutoStop{display:none}#pAuto.on #pAutoGo{display:none}#pAuto.on #pAutoStop{display:inline}
 body #playbar>#pShot{width:clamp(44px,13vw,76px);height:clamp(44px,13vw,76px)}
 body #playbar>#pShot svg{width:clamp(24px,7vw,34px);height:clamp(24px,7vw,34px)}
-@media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}body #playbar>#pShot{width:58px;height:58px}}
-#playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + env(safe-area-inset-bottom,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
+@media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}body #playbar>#pShot{width:58px;height:58px}}
+#playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
 #playname.show{opacity:1}
-#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #plist[hidden]{display:none}
 .mxh{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 4px 0 14px;border-bottom:1px solid var(--ui-line);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
 .tb{background:transparent;border:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px;cursor:pointer}
@@ -383,7 +393,7 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShot.rec #pRecTime{color:#ff8a84}
 #pSnd{--sh-ring:rgba(85,184,201,.85)}.sh-here{--sh-acc:#55b8c9}
 /* the capture panel is Surface's (surface/capture.js, Fracture's layout); Current only places it and gives it the blue */
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px);--cap-acc:#55b8c9;--cap-on:#04181c}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985)}
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
@@ -429,7 +439,7 @@ body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-g
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
-#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #rlist[hidden]{display:none}
 #rlBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
@@ -508,7 +518,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .stage{touch-action:none}
 /* SHELVES: a row of tools that pulls up above the player bar (steer + loop, source). One open at a time;
    it scrolls sideways when there are more tools than fit, with chevrons at the ends. */
-.shelf{position:fixed;z-index:9;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100vw - 16px));
+.shelf{position:fixed;z-index:9;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(560px,calc(100vw - 16px));
   transform:translate(-50%,14px);opacity:0;visibility:hidden;pointer-events:none;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .2s,visibility 0s .24s}
 .shelf.open{transform:translate(-50%,0);opacity:1;visibility:visible;pointer-events:auto;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .2s,visibility 0s}
 .shelf .track{display:flex;justify-content:safe center;gap:4px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:6px 8px;scrollbar-width:none;
@@ -628,7 +638,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shface:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
-#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #fontList[hidden]{display:none}
 /* recent words + word sequencer: the backward clock in the word field opens it */
 .shfield{width:258px}
@@ -636,7 +646,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:#55b8c9}
 .shhist:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
-#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px);display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
@@ -717,6 +727,10 @@ body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border
 #toolTrack .si.mag[aria-pressed="true"] .mi svg{background:none;padding:0;margin:0;color:var(--ui-ink)}
 #toolTrack .si.mag[aria-pressed="true"]{color:var(--ui-ink)}#toolTrack .si.mag.neg[aria-pressed="true"] .lab{color:#ff7a52}
 .si.mag.dragging .mi{transform:scale(1.12)}
+/* magnet on Auto (on the beat, a sound band, a wave): the button follows the live value, blue pull / red push, the word
+   swapping with it, and a level rising behind the word with the signal that drives it (Dimitry, 18 Oct) */
+.si.mag.live .lab{padding:2px 5px;border-radius:3px;background:linear-gradient(to top,color-mix(in srgb,var(--mc,#55b8c9) 45%,transparent) calc(var(--lv,0) * 100%),transparent 0);transition:none}
+.si.mag.live .mi{transition:none}
 .si.nl{width:44px}
 /* (old 1 2 3 4 A row, unused) */
 .shseg{flex:none;align-self:center;display:flex;align-items:stretch;height:52px}
@@ -764,7 +778,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .dsp-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px;max-width:38ch}.dsp-list li{font-size:12.5px;line-height:1.45;color:var(--muted)}.dsp-list b{color:var(--fg);font-weight:700}
 
 /* YOUR OWN COLOR: hold a color dot still (right-click on a computer) for a hex field and the device's color field */
-#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(176px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
 #colorPick[hidden]{display:none}
 .cpBody{padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px}
 .cpField{position:relative;display:block;height:64px;border:1px solid #2b3235;cursor:pointer;overflow:hidden}
@@ -1800,7 +1814,7 @@ function frame(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
-  seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}
+  seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
@@ -3072,6 +3086,15 @@ function magRing(el){const v=S.magnet||0,on=Math.abs(v)>.004,p=Math.min(1,Math.a
   el.classList.toggle('neg',(on?v:(window._magKeep||.85))<0)}
 function magLabel(v){return Math.abs(v)<=.004?'magnet off':(v<0?'repel ':'attract ')+Math.round(Math.abs(v)*100)+'%'}
 function setMagnet(v){S.magnet=Math.max(-1,Math.min(1,v));MORPH=null;$('s-magnet').value=S.magnet;syncVals()}
+function magLive(){const b=document.querySelector('#toolTrack .si.mag');if(!b)return;
+  const ms=S.magSound||'off',auto=ms!=='off'||!!S.mods.magnet||S.maps.some(m=>m.dst==='magnet');b.classList.toggle('live',auto&&Math.abs(S.magnet||0)>.004);
+  if(!b.classList.contains('live')){if(b.dataset.lv){delete b.dataset.lv;b.querySelector('.lab').style.color='';magRing(b)}return}b.dataset.lv=1;
+  /* with the sound link on, the dial is centred on zero and swings: pull (blue) on one beat, push (red) on the next, at the strength you set; off, it is back at that setting */
+  const v=(E.magnet||0)*(ms!=='off'&&typeof MAGS!=='undefined'?MAGS.f:1),neg=v<0,c=neg?'#ff7a52':'#55b8c9';
+  b.style.setProperty('--mp',Math.min(1,Math.abs(v)).toFixed(3));b.style.setProperty('--mc',c);b.classList.toggle('neg',neg);
+  const m=autoOf('magnet'),sh=ms!=='off'?ms:m&&m.shape,lv=sh&&sh in SIGNALS?SIGNALS[sh]:(SIGNALS.level||0);b.style.setProperty('--lv',Math.max(0,Math.min(1,+lv||0)).toFixed(3));
+  const l=b.querySelector('.lab'),w=Math.abs(v)<.02?'magnet':neg?'push':'pull';if(l.textContent!==w)l.textContent=w;
+  l.style.color=c}
 function magButton(t){const v=S.magnet||0,on=Math.abs(v)>.004;
   const b=document.createElement('button');b.type='button';b.className='si mag';b.setAttribute('aria-pressed',String(on));
   b.setAttribute('aria-label','Magnet, '+magLabel(v)+'. Tap to turn '+(on?'off':'on')+'. Drag up to attract, down to repel. Pinch the field to size its reach');
@@ -3823,7 +3846,8 @@ function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=
 function syncSrc(){['picture','video','camera'].forEach(k=>$({picture:'srPic',video:'srVid',camera:'srCam'}[k]).setAttribute('aria-pressed',String(SRC.kind===k)));
   $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';
   $('srMir').setAttribute('aria-pressed',String(SRC.mirror));$('srMir').hidden=SRC.kind!=='camera';
-  ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail','srAuto'].forEach(k=>$(k).disabled=SRC.kind==='none');syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
+  ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail','srAuto'].forEach(k=>$(k).disabled=SRC.kind==='none');
+  $('srTrace').disabled=SRC.kind!=='picture';   // trace takes one still frame: on a moving video or camera its outlines go stale at once (Dimitry, 18 Oct)syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
   $('pSrc').classList.toggle('on',SRC.kind!=='none');gestCap();
   setTransp();layoutBg();syncShelves()}
 /* Gestures, field or picture: while a picture, video or camera is loaded (and not traced), a small switch at the top of
@@ -4424,7 +4448,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.2';
+const APP_VERSION='0.15.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
