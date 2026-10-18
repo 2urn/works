@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018174221"</script>
+<script>window.__BUILD__="20261018175022"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -321,7 +321,12 @@ body.player .hud{display:none}
 .dk-fill{fill:#fff;transition:fill .2s}
 #duckBtn:hover .dk-fill{fill:#a8a8a8}
 body:not(.player) .duck{filter:none}
-body:not(.player) .dk-fill{fill:var(--accent)}   /* the index is open: the duck-rabbit lights in the app's blue */
+body:not(.player) .dk-fill{fill:var(--accent)}
+/* opening the drawer: the duck shows in the drawer's ink first, then the accent comes in (Dimitry, 18 Oct: "dark then
+   accent color"), the way the colour fills the duck on the cover */
+body:not(.player) .dk-fill{animation:duckInk 1.5s ease both}
+@keyframes duckInk{0%,40%{fill:var(--fg)}100%{fill:var(--accent)}}
+@media (prefers-reduced-motion:reduce){body:not(.player) .dk-fill{animation:none}}   /* the index is open: the duck-rabbit lights in the app's blue */
 html.paper body.player .dk-fill{fill:#121212}html.paper body.player .duck{filter:none}
 #duckBtn:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
 #playbar,#playbar button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
@@ -4419,7 +4424,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.15.0';
+const APP_VERSION='0.15.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
