@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018074316"</script>
+<script>window.__BUILD__="20261018074947"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -414,6 +414,10 @@ body #playbar>#pShot.busy{opacity:.55}
   background:conic-gradient(#55b8c9 calc(var(--amt,.6)*360deg),rgba(255,255,255,.08) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
 body #playbar>#pRand.on,body #playbar>#pSnd.on{background:#55b8c9;color:#04181c}
+body #playbar>#pSnd{touch-action:none}
+html:has(#pSnd.vdrag) .sft{display:none!important}   /* the tip would cover the level readout while you drag */
+body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-gradient(to top,#55b8c9 calc(var(--vol,.6)*100%),rgba(85,184,201,.18) 0);color:#04181c}
+body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:#eef1f2;background:#0f1213;border:1px solid #23292b;padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
 #rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px);display:flex;flex-direction:column;background:#0f1213;color:#eef1f2;border:1px solid #23292b}
@@ -2367,8 +2371,12 @@ function wireTapHold(el,h){
   const hold=()=>{lastHold=performance.now();h.hold()};
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();
     g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},520)}});
-  el.addEventListener('pointermove',e=>{if(g&&e.pointerId===g.id&&Math.hypot(e.clientX-g.x,e.clientY-g.y)>14){clearTimeout(g.t);g=null}});
-  const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const held=g.held;g=null;if(!held&&e.type==='pointerup')h.tap()};
+  el.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id)return;
+    if(g.drag){h.drag('move',e.clientX-g.x,e.clientY-g.y);return}
+    if(Math.hypot(e.clientX-g.x,e.clientY-g.y)>14){clearTimeout(g.t);
+      if(h.drag&&!g.held){g.drag=true;try{el.setPointerCapture(e.pointerId)}catch(_){}h.drag('start',0,0)}else g=null}});
+  const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const held=g.held,drag=g.drag;g=null;
+    if(drag){h.drag('end',0,0);return}if(!held&&e.type==='pointerup')h.tap()};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
   el.addEventListener('contextmenu',e=>{e.preventDefault();   // a phone's long press fires this as well as the timer; one press is one hold, or the shelf opens and shuts at once
     if(g){clearTimeout(g.t);if(g.held)return;g.held=true}else if(performance.now()-lastHold<900)return;hold()});
@@ -3487,7 +3495,7 @@ function soundOn(){
   // say so if the browser still refuses, so the cause is visible rather than silent
   setTimeout(()=>{if(AUD.ctx&&AUD.src!=='off'&&AUD.ctx.state!=='running')toast('sound: '+name+' · audio is '+AUD.ctx.state+' here, tap again')},700)}
 function toggleSound(){if(AUD.src!=='off'){AUD.userOff=true;stopAudio();return}AUD.userOff=false;soundOn()}
-// SOUND SHELF: tap the speaker = sound on/off; press and hold = the shelf of beats, your file, volume and timing
+// SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your file, volume and timing
 const BEAT_SHORT={'Four on the floor':'four','Broken 96':'broken','Halftime 70':'half','Fibonacci 110':'fibo','Pulse 60':'pulse'};
 function beatGlyph(pat){let d='';for(let i=0;i<16;i++){const x=4.5+(i%4)*5,y=4.5+Math.floor(i/4)*5,k=pat.k[i]==='x',sn=pat.s[i]==='x';
   d+=k?`<circle cx="${x}" cy="${y}" r="1.9" fill="currentColor" stroke="none"/>`:sn?`<circle cx="${x}" cy="${y}" r="1.6"/>`:`<circle cx="${x}" cy="${y}" r=".6" fill="currentColor" stroke="none" opacity=".45"/>`}
@@ -3525,7 +3533,15 @@ function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
   {const on=AUD.src!=='off',b=$('sdOff');b.querySelector('svg').outerHTML=on?SND_STOP:SND_PLAY;b.querySelector('.lab').textContent=on?'stop':'play';
    b.setAttribute('aria-label',on?'Stop the sound':'Play the last sound again')}
   const r=$('sdReact');if(r){r.setAttribute('aria-pressed',String(AUD.react));r.querySelector('.lab').textContent=lookListens()?'own links':AUD.react?'react on':'react off'}}
-wireTapHold($('pSnd'),{tap:()=>{if(sndOpen){sndOpen=false;syncSteer();return}toggleSound()},hold:()=>{sndOpen=!sndOpen;if(sndOpen){srcOpen=false;pickOpen=false;buildSndShelf()}syncSteer()}});
+/* the speaker (Dimitry, 18 Oct): tap = sound on/off, hold = the sound drawer, drag up or down = volume, shown as a level
+   filling the button from the bottom while you drag */
+let volDrag=null;
+wireTapHold($('pSnd'),{tap:()=>{if(sndOpen){sndOpen=false;syncSteer();return}toggleSound()},hold:()=>{sndOpen=!sndOpen;if(sndOpen){srcOpen=false;pickOpen=false;buildSndShelf()}syncSteer()},
+  drag:(ph,dx,dy)=>{const b=$('pSnd'),vi=$('audVol');
+    if(ph==='start'){volDrag={v0:+vi.value};b.classList.add('vdrag')}
+    const v=Math.max(0,Math.min(1,volDrag.v0-(dy-(Math.sign(dy)*14))/150)),r=Math.round(v*20)/20;
+    if(ph!=='end'){vi.value=r;vi.dispatchEvent(new Event('input'));b.style.setProperty('--vol',r);b.dataset.vol=Math.round(r*100)+'%';syncSndShelf()}
+    else{setTimeout(()=>b.classList.remove('vdrag'),700);toast('volume '+Math.round(+vi.value*100)+'%');volDrag=null}}});
 $('pSnd').setAttribute('aria-haspopup','true');$('pSnd').setAttribute('aria-controls','shelfSnd');
 function readAudio(dt){
   const decay=k=>{SIGNALS[k]*=Math.exp(-dt*5)};
@@ -3981,7 +3997,7 @@ document.querySelectorAll('#soundGuide .cx-try').forEach(b=>b.onclick=()=>{AUD.u
 <script src="surface/sections.js"></script>
 <script>/* Surface · Tips: hover labels on a computer, long-press labels on shelf buttons */
 try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t};
-  tip('pSnd','Sound on or off. Hold for beats, your own file, the microphone and volume.');
+  tip('pSnd','Sound on or off. Drag up or down for volume. Hold for beats, your own file, the microphone and timing.');
   tip('pSteer','Tools. Hold to hide or show the open shelf.');
   tip('pSrc','Source: a picture, a video or the camera.');
   tip('duckBtn','Index and settings.');
@@ -4066,7 +4082,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.10.3';
+const APP_VERSION='0.10.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
