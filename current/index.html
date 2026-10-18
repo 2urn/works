@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018032739"</script>
+<script>window.__BUILD__="20261018043214"</script>
 <title>Current</title>
 <meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <meta name="theme-color" content="#000000">
@@ -2569,6 +2569,8 @@ async function saveBlob(name,blob){const d=await downloader();
     if(!['unavailable','not_granted','capability_disabled','capability_removed'].includes(c)){toast('Save failed: '+((e&&e.message)||c));return false}}}
   try{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);return true}catch(_){toast('This viewer blocks saving files.');return false}}
 function canShareFile(f){try{return!!(navigator.share&&navigator.canShare&&navigator.canShare({files:[f]}))}catch(_){return false}}
+/* FILE NAMES: everything Current saves starts with the imprint and the work (Dimitry, 18 Oct) */
+const FILE_PREFIX='CHAMY\u00b7XYZ_Current_';
 const slug=t=>(String(t||'look').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,32))||'look';
 const stamp=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'-'+z(d.getHours())+z(d.getMinutes())+z(d.getSeconds())};
 const fmtSize=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
@@ -2640,7 +2642,7 @@ let OUT=null;
 const SOC=[['X','https://twitter.com/intent/tweet?text={t}&url={u}'],['Bluesky','https://bsky.app/intent/compose?text={tu}'],['Threads','https://www.threads.net/intent/post?text={tu}'],
   ['Facebook','https://www.facebook.com/sharer/sharer.php?u={u}'],['LinkedIn','https://www.linkedin.com/sharing/share-offsite/?url={u}'],['Reddit','https://www.reddit.com/submit?url={u}&title={t}'],
   ['WhatsApp','https://wa.me/?text={tu}'],['Email','mailto:?subject={t}&body={tu}']];
-function showOut(blob,ext,w,h){if(window.cxCount)cxCount('capture: '+ext);if(OUT&&OUT.url)URL.revokeObjectURL(OUT.url);OUT={blob,ext,w,h,url:URL.createObjectURL(blob),name:'current-'+slug(curName)+'-'+stamp()+'.'+ext};openOut(true)}
+function showOut(blob,ext,w,h){if(window.cxCount)cxCount('capture: '+ext);if(OUT&&OUT.url)URL.revokeObjectURL(OUT.url);OUT={blob,ext,w,h,url:URL.createObjectURL(blob),name:FILE_PREFIX+slug(curName)+'_'+stamp()+'.'+ext};openOut(true)}
 function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u=shareUrl(),E=encodeURIComponent;
   withMedia=!!(withMedia&&OUT);w.classList.toggle('nomedia',!withMedia);img.hidden=v.hidden=true;try{v.pause()}catch(_){}v.removeAttribute('src');
   if(withMedia){if(OUT.ext==='mp4'||OUT.ext==='webm'){v.src=OUT.url;v.hidden=false;v.play().catch(()=>{})}else{img.src=OUT.url;img.hidden=false}
@@ -2672,7 +2674,7 @@ $('owShare').onclick=async()=>{if(!OUT)return;const f=new File([OUT.blob],OUT.na
 $('owSend').onclick=async()=>{try{await navigator.share({title:SHARE_TITLE,url:shareUrl()})}catch(e){if(e&&e.name!=='AbortError')copyText(shareUrl(),'Link',$('owSend'))}};
 $('owCopy').onclick=()=>copyText(shareUrl(),'Link',$('owCopy'));
 $('owQR').onclick=()=>{fold('owQRBox');if(!$('owQRBox').hidden&&!qrDraw($('owQRC'),shareUrl(),8)){fold(null);toast('This address is too long for a readable code.')}};
-$('owQRSave').onclick=()=>$('owQRC').toBlob(async b=>{if(b&&await saveBlob('current-qr.png',b)){toast('Saved current-qr.png',2200);flashBtn($('owQRSave'),'saved')}},'image/png');
+$('owQRSave').onclick=()=>$('owQRC').toBlob(async b=>{if(b&&await saveBlob(FILE_PREFIX+'QR.png',b)){toast('Saved '+FILE_PREFIX+'QR.png',2200);flashBtn($('owQRSave'),'saved')}},'image/png');
 $('owEmbed').onclick=()=>fold('owEmbedBox');
 $('owEmbedCopy').onclick=()=>copyText($('owEmbedCode').value,'Embed',$('owEmbedCopy'));
 $('imgX').onclick=$('owClose').onclick=closeOut;
@@ -2909,7 +2911,7 @@ function unbank(){const B=gBank(),i=MGR.take&&MGR.take.bid?B.findIndex(g=>g.id==
   const g=B.splice(i,1)[0];persist();delete MGR.take.bid;toast(g.name+' removed from the bank (the loop stays loaded)')}
 function exportTake(){if(!MGR.take)return;const B=gBank(),g=MGR.take.bid&&B.find(x=>x.id===MGR.take.bid),name=g?g.name:'gesture';
   const doc={kind:'toolpath-field/gesture',v:1,name,...gPack(MGR.take)};
-  saveBlob('toolpath-gesture-'+slug(name)+'-'+stamp()+'.json',new Blob([JSON.stringify(doc)],{type:'application/json'})).then(ok=>ok&&toast('gesture file saved'))}
+  saveBlob(FILE_PREFIX+'gesture_'+slug(name)+'_'+stamp()+'.json',new Blob([JSON.stringify(doc)],{type:'application/json'})).then(ok=>ok&&toast('gesture file saved'))}
 function importGesture(){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
   inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;try{const o=JSON.parse(await f.text());
       if(!o||!Array.isArray(o.ev)||o.ev.length<4||!(o.len>0))throw 0;
@@ -3990,7 +3992,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.9.13';
+const APP_VERSION='0.9.14';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
