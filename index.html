@@ -2,6 +2,46 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Works &middot; CHAMY&middot;XYZ</title>
+<script>(function (cfg) {
+  var w = window, d = document, l = location, off = false;
+  try {
+    if (l.hash === "#nocount") {
+      off = localStorage.getItem("cx.nocount") !== "1";
+      localStorage.setItem("cx.nocount", off ? "1" : "0");
+      setTimeout(function () { alert(off ? "This browser is no longer counted." : "This browser is counted again."); }, 300);
+    }
+    off = localStorage.getItem("cx.nocount") === "1";
+  } catch (e) {}
+  var live = !!cfg.code && (cfg.hosts || []).indexOf(l.hostname) >= 0 && !off;
+  function send(p, o) {
+    if (!live) return;
+    o = o || {};
+    var q = "p=" + encodeURIComponent(p) + (o.e ? "&e=true" : "") + (o.t ? "&t=" + encodeURIComponent(o.t) : "") +
+      (o.r ? "&r=" + encodeURIComponent(o.r) : "") + (o.q ? "&q=" + encodeURIComponent(o.q) : "") +
+      "&s=" + encodeURIComponent(screen.width + "," + screen.height + "," + (w.devicePixelRatio || 1)) +
+      (navigator.webdriver ? "&b=153" : "") + "&rnd=" + Math.random().toString(36).slice(2);
+    var i = new Image(); i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
+  }
+  var seen = {};
+  /* cxCount("look: Spiral Arc") — an event. Built-in names only: never send what a person typed. */
+  w.cxCount = function (name, once) {
+    name = String(name).slice(0, 120);
+    if (once) { if (seen[name]) return; seen[name] = 1; }
+    send((cfg.prefix || "") + name, { e: 1, t: name });
+  };
+  function view() {
+    var ref = d.referrer;
+    try { if (ref && new URL(ref).hostname === l.hostname) ref = ""; } catch (e) {}
+    send(l.pathname, { t: d.title, r: ref, q: l.search });
+    try { if (matchMedia("(display-mode: standalone)").matches || navigator.standalone) w.cxCount("opened as app", 1); } catch (e) {}
+  }
+  if (d.visibilityState === "prerender")
+    d.addEventListener("visibilitychange", function f() { if (d.visibilityState !== "prerender") { d.removeEventListener("visibilitychange", f); view(); } });
+  else if (d.readyState === "complete") view();
+  else w.addEventListener("load", view);
+  w.addEventListener("appinstalled", function () { w.cxCount("installed", 1); });
+})({"code": "2urn", "hosts": ["works.chamy.xyz"], "prefix": ""});
+</script>
 
 <meta name="author" content="Dimitry Saïd Chamy">
 <meta name="description" content="Published artworks by Dimitry Saïd Chamy.">
