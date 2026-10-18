@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018081634"</script>
+<script>window.__BUILD__="20261018082157"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3495,19 +3495,18 @@ function soundOn(){
   // say so if the browser still refuses, so the cause is visible rather than silent
   setTimeout(()=>{if(AUD.ctx&&AUD.src!=='off'&&AUD.ctx.state!=='running')toast('sound: '+name+' · audio is '+AUD.ctx.state+' here, tap again')},700)}
 function toggleSound(){if(AUD.src!=='off'){AUD.userOff=true;stopAudio();return}AUD.userOff=false;soundOn()}
-// SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your file, volume and timing
+// SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your file and timing
 const BEAT_SHORT={'Four on the floor':'four','Broken 96':'broken','Halftime 70':'half','Fibonacci 110':'fibo','Pulse 60':'pulse'};
 function beatGlyph(pat){let d='';for(let i=0;i<16;i++){const x=4.5+(i%4)*5,y=4.5+Math.floor(i/4)*5,k=pat.k[i]==='x',sn=pat.s[i]==='x';
   d+=k?`<circle cx="${x}" cy="${y}" r="1.9" fill="currentColor" stroke="none"/>`:sn?`<circle cx="${x}" cy="${y}" r="1.6"/>`:`<circle cx="${x}" cy="${y}" r=".6" fill="currentColor" stroke="none" opacity=".45"/>`}
   return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="stroke-width:1.2">'+d+'</svg>'}
-const SND_VOLS=[.25,.5,.75,1];
 /* the drawer's stop/play glyphs, and its timing steps in Dimitry's short labels and order (multi-tap cycles them) */
 const SND_STOP='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6.5" y="6.5" width="11" height="11"/></svg>',
   SND_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>';
 const SHELF_QUANT=[[4,'beat'],[8,'½ bar'],[16,'bar'],[2,'8th'],[0,'off']];
 function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   const add=(id,label,svg,aria,fn)=>{const b=document.createElement('button');b.className='si';b.type='button';if(id)b.id=id;b.innerHTML=svg+'<span class="lab">'+label+'</span>';b.setAttribute('aria-label',aria);b.onclick=fn;t.appendChild(b);return b};
-  // STOP / PLAY (Dimitry, 18 Oct): one button that stops whatever plays, or plays the last sound again; volume is the speaker beside it
+  // STOP / PLAY (Dimitry, 18 Oct): one button that stops whatever plays, or plays the last sound again; volume is a drag on the bar's speaker
   add('sdOff','stop',SND_STOP,'Stop the sound',()=>{if(AUD.src!=='off'){AUD.userOff=true;stopAudio()}else{AUD.userOff=false;soundOn()}syncSndShelf()});
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
@@ -3519,8 +3518,6 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else startMic()}).dataset.src='mic';
   if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
-  add('sdVol','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/></svg>','Volume. Tap to change',()=>{
-    const v=+$('audVol').value,n=SND_VOLS.find(x=>x>v+.01)??SND_VOLS[0];$('audVol').value=n;$('audVol').dispatchEvent(new Event('input'));syncSndShelf()});
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
     const i=SHELF_QUANT.findIndex(q=>q[0]===QUANT);QUANT=SHELF_QUANT[(i+1)%SHELF_QUANT.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
   add('sdReact','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h3l2-5 3 10 3-8 2 3h5"/></svg>','When a look has no sound links of its own, the sound still moves it: louder is faster, beats push harder. Tap to switch',()=>{
@@ -3528,7 +3525,6 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   syncSndShelf()}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src)));
-  $('sdVol').querySelector('.lab').textContent='vol '+Math.round(+$('audVol').value*100)+'%';
   $('sdQuant').querySelector('.lab').textContent=(SHELF_QUANT.find(q=>q[0]===QUANT)||[0,'off'])[1];
   {const on=AUD.src!=='off',b=$('sdOff');b.querySelector('svg').outerHTML=on?SND_STOP:SND_PLAY;b.querySelector('.lab').textContent=on?'stop':'play';
    b.setAttribute('aria-label',on?'Stop the sound':'Play the last sound again')}
@@ -4082,7 +4078,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.10.12';
+const APP_VERSION='0.10.13';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
