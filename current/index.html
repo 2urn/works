@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018203251"</script>
+<script>window.__BUILD__="20261018203631"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -431,12 +431,13 @@ body.player .hud{display:none}
    open on a wide screen). Off by default; on, it shows on the stage in the player too, at any width, for tuning a look. */
 html:not([data-stats="on"]) .hud{display:none!important}
 html[data-stats="on"] .hud{display:block!important;z-index:6}
-html[data-stats="on"] body.player .hud{left:max(16px,env(safe-area-inset-left,0px))}
-html[data-stats="on"] .hud{line-height:1.4}
-/* on a phone the bottom is under the thumbs: the stats line moves to the top, under the marks, centred; with the drawer
-   over the stage it has nowhere to be, so it waits (Dimitry, 18 Oct) */
-@media (max-width:820px){html[data-stats="on"] .hud{top:calc(env(safe-area-inset-top,0px) + 76px);bottom:auto!important;left:16px!important;right:16px;text-align:center}
-  html[data-stats="on"] body:not(.player) .hud{display:none!important}}
+/* top right, under where the namemark stands on arrival, on every screen: clear of the bar, the thumbs and the drawer;
+   its own x turns it off (Dimitry, 18 Oct) */
+html[data-stats="on"] .hud{top:calc(env(safe-area-inset-top,0px) + 90px);bottom:auto!important;left:auto!important;right:max(16px,env(safe-area-inset-right,0px));
+  max-width:min(680px,calc(100vw - 32px));display:flex!important;align-items:flex-start;gap:8px;text-align:right;line-height:1.45}
+#hudX{pointer-events:auto;flex:none;width:28px;height:28px;margin:-6px -8px 0 0;border:0;border-radius:50%;background:none;color:inherit;font:400 18px/1 var(--sans);cursor:pointer;opacity:.75}
+#hudX:hover,#hudX:focus-visible{opacity:1;background:rgb(255 255 255 / .1)}#hudX:focus-visible{outline:2px solid #55b8c9}
+@media (max-width:820px){html[data-stats="on"] body:not(.player) .hud{display:none!important}}
 html.bare .hud{display:none!important}
 /* the duck-rabbit: Index / settings */
 #duckBtn{position:fixed;z-index:25;top:calc(10px + env(safe-area-inset-top,0px));left:var(--dL,max(10px,env(safe-area-inset-left,0px)));width:48px;height:52px;display:grid;place-items:center;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
@@ -990,7 +991,7 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
     <canvas id="cv" aria-label="Particles flowing through a vector field built from the G-code toolpath"></canvas>
     <canvas id="ov" aria-hidden="true" style="pointer-events:none"></canvas>
     <canvas id="fg" aria-hidden="true" style="pointer-events:none"></canvas>
-    <div class="hud" id="hud"></div>
+    <div class="hud" id="hud"><span id="hudT"></span><button type="button" id="hudX" aria-label="Turn the stats off" title="Turn the stats off">&times;</button></div>
     
   </div>
 
@@ -2101,7 +2102,7 @@ function frame(now){
 }
 function hud(){
   const n=parsed?parsed.segs.length:0,t=parsed?parsed.segs.filter(s=>s.travel).length:0;
-  document.getElementById('hud').textContent=`${curName||'Custom'} · ${S.mode}${Object.keys(S.mods).length?' · '+Object.keys(S.mods).length+' auto':''}${S.maps.length?' · '+S.maps.length+' map':''} · ${n-t} cuts / ${t} travel · ${P.length} particles · ${fps} fps`;
+  document.getElementById('hudT').textContent=`${curName||'Custom'} · ${S.mode}${Object.keys(S.mods).length?' · '+Object.keys(S.mods).length+' auto':''}${S.maps.length?' · '+S.maps.length+' map':''} · ${n-t} cuts / ${t} travel · ${P.length} particles · ${fps} fps`;
 }
 
 // ---------- Build / resize ----------
@@ -3603,9 +3604,7 @@ function placeShelves(){const pb=$('playbar').getBoundingClientRect();if(!pb.hei
 function placeName(){const n=$('playname');let b=null;
   const kids=[...$('playbar').children].map(c=>c.getBoundingClientRect()).filter(r=>r.height);if(kids.length)b=Math.round(innerHeight-Math.min(...kids.map(r=>r.top))+14);
   document.querySelectorAll('.shelf.open').forEach(sh=>{const sb=parseFloat(sh.style.bottom)||0;b=Math.max(b||0,Math.round(sb+sh.offsetHeight+12))});
-  n.style.bottom=b==null?'':b+'px';
-  /* the stats line rides at the same height, at the left, so it never meets the bar or an open shelf (Dimitry, 18 Oct: tight on desktop) */
-  const h=$('hud');if(h)h.style.bottom=b==null?'':(b+4)+'px'}
+  n.style.bottom=b==null?'':b+'px';}
 function shelfOverflow(){document.querySelectorAll('.shelf').forEach(sh=>{const t=sh.querySelector('.track'),o=t.scrollWidth>t.clientWidth+2;sh.classList.toggle('ovl',o);
   const atL=t.scrollLeft<4,atR=t.scrollLeft+t.clientWidth>=t.scrollWidth-4;sh.classList.toggle('atL',atL);sh.classList.toggle('atR',atR);
   sh.querySelector('.shv.l').disabled=atL;sh.querySelector('.shv.r').disabled=atR})}
@@ -4754,6 +4753,9 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
 /* LICENSES: one jump from the index's toolbar or the Open source row to every license, in full, opened */
 /* the copyright year keeps itself current: the first year stays, the range grows (2026, then 2026–2027…) */
 document.querySelectorAll('.cYear').forEach(e=>{const y=new Date().getFullYear(),f=2026;e.textContent=y>f?f+'\u2013'+y:String(f)});
+/* the stats' own off switch: the same setting as Settings > Stats */
+['pointerdown','touchstart','mousedown'].forEach(t=>$('hudX').addEventListener(t,e=>e.stopPropagation()));   // the stage would capture the press and the click would never land
+$('hudX').onclick=()=>{document.documentElement.dataset.stats='off';try{localStorage.setItem('current.stats','off')}catch(_){}document.querySelectorAll('[data-k="stats"]').forEach(b=>{const on=b.dataset.v==='off';b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1});toast('stats off \u00b7 turn them back on in Settings',3000)};
 /* the AI:RATIO card's foundations line counts the credits themselves, by kind, so it can never disagree with them;
    the studio's own sister tools are named apart, since they are not someone else's */
 (function(){try{const out=$('airFound');if(!out)return;const n={};let g='';
