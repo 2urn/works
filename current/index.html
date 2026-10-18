@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018170203"</script>
+<script>window.__BUILD__="20261018170454"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -774,6 +774,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 #bgLayer.mirror>video{transform:scaleX(-1)}
 #gestSw{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 96px);transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;gap:8px}
 #gestSw[hidden]{display:none}
+body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, not over the open drawer */
 #gestSw .gs-lab{position:absolute;left:-9999px}
 #gestSw [role=radiogroup]{display:flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(10,14,16,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:2px}
 #gestSw [role=radio]{appearance:none;border:0;background:none;color:rgba(255,255,255,.75);font:600 10.5px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.16em;text-transform:uppercase;padding:9px 13px;min-height:32px;border-radius:999px;cursor:pointer}
@@ -853,6 +854,13 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
         <div class="actions bbActs"><button class="btn" id="bbPlay" type="button" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span>Play formula</span></button><button class="btn ghost" id="bbBack" type="button" hidden title="Undo your edits: put back the formula that is playing"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo edits</span></button></div>
         <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. <b>n l o p</b> are the sliders below (each can take Auto or a mapping); <b>a b c</b> are 4. <b>Play formula</b> (or Ctrl/⌘+Enter) starts it; while it plays, the same button stops it, or reads <b>Play changes</b> once you edit and swaps them in without restarting. <b>Undo edits</b> puts back what is playing.</p>
         <div id="bbSliders"></div>
+      </div>
+    </section>
+    <section class="cx-grp bbgrp" id="picGroup"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="picL"><span>Picture</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="cx-gbody" id="picL">
+        <p class="note">Automation for the picture, video or camera: give any of these <b>Auto</b> (sine, noise, the beat, your finger…) and it moves on its own, on top of where you placed it. The <b>auto</b> button in the source drawer turns it all on or off; hold it to come here.</p>
+        <p class="cx-acts" id="picPresets" role="group" aria-label="Picture automation presets"></p>
+        <div id="picSliders"></div>
       </div>
     </section>
     </div>
@@ -1038,7 +1046,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
 <div class="shelf" id="shelfTool" role="toolbar" aria-label="Tool settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="toolTrack"></div></div>
 <div class="shelf" id="shelfSnd" role="toolbar" aria-label="Sound: beats, your file and settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="sndTrack"></div></div>
-<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si srRm" id="srOff" type="button" aria-label="Remove the source and give the stage back to the field" title="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">remove</span></button><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></svg><span class="lab">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srDrive" type="button" aria-pressed="false" aria-label="Picture drive: tap to let the picture steer the current, drag left or right for how much" style="touch-action:none"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14.5c2-3 4-3 5 0s3 3 5 0"/><path d="m15.5 12.6 1.6 1.9 1.9-1.6"/></svg><span class="lab">drive</span></button><button class="si" id="srDriveMode" type="button" aria-label="How the picture steers: along its edges, downhill into the dark, or across toward the light. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16c3-6 5-8 8-8s5 2 8 8"/><path d="M12 8v8m-2.5-2.5L12 16l2.5-2.5"/></svg><span class="lab" id="srDriveModeV">along</span></button><button class="si" id="srDetail" type="button" aria-label="Detail of the picture that drives the field: fine follows small shapes, broad only the big masses. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="3.9" stroke-dasharray="2 2"/></svg><span class="lab" id="srDetailV">detail</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button></div></div>
+<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si srRm" id="srOff" type="button" aria-label="Remove the source and give the stage back to the field" title="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">remove</span></button><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></svg><span class="lab">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srDrive" type="button" aria-pressed="false" aria-label="Picture drive: tap to let the picture steer the current, drag left or right for how much" style="touch-action:none"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14.5c2-3 4-3 5 0s3 3 5 0"/><path d="m15.5 12.6 1.6 1.9 1.9-1.6"/></svg><span class="lab">drive</span></button><button class="si" id="srDriveMode" type="button" aria-label="How the picture steers: along its edges, downhill into the dark, or across toward the light. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16c3-6 5-8 8-8s5 2 8 8"/><path d="M12 8v8m-2.5-2.5L12 16l2.5-2.5"/></svg><span class="lab" id="srDriveModeV">along</span></button><button class="si" id="srDetail" type="button" aria-label="Detail of the picture that drives the field: fine follows small shapes, broad only the big masses. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="3.9" stroke-dasharray="2 2"/></svg><span class="lab" id="srDetailV">detail</span></button><button class="si" id="srAuto" type="button" aria-label="Picture automation: tap to turn it on or off, hold for its controls"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12c2.2-5 4.4-5 6.6 0s4.4 5 6.6 0 3.3-3.8 4.8-2.5"/><circle cx="20" cy="8.6" r="1.4" fill="currentColor" stroke="none"/></svg><span class="lab" id="srAutoV">auto</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button></div></div>
 <input type="file" id="srFile" hidden aria-hidden="true">
 <div id="gestSw" hidden><div id="gestCap" class="sh-coach" role="status" aria-live="polite"></div></div>
 <div id="playname" class="sh-title" aria-live="polite"></div>
@@ -1360,7 +1368,7 @@ function flattenPath(cmds,loops){let cur=null,x=0,y=0;
 
 
 // ---------- Presets (named, so the controls don't need dialing) ----------
-const DEFAULTS={drive:0,falloff:4,strength:1,speed:1.4,count:2600,fade:0.06,life:160,lens:0,wobble:0,magnet:0,pulse:0,lag:1.5,dots:0,bbn:9,bbl:8,bbo:3,bbp:2,bbrate:1};
+const DEFAULTS={pzoom:0,pturn:0,pdx:0,pdy:0,pshow:0,ddet:.25,drive:0,falloff:4,strength:1,speed:1.4,count:2600,fade:0.06,life:160,lens:0,wobble:0,magnet:0,pulse:0,lag:1.5,dots:0,bbn:9,bbl:8,bbo:3,bbp:2,bbrate:1};
 const textGen=()=>genText(document.getElementById('word').value,document.getElementById('font').value);
 const PRESETS=[
   {name:'Type: Counter-flow',gen:textGen,mode:'along',inside:'reverse',p:{falloff:2.2,speed:1.3,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
@@ -1772,7 +1780,7 @@ function frame(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
-  seqTick(dt);try{driveTick(dt)}catch(_){}
+  seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
@@ -1857,6 +1865,14 @@ const SLIDERS=[
   ['pulse','Beat pulse',0,1,0.01,'Each beat swings the whole current to one side, then the other'],
   ['lag','Lag',0.2,6,0.1,'Seconds the magnet takes to let go after the finger lifts'],
   ['drive','Picture drive',0,1,0.01,'How much the picture, video or camera under the field steers the current: 0 is the toolpath alone, 1 the picture alone'],
+  // PICTURE AUTOMATION (Dimitry, 18 Oct): the source's placement as ordinary sliders, so Auto and mappings can drive it.
+  // They add to where you placed it with your fingers; they belong to the window, not the look, so looks leave them alone.
+  ['ddet','Drive detail',0,1,0.01,'How softened the picture is before it steers: 0 follows small shapes, 1 only the big masses'],
+  ['pzoom','Picture zoom',-1,1,0.01,'Zooms the picture in or out from where you placed it: -1 is a quarter, +1 four times'],
+  ['pturn','Picture turn',-180,180,1,'Turns the picture from where you placed it, in degrees'],
+  ['pdx','Picture across',-0.5,0.5,0.01,'Moves the picture left or right, as a share of the stage'],
+  ['pdy','Picture up',-0.5,0.5,0.01,'Moves the picture up or down, as a share of the stage'],
+  ['pshow','Picture show',-1,1,0.01,'Shows more or less of the picture than its show setting'],
   ['dots','Dots',0,6,1,'Trails as dotted single pixels. 0 draws lines; 1 leaves a dot every frame; higher spaces the dots further apart'],
   // the bytebeat's letters live in the Audio group, but they are ordinary sliders: give them Auto, map to them, save them in looks
   ['bbn','Byte n',1,16,1,'Bytebeat letter n: changes the song while it plays'],
@@ -1866,6 +1882,7 @@ const SLIDERS=[
   ['bbrate','Byte rate',0.25,2,0.01,'Bytebeat rate: 1 is 8000 steps a second; lower is slower and deeper, higher is faster and brighter'],
 ];
 const BB_SLIDERS=new Set(['bbn','bbl','bbo','bbp','bbrate']);
+const PIC_SLIDERS=new Set(['drive','ddet','pzoom','pturn','pdx','pdy','pshow']),PIC_MOVE=['ddet','pzoom','pturn','pdx','pdy','pshow'];
 SLIDERS.forEach(([k,,mn,mx,st])=>RANGES[k]=[mn,mx,st]);
 const LABEL=Object.fromEntries(SLIDERS.map(s=>[s[0],s[1]]));
 const FIELD_KEYS=new Set(['falloff']);
@@ -1881,7 +1898,7 @@ SLIDERS.forEach(([k,lab,mn,mx,st,aria])=>{
   const row=document.createElement('div');row.className='row';
   row.innerHTML=`<label class="name" for="s-${k}" title="Double-tap to reset">${lab}</label><div class="rw" id="rw-${k}"><i class="tick"></i><input type="range" id="s-${k}" min="${mn}" max="${mx}" step="${st}" aria-label="${aria}"></div><span class="val" id="v-${k}"></span>`;
   const ab=SurfaceAuto.button(lab);ab.id='mb-'+k;ab.setAttribute('aria-controls','md-'+k);row.appendChild(ab);
-  const host=BB_SLIDERS.has(k)?$('bbSliders'):sl;host.appendChild(row);
+  const host=BB_SLIDERS.has(k)?$('bbSliders'):PIC_SLIDERS.has(k)?$('picSliders'):sl;host.appendChild(row);
   const ed=document.createElement('div');ed.className='moded';ed.id='md-'+k;ed.hidden=true;host.appendChild(ed);
   PAINT[k]=SurfaceAuto.decorate($('rw-'+k));
   const inp=row.querySelector('input');
@@ -1904,7 +1921,7 @@ function renderModEd(k){
     onChange:syncMods});
 }
 function refreshModEds(){SLIDERS.forEach(([k])=>{if(!$('md-'+k).hidden)renderModEd(k)})}
-function syncMods(){const mapped=new Set(S.maps.map(m=>m.dst));
+function syncMods(){try{syncPicAuto()}catch(_){}const mapped=new Set(S.maps.map(m=>m.dst));
   SLIDERS.forEach(([k])=>{const b=$('mb-'+k);b.setAttribute('aria-pressed',String(!!S.mods[k]));b.setAttribute('aria-expanded',String(!$('md-'+k).hidden));
     $('rw-'+k).classList.toggle('on',!!S.mods[k]||mapped.has(k));if(!S.mods[k]&&!mapped.has(k))PAINT[k].paint({on:false})})}
 let liveN=0;
@@ -2029,7 +2046,8 @@ function applyLook(p,idx,instant){
   pendLook=setTimeout(()=>{pendLook=null;applyLookNow(p,idx,instant)},d-6)}
 function applyLookNow(p,idx,instant){
   presetIdx=idx;curName=p.name;if(idx>=0&&PRESETS[idx]===p&&window.cxCount)cxCount('look: '+p.name,1);   // built-in looks only, once a visit
-  const to={...DEFAULTS,...p.p};for(const k of BB_SLIDERS)if(!(p.p&&k in p.p))to[k]=S[k];
+  const to={...DEFAULTS,...p.p};for(const k of BB_SLIDERS)if(!(p.p&&k in p.p))to[k]=S[k];for(const k of PIC_MOVE)to[k]=S[k];
+  const keepMods={};for(const k of PIC_MOVE)if(S.mods[k])keepMods[k]=S.mods[k];const keepMaps=S.maps.filter(m=>PIC_MOVE.includes(m.dst));
   const mdur=idx>=0?morphFor(p):AUTO.morph,doMorph=!instant&&booted&&mdur>0.05;
   if(doMorph){MORPH={from:{},to,t:0,dur:mdur,af:S.arrowColor,at:p.arrow||ARROW_DEFAULT,aaf:S.arrowAlpha,aat:p.arrowAlpha||.55};for(const k in to)MORPH.from[k]=S[k]}
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
@@ -2038,6 +2056,7 @@ function applyLookNow(p,idx,instant){
   S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&AUD.src!==p.audio&&!AUD.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
+  Object.assign(S.mods,keepMods);S.maps.push(...keepMaps);   // the picture's automation stays when the look changes
   $('gcode').value=p.gen();
   SLIDERS.forEach(([k])=>$('s-'+k).value=S[k]);
   CHECKS.forEach(([k])=>$('c-'+k).checked=S.flags[k]);
@@ -3342,8 +3361,8 @@ function buildLens(){
 const DRIVE={g:null,gw:0,gh:0,mode:'along',t:0,detail:'medium'};
 /* DETAIL (Dimitry, 18 Oct): how much the picture is softened before it steers, in field cells. fine follows small
    shapes and texture; broad only the big light and dark masses. [box radius, passes] */
-const DRIVE_DETAIL={fine:[1,1],medium:[2,3],soft:[4,3],broad:[8,3]};
-try{const d=localStorage.getItem('current.driveDetail');if(DRIVE_DETAIL[d])DRIVE.detail=d}catch(_){}
+const DRIVE_DETAIL={fine:0,medium:.25,soft:.5,broad:1};   // named steps of the Drive detail slider
+try{const d=localStorage.getItem('current.driveDetail');if(d in DRIVE_DETAIL)DRIVE.detail=d}catch(_){}S.ddet=DRIVE_DETAIL[DRIVE.detail];
 try{const m=localStorage.getItem('current.driveMode');if(['along','downhill','across'].includes(m))DRIVE.mode=m}catch(_){}
 function buildDrive(){
   const el=srcEl();DRIVE.g=null;if(!el||!GW||!GH)return;
@@ -3355,11 +3374,11 @@ function buildDrive(){
   if(aligned){g.translate(W/2*k+FRAME.x*W*k,H/2*k+FRAME.y*H*k);g.rotate(FRAME.r*Math.PI/180);g.scale(FRAME.s,FRAME.s);
     g.drawImage(el,(FIT.x-W/2)*k,(FIT.y-H/2)*k,FIT.w*k,FIT.h*k)}
   else{const sc=Math.max(W/iw,H/ih),dw=iw*sc*k,dh=ih*sc*k;   // cover, then wherever the gestures put it
-    g.translate(GW/2+BGF.x*W*k,GH/2+BGF.y*H*k);g.rotate(BGF.r*Math.PI/180);g.scale(BGF.s,BGF.s);
+    const B=bgfEff();g.translate(GW/2+B.x*W*k,GH/2+B.y*H*k);g.rotate(B.r*Math.PI/180);g.scale(B.s,B.s);
     if(SRC.kind==='camera'&&SRC.mirror)g.scale(-1,1);g.drawImage(el,-dw/2,-dh/2,dw,dh)}
   let d;try{d=g.getImageData(0,0,GW,GH).data}catch(_){return}
   let h=new Float32Array(GW*GH);for(let i=0;i<GW*GH;i++)h[i]=(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114)/255;
-  {const [r,n]=DRIVE_DETAIL[DRIVE.detail]||DRIVE_DETAIL.medium;for(let q=0;q<n;q++)h=boxBlur(h,GW,GH,r)}
+  {const dd=picE('ddet'),r=Math.max(1,Math.round(dd*8)),n=dd<.08?1:3;for(let q=0;q<n;q++)h=boxBlur(h,GW,GH,r)}   // detail: 0 fine (one light pass) .. 1 broad
   const L=new Float32Array(GW*GH*2);let mx=1e-6;
   for(let y=1;y<GH-1;y++)for(let x=1;x<GW-1;x++){const i=y*GW+x,gx=(h[i+1]-h[i-1])*.5,gy=(h[i+GW]-h[i-GW])*.5;
     let vx,vy;if(DRIVE.mode==='downhill'){vx=-gx;vy=-gy}else if(DRIVE.mode==='across'){vx=gx;vy=gy}else{vx=-gy;vy=gx}
@@ -3749,14 +3768,22 @@ const bgL=$('bgLayer'),bgImg=$('bgImg'),bgVid=$('bgVid');
 const srcEl=()=>SRC.kind==='picture'?bgImg:(SRC.kind==='video'||SRC.kind==='camera')?bgVid:null;
 function setTransp(){const t=SRC.kind!=='none'&&SRC.show>0;if(t!==TRANSP){TRANSP=t;clearTrails()}}
 function layoutBg(){const el=srcEl();bgImg.style.display=el===bgImg?'block':'none';bgVid.style.display=el===bgVid?'block':'none';
-  bgL.style.opacity=SRC.show;bgL.classList.toggle('mirror',SRC.kind==='camera'&&SRC.mirror);
+  bgL.style.opacity=picShow();bgL.classList.toggle('mirror',SRC.kind==='camera'&&SRC.mirror);
   if(!el)return;
   const aligned=SRC.gcode&&$('gcode').value===SRC.gcode&&FIT;
   const mir=SRC.kind==='camera'&&SRC.mirror?' scaleX(-1)':'';
   for(const e of [bgImg,bgVid]){if(aligned){Object.assign(e.style,{left:FIT.x+'px',top:FIT.y+'px',width:FIT.w+'px',height:FIT.h+'px',objectFit:'fill',
       transformOrigin:(W/2-FIT.x)+'px '+(H/2-FIT.y)+'px',transform:'translate('+FRAME.x*W+'px,'+FRAME.y*H+'px) rotate('+FRAME.r+'deg) scale('+FRAME.s+')'+(e===bgVid?mir:'')})}
-    else{const t=(BGF.x||BGF.y||BGF.s!==1||BGF.r)?'translate('+BGF.x*W+'px,'+BGF.y*H+'px) rotate('+BGF.r+'deg) scale('+BGF.s+')':'';
+    else{const B=bgfEff(),t=(B.x||B.y||B.s!==1||B.r)?'translate('+B.x*W+'px,'+B.y*H+'px) rotate('+B.r+'deg) scale('+B.s+')':'';
       Object.assign(e.style,{left:'0px',top:'0px',width:'100%',height:'100%',objectFit:'cover',transform:(t+(e===bgVid?mir:'')).trim(),transformOrigin:''})}}}
+/* the picture's placement as shown: your placement (BGF) plus the automation on top of it, when auto is on */
+const PICAUTO={on:true,last:'',t:0};try{const v=localStorage.getItem('current.picAuto');if(v==='0')PICAUTO.on=false}catch(_){}
+const picE=k=>PICAUTO.on?(E[k]||0):(S[k]||0);
+function bgfEff(){return {x:BGF.x+picE('pdx'),y:BGF.y-picE('pdy'),s:BGF.s*Math.pow(2,2*picE('pzoom')),r:BGF.r+picE('pturn')}}
+function picShow(){return Math.max(0,Math.min(1,SRC.show+picE('pshow')))}
+function picTick(){if(SRC.kind==='none')return;const b=bgfEff(),key=[b.x,b.y,b.s,b.r,picShow(),picE('ddet')].map(v=>v.toFixed(4)).join();
+  if(key===PICAUTO.last)return;PICAUTO.last=key;layoutBg();
+  const now=performance.now();if((E.drive||0)>.005&&now-PICAUTO.t>90){PICAUTO.t=now;try{buildDrive()}catch(_){}}}
 function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=0;if(typeof TRACE!=='undefined'&&TRACE.on){TRACE.on=false;TRACE.segs=[];if(parsed){fitSegments();buildField()}}   // the old picture's drive field goes with it (0.13.6: it used to linger and steer the next picture)
   if(AUD&&AUD.mic&&AUD.mic.cam)stopAudio();if(SRC.stream){SRC.stream.getTracks().forEach(t=>t.stop());SRC.stream=null}
   try{bgVid.pause()}catch(_){}bgVid.removeAttribute('src');bgVid.srcObject=null;
@@ -3764,7 +3791,7 @@ function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=
 function syncSrc(){['picture','video','camera'].forEach(k=>$({picture:'srPic',video:'srVid',camera:'srCam'}[k]).setAttribute('aria-pressed',String(SRC.kind===k)));
   $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';
   $('srMir').setAttribute('aria-pressed',String(SRC.mirror));$('srMir').hidden=SRC.kind!=='camera';
-  ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail'].forEach(k=>$(k).disabled=SRC.kind==='none');syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
+  ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail','srAuto'].forEach(k=>$(k).disabled=SRC.kind==='none');syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
   $('pSrc').classList.toggle('on',SRC.kind!=='none');gestCap();
   setTransp();layoutBg();syncShelves()}
 /* Gestures, field or picture: while a picture, video or camera is loaded (and not traced), a small switch at the top of
@@ -3858,13 +3885,39 @@ function setDrive(v){S.drive=Math.max(0,Math.min(1,v));MORPH=null;if(S.drive>.00
 function syncDrive(){const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.005;
   b.setAttribute('aria-pressed',String(on));b.querySelector('.lab').textContent=on?'drive '+Math.round(v*100)+'%':'drive';
   b.setAttribute('aria-label','Picture drive '+Math.round(v*100)+'%: tap to turn it '+(on?'off':'on')+', drag left or right for how much the picture steers the current');
-  $('srDriveModeV').textContent=DRIVE.mode;{const tb=$('srTrace');if(tb&&typeof TRACE!=='undefined'){tb.setAttribute('aria-pressed',String(TRACE.on));tb.querySelector('.lab').textContent=TRACE.on?'traced':'trace'}}{const iv=$('srInvV');if(iv)iv.textContent=SRC.invert?'light ink':'dark ink'}const dv=$('srDetailV');if(dv)dv.textContent=DRIVE.detail}
+  $('srDriveModeV').textContent=DRIVE.mode;{const tb=$('srTrace');if(tb&&typeof TRACE!=='undefined'){tb.setAttribute('aria-pressed',String(TRACE.on));tb.querySelector('.lab').textContent=TRACE.on?'traced':'trace'}}{const iv=$('srInvV');if(iv)iv.textContent=SRC.invert?'light ink':'dark ink'}const dv=$('srDetailV');if(dv){const M=Object.keys(DRIVE_DETAIL);dv.textContent=M.reduce((a,b)=>Math.abs(DRIVE_DETAIL[b]-S.ddet)<Math.abs(DRIVE_DETAIL[a]-S.ddet)?b:a)}}
 {let d0=0;wireTapHold($('srDrive'),{tap:()=>{if(SRC.kind==='none')return;setDrive((S.drive||0)>.005?0:DRIVE_LAST);
     toast((S.drive||0)>.005?'the picture steers the current · '+DRIVE.mode:'drive off · the toolpath alone')},hold:()=>{},
   drag:(ph,dx)=>{if(SRC.kind==='none')return;if(ph==='start')d0=S.drive||0;if(ph!=='end'){setDrive(Math.round((d0+dx/150)*20)/20)}else toast('drive '+Math.round((S.drive||0)*100)+'%')}})}
 $('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(TRACE.on)traceSource(true)};
 $('srTrace').onclick=()=>traceSource();
-$('srDetail').onclick=()=>{const M=Object.keys(DRIVE_DETAIL);DRIVE.detail=M[(M.indexOf(DRIVE.detail)+1)%M.length];try{localStorage.setItem('current.driveDetail',DRIVE.detail)}catch(_){}
+/* PICTURE AUTOMATION presets: named starting points, then each slider's Auto is yours to change */
+const PIC_PRESETS=[
+  ['Breathe','the picture swells and settles',{pzoom:{shape:'sine',per:8,depth:.3}}],
+  ['Drift','it wanders across the stage',{pdx:{shape:'noise',per:11,depth:.35},pdy:{shape:'noise',per:14,depth:.35}}],
+  ['Slow turn','one turn every half minute',{pturn:{shape:'saw',per:30,depth:1}}],
+  ['Beat pump','it jumps on the beat',{pzoom:{shape:'beat',per:1,depth:.35},pshow:{shape:'beat',per:1,depth:.4}}],
+  ['Detail tide','drive goes from fine to broad and back',{ddet:{shape:'sine',per:12,depth:.9}}],
+  ['Follow finger','it follows your finger',{pdx:{shape:'fx',per:1,depth:.5},pdy:{shape:'fy',per:1,depth:.5}}],
+  ['Still','no automation',{}]];
+function picPreset(name){const pr=PIC_PRESETS.find(x=>x[0]===name);if(!pr)return;
+  for(const k of PIC_MOVE){delete S.mods[k];S[k]=k==='ddet'?S[k]:0;baseline[k]=S[k];$('s-'+k).value=S[k]}
+  for(const k in pr[2])S.mods[k]=JSON.parse(JSON.stringify(pr[2][k]));
+  PICAUTO.on=name!=='Still';try{localStorage.setItem('current.picAuto',PICAUTO.on?'1':'0');localStorage.setItem('current.picPreset',name)}catch(_){}
+  syncVals();refreshModEds();syncMods();syncPicAuto();toast('picture: '+name.toLowerCase()+' · '+pr[1])}
+$('picPresets').innerHTML=PIC_PRESETS.map(p=>'<button type="button" class="cx-try" data-p="'+p[0]+'" aria-label="'+p[0]+': '+p[1]+'">'+p[0]+'</button>').join('');
+$('picPresets').querySelectorAll('button').forEach(b=>b.onclick=()=>picPreset(b.dataset.p));
+const picHasAuto=()=>PIC_MOVE.some(k=>S.mods[k])||S.maps.some(m=>PIC_MOVE.includes(m.dst));
+function syncPicAuto(){const b=$('srAuto');if(!b)return;const on=PICAUTO.on&&picHasAuto();b.setAttribute('aria-pressed',String(on));$('srAutoV').textContent=on?'auto on':'auto';PICAUTO.last=''}
+function openPicPanel(){setPlayer(false);const g=$('picGroup');g.classList.remove('cx-shut');g.querySelector('.cx-grpbtn').setAttribute('aria-expanded','true');
+  setTimeout(()=>g.scrollIntoView({block:'start',behavior:'smooth'}),250)}
+wireTapHold($('srAuto'),{tap:()=>{if(SRC.kind==='none')return;
+    if(PICAUTO.on&&picHasAuto()){PICAUTO.on=false;toast('picture automation off · it stays where you placed it')}
+    else{PICAUTO.on=true;if(!picHasAuto()){let n='Breathe';try{n=localStorage.getItem('current.picPreset')||n}catch(_){}if(n==='Still')n='Breathe';picPreset(n);return}toast('picture automation on')}
+    try{localStorage.setItem('current.picAuto',PICAUTO.on?'1':'0')}catch(_){}syncPicAuto()},
+  hold:()=>openPicPanel()});
+$('srDetail').onclick=()=>{const M=Object.keys(DRIVE_DETAIL);const cur=M.reduce((a,b)=>Math.abs(DRIVE_DETAIL[b]-S.ddet)<Math.abs(DRIVE_DETAIL[a]-S.ddet)?b:a);DRIVE.detail=M[(M.indexOf(cur)+1)%M.length];
+  S.ddet=DRIVE_DETAIL[DRIVE.detail];baseline.ddet=S.ddet;$('s-ddet').value=S.ddet;syncVals();try{localStorage.setItem('current.driveDetail',DRIVE.detail)}catch(_){}
   buildDrive();syncDrive();if((S.drive||0)<=.005)setDrive(DRIVE_LAST);toast('detail: '+DRIVE.detail+({fine:' · small shapes steer',medium:'',soft:' · softer',broad:' · only the big masses'}[DRIVE.detail]))};
 $('srDriveMode').onclick=()=>{const M=['along','downhill','across'];DRIVE.mode=M[(M.indexOf(DRIVE.mode)+1)%3];try{localStorage.setItem('current.driveMode',DRIVE.mode)}catch(_){}
   buildDrive();syncDrive();if((S.drive||0)<=.005)setDrive(DRIVE_LAST);
@@ -4337,7 +4390,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.13.7';
+const APP_VERSION='0.14.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
