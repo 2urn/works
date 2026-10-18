@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018170454"</script>
+<script>window.__BUILD__="20261018170553"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3377,7 +3377,7 @@ function buildDrive(){
     const B=bgfEff();g.translate(GW/2+B.x*W*k,GH/2+B.y*H*k);g.rotate(B.r*Math.PI/180);g.scale(B.s,B.s);
     if(SRC.kind==='camera'&&SRC.mirror)g.scale(-1,1);g.drawImage(el,-dw/2,-dh/2,dw,dh)}
   let d;try{d=g.getImageData(0,0,GW,GH).data}catch(_){return}
-  let h=new Float32Array(GW*GH);for(let i=0;i<GW*GH;i++)h[i]=(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114)/255;
+  let h=new Float32Array(GW*GH);const inv=SRC.invert;for(let i=0;i<GW*GH;i++){const v=(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114)/255;h[i]=inv?1-v:v}   // light ink: the picture read in negative, so drive turns the other way
   {const dd=picE('ddet'),r=Math.max(1,Math.round(dd*8)),n=dd<.08?1:3;for(let q=0;q<n;q++)h=boxBlur(h,GW,GH,r)}   // detail: 0 fine (one light pass) .. 1 broad
   const L=new Float32Array(GW*GH*2);let mx=1e-6;
   for(let y=1;y<GH-1;y++)for(let x=1;x<GW-1;x++){const i=y*GW+x,gx=(h[i+1]-h[i-1])*.5,gy=(h[i+GW]-h[i-GW])*.5;
@@ -3889,7 +3889,8 @@ function syncDrive(){const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.
 {let d0=0;wireTapHold($('srDrive'),{tap:()=>{if(SRC.kind==='none')return;setDrive((S.drive||0)>.005?0:DRIVE_LAST);
     toast((S.drive||0)>.005?'the picture steers the current · '+DRIVE.mode:'drive off · the toolpath alone')},hold:()=>{},
   drag:(ph,dx)=>{if(SRC.kind==='none')return;if(ph==='start')d0=S.drive||0;if(ph!=='end'){setDrive(Math.round((d0+dx/150)*20)/20)}else toast('drive '+Math.round((S.drive||0)*100)+'%')}})}
-$('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(TRACE.on)traceSource(true)};
+$('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(TRACE.on)traceSource(true);DRIVE.g=null;try{if((S.drive||0)>.005)buildDrive()}catch(_){}
+  toast(SRC.invert?'light ink: the light shapes trace, and drive reads the picture in negative':'dark ink: the dark shapes trace, and drive reads the picture as it is')};
 $('srTrace').onclick=()=>traceSource();
 /* PICTURE AUTOMATION presets: named starting points, then each slider's Auto is yours to change */
 const PIC_PRESETS=[
@@ -4390,7 +4391,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',label:'In
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.14.0';
+const APP_VERSION='0.14.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
