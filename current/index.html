@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019050108";window.__VERSION__="0.17.11";window.__NOTES__=[{"v":"0.17.11","date":"19 Oct 2026","items":[{"kind":"change","text":"panels glide in when they open, index sections glide open, and the index, shelves and lists scroll smoothly"}]}]</script>
+<script>window.__BUILD__="20261019052014";window.__VERSION__="0.17.12";window.__NOTES__=[{"v":"0.17.12","date":"19 Oct 2026","items":[{"kind":"change","text":"the capture panel is clean again; video length, intro, outro and fades moved into batch export, where they apply"},{"kind":"change","text":"batch export shows greyed out here until the Artist plan opens"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019050108"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019050108">
+<script src="claude-web.js?v=20261019052014"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019052014">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019050108"></script>
-<script src="surface/auto.js?v=20261019050108"></script>
-<script src="surface/toolpath.js?v=20261019050108"></script>
-<script src="surface/capture.js?v=20261019050108"></script>
-<script src="surface/pop.js?v=20261019050108"></script>
-<script src="surface/hints.js?v=20261019050108"></script>
-<script src="surface/keys.js?v=20261019050108"></script>
-<script src="surface/reset.js?v=20261019050108"></script>
+<script src="vendor/opentype.min.js?v=20261019052014"></script>
+<script src="surface/auto.js?v=20261019052014"></script>
+<script src="surface/toolpath.js?v=20261019052014"></script>
+<script src="surface/capture.js?v=20261019052014"></script>
+<script src="surface/pop.js?v=20261019052014"></script>
+<script src="surface/hints.js?v=20261019052014"></script>
+<script src="surface/keys.js?v=20261019052014"></script>
+<script src="surface/reset.js?v=20261019052014"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -608,6 +608,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #mixPop[hidden]{display:none}
 #batchPop{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(76vh,620px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #batchPop[hidden]{display:none}
+.scap-go.btOpen.soon{opacity:.38;cursor:default}
 #batchBody{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 12px}
 #batchBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 16px 6px}
 .btSeg{display:flex;flex-wrap:wrap;gap:4px 14px;padding:0 16px}.btSeg button{padding:5px 0;border:0;background:none;color:var(--ui-dim);font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
@@ -3169,7 +3170,8 @@ function ttFrame(c,w,h,st,t){frameInto(c,w,h,true);const g=c.getContext('2d'),I=
   else if(st.fade&&!O&&end>0&&bt>end-TT.fade){g.save();g.globalAlpha=(bt-(end-TT.fade))/TT.fade;g.fillStyle='#000';g.fillRect(0,0,w,h);g.restore()}}
 /* how long after the body ends the recording keeps going (outro, or the fade to black) */
 const ttTail=st=>st.O||(st.fade?TT.fade:0);
-function ttSetup(st,bodySec){st.I=CAP.intro?TT.intro:0;st.O=CAP.outro?TT.outro:0;st.fade=!!CAP.fade;st.B=bodySec||0;st.outroAt=null;if(st.I||st.O)ttPrep()}
+function ttSetup(st,bodySec){const b=BATCH.run;   // titles and a set length belong to batch export (Dimitry, 19 Oct): a single capture stays plain
+  st.I=b&&CAP.intro?TT.intro:0;st.O=b&&CAP.outro?TT.outro:0;st.fade=b&&!!CAP.fade;st.B=bodySec||0;st.outroAt=null;if(st.I||st.O)ttPrep()}
 /* stop asked for (the button, or the length): play the outro or the fade first, then stop */
 function recFinish(){const st=REC;if(!st)return;if(st.kind==='gif'){stopGif();return}
   const t=(performance.now()-st.t0)/1000;if(st.outroAt==null&&ttTail(st)&&t>=st.I){st.outroAt=t;setTimeout(()=>{if(REC===st&&st.rec.state!=='inactive')st.rec.stop()},ttTail(st)*1000+120);syncShot();return}
@@ -3181,7 +3183,7 @@ function startVideo(){const mime=pickMime();if(!mime){toast('This browser cannot
   const chunks=[],ext=mime.includes('mp4')?'mp4':'webm',st={kind:'video',rec,t0:performance.now(),raf:0,last:0};
   rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   rec.onstop=()=>{cancelAnimationFrame(st.raf);vt.forEach(t=>t.stop());REC=null;AUD.recOn=false;recMix();syncShot();const b=new Blob(chunks,{type:mime.split(';')[0]});b.size?showOut(b,ext,w,h):toast('Nothing was recorded.')};
-  ttSetup(st,capLenSec());
+  ttSetup(st,BATCH.run?(capLenSec()||5):0);
   const loop=t=>{if(t-st.last>=30){st.last=t;const s2=(performance.now()-st.t0)/1000;ttFrame(c,w,h,st,s2);
       if(st.B&&st.outroAt==null&&s2>=st.I+st.B)recFinish()}st.raf=requestAnimationFrame(loop)};
   try{rec.start(500)}catch(_){vt.forEach(t=>t.stop());toast('The recorder refused.');return}
@@ -3213,11 +3215,6 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and
   modes:[['still','still'],['video','video'],['gif','gif']],
   shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
   extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]},
-    {key:'len',label:'Video length',show:s=>s.mode==='video',items:[['free','until stop','Record until you stop it'],[10,'10s','Stop by itself after 10 seconds'],[30,'30s','30 seconds'],[60,'1 min','One minute'],
-      ['4b','4 bars','Four bars at the tempo'],['8b','8 bars','Eight bars at the tempo'],['16b','16 bars','Sixteen bars at the tempo']]},
-    {key:'intro',label:'Intro: the name and the title',show:s=>s.mode!=='still',items:[[0,'no intro','No intro'],[1,'intro','Open on the namemark and CURRENT']]},
-    {key:'outro',label:'Outro: the duck-rabbit and the link',show:s=>s.mode!=='still',items:[[0,'no outro','No outro'],[1,'outro','Close on the duck-rabbit and the link']]},
-    {key:'fade',label:'Fade in and out',show:s=>s.mode!=='still',items:[[0,'cut','Start and end on a cut'],[1,'fade','Fade in from black and out to black']]},
     // with the camera's mic and music both live: what the video's sound holds (the field always hears both)
     {key:'snd',type:'range',label:'Sound in the video: music to microphone',min:0,max:1,step:.05,live:true,show:s=>s.mode==='video'&&micLive(),
       ends:v=>['music '+Math.round((1-v)*100)+'%','mic '+Math.round(v*100)+'%']}],
@@ -3229,8 +3226,11 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and
   secondary:{label:'share',run:()=>{closeShotPop();openOut(false)}},
   onClose:()=>$('pShot').setAttribute('aria-expanded','false')});
 function buildShotPop(){SHOT.build();batchBtn()}
+/* batch is for the Artist plan: greyed in the public app; usable inside Claude, where Dimitry tests it (19 Oct) */
+const batchOpen=()=>{try{return window.top!==window.self||/(^|\.)claude(usercontent)?\.(ai|com)$/.test(location.hostname)}catch(_){return true}};
 function batchBtn(){const acts=$('shotPop').querySelector('.scap-acts');if(acts&&!acts.querySelector('.btOpen')){const x=document.createElement('button');x.type='button';x.className='scap-go ghost btOpen';
-  x.innerHTML='batch <b class="tier">artist</b>';x.setAttribute('aria-label','Batch export: capture many looks or words in this mode, saved as one zip (Artist plan)');x.onclick=openBatch;acts.appendChild(x)}}
+  if(!batchOpen()){x.disabled=true;x.classList.add('soon');x.title='Batch export comes with the Artist plan'}
+  x.innerHTML='batch <b class="tier">artist</b>';x.setAttribute('aria-label',x.disabled?'Batch export: coming with the Artist plan':'Batch export: capture many looks or texts in this mode, saved as one zip (Artist plan)');if(!x.disabled)x.onclick=openBatch;acts.appendChild(x)}}
 function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();$('pShot').setAttribute('aria-expanded','true')}
 function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
 document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot'))closeShotPop()},true);
@@ -3268,8 +3268,8 @@ async function makeZip(files){const enc=new TextEncoder(),parts=[],cen=[];let of
 function batchOne(){return new Promise((res,rej)=>{BATCH.sink=(b,ext)=>res({b,ext});
   if(CAP.mode==='still')capStill();
   else if(CAP.mode==='gif')startGif(CAP.gif*1000);
-  else{startVideo();if(!REC){BATCH.sink=null;rej(new Error('video'));return}if(!capLenSec())setTimeout(()=>{if(REC)recFinish()},(REC.I+BATCH.vlen)*1000)}
-  setTimeout(()=>{if(BATCH.sink){BATCH.sink=null;rej(new Error('timeout'))}},(CAP.mode==='still'?15:(capLenSec()||BATCH.vlen)+CAP.gif+70)*1000)})}
+  else{startVideo();if(!REC){BATCH.sink=null;rej(new Error('video'));return}}   // it stops by itself at the batch length
+  setTimeout(()=>{if(BATCH.sink){BATCH.sink=null;rej(new Error('timeout'))}},(CAP.mode==='still'?15:(capLenSec()||5)+CAP.gif+70)*1000)})}
 async function runBatch(){if(BATCH.run||REC||ENC)return;const all=allPresets();
   const items=[...[...BATCH.looks].sort((a,b)=>a-b).filter(i=>all[i]).map(i=>({look:all[i],i,name:all[i].name})),...[...BATCH.words].map(w=>({word:w,name:w}))];
   if(!items.length){toast('pick looks or words first');return}
@@ -3291,8 +3291,10 @@ function renderBatch(){const b=$('batchBody');if(!b)return;b.innerHTML='';const 
   const [w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);
   sub('Each one as');segs([['still','still'],['gif','gif'],['video','video']],CAP.mode,'Format',v=>{CAP.mode=v;capSave();syncShot()});
   const fm=document.createElement('p');fm.className='btNote';fm.textContent=(CAP.mode==='still'?'PNG':CAP.mode==='gif'?'GIF, '+CAP.gif+' s':'video')+' · '+w+'×'+h+' · shape and GIF length are the capture panel’s';b.appendChild(fm);
-  if(CAP.mode==='video'&&!capLenSec())segs([[5,'5 s'],[10,'10 s'],[15,'15 s']],BATCH.vlen,'Video length',v=>{BATCH.vlen=v;bsave()});
-  if(CAP.mode==='video'&&capLenSec()){const q=document.createElement('p');q.className='btNote';q.textContent='each video: '+(typeof CAP.len==='number'?CAP.len+' s':parseInt(CAP.len)+' bars')+(CAP.intro?', intro':'')+(CAP.outro?', outro':'')+(CAP.fade?', fades':'')+' (the capture panel’s)';b.appendChild(q)}
+  if(CAP.mode==='video'){if(CAP.len==='free')CAP.len=5;sub('Each video lasts');segs([[5,'5 s'],[10,'10 s'],[30,'30 s'],[60,'1 min'],['4b','4 bars'],['8b','8 bars'],['16b','16 bars']],CAP.len,'Video length',v=>{CAP.len=v;capSave()})}
+  if(CAP.mode!=='still'){sub('Titles');segs([[0,'no intro'],[1,'intro']],CAP.intro,'Intro: the name and the title',v=>{CAP.intro=v;capSave()});
+    segs([[0,'no outro'],[1,'outro']],CAP.outro,'Outro: the duck-rabbit and the link',v=>{CAP.outro=v;capSave()});
+    segs([[0,'cut'],[1,'fade']],CAP.fade,'Fade in and out',v=>{CAP.fade=v;capSave()})}
   sub('Wait before each');segs([[1,'1 s'],[2,'2 s'],[4,'4 s']],BATCH.settle,'Wait for the particles to form the look',v=>{BATCH.settle=v;bsave()});
   sub('Of');segs([['looks','looks · '+BATCH.looks.size],['words','texts · '+BATCH.words.size]],BATCH.tab,'Looks or words',v=>{BATCH.tab=v});
   const list=document.createElement('div');list.className='btList';
@@ -5015,10 +5017,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019050108"></script>
-<script src="surface/links.js?v=20261019050108"></script>
-<script src="surface/tips.js?v=20261019050108"></script>
-<script src="surface/sections.js?v=20261019050108"></script>
+<script src="surface/install.js?v=20261019052014"></script>
+<script src="surface/links.js?v=20261019052014"></script>
+<script src="surface/tips.js?v=20261019052014"></script>
+<script src="surface/sections.js?v=20261019052014"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5253,7 +5255,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.11';
+const APP_VERSION='0.17.12';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
