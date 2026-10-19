@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019044509";window.__VERSION__="0.17.8";window.__NOTES__=[{"v":"0.17.8","date":"19 Oct 2026","items":[{"kind":"new","text":"video length: until you stop, 10 s, 30 s, 1 minute, or 4, 8 or 16 bars at the tempo; it stops by itself"},{"kind":"new","text":"titles for videos and GIFs: an intro with the name and CURRENT, an outro with the duck-rabbit and the link, and fades in and out"}]}]</script>
+<script>window.__BUILD__="20261019045045";window.__VERSION__="0.17.9";window.__NOTES__=[{"v":"0.17.9","date":"19 Oct 2026","items":[{"kind":"fix","text":"0.17.8 could open to a still, dead stage when the capture panel was last left on video"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019044509"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019044509">
+<script src="claude-web.js?v=20261019045045"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019045045">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019044509"></script>
-<script src="surface/auto.js?v=20261019044509"></script>
-<script src="surface/toolpath.js?v=20261019044509"></script>
-<script src="surface/capture.js?v=20261019044509"></script>
-<script src="surface/pop.js?v=20261019044509"></script>
-<script src="surface/hints.js?v=20261019044509"></script>
-<script src="surface/keys.js?v=20261019044509"></script>
-<script src="surface/reset.js?v=20261019044509"></script>
+<script src="vendor/opentype.min.js?v=20261019045045"></script>
+<script src="surface/auto.js?v=20261019045045"></script>
+<script src="surface/toolpath.js?v=20261019045045"></script>
+<script src="surface/capture.js?v=20261019045045"></script>
+<script src="surface/pop.js?v=20261019045045"></script>
+<script src="surface/hints.js?v=20261019045045"></script>
+<script src="surface/keys.js?v=20261019045045"></script>
+<script src="surface/reset.js?v=20261019045045"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3122,7 +3122,7 @@ function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=
   if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();(AUD.mg||AUD.vol).connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
   if(AUD.mic&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
   recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
-function micLive(){return !!AUD.mic}
+function micLive(){try{return !!AUD.mic}catch(_){return false}}   // the capture panel can ask before AUD exists (a saved video mode at boot: 0.17.8 froze on it)
 /* THE MIC/MUSIC BLEND (0.16.4, Dimitry: "dial in a mixture, and afterwards it reverts"). CAP.snd runs 0 (music only)
    to 1 (mic only), 0.5 by default, an equal-power crossfade. While a video records, the music you hear and the music in
    the video both follow it, and the mic in the video follows it too; when the recording stops the music comes back to
@@ -3140,7 +3140,7 @@ function ttImg(key,svg,color){if(TT.img[key])return TT.img[key];if(!svg)return n
   const im=new Image();im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(t);TT.img[key]=im;return im}
 function ttPrep(){const T=window.__TITLES__||{};ttImg('mark',T.mark,'#ffffff');const d=document.querySelector('#duckBtn svg.duck');ttImg('duck',d?d.outerHTML:'',css('--accent')||'#ff4fb0')}
 function capLenSec(){const L=CAP.len;if(L==='free')return 0;if(typeof L==='number')return L;
-  const bars=parseInt(L,10),bpm=(typeof TAP!=='undefined'&&TAP.bpm)||(AUD.play&&AUD.play.beat&&BEATS[AUD.play.beat]?BEATS[AUD.play.beat].bpm:0)||120;return Math.min(120,bars*4*60/bpm)}
+  let bpm=120;try{bpm=TAP.bpm||(AUD.play&&AUD.play.beat&&BEATS[AUD.play.beat]?BEATS[AUD.play.beat].bpm:0)||120}catch(_){}const bars=parseInt(L,10);return Math.min(120,bars*4*60/bpm)}
 function ttDraw(g,w,h,ph,a,u){   // ph: 'intro' | 'outro'; a: the card's opacity; u: progress 0..1
   if(a<=0)return;g.save();g.globalAlpha=a;g.fillStyle='#000';g.fillRect(0,0,w,h);const s=Math.min(w,h),T=window.__TITLES__||{};
   if(ph==='intro'){const im=TT.img.mark,mw=s*.62;if(im&&im.complete&&im.naturalWidth){const mh=mw*im.naturalHeight/im.naturalWidth;g.globalAlpha=a*Math.min(1,u*2.2);g.drawImage(im,(w-mw)/2,h/2-mh-s*.03,mw,mh)}
@@ -5005,10 +5005,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019044509"></script>
-<script src="surface/links.js?v=20261019044509"></script>
-<script src="surface/tips.js?v=20261019044509"></script>
-<script src="surface/sections.js?v=20261019044509"></script>
+<script src="surface/install.js?v=20261019045045"></script>
+<script src="surface/links.js?v=20261019045045"></script>
+<script src="surface/tips.js?v=20261019045045"></script>
+<script src="surface/sections.js?v=20261019045045"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5242,7 +5242,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.8';
+const APP_VERSION='0.17.9';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
