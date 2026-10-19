@@ -22,7 +22,11 @@
     "  font:500 10px/1 var(--sc-mono,var(--mono,ui-monospace,Menlo,monospace));letter-spacing:.18em;text-transform:uppercase;color:var(--ui-dim,#a8a8a8)}",
     ".spop-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;font-size:0}",
     ".spop-x:hover{color:var(--ui-ink,#fff)}.spop-x:focus-visible{outline:2px solid var(--cap-acc,var(--sc-acc,#8fd3e8));outline-offset:-2px;border-radius:8px}",
-    ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}"
+    ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
+    /* a panel glides in when it opens (Dimitry, 19 Oct): up a little and out of transparency. translate, not transform,
+       so it never fights a panel's own centring transform. Shown again after [hidden] or display:none, it plays again. */
+    "@media (prefers-reduced-motion:no-preference){.spop:not([hidden]){animation:spop-in .24s cubic-bezier(.2,.8,.2,1)}}",
+    "@keyframes spop-in{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}"
   ].join("\n");
   function inject() {
     if (document.getElementById("spop-css")) return;
@@ -44,5 +48,26 @@
     }
     return el;
   }
-  window.SurfacePop = { dress: dress, css: CSS, X: X };
+  /* GLIDE: folded sections open by gliding to their height instead of appearing, and the page's own scrolling panes
+     scroll smoothly. SurfacePop.glide({ shut: 'cx-shut', bodies: '.cx-gbody,.cx-body', scrollers: '#panel,.track' })
+     watches the whole page: when an element loses the "shut" class, its body (a direct child matching bodies) grows
+     from 0 to its height and fades in. Closing stays instant. Off with prefers-reduced-motion. */
+  function glide(o) {
+    o = o || {}; var shut = o.shut || "cx-shut", bodies = o.bodies || ".cx-gbody,.cx-body", scr = o.scrollers || "";
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (scr && !document.getElementById("spop-glide")) { var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = scr + "{scroll-behavior:smooth}"; document.head.appendChild(st); }
+    if (!window.MutationObserver) return;
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        var el = m.target; if (m.attributeName !== "class" || !el.classList || el.classList.contains(shut)) return;
+        if (!(m.oldValue || "").split(/\s+/).includes(shut)) return;
+        for (var i = 0; i < el.children.length; i++) { var b = el.children[i]; if (!b.matches || !b.matches(bodies)) continue;
+          var h = b.scrollHeight; if (!h || !b.animate) continue;
+          b.style.overflow = "hidden";
+          var a = b.animate([{ height: "0px", opacity: 0 }, { height: h + "px", opacity: 1 }], { duration: Math.min(420, 180 + h * .25), easing: "cubic-bezier(.2,.8,.2,1)" });
+          a.onfinish = a.oncancel = (function (x) { return function () { x.style.overflow = ""; }; })(b); }
+      });
+    }).observe(document.body, { attributes: true, attributeOldValue: true, subtree: true, attributeFilter: ["class"] });
+  }
+  window.SurfacePop = { dress: dress, css: CSS, X: X, glide: glide };
 })();
