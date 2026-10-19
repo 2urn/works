@@ -25,12 +25,12 @@
     ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
     /* a panel glides in when it opens (Dimitry, 19 Oct): up a little and out of transparency. translate, not transform,
        so it never fights a panel's own centring transform. Shown again after [hidden] or display:none, it plays again. */
-    /* 0.17.13: in and out with CSS transitions (display and @starting-style), only opacity and translate, which the
+    /* 0.6 s (Dimitry, 19 Oct: \"0.2 s is instantaneous for a human\"). 0.17.13: in and out with CSS transitions (display and @starting-style), only opacity and translate, which the
        compositor runs off the main thread, so a busy stage cannot make them stutter; where a browser lacks
        transition-behavior it simply shows and hides as before */
-    "@media (prefers-reduced-motion:no-preference){.spop,.scap{transition:opacity .18s ease,translate .2s cubic-bezier(.2,.8,.2,1),display .2s allow-discrete,overlay .2s allow-discrete}",
-    ".spop[hidden],.scap[hidden]{opacity:0;translate:0 10px}",
-    "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 12px}}}"
+    "@media (prefers-reduced-motion:no-preference){.spop,.scap{transition:opacity .55s ease,translate .6s cubic-bezier(.2,.8,.2,1),display .6s allow-discrete,overlay .6s allow-discrete}",
+    ".spop[hidden],.scap[hidden]{opacity:0;translate:0 16px}",
+    "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 16px}}}"
   ].join("\n");
   function inject() {
     if (document.getElementById("spop-css")) return;
@@ -63,8 +63,8 @@
     /* 0.17.13 (Dimitry: "the glide open is very, very rough"): the height animation laid the page out every frame while
        the stage was drawing. Now a section's body fades and settles (opacity and translate only), in and out. */
     var css = "@media (prefers-reduced-motion:no-preference){" + (scr ? scr + "{scroll-behavior:smooth}" : "") +
-      all + "{transition:opacity .2s ease,translate .22s cubic-bezier(.2,.8,.2,1),display .22s allow-discrete}" +
-      b + "{opacity:0;translate:0 -6px}" + "@starting-style{" + open + "{opacity:0;translate:0 -6px}}}";
+      all + "{transition:opacity .55s ease,translate .6s cubic-bezier(.2,.8,.2,1),display .6s allow-discrete}" +
+      b + "{opacity:0;translate:0 -10px}" + "@starting-style{" + open + "{opacity:0;translate:0 -10px}}}";
     var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = css; document.head.appendChild(st);
   }
   window.SurfacePop = { dress: dress, css: CSS, X: X, glide: glide };
