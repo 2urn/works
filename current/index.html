@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019025113";window.__VERSION__="0.16.12";window.__NOTES__=[{"v":"0.16.12","date":"19 Oct 2026","items":[{"kind":"new","text":"on a computer, a pin at the foot of the index: pinned it stays open; unpinned, a click on the stage closes it"},{"kind":"new","text":"the CHAMY·XYZ mark stays at the foot of the index with a close button; the version and copyright open under it at the end of the index, or with a click on the mark"}]}]</script>
+<script>window.__BUILD__="20261019030007";window.__VERSION__="0.16.13";window.__NOTES__=[{"v":"0.16.13","date":"19 Oct 2026","items":[{"kind":"new","text":"the words list sorts by sequence, A to Z, or your own order (drag the handle); the sequence plays in the order shown"},{"kind":"new","text":"\"same size\": every word in the sequence is set at one size, the one that fits the longest word or line"},{"kind":"new","text":"LOOP, SWIM and PLAY are in the list from the start, ready to play"},{"kind":"change","text":"the add row reads \"add word…\", with + at its right"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019025113"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019025113">
+<script src="claude-web.js?v=20261019030007"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019030007">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019025113"></script>
-<script src="surface/auto.js?v=20261019025113"></script>
-<script src="surface/toolpath.js?v=20261019025113"></script>
-<script src="surface/capture.js?v=20261019025113"></script>
-<script src="surface/pop.js?v=20261019025113"></script>
-<script src="surface/hints.js?v=20261019025113"></script>
-<script src="surface/keys.js?v=20261019025113"></script>
-<script src="surface/reset.js?v=20261019025113"></script>
+<script src="vendor/opentype.min.js?v=20261019030007"></script>
+<script src="surface/auto.js?v=20261019030007"></script>
+<script src="surface/toolpath.js?v=20261019030007"></script>
+<script src="surface/capture.js?v=20261019030007"></script>
+<script src="surface/pop.js?v=20261019030007"></script>
+<script src="surface/hints.js?v=20261019030007"></script>
+<script src="surface/keys.js?v=20261019030007"></script>
+<script src="surface/reset.js?v=20261019030007"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -841,6 +841,13 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .wlAdd input{flex:1;min-width:0;border:0;background:none;color:var(--ui-ink);font:500 16px var(--mono);outline:none}
 .wlAdd input::placeholder{color:#6b7578}
 .wlAdd button{flex:none;height:30px;padding:0 10px;border:0;border-radius:8px;background:#1f4f58;color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.wlAdd{padding-left:12px}.wlAdd button{width:30px;padding:0;display:grid;place-items:center;border-radius:50%;background:#55b8c9;color:#04181c}
+.wlAdd button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.wlSort{display:flex;gap:10px}.wlSort button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.wlSort button[aria-pressed=true]{color:#55b8c9}.wlSort button:hover{color:var(--ui-ink)}
+.fl>button.drag{flex:none;width:26px;margin-left:4px;border:0;background:none;color:#6b7578;cursor:grab;display:grid;place-items:center;touch-action:none}
+.fl>button.drag svg{width:16px;height:16px;fill:currentColor}.fl>button.drag:hover{color:var(--ui-ink)}
+.fl.dragging{background:rgb(var(--ui-hi,255 255 255) / .06);border-radius:8px}.fl.dragging>button.drag{cursor:grabbing;color:#55b8c9}
 .wlHint{margin:4px 14px 0;font:400 13px/1.45 var(--sans);color:var(--ui-mid)}
 /* a word sequence is playing: a small loop badge on the text tool, and on the dots when another tool is open */
 #pickTrack .si.seqon{position:relative}
@@ -1691,7 +1698,23 @@ function flattenPath(cmds,loops){let cur=null,x=0,y=0;
 
 // ---------- Presets (named, so the controls don't need dialing) ----------
 const DEFAULTS={pzoom:0,pturn:0,pdx:0,pdy:0,pshow:0,ddet:.25,drive:0,falloff:4,strength:1,speed:1.4,count:2600,fade:0.06,life:160,lens:0,wobble:0,magnet:0,pulse:0,lag:1.5,dots:0,bbn:9,bbl:8,bbo:3,bbp:2,bbrate:1};
-const textGen=()=>genText(document.getElementById('word').value,document.getElementById('font').value);
+const textGen=()=>sizeLocked(document.getElementById('word').value,document.getElementById('font').value);
+/* SAME SIZE: every word in the sequence (or the list) is set at one scale, the one that fits the longest word or line
+   at the current Lines setting, so the type does not jump in size as the words change (Dimitry, 18 Oct). Each word is
+   centred in that shared frame. "each fills" is the old way: every word fills the stage. */
+let LOCKC=null;
+function sizeLocked(w,f){
+  let gc=genText(w,f);if(store.typeLock===false)return gc;
+  const set=[...new Set([...(store.seq&&store.seq.length>1?store.seq:store.words||[]),w])].filter(Boolean).slice(0,24);if(set.length<2)return gc;
+  const key=[f,linesMode(),Math.round(innerWidth/innerHeight*20),...set].join('|');
+  const box=g=>{let a=1e9,b=1e9,c=-1e9,d=-1e9;for(const q of parseGcode(g).segs){if(q.travel)continue;a=Math.min(a,q.x0,q.x1);c=Math.max(c,q.x0,q.x1);b=Math.min(b,q.y0,q.y1);d=Math.max(d,q.y0,q.y1)}return a>c?null:[a,b,c,d]};
+  if(!LOCKC||LOCKC.key!==key){let W=0,H=0;for(const x of set){const r=box(x===w?gc:genText(x,f));if(r){W=Math.max(W,r[2]-r[0]);H=Math.max(H,r[3]-r[1])}}LOCKC={key,W,H};
+    gc=genText(w,f)}   // last, so the line breaks it reports are this word's
+  const r=box(gc);if(!r||!LOCKC.W)return gc;
+  const dx=(LOCKC.W-(r[2]-r[0]))/2-r[0],dy=(LOCKC.H-(r[3]-r[1]))/2-r[1];
+  const lines=gc.split('\n'),out=[lines[0],'; frame '+fx(LOCKC.W)+' '+fx(LOCKC.H)];
+  for(const L of lines.slice(1)){if(/^\s*;\s*frame\b/i.test(L))continue;out.push(L.replace(/([XY])\s*(-?\d*\.?\d+)/g,(m,k,v)=>k+fx(+v+(k==='X'?dx:dy))))}
+  return out.join('\n')}
 const PRESETS=[
   {name:'Type: Counter-flow',gen:textGen,mode:'along',inside:'reverse',p:{falloff:2.2,speed:1.3,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
   {name:'Type: Still Ink',gen:textGen,mode:'along',inside:'still',p:{falloff:3,speed:1.5,fade:0.04},flags:{arrows:false,path:true,travel:false,feed:false}},
@@ -2494,7 +2517,10 @@ $('saveOk').onclick=()=>{savePreset($('saveName').value);$('saveRow').hidden=tru
 $('saveName').addEventListener('keydown',e=>{if(e.key==='Enter')$('saveOk').click();if(e.key==='Escape')$('saveRow').hidden=true});
 
 // RECENT WORDS: every traced word goes to the top of a short list (12), kept in this browser
-if(!Array.isArray(store.words))store.words=['LOOP'];
+if(!Array.isArray(store.words))store.words=['LOOP','SWIM','PLAY'];
+/* LOOP, SWIM and PLAY are in the list and the sequence from the start, ready, not playing (Dimitry, 18 Oct) */
+if(!store.wordsSeeded){for(const w of ['LOOP','SWIM','PLAY'])if(!store.words.some(x=>x.toLowerCase()===w.toLowerCase()))store.words.push(w);
+  if(!Array.isArray(store.seq))store.seq=[];for(const w of ['LOOP','SWIM','PLAY'])if(!store.seq.includes(w)&&store.words.includes(w))store.seq.push(w);store.wordsSeeded=1}
 // word sequencer: words picked from the recent list play one after another (in order) or in an auto mix (random),
 // every few seconds or every bar of the beat. Sequenced traces do not reshuffle the recent list.
 if(!Array.isArray(store.seq))store.seq=[];
@@ -2524,9 +2550,21 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   run.append(pb,nt);sq.appendChild(run);
   sq.appendChild(segs([['order','in order'],['mix','auto mix']],SEQ.order,'Sequence order',v=>{SEQ.order=v;store.seqOrder=v}));
   sq.appendChild(segs(Object.entries(SEQ_EVERY),SEQ.every,'Change words every',v=>{SEQ.every=v;store.seqEvery=v;SEQ.t=0;SEQ.beats=0}));
-  const words=[...store.words,...store.seq.filter(w=>!store.words.some(x=>x===w))],cur=$('word').value;
-  const sh=document.createElement('div');sh.className='sub';sh.textContent='Recent';box.appendChild(sh);
-  for(const w of words){const row=document.createElement('div');row.className='fl'+(w===cur?' now':'');
+  sq.appendChild(segs([['lock','same size'],['fit','each fills']],store.typeLock===false?'fit':'lock','Type size across the words',v=>{store.typeLock=v==='lock';LOCKC=null;if(onTypeField()){$('gcode').value=textGen();build()}}));
+  /* the list: by sequence, A to Z, or your own order (drag ⠿). In A–Z and your own order the sequence plays top to bottom */
+  const base=[...store.words,...store.seq.filter(w=>!store.words.some(x=>x===w))],sort=store.wordSort||'seq',cur=$('word').value;
+  let words;
+  if(sort==='az')words=[...base].sort((a,b)=>a.localeCompare(b,undefined,{sensitivity:'base'}));
+  else if(sort==='own'){const o=(store.wordOrder||[]).filter(w=>base.includes(w));words=[...o,...base.filter(w=>!o.includes(w))];store.wordOrder=words.slice()}
+  else words=[...store.seq.filter(w=>base.includes(w)),...base.filter(w=>!store.seq.includes(w))];
+  if(sort!=='seq'){const re=words.filter(w=>store.seq.includes(w));if(re.join('\n')!==store.seq.join('\n')){store.seq=re;persist()}}
+  const sh=document.createElement('div');sh.className='sub';const st=document.createElement('span');st.textContent='Words';
+  const so=document.createElement('div');so.className='wlSort';so.setAttribute('role','group');so.setAttribute('aria-label','Sort the words');
+  for(const [v,l,a] of [['seq','sequence','In sequence order, then the rest'],['az','a–z','A to Z; the sequence plays in this order'],['own','manual','Your own order: drag ⠿; the sequence plays in this order']]){
+    const b=document.createElement('button');b.type='button';b.textContent=l;b.title=a;b.setAttribute('aria-pressed',String(sort===v));
+    b.onclick=()=>{if(v==='own'&&!(store.wordOrder||[]).length)store.wordOrder=words.slice();store.wordSort=v;persist();renderWordList()};so.appendChild(b)}
+  sh.append(st,so);box.appendChild(sh);
+  for(const w of words){const row=document.createElement('div');row.className='fl'+(w===cur?' now':'');row.dataset.w=w;
     const q=store.seq.indexOf(w),inq=document.createElement('button');inq.type='button';inq.className='inq';inq.setAttribute('aria-pressed',String(q>=0));
     inq.setAttribute('aria-label',q>=0?w+' is number '+(q+1)+' in the sequence. Take it out':'Add '+w+' to the sequence');
     inq.innerHTML=q>=0?'<b>'+(q+1)+'</b>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>';inq.onclick=()=>seqToggle(w);
@@ -2536,10 +2574,15 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
     const x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Remove '+w+' from the list');
     x.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
     x.onclick=()=>{store.words=store.words.filter(v=>v!==w);const k=store.seq.indexOf(w);if(k>=0)store.seq.splice(k,1);if(!store.seq.length&&SEQ.on)seqStop();persist();renderRecent();renderWordList();if(ACTIVE==='text')buildToolShelf()};
+    if(sort==='own'){const hd=document.createElement('button');hd.type='button';hd.className='drag';hd.setAttribute('aria-label','Move '+w+': drag, or use the arrow keys');
+      hd.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="1.4"/><circle cx="15" cy="7" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="17" r="1.4"/><circle cx="15" cy="17" r="1.4"/></svg>';
+      hd.addEventListener('keydown',e=>{const k=e.key==='ArrowUp'?-1:e.key==='ArrowDown'?1:0;if(!k)return;e.preventDefault();const o=store.wordOrder,i=o.indexOf(w),j=i+k;if(j<0||j>=o.length)return;
+        o.splice(i,1);o.splice(j,0,w);persist();renderWordList();const n=[...$('wlItems').querySelectorAll('.fl')].find(r=>r.dataset.w===w);if(n)n.querySelector('.drag').focus()});
+      hd.addEventListener('pointerdown',e=>wlDrag(e,row));row.append(hd)}
     row.append(inq,b,x);box.appendChild(row)}
   { // add a word without tracing it: typed here it joins the list and the sequence
     const few=words.length<2,row=document.createElement('form');row.className='wlAdd'+(few?' few':'');
-    row.innerHTML='<span class="pl" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></span><input type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="'+(few?'add a word to sequence them':'add a word')+'" aria-label="Add a word to the list and the sequence"><button type="submit">add</button>';
+    row.innerHTML='<input type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="add word\u2026" aria-label="Add a word to the list and the sequence"><button type="submit" aria-label="Add the word"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></button>';
     if(few){const hint=document.createElement('p');hint.className='wlHint';hint.textContent=words.length?'Words take turns on the field. Add a second one, then press play.':'Add words, then press play: they take turns on the field.';box.appendChild(hint)}
     row.onsubmit=e=>{e.preventDefault();const v=row.querySelector('input').value.trim().slice(0,48);if(!v)return;
       store.words=[v,...store.words.filter(x=>x!==v)].slice(0,14);if(!store.seq.includes(v))store.seq.push(v);persist();if(typeof renderRecent==='function')renderRecent();renderWordList();if(ACTIVE==='text')buildToolShelf();
@@ -2550,6 +2593,14 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   tb('add all','Add every recent word to the sequence',()=>{for(const w of words)if(!store.seq.includes(w))store.seq.push(w);persist();renderWordList();if(ACTIVE==='text')buildToolShelf()});
   if(store.seq.length)tb('clear sequence','Empty the sequence',()=>{store.seq=[];if(SEQ.on)seqStop();persist();renderWordList();if(ACTIVE==='text')buildToolShelf()});
   box.appendChild(ft)}
+/* drag a word by its handle: the row follows the finger, the others make room; the new order is kept */
+function wlDrag(e,row){if(e.button>0)return;e.preventDefault();const box=$('wlItems'),rows=()=>[...box.querySelectorAll('.fl')];const y0=e.clientY;row.classList.add('dragging');
+  try{e.target.setPointerCapture(e.pointerId)}catch(_){}
+  const mv=ev=>{row.style.transform='translateY('+(ev.clientY-y0)+'px)';const r=rows().filter(x=>x!==row);let at=null;for(const x of r){const b=x.getBoundingClientRect();if(ev.clientY<b.top+b.height/2){at=x;break}}
+    const add=box.querySelector('.wlAdd');if(at)box.insertBefore(row,at);else box.insertBefore(row,r.length?r[r.length-1].nextSibling:add);row.style.transform='';};
+  const up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);row.classList.remove('dragging');row.style.transform='';
+    store.wordOrder=rows().map(x=>x.dataset.w);persist();renderWordList()};
+  addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up)}
 function openWordList(){closeFontList();renderWordList();$('wordList').hidden=false;const b=document.querySelector('#toolTrack .shhist');if(b)b.setAttribute('aria-expanded','true')}
 function closeWordList(){const l=$('wordList');if(!l||l.hidden)return;l.hidden=true;const b=document.querySelector('#toolTrack .shhist');if(b)b.setAttribute('aria-expanded','false')}
 $('wlClose').onclick=closeWordList;
@@ -4671,10 +4722,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019025113"></script>
-<script src="surface/links.js?v=20261019025113"></script>
-<script src="surface/tips.js?v=20261019025113"></script>
-<script src="surface/sections.js?v=20261019025113"></script>
+<script src="surface/install.js?v=20261019030007"></script>
+<script src="surface/links.js?v=20261019030007"></script>
+<script src="surface/tips.js?v=20261019030007"></script>
+<script src="surface/sections.js?v=20261019030007"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4906,7 +4957,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.12';
+const APP_VERSION='0.16.13';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
