@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019035656";window.__VERSION__="0.17.1";window.__NOTES__=[{"v":"0.17.1","date":"19 Oct 2026","items":[{"kind":"new","text":"each mixer channel shows its sound live, a wave behind its slider; the level's share of the track is tinted"}]}]</script>
+<script>window.__BUILD__="20261019040230";window.__VERSION__="0.17.2";window.__NOTES__=[{"v":"0.17.2","date":"19 Oct 2026","items":[{"kind":"new","text":"a master row in the mixer: overall volume with the live line of everything you hear, and M to mute (the field keeps moving)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019035656"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019035656">
+<script src="claude-web.js?v=20261019040230"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019040230">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019035656"></script>
-<script src="surface/auto.js?v=20261019035656"></script>
-<script src="surface/toolpath.js?v=20261019035656"></script>
-<script src="surface/capture.js?v=20261019035656"></script>
-<script src="surface/pop.js?v=20261019035656"></script>
-<script src="surface/hints.js?v=20261019035656"></script>
-<script src="surface/keys.js?v=20261019035656"></script>
-<script src="surface/reset.js?v=20261019035656"></script>
+<script src="vendor/opentype.min.js?v=20261019040230"></script>
+<script src="surface/auto.js?v=20261019040230"></script>
+<script src="surface/toolpath.js?v=20261019040230"></script>
+<script src="surface/capture.js?v=20261019040230"></script>
+<script src="surface/pop.js?v=20261019040230"></script>
+<script src="surface/hints.js?v=20261019040230"></script>
+<script src="surface/keys.js?v=20261019040230"></script>
+<script src="surface/reset.js?v=20261019040230"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -613,6 +613,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .mxCh{display:grid;grid-template-columns:62px 1fr 28px 28px;align-items:center;gap:4px 8px;padding:6px 16px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .06)}
 .mxCh .nm{font:600 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mxCh .nm small{display:block;margin-top:3px;font:500 9px/1.2 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62px}
 .mxCh.idle .nm{color:var(--ui-dim)}
+.mxCh.mxMaster{border-top:1px solid rgb(var(--ui-hi,255 255 255) / .18);margin-top:4px;padding-top:10px}
 .mxWave{position:relative;height:30px}
 .mxWave canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:6px;background:rgb(var(--ui-hi,255 255 255) / .04)}
 .mxWave input[type=range]{position:relative;width:100%;height:30px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer}
@@ -3955,7 +3956,7 @@ function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
     const c=AUD.ctx=new C();AUD.an=c.createAnalyser();AUD.an.fftSize=1024;AUD.an.smoothingTimeConstant=.55;AUD.data=new Uint8Array(AUD.an.frequencyBinCount);
     AUD.bus=c.createGain();AUD.vol=c.createGain();AUD.vol.gain.value=+$('audVol').value;
-    AUD.bus.connect(AUD.an);AUD.mg=c.createGain();AUD.mg.gain.value=AUD.muted?0:1;AUD.vol.connect(AUD.mg);AUD.mg.connect(c.destination);   /* mute: after the analyser, so the field still hears it */
+    AUD.bus.connect(AUD.an);AUD.mg=c.createGain();AUD.mg.gain.value=AUD.muted?0:1;AUD.vol.connect(AUD.mg);AUD.mg.connect(c.destination);AUD.outAn=c.createAnalyser();AUD.outAn.fftSize=2048;AUD.mg.connect(AUD.outAn);   /* mute: after the analyser, so the field still hears it */
     /* WETNESS (Dimitry, 18 Oct): one reverb on everything that plays, after the analyser so the field reads the dry sound.
        The room is made here: two seconds of noise, decaying, a little different left and right. */
     {const L=Math.round(c.sampleRate*2.4),ir=c.createBuffer(2,L,c.sampleRate);for(let k=0;k<2;k++){const d=ir.getChannelData(k);for(let i=0;i<L;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/L,3.2)}
@@ -4180,8 +4181,18 @@ function renderMix(){const b=$('mixBody');if(!b)return;b.innerHTML='';
         const x=document.createElement('button');x.type='button';x.textContent=l;x.title=a;x.setAttribute('aria-pressed',String(MIX.voice===v));x.onclick=()=>{MIX.voice=v;mixSave();renderMix();if(AUD.mic&&!AUD.mic.cam)startMic()};sg.appendChild(x)}
       m.append(sel,sg);row.appendChild(m)}
     b.appendChild(row)}
+  { /* MASTER: the overall volume (the same as dragging on the speaker) and mute (the same as the shelf's): the field
+       keeps hearing everything; this is only what reaches your ears and a video */
+    const row=document.createElement('div');row.className='mxCh mxMaster';row.dataset.k='master';
+    const nm=document.createElement('span');nm.className='nm';nm.innerHTML='master<small></small>';nm.querySelector('small').textContent=AUD.muted?'muted':'volume';
+    const vol=$('audVol'),mx=+vol.max||1,r=document.createElement('input');r.type='range';r.min=0;r.max=100;r.step=1;r.value=Math.round(+vol.value/mx*100);r.setAttribute('aria-label','Master volume');
+    const wv=document.createElement('div');wv.className='mxWave';const cv2=document.createElement('canvas');cv2.setAttribute('aria-hidden','true');wv.append(cv2,r);
+    const pc=document.createElement('span');pc.className='pct';pc.textContent=r.value+'%';
+    r.oninput=()=>{vol.value=(+r.value/100*mx).toFixed(2);vol.dispatchEvent(new Event('input'));pc.textContent=r.value+'%'};
+    const m=document.createElement('button');m.type='button';m.className='mb m';m.textContent='M';m.setAttribute('aria-pressed',String(!!AUD.muted));m.setAttribute('aria-label','Mute everything you hear; the field keeps moving');m.onclick=()=>{setMute(!AUD.muted);renderMix()};
+    const sp=document.createElement('span');row.append(nm,wv,m,sp,pc);b.appendChild(row)}
   const n=document.createElement('p');n.className='mxNote';n.textContent='The field follows the mix as set here. The microphone is never played aloud: its level is how much it moves the field and how much of it a video holds.';b.appendChild(n)}
-function mixSync(){const b=$('mixBody');if(!b||$('mixPop').hidden)return;b.querySelectorAll('.mxCh').forEach(r=>{const k=r.dataset.k;r.classList.toggle('idle',!chSrc(k));const sm=r.querySelector('.nm small');if(sm)sm.textContent=chName(k)})}
+function mixSync(){const b=$('mixBody');if(!b||$('mixPop').hidden)return;b.querySelectorAll('.mxCh:not(.mxMaster)').forEach(r=>{const k=r.dataset.k;r.classList.toggle('idle',!chSrc(k));const sm=r.querySelector('.nm small');if(sm)sm.textContent=chName(k)})}
 /* each channel's sound, drawn live behind its slider: the wave as it leaves the channel (after level, mute and solo),
    the level's share of the track tinted (Dimitry, 18 Oct) */
 let MXRAF=0;const MXBUF=new Uint8Array(2048);
@@ -4189,9 +4200,9 @@ function mixDraw(){MXRAF=0;const pop=$('mixPop');if(!pop||pop.hidden)return;
   pop.querySelectorAll('.mxCh').forEach(row=>{const k=row.dataset.k,cv=row.querySelector('.mxWave canvas');if(!cv)return;
     const w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1);if(!w||!h)return;
     if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
-    const v=MIX[k].v,on=!!chSrc(k),eff=mixEff(k);
+    const ms=k==='master',vv=$('audVol'),v=ms?(+vv.value/(+vv.max||1)):MIX[k].v,on=ms?AUD.src!=='off':!!chSrc(k),eff=ms?(AUD.muted?0:v):mixEff(k);
     g.fillStyle='rgba(85,184,201,'+(eff>0?.16:.06)+')';g.beginPath();g.roundRect?g.roundRect(0,2,w*v,h-4,6):g.rect(0,2,w*v,h-4);g.fill();
-    const a=AUD.chAn&&AUD.chAn[k];g.strokeStyle=on&&eff>0?'rgba(85,184,201,.95)':'rgba(140,150,153,.45)';g.lineWidth=1.4;g.beginPath();
+    const a=ms?AUD.outAn:AUD.chAn&&AUD.chAn[k];g.strokeStyle=on&&eff>0?'rgba(85,184,201,.95)':'rgba(140,150,153,.45)';g.lineWidth=1.4;g.beginPath();
     if(a&&on){a.getByteTimeDomainData(MXBUF);const n=MXBUF.length;for(let i=0;i<n;i+=4){const x=i/(n-1)*w,y=h/2+((MXBUF[i]-128)/128)*(h/2-3)*Math.min(3,1/Math.max(.2,k==='mic'?1.6*eff:eff||1));i?g.lineTo(x,y):g.moveTo(x,y)}}
     else{g.moveTo(0,h/2);g.lineTo(w,h/2)}
     g.stroke()});
@@ -4202,7 +4213,7 @@ $('mixClose').onclick=closeMix;
 document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#sdMix,#shelfSnd,#pSnd'))return;closeMix()},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden)closeMix()});
 function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
-  try{syncAud()}catch(_){}syncSndShelf();toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
+  try{syncAud()}catch(_){}syncSndShelf();try{if(!$('mixPop').hidden)renderMix()}catch(_){}toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
   {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(isOn(b.dataset.src))));
@@ -4835,10 +4846,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019035656"></script>
-<script src="surface/links.js?v=20261019035656"></script>
-<script src="surface/tips.js?v=20261019035656"></script>
-<script src="surface/sections.js?v=20261019035656"></script>
+<script src="surface/install.js?v=20261019040230"></script>
+<script src="surface/links.js?v=20261019040230"></script>
+<script src="surface/tips.js?v=20261019040230"></script>
+<script src="surface/sections.js?v=20261019040230"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5070,7 +5081,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.1';
+const APP_VERSION='0.17.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
