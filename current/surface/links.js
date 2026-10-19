@@ -32,6 +32,7 @@
   function go(name) {
     if (!name) return false;
     api.opened = name;   // a link was followed this visit (hints.js stands aside)
+    try { if (window.SurfaceSections && SurfaceSections.show) SurfaceSections.show(name); } catch (_) {}   // a hidden section shows first (19 Oct 2026)
     var f = O.names[name];
     if (typeof f === "function") { try { f(); } catch (e) { console.warn("link " + name, e); } return true; }
     var el = document.getElementById(name);
@@ -49,7 +50,8 @@
     while (p && p !== document.body && p !== document.documentElement) {
       var o = getComputedStyle(p).overflowY;
       if ((o === "auto" || o === "scroll") && p.scrollHeight > p.clientHeight + 1) {
-        var top = p.scrollTop + el.getBoundingClientRect().top - p.getBoundingClientRect().top - 8;
+        var pad = parseFloat(getComputedStyle(p).scrollPaddingTop) || 0;   /* a header drawn over the panel's top: the panel says so with scroll-padding-top (19 Oct 2026) */
+        var top = p.scrollTop + el.getBoundingClientRect().top - p.getBoundingClientRect().top - 8 - pad;
         try { p.scrollTo({ top: Math.max(0, top), behavior: smooth ? "smooth" : "auto" }); } catch (_) { p.scrollTop = Math.max(0, top); }
         break;
       }

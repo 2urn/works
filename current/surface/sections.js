@@ -12,7 +12,12 @@
      so a few working sections can stay in view while everything else is put away.
    - LESS TEXT: hides the explanations (intros, notes, descriptions, lesson text) and keeps the headings and every
      control, so someone who knows the text sees only the tools.
-   - Everything is remembered on the device: the order, which sections are folded or kept, focus and less text.
+   - HIDE (Dimitry, 19 Oct): the crossed eye on a header hides that section from the column. What is hidden is listed
+     where the tool puts SurfaceSections.controls(host) (Current: Settings), one tap to bring each back, and show all.
+     Sections in "always" cannot be hidden (Current: the Guide, so nobody loses the way in); fixed sections (Settings,
+     the colophon) neither. A tool can also hide a section by itself while something holds ("auto": Current hides Install
+     inside the installed app); the person can still bring it back. A deep link to a hidden section shows it first.
+   - Everything is remembered on the device: the order, which sections are folded, kept or hidden, focus and less text.
      "Reset" returns the order the tool shipped with.
 
    Markup it expects (the Codex list's own): sections with a header button and a body —
@@ -35,9 +40,14 @@
                                         //   section and every row inside them shut, so the index arrives as a short
                                         //   menu; focus: one at a time on. Someone who has arranged it keeps theirs.
        briefScope: '#panel',            // optional: where LESS TEXT applies, if wider than root
-       links: [{label, aria, run}]      // optional: the tool's own jumps in the toolbar (Current: licenses)
+       links: [{label, aria, run}],     // optional: the tool's own jumps in the toolbar (Current: licenses)
+       always: '#guide',                // optional: sections that can never be hidden
+       auto: { install: () => bool }    // optional: sections hidden by the tool itself while the test holds
+
      })
-   API: SurfaceSections.open(id) opens one section (respecting focus) and returns it. */
+   API: SurfaceSections.open(id) opens one section (respecting focus, and showing it if hidden) and returns it.
+        SurfaceSections.show(id) / hide(id) / showAll() / hidden() → [{id, name, auto}]
+        SurfaceSections.controls(host) → the hidden list, as a Settings row (classes dsp-row, dsp-lab: the index's own) */
 (function () {
   'use strict';
   const PROSE = '.cx-lead,.cx-body>p:not(.cx-acts):not(:has(a,button,input)),.cx-body dd,.cx-body .lp,.note,.sfs-prose';   // a paragraph holding a link or a control is a tool, not prose (Contact)
@@ -55,7 +65,16 @@
 .sfs-bar button:focus-visible,.sfs-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
 @media (pointer:coarse){.sfs-bar button{width:44px;height:44px}}
 .sfs-root>.sfs-sec{position:relative;border-top:2px solid var(--fg,#eef1f2)}
-.sfs-root>.sfs-sec>.cx-grpbtn{padding-right:88px}
+.sfs-root>.sfs-sec>.cx-grpbtn{padding-right:88px}.sfs-root>.sfs-sec.sfs-can>.cx-grpbtn{padding-right:128px}
+.sfs-gone{display:none!important}
+.sfs-hide{position:absolute;top:0;right:74px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.45;-webkit-tap-highlight-color:transparent}
+.sfs-hide:hover,.sfs-hide:focus-visible{opacity:1;color:var(--fg,#eef1f2)}.sfs-hide:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
+@media (hover:none){.sfs-hide{opacity:.7}}
+.sfs-hide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sfs-hlist{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;flex:1}
+.sfs-hlist button{min-height:36px;padding:0;border:0;background:none;cursor:pointer;color:var(--fg,#eef1f2);font:500 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
+.sfs-hlist button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sfs-hlist .sfs-all{color:var(--accent,#55b8c9)}.sfs-hlist em{font:400 12px/1.4 var(--sans,inherit);font-style:normal;color:var(--muted,#8a9396);letter-spacing:0;text-transform:none}
 .sfs-keep{position:absolute;top:0;right:34px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.55;font-size:16px;-webkit-tap-highlight-color:transparent}
 .sfs-keep:hover{opacity:1;color:var(--fg,#eef1f2)}.sfs-keep[aria-pressed="true"]{opacity:1;color:var(--accent,#55b8c9)}
 .sfs-keep:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px;opacity:1}
@@ -80,6 +99,8 @@
 @media (prefers-reduced-motion:reduce){.sfs-root.sfs-dragging>.sfs-sec{transition:none!important}}`;
   const GRIP = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="5.5" cy="3.5" r="1.4"/><circle cx="10.5" cy="3.5" r="1.4"/><circle cx="5.5" cy="8" r="1.4"/><circle cx="10.5" cy="8" r="1.4"/><circle cx="5.5" cy="12.5" r="1.4"/><circle cx="10.5" cy="12.5" r="1.4"/></svg>';
   const ROOTS = [];
+  const EYE_OFF = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12s3.3-6 9-6c1.6 0 3 .5 4.2 1.2M21 12s-3.3 6-9 6c-1.6 0-3-.5-4.2-1.2"/><path d="M9.9 14.1a3 3 0 0 1 4.2-4.2"/><path d="M4 20 20 4"/></svg>';
+  const EYE = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12s3.3-6 9-6 9 6 9 6-3.3 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.8"/></svg>';
 
   function load(k) { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -119,12 +140,25 @@
 
     const setShut = (s, shut) => { s.classList.toggle('cx-shut', shut); const b = s.querySelector(':scope>.cx-grpbtn'); if (b) b.setAttribute('aria-expanded', String(!shut)); };
     const persist = () => { st.order = movable().map(s => s.id); st.shut = secs().filter(s => s.classList.contains('cx-shut')).map(s => s.id); save(KEY, st); sync(); };
+    function hideSec(id) { const s = document.getElementById(id); if (!s || !canHide(s)) return false; st.hidden = (st.hidden || []).filter(x => x !== id).concat(id); persist(); paintHidden(); say(nameOf(s) + ' hidden. Bring it back in Settings'); return true; }
+    function showSec(id) { const s = document.getElementById(id); if (!s || secs().indexOf(s) < 0) return false; const was = isHidden(s); st.hidden = (st.hidden || []).filter(x => x !== id); shownAuto[id] = 1; persist(); paintHidden(); if (was) say(nameOf(s) + ' shown'); return was; }
+    function hiddenList() { return secs().filter(s => canHide(s) && isHidden(s)).map(s => ({ id: s.id, name: nameOf(s), auto: (st.hidden || []).indexOf(s.id) < 0 })); }
     if (Array.isArray(st.shut)) for (const s of secs()) setShut(s, st.shut.indexOf(s.id) >= 0);
     else if (o.start && o.start.folded) for (const s of secs()) {
       setShut(s, true);
       s.querySelectorAll('.cx-row').forEach(r => { r.classList.add('cx-shut'); const g = r.querySelector(':scope>.cx-go'); if (g) g.setAttribute('aria-expanded', 'false'); });
     }
     if (st.focus === undefined && o.start && o.start.focus) st.focus = true;
+
+    /* hiding: st.hidden is what the person hid; auto is what the tool hides while its test holds, unless the person
+       brought it back this visit (shownAuto) */
+    const always = s => !!(o.always && s.matches(o.always));
+    const canHide = s => !isFixed(s) && !always(s);
+    const shownAuto = {};
+    const autoOn = id => { const f = o.auto && o.auto[id]; try { return !!(f && f() && !shownAuto[id]); } catch (e) { return false; } };
+    const isHidden = s => (st.hidden || []).indexOf(s.id) >= 0 || autoOn(s.id);
+    const paintHidden = () => { for (const s of secs()) s.classList.toggle('sfs-gone', canHide(s) && isHidden(s)); HL.forEach(f => f()); };
+    const HL = [];
 
     /* the toolbar */
     const bar = document.createElement('div'); bar.className = 'sfs-bar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', o.label + ': sections');
@@ -201,6 +235,17 @@
       syncK(); s.insertBefore(k, s.querySelector(':scope>.sfs-grip') || null);
     }
 
+    /* the crossed eye, on every section that may be hidden */
+    for (const s of secs()) {
+      if (!canHide(s)) continue;
+      s.classList.add('sfs-can');
+      const h = document.createElement('button'); h.type = 'button'; h.className = 'sfs-hide'; h.innerHTML = EYE_OFF;
+      h.setAttribute('aria-label', 'Hide ' + nameOf(s) + '. Bring it back in Settings'); h.title = 'Hide ' + nameOf(s);
+      h.onclick = () => { const next = s.nextElementSibling; hideSec(s.id); const f = next && next.querySelector && next.querySelector(':scope>.cx-grpbtn'); if (f) f.focus({ preventScroll: true }); };
+      s.insertBefore(h, s.querySelector(':scope>.sfs-keep') || null);
+    }
+    paintHidden();
+
     /* drag: fold everything to its header, let the section follow the pointer, swap as it passes a neighbour's middle */
     function drag(e, s, g) {
       if (e.button > 0) return;
@@ -244,11 +289,32 @@
 
     const api = {
       root,
-      open(id) { const s = document.getElementById(id); if (!s) return null; setShut(s, false); if (st.focus) secs().forEach(x => { if (x !== s && !kept(x)) setShut(x, true); }); persist(); return s; },
+      show: showSec, hide: hideSec, hidden: hiddenList,
+      showAll() { const l = hiddenList(); l.forEach(x => { shownAuto[x.id] = 1; }); st.hidden = []; persist(); paintHidden(); if (l.length) say('Every section shown'); return l.length; },
+      owns: id => { const s = document.getElementById(id); return !!s && secs().indexOf(s) >= 0; },
+      controls(host, opts) {
+        const h = typeof host === 'string' ? document.querySelector(host) : host; if (!h) return null; opts = opts || {};
+        const row = document.createElement('div'); row.className = 'dsp-row sfs-hrow'; row.dataset.row = 'hidden';
+        row.innerHTML = '<span class="dsp-lab" id="sfs-hlab">' + (opts.label || 'Hidden') + '</span><div class="sfs-hlist" role="group" aria-labelledby="sfs-hlab"></div>';
+        const list = row.querySelector('.sfs-hlist');
+        const paint = () => { const l = hiddenList(); list.innerHTML = '';
+          if (!l.length) { const e = document.createElement('em'); e.textContent = opts.none || 'Nothing hidden. The crossed eye on a section hides it.'; list.appendChild(e); return; }
+          l.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = EYE + '<span></span>'; b.lastChild.textContent = x.name + (x.auto && opts.autoNote ? ' ' + opts.autoNote(x.id) : '');
+            b.setAttribute('aria-label', 'Show ' + x.name + ' again'); b.title = 'Show ' + x.name; b.onclick = () => showSec(x.id); list.appendChild(b); });
+          if (l.length > 1) { const a = document.createElement('button'); a.type = 'button'; a.className = 'sfs-all'; a.textContent = 'show all'; a.setAttribute('aria-label', 'Show every hidden section'); a.onclick = () => api.showAll(); list.appendChild(a); } };
+        HL.push(paint); paint();
+        h.insertBefore(row, opts.before || null); return row;
+      },
+      open(id) { const s = document.getElementById(id); if (!s) return null; if (secs().indexOf(s) >= 0 && isHidden(s)) showSec(id); setShut(s, false); if (st.focus) secs().forEach(x => { if (x !== s && !kept(x)) setShut(x, true); }); persist(); return s; },
       state: () => JSON.parse(JSON.stringify(st))
     };
     ROOTS.push(api); sync();
     return api;
   }
-  window.SurfaceSections = { mount, open: id => { for (const r of ROOTS) { const s = r.open(id); if (s) return s; } return null; } };
+  window.SurfaceSections = { mount, open: id => { for (const r of ROOTS) { const s = r.open(id); if (s) return s; } return null; },
+    show: id => { for (const r of ROOTS) if (r.owns(id)) return r.show(id); return false; },
+    hide: id => { for (const r of ROOTS) if (r.owns(id)) return r.hide(id); return false; },
+    showAll: () => ROOTS.reduce((n, r) => n + r.showAll(), 0),
+    hidden: () => ROOTS.flatMap(r => r.hidden()),
+    controls: (host, opts) => ROOTS[0] ? ROOTS[0].controls(host, opts) : null };
 })();

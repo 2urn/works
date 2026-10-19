@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019053622";window.__VERSION__="0.17.14";window.__NOTES__=[{"v":"0.17.14","date":"19 Oct 2026","items":[{"kind":"change","text":"panels and sections glide over 0.6 s, slow enough to see"}]}]</script>
+<script>window.__BUILD__="20261019141438";window.__VERSION__="0.20.0";window.__NOTES__=[{"v":"0.20.0","date":"19 Oct 2026","items":[{"kind":"new","text":"Paths in color: each path has its own, on its number in the index and on the controls it teaches"},{"kind":"new","text":"the path numbers on the bar sit under their buttons, in one line; tap one for the path, its next step, and take me there"},{"kind":"new","text":"every step in Paths ends with a link that takes you to the control that does it"},{"kind":"change","text":"steps are circles: empty until done, filled once done"},{"kind":"new","text":"suggestions: the next steps on your paths when you come back, and your progress under the duck-rabbit on the cover; Settings › Suggestions turns them off"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019053622"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019053622">
+<script src="claude-web.js?v=20261019141438"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019141438">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019053622"></script>
-<script src="surface/auto.js?v=20261019053622"></script>
-<script src="surface/toolpath.js?v=20261019053622"></script>
-<script src="surface/capture.js?v=20261019053622"></script>
-<script src="surface/pop.js?v=20261019053622"></script>
-<script src="surface/hints.js?v=20261019053622"></script>
-<script src="surface/keys.js?v=20261019053622"></script>
-<script src="surface/reset.js?v=20261019053622"></script>
+<script src="vendor/opentype.min.js?v=20261019141438"></script>
+<script src="surface/auto.js?v=20261019141438"></script>
+<script src="surface/toolpath.js?v=20261019141438"></script>
+<script src="surface/capture.js?v=20261019141438"></script>
+<script src="surface/pop.js?v=20261019141438"></script>
+<script src="surface/hints.js?v=20261019141438"></script>
+<script src="surface/paths.js?v=20261019141438"></script>
+<script src="surface/keys.js?v=20261019141438"></script>
+<script src="surface/reset.js?v=20261019141438"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -208,7 +209,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-body{position:absolute;inset:0;display:grid;grid-template-rows:minmax(0,1fr) auto minmax(0,1fr);justify-items:center;padding:0 16px;transition:opacity .7s ease,filter .7s ease,transform 1.1s ease}
 /* the title holds the exact vertical centre; the mark sits above it and the duck-rabbit below, each the same distance away */
 .lc-above{align-self:end;padding-bottom:clamp(18px,4.5vh,40px);display:flex;justify-content:center}
-.lc-below{align-self:start;padding-top:clamp(20px,5vh,44px);display:flex;justify-content:center}
+.lc-below{align-self:start;padding-top:clamp(20px,5vh,44px);display:flex;flex-direction:column;align-items:center}#launch.going .sp-cover{opacity:0}
 .lc-above .lc-mark{height:clamp(30px,6.5vh,60px);color:#fff;filter:drop-shadow(0 1px 6px rgba(0,0,0,.35))}
 .lc-duck{position:relative;display:block;height:clamp(40px,9vh,74px);aspect-ratio:504.8/568.09}
 .lc-duck svg,.lc-duck img{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -342,7 +343,7 @@ body:not(.player) #dscMark{opacity:0}
 .colo-lic section details>summary{font-weight:600;color:var(--fg)}
 .colo-lic pre{margin:4px 0 8px;white-space:pre-wrap;font:400 10.5px/1.45 var(--mono);color:var(--muted)}
 /* the player: the drawer carries the colophon only, open */
-#panel{padding-top:calc(var(--gut) + var(--nmh) + 14px + env(safe-area-inset-top,0px));padding-right:var(--gut)}
+#panel{padding-top:calc(var(--gut) + var(--nmh) + 14px + env(safe-area-inset-top,0px));padding-right:var(--gut);scroll-padding-top:calc(var(--gut) + var(--nmh) + 14px + env(safe-area-inset-top,0px))}
 /* THE DRAWER'S SCROLLBAR (Dimitry, 18 Oct). Two things. The gutter is reserved before the bar exists, so folding the
    index short and opening it long never shifts the column sideways (stable: it only reserves where the system draws a
    classic bar; overlay bars, as on phones and a trackpad Mac, take no room and none is held). And the bar is the
@@ -1069,6 +1070,29 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
 .bbBox{display:flex;flex-direction:column;gap:8px;padding:2px 0 8px}
 .cx-grp.cx-shut>.bbBox{display:none}
 #bbMsg.bad{color:var(--path)}
+/* BYTEBEAT, 0.18 (Dimitry, 19 Oct): one box, two views. Typing shows the letters; away from the box it shows the numbers
+   the sliders are feeding it, in the accent, fixed-width so the line never jitters. Mode and clock sit above it. */
+.bbWrap{position:relative}
+#bbLive{position:absolute;inset:0;margin:0;padding:8px;border:1px solid var(--line);box-sizing:border-box;background:var(--bg);color:var(--fg);font:11.5px/1.5 var(--mono);font-variant-numeric:tabular-nums;white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none}
+#bbLive[hidden]{display:none}#bbLive b{color:var(--accent);font-weight:inherit}#bbLive i{display:block;font-style:normal;color:var(--muted);margin-top:4px}
+.bbOpts{display:flex;flex-direction:column;gap:2px}
+.bbOpt{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px}
+.bbOpt>span{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.bbOpt .modes button{padding:4px 6px}
+.bbMine{display:flex;flex-direction:column;gap:0}
+.bbMineHd{display:flex;align-items:center;gap:4px;margin-top:4px}
+.bbMineHd>span{flex:1;font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.bbIco{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0;color:var(--muted);cursor:pointer;border-radius:0}
+.bbIco:hover,.bbIco[aria-pressed="true"]{color:var(--fg)}.bbIco[aria-pressed="true"]{color:var(--accent)}
+.bbIco svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bbIco.pl svg{fill:currentColor;stroke:none}
+.bbRowF{display:grid;grid-template-columns:30px minmax(0,1fr) auto 30px 30px;align-items:center;border-top:1px solid var(--line)}
+.bbRowF:last-child{border-bottom:1px solid var(--line)}
+.bbRowF .nm{font:12px var(--sans);color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 4px;outline:none;cursor:pointer}
+.bbRowF .nm[contenteditable="true"]{cursor:text;white-space:normal;box-shadow:inset 0 -1px 0 var(--accent)}
+.bbRowF .tg{font:10px var(--mono);color:var(--muted);padding:0 4px}
+.bbRowF.on .nm{color:var(--accent)}
+.bbEmpty{font-size:12px;color:var(--muted);margin:2px 0}
 /* mapping */
 .maps{display:flex;flex-direction:column;gap:8px}
 .map{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr) 26px;gap:6px;align-items:center}
@@ -1080,6 +1104,10 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
 
 @media (pointer:coarse){input:not([type=range]):not([type=checkbox]):not([type=color]),select,textarea{font-size:16px!important}}
 @media (pointer:coarse){.presets button{padding:11px 10px}.modes button{padding:8px 10px}.mb{height:30px}}
+/* Paths badges: inside the tool chips, which scroll in a masked track */
+#pickTrack .sp-b{top:2px;right:2px}
+/* the preset pill clipped its corners with overflow:hidden, which cut its Paths badge; the end buttons carry the rounding instead, so the badge hangs outside like every other */
+body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999px 0 0 999px}body #pTrans>button:last-of-type{border-radius:0 999px 999px 0}#playbar{--sp-acc:var(--accent)}:root{--sp-acc:#1f7a8c}
 </style>
 
 <div class="app">
@@ -1104,10 +1132,16 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
       <section class="cx-grp" id="soundGuide"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="soundL"><span>Sound</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="soundL"><p class="cx-lead">What plays, how it moves the field, and a short lesson for each piece of music: tap a lesson to open it, <b style="color:var(--accent)">play</b> to hear it, and <b style="color:var(--accent)">try</b> to hear a variation (it goes into your Bytebeat box).</p><ol class="cx-list"><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>01</i><span>How sound moves the field</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Two sounds can play at once: in the sound shelf, <b>mix</b> puts a beat under the sound and blends the two, and the field hears both. <b>Wet</b> adds room around everything you hear; the field still listens to the dry sound, so wetness changes the sound, not the motion.</p><p>Whatever plays is listened to and split into five signals: <b>bass</b> (30 to 150 Hz), <b>mid</b> (150 to 2,000 Hz), <b>high</b> (2,000 to 12,000 Hz), <b>level</b> (all three together) and <b>beat</b> (a sudden jump in the bass). Each rests at zero and rises with the sound.</p><p>A look that has no sound links of its own still answers: louder makes the particles faster, and each beat makes the field stronger for a moment. Looks with their own links (the Beat and Byte looks) say exactly what moves what.</p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>02</i><span>Beats</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Five drum patterns, synthesized here (no recordings): a kick, a snare, a closed hat and a bass note on a grid of sixteen steps to the bar.</p><dl><dt>four</dt><dd>Four on the floor, 120 bpm: a kick on every beat, the snare on two and four, hats between. The steadiest pulse; best for <b>beat</b>.</dd><dt>broken</dt><dd>Broken 96: the kick lands off the beat, so the field lurches instead of pumping.</dd><dt>half</dt><dd>Halftime 70: the snare only on three. Slow, heavy, lots of space.</dd><dt>fibo</dt><dd>Fibonacci 110: kicks on steps 1, 2, 3, 5, 8 and 13, so the gaps grow 1, 1, 2, 3, 5. Hats on every step, so <b>high</b> never rests.</dd><dt>pulse</dt><dd>Pulse 60: one kick a bar and one hat. Almost silence; each event reads clearly in the field.</dd></dl><p class="cx-acts"><button type="button" class="cx-play" data-snd="Four on the floor">play four</button><button type="button" class="cx-play" data-snd="Fibonacci 110">play fibo</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>03</i><span>What a bytebeat is</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>A bytebeat is a whole piece of music written as one line of arithmetic. A counter, <b>t</b>, goes up 8,000 times a second. The formula turns each value of t into a number, and the last eight bits of that number (0 to 255) are the height of the sound wave at that instant. Nothing is recorded and nothing is sequenced: rhythm, melody and texture all fall out of the arithmetic.</p><p>Three moves do most of the work. <b>Shifting</b> slows a counter down: <code>t&gt;&gt;10</code> goes up by one every 1,024 steps, about every 0.13 seconds, so it counts musical steps. <b>Multiplying</b> raises the pitch: <code>t*m</code> is a buzzy sawtooth at 31.25 &times; m Hz. <b>Masking</b> with <code>&amp;</code> keeps only some bits, which switches notes on and off.</p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>04</i><span>Melody from a mask: 42 and ladder</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><code>t*(42&amp;t&gt;&gt;10)</code> The step counter <code>t&gt;&gt;10</code> is masked by 42 (binary 101010), so the multiplier walks through 0, 2, 8, 10, 32, 34, 40 and 42: silences, low notes and high notes, in a fixed order that repeats every 64 steps (about 8 seconds). That is why it sounds composed. Called the 42 melody; at least three people found it on their own.</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte 42">play 42</button><button type="button" class="cx-try" data-fx="t*(42&amp;t&gt;&gt;11)">try t*(42&amp;t&gt;&gt;11)</button><button type="button" class="cx-try" data-fx="t*(85&amp;t&gt;&gt;10)">try t*(85&amp;t&gt;&gt;10)</button></p><p><code>t*((t&gt;&gt;12|t&gt;&gt;8)&amp;(n*7)&amp;t&gt;&gt;4)</code> A slow counter (every half second) and a faster one (every 32 ms) are combined with <code>|</code> to make the steps of the ladder. Masking with <code>t&gt;&gt;4</code>, which flickers every 2 ms, makes each note buzz like a fast arpeggio. <b>n</b> decides which bits may sound: n&nbsp;9 gives 63, every note; n&nbsp;1 gives 7, only the low ones.</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte ladder">play ladder</button><button type="button" class="cx-try" data-fx="t*((t&gt;&gt;12|t&gt;&gt;8)&amp;7&amp;t&gt;&gt;4)">try t*((t&gt;&gt;12|t&gt;&gt;8)&amp;7&amp;t&gt;&gt;4)</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>05</i><span>Self-similar patterns: fractal and weave</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><code>t&amp;t&gt;&gt;8</code> The slow part of the counter masks the fast part, so bits of a ramp get through only when the slow bits allow. The pattern repeats inside itself at every scale; drawn as a picture it is a Sierpi&#324;ski triangle, which is why these are called Sierpi&#324;ski harmonies. One cycle lasts about 8 seconds.</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte fractal">play fractal</button><button type="button" class="cx-try" data-fx="t&amp;t&gt;&gt;7">try t&amp;t&gt;&gt;7</button><button type="button" class="cx-try" data-fx="t*3&amp;t&gt;&gt;8">try t*3&amp;t&gt;&gt;8</button></p><p><code>t&amp;t&gt;&gt;((l&gt;&gt;1)+5)|t*2&amp;t&gt;&gt;(o+5)</code> Two fractal layers, the second an octave up (<code>t*2</code>), laid over each other with <code>|</code>. <b>l</b> sets how slowly the first layer unfolds and <b>o</b> the second; when they differ, the two patterns drift against each other like threads in a weave.</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte weave">play weave</button><button type="button" class="cx-try" data-fx="t&amp;t&gt;&gt;9|t*2&amp;t&gt;&gt;8|t*3&amp;t&gt;&gt;10">try t&amp;t&gt;&gt;9|t*2&amp;t&gt;&gt;8|t*3&amp;t&gt;&gt;10</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>06</i><span>Harmony: chord</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><code>t*2&amp;t&gt;&gt;9|t*3&amp;t&gt;&gt;8|t*(p+2)&amp;t&gt;&gt;10</code> Three voices at pitches in the ratio 2 : 3 : p+2. With p at 2 that is 2 : 3 : 4, an octave and a fifth: open, like a power chord. Each voice is gated by a counter of a different speed, so they enter on different rhythms and the chord keeps re-voicing itself. Move <b>p</b>: 3 gives 5 (a major third), 4 gives 6, 5 gives 7 (the bluesy seventh of the harmonic series).</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte chord">play chord</button><button type="button" class="cx-try" data-fx="t*2&amp;t&gt;&gt;9|t*3&amp;t&gt;&gt;8|t*5&amp;t&gt;&gt;10">try t*2&amp;t&gt;&gt;9|t*3&amp;t&gt;&gt;8|t*5&amp;t&gt;&gt;10</button><button type="button" class="cx-try" data-fx="t*2&amp;t&gt;&gt;9|t*3&amp;t&gt;&gt;8|t*7&amp;t&gt;&gt;10">try t*2&amp;t&gt;&gt;9|t*3&amp;t&gt;&gt;8|t*7&amp;t&gt;&gt;10</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>07</i><span>Counting rhythm: tide</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p><code>t*(((t&gt;&gt;9)^((t&gt;&gt;9)-1)^1)%(n+3))</code> Here the step counter (every 64 ms) is compared with the step before it. That comparison is small on most steps and grows on every second, fourth, eighth and sixteenth step, like the marks on a ruler, so accents arrive in waves of doubling size: a tide. <code>%</code> folds the result into n+3 values, so <b>n</b> picks which notes the waves land on. Every other step is silent, which gives it its pulse.</p><p class="cx-acts"><button type="button" class="cx-play" data-snd="Byte tide">play tide</button><button type="button" class="cx-try" data-fx="t*(((t&gt;&gt;9)^((t&gt;&gt;9)-1)^1)%13)">try t*(((t&gt;&gt;9)^((t&gt;&gt;9)-1)^1)%13)</button><button type="button" class="cx-try" data-fx="t*(((t&gt;&gt;10)^((t&gt;&gt;10)-1)^1)%7)">try t*(((t&gt;&gt;10)^((t&gt;&gt;10)-1)^1)%7)</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>08</i><span>The letters, and your fingers</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>In the drawer, under Bytebeat, the letters <b>n, l, o, p</b> and the <b>rate</b> are sliders. Change one and the playing song changes at once. Each has its <b>Auto</b> mark (a half wave with a dot) at the end of the row: give it a shape (sine, triangle, random steps…) and it moves by itself between a low and a high you set; or give it <b>x</b> or <b>y</b> and your finger plays it. While Auto runs, the slider's knob goes hollow, a band shows where it moves and a dot rides along.</p><dl><dt>x</dt><dd>Where your finger is across the screen: nothing at the left edge, all the way at the right.</dd><dt>y</dt><dd>How high your finger is: nothing at the bottom, all the way at the top.</dd><dt>touch</dt><dd>How fast your finger moves.</dd></dl><p>The four Byte looks are played by your fingers already: drag across the screen to move the letters and up for the rate; lift and the song settles back. (Fingers paint direction instead while steer is on.)</p><p class="cx-acts"><button type="button" class="cx-play" data-look="Byte: Ladder Climb">play the look ladder climb</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>09</i><span>Write your own</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Hold the speaker and tap <b>write</b> (or open the drawer to Bytebeat) and type in the box; Ctrl/&#8984;+Enter or Play formula. While yours plays, playing again swaps it without stopping the clock, so you can change it as it runs. Yours is kept on this device.</p><dl><dt>t</dt><dd>The counter, 8,000 a second.</dd><dt>&gt;&gt; k</dt><dd>Slower by half, k times over. &gt;&gt;10 is about a step; &gt;&gt;13 about a second.</dd><dt>* m</dt><dd>Higher by m.</dd><dt>&amp;</dt><dd>Keep only the shared bits: gates, rhythm.</dd><dt>|</dt><dd>Either: layers.</dd><dt>^</dt><dd>One or the other: odd, glassy mixes.</dd><dt>% k</dt><dd>Fold into k values: a scale, a loop.</dd><dt>n l o p</dt><dd>The sliders. a b c are 4.</dd></dl><p class="cx-acts"><button type="button" class="cx-try" data-fx="t*(t&gt;&gt;10&amp;5)">try t*(t&gt;&gt;10&amp;5)</button><button type="button" class="cx-try" data-fx="t*5&amp;t&gt;&gt;7|t*3&amp;t&gt;&gt;10">try t*5&amp;t&gt;&gt;7|t*3&amp;t&gt;&gt;10</button><button type="button" class="cx-try" data-fx="t*(t&gt;&gt;9&amp;3|t&gt;&gt;12&amp;5)">try t*(t&gt;&gt;9&amp;3|t&gt;&gt;12&amp;5)</button></p></div></li><li class="cx-row cx-shut"><button type="button" class="cx-go" aria-expanded="false"><i>10</i><span>Where it comes from</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Bytebeat was set off in September 2011 by viznut (Ville-Matias Heikkil&auml;), with a video of seven one-line C programs, and grew in the communities that took them up. He wrote it up that December in <a href="https://arxiv.org/abs/1112.1368" target="_blank" rel="noopener">Discovering novel computer music techniques by exploring the space of short computer programs</a>, which also tells how the 42 melody was found separately by at least three people, and why <code>t&amp;t&gt;&gt;8</code> and its relatives are called Sierpi&#324;ski harmonies.</p><p>The engine here, and the ladder, weave, chord and tide formulas, come from <b>Bytebeat Reef</b>, a sister instrument in this studio. The five beats are written for Current.</p></div></li></ol></div></section>
     <section class="cx-grp bbgrp" id="bbGroup"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="bbL"><span>Bytebeat</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="cx-gbody bbBox" id="bbL">
+        <div class="bbOpts">
+          <div class="bbOpt"><span id="bbModeL">Mode</span><div class="modes" id="bbMode" role="group" aria-labelledby="bbModeL"></div></div>
+          <div class="bbOpt"><span id="bbHzL">Clock</span><div class="modes" id="bbHz" role="group" aria-labelledby="bbHzL"></div></div>
+          <div class="bbOpt"><span id="bbViewL">View</span><div class="modes" id="bbView" role="group" aria-labelledby="bbViewL"></div></div>
+        </div>
         <label class="sr-only" for="bbFx">Bytebeat formula</label>
-        <textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea>
-        <div class="actions bbActs"><button class="btn" id="bbPlay" type="button" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span>Play formula</span></button><button class="btn ghost" id="bbBack" type="button" hidden title="Undo your edits: put back the formula that is playing"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo edits</span></button></div>
-        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts 8000 times a second; the result is read as a byte. <b>n l o p</b> are the sliders below (each can take Auto or a mapping); <b>a b c</b> are 4. <b>Play formula</b> (or Ctrl/⌘+Enter) starts it; while it plays, the same button stops it, or reads <b>Play changes</b> once you edit and swaps them in without restarting. <b>Undo edits</b> puts back what is playing.</p>
+        <div class="bbWrap"><textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea><pre id="bbLive" aria-hidden="true" hidden></pre></div>
+        <div class="actions bbActs"><button class="btn" id="bbPlay" type="button" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span>Play formula</span></button><button class="btn ghost" id="bbBack" type="button" hidden title="Undo your edits: put back the formula that is playing"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo edits</span></button><button class="bbIco" id="bbSave" type="button" aria-label="Save the formula in the box to My formulas" title="Save to My formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-5-6 5z"/></svg></button></div>
+        <div class="bbMine" id="bbMine"><div class="bbMineHd"><span>My formulas</span><button class="bbIco" id="bbImp" type="button" aria-label="Import formulas from a file" title="Import formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5V15M7.5 10.5 12 15l4.5-4.5"/><path d="M5 13v6.5h14V13"/></svg></button><button class="bbIco" id="bbExp" type="button" aria-label="Export My formulas as a file" title="Export formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 13v6.5h14V13"/></svg></button></div><div id="bbList" role="list" aria-label="My formulas"></div></div>
+        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts at the <b>clock</b> (8000 times a second unless you pick another); <b>byte</b> mode reads the result as 0 to 255, <b>signed</b> as −128 to 127, <b>float</b> as −1 to 1. Strings and lists work as lookup tables, so <b>t*("36364689"[t>>13&amp;7]&amp;15)</b> plays a melody; a pair [left, right] is heard as one. Away from the box, it shows the numbers the sliders are sending; <b>View</b> pins the letters instead. <b>n l o p</b> are the sliders below (each can take Auto or a mapping); <b>a b c</b> are 4. <b>Play formula</b> (or Ctrl/⌘+Enter) starts it; while it plays, the same button stops it, or reads <b>Play changes</b> once you edit and swaps them in without restarting. <b>Undo edits</b> puts back what is playing.</p>
         <div id="bbSliders"></div>
       </div>
     </section>
@@ -1308,7 +1342,7 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
 <p>Something not working? Write to <a href="mailto:hi@chamy.xyz?subject=Current">hi@chamy.xyz</a> with what you did, your device and browser, and this build.</p>
 </div></li></ol></div></section>
     <div class="colo-end"><svg class="colo-word" viewBox="462 836 996 132" aria-hidden="true" focusable="false"><path d="M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z"/><path d="M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z"/><path d="M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z"/><path d="M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z"/><path d="M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z"/><path d="M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z"/><path d="M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z"/></svg><span class="ce-tools"><button type="button" id="cePin" class="ce-b" aria-pressed="true" aria-label="Pin the index: it stays open while you use the stage" title="Pinned: stays open. Unpin to close it with a click on the stage"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/></svg></button><button type="button" id="ceX" class="ce-b" aria-label="Close the index" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span><div class="ce-more"><p class="idx-ver" id="idxVer"></p><p class="idx-copy">&copy; <span class="cYear">2026</span> Dimitry Sa&iuml;d Chamy / CHAMY&middot;XYZ. All rights reserved; free for personal use under the license above. The credited works are their authors&rsquo;.</p></div></div>
-    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
+    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Foundations", "name": "Lissajous figures", "by": "Jules Antoine Lissajous, 1857", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Lissajous_curve", "for": "the Path 01 look"}, {"group": "Foundations", "name": "The Spirograph's hypotrochoid", "by": "Denys Fisher, 1965", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hypotrochoid", "for": "the Path 02 look"}, {"group": "Foundations", "name": "Phyllotaxis at the golden angle", "by": "Helmut Vogel, 1979", "label": "Method", "url": "https://en.wikipedia.org/wiki/Fermat%27s_spiral", "for": "the Path 03 look"}, {"group": "Foundations", "name": "Hilbert curve", "by": "David Hilbert, 1891", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hilbert_curve", "for": "the Path 04 look"}, {"group": "Foundations", "name": "Learning paths and achievements", "by": "the checklist and badge traditions of games and scouting", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Achievement_(video_games)", "for": "Paths: boxes that tick themselves, a gift for each one walked"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "Formats", "name": "ZIP", "by": "Phil Katz, PKWARE, 1989 (APPNOTE)", "label": "Format", "url": "https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT", "for": "the Paths pack"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
 <script type="application/json" id="credits">[
  {
   "name": "opentype.js",
@@ -3981,9 +4015,9 @@ const BYTES={
 };
 const BB_LET=[9,8,3,2,4,4,4];   // n l o p a b c
 function bbParse(src){
-  const s=String(src),T=[],re=/\s*(?:(0[xX][0-9a-fA-F]+|\d*\.?\d+(?:[eE][-+]?\d+)?)|([A-Za-z_$][\w$]*)|(>>>|===|!==|>>|<<|<=|>=|==|!=|&&|\|\||\*\*|[-+*\/%&|^~!<>?:(),.]))/y;
+  const s=String(src),T=[],re=/\s*(?:(0[xX][0-9a-fA-F]+|\d*\.?\d+(?:[eE][-+]?\d+)?)|([A-Za-z_$][\w$]*)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(>>>|===|!==|>>|<<|<=|>=|==|!=|&&|\|\||\*\*|[-+*\/%&|^~!<>?:(),.\[\]]))/y;
   let i=0;while(i<s.length){re.lastIndex=i;const m=re.exec(s);if(!m){if(/^\s*$/.test(s.slice(i)))break;return null;}i=re.lastIndex;
-    T.push(m[1]!==undefined?{k:"n",v:Number(m[1])}:m[2]!==undefined?{k:"i",v:m[2]}:{k:"o",v:m[3]});}
+    T.push(m[1]!==undefined?{k:"n",v:Number(m[1])}:m[2]!==undefined?{k:"i",v:m[2]}:m[3]!==undefined?{k:"s",v:m[3].slice(1,-1).replace(/\\(.)/g,(_,c)=>c==="n"?"\n":c==="t"?"\t":c)}:{k:"o",v:m[4]});}
   const F={"|":(a,b)=>a|b,"^":(a,b)=>a^b,"&":(a,b)=>a&b,"==":(a,b)=>a==b,"!=":(a,b)=>a!=b,"===":(a,b)=>a===b,"!==":(a,b)=>a!==b,
     "<":(a,b)=>a<b,">":(a,b)=>a>b,"<=":(a,b)=>a<=b,">=":(a,b)=>a>=b,"<<":(a,b)=>a<<b,">>":(a,b)=>a>>b,">>>":(a,b)=>a>>>b,
     "+":(a,b)=>a+b,"-":(a,b)=>a-b,"*":(a,b)=>a*b,"/":(a,b)=>a/b,"%":(a,b)=>a%b};
@@ -3999,8 +4033,15 @@ function bbParse(src){
   function pw(){const a=un();if(eat("**")){const b=pw();return e=>Math.pow(a(e),b(e));}return a;}
   function un(){if(eat("-")){const a=un();return e=>-a(e);}if(eat("+")){const a=un();return e=>+a(e);}
     if(eat("~")){const a=un();return e=>~a(e);}if(eat("!")){const a=un();return e=>!a(e);}return prim();}
-  function prim(){const t=T[k++];if(!t)throw 0;if(t.k==="n"){const v=t.v;return()=>v;}
-    if(t.k==="o"){if(t.v==="("){const a=seq();need(")");return a;}throw 0;}
+  /* 0.18: lookup tables. A string or a [list] can be indexed with [ ], and has .length and .charCodeAt(i), as in the Composer libraries */
+  function prim(){let a=atom();for(;;){if(eat("[")){const x=a,i=seq();need("]");a=e=>{const v=x(e);return v==null?undefined:v[i(e)]};continue}
+      if(is(".")&&T[k+1]&&T[k+1].k==="i"&&(T[k+1].v==="length"||T[k+1].v==="charCodeAt")){k++;const nm=T[k++].v,x=a;
+        if(nm==="length"){a=e=>{const v=x(e);return v==null?undefined:v.length};continue}
+        need("(");const i=eat(")")?(()=>0):(()=>{const f=tern();need(")");return f})();a=e=>{const v=x(e);return typeof v==="string"?v.charCodeAt(i(e)):NaN};continue}
+      return a}}
+  function atom(){const t=T[k++];if(!t)throw 0;if(t.k==="n"){const v=t.v;return()=>v;}if(t.k==="s"){const v=t.v;return()=>v;}
+    if(t.k==="o"){if(t.v==="("){const a=seq();need(")");return a;}
+      if(t.v==="["){const A=[];if(!eat("]")){do A.push(tern());while(eat(","));need("]");}return e=>A.map(f=>f(e));}throw 0;}
     let nm=t.v;if(nm==="Math"){need(".");const u=T[k++];if(!u||u.k!=="i")throw 0;nm=u.v;}
     if(is("(")){k++;const g=M[nm];if(!g)throw 0;const A=[];if(!eat(")")){do A.push(tern());while(eat(","));need(")");}
       if(A.length===0)return()=>g();if(A.length===1){const a=A[0];return e=>g(a(e));}if(A.length===2){const a=A[0],b=A[1];return e=>g(a(e),b(e));}
@@ -4018,14 +4059,17 @@ function bbCompile(src){
 /* LIVE VOICE (bytebeat now plays live, not from a rendered loop, so its letters can move while it sounds).
    One core, two hosts, as in Bytebeat Reef: an AudioWorklet when the page allows it, a ScriptProcessor otherwise. */
 class BBCore{
-  constructor(sr,comp){this.sr=sr;this.comp=comp;this.t=0;this.rate=8000/sr;this.L=[9,8,3,2,4,4,4];this.f=null;this.xp=0;this.yp=0;this.hold=0;this.lt=-1}
+  constructor(sr,comp){this.sr=sr;this.comp=comp;this.t=0;this.rate=8000/sr;this.mode=0;this.hz=8000;this.rr=1;this.L=[9,8,3,2,4,4,4];this.f=null;this.xp=0;this.yp=0;this.hold=0;this.lt=-1}
   set(m){if(m.stop){this.f=null;return true}
     if(m.f!==undefined){const f=this.comp(m.f);if(!f)return false;this.f=f}
-    if(m.reset){this.t=0;this.lt=-1}if(m.L)this.L=m.L;if(m.rate!==undefined)this.rate=8000*m.rate/this.sr;return true}
+    if(m.reset){this.t=0;this.lt=-1}if(m.L)this.L=m.L;if(m.mode!==undefined)this.mode=m.mode;if(m.hz)this.hz=m.hz;if(m.rate!==undefined)this.rr=m.rate;
+    this.rate=this.hz*this.rr/this.sr;return true}
   fill(out){const f=this.f,L=this.L;if(!f){out.fill(0);return}
     for(let i=0;i<out.length;i++){const ti=Math.floor(this.t);
       if(ti!==this.lt){this.lt=ti;let v;try{v=f(ti,L[0],L[1],L[2],L[3],L[4],L[5],L[6])}catch(e){v=0}
-        v=Number.isFinite(v)?(v&255)/128-1:0;const y=v-this.xp+.995*this.yp;this.xp=v;this.yp=y;this.hold=y*.42}   // DC blocker; held between steps: the crunch
+        if(v&&typeof v==="object"&&v.length){let s=0,c=0;for(let j=0;j<v.length&&j<2;j++){const w=+v[j];if(Number.isFinite(w)){s+=w;c++}}v=c?s/c:0}   // stereo pair: heard as one
+        else v=+v;
+        v=!Number.isFinite(v)?0:this.mode===2?Math.max(-1,Math.min(1,v)):this.mode===1?((v+128)&255)/128-1:(v&255)/128-1;const y=v-this.xp+.995*this.yp;this.xp=v;this.yp=y;this.hold=y*.42}   // DC blocker; held between steps: the crunch
       out[i]=this.hold;this.t+=this.rate}}
 }
 const BB_SRC=bbParse.toString()+'\n'+BBCore.toString()+`
@@ -4047,6 +4091,12 @@ function bbVoice(){if(BBV.ready)return BBV.ready;
     sp.onaudioprocess=e=>core.fill(e.outputBuffer.getChannelData(0));
     BBV.mode='main';BBV.post=m=>core.set(m);BBV.out=sp})()}
 let BB_USER='';try{BB_USER=localStorage.getItem('current.bytebeat')||''}catch(_){}
+/* MODE AND CLOCK of your own formula (0.18). The built-ins are byte at 8 kHz, always. */
+const BB_MODES=['byte','signed','float'],BB_HZS=[8000,11025,22050,32000,44100,48000];
+let BB_MODE=0,BB_HZ=8000,BB_VIEW='live';
+try{BB_MODE=Math.max(0,BB_MODES.indexOf(localStorage.getItem('current.bbmode')||'byte'));const h=+localStorage.getItem('current.bbhz');if(BB_HZS.includes(h))BB_HZ=h;
+  if(localStorage.getItem('current.bbview')==='letters')BB_VIEW='letters'}catch(_){}
+const bbSet=name=>name==='Byte yours'?{mode:BB_MODE,hz:BB_HZ}:{mode:0,hz:8000};
 const isByte=n=>!!BYTES[n]||(n==='Byte yours'&&!!BB_USER);
 const bbFormula=n=>n==='Byte yours'?BB_USER:(BYTES[n]||{}).f||'';
 const bbLetters=()=>{const v=k=>Math.round(+(E[k]??S[k]));return[v('bbn'),v('bbl'),v('bbo'),v('bbp'),4,4,4]};
@@ -4056,8 +4106,8 @@ function startByte(name,fromPreset){
   if(fromPreset)stopAudio();else stopCh('byte');AUD.play.byte=name;AUD.src=name;AUD.last=name;AUD.want=name;syncAud();
   const f=bbFormula(name);if(document.activeElement!==$('bbFx'))$('bbFx').value=f;bbMsg();
   bbVoice().then(()=>{if(AUD.want!==name)return;
-    const L=bbLetters(),r=bbRate();BBV.post({f,L,rate:r,reset:true});BBV.sent=L.join()+'|'+r;
-    BBV.out.connect(AUD.pre.byte);AUD.bbOn=true;if(!AUD.play.beat){AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r}AUD.loopOn=true},
+    const L=bbLetters(),r=bbRate(),M=bbSet(name);BBV.post({f,L,rate:r,reset:true,...M});BBV.sent=L.join()+'|'+r;
+    BBV.out.connect(AUD.pre.byte);AUD.bbOn=true;if(!AUD.play.beat){AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/M.hz/r}AUD.loopOn=true},
     ()=>toast('could not start the bytebeat here'));
   if(fromPreset)toast('bytebeat: '+name.replace(/^Byte /,'')+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function stopByte(){if(!AUD.bbOn)return;AUD.bbOn=false;try{BBV.post({stop:true});BBV.out.disconnect()}catch(_){}}
@@ -4066,11 +4116,11 @@ function bbTick(){if(!AUD.bbOn||!BBV.post)return;const L=bbLetters(),r=bbRate(),
 function bbMsg(err){const m=$('bbMsg');m.classList.toggle('bad',!!err);if(err)m.textContent=err;else if(m.dataset.base)m.innerHTML=m.dataset.base}
 function bbPlay(){const fx=$('bbFx').value.trim();if(!fx){bbMsg('Type a formula first, for example t*(42&t>>10).');return}
   if(!$('bbMsg').dataset.base)$('bbMsg').dataset.base=$('bbMsg').innerHTML;
-  if(!bbCompile(fx)){bbMsg('That formula does not run: check the brackets and use only t, n, l, o, p, a, b, c, numbers, operators and Math functions.');return}
+  if(!bbCompile(fx)){bbMsg(/;|\b(?:for|while|var|let|const|function|return)\b|=>/.test(fx)?'That is a whole song (statements, variables or loops), which Current does not play: it takes one expression.':'That formula does not run: check the brackets and quotes, and use only t, n, l, o, p, a, b, c, numbers, strings, [lists], operators and Math functions.');return}
   bbMsg();BB_USER=fx;if(window.cxCount)cxCount('formula played',1);   /* that one was played, never what it says */try{localStorage.setItem('current.bytebeat',fx)}catch(_){}
   AUD.userOff=false;
-  if(AUD.play.byte==='Byte yours'&&AUD.bbOn){BBV.post({f:fx});syncAud();toast('formula swapped');return}   // live coding: the clock keeps running
-  startByte('Byte yours');toast('playing your formula')}
+  if(AUD.play.byte==='Byte yours'&&AUD.bbOn){BBV.post({f:fx,...bbSet('Byte yours')});syncAud();bbList();toast('formula swapped');return}   // live coding: the clock keeps running
+  startByte('Byte yours');bbList();toast('playing your formula')}
 function openBytebeat(){sndOpen=false;syncSteer();setPlayer(false);
   const g=$('bbGroup');if(window.SurfaceSections)SurfaceSections.open('bbGroup');else if(g.classList.contains('cx-shut')){g.classList.remove('cx-shut');g.querySelector('.cx-grpbtn').setAttribute('aria-expanded','true')}
   const fx=$('bbFx');if(!fx.value.trim())fx.value=AUD.play.byte?bbFormula(AUD.play.byte):(BB_USER||BYTES['Byte 42'].f);
@@ -4093,6 +4143,74 @@ function bbBtns(){const b=$('bbPlay'),k=$('bbBack');if(!b)return;try{AUD}catch(_
 $('bbBack').addEventListener('click',()=>{$('bbFx').value=bbRef();bbMsg();bbBtns();$('bbFx').focus()});
 $('bbFx').addEventListener('input',bbBtns);bbBtns();
 $('bbFx').value=BB_USER||BYTES['Byte 42'].f;
+/* ---------- BYTEBEAT 0.18 (Dimitry, 19 Oct): mode, clock, the live view, My formulas ---------- */
+function bbSeg(id,opts,cur,label,pick){const g=$(id);g.innerHTML='';for(const [v,t,a] of opts){const b=document.createElement('button');b.type='button';b.textContent=t;
+    b.setAttribute('aria-pressed',String(v===cur));b.setAttribute('aria-label',a);b.title=a;b.onclick=()=>{pick(v);bbSeg(id,opts,v,label,pick)};g.appendChild(b)}}
+function bbLive(){if(AUD.play.byte==='Byte yours'&&AUD.bbOn)BBV.post(bbSet('Byte yours'))}   // mode and clock change while it plays
+function bbOpts(){
+  bbSeg('bbMode',[[0,'byte','Byte mode: the result is read as 0 to 255'],[1,'signed','Signed mode: the result is read as −128 to 127'],[2,'float','Float mode (floatbeat): the result is read as −1 to 1']],BB_MODE,'mode',
+    v=>{BB_MODE=v;try{localStorage.setItem('current.bbmode',BB_MODES[v])}catch(_){}bbLive();bbList();bbView()});
+  bbSeg('bbHz',BB_HZS.map(h=>[h,h===11025?'11':h===22050?'22':h===44100?'44.1':String(h/1000),'Clock: t counts '+h.toLocaleString('en-US')+' times a second']),BB_HZ,'clock',
+    v=>{BB_HZ=v;try{localStorage.setItem('current.bbhz',String(v))}catch(_){}bbLive();bbList();bbView()});
+  bbSeg('bbView',[['live','live','Away from the box, show the numbers the sliders are sending'],['letters','letters','Always show the formula with its letters']],BB_VIEW,'view',
+    v=>{BB_VIEW=v;try{localStorage.setItem('current.bbview',v)}catch(_){}bbView()})}
+// the live view: n l o p a b c replaced by their values (outside quotes, not after a dot), padded so the line keeps its width
+const BB_PAD={n:2,l:2,o:1,p:1,a:1,b:1,c:1},BB_IX={n:0,l:1,o:2,p:3,a:4,b:5,c:6};
+const bbEsc=x=>x.replace(/[&<>]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&gt;');
+function bbFill(src,L){let out='',prevDot=false;const re=/("(?:[^"\\]|\\.)*"?|'(?:[^'\\]|\\.)*'?)|([A-Za-z_$][\w$]*)|([^"'A-Za-z_$]+)/g;let m;
+  while((m=re.exec(src))){if(m[2]!==undefined&&!prevDot&&m[2] in BB_IX){const v=String(L[BB_IX[m[2]]]);out+='<b>'+' '.repeat(Math.max(0,BB_PAD[m[2]]-v.length))+v+'</b>'}
+    else out+=bbEsc(m[0]);prevDot=m[3]!==undefined&&/\.\s*$/.test(m[3])}
+  return out}
+let bbViewT=0;
+function bbView(){const fx=$('bbFx'),lv=$('bbLive');if(!fx||!lv)return;const box=fx.value.trim();
+  const show=BB_VIEW==='live'&&box&&document.activeElement!==fx&&/[nlopabc]/.test(box)&&!!bbCompile(box);
+  lv.hidden=!show;clearInterval(bbViewT);if(!show)return;
+  const draw=()=>{const L=bbLetters(),r=bbRate().toFixed(2);lv.innerHTML=bbFill(fx.value,L)+'<i>rate ×'+r+' · '+(BB_HZ/1000)+' kHz · '+BB_MODES[BB_MODE]+'</i>'};
+  draw();bbViewT=setInterval(()=>{if(lv.hidden||document.hidden)return;draw()},100)}   // ten times a second, not every frame
+$('bbFx').addEventListener('focus',bbView);$('bbFx').addEventListener('blur',bbView);$('bbFx').addEventListener('input',()=>{if(document.activeElement!==$('bbFx'))bbView()});
+// My formulas: kept with your looks on this device; Export and Import carry them to another
+if(!Array.isArray(store.formulas))store.formulas=[];
+const bbSame=(x,f,m,h)=>x.f===f&&(x.mode|0)===m&&(+x.hz||8000)===h;
+function bbIsOn(x){return AUD.play.byte==='Byte yours'&&bbSame(x,BB_USER,BB_MODE,BB_HZ)}
+const BBI={play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg>',stop:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12"/></svg>',
+  ren:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',del:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
+function bbUse(x){$('bbFx').value=x.f;BB_MODE=x.mode|0;BB_HZ=+x.hz||8000;try{localStorage.setItem('current.bbmode',BB_MODES[BB_MODE]);localStorage.setItem('current.bbhz',String(BB_HZ))}catch(_){}bbOpts();bbBtns()}
+function bbRename(row,x){const nm=row.querySelector('.nm');nm.contentEditable='true';nm.focus();try{const r=document.createRange();r.selectNodeContents(nm);const sl=getSelection();sl.removeAllRanges();sl.addRange(r)}catch(_){}
+  const done=keep=>{nm.onblur=nm.onkeydown=null;nm.contentEditable='false';const v=nm.textContent.replace(/\s+/g,' ').trim().slice(0,40);
+    if(keep&&v&&v!==x.name){x.name=v;persist();toast('renamed “'+v+'”')}bbList()};
+  nm.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();done(true)}else if(e.key==='Escape'){e.preventDefault();done(false)}};nm.onblur=()=>done(true)}
+function bbList(){const el=$('bbList');if(!el)return;el.innerHTML='';const F=store.formulas;
+  if(!F.length){const p=document.createElement('p');p.className='bbEmpty';p.textContent='Nothing saved yet: the bookmark above keeps the formula in the box.';el.appendChild(p);$('bbExp').disabled=true;return}
+  $('bbExp').disabled=false;
+  F.forEach((x,i)=>{const on=bbIsOn(x),r=document.createElement('div');r.className='bbRowF'+(on?' on':'');r.setAttribute('role','listitem');
+    const b=(cls,html,label,fn)=>{const k=document.createElement('button');k.type='button';k.className='bbIco '+cls;k.innerHTML=html;k.setAttribute('aria-label',label);k.title=label;k.onclick=fn;return k};
+    const pl=b('pl',on?BBI.stop:BBI.play,(on?'Stop ':'Play ')+x.name,()=>{if(bbIsOn(x)){stopCh('byte');syncAud();bbList();toast('bytebeat stopped');return}bbUse(x);bbPlay()});
+    pl.setAttribute('aria-pressed',String(on));
+    const nm=document.createElement('span');nm.className='nm';nm.textContent=x.name;nm.title='Put “'+x.name+'” in the box: '+x.f;nm.tabIndex=0;nm.setAttribute('role','button');
+    nm.setAttribute('aria-label','Put '+x.name+' in the box without playing it');
+    nm.onclick=()=>{if(nm.isContentEditable)return;bbUse(x);bbView();toast('“'+x.name+'” is in the box')};nm.onkeydown=e=>{if(!nm.isContentEditable&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nm.onclick()}};
+    const tg=document.createElement('span');tg.className='tg';tg.textContent=((x.mode|0)?BB_MODES[x.mode|0]+' ':'')+((+x.hz||8000)!==8000?((+x.hz)/1000)+'k':'');tg.setAttribute('aria-hidden','true');
+    r.append(pl,nm,tg,b('',BBI.ren,'Rename '+x.name,()=>bbRename(r,x)),
+      b('',BBI.del,'Delete '+x.name,()=>{F.splice(i,1);persist();bbList();toast('deleted “'+x.name+'”')}));el.appendChild(r)})}
+$('bbSave').addEventListener('click',()=>{const f=$('bbFx').value.trim();if(!f){bbMsg('Type a formula first, then save it.');return}
+  if(!bbCompile(f)){bbMsg('That formula does not run yet, so it was not saved.');return}bbMsg();
+  const had=store.formulas.find(x=>bbSame(x,f,BB_MODE,BB_HZ));if(had){toast('already saved as “'+had.name+'”');return}
+  let k=store.formulas.length+1,n;do n='Formula '+k++;while(store.formulas.some(x=>x.name===n));
+  store.formulas.push({name:n,f,mode:BB_MODE,hz:BB_HZ});persist();bbList();if(window.cxCount)cxCount('formula saved',1);
+  const rows=$('bbList').querySelectorAll('.bbRowF');bbRename(rows[rows.length-1],store.formulas[store.formulas.length-1])});
+$('bbExp').addEventListener('click',()=>{if(!store.formulas.length)return;
+  const doc={kind:'current/formulas',v:1,formulas:store.formulas.map(x=>({name:x.name,f:x.f,mode:BB_MODES[x.mode|0],hz:+x.hz||8000}))};
+  saveBlob(FILE_PREFIX+'formulas_'+stamp()+'.json',new Blob([JSON.stringify(doc,null,1)],{type:'application/json'})).then(ok=>ok&&toast('formulas saved'))});
+$('bbImp').addEventListener('click',()=>{const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
+  inp.onchange=async()=>{const fl=inp.files&&inp.files[0];if(!fl)return;let add=0,skip=0,bad=0;
+    try{const o=JSON.parse(await fl.text());const A=Array.isArray(o)?o:o&&Array.isArray(o.formulas)?o.formulas:null;if(!A)throw 0;
+      for(const y of A.slice(0,500)){const f=String(y&&y.f||'').trim().slice(0,4000),m=Math.max(0,BB_MODES.indexOf(y&&y.mode)),h=BB_HZS.includes(+(y&&y.hz))?+y.hz:8000;
+        if(!f||!bbCompile(f)){bad++;continue}if(store.formulas.some(x=>bbSame(x,f,m,h))){skip++;continue}
+        let n=String(y.name||'Imported').replace(/\s+/g,' ').trim().slice(0,40)||'Imported';if(store.formulas.some(x=>x.name===n))n=n.slice(0,34)+' (in)';
+        store.formulas.push({name:n,f,mode:m,hz:h});add++}
+      persist();bbList();toast(add+' added'+(skip?' · '+skip+' already here':'')+(bad?' · '+bad+' would not run':''),2600)}
+    catch(e){toast('that file is not a formula list')}};inp.click()});
+bbOpts();bbList();setTimeout(bbView,0);
 const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
@@ -4213,7 +4331,7 @@ $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.file
 $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.value).toFixed(2);if(AUD.vol)AUD.vol.gain.value=+e.target.value});
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
-function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
+function syncAud(){try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
     b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
@@ -5017,10 +5135,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019053622"></script>
-<script src="surface/links.js?v=20261019053622"></script>
-<script src="surface/tips.js?v=20261019053622"></script>
-<script src="surface/sections.js?v=20261019053622"></script>
+<script src="surface/install.js?v=20261019141438"></script>
+<script src="surface/links.js?v=20261019141438"></script>
+<script src="surface/tips.js?v=20261019141438"></script>
+<script src="surface/sections.js?v=20261019141438"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5082,9 +5200,9 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
   tip('pSteer','Tools. Hold to hide or show the open shelf.');
   tip('pSrc','Source: a picture, a video or the camera.');
   tip('duckBtn','Index and settings.');
-  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn',avoid:'#playname,#toast',keys:{duckBtn:'p'},
+  SurfaceTips.mount({scope:'#playbar button, .shelf .si, #duckBtn, .sp-bb',avoid:'#playname,#toast',keys:{duckBtn:'p'},
     /* on a computer a bar button's name and key read just right of the keys button, where keys are set; nothing over the button */
-    anchor:'#pKeys',anchorAt:'right',anchorFor:'#playbar button:not(#pKeys):not(#pFull)',
+    anchor:'#pKeys',anchorAt:'right',anchorFor:'#playbar button:not(#pKeys):not(#pFull):not(.sp-bb)',
     keyFor:el=>{const id={pSnd:'sound',pShot:'capture',pRand:'random',pPrev:'prev',pNext:'next',pAuto:'auto',pSteer:'current.steer'}[el.id];
       const k=id&&(SurfaceKeys.keyFor(id)||[])[0];return k?k.replace('mod+','\u2318').replace('shift+','\u21e7'):''}})}catch(e){console.warn('tips',e)}</script>
 <script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
@@ -5159,12 +5277,12 @@ function showLicenses(){setPlayer(false);const colo=$('colo'),made=$('coloMade')
 document.querySelectorAll('[data-licenses]').forEach(b=>b.onclick=showLicenses);
 /* the source shelf's auto button wears the kit's own Auto mark, so it can never drift from the one at the end of the rows */
 try{const sa=document.querySelector('#srAuto svg');if(sa&&window.SurfaceAuto&&SurfaceAuto.ICON){const t=document.createElement('template');t.innerHTML=SurfaceAuto.ICON;const n=t.content.firstElementChild;n.querySelector('circle')&&n.querySelector('circle').setAttribute('fill','currentColor');n.querySelector('circle')&&n.querySelector('circle').setAttribute('stroke','none');sa.replaceWith(n)}}catch(e){}
-/* LEARN (Dimitry, 18 Oct): free places to learn what Current is made of, before the colophon. Every link was opened
+/* RESOURCES (Dimitry, 18 Oct; was Learn until 19 Oct, the name and the book kept for real learning materials): free places to learn what Current is made of, before the colophon. Every link was opened
    and checked on 18 Oct 2026; a price or a license is stated only where the page itself states it. */
-(function(){const idx=$('idx');if(!idx||$('learn'))return;const L=(h,t)=>'<a href="'+h+'" target="_blank" rel="noopener">'+t+'</a>';
+(function(){const idx=$('idx');if(!idx||$('resources'))return;const L=(h,t)=>'<a href="'+h+'" target="_blank" rel="noopener">'+t+'</a>';
   const row=(n,title,items)=>'<li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>'+n+'</i><span>'+title+'</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl>'+items.map(([dt,dd])=>'<dt>'+dt+'</dt><dd>'+dd+'</dd>').join('')+'</dl></div></li>';
-  const sec=document.createElement('section');sec.className='cx-grp';sec.id='learn';
-  sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="learnL"><span>Learn</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="learnL"><p class="cx-lead">Free places to learn what Current is made of: fields and particles, code, the web, sound and machines. I teach, and these are the ones I would hand a student.</p><ol class="cx-list">'+
+  const sec=document.createElement('section');sec.className='cx-grp';sec.id='resources';
+  sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="resourcesL"><span>Resources</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="resourcesL"><p class="cx-lead">Free places out on the web to learn what Current is made of: fields and particles, code, the web, sound and machines. I teach, and these are the ones I would hand a student.</p><ol class="cx-list">'+
    row('01','Fields, particles, generative art',[[L('https://natureofcode.com/','The Nature of Code'),'Daniel Shiffman&rsquo;s book on simulating natural systems in JavaScript: forces, particles, steering. The whole book is free to read online, under Creative Commons.'],[L('https://www.tylerxhobbs.com/words/flow-fields','Flow Fields'),'Tyler Hobbs&rsquo;s 2020 essay on drawing with a grid of angles: the idea under every arrow in Current.'],[L('https://thebookofshaders.com/','The Book of Shaders'),'Patricio Gonzalez Vivo and Jen Lowe, step by step through fragment shaders, the code behind glowing, moving pixels. Free to read.']])+
    row('02','Code',[[L('https://developer.mozilla.org/en-US/docs/Learn_web_development','MDN: Learn web development'),'A free, structured course in HTML, CSS and JavaScript, from the people who document the web.'],[L('https://p5js.org/tutorials/','p5.js tutorials'),'The open-source library for creative coding in the browser, made for artists, designers and beginners.'],[L('https://thecodingtrain.com/','The Coding Train'),'Daniel Shiffman&rsquo;s beginner creative-coding videos, with many of the particle and field sketches this kind of tool grows from.']])+
    row('03','Apps for the web',[[L('https://web.dev/learn','web.dev: Learn'),'Courses on HTML, CSS, JavaScript, accessibility, forms, and progressive web apps: the kind of app Current is, installable from the browser.'],[L('https://www.w3.org/WAI/fundamentals/accessibility-intro/','Introduction to Web Accessibility'),'From the W3C: why and how to make what you build work for everyone, by keyboard, voice, screen reader and touch.']])+
@@ -5185,11 +5303,141 @@ try{const sa=document.querySelector('#srAuto svg');if(sa&&window.SurfaceAuto&&Su
     bbGroup:ic('<path d="M3 16V8h6v8h6V8h6"/>'),                                                           // a square wave: arithmetic as sound
     picGroup:fromBar('pSrc')||ic('<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/>'),
     install:ic('<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M12 7.5v7m-3-3 3 3 3-3"/>'),              // onto a phone
-    learn:ic('<path d="M12 6.5c-2-1.6-4.8-2-8-1.5v13c3.2-.5 6 0 8 1.5 2-1.5 4.8-2 8-1.5V5c-3.2-.5-6-.1-8 1.5z"/><path d="M12 6.5v13"/>'),   // an open book
+    resources:ic('<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5S9.6 5.8 12 3.5z"/>'),   // a globe: out to the web (the open book is kept for learning materials: videos, then teaching guides)
     colo:ic('<path d="M13 4.5v15M17 4.5v15M17 4.5h-6.5a4 4 0 0 0 0 8H13"/>')};                                     // a pilcrow: how it was made
   for(const [id,svg] of Object.entries(I)){const sec=$(id),b=sec&&sec.querySelector(':scope>.cx-grpbtn');if(!b||!svg||b.querySelector('.sec-ic,.dsp-gear'))continue;
     b.insertAdjacentHTML('afterbegin',svg)}})();
-try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#display',also:'#colo',start:{folded:true,focus:true},label:'Index',briefScope:'#panel'})}catch(e){console.warn('sections',e)}</script>
+/* PATHS (Dimitry, 19 Oct): six learning paths through Current, from the first look to the G-code under it, on
+   Surface · Paths. Every box ticks itself when the thing is actually done (the hooks below), the path numbers sit on
+   the buttons they teach, Settings › Paths turns the marks off. Each path walked unlocks a bonus look in your looks;
+   every path walked unlocks a pack to download (the six looks as G-code, and their settings). The G-code editor is
+   the last path, marked advanced, and stays visible to everyone. */
+try{(function(){
+  const fx=n=>(+n).toFixed(2);
+  const prog=(title,pts,feed)=>{const g=['; '+title,'; CHAMY·XYZ · Current · a Paths reward','G21 G90',`G0 Z2 X${fx(pts[0][0])} Y${fx(pts[0][1])}`,'G1 Z0 F400'];
+    pts.slice(1).forEach((p,i)=>g.push(`G1 X${fx(p[0])} Y${fx(p[1])} F${feed?feed(i):900}`));g.push('G0 Z2');return g.join('\n')};
+  /* the six bonus toolpaths, each a classic of drawing with machines, credited in the colophon */
+  const GEN={
+    lissajous(){const p=[];for(let i=0;i<=900;i++){const t=i/900*Math.PI*2;p.push([50+40*Math.sin(3*t+Math.PI/2),50+40*Math.sin(2*t)])}
+      return prog('Lissajous figure 3:2, Jules Antoine Lissajous (1857): two sines at right angles',p,i=>Math.round(600+900*Math.abs(Math.sin(i/60))))},
+    spiro(){const R=5,r=3,d=5,k=42/(R-r+d),p=[];for(let i=0;i<=1400;i++){const t=i/1400*Math.PI*2*3;p.push([50+k*((R-r)*Math.cos(t)+d*Math.cos((R-r)/r*t)),50+k*((R-r)*Math.sin(t)-d*Math.sin((R-r)/r*t))])}
+      return prog('Hypotrochoid R5 r3 d5, the curve of the Spirograph (Denys Fisher, 1965)',p)},
+    golden(){const p=[],ga=Math.PI*(3-Math.sqrt(5));for(let n=1;n<=420;n++){const r=2.05*Math.sqrt(n),a=n*ga;p.push([50+r*Math.cos(a),50+r*Math.sin(a)])}
+      return prog('Phyllotaxis: one line through 420 seeds set at the golden angle (Vogel, 1979)',p,i=>Math.round(400+i*4))},
+    hilbert(){const N=16,p=[];for(let d=0;d<N*N;d++){let x=0,y=0,t=d;for(let s=1;s<N;s*=2){const rx=1&(t/2),ry=1&(t^rx);if(!ry){if(rx){x=s-1-x;y=s-1-y}[x,y]=[y,x]}x+=s*rx;y+=s*ry;t=Math.floor(t/4)}p.push([8+x*84/(N-1),8+y*84/(N-1)])}
+      return prog('Hilbert curve, order 4 (David Hilbert, 1891): one line that fills the square',p)},
+    rings(){const g=['; Square-wave rings: each circle carries a square wave around it, the shape of a bytebeat','; CHAMY·XYZ · Current · a Paths reward','G21 G90'];
+      for(let k=0;k<6;k++){const r0=10+k*6.4,lob=4+2*k,pts=[];for(let i=0;i<=480;i++){const t=i/480*Math.PI*2,sq=Math.sign(Math.sin(lob*t))||1;pts.push([50+(r0+1.6*sq)*Math.cos(t),50+(r0+1.6*sq)*Math.sin(t)])}
+        g.push(`G0 Z2 X${fx(pts[0][0])} Y${fx(pts[0][1])}`,'G1 Z0 F400');pts.slice(1).forEach(q=>g.push(`G1 X${fx(q[0])} Y${fx(q[1])} F${700+k*180}`));g.push('G0 Z2')}
+      return g.join('\n')},
+    arcs(){const g=['; Arcs: G2 and G3, the machine drawing a circle itself rather than a chain of short lines','; CHAMY·XYZ · Current · a Paths reward','G21 G90'];
+      g.push('G0 Z2 X10 Y30','G1 Z0 F500');for(let i=0;i<8;i++){const x=10+(i+1)*10;g.push((i%2?'G3':'G2')+` X${x} Y30 I5 J0 F${700+i*90}`)}g.push('G0 Z2');
+      for(let k=0;k<4;k++){const r=8+k*7;g.push(`G0 Z2 X${50+r} Y68`,'G1 Z0 F500',`G${k%2?3:2} X${50-r} Y68 I${-r} J0 F${900+k*200}`,`G${k%2?3:2} X${50+r} Y68 I${r} J0`,'G0 Z2')}
+      return g.join('\n')}};
+  const LOOKS={
+    '01':{name:'Path 01 · Lissajous',gen:'lissajous',mode:'along',line:'#ede6d6',line2:'#55b8c9',alt:'motion',p:{falloff:3,speed:1.5,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:true}},
+    '02':{name:'Path 02 · Spirograph',gen:'spiro',mode:'orbit',line:'#ff6b2b',line2:'#ede6d6',alt:'grain',p:{falloff:3.4,speed:1.6,fade:0.045},flags:{arrows:false,path:false,travel:false,feed:false}},
+    '03':{name:'Path 03 · Golden Angle',gen:'golden',mode:'along',line:'#dba359',line2:'#336bf2',alt:'time',p:{falloff:2.6,speed:1.3,fade:0.05,magnet:.4,lag:2},flags:{arrows:false,path:false,travel:false,feed:true}},
+    '04':{name:'Path 04 · Hilbert',gen:'hilbert',mode:'along',line:'#ede6d6',p:{falloff:2.2,speed:1.4,fade:0.06},flags:{arrows:false,path:true,travel:false,feed:false}},
+    '05':{name:'Path 05 · Square Rings',gen:'rings',mode:'orbit',line:'#336bf2',line2:'#ff6b2b',alt:'time',p:{falloff:3,speed:1.6,fade:0.05,pulse:.5},flags:{arrows:false,path:false,travel:false,feed:true}},
+    '06':{name:'Path 06 · Arcs',gen:'arcs',mode:'along',arrow:'#ff7a52',p:{falloff:3.5,speed:1.3,fade:0.05},flags:{arrows:true,path:true,travel:true,feed:true}}};
+  const lookFor=id=>{const L=LOOKS[id],{gen,...rest}=L;return {...rest,gcode:GEN[gen](),p:{...DEFAULTS,...L.p},paths:id}};
+  const unlock=id=>{const L=LOOKS[id];if(store.user.some(u=>u.name===L.name))return;store.user.push(lookFor(id));persist();
+    try{renderPresets()}catch(_){}try{if(typeof buildLooks==='function')buildLooks()}catch(_){}try{syncPlist()}catch(_){}};
+  /* the finale: a ZIP (stored, no compression; PKWARE's APPNOTE) of the six toolpaths, their looks and a read-me */
+  const crcT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+  const crc=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=crcT[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+  function zip(files){const enc=new TextEncoder(),parts=[],cen=[];let off=0;
+    for(const [name,text] of files){const nb=enc.encode(name),db=enc.encode(text),c=crc(db);
+      const h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,c,true);h.setUint32(18,db.length,true);h.setUint32(22,db.length,true);h.setUint16(26,nb.length,true);
+      const ce=new DataView(new ArrayBuffer(46));ce.setUint32(0,0x02014b50,true);ce.setUint16(4,20,true);ce.setUint16(6,20,true);ce.setUint16(8,0x0800,true);ce.setUint32(16,c,true);ce.setUint32(20,db.length,true);ce.setUint32(24,db.length,true);ce.setUint16(28,nb.length,true);ce.setUint32(42,off,true);
+      parts.push(h,nb,db);cen.push(ce,nb);off+=30+nb.length+db.length}
+    const cs=cen.reduce((a,x)=>a+(x.byteLength||x.length),0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+    return new Blob([...parts,...cen,e],{type:'application/zip'})}
+  function pack(){const files=[],looks=[];
+    for(const id of Object.keys(LOOKS)){const L=lookFor(id);files.push(['gcode/'+slug(L.name)+'.nc',L.gcode]);const {gcode,...s}=L;looks.push(s)}
+    files.push(['looks.json',JSON.stringify({kind:'current.looks',made:new Date().toISOString(),looks},null,2)]);
+    files.push(['README.txt',['CURRENT · the Paths pack','CHAMY·XYZ, Dimitry Saïd Chamy, '+new Date().getFullYear(),'',
+      'Six toolpaths, one for each path through Current. Open any .nc file in Current (tools › path › open file, or drop it on the stage),',
+      'or send it to a plotter, laser or CNC router: it is ordinary G-code (G21 millimetres, G90 absolute, a 100 mm square).','',
+      'looks.json holds the settings each bonus look uses.','',
+      'Foundations: Lissajous figures (Jules Antoine Lissajous, 1857), the hypotrochoid of the Spirograph (Denys Fisher, 1965),',
+      'phyllotaxis at the golden angle (Helmut Vogel, 1979), the Hilbert curve (David Hilbert, 1891), G2/G3 arcs (G-code, EIA RS-274),',
+      'and ZIP (PKWARE APPNOTE). Made for walking every path.'].join('\n')]);
+    return zip(files)}
+  /* the paths, deepest last */
+  const pick=()=>{if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()};
+  const P=SurfacePaths.mount({key:'current',after:'#guide',settings:'#displayL',title:'Paths',filePrefix:FILE_PREFIX,
+    lead:'Six paths through Current, from your first look to the G-code under it. Each box ticks itself when you do the thing. The numbers on the buttons point to the path that teaches them; switch them off in <b>Settings › Paths</b>.',
+    save:(n,b)=>saveBlob(n,b),toast:m=>toast(m,2400),
+    showWhere:p=>{setPlayer(true);if(['02','03','06'].includes(p.id))setTimeout(pick,320)},
+    /* take me there (0.20.0): the stage in front, and the shelf a step's control lives on */
+    below:'#playbar',nagAbove:'#playbar',
+    front:s=>{setPlayer(true);const k=s.shelf;
+      if(k==='pick')setTimeout(pick,300);
+      else if(k==='snd'){sndOpen=true;srcOpen=false;pickOpen=false;buildSndShelf();syncSteer()}
+      else if(k==='src'){srcOpen=true;sndOpen=false;pickOpen=false;syncSteer()}
+      else if(k==='hide')setTimeout(()=>{try{flashHideHint()}catch(_){}},200)},
+    paths:[
+      {id:'01',title:'First current',note:'The bar: looks, Auto, random, and the clean stage.',badges:['#pTrans','#pRand'],
+        steps:[{id:'look',go:'#pNext',label:'Change the look with <b>&lsaquo;</b> or <b>&rsaquo;</b>'},{id:'auto',go:'#pAuto',label:'Let <b>Auto</b> morph through the looks'},{id:'random',go:'#pRand',label:'Roll a <b>random</b> look'},{id:'bare',go:'#hideHint',shelf:'hide',label:'Hide every control (<b>space</b>, or a three-finger tap) and bring them back'}],
+        reward:{label:'a bonus look, Lissajous',toast:'Lissajous is in your looks',give:()=>unlock('01'),given:'Unlocked: <b>Path 01 · Lissajous</b>, in your looks.'}},
+      {id:'02',title:'Make it yours',note:'Your word, your colors, your frame, and something to keep.',badges:['#pickTrack [data-tool=text]','#pickTrack [data-tool=color]','#pickTrack [data-tool=frame]','#pShot'],
+        steps:[{id:'word',go:'#pickTrack [data-tool=text]',shelf:'pick',label:'Type your own word in <b>text</b>'},{id:'color',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Change the colors in <b>color</b>'},{id:'frame',go:'#pickTrack [data-tool=frame]',shelf:'pick',label:'Move, scale or turn the drawing in <b>frame</b>'},{id:'capture',go:'#pShot',label:'Take a still, a GIF or a video with <b>capture</b>'}],
+        reward:{label:'a bonus look, Spirograph',toast:'Spirograph is in your looks',give:()=>unlock('02'),given:'Unlocked: <b>Path 02 · Spirograph</b>, in your looks.'}},
+      {id:'03',title:'Steer it',note:'Your hand in the field, and loops that keep it moving.',badges:['#pSteer','#pickTrack [data-tool=steer]','#pickTrack [data-tool=magnet]'],
+        steps:[{id:'steer',go:'#pickTrack [data-tool=steer]',shelf:'pick',label:'Paint direction with <b>steer</b>'},{id:'steerloop',go:'#pickTrack [data-tool=steer]',shelf:'pick',label:'Record a steer loop'},{id:'magnet',go:'#pickTrack [data-tool=magnet]',shelf:'pick',label:'Pull or push with the <b>magnet</b>'},{id:'magloop',go:'#pickTrack [data-tool=magnet]',shelf:'pick',label:'Record a magnet loop'}],
+        reward:{label:'a bonus look, Golden Angle',toast:'Golden Angle is in your looks',give:()=>unlock('03'),given:'Unlocked: <b>Path 03 · Golden Angle</b>, in your looks.'}},
+      {id:'04',title:'Feed it',note:'A picture, a video or the camera under the field.',badges:['#pSrc'],
+        steps:[{id:'picture',go:'#srPic',shelf:'src',label:'Put a picture or a video under the field'},{id:'camera',go:'#srCam',shelf:'src',label:'Turn on the <b>camera</b>'},{id:'drive',go:'#srDrive',shelf:'src',label:'Let the picture <b>drive</b> the current'},{id:'trace',go:'#srTrace',shelf:'src',label:'<b>Trace</b> the picture into toolpaths'}],
+        reward:{label:'a bonus look, Hilbert',toast:'Hilbert is in your looks',give:()=>unlock('04'),given:'Unlocked: <b>Path 04 · Hilbert</b>, in your looks.'}},
+      {id:'05',title:'Sound',note:'Beats, your own sound, and songs made from one line of arithmetic.',badges:['#pSnd'],
+        steps:[{id:'beat',go:'#sndTrack .si[data-src]:not(.bb):not([data-src=file])',shelf:'snd',label:'Play a <b>beat</b>'},{id:'mine',go:'#sdMic',shelf:'snd',label:'Use the <b>microphone</b> or a sound file of your own'},{id:'byte',go:'#sndTrack .si.bb',shelf:'snd',label:'Play a <b>bytebeat</b> formula'},{id:'bbsave',go:{link:'bbGroup'},label:'Save a formula to <b>My formulas</b>'}],
+        reward:{label:'a bonus look, Square Rings',toast:'Square Rings is in your looks',give:()=>unlock('05'),given:'Unlocked: <b>Path 05 · Square Rings</b>, in your looks.'}},
+      {id:'06',title:'Under the hood',advanced:true,note:'Every look is G-code: the path a machine would cut. Here you can change it.',badges:['#pickTrack [data-tool=path]'],
+        steps:[{id:'edit',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Open a look&rsquo;s toolpath in the editor (<b>path</b> › <b>edit</b>)'},{id:'drawsave',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Draw a toolpath of your own and save it'},{id:'dup',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Duplicate</b> a look as one of yours'},{id:'gfile',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Open</b> a G-code file, or drop one on the stage'}],
+        reward:{label:'a bonus look, Arcs',toast:'Arcs is in your looks',give:()=>unlock('06'),given:'Unlocked: <b>Path 06 · Arcs</b>, in your looks.'}}],
+    finale:{label:'the Paths pack: the six toolpaths as G-code files, ready for Current or a plotter',toast:'the Paths pack is ready in the index, under Paths',button:'download the pack',done:'The pack holds the six toolpaths as G-code, for Current or a plotter, laser or router, with their looks and a read-me.',
+      give:()=>saveBlob(FILE_PREFIX+'paths-pack.zip',pack())}});
+  /* only what a person does counts: the look Current opens on, or a state restored from last time, ticks nothing */
+  let armed=false;const arm=e=>{if(e.isTrusted)armed=true};addEventListener('pointerdown',arm,true);addEventListener('keydown',arm,true);
+  const D=id=>{if(armed)P.done(id)};
+  /* the hooks: Current's own functions, wrapped so they also tick a box */
+  const wrap=(name,after)=>{const f=window[name];if(typeof f!=='function')return;window[name]=function(...a){const r=f.apply(this,a);try{after(a,r)}catch(_){}return r}};
+  const cc=window.cxCount;window.cxCount=function(n,once){try{const s=String(n);
+      if(s.startsWith('look: '))D('look');else if(s.startsWith('capture: '))D('capture');
+      else if(s==='formula played'||s==='sound: own formula')D('byte');else if(s==='formula saved')D('bbsave');
+      else if(s==='sound: microphone'||s==='sound: own file')D('mine');else if(s.startsWith('sound: Byte'))D('byte');else if(s.startsWith('sound: '))D('beat')}catch(_){}
+    return cc?cc.apply(this,arguments):undefined};
+  wrap('loadPreset',()=>D('look'));wrap('setAuto',a=>{if(a[0])D('auto')});wrap('randomLook',()=>D('random'));
+  wrap('selectTool',a=>{if(a[0]==='color')D('color');if(a[0]==='frame')D('frame')});
+  wrap('rememberWord',()=>D('word'));document.addEventListener('change',e=>{if(e.target&&e.target.id==='word'&&e.target.value.trim())D('word')},true);
+  wrap('openEditor',()=>D('edit'));{const f=window.saveEditor;if(typeof f==='function')window.saveEditor=function(...a){const had=!!(ED&&ED.paths&&ED.paths.length);const r=f.apply(this,a);if(had)D('drawsave');return r}}wrap('dupPreset',()=>D('dup'));wrap('loadGcodeText',()=>D('gfile'));
+  /* and what can only be seen in the state: polled, quietly, a few times a second */
+  new MutationObserver(()=>{if(document.documentElement.classList.contains('bare'))D('bare')}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  setInterval(()=>{try{
+    if(STEER.on)D('steer');if(STEER.take)D('steerloop');if(MGR.take)D('magloop');if(ACTIVE==='magnet'&&Math.abs(S.magnet)>.05)D('magnet');
+    if(SRC.kind==='picture'||SRC.kind==='video')D('picture');if(SRC.kind==='camera')D('camera');
+    if(SRC.kind!=='none'&&S.drive>.01)D('drive');if(TRACE.on)D('trace')}catch(_){}},400);
+  /* SUGGESTIONS (0.20.0, after BakerBacker's setup to-do): the next steps, once the cover has gone (or on load without one);
+     the progress, one segment per path, under the cover's duck-rabbit */
+  {const L=$('launch');
+    if(L){P.meter(L.querySelector('.lc-below'),{go:n=>{try{SurfaceLinks.queue(n)}catch(_){}const g=$('launchGo');if(g&&!L.classList.contains('going'))g.click()}});
+      const mo=new MutationObserver(()=>{if(!document.getElementById('launch')){mo.disconnect();setTimeout(()=>P.nag(),1800)}});mo.observe(document.body,{childList:true})}
+    else setTimeout(()=>P.nag(),2600)}
+  /* the section wears its icon, like every other: a trail of steps to a flag */
+  const b=document.querySelector('#paths>.cx-grpbtn');if(b&&!b.querySelector('.sec-ic'))b.insertAdjacentHTML('afterbegin','<svg class="dsp-gear sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5c2.5-.4 3.6-2.6 6-3.4s4.6-1.6 5.4-4.6" stroke-dasharray="2.2 2.4"/><path d="M16 11.5V4.5l3.8 1.7L16 7.9"/></svg>');
+})()}catch(e){console.warn('paths',e)}
+
+/* THE ORDER (Dimitry, 19 Oct): learning more as you go. Guide, Paths, then the instrument's own sections, Resources out
+   to the web, Install, Settings, Colophon. Applied once over any order a browser had saved, then the person's own again. */
+try{const idx=$('idx'),ins=$('install'),st=$('display');if(idx&&ins&&st&&st.parentNode===idx)idx.insertBefore(ins,st);
+  const k='surface.sections.current';if(localStorage.getItem('current.order.rev')!=='2'){const v=JSON.parse(localStorage.getItem(k)||'{}')||{};delete v.order;localStorage.setItem(k,JSON.stringify(v));localStorage.setItem('current.order.rev','2')}}catch(e){}
+/* HIDDEN SECTIONS (Dimitry, 19 Oct): the crossed eye hides a section; Settings lists them. The Guide can never go.
+   Install hides itself inside the installed app, where it has nothing left to do; a #install link still shows it. */
+const STANDALONE=()=>{try{return matchMedia('(display-mode: standalone)').matches||!!navigator.standalone}catch(_){return false}};
+try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#display',also:'#colo',always:'#guide',auto:{install:STANDALONE},start:{folded:true,focus:true},label:'Index',briefScope:'#panel'})}catch(e){console.warn('sections',e)}
+try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl.querySelector(':scope>.dsp-note'),autoNote:id=>id==='install'?'(in the app)':''})}catch(e){console.warn('hidden list',e)}</script>
 
 <script>/* YOUR OWN COLOR picker: a hex field (typed, or pasted with or without #, 3 or 6 digits) and the device's own color field. */
 (function(){const P=$('colorPick'),hex=$('cpHex'),wh=$('cpWheel'),sw=$('cpSw');let pk=null,prev=null,cur='#ffffff';
@@ -5255,7 +5503,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.14';
+const APP_VERSION='0.20.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
