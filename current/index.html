@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019031930";window.__VERSION__="0.16.15";window.__NOTES__=[{"v":"0.16.15","date":"19 Oct 2026","items":[{"kind":"change","text":"no play/stop on the sound shelf: the speaker on the bar is the one on/off; tap the sound that is playing to stop it"}]}]</script>
+<script>window.__BUILD__="20261019032253";window.__VERSION__="0.16.16";window.__NOTES__=[{"v":"0.16.16","date":"19 Oct 2026","items":[{"kind":"new","text":"mute on the sound shelf, as in a mixer: the sound keeps playing and the field keeps moving to it, silently; \"muted\" shows under the speaker"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019031930"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019031930">
+<script src="claude-web.js?v=20261019032253"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019032253">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019031930"></script>
-<script src="surface/auto.js?v=20261019031930"></script>
-<script src="surface/toolpath.js?v=20261019031930"></script>
-<script src="surface/capture.js?v=20261019031930"></script>
-<script src="surface/pop.js?v=20261019031930"></script>
-<script src="surface/hints.js?v=20261019031930"></script>
-<script src="surface/keys.js?v=20261019031930"></script>
-<script src="surface/reset.js?v=20261019031930"></script>
+<script src="vendor/opentype.min.js?v=20261019032253"></script>
+<script src="surface/auto.js?v=20261019032253"></script>
+<script src="surface/toolpath.js?v=20261019032253"></script>
+<script src="surface/capture.js?v=20261019032253"></script>
+<script src="surface/pop.js?v=20261019032253"></script>
+<script src="surface/hints.js?v=20261019032253"></script>
+<script src="surface/keys.js?v=20261019032253"></script>
+<script src="surface/reset.js?v=20261019032253"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3042,7 +3042,7 @@ const pickMime=()=>typeof MediaRecorder==='undefined'||!HTMLCanvasElement.protot
 /* a video's sound: what plays (after the volume), and the camera's microphone on its own gain, never the speakers.
    With both live, the capture panel's "sound" row picks music, both or the mic (CAP.snd). */
 function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=AUD.ctx;
-  if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();AUD.vol.connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
+  if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();(AUD.mg||AUD.vol).connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
   if(AUD.mic&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
   recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
 function micLive(){return !!AUD.mic}
@@ -3907,7 +3907,7 @@ function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
     const c=AUD.ctx=new C();AUD.an=c.createAnalyser();AUD.an.fftSize=1024;AUD.an.smoothingTimeConstant=.55;AUD.data=new Uint8Array(AUD.an.frequencyBinCount);
     AUD.bus=c.createGain();AUD.vol=c.createGain();AUD.vol.gain.value=+$('audVol').value;
-    AUD.bus.connect(AUD.an);AUD.vol.connect(c.destination);
+    AUD.bus.connect(AUD.an);AUD.mg=c.createGain();AUD.mg.gain.value=AUD.muted?0:1;AUD.vol.connect(AUD.mg);AUD.mg.connect(c.destination);   /* mute: after the analyser, so the field still hears it */
     /* WETNESS (Dimitry, 18 Oct): one reverb on everything that plays, after the analyser so the field reads the dry sound.
        The room is made here: two seconds of noise, decaying, a little different left and right. */
     {const L=Math.round(c.sampleRate*2.4),ir=c.createBuffer(2,L,c.sampleRate);for(let k=0;k<2;k++){const d=ir.getChannelData(k);for(let i=0;i<L;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/L,3.2)}
@@ -4004,7 +4004,7 @@ function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
     b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=AUD.mic?'mic':'';sb.setAttribute('aria-label',(on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to stop'):AUD.mic?'Sound on, with the microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
+  sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=[AUD.mic?'mic':'',AUD.muted&&on?'muted':''].filter(Boolean).join(' · ');sb.setAttribute('aria-label',(on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to stop'):AUD.mic?'Sound on, with the microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
    stays silent otherwise). Every tap/click/key resumes it. iPhone mute switch: ask for the playback session
@@ -4064,7 +4064,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   /* no play/stop here (Dimitry, 18 Oct): the bar's speaker is the one on/off. Tapping the sound that is playing stops it */
   const hush=()=>{AUD.userOff=true;stopAudio();syncSndShelf()};
   /* CANON (Dimitry, 18 Oct): inputs first, then presets, then modifiers. Light rules between the families:
-     inputs (mic, your music) | beats | bytes | modifiers (grid, blend, wetness, react) */
+     inputs (mic, your music) | beats | bytes | modifiers (mute, grid, blend, wetness, react) */
   const rule=()=>{const g=document.createElement('span');g.className='sep';g.setAttribute('aria-hidden','true');t.appendChild(g)};
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
@@ -4078,6 +4078,9 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
   add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
+  /* MUTE (Dimitry, 18 Oct, after DAWs' mute): the sound keeps playing and the field keeps moving to it; only what you
+     hear, and what a video records, goes silent */
+  add('sdMute','mute','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="mx" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>','Mute: the sound keeps playing and the field keeps moving to it, silently. Tap again to hear it',()=>setMute(!AUD.muted));
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
     const i=SHELF_QUANT.findIndex(q=>q[0]===QUANT);QUANT=SHELF_QUANT[(i+1)%SHELF_QUANT.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
   {const LAYS=[null,...Object.keys(BEATS)],mx=add('sdMix','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>','Blend: tap to put a beat under the sound, drag left or right to blend the two',()=>{});
@@ -4091,7 +4094,10 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   add('sdReact','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h3l2-5 3 10 3-8 2 3h5"/></svg>','When a look has no sound links of its own, the sound still moves it: louder is faster, beats push harder. Tap to switch',()=>{
     AUD.react=!AUD.react;try{localStorage.setItem('current.react',AUD.react?'on':'off')}catch(_){}syncSndShelf();toast(AUD.react?'the sound moves every look':'only looks with their own sound links move')});
   syncSndShelf()}
+function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
+  try{syncAud()}catch(_){}syncSndShelf();toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
+  {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src||(b.dataset.src==='mic'&&!!AUD.mic))));
   {const m=$('sdMix');if(m){m.querySelector('.lab').textContent=AUD.lay?(BEAT_SHORT[AUD.lay]||'beat')+' '+Math.round(BLEND*100)+'%':'mix';m.setAttribute('aria-pressed',String(!!AUD.lay));
     m.setAttribute('aria-label',AUD.lay?'Blend: '+AUD.lay+' under the sound at '+Math.round(BLEND*100)+'%. Tap for the next beat, drag left or right to blend':'Blend: tap to put a beat under the sound, then drag left or right to blend the two')}}
@@ -4723,10 +4729,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019031930"></script>
-<script src="surface/links.js?v=20261019031930"></script>
-<script src="surface/tips.js?v=20261019031930"></script>
-<script src="surface/sections.js?v=20261019031930"></script>
+<script src="surface/install.js?v=20261019032253"></script>
+<script src="surface/links.js?v=20261019032253"></script>
+<script src="surface/tips.js?v=20261019032253"></script>
+<script src="surface/sections.js?v=20261019032253"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4958,7 +4964,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.15';
+const APP_VERSION='0.16.16';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
