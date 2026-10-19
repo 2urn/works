@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019020305";window.__VERSION__="0.16.7";window.__NOTES__=[{"v":"0.16.7","date":"19 Oct 2026","items":[{"kind":"new","text":"\"What's new\" in the update notice: see what a new version brings before you update"},{"kind":"new","text":"the version number and this version's notes under Version in the index"},{"kind":"fix","text":"opening a link like #install on an iPhone no longer leaves the stage black and the buttons dead"},{"kind":"change","text":"the G-code engine is now part of the shared kit, ready to move other things along a toolpath"}]}]</script>
+<script>window.__BUILD__="20261019022230";window.__VERSION__="0.16.8";window.__NOTES__=[{"v":"0.16.8","date":"19 Oct 2026","items":[{"kind":"fix","text":"\"check for updates\" in the install section answers again: you have the newest, or a newer version is ready"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019020305"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019020305">
+<script src="claude-web.js?v=20261019022230"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019022230">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019020305"></script>
-<script src="surface/auto.js?v=20261019020305"></script>
-<script src="surface/toolpath.js?v=20261019020305"></script>
-<script src="surface/capture.js?v=20261019020305"></script>
-<script src="surface/pop.js?v=20261019020305"></script>
-<script src="surface/hints.js?v=20261019020305"></script>
-<script src="surface/keys.js?v=20261019020305"></script>
-<script src="surface/reset.js?v=20261019020305"></script>
+<script src="vendor/opentype.min.js?v=20261019022230"></script>
+<script src="surface/auto.js?v=20261019022230"></script>
+<script src="surface/toolpath.js?v=20261019022230"></script>
+<script src="surface/capture.js?v=20261019022230"></script>
+<script src="surface/pop.js?v=20261019022230"></script>
+<script src="surface/hints.js?v=20261019022230"></script>
+<script src="surface/keys.js?v=20261019022230"></script>
+<script src="surface/reset.js?v=20261019022230"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4622,10 +4622,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019020305"></script>
-<script src="surface/links.js?v=20261019020305"></script>
-<script src="surface/tips.js?v=20261019020305"></script>
-<script src="surface/sections.js?v=20261019020305"></script>
+<script src="surface/install.js?v=20261019022230"></script>
+<script src="surface/links.js?v=20261019022230"></script>
+<script src="surface/tips.js?v=20261019022230"></script>
+<script src="surface/sections.js?v=20261019022230"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4856,7 +4856,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.7';
+const APP_VERSION='0.16.8';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

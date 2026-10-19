@@ -207,8 +207,13 @@ function mount(o){
     const notesHere=()=>{const n=(window.__NOTES__||[])[0];if(!n||!n.items||!n.items.length)return'';const K={new:'New',fix:'Fixed',change:'Changed'};
       return `<details class="sfi-new" style="margin-top:6px"><summary style="cursor:pointer;color:var(--sfi-acc)">What\u2019s new in ${esc(n.v)}</summary><ul style="margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px">`+
         n.items.map(it=>`<li style="display:grid;grid-template-columns:58px 1fr;gap:8px;align-items:baseline"><span style="font:600 9px/1 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase;opacity:.7">${K[it.kind]||''}</span><span>${esc(it.text)}</span></li>`).join('')+'</ul></details>'};
-    const wireVer=()=>{const b=body.querySelector('.sfi-chk');if(!b||typeof window.checkForUpdate!=='function')return;
-      b.onclick=()=>{b.textContent='checking…';window.checkForUpdate(false).then(r=>{b.textContent=r==='current'?'you have the newest':r==='new'?'a newer version is ready':'could not check (offline?)'})}};
+    /* the button is wired whether or not the update checker has loaded yet: the guide is built before the end of the page,
+       where the checker lives, so testing for it here left the button dead (Dimitry, 18 Oct 2026). It looks at click time. */
+    const wireVer=()=>{const b=body.querySelector('.sfi-chk');if(!b)return;const idle='check for updates';
+      b.onclick=()=>{if(b.dataset.busy)return;b.dataset.busy='1';b.textContent='checking\u2026';
+        const done=t=>{b.textContent=t;b.setAttribute('aria-live','polite');setTimeout(()=>{delete b.dataset.busy;b.textContent=idle},5000)};
+        if(typeof window.checkForUpdate!=='function'){done('updates are checked on the published app');return}
+        window.checkForUpdate(false).then(r=>done(r==='current'?'\u2713 you have the newest'+(window.__VERSION__?' ('+window.__VERSION__+')':''):r==='new'?'a newer version is ready: see the top of the screen':r==='busy'?'still checking\u2026':'could not check (offline?)'),()=>done('could not check (offline?)'))}};
     label(standalone()||(!embedded()&&installedHere())?'Installed':'Install');
     if(standalone()){body.innerHTML=`<p class="sfi-state"><b>Installed.</b> You are in ${app} as an app. It opens from its own icon and keeps working offline once it has loaded.</p>`+ver();wireVer();linkRow();return}
     if(embedded()){body.innerHTML=`<p class="sfi-lead">${app} can live on your phone or computer as its own app: full screen, its own icon, and it keeps working offline.</p>
