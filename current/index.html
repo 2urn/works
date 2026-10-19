@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019045045";window.__VERSION__="0.17.9";window.__NOTES__=[{"v":"0.17.9","date":"19 Oct 2026","items":[{"kind":"fix","text":"0.17.8 could open to a still, dead stage when the capture panel was last left on video"}]}]</script>
+<script>window.__BUILD__="20261019045804";window.__VERSION__="0.17.10";window.__NOTES__=[{"v":"0.17.10","date":"19 Oct 2026","items":[{"kind":"new","text":"morph between texts: cut, ½, 1 or 2 seconds, so the particles drift from one text into the next"},{"kind":"new","text":"ALL CAPS, for every text in the sequence"},{"kind":"new","text":"T opens the text field ready to type; W plays the next text in the sequence"},{"kind":"change","text":"\"Words\" is now \"Texts\": they can be phrases"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019045045"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019045045">
+<script src="claude-web.js?v=20261019045804"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019045804">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019045045"></script>
-<script src="surface/auto.js?v=20261019045045"></script>
-<script src="surface/toolpath.js?v=20261019045045"></script>
-<script src="surface/capture.js?v=20261019045045"></script>
-<script src="surface/pop.js?v=20261019045045"></script>
-<script src="surface/hints.js?v=20261019045045"></script>
-<script src="surface/keys.js?v=20261019045045"></script>
-<script src="surface/reset.js?v=20261019045045"></script>
+<script src="vendor/opentype.min.js?v=20261019045804"></script>
+<script src="surface/auto.js?v=20261019045804"></script>
+<script src="surface/toolpath.js?v=20261019045804"></script>
+<script src="surface/capture.js?v=20261019045804"></script>
+<script src="surface/pop.js?v=20261019045804"></script>
+<script src="surface/hints.js?v=20261019045804"></script>
+<script src="surface/keys.js?v=20261019045804"></script>
+<script src="surface/reset.js?v=20261019045804"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1436,8 +1436,8 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
     <p class="flHint">Fonts you add stay in this browser. Only add fonts you have the license to use.</p>
   </div>
 </div>
-<div id="wordList" role="dialog" aria-label="Recent words and word sequencer" hidden>
-  <div class="mxh"><span>Words</span><button class="tb" id="wlClose" type="button" aria-label="Close the recent words">Close</button></div>
+<div id="wordList" role="dialog" aria-label="Texts and the sequencer" hidden>
+  <div class="mxh"><span>Texts</span><button class="tb" id="wlClose" type="button" aria-label="Close the texts">Close</button></div>
   <div id="wlSeq"></div>
   <div id="wlItems" role="group" aria-label="Recent words"></div>
 </div>
@@ -1751,9 +1751,10 @@ const textGen=()=>sizeLocked(document.getElementById('word').value,document.getE
    centred in that shared frame. "each fills" is the old way: every word fills the stage. */
 let LOCKC=null;
 function sizeLocked(w,f){
+  const cap=x=>store.caps&&x?String(x).toUpperCase():x;w=cap(w);   // ALL CAPS (Dimitry, 19 Oct)
   let gc=genText(w,f);if(store.typeLock===false)return gc;
-  const set=[...new Set([...(store.seq&&store.seq.length>1?store.seq:store.words||[]),w])].filter(Boolean).slice(0,24);if(set.length<2)return gc;
-  const key=[f,linesMode(),Math.round(innerWidth/innerHeight*20),...set].join('|');
+  const set=[...new Set([...(store.seq&&store.seq.length>1?store.seq:store.words||[]).map(cap),w])].filter(Boolean).slice(0,24);if(set.length<2)return gc;
+  const key=[f,store.caps?'C':'c',linesMode(),Math.round(innerWidth/innerHeight*20),...set].join('|');
   const box=g=>{let a=1e9,b=1e9,c=-1e9,d=-1e9;for(const q of parseGcode(g).segs){if(q.travel)continue;a=Math.min(a,q.x0,q.x1);c=Math.max(c,q.x0,q.x1);b=Math.min(b,q.y0,q.y1);d=Math.max(d,q.y0,q.y1)}return a>c?null:[a,b,c,d]};
   if(!LOCKC||LOCKC.key!==key){let W=0,H=0;for(const x of set){const r=box(x===w?gc:genText(x,f));if(r){W=Math.max(W,r[2]-r[0]);H=Math.max(H,r[3]-r[1])}}LOCKC={key,W,H};
     gc=genText(w,f)}   // last, so the line breaks it reports are this word's
@@ -1948,12 +1949,16 @@ function fallRange(){
   for(const mp of S.maps)if(mp.dst==='falloff'&&mp.src!=='falloff'){const d=Math.abs(mp.amt)*R*(mp.how==='follow'?1:.6);lo-=d;hi+=d}
   return[Math.max(.8,lo),Math.min(12,hi)];
 }
+/* TEXT MORPH (Dimitry, 19 Oct): when the text changes, the old field fades into the new one over the morph time
+   instead of switching at once; the particles drift from one word into the next. */
+let WM=null,WM_PENDING=false;
 function buildField(){
+  const prevA=FA||field,pg=GW,ph=GH,wm=WM_PENDING&&(+store.textMorph||0)>0;WM_PENDING=false;
   const[lo,hi]=fallRange();FLO=lo;FHI=hi;lastBuild=performance.now();
   if(hi-lo<0.05){buildFieldAt(lo);FA=field;FB=null}
   else{buildFieldAt(hi);FB=field;buildFieldAt(lo);FA=field}
   fieldFall=lo;buildLens();try{if(SRC.kind!=='none')buildDrive()}catch(_){}   // SRC is declared further down; the first build comes before it
-}
+  WM=wm&&prevA&&pg===GW&&ph===GH?{old:prevA,t0:performance.now(),dur:+store.textMorph*1000,e:0}:null}
 function buildFieldAt(fallCells){
   fitSegments();
   CELL=Math.max(6,Math.round(Math.min(W,H)/90));
@@ -1971,6 +1976,7 @@ function sample(x,y){
     const bx=(f[i00]*(1-ax)+f[i10]*ax)*(1-ay)+(f[i01]*(1-ax)+f[i11]*ax)*ay;
     const by=(f[i00+1]*(1-ax)+f[i10+1]*ax)*(1-ay)+(f[i01+1]*(1-ax)+f[i11+1]*ax)*ay;
     vx+=(bx-vx)*FW;vy+=(by-vy)*FW}
+  if(WM){const o=WM.old,e=WM.e;vx=((o[i00]*(1-ax)+o[i10]*ax)*(1-ay)+(o[i01]*(1-ax)+o[i11]*ax)*ay)*(1-e)+vx*e;vy=((o[i00+1]*(1-ax)+o[i10+1]*ax)*(1-ay)+(o[i01+1]*(1-ax)+o[i11+1]*ax)*ay)*(1-e)+vy*e}   // the text morph
   if(driveOn())[vx,vy]=mixDrive(i00,i10,i01,i11,ax,ay,vx,vy);   // the picture's tones, blended by drive
   if(STEER.any&&STEER.gw===GW&&STEER.gh===GH){f=STEER.g;   // painted direction rides on top
     vx+=(f[i00]*(1-ax)+f[i10]*ax)*(1-ay)+(f[i01]*(1-ax)+f[i11]*ax)*ay;
@@ -2077,7 +2083,7 @@ function frame(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
-  tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
+  if(WM){const u=(performance.now()-WM.t0)/WM.dur;if(u>=1)WM=null;else WM.e=u*u*(3-2*u)}tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
@@ -2600,6 +2606,7 @@ if(!store.wordsSeeded){for(const w of ['LOOP','SWIM','PLAY'])if(!store.words.som
 // word sequencer: words picked from the recent list play one after another (in order) or in an auto mix (random),
 // every few seconds or every bar of the beat. Sequenced traces do not reshuffle the recent list.
 if(!Array.isArray(store.seq))store.seq=[];
+if(store.textMorph==null)store.textMorph=1;   // texts morph into each other over a second unless set otherwise
 const SEQ={on:false,quiet:false,t:0,i:-1,cur:null,beats:0,bh:false,order:store.seqOrder==='mix'?'mix':'order',every:store.seqEvery||'4'};
 const SEQ_EVERY={'2':'2s','4':'4s','8':'8s','16':'16s',bar:'bar'};
 function seqStep(){const L=store.seq;if(!L.length){seqStop();return}
@@ -2626,6 +2633,8 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   run.append(pb,nt);sq.appendChild(run);
   sq.appendChild(segs([['order','in order'],['mix','auto mix']],SEQ.order,'Sequence order',v=>{SEQ.order=v;store.seqOrder=v}));
   sq.appendChild(segs(Object.entries(SEQ_EVERY),SEQ.every,'Change words every',v=>{SEQ.every=v;store.seqEvery=v;SEQ.t=0;SEQ.beats=0}));
+  sq.appendChild(segs([['0','cut'],['0.5','morph ½ s'],['1','1 s'],['2','2 s']],String(+store.textMorph||0),'From one text to the next',v=>{store.textMorph=+v}));
+  sq.appendChild(segs([['as','as typed'],['caps','ALL CAPS']],store.caps?'caps':'as','Letter case',v=>{store.caps=v==='caps';LOCKC=null;if(onTypeField()){$('gcode').value=textGen();build()}}));
   sq.appendChild(segs([['lock','same size'],['fit','each fills']],store.typeLock===false?'fit':'lock','Type size across the words',v=>{store.typeLock=v==='lock';LOCKC=null;if(onTypeField()){$('gcode').value=textGen();build()}}));
   /* the list: by sequence, A to Z, or your own order (drag ⠿). In A–Z and your own order the sequence plays top to bottom */
   const base=[...store.words,...store.seq.filter(w=>!store.words.some(x=>x===w))],sort=store.wordSort||'seq',cur=$('word').value;
@@ -2634,7 +2643,7 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   else if(sort==='own'){const o=(store.wordOrder||[]).filter(w=>base.includes(w));words=[...o,...base.filter(w=>!o.includes(w))];store.wordOrder=words.slice()}
   else words=[...store.seq.filter(w=>base.includes(w)),...base.filter(w=>!store.seq.includes(w))];
   if(sort!=='seq'){const re=words.filter(w=>store.seq.includes(w));if(re.join('\n')!==store.seq.join('\n')){store.seq=re;persist()}}
-  const sh=document.createElement('div');sh.className='sub';const st=document.createElement('span');st.textContent='Words';
+  const sh=document.createElement('div');sh.className='sub';const st=document.createElement('span');st.textContent='Texts';
   const so=document.createElement('div');so.className='wlSort';so.setAttribute('role','group');so.setAttribute('aria-label','Sort the words');
   for(const [v,l,a] of [['seq','sequence','In sequence order, then the rest'],['az','a–z','A to Z; the sequence plays in this order'],['own','manual','Your own order: drag ⠿; the sequence plays in this order']]){
     const b=document.createElement('button');b.type='button';b.textContent=l;b.title=a;b.setAttribute('aria-pressed',String(sort===v));
@@ -2645,7 +2654,7 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
     inq.setAttribute('aria-label',q>=0?w+' is number '+(q+1)+' in the sequence. Take it out':'Add '+w+' to the sequence');
     inq.innerHTML=q>=0?'<b>'+(q+1)+'</b>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>';inq.onclick=()=>seqToggle(w);
     const b=document.createElement('button');b.type='button';b.className='pick';b.setAttribute('aria-label','Trace '+w+' now');
-    const nm=document.createElement('span');nm.className='nm';nm.textContent=w.replace(/\//g,' / ');b.append(document.createElement('i'),nm);
+    const nm=document.createElement('span');nm.className='nm';nm.textContent=(store.caps?w.toUpperCase():w).replace(/\//g,' / ');b.append(document.createElement('i'),nm);
     b.onclick=()=>{$('word').value=w;$('traceBtn').click();renderWordList();if(ACTIVE==='text')buildToolShelf()};
     const x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Remove '+w+' from the list');
     x.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
@@ -2696,7 +2705,7 @@ $('traceBtn').addEventListener('click',()=>{
   // a word carries no look: if the field already holds traced type (the text preset, or a random/custom look rolled
   // on top of it), only the letters change and the current look stays. Otherwise load the text preset first.
   if(!onTypeField())loadPreset(0,true);
-  else{$('gcode').value=textGen();build()}});
+  else{WM_PENDING=true;$('gcode').value=textGen();build()}});
 // is the field traced type right now? (a type preset, your saved type look, or a random roll on top of one)
 function onTypeField(){const p=allPresets()[presetIdx];return (p&&p.gen===textGen)||/Type:\s*"/.test(($('gcode').value||'').split('\n',1)[0])}
 $('word').addEventListener('keydown',e=>{if(e.key==='Enter')$('traceBtn').click()});
@@ -3285,7 +3294,7 @@ function renderBatch(){const b=$('batchBody');if(!b)return;b.innerHTML='';const 
   if(CAP.mode==='video'&&!capLenSec())segs([[5,'5 s'],[10,'10 s'],[15,'15 s']],BATCH.vlen,'Video length',v=>{BATCH.vlen=v;bsave()});
   if(CAP.mode==='video'&&capLenSec()){const q=document.createElement('p');q.className='btNote';q.textContent='each video: '+(typeof CAP.len==='number'?CAP.len+' s':parseInt(CAP.len)+' bars')+(CAP.intro?', intro':'')+(CAP.outro?', outro':'')+(CAP.fade?', fades':'')+' (the capture panel’s)';b.appendChild(q)}
   sub('Wait before each');segs([[1,'1 s'],[2,'2 s'],[4,'4 s']],BATCH.settle,'Wait for the particles to form the look',v=>{BATCH.settle=v;bsave()});
-  sub('Of');segs([['looks','looks · '+BATCH.looks.size],['words','words · '+BATCH.words.size]],BATCH.tab,'Looks or words',v=>{BATCH.tab=v});
+  sub('Of');segs([['looks','looks · '+BATCH.looks.size],['words','texts · '+BATCH.words.size]],BATCH.tab,'Looks or words',v=>{BATCH.tab=v});
   const list=document.createElement('div');list.className='btList';
   const names=BATCH.tab==='looks'?all.map((p,i)=>[i,p.name]):[...new Set([...(store.seq||[]),...(store.words||[])])].map(x=>[x,x]);
   const set=BATCH.tab==='looks'?BATCH.looks:BATCH.words;
@@ -3294,7 +3303,7 @@ function renderBatch(){const b=$('batchBody');if(!b)return;b.innerHTML='';const 
     const t=document.createElement('span');t.textContent=String(n);lb.append(c,t);list.appendChild(lb)}
   b.appendChild(list);
   const n=BATCH.looks.size+BATCH.words.size,act=document.createElement('div');act.className='btAct';
-  const go=document.createElement('button');go.type='button';go.className='btGo';go.textContent=BATCH.run?'stop':n?'make '+n+' file'+(n>1?'s':''):'pick looks or words';go.disabled=!BATCH.run&&!n;
+  const go=document.createElement('button');go.type='button';go.className='btGo';go.textContent=BATCH.run?'stop':n?'make '+n+' file'+(n>1?'s':''):'pick looks or texts';go.disabled=!BATCH.run&&!n;
   go.onclick=()=>{if(BATCH.run){BATCH.cancel=true;go.textContent='stopping…'}else runBatch()};
   const pr=document.createElement('span');pr.id='btProg';pr.textContent=BATCH.at||(n?'saved together as one .zip':'');act.append(go,pr);b.appendChild(act)}
 function openBatch(){try{closeShotPop()}catch(_){}renderBatch();$('batchPop').hidden=false}
@@ -3502,7 +3511,7 @@ const IC={
 const TOOLS=[
   {id:'steer',label:'steer',aria:'Steer and loop: paint direction, record loops'},
   {id:'color',label:'color',aria:'Colors: lines, second color, ground, arrows'},
-  {id:'text',label:'text',aria:'Text: the traced word, recent words, typeface'},
+  {id:'text',label:'text',aria:'Text: the traced text, your texts, typeface'},
   {id:'magnet',label:'magnet',aria:'Magnet: pull or push the current toward your finger, record a magnet loop'},
   {id:'view',label:'view',aria:'View: arrows, toolpath, lens glow, trails'},
   {id:'frame',label:'frame',aria:'Frame: move, scale and rotate the drawing in the window'},
@@ -3712,7 +3721,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     ok.addEventListener('pointerdown',e=>e.preventDefault());   // keep focus/keyboard steady on tap
     // the backward clock: recent words, and the sequencer that plays them in turn (lit while it plays)
     const hb=document.createElement('button');hb.type='button';hb.className='shhist'+(SEQ.on?' seq':'');hb.setAttribute('aria-haspopup','dialog');hb.setAttribute('aria-expanded',String(!$('wordList').hidden));
-    hb.setAttribute('aria-label','Recent words and the word sequencer'+(SEQ.on?', playing':''));
+    hb.setAttribute('aria-label','Texts and the sequencer'+(SEQ.on?', playing':''));
     hb.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.6 13A7.5 7.5 0 1 0 6.8 6.6"/><path d="M4.3 3.8v3.6h3.6"/><path d="M12 8.2v4.1l2.7 1.7"/></svg>';
     hb.addEventListener('pointerdown',e=>e.preventDefault());hb.onclick=()=>{$('wordList').hidden?openWordList():closeWordList()};
     ok.onclick=go;fld.appendChild(inp);fld.appendChild(hb);fld.appendChild(ok);t.appendChild(fld);if(flipped)fld.classList.add('flipin');}
@@ -5003,12 +5012,12 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 </script>
 
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
-try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
+try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019045045"></script>
-<script src="surface/links.js?v=20261019045045"></script>
-<script src="surface/tips.js?v=20261019045045"></script>
-<script src="surface/sections.js?v=20261019045045"></script>
+<script src="surface/install.js?v=20261019045804"></script>
+<script src="surface/links.js?v=20261019045804"></script>
+<script src="surface/tips.js?v=20261019045804"></script>
+<script src="surface/sections.js?v=20261019045804"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5035,7 +5044,8 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
     {id:'close',d:'Close what is open; leave full screen',keys:['esc'],fixed:true});
   const CU=[
     {id:'current.steer',d:'Steer: paint direction into the field',keys:['s'],run:()=>{if(STEER.on){if(TOOLS.length>1)collapseTool();else setSteer(false)}else setSteer(true)}},
-    {id:'current.text',d:'Text: type a word to trace',keys:['t'],run:()=>tool('text')},
+    {id:'current.text',d:'Text: open it and type straight away',keys:['t'],run:()=>{if(ACTIVE!=='text')tool('text');setTimeout(()=>{const i=document.querySelector('#toolTrack .shin');if(i){i.focus();i.select()}},80)}},
+    {id:'current.nexttext',d:'Next text in the sequence',keys:['w'],run:()=>{if(!(store.seq||[]).length){toast('add texts to the sequence first');return}seqStep()}},
     {id:'current.magnet',d:'Magnet: pull or push the current',keys:['g'],run:()=>tool('magnet')},
     {id:'current.view',d:'View: arrows, toolpath, glow, trails',keys:['v'],run:()=>tool('view')},
     {id:'current.color',d:'Color',keys:[],run:()=>tool('color')},
@@ -5242,7 +5252,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.9';
+const APP_VERSION='0.17.10';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
