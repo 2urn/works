@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261018235331"</script>
+<script>window.__BUILD__="20261019000501"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -74,6 +74,7 @@
 <script src="vendor/opentype.min.js"></script>
 <script src="surface/auto.js"></script>
 <script src="surface/capture.js"></script>
+<script src="surface/pop.js"></script>
 <script src="surface/hints.js"></script>
 <script src="surface/keys.js"></script>
 <script src="surface/reset.js"></script>
@@ -147,7 +148,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* full screen sits alone in the bar's right corner; the keys button ends the row, and to its right is where a
    pointed-at button's key appears, joined to it by a dotted wire (Dimitry, 18 Oct) */
 body #playbar>#pFull{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:0;bottom:0;margin-block:auto}
-@media (max-width:620px){body #playbar>#pFull{position:static;margin:0}}   /* no room for a corner of its own: it sat over the tools button */
+body #playbar>#pFull.inrow{position:static;margin:0}body #playbar>#pFull.gone{display:none}   /* placeFull() picks: its own corner, back in the row, or (no room at all) away */
 #pFull .fsOut{display:none}#pFull[aria-pressed="true"] .fsIn{display:none}#pFull[aria-pressed="true"] .fsOut{display:inline}
 /* hidden means gone, not just invisible (Dimitry, 18 Oct: the hidden bar's buttons still took clicks): the bar slides
    down below the screen and everything else fades and stops taking the pointer, children included */
@@ -481,7 +482,7 @@ body #playbar>#pShot svg{width:clamp(24px,7vw,34px);height:clamp(24px,7vw,34px)}
   --pop-room:calc(100dvh - var(--pop-base,110px) - var(--pop-gap,12px) - env(safe-area-inset-top,0px) - 70px)}@media (max-width:560px){:root{--pop-gap:10px}}@media (min-width:1400px){:root{--pop-gap:16px}}
 #playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
 #playname.show{opacity:1}
-#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #plist[hidden]{display:none}
 .mxh{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 4px 0 14px;border-bottom:1px solid var(--ui-line);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
 .tb{background:transparent;border:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px;cursor:pointer}
@@ -574,7 +575,7 @@ body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-g
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
-#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #rlist[hidden]{display:none}
 #rlBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
@@ -776,7 +777,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shface:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
-#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #fontList[hidden]{display:none}
 /* recent words + word sequencer: the backward clock in the word field opens it */
 .shfield{width:258px}
@@ -784,7 +785,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:#55b8c9}
 .shhist:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
-#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
@@ -920,7 +921,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .dsp-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px;max-width:38ch}.dsp-list li{font-size:12.5px;line-height:1.45;color:var(--muted)}.dsp-list b{color:var(--fg);font-weight:700}
 
 /* YOUR OWN COLOR: hold a color dot still (right-click on a computer) for a hex field and the device's color field */
-#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line)}
+#colorPick{position:fixed;z-index:34;left:calc(50% + var(--dw,0px) / 2);transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(300px,calc(100vw - 24px));display:flex;flex-direction:column;color:var(--ui-ink)}
 #colorPick[hidden]{display:none}
 .cpBody{padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px}
 .cpField{position:relative;display:block;height:64px;border:1px solid #2b3235;cursor:pointer;overflow:hidden}
@@ -3626,7 +3627,16 @@ $('stSize').onclick=()=>{const i=BRUSH.findIndex(b=>b[0]===brushName()),b=BRUSH[
 $('stClr').onclick=()=>{if(STEER.g)STEER.g.fill(0);STEER.any=false;STEER.loop=null;STEER.take=null;STEER.rec=null;STEER.ghost=null;syncSteer();toast('steer cleared')};
 $('stHold').onclick=()=>{STEER.hold=STEER_HOLDS[(STEER_HOLDS.indexOf(STEER.hold)+1)%STEER_HOLDS.length];syncSteer();toast('painted direction lasts '+(STEER.hold?fmtSec(STEER.hold):'until cleared'))};
 // shelves sit one gap above the player bar and slide sideways when they hold more than fits
-function placeShelves(){const pb=$('playbar').getBoundingClientRect();if(!pb.height)return;
+/* FULL SCREEN'S PLACE (0.16.1): alone in the bottom-right corner when the bar leaves room there; back in the bar's row
+   when the corner would sit on the last button; away when even the row has no room (phones: an iPhone never offers it,
+   and elsewhere installing the app gives full screen). Measured, not guessed by breakpoints: the keys button comes and goes. */
+function placeFull(){const f=$('pFull'),bar=$('playbar');if(!f||!bar)return;f.classList.remove('inrow','gone');if(f.hidden||!f.offsetWidth)return;
+  const others=()=>[...bar.children].filter(c=>c!==f&&c.offsetWidth).map(c=>c.getBoundingClientRect());
+  const q=f.getBoundingClientRect(),right=Math.max(...others().map(r=>r.right));if(q.left>=right+8)return;
+  f.classList.add('inrow');const all=[...bar.children].filter(c=>c.offsetWidth).map(c=>c.getBoundingClientRect());
+  if(Math.min(...all.map(r=>r.left))<0||Math.max(...all.map(r=>r.right))>innerWidth){f.classList.remove('inrow');f.classList.add('gone')}}
+addEventListener('resize',()=>requestAnimationFrame(placeFull));try{new ResizeObserver(()=>placeFull()).observe(document.getElementById('playbar'));new MutationObserver(()=>placeFull()).observe(document.getElementById('playbar'),{subtree:true,attributes:true,attributeFilter:['hidden']})}catch(_){}
+function placeShelves(){placeFull();const pb=$('playbar').getBoundingClientRect();if(!pb.height)return;
   const kids=[...$('playbar').children].map(c=>c.getBoundingClientRect()).filter(r=>r.height);const top=Math.min(...kids.map(r=>r.top));
   const b=Math.round(innerHeight-top+10);document.querySelectorAll('.shelf').forEach(sh=>sh.style.bottom=b+'px');placeName()}
 // the preset name rides above whatever is open: the player bar alone, or an open shelf on top of it
@@ -4684,6 +4694,9 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 
 </script>
 
+<script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
+try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
+  .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
 <script src="surface/install.js"></script>
 <script src="surface/tips.js"></script>
 <script src="surface/sections.js"></script>
@@ -4911,7 +4924,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.0';
+const APP_VERSION='0.16.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
