@@ -4,11 +4,14 @@
      Chrome/Edge on a computer, Firefox),
    - uses the browser's own install button when it offers one (beforeinstallprompt),
    - otherwise shows the steps as a short looping drawn animation with a numbered list beside it,
-   - says "installed" when the app is already running on its own, and inside claude.ai points to the public link
+   - says "installed" when the app is already running on its own (any manifest display mode, fullscreen included),
+     and in a browser tab when it is already installed on this device (Chrome/Edge report it; elsewhere it is remembered
+     from installing in this browser; Safari can't tell), with the steps one tap away; inside claude.ai points to the public link
      (installing there would save claude.ai, not the tool),
    - can show a one-time hint after a while of use.
    Mount: SurfaceInstall.mount({app:'Current', icon:'icons/icon-192.png', url:'https://works.chamy.xyz/current/', into:el, before:el,
-            open:()=>{...open the drawer...}, hint:true})
+            open:()=>{...open the drawer...}, hint:true, link:true})
+   link:true adds "send someone straight here" with a copy-link button (links.js); the section's id is install, so #install opens it.
    Styling follows the host's Codex list (.cx-grp/.cx-row) and its CSS variables; it carries fallbacks of its own. */
 (function(){
 'use strict';
@@ -18,11 +21,21 @@ const ANDROID=/Android/.test(ua),OTHER_IOS=/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
 const FIREFOX=/Firefox|FxiOS/.test(ua),EDGE=/Edg\//.test(ua),CHROME=/Chrome\//.test(ua)&&!EDGE;
 const MAC=/Macintosh/.test(ua)&&!touchMac,WIN=/Windows/.test(ua);
 const MAC_SAFARI=MAC&&/Safari\//.test(ua)&&!/Chrome|Chromium|Edg|Firefox/.test(ua);
-const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: window-controls-overlay)').matches||navigator.standalone===true;
+/* an installed app reports the display mode its manifest asked for: standalone, minimal-ui, window-controls-overlay or fullscreen.
+   fullscreen is also what a browser tab reports while it is in full screen, so it only counts when no element holds full screen */
+const standalone=()=>navigator.standalone===true||['standalone','minimal-ui','window-controls-overlay'].some(m=>matchMedia('(display-mode: '+m+')').matches)||
+  (matchMedia('(display-mode: fullscreen)').matches&&!document.fullscreenElement&&!document.webkitFullscreenElement);
 const embedded=()=>{let t=false;try{t=window.top!==window.self}catch(_){t=true}return t||/(^|\.)claude(usercontent)?\.(ai|com)$/.test(location.hostname)};
 let BIP=null;const bipWaiters=[];
-addEventListener('beforeinstallprompt',e=>{e.preventDefault();BIP=e;bipWaiters.forEach(f=>f())});
-addEventListener('appinstalled',()=>{BIP=null;bipWaiters.forEach(f=>f())});
+let RELATED=false;
+const mark=v=>{try{if(v)localStorage.setItem('surface-install:installed','true');else localStorage.removeItem('surface-install:installed')}catch(_){}};
+const marked=()=>{try{return localStorage.getItem('surface-install:installed')==='true'}catch(_){return false}};
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();BIP=e;RELATED=false;mark(false);bipWaiters.forEach(f=>f())});
+addEventListener('appinstalled',()=>{BIP=null;mark(true);bipWaiters.forEach(f=>f())});
+/* Chrome and Edge can say whether this web app is installed, when the manifest lists itself under related_applications */
+if(navigator.getInstalledRelatedApps)navigator.getInstalledRelatedApps().then(a=>{if(a&&a.some(x=>x.platform==='webapp')){RELATED=true;mark(true);bipWaiters.forEach(f=>f())}}).catch(()=>{});
+/* installed on this device, seen from a browser tab: known for sure in Chrome/Edge, remembered where it was installed from this browser; Safari can't tell */
+const installedHere=()=>!BIP&&(RELATED||marked());
 
 function guess(){
   if(APPLE_MOBILE)return OTHER_IOS?'ios-other':'ios-safari';
@@ -183,7 +196,8 @@ function mount(o){
   const body=sec.querySelector('.cx-gbody');
   const gb=sec.querySelector('.cx-grpbtn');gb.onclick=()=>{const on=sec.classList.toggle('cx-shut');gb.setAttribute('aria-expanded',String(!on))};
   if(o.before&&o.before.parentNode)o.before.parentNode.insertBefore(sec,o.before);else (o.into||document.body).appendChild(sec);
-  let plat=guess(),timer=0,step=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let plat=guess(),timer=0,step=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,steps=false;
+  const label=t=>{const l=gb.querySelector('span');if(l)l.textContent=t};
 
   function render(){
     clearTimeout(timer);
@@ -191,11 +205,15 @@ function mount(o){
     const ver=()=>window.__BUILD__?`<p class="sfi-note" style="margin-top:10px">Version ${esc(String(window.__BUILD__).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5'))} · <button type="button" class="sfi-chk" style="padding:0;border:0;background:none;color:var(--sfi-acc);font:inherit;text-decoration:underline;cursor:pointer">check for updates</button></p>`:'';
     const wireVer=()=>{const b=body.querySelector('.sfi-chk');if(!b||typeof window.checkForUpdate!=='function')return;
       b.onclick=()=>{b.textContent='checking…';window.checkForUpdate(false).then(r=>{b.textContent=r==='current'?'you have the newest':r==='new'?'a newer version is ready':'could not check (offline?)'})}};
-    if(standalone()){body.innerHTML=`<p class="sfi-state"><b>Installed.</b> You are in ${app} as an app. It opens from its own icon and keeps working offline once it has loaded.</p>`+ver();wireVer();return}
+    label(standalone()||(!embedded()&&installedHere())?'Installed':'Install');
+    if(standalone()){body.innerHTML=`<p class="sfi-state"><b>Installed.</b> You are in ${app} as an app. It opens from its own icon and keeps working offline once it has loaded.</p>`+ver();wireVer();linkRow();return}
     if(embedded()){body.innerHTML=`<p class="sfi-lead">${app} can live on your phone or computer as its own app: full screen, its own icon, and it keeps working offline.</p>
       <p class="sfi-state">Here inside Claude, installing would save Claude, not ${app}. Open the public version and install it from there:</p>
       <a class="sfi-go" href="${esc(o.url)}" target="_blank" rel="noopener">${ICON_EXT}Open ${app}</a> <button type="button" class="sfi-go ghost" data-copy>Copy link</button>`;
       const cp=body.querySelector('[data-copy]');cp.onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(o.url):Promise.reject()).then(()=>{cp.textContent='Copied'},()=>{cp.textContent=o.url})};return}
+    if(installedHere()&&!steps){body.innerHTML=`<p class="sfi-state"><b>Installed on this device.</b> Open ${app} from its own icon for full screen and offline use.</p>
+      <p class="sfi-note">On another device, or removed it? <button type="button" data-steps style="padding:0;border:0;background:none;color:var(--sfi-acc);font:inherit;text-decoration:underline;cursor:pointer">show the install steps</button></p>`+ver();
+      body.querySelector('[data-steps]').onclick=()=>{steps=true;render()};wireVer();linkRow();return}
     const sc=SCENES[plat];
     let h=`<p class="sfi-lead">Keep ${app} as its own app: full screen, its own icon, and it keeps working offline.</p>`;
     if(BIP)h+=`<button type="button" class="sfi-go" data-bip>${ICON_DL}Install ${app}</button>`;
@@ -208,8 +226,12 @@ function mount(o){
       <div class="sfi-ctl"><button type="button" data-pp>${playing?'Pause':'Play'}</button><button type="button" data-rs>From the start</button></div>
       <ol class="sfi-steps">${sc.steps.map((s,i)=>`<li><button type="button" data-s="${i}">${esc(s.cap)}</button></li>`).join('')}</ol>
       ${sc.note?`<p class="sfi-note">${esc(sc.note)}</p>`:''}`+ver();
-    body.innerHTML=h;wire();wireVer();show(0);
+    body.innerHTML=h;wire();wireVer();show(0);linkRow();
   }
+  // link:true (needs links.js): a line to copy a link straight to these steps, for sending to someone
+  function linkRow(){if(!o.link||!window.SurfaceLinks)return;const p=document.createElement('p');p.className='sfi-link';
+    p.style.cssText='display:flex;align-items:center;gap:6px;margin:10px 0 0;font:500 10px/1.3 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)';
+    p.append('Send someone straight here',SurfaceLinks.button('install','the install steps'));body.appendChild(p)}
   function show(i){
     const sc=SCENES[plat];if(!sc||!sc.steps)return;step=(i+sc.steps.length)%sc.steps.length;const s=sc.steps[step];
     body.querySelectorAll('[data-l]').forEach(g=>g.classList.toggle('on',s.show.includes(g.dataset.l)));
@@ -228,13 +250,13 @@ function mount(o){
     const bi=body.querySelector('[data-bip]');if(bi)bi.onclick=async()=>{const e=BIP;if(!e)return;BIP=null;e.prompt();try{await e.userChoice}catch(_){}render()};
   }
   bipWaiters.push(()=>render());
-  matchMedia('(display-mode: standalone)').addEventListener?.('change',render);
+  ['standalone','fullscreen','minimal-ui'].forEach(m=>matchMedia('(display-mode: '+m+')').addEventListener?.('change',render));
   render();
 
   // the one-time hint: after a while of use, only where installing works and it isn't installed; twice at most
   let hintEl=null;
   function hint(){
-    if(!o.hint||standalone()||embedded()||(store.get('hint')||0)>=2||store.get('installed'))return;
+    if(!o.hint||standalone()||embedded()||installedHere()||(store.get('hint')||0)>=2||store.get('installed'))return;
     const can=BIP||APPLE_MOBILE||MAC_SAFARI||ANDROID;if(!can)return;
     hintEl=document.createElement('div');hintEl.className='sfi-hint';hintEl.setAttribute('role','status');
     hintEl.innerHTML=`<button type="button" class="o">${ICON_DL}Keep ${app} as an app</button><button type="button" class="x" aria-label="Not now">×</button>`;
@@ -247,7 +269,7 @@ function mount(o){
   }
   function openGuide(){if(typeof o.open==='function')o.open();sec.classList.remove('cx-shut');gb.setAttribute('aria-expanded','true');
     setTimeout(()=>{sec.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});show(0)},320)}
-  addEventListener('appinstalled',()=>store.set('installed',true));
+  addEventListener('appinstalled',()=>{store.set('installed',true);render()});
   if(o.hint)setTimeout(hint,o.hintAfter);
   return {section:sec,open:openGuide,render,platform:()=>plat,setPlatform:p=>{if(SCENES[p]){plat=p;render()}}};
 }
