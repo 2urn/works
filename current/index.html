@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019040411";window.__VERSION__="0.17.3";window.__NOTES__=[{"v":"0.17.3","date":"19 Oct 2026","items":[{"kind":"change","text":"mute is first on the sound shelf, at the far left"}]}]</script>
+<script>window.__BUILD__="20261019040619";window.__VERSION__="0.17.4";window.__NOTES__=[{"v":"0.17.4","date":"19 Oct 2026","items":[{"kind":"fix","text":"an app left open on a computer now notices a new version by itself: it checks when you come back to it and every five minutes"},{"kind":"new","text":"after an update, \"Updated to …\" shows once, with what's new one tap away"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019040411"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019040411">
+<script src="claude-web.js?v=20261019040619"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019040619">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019040411"></script>
-<script src="surface/auto.js?v=20261019040411"></script>
-<script src="surface/toolpath.js?v=20261019040411"></script>
-<script src="surface/capture.js?v=20261019040411"></script>
-<script src="surface/pop.js?v=20261019040411"></script>
-<script src="surface/hints.js?v=20261019040411"></script>
-<script src="surface/keys.js?v=20261019040411"></script>
-<script src="surface/reset.js?v=20261019040411"></script>
+<script src="vendor/opentype.min.js?v=20261019040619"></script>
+<script src="surface/auto.js?v=20261019040619"></script>
+<script src="surface/toolpath.js?v=20261019040619"></script>
+<script src="surface/capture.js?v=20261019040619"></script>
+<script src="surface/pop.js?v=20261019040619"></script>
+<script src="surface/hints.js?v=20261019040619"></script>
+<script src="surface/keys.js?v=20261019040619"></script>
+<script src="surface/reset.js?v=20261019040619"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4846,10 +4846,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019040411"></script>
-<script src="surface/links.js?v=20261019040411"></script>
-<script src="surface/tips.js?v=20261019040411"></script>
-<script src="surface/sections.js?v=20261019040411"></script>
+<script src="surface/install.js?v=20261019040619"></script>
+<script src="surface/links.js?v=20261019040619"></script>
+<script src="surface/tips.js?v=20261019040619"></script>
+<script src="surface/sections.js?v=20261019040619"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5081,13 +5081,13 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.3';
+const APP_VERSION='0.17.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
 </script>
 <script>(function(){var B=window.__BUILD__,T0=Date.now(),busy=false,shown=false;if(!B)return;
-function fresh(){var go=function(){location.reload()};var ps=[];
+function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=function(){location.reload()};var ps=[];
  if("caches"in window)ps.push(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x.indexOf("current-")===0}).map(function(x){return caches.delete(x)}))}));
  if(navigator.serviceWorker)ps.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.update().catch(function(){})}))}));
  Promise.all(ps).then(go,go)}
@@ -5112,15 +5112,33 @@ function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.create
  var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);
  var x=mk("×","width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();shown=false};row.appendChild(x);
  d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d)}
-window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;
+var last=0;window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;last=Date.now();
  return fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(v){busy=false;
   if(!v||!v.build)return"offline";if(v.build===B)return"current";
   var early=auto&&Date.now()-T0<15000,k="upd:"+v.build;
   if(early){try{if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");fresh();return"new"}}catch(e){}}
   pill(v);return"new"},function(){busy=false;return"offline"})};
-addEventListener("load",function(){setTimeout(function(){window.checkForUpdate(true)},1200)});
-document.addEventListener("visibilitychange",function(){if(!document.hidden)window.checkForUpdate(false)});
-setInterval(function(){if(!document.hidden)window.checkForUpdate(false)},1800000)})();</script>
+addEventListener("load",function(){setTimeout(function(){window.checkForUpdate(true)},1200);setTimeout(done,600)});
+/* an app window on a computer is rarely hidden, so it also checks when it gets focus, when it comes back from sleep or
+   offline, and every five minutes; never more than once a minute (Dimitry, 19 Oct: on his Mac the notice never came) */
+var soon=function(){if(!document.hidden&&Date.now()-last>60000)window.checkForUpdate(false)};
+document.addEventListener("visibilitychange",soon);addEventListener("focus",soon);addEventListener("pageshow",soon);addEventListener("online",soon);
+setInterval(soon,300000);
+/* after an update the page says so once: "Updated to 0.17.4", with this version's notes one tap away */
+function done(){var f=null;try{f=sessionStorage.getItem("upd:from");sessionStorage.removeItem("upd:from")}catch(e){}if(!f||f===B)return;
+ var n=(window.__NOTES__||[])[0],d=document.createElement("div");d.setAttribute("role","status");
+ d.style.cssText="position:fixed;z-index:99;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);max-width:calc(100vw - 24px);border-radius:22px;background:rgba(14,14,16,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.18);font:500 12px/1.35 system-ui,sans-serif;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);overflow:hidden;transition:opacity .5s";
+ var row=document.createElement("div");row.style.cssText="display:flex;align-items:center;gap:4px;padding:4px 4px 4px 14px;white-space:nowrap;min-height:40px";
+ var t=document.createElement("span");t.textContent="Updated"+(window.__VERSION__?" to "+window.__VERSION__:"");row.appendChild(t);
+ var list=null,keep=false;
+ if(n&&n.items&&n.items.length){var m=document.createElement("button");m.type="button";m.textContent="What’s new ▾";m.style.cssText="min-height:32px;padding:0 8px;border:0;background:none;color:#b9c2c5;font:500 12px system-ui,sans-serif;cursor:pointer";row.appendChild(m);
+  list=document.createElement("ul");list.hidden=true;list.style.cssText="margin:0;padding:6px 16px 14px 30px;width:min(320px,calc(100vw - 72px));white-space:normal;border-top:1px solid rgba(255,255,255,.1);display:grid;gap:5px";
+  n.items.forEach(function(it){var li=document.createElement("li");li.textContent=it.text;list.appendChild(li)});
+  m.onclick=function(){keep=true;list.hidden=!list.hidden;m.textContent=list.hidden?"What’s new ▾":"What’s new ▴"}}
+ var x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label","Close");x.style.cssText="width:32px;height:32px;border:0;background:none;color:#8a9396;font:16px/1 system-ui;cursor:pointer";x.onclick=function(){d.remove()};row.appendChild(x);
+ d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d);
+ setTimeout(function(){if(!keep&&d.isConnected){d.style.opacity="0";setTimeout(function(){d.remove()},600)}},7000)}
+})();</script>
 <script>if("serviceWorker"in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 /* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match */
 const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
