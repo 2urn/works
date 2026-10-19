@@ -12,13 +12,16 @@
      SurfaceLinks.url('install')  → 'https://works.chamy.xyz/current/#install'
      SurfaceLinks.copy('install') → copies that link (or shares it, on a phone), resolves to true when done
      SurfaceLinks.button(name, label?) → a small "copy link" button for a section head
+     hold: true in mount → a link that arrives waits until SurfaceLinks.release(); for a tool that opens behind a launch
+       cover (18 Oct 2026: on his iPhone #install opened the drawer under Current's cover, which keeps the rest of the
+       page inert until it is passed, so the app looked dead). The tool calls release() once the cover is gone.
 
    A name without an action of its own falls back to an element with that id inside the drawer: the drawer opens,
    the section unfolds (SurfaceSections) and scrolls into view. Unknown names do nothing. */
 (function () {
   "use strict";
   if (window.SurfaceLinks) return;
-  var O = { open: null, base: null, names: {} };
+  var O = { open: null, base: null, names: {} }, held = false, waiting = null;
   var LINK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>';
   var CSS = ".slk{display:inline-grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:none;color:var(--ui-dim,#8a9396);cursor:pointer;vertical-align:middle;border-radius:8px}" +
     ".slk:hover{color:var(--ui-ink,#fff)}.slk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
@@ -37,7 +40,8 @@
     setTimeout(function () { el.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }, 340);
     return true;
   }
-  function fromHash() { var h = decodeURIComponent((location.hash || "").slice(1)); if (h) go(h); }
+  function fromHash() { var h = decodeURIComponent((location.hash || "").slice(1)); if (!h) return; if (held) { waiting = h; return; } go(h); }
+  function release() { held = false; var h = waiting; waiting = null; if (h) setTimeout(function () { go(h); }, 60); }
   function copy(name, label) {
     var u = url(name), t = (label || document.title || "").trim();
     if (navigator.share && matchMedia("(pointer: coarse)").matches) {
@@ -61,10 +65,10 @@
     return b;
   }
   function mount(o) {
-    o = o || {}; O.open = o.open || O.open; O.base = o.base || O.base;
+    o = o || {}; O.open = o.open || O.open; O.base = o.base || O.base; if (o.hold) held = true;
     for (var k in (o.names || {})) O.names[k] = o.names[k];
     if (!mount.done) { mount.done = true; addEventListener("hashchange", fromHash); }
     if (document.readyState === "complete") setTimeout(fromHash, 400); else addEventListener("load", function () { setTimeout(fromHash, 400); });
   }
-  window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button };
+  window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release };
 })();

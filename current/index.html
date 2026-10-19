@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261019012101"</script>
+<script>window.__BUILD__="20261019015033"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -61,8 +61,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019012101"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019012101">
+<script src="claude-web.js?v=20261019015033"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019015033">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -71,13 +71,13 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019012101"></script>
-<script src="surface/auto.js?v=20261019012101"></script>
-<script src="surface/capture.js?v=20261019012101"></script>
-<script src="surface/pop.js?v=20261019012101"></script>
-<script src="surface/hints.js?v=20261019012101"></script>
-<script src="surface/keys.js?v=20261019012101"></script>
-<script src="surface/reset.js?v=20261019012101"></script>
+<script src="vendor/opentype.min.js?v=20261019015033"></script>
+<script src="surface/auto.js?v=20261019015033"></script>
+<script src="surface/capture.js?v=20261019015033"></script>
+<script src="surface/pop.js?v=20261019015033"></script>
+<script src="surface/hints.js?v=20261019015033"></script>
+<script src="surface/keys.js?v=20261019015033"></script>
+<script src="surface/reset.js?v=20261019015033"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4658,7 +4658,7 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
   if(document.readyState==='complete')fillUp();else addEventListener('load',fillUp,{once:true});
   go.onclick=()=>{for(const c of document.body.children)c.removeAttribute('inert');el.classList.add('going');
     const slow=!matchMedia('(prefers-reduced-motion: reduce)').matches;untuck();setTimeout(tuck,2800);
-    setTimeout(()=>el.remove(),slow?1500:250)};
+    setTimeout(()=>{el.remove();try{SurfaceLinks.release()}catch(_){}},slow?1500:250)};   // a deep link waits for the cover (links.js hold)
   /* any touch on the cover, or Return or the space bar anywhere, opens it (Dimitry, 18 Oct): the duck-rabbit is the
      invitation, not the only door. Once only, and a tap on the duck itself is its own click. */
   let opened=false;const open=()=>{if(opened)return;opened=true;go.click()};
@@ -4715,10 +4715,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019012101"></script>
-<script src="surface/links.js?v=20261019012101"></script>
-<script src="surface/tips.js?v=20261019012101"></script>
-<script src="surface/sections.js?v=20261019012101"></script>
+<script src="surface/install.js?v=20261019015033"></script>
+<script src="surface/links.js?v=20261019015033"></script>
+<script src="surface/tips.js?v=20261019015033"></script>
+<script src="surface/sections.js?v=20261019015033"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4786,7 +4786,7 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
 let INSTALL=null;try{INSTALL=SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false),link:true})}catch(e){console.warn('install guide',e)}
 /* DEEP LINKS (0.16.3): works.chamy.xyz/current/#install opens the drawer on the install steps; #guide, #keys, #sound,
    #credits the same for theirs. Any id inside the index works too. Made from the public address, never the preview's. */
-try{SurfaceLinks.mount({base:SHARE_URL,open:()=>setPlayer(false),names:{
+try{SurfaceLinks.mount({hold:!!document.getElementById('launch'),base:SHARE_URL,open:()=>setPlayer(false),names:{
   install:()=>{if(INSTALL)INSTALL.open()},
   keys:()=>{setPlayer(true);setTimeout(()=>SurfaceKeys.open(),300)},
   sound:()=>SurfaceLinks.go('soundGuide'),credits:()=>SurfaceLinks.go('colo'),colophon:()=>SurfaceLinks.go('colo')}})}catch(e){console.warn('links',e)}</script>
@@ -4949,7 +4949,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.5';
+const APP_VERSION='0.16.6';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
