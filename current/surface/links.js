@@ -30,6 +30,7 @@
   function url(name) { return base().replace(/#.*$/, "") + "#" + encodeURIComponent(name); }
   function go(name) {
     if (!name) return false;
+    api.opened = name;   // a link was followed this visit (hints.js stands aside)
     var f = O.names[name];
     if (typeof f === "function") { try { f(); } catch (e) { console.warn("link " + name, e); } return true; }
     var el = document.getElementById(name);
@@ -65,7 +66,7 @@
     if (h) try { history.replaceState(null, "", location.pathname + location.search); } catch (_) {}
     return h;
   }
-  function fromHash() { var h = current(); settle(); if (!h) return; if (held) { waiting = h; return; } go(h); }
+  function fromHash() { var h = current(); settle(); if (!h) return; if (held) { waiting = h; api.opened = h; return; } go(h); }
   function release() { held = false; var h = waiting; waiting = null; if (h) setTimeout(function () { go(h); }, 60); }
   function copy(name, label) {
     var u = url(name), t = (label || document.title || "").trim();
@@ -95,5 +96,5 @@
     if (!mount.done) { mount.done = true; addEventListener("hashchange", fromHash); }
     if (document.readyState === "complete") setTimeout(fromHash, 400); else addEventListener("load", function () { setTimeout(fromHash, 400); });
   }
-  window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release, reveal: reveal };
+  var api = window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release, reveal: reveal, opened: null };
 })();

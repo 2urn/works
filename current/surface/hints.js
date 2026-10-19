@@ -20,8 +20,12 @@
        isOn: () => SND.on,                  // sound already on? then no hint
        wait: () => !document.getElementById('sc-launch'),   // ready once the cover has gone (default: no cover on the page)
        after: 3200,                         // ms after ready: the namemark's fade
-       text: 'Start here'
+       text: 'Start here',
+       skip: () => drawerOpen(),            // not now (and not counted as seen): e.g. while a panel covers the stage
+       z: 15                                // stacking: above the bar, below the tool's drawer (default 40)
      })
+     It also stands aside when the visit came through a deep link (links.js): the person came for that place, not for
+     the sound (Dimitry, 18 Oct 2026: after #install, "start here" sat on top of the drawer and its install guide).
      SurfaceHints.controls(host)           // the Display controls, into the index
      SurfaceHints.level / SurfaceHints.set('titles') / SurfaceHints.replay()
    Events: 'surface:hints' on document, detail { level }. */
@@ -78,14 +82,17 @@
   function seenKey() { return "surface.hints.seen." + ((opts && opts.key) || "tool"); }
 
   /* the start-here hint */
+  function aside() { try { return !!((opts.skip && opts.skip()) || (window.SurfaceLinks && window.SurfaceLinks.opened)); } catch (e) { return false; } }
   function show() {
     if (!opts || level !== "all" || live) return;
+    if (aside()) return;   // not shown, not counted: it shows on the next visit
     var t = typeof opts.target === "string" ? document.querySelector(opts.target) : opts.target;
     if (!t) return;
     var r = t.getBoundingClientRect();
     if (!r.width || !r.height || (opts.isOn && opts.isOn())) return;
     store.set(seenKey(), "1");
     var el = document.createElement("div"); el.className = "sh-here sh-coach"; el.setAttribute("aria-hidden", "true");
+    if (opts.z != null) el.style.zIndex = String(opts.z);
     el.innerHTML = "<span></span><svg viewBox=\"0 0 18 22\"><path d=\"M9 2v17M3 13l6 6 6-6\"/></svg>";
     el.firstChild.textContent = opts.text || "Start here";
     document.body.appendChild(el);
@@ -110,7 +117,7 @@
     }
     live = { end: end };
     addEventListener("pointerdown", end, true); addEventListener("keydown", end, true); addEventListener("resize", place);
-    poll = setInterval(function () { if (opts.isOn && opts.isOn()) end(); else place(); }, 250);
+    poll = setInterval(function () { if ((opts.isOn && opts.isOn()) || aside()) end(); else place(); }, 250);
     timer = setTimeout(end, opts.hold || 6500);
   }
   function arm(force) {
