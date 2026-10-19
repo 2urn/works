@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019040619";window.__VERSION__="0.17.4";window.__NOTES__=[{"v":"0.17.4","date":"19 Oct 2026","items":[{"kind":"fix","text":"an app left open on a computer now notices a new version by itself: it checks when you come back to it and every five minutes"},{"kind":"new","text":"after an update, \"Updated to …\" shows once, with what's new one tap away"}]}]</script>
+<script>window.__BUILD__="20261019042813";window.__VERSION__="0.17.5";window.__NOTES__=[{"v":"0.17.5","date":"19 Oct 2026","items":[{"kind":"new","text":"tap tempo on the sound shelf (or the b key): the beats play at your tempo and line up with your taps; new looks and the word sequence follow your beat; hold to let go"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019040619"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019040619">
+<script src="claude-web.js?v=20261019042813"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019042813">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019040619"></script>
-<script src="surface/auto.js?v=20261019040619"></script>
-<script src="surface/toolpath.js?v=20261019040619"></script>
-<script src="surface/capture.js?v=20261019040619"></script>
-<script src="surface/pop.js?v=20261019040619"></script>
-<script src="surface/hints.js?v=20261019040619"></script>
-<script src="surface/keys.js?v=20261019040619"></script>
-<script src="surface/reset.js?v=20261019040619"></script>
+<script src="vendor/opentype.min.js?v=20261019042813"></script>
+<script src="surface/auto.js?v=20261019042813"></script>
+<script src="surface/toolpath.js?v=20261019042813"></script>
+<script src="surface/capture.js?v=20261019042813"></script>
+<script src="surface/pop.js?v=20261019042813"></script>
+<script src="surface/hints.js?v=20261019042813"></script>
+<script src="surface/keys.js?v=20261019042813"></script>
+<script src="surface/reset.js?v=20261019042813"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -613,6 +613,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .mxCh{display:grid;grid-template-columns:62px 1fr 28px 28px;align-items:center;gap:4px 8px;padding:6px 16px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .06)}
 .mxCh .nm{font:600 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mxCh .nm small{display:block;margin-top:3px;font:500 9px/1.2 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62px}
 .mxCh.idle .nm{color:var(--ui-dim)}
+#sdTap.tapped svg{animation:tapflash .25s ease-out}@keyframes tapflash{0%{transform:scale(1.35);color:#55b8c9}100%{transform:scale(1)}}
 .mxCh.mxMaster{border-top:1px solid rgb(var(--ui-hi,255 255 255) / .18);margin-top:4px;padding-top:10px}
 .mxWave{position:relative;height:30px}
 .mxWave canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:6px;background:rgb(var(--ui-hi,255 255 255) / .04)}
@@ -2059,7 +2060,7 @@ function frame(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
-  seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
+  tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
@@ -2313,7 +2314,36 @@ function stepMorph(dt){if(!MORPH)return;MORPH.t=Math.min(1,MORPH.t+dt/MORPH.dur)
 const QUANT_STEPS=[[0,'off'],[2,'8th'],[4,'beat'],[8,'half bar'],[16,'bar']];
 let QUANT=2,pendLook=null;
 try{const q=JSON.parse(localStorage.getItem('toolpath-quant'));if(QUANT_STEPS.some(x=>x[0]===q))QUANT=q}catch(_){}
+/* TAP TEMPO (Dimitry, 19 Oct): tap in time and everything timed follows: the built-in beats play at your tempo and
+   line up with your taps (the first tap of a run is beat one), new looks land on your grid, the word sequence's "bar"
+   counts your beats, and with no beat playing the field gets a pulse on each of your beats. Two taps set a tempo, more
+   refine it (the last eight count); a pause of two seconds starts a new run. Hold the tap button (or shift+b) to let go:
+   the beats return to their own tempo. Free: an outside clock (MIDI clock, OSC) is for the Artist plan. */
+const TAP={bpm:null,taps:[],s0:0,n:0,lastK:-1,timer:0};
+const tapNow=()=>performance.now()/1000;
+function tapTempo(at){const t=at&&tapNow()-at<.6?at:tapNow(),L=TAP.taps;TAP.down=0;
+  if(L.length&&t-L[L.length-1]>2){L.length=0;TAP.n=0}
+  if(!L.length)TAP.s0=t;L.push(t);TAP.n++;if(L.length>8)L.shift();
+  if(L.length>=2){let sum=0;for(let i=1;i<L.length;i++)sum+=L[i]-L[i-1];const bpm=Math.max(40,Math.min(220,60/(sum/(L.length-1))));
+    TAP.bpm=Math.round(bpm*10)/10;
+    // the grid: beat one is the first tap of the run, spaced at the tempo, pinned to the latest tap
+    const bl=60/TAP.bpm;TAP.s0=t-(TAP.n-1)*bl;TAP.lastK=Math.floor((tapNow()-TAP.s0)/bl);
+    tapRate();clearTimeout(TAP.timer);TAP.timer=setTimeout(tapAlign,bl*1500)}   // once the taps stop, the beat lines up with them
+  syncSndShelf();const b=$('sdTap');if(b){b.classList.remove('tapped');void b.offsetWidth;b.classList.add('tapped')}
+  if(L.length===4)toast('tempo '+Math.round(TAP.bpm)+' · hold tap to let go')}
+function tapClear(){if(!TAP.bpm&&!TAP.taps.length)return;TAP.bpm=null;TAP.taps=[];TAP.n=0;clearTimeout(TAP.timer);tapRate();tapAlign();syncSndShelf();toast('tempo: back to the beat’s own')}
+function tapRate(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=BEATS[AUD.play.beat];if(!pat)return;
+  AUD.beatNode.playbackRate.setValueAtTime(TAP.bpm?TAP.bpm/pat.bpm:1,AUD.ctx.currentTime);AUD.dur=60/(TAP.bpm||pat.bpm)/4}
+/* restart the beat's loop so its beats fall on the tap grid: the next grid beat, from the matching beat of the bar */
+function tapAlign(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=BEATS[AUD.play.beat];if(!pat)return;
+  const c=AUD.ctx,old=AUD.beatNode,buf=old.buffer,r=TAP.bpm?TAP.bpm/pat.bpm:1,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.playbackRate.value=r;n.connect(AUD.ch.beat);
+  let start=c.currentTime+.03,off=0;
+  if(TAP.bpm){const bl=60/TAP.bpm,pn=tapNow(),k=Math.ceil((pn+.03-TAP.s0)/bl);start=c.currentTime+(TAP.s0+k*bl-pn);off=((k%4+4)%4)*(60/pat.bpm)}
+  try{old.stop(start)}catch(_){}n.start(start,off);AUD.beatNode=n;AUD.t0=start-off/r;AUD.dur=60/(TAP.bpm||pat.bpm)/4}
+/* each frame: with no beat or bytebeat playing, the tap grid pulses the field on every beat */
+function tapTick(){if(!TAP.bpm)return;const k=Math.floor((tapNow()-TAP.s0)/(60/TAP.bpm));if(k!==TAP.lastK){TAP.lastK=k;TAP.beatHit=true;if(!AUD.play.beat&&!AUD.play.byte)SIGNALS.beat=1}}
 function beatDelay(){
+  if(QUANT&&TAP.bpm&&!AUD.play.beat){const d=60/TAP.bpm/4,t=tapNow(),k=Math.ceil(((t-TAP.s0)/d+.08)/QUANT)*QUANT;return Math.max(0,(TAP.s0+k*d-t)*1000)}   // no beat playing: your grid
   if(!QUANT||!AUD.ctx||!AUD.loopOn||!(BEATS[AUD.src]||isByte(AUD.src))||AUD.ctx.state!=='running')return 0;
   // the loop started at t0 and never drifts (it runs on the audio clock), so the grid is exact
   const c=AUD.ctx.currentTime,dur=AUD.dur,now=(c-AUD.t0)/dur,k=Math.ceil((now+.08)/QUANT)*QUANT;
@@ -2560,7 +2590,7 @@ function seqStep(){const L=store.seq;if(!L.length){seqStop();return}
   SEQ.i=i;SEQ.cur=L[i];$('word').value=L[i];SEQ.quiet=true;try{$('traceBtn').click()}finally{SEQ.quiet=false}flashName(L[i]);
   const a=document.activeElement;if(ACTIVE==='text'&&!(a&&a.classList&&a.classList.contains('shin')))buildToolShelf();if(!$('wordList').hidden)renderWordList()}
 function seqTick(dt){if(!SEQ.on)return;
-  if(SEQ.every==='bar'){let hit=false;if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!SEQ.bh){hit=true;SEQ.bh=true}else if(SIGNALS.beat<.5)SEQ.bh=false}
+  if(SEQ.every==='bar'){let hit=false;if(TAP.bpm){if(TAP.beatHit){TAP.beatHit=false;if(++SEQ.beats>=4){SEQ.beats=0;seqStep()}}return}if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!SEQ.bh){hit=true;SEQ.bh=true}else if(SIGNALS.beat<.5)SEQ.bh=false}
     else{SEQ.t+=dt;if(SEQ.t>=.6){SEQ.t=0;hit=true}}   // no sound: a steady 100 bpm, four beats to the bar
     if(hit&&++SEQ.beats>=4){SEQ.beats=0;seqStep()}return}
   SEQ.t+=dt;if(SEQ.t>=+SEQ.every){SEQ.t=0;seqStep()}}
@@ -4000,9 +4030,9 @@ function startBeat(name,fromPreset){
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
   if(fromPreset)stopAudio();else stopCh('beat');AUD.play.beat=name;AUD.lastBeat=name;AUD.src=name;AUD.last=name;AUD.wantBeat=name;syncAud();prerenderBeats();
   renderBeat(name).then(buf=>{if(AUD.wantBeat!==name)return;   // stopped or switched while rendering
-    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.connect(AUD.ch.beat);
+    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;if(TAP.bpm)n.playbackRate.value=TAP.bpm/pat.bpm;n.connect(AUD.ch.beat);
     const now=c.currentTime;let t0=now+.05;if(AUD.play.byte&&AUD.t0&&AUD.dur){const L=AUD.dur*16;t0=Math.max(now+.02,AUD.t0+Math.ceil((now+.05-AUD.t0)/L)*L)}   // on the bytebeat's bar line when one plays
-    n.start(t0);AUD.beatNode=n;AUD.t0=t0;AUD.dur=60/pat.bpm/4;AUD.loopOn=true},
+    n.start(t0);AUD.beatNode=n;AUD.t0=t0;AUD.dur=60/(TAP.bpm||pat.bpm)/4;AUD.loopOn=true;if(TAP.bpm)tapAlign()},
     ()=>toast('could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function startFile(){if(!AUD.fileBuf||!ensureCtx())return;if(window.cxCount)cxCount('sound: own file',1);stopCh('file');const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.ch.file);n.start();AUD.node=n;AUD.play.file=true;AUD.src='file';AUD.last='file';syncAud()}
@@ -4118,7 +4148,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   /* no play/stop here (Dimitry, 18 Oct): the bar's speaker is the one on/off. Tapping the sound that is playing stops it */
   const hush=k=>{stopCh(k);syncAud();syncSndShelf()};
   /* CANON (Dimitry, 18 Oct): inputs first, then presets, then modifiers. Light rules between the families:
-     mute · inputs (mic, your music, mix) | beats | bytes | modifiers (grid, wetness, react) */
+     mute · inputs (mic, your music, mix) | beats | bytes | modifiers (tap, grid, wetness, react) */
   const rule=()=>{const g=document.createElement('span');g.className='sep';g.setAttribute('aria-hidden','true');t.appendChild(g)};
   /* MUTE (Dimitry, 18 Oct, after DAWs' mute; first on the shelf, where play/stop was, at his word): the sound keeps playing and the field keeps moving to it; only what you
      hear, and what a video records, goes silent */
@@ -4136,6 +4166,8 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
   add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
+  {const tp=add('sdTap','tap','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2"/></svg>','Tap tempo: tap in time; hold to let go (b; shift+b lets go)',()=>{});
+    tp.onclick=null;tp.addEventListener('pointerdown',()=>{TAP.down=tapNow()});wireTapHold(tp,{tap:()=>tapTempo(TAP.down),hold:tapClear})}   // the beat is when the finger lands, not when it lifts
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
     const i=SHELF_QUANT.findIndex(q=>q[0]===QUANT);QUANT=SHELF_QUANT[(i+1)%SHELF_QUANT.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
   {const wt=add('sdWet','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10z"/></svg>','Wetness: tap for dry or wet, drag left or right for how much room is around every sound',()=>{});
@@ -4220,6 +4252,7 @@ function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;t
   {const m=$('sdMix');if(m){const n=['beat','byte','file','mic'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
   {const w=$('sdWet');if(w){w.querySelector('.lab').textContent=WET?'wet '+Math.round(WET*100)+'%':'dry';w.setAttribute('aria-pressed',String(WET>0));
     w.setAttribute('aria-label','Wetness '+Math.round(WET*100)+'%: tap for dry or wet, drag left or right for how much room is around every sound')}}
+  {const tp=$('sdTap');if(tp){tp.querySelector('.lab').textContent=TAP.bpm?'tap · '+Math.round(TAP.bpm):'tap';tp.setAttribute('aria-pressed',String(!!TAP.bpm))}}
   $('sdQuant').querySelector('.lab').textContent=(SHELF_QUANT.find(q=>q[0]===QUANT)||[0,'off'])[1];
   {const on=AUD.src!=='off',b=$('sdOff');if(b)b.querySelector('svg').outerHTML=on?SND_STOP:SND_PLAY;if(b){b.querySelector('.lab').textContent=on?'stop':'play';
    b.setAttribute('aria-label',on?'Stop the sound':'Play the last sound again')}}
@@ -4846,10 +4879,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019040619"></script>
-<script src="surface/links.js?v=20261019040619"></script>
-<script src="surface/tips.js?v=20261019040619"></script>
-<script src="surface/sections.js?v=20261019040619"></script>
+<script src="surface/install.js?v=20261019042813"></script>
+<script src="surface/links.js?v=20261019042813"></script>
+<script src="surface/tips.js?v=20261019042813"></script>
+<script src="surface/sections.js?v=20261019042813"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4859,6 +4892,8 @@ try{[['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the p
     {id:'hide',d:'Hide or bring back every control, in full screen too',keys:['space']},
     {id:'fullscreen',d:'Full screen',keys:['f']},
     {id:'sound',d:'Sound on or off',keys:['m'],run:()=>toggleSound()},
+    {id:'tap',d:'Tap tempo: tap in time, everything timed follows',keys:['b'],run:()=>tapTempo()},
+    {id:'tapclear',d:'Let go of the tapped tempo',keys:['B'],run:()=>tapClear()},
     {id:'capture',d:'Capture: a still, a GIF or a video, in the mode you set',keys:['c'],run:()=>{if(!$('launch'))shutter()}},
     {id:'random',d:'A random look',keys:['r'],run:()=>randomLook(true)},
     {id:'prev',d:'Previous preset',keys:['←'],repeat:true,run:()=>stepPreset(-1)},
@@ -5081,7 +5116,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.4';
+const APP_VERSION='0.17.5';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
