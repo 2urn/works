@@ -12,6 +12,7 @@
      SurfaceLinks.url('install')  → 'https://works.chamy.xyz/current/#install'
      SurfaceLinks.copy('install') → copies that link (or shares it, on a phone), resolves to true when done
      SurfaceLinks.button(name, label?) → a small "copy link" button for a section head
+     SurfaceLinks.queue(name)  → open name as soon as the hold is released (a cover's own shortcut buttons)
      hold: true in mount → a link that arrives waits until SurfaceLinks.release(); for a tool that opens behind a launch
        cover (18 Oct 2026: on his iPhone #install opened the drawer under Current's cover, which keeps the rest of the
        page inert until it is passed, so the app looked dead). The tool calls release() once the cover is gone.
@@ -67,6 +68,9 @@
     return h;
   }
   function fromHash() { var h = current(); settle(); if (!h) return; if (held) { waiting = h; api.opened = h; return; } go(h); }
+  /* open a name once the hold is released (or now, when nothing holds links): a launch cover's own shortcut buttons
+     queue the place and then pass the cover, so they land exactly as a link would (Dimitry, 18 Oct 2026) */
+  function queue(name) { if (!name) return; api.opened = name; if (held) waiting = name; else go(name); }
   function release() { held = false; var h = waiting; waiting = null; if (h) setTimeout(function () { go(h); }, 60); }
   function copy(name, label) {
     var u = url(name), t = (label || document.title || "").trim();
@@ -96,5 +100,5 @@
     if (!mount.done) { mount.done = true; addEventListener("hashchange", fromHash); }
     if (document.readyState === "complete") setTimeout(fromHash, 400); else addEventListener("load", function () { setTimeout(fromHash, 400); });
   }
-  var api = window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release, reveal: reveal, opened: null };
+  var api = window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release, reveal: reveal, queue: queue, opened: null };
 })();
