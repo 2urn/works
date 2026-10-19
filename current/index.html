@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019023834";window.__VERSION__="0.16.11";window.__NOTES__=[{"v":"0.16.11","date":"19 Oct 2026","items":[{"kind":"new","text":"install and index shortcuts in the bottom corners of the launch screen"},{"kind":"new","text":"works.chamy.xyz/current/#index opens the index"}]}]</script>
+<script>window.__BUILD__="20261019025113";window.__VERSION__="0.16.12";window.__NOTES__=[{"v":"0.16.12","date":"19 Oct 2026","items":[{"kind":"new","text":"on a computer, a pin at the foot of the index: pinned it stays open; unpinned, a click on the stage closes it"},{"kind":"new","text":"the CHAMY·XYZ mark stays at the foot of the index with a close button; the version and copyright open under it at the end of the index, or with a click on the mark"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019023834"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019023834">
+<script src="claude-web.js?v=20261019025113"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019025113">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019023834"></script>
-<script src="surface/auto.js?v=20261019023834"></script>
-<script src="surface/toolpath.js?v=20261019023834"></script>
-<script src="surface/capture.js?v=20261019023834"></script>
-<script src="surface/pop.js?v=20261019023834"></script>
-<script src="surface/hints.js?v=20261019023834"></script>
-<script src="surface/keys.js?v=20261019023834"></script>
-<script src="surface/reset.js?v=20261019023834"></script>
+<script src="vendor/opentype.min.js?v=20261019025113"></script>
+<script src="surface/auto.js?v=20261019025113"></script>
+<script src="surface/toolpath.js?v=20261019025113"></script>
+<script src="surface/capture.js?v=20261019025113"></script>
+<script src="surface/pop.js?v=20261019025113"></script>
+<script src="surface/hints.js?v=20261019025113"></script>
+<script src="surface/keys.js?v=20261019025113"></script>
+<script src="surface/reset.js?v=20261019025113"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -255,6 +255,27 @@ body:not(.player) #dscMark{opacity:0}
 .colo-end{padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px))}
 .colo-end .colo-word{margin:0;align-self:flex-start}
 .colo-end{display:flex;flex-direction:column;align-items:flex-start}
+.ce-tools{display:none}
+/* DESKTOP: the CHAMY·XYZ mark stays at the drawer's foot, with pin and close at its right; the version and copyright open
+   under it when the drawer is scrolled to its end or the mark is clicked (Dimitry, 18 Oct) */
+@media (min-width:900px) and (hover:hover){
+  .colo-end{position:sticky;bottom:-16px;z-index:2;margin:0 calc(-1 * var(--gut,16px)) -16px -16px;padding:10px calc(var(--gut,16px) - 6px) calc(12px + env(safe-area-inset-bottom,0px)) 16px;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:8px;
+    background:var(--panel);border-top:1px solid var(--line)}
+  html[data-panes=frosted] body:not(.player) .colo-end,html[data-panes=sheer] body:not(.player) .colo-end,html[data-panes=clear] body:not(.player) .colo-end{-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+  .colo-end .colo-word{margin:0;cursor:pointer;align-self:center}
+  .colo-end .ce-more{padding-right:6px}
+  .idx.vertical~.colo-end .colo-word{transform:none}
+  .ce-tools{display:flex;gap:2px;align-items:center}
+  .ce-b{width:34px;height:34px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
+  .ce-b:hover{color:var(--fg)}.ce-b:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
+  .ce-b svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #cePin[aria-pressed=true]{color:var(--fg)}#cePin[aria-pressed=true] svg path:first-child{fill:currentColor}
+  .ce-more{grid-column:1/-1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+  .ce-more>*{overflow:hidden;min-height:0}
+  .ce-more{overflow:hidden}
+  .colo-end.reveal .ce-more{grid-template-rows:1fr}
+  .colo-end:not(.reveal) .ce-more p{margin:0;max-height:0}
+}
 .idx.vertical~.colo-end .colo-word{transform:rotate(90deg)}
 .colo-word{height:calc(var(--u) * 132 / 114.75);width:auto;display:block;fill:var(--fg);margin:12px 0 8px}
 .colo-cred{margin:0;font-size:12px;color:var(--muted)}
@@ -1239,7 +1260,7 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
 <p>Build <span class="vBuild"></span>. When a newer version is out, the page offers it with an Update button; installed on a home screen, it updates the next time it opens online.</p>
 <p>Something not working? Write to <a href="mailto:hi@chamy.xyz?subject=Current">hi@chamy.xyz</a> with what you did, your device and browser, and this build.</p>
 </div></li></ol></div></section>
-    <div class="colo-end"><svg class="colo-word" viewBox="462 836 996 132" aria-hidden="true" focusable="false"><path d="M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z"/><path d="M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z"/><path d="M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z"/><path d="M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z"/><path d="M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z"/><path d="M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z"/><path d="M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z"/></svg><p class="idx-ver" id="idxVer"></p><p class="idx-copy">&copy; <span class="cYear">2026</span> Dimitry Sa&iuml;d Chamy / CHAMY&middot;XYZ. All rights reserved; free for personal use under the license above. The credited works are their authors&rsquo;.</p></div>
+    <div class="colo-end"><svg class="colo-word" viewBox="462 836 996 132" aria-hidden="true" focusable="false"><path d="M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z"/><path d="M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z"/><path d="M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z"/><path d="M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z"/><path d="M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z"/><path d="M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z"/><path d="M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z"/></svg><span class="ce-tools"><button type="button" id="cePin" class="ce-b" aria-pressed="true" aria-label="Pin the index: it stays open while you use the stage" title="Pinned: stays open. Unpin to close it with a click on the stage"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/></svg></button><button type="button" id="ceX" class="ce-b" aria-label="Close the index" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span><div class="ce-more"><p class="idx-ver" id="idxVer"></p><p class="idx-copy">&copy; <span class="cYear">2026</span> Dimitry Sa&iuml;d Chamy / CHAMY&middot;XYZ. All rights reserved; free for personal use under the license above. The credited works are their authors&rsquo;.</p></div></div>
     <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
 <script type="application/json" id="credits">[
  {
@@ -4559,6 +4580,24 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
   if(window.cxCount){const n=mk('p','colo-lic','Visits are counted with GoatCounter: no cookies, nothing that identifies you, and only on this site.');full.after(n)}
   /* the namemark at the drawer's top right closes it (for now; later it goes to the main site) */
   document.querySelectorAll('[data-close-drawer]').forEach(b=>b.onclick=()=>setPlayer(true));
+  /* the drawer's foot on a computer: pin (stays open) or unpinned (a click on the stage closes it), close, and the mark
+     that opens the version and copyright, which also open by themselves when the drawer is scrolled to its end */
+  (()=>{const pn=$('panel'),end=document.querySelector('.colo-end'),pin=$('cePin'),x=$('ceX');if(!pn||!end||!pin)return;
+    const wide=()=>matchMedia('(min-width:900px) and (hover:hover)').matches;
+    let pinned=true;try{pinned=localStorage.getItem('current.pin')!=='0'}catch(_){}
+    const syncPin=()=>{pin.setAttribute('aria-pressed',String(pinned));pin.setAttribute('aria-label',pinned?'Pinned: the index stays open while you use the stage. Click to unpin':'Unpinned: a click on the stage closes the index. Click to pin');
+      pin.title=pinned?'Pinned: stays open. Unpin to close it with a click on the stage':'Unpinned: a click on the stage closes it'};syncPin();
+    pin.onclick=()=>{pinned=!pinned;try{localStorage.setItem('current.pin',pinned?'1':'0')}catch(_){}syncPin();if(typeof toast==='function')toast(pinned?'index pinned open':'a click on the stage closes the index')};
+    x.onclick=()=>setPlayer(true);
+    let held=false;const word=end.querySelector('.colo-word');
+    const atEnd=()=>pn.scrollTop+pn.clientHeight>=pn.scrollHeight-6;
+    const sync=()=>end.classList.toggle('reveal',held||atEnd());
+    if(word){word.setAttribute('role','button');word.setAttribute('tabindex','0');word.setAttribute('aria-label','Version and copyright');
+      const t=()=>{held=!held;sync();if(held)setTimeout(()=>pn.scrollTo({top:pn.scrollHeight,behavior:'smooth'}),40)};word.addEventListener('click',t);word.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}})}
+    pn.addEventListener('scroll',sync,{passive:true});
+    document.addEventListener('pointerdown',e=>{if(pinned||!wide()||document.body.classList.contains('player'))return;
+      const id=e.target&&e.target.id;if(id!=='cv'&&id!=='ov'&&id!=='fg')return;
+      e.preventDefault();e.stopPropagation();setPlayer(true)},true)})();
   /* the namemark on arrival: there as the work opens, then it steps away */
   const mark=$('dscMark'),lab=$('duckLab'),tuck=()=>{mark.classList.add('tucked');lab.classList.add('tucked')},untuck=()=>{mark.classList.remove('tucked');lab.classList.remove('tucked')};setTimeout(tuck,2800);
   /* THE LAUNCH COVER (Fracture's): the name in Minnerva and one arrow. Off with ?cover=0, and for an automated browser. */
@@ -4632,10 +4671,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019023834"></script>
-<script src="surface/links.js?v=20261019023834"></script>
-<script src="surface/tips.js?v=20261019023834"></script>
-<script src="surface/sections.js?v=20261019023834"></script>
+<script src="surface/install.js?v=20261019025113"></script>
+<script src="surface/links.js?v=20261019025113"></script>
+<script src="surface/tips.js?v=20261019025113"></script>
+<script src="surface/sections.js?v=20261019025113"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4867,7 +4906,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.11';
+const APP_VERSION='0.16.12';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
