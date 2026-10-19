@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019043339";window.__VERSION__="0.17.6";window.__NOTES__=[{"v":"0.17.6","date":"19 Oct 2026","items":[{"kind":"new","text":"batch export (Artist): pick looks and/or words and each is captured as a still, GIF or video, then saved together as one .zip; open it from the capture panel"},{"kind":"change","text":"the mixer's rows follow the sound shelf, left to right: mic, music, beat, bytebeat"}]}]</script>
+<script>window.__BUILD__="20261019044036";window.__VERSION__="0.17.7";window.__NOTES__=[{"v":"0.17.7","date":"19 Oct 2026","items":[{"kind":"change","text":"a muted mixer channel still shows its wave, in grey, so you can see what you would bring back"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019043339"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019043339">
+<script src="claude-web.js?v=20261019044036"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019044036">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019043339"></script>
-<script src="surface/auto.js?v=20261019043339"></script>
-<script src="surface/toolpath.js?v=20261019043339"></script>
-<script src="surface/capture.js?v=20261019043339"></script>
-<script src="surface/pop.js?v=20261019043339"></script>
-<script src="surface/hints.js?v=20261019043339"></script>
-<script src="surface/keys.js?v=20261019043339"></script>
-<script src="surface/reset.js?v=20261019043339"></script>
+<script src="vendor/opentype.min.js?v=20261019044036"></script>
+<script src="surface/auto.js?v=20261019044036"></script>
+<script src="surface/toolpath.js?v=20261019044036"></script>
+<script src="surface/capture.js?v=20261019044036"></script>
+<script src="surface/pop.js?v=20261019044036"></script>
+<script src="surface/hints.js?v=20261019044036"></script>
+<script src="surface/keys.js?v=20261019044036"></script>
+<script src="surface/reset.js?v=20261019044036"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -2353,7 +2353,7 @@ function tapRate(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=B
   AUD.beatNode.playbackRate.setValueAtTime(TAP.bpm?TAP.bpm/pat.bpm:1,AUD.ctx.currentTime);AUD.dur=60/(TAP.bpm||pat.bpm)/4}
 /* restart the beat's loop so its beats fall on the tap grid: the next grid beat, from the matching beat of the bar */
 function tapAlign(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=BEATS[AUD.play.beat];if(!pat)return;
-  const c=AUD.ctx,old=AUD.beatNode,buf=old.buffer,r=TAP.bpm?TAP.bpm/pat.bpm:1,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.playbackRate.value=r;n.connect(AUD.ch.beat);
+  const c=AUD.ctx,old=AUD.beatNode,buf=old.buffer,r=TAP.bpm?TAP.bpm/pat.bpm:1,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.playbackRate.value=r;n.connect(AUD.pre.beat);
   let start=c.currentTime+.03,off=0;
   if(TAP.bpm){const bl=60/TAP.bpm,pn=tapNow(),k=Math.ceil((pn+.03-TAP.s0)/bl);start=c.currentTime+(TAP.s0+k*bl-pn);off=((k%4+4)%4)*(60/pat.bpm)}
   try{old.stop(start)}catch(_){}n.start(start,off);AUD.beatNode=n;AUD.t0=start-off/r;AUD.dur=60/(TAP.bpm||pat.bpm)/4}
@@ -4003,7 +4003,7 @@ function startByte(name,fromPreset){
   const f=bbFormula(name);if(document.activeElement!==$('bbFx'))$('bbFx').value=f;bbMsg();
   bbVoice().then(()=>{if(AUD.want!==name)return;
     const L=bbLetters(),r=bbRate();BBV.post({f,L,rate:r,reset:true});BBV.sent=L.join()+'|'+r;
-    BBV.out.connect(AUD.ch.byte);AUD.bbOn=true;if(!AUD.play.beat){AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r}AUD.loopOn=true},
+    BBV.out.connect(AUD.pre.byte);AUD.bbOn=true;if(!AUD.play.beat){AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r}AUD.loopOn=true},
     ()=>toast('could not start the bytebeat here'));
   if(fromPreset)toast('bytebeat: '+name.replace(/^Byte /,'')+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function stopByte(){if(!AUD.bbOn)return;AUD.bbOn=false;try{BBV.post({stop:true});BBV.out.disconnect()}catch(_){}}
@@ -4066,14 +4066,14 @@ function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
     const c=AUD.ctx=new C();AUD.an=c.createAnalyser();AUD.an.fftSize=1024;AUD.an.smoothingTimeConstant=.55;AUD.data=new Uint8Array(AUD.an.frequencyBinCount);
     AUD.bus=c.createGain();AUD.vol=c.createGain();AUD.vol.gain.value=+$('audVol').value;
-    AUD.bus.connect(AUD.an);AUD.mg=c.createGain();AUD.mg.gain.value=AUD.muted?0:1;AUD.vol.connect(AUD.mg);AUD.mg.connect(c.destination);AUD.outAn=c.createAnalyser();AUD.outAn.fftSize=2048;AUD.mg.connect(AUD.outAn);   /* mute: after the analyser, so the field still hears it */
+    AUD.bus.connect(AUD.an);AUD.mg=c.createGain();AUD.mg.gain.value=AUD.muted?0:1;AUD.vol.connect(AUD.mg);AUD.mg.connect(c.destination);AUD.outAn=c.createAnalyser();AUD.outAn.fftSize=2048;AUD.vol.connect(AUD.outAn);   /* mute: after the analyser, so the field still hears it */
     /* WETNESS (Dimitry, 18 Oct): one reverb on everything that plays, after the analyser so the field reads the dry sound.
        The room is made here: two seconds of noise, decaying, a little different left and right. */
     {const L=Math.round(c.sampleRate*2.4),ir=c.createBuffer(2,L,c.sampleRate);for(let k=0;k<2;k++){const d=ir.getChannelData(k);for(let i=0;i<L;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/L,3.2)}
      AUD.dry=c.createGain();AUD.conv=c.createConvolver();AUD.conv.buffer=ir;AUD.wetG=c.createGain();
      AUD.bus.connect(AUD.dry);AUD.dry.connect(AUD.vol);AUD.bus.connect(AUD.conv);AUD.conv.connect(AUD.wetG);AUD.wetG.connect(AUD.vol);applyWet()}
     AUD.mainIn=c.createGain();AUD.mainIn.connect(AUD.bus);AUD.layIn=c.createGain();AUD.layIn.connect(AUD.bus);applyBlend();
-    AUD.ch={};AUD.chAn={};for(const k of ['beat','byte','file']){const g=c.createGain();g.connect(AUD.mainIn);AUD.ch[k]=g;const a=c.createAnalyser();a.fftSize=2048;g.connect(a);AUD.chAn[k]=a}applyMix();   /* THE MIXER: one channel each, all feeding the field */   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
+    AUD.ch={};AUD.pre={};AUD.chAn={};for(const k of ['beat','byte','file']){const g=c.createGain();g.connect(AUD.mainIn);AUD.ch[k]=g;const pr=c.createGain();pr.connect(g);AUD.pre[k]=pr;const a=c.createAnalyser();a.fftSize=2048;pr.connect(a);AUD.chAn[k]=a}applyMix();   // the wave is read before the channel's level, so a muted source still shows (in grey)   /* THE MIXER: one channel each, all feeding the field */   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
     const nb=c.createBuffer(1,c.sampleRate,c.sampleRate),ch=nb.getChannelData(0);for(let i=0;i<ch.length;i++)ch[i]=Math.random()*2-1;AUD.noise=nb}
   if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // iOS also reports 'interrupted'
   try{const c=AUD.ctx,s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0)}catch(_){}   // a sound started inside the gesture is what really unlocks iOS
@@ -4110,12 +4110,12 @@ function startBeat(name,fromPreset){
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
   if(fromPreset)stopAudio();else stopCh('beat');AUD.play.beat=name;AUD.lastBeat=name;AUD.src=name;AUD.last=name;AUD.wantBeat=name;syncAud();prerenderBeats();
   renderBeat(name).then(buf=>{if(AUD.wantBeat!==name)return;   // stopped or switched while rendering
-    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;if(TAP.bpm)n.playbackRate.value=TAP.bpm/pat.bpm;n.connect(AUD.ch.beat);
+    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;if(TAP.bpm)n.playbackRate.value=TAP.bpm/pat.bpm;n.connect(AUD.pre.beat);
     const now=c.currentTime;let t0=now+.05;if(AUD.play.byte&&AUD.t0&&AUD.dur){const L=AUD.dur*16;t0=Math.max(now+.02,AUD.t0+Math.ceil((now+.05-AUD.t0)/L)*L)}   // on the bytebeat's bar line when one plays
     n.start(t0);AUD.beatNode=n;AUD.t0=t0;AUD.dur=60/(TAP.bpm||pat.bpm)/4;AUD.loopOn=true;if(TAP.bpm)tapAlign()},
     ()=>toast('could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
-function startFile(){if(!AUD.fileBuf||!ensureCtx())return;if(window.cxCount)cxCount('sound: own file',1);stopCh('file');const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.ch.file);n.start();AUD.node=n;AUD.play.file=true;AUD.src='file';AUD.last='file';syncAud()}
+function startFile(){if(!AUD.fileBuf||!ensureCtx())return;if(window.cxCount)cxCount('sound: own file',1);stopCh('file');const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.pre.file);n.start();AUD.node=n;AUD.play.file=true;AUD.src='file';AUD.last='file';syncAud()}
 /* MICROPHONE: the room drives the field. The mic feeds only the analyser, never the speakers (no feedback), with the
    browser's voice cleanup off so music and claps read as they are. Inside claude.ai the browser may refuse it; on the
    tool's own address or installed as an app it asks once. */
@@ -4148,7 +4148,7 @@ function hookMic(st,cam){
   const join=!!(AUD.play.beat||AUD.play.byte||AUD.play.file);
   stopMic(true);if(!join)stopAudio();AUD.userOff=false;
   const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
-  AUD.mic={stream:st,node:g,sink:z,cam};g.gain.value=1.6*mixEff('mic');if(AUD.chAn){const a=AUD.ctx.createAnalyser();a.fftSize=2048;g.connect(a);AUD.chAn.mic=a}   // the mixer's waveif(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
+  AUD.mic={stream:st,node:g,sink:z,cam};g.gain.value=1.6*mixEff('mic');if(AUD.chAn){const a=AUD.ctx.createAnalyser();a.fftSize=2048;node.connect(a);AUD.chAn.mic=a}   // the mixer's waveif(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
   if(AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // a mic goes into a video (the capture panel's sound row says how much), never to the speakers
   if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.mic&&AUD.mic.stream===st){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}});
@@ -4314,8 +4314,8 @@ function mixDraw(){MXRAF=0;const pop=$('mixPop');if(!pop||pop.hidden)return;
     if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
     const ms=k==='master',vv=$('audVol'),v=ms?(+vv.value/(+vv.max||1)):MIX[k].v,on=ms?AUD.src!=='off':!!chSrc(k),eff=ms?(AUD.muted?0:v):mixEff(k);
     g.fillStyle='rgba(85,184,201,'+(eff>0?.16:.06)+')';g.beginPath();g.roundRect?g.roundRect(0,2,w*v,h-4,6):g.rect(0,2,w*v,h-4);g.fill();
-    const a=ms?AUD.outAn:AUD.chAn&&AUD.chAn[k];g.strokeStyle=on&&eff>0?'rgba(85,184,201,.95)':'rgba(140,150,153,.45)';g.lineWidth=1.4;g.beginPath();
-    if(a&&on){a.getByteTimeDomainData(MXBUF);const n=MXBUF.length;for(let i=0;i<n;i+=4){const x=i/(n-1)*w,y=h/2+((MXBUF[i]-128)/128)*(h/2-3)*Math.min(3,1/Math.max(.2,k==='mic'?1.6*eff:eff||1));i?g.lineTo(x,y):g.moveTo(x,y)}}
+    const a=ms?AUD.outAn:AUD.chAn&&AUD.chAn[k];g.strokeStyle=on&&eff>0?'rgba(85,184,201,.95)':on?'rgba(150,158,161,.75)':'rgba(140,150,153,.45)';   // playing, muted (grey wave), stopped (flat)g.lineWidth=1.4;g.beginPath();
+    if(a&&on){a.getByteTimeDomainData(MXBUF);const n=MXBUF.length;for(let i=0;i<n;i+=4){const x=i/(n-1)*w,y=h/2+((MXBUF[i]-128)/128)*(h/2-3)*(k==='mic'?1.6:1);i?g.lineTo(x,y):g.moveTo(x,y)}}
     else{g.moveTo(0,h/2);g.lineTo(w,h/2)}
     g.stroke()});
   MXRAF=requestAnimationFrame(mixDraw)}
@@ -4960,10 +4960,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019043339"></script>
-<script src="surface/links.js?v=20261019043339"></script>
-<script src="surface/tips.js?v=20261019043339"></script>
-<script src="surface/sections.js?v=20261019043339"></script>
+<script src="surface/install.js?v=20261019044036"></script>
+<script src="surface/links.js?v=20261019044036"></script>
+<script src="surface/tips.js?v=20261019044036"></script>
+<script src="surface/sections.js?v=20261019044036"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5197,7 +5197,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.17.6';
+const APP_VERSION='0.17.7';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
