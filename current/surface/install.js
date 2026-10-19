@@ -202,7 +202,11 @@ function mount(o){
   function render(){
     clearTimeout(timer);
     /* ver and wireVer are declared before the installed branch uses them (they were after it, which threw and left the section empty in the installed app) */
-    const ver=()=>window.__BUILD__?`<p class="sfi-note" style="margin-top:10px">Version ${esc(String(window.__BUILD__).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5'))} · <button type="button" class="sfi-chk" style="padding:0;border:0;background:none;color:var(--sfi-acc);font:inherit;text-decoration:underline;cursor:pointer">check for updates</button></p>`:'';
+    const ver=()=>window.__BUILD__?`<p class="sfi-note" style="margin-top:10px">Version ${window.__VERSION__?esc(String(window.__VERSION__))+' \u00b7 ':''}${esc(String(window.__BUILD__).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5'))} · <button type="button" class="sfi-chk" style="padding:0;border:0;background:none;color:var(--sfi-acc);font:inherit;text-decoration:underline;cursor:pointer">check for updates</button></p>`+notesHere():'';
+    /* what this version brought (whatsnew.md, written in by export/v1/build.mjs as window.__NOTES__) */
+    const notesHere=()=>{const n=(window.__NOTES__||[])[0];if(!n||!n.items||!n.items.length)return'';const K={new:'New',fix:'Fixed',change:'Changed'};
+      return `<details class="sfi-new" style="margin-top:6px"><summary style="cursor:pointer;color:var(--sfi-acc)">What\u2019s new in ${esc(n.v)}</summary><ul style="margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px">`+
+        n.items.map(it=>`<li style="display:grid;grid-template-columns:58px 1fr;gap:8px;align-items:baseline"><span style="font:600 9px/1 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase;opacity:.7">${K[it.kind]||''}</span><span>${esc(it.text)}</span></li>`).join('')+'</ul></details>'};
     const wireVer=()=>{const b=body.querySelector('.sfi-chk');if(!b||typeof window.checkForUpdate!=='function')return;
       b.onclick=()=>{b.textContent='checking…';window.checkForUpdate(false).then(r=>{b.textContent=r==='current'?'you have the newest':r==='new'?'a newer version is ready':'could not check (offline?)'})}};
     label(standalone()||(!embedded()&&installedHere())?'Installed':'Install');
@@ -268,7 +272,7 @@ function mount(o){
     setTimeout(close,14000);
   }
   function openGuide(){if(typeof o.open==='function')o.open();sec.classList.remove('cx-shut');gb.setAttribute('aria-expanded','true');
-    setTimeout(()=>{sec.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});show(0)},320)}
+    setTimeout(()=>{if(window.SurfaceLinks&&SurfaceLinks.reveal)SurfaceLinks.reveal(sec);else sec.scrollIntoView({block:'start'});show(0)},320)}
   addEventListener('appinstalled',()=>{store.set('installed',true);render()});
   if(o.hint)setTimeout(hint,o.hintAfter);
   return {section:sec,open:openGuide,render,platform:()=>plat,setPlatform:p=>{if(SCENES[p]){plat=p;render()}}};

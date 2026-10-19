@@ -37,10 +37,35 @@
     if (typeof O.open === "function") try { O.open(); } catch (_) {}
     try { if (window.SurfaceSections) SurfaceSections.open(name); } catch (_) {}
     el.classList.remove("cx-shut");
-    setTimeout(function () { el.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }, 340);
+    setTimeout(function () { reveal(el); }, 340);
     return true;
   }
-  function fromHash() { var h = decodeURIComponent((location.hash || "").slice(1)); if (!h) return; if (held) { waiting = h; return; } go(h); }
+  /* scroll the panel that holds el, and only that panel. scrollIntoView also scrolls the page itself, and on an iPhone
+     that left the stage scrolled off screen: black, with taps landing in the wrong places (18 Oct 2026) */
+  function reveal(el) {
+    var p = el.parentElement, smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    while (p && p !== document.body && p !== document.documentElement) {
+      var o = getComputedStyle(p).overflowY;
+      if ((o === "auto" || o === "scroll") && p.scrollHeight > p.clientHeight + 1) {
+        var top = p.scrollTop + el.getBoundingClientRect().top - p.getBoundingClientRect().top - 8;
+        try { p.scrollTo({ top: Math.max(0, top), behavior: smooth ? "smooth" : "auto" }); } catch (_) { p.scrollTop = Math.max(0, top); }
+        break;
+      }
+      p = p.parentElement;
+    }
+    settle();
+  }
+  /* the page itself never stays scrolled: the stage is the page */
+  function settle() { var d = document.scrollingElement || document.documentElement; if (d.scrollTop || d.scrollLeft) { d.scrollTop = 0; d.scrollLeft = 0; } }
+  /* the name to open: the first time, the one export/v1/build.mjs took off the address before the page was read (so the
+     browser could not jump to it on its own), afterwards the address's. The # is then taken off the address again. */
+  function current() {
+    var h = window.__LINK__; if (h) { window.__LINK__ = ""; return h; }
+    h = decodeURIComponent((location.hash || "").slice(1));
+    if (h) try { history.replaceState(null, "", location.pathname + location.search); } catch (_) {}
+    return h;
+  }
+  function fromHash() { var h = current(); settle(); if (!h) return; if (held) { waiting = h; return; } go(h); }
   function release() { held = false; var h = waiting; waiting = null; if (h) setTimeout(function () { go(h); }, 60); }
   function copy(name, label) {
     var u = url(name), t = (label || document.title || "").trim();
@@ -70,5 +95,5 @@
     if (!mount.done) { mount.done = true; addEventListener("hashchange", fromHash); }
     if (document.readyState === "complete") setTimeout(fromHash, 400); else addEventListener("load", function () { setTimeout(fromHash, 400); });
   }
-  window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release };
+  window.SurfaceLinks = { mount: mount, url: url, go: go, copy: copy, button: button, release: release, reveal: reveal };
 })();
