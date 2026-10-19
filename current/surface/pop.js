@@ -25,8 +25,12 @@
     ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
     /* a panel glides in when it opens (Dimitry, 19 Oct): up a little and out of transparency. translate, not transform,
        so it never fights a panel's own centring transform. Shown again after [hidden] or display:none, it plays again. */
-    "@media (prefers-reduced-motion:no-preference){.spop:not([hidden]){animation:spop-in .24s cubic-bezier(.2,.8,.2,1)}}",
-    "@keyframes spop-in{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}"
+    /* 0.17.13: in and out with CSS transitions (display and @starting-style), only opacity and translate, which the
+       compositor runs off the main thread, so a busy stage cannot make them stutter; where a browser lacks
+       transition-behavior it simply shows and hides as before */
+    "@media (prefers-reduced-motion:no-preference){.spop,.scap{transition:opacity .18s ease,translate .2s cubic-bezier(.2,.8,.2,1),display .2s allow-discrete,overlay .2s allow-discrete}",
+    ".spop[hidden],.scap[hidden]{opacity:0;translate:0 10px}",
+    "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 12px}}}"
   ].join("\n");
   function inject() {
     if (document.getElementById("spop-css")) return;
@@ -48,26 +52,20 @@
     }
     return el;
   }
-  /* GLIDE: folded sections open by gliding to their height instead of appearing, and the page's own scrolling panes
-     scroll smoothly. SurfacePop.glide({ shut: 'cx-shut', bodies: '.cx-gbody,.cx-body', scrollers: '#panel,.track' })
-     watches the whole page: when an element loses the "shut" class, its body (a direct child matching bodies) grows
-     from 0 to its height and fades in. Closing stays instant. Off with prefers-reduced-motion. */
+  /* GLIDE: folded sections fade and settle as they open and close, and the page's own scrolling panes scroll
+     smoothly. SurfacePop.glide({ shut: 'cx-shut', bodies: '.cx-gbody,.cx-body', scrollers: '#panel,.track' }).
+     CSS only (transitions on opacity, translate and display). Off with prefers-reduced-motion. */
   function glide(o) {
-    o = o || {}; var shut = o.shut || "cx-shut", bodies = o.bodies || ".cx-gbody,.cx-body", scr = o.scrollers || "";
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (scr && !document.getElementById("spop-glide")) { var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = scr + "{scroll-behavior:smooth}"; document.head.appendChild(st); }
-    if (!window.MutationObserver) return;
-    new MutationObserver(function (ms) {
-      ms.forEach(function (m) {
-        var el = m.target; if (m.attributeName !== "class" || !el.classList || el.classList.contains(shut)) return;
-        if (!(m.oldValue || "").split(/\s+/).includes(shut)) return;
-        for (var i = 0; i < el.children.length; i++) { var b = el.children[i]; if (!b.matches || !b.matches(bodies)) continue;
-          var h = b.scrollHeight; if (!h || !b.animate) continue;
-          b.style.overflow = "hidden";
-          var a = b.animate([{ height: "0px", opacity: 0 }, { height: h + "px", opacity: 1 }], { duration: Math.min(420, 180 + h * .25), easing: "cubic-bezier(.2,.8,.2,1)" });
-          a.onfinish = a.oncancel = (function (x) { return function () { x.style.overflow = ""; }; })(b); }
-      });
-    }).observe(document.body, { attributes: true, attributeOldValue: true, subtree: true, attributeFilter: ["class"] });
+    o = o || {}; var shut = o.shut || "cx-shut", bodies = (o.bodies || ".cx-gbody,.cx-body").split(","), scr = o.scrollers || "";
+    if (document.getElementById("spop-glide")) return;
+    var b = bodies.map(function (x) { return "." + shut + ">" + x.trim(); }).join(","), open = bodies.map(function (x) { return ":not(." + shut + ")>" + x.trim(); }).join(",");
+    var all = bodies.map(function (x) { return x.trim(); }).join(",");
+    /* 0.17.13 (Dimitry: "the glide open is very, very rough"): the height animation laid the page out every frame while
+       the stage was drawing. Now a section's body fades and settles (opacity and translate only), in and out. */
+    var css = "@media (prefers-reduced-motion:no-preference){" + (scr ? scr + "{scroll-behavior:smooth}" : "") +
+      all + "{transition:opacity .2s ease,translate .22s cubic-bezier(.2,.8,.2,1),display .22s allow-discrete}" +
+      b + "{opacity:0;translate:0 -6px}" + "@starting-style{" + open + "{opacity:0;translate:0 -6px}}}";
+    var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = css; document.head.appendChild(st);
   }
   window.SurfacePop = { dress: dress, css: CSS, X: X, glide: glide };
 })();
