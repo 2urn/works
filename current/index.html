@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019141438";window.__VERSION__="0.20.0";window.__NOTES__=[{"v":"0.20.0","date":"19 Oct 2026","items":[{"kind":"new","text":"Paths in color: each path has its own, on its number in the index and on the controls it teaches"},{"kind":"new","text":"the path numbers on the bar sit under their buttons, in one line; tap one for the path, its next step, and take me there"},{"kind":"new","text":"every step in Paths ends with a link that takes you to the control that does it"},{"kind":"change","text":"steps are circles: empty until done, filled once done"},{"kind":"new","text":"suggestions: the next steps on your paths when you come back, and your progress under the duck-rabbit on the cover; Settings › Suggestions turns them off"}]}]</script>
+<script>window.__BUILD__="20261019152914";window.__VERSION__="0.20.1";window.__NOTES__=[{"v":"0.20.1","date":"19 Oct 2026","items":[{"kind":"change","text":"new default keys: h for color, / for frame, . for path"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019141438"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019141438">
+<script src="claude-web.js?v=20261019152914"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019152914">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019141438"></script>
-<script src="surface/auto.js?v=20261019141438"></script>
-<script src="surface/toolpath.js?v=20261019141438"></script>
-<script src="surface/capture.js?v=20261019141438"></script>
-<script src="surface/pop.js?v=20261019141438"></script>
-<script src="surface/hints.js?v=20261019141438"></script>
-<script src="surface/paths.js?v=20261019141438"></script>
-<script src="surface/keys.js?v=20261019141438"></script>
-<script src="surface/reset.js?v=20261019141438"></script>
+<script src="vendor/opentype.min.js?v=20261019152914"></script>
+<script src="surface/auto.js?v=20261019152914"></script>
+<script src="surface/toolpath.js?v=20261019152914"></script>
+<script src="surface/capture.js?v=20261019152914"></script>
+<script src="surface/pop.js?v=20261019152914"></script>
+<script src="surface/hints.js?v=20261019152914"></script>
+<script src="surface/paths.js?v=20261019152914"></script>
+<script src="surface/keys.js?v=20261019152914"></script>
+<script src="surface/reset.js?v=20261019152914"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -5135,10 +5135,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019141438"></script>
-<script src="surface/links.js?v=20261019141438"></script>
-<script src="surface/tips.js?v=20261019141438"></script>
-<script src="surface/sections.js?v=20261019141438"></script>
+<script src="surface/install.js?v=20261019152914"></script>
+<script src="surface/links.js?v=20261019152914"></script>
+<script src="surface/tips.js?v=20261019152914"></script>
+<script src="surface/sections.js?v=20261019152914"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5169,9 +5169,9 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
     {id:'current.nexttext',d:'Next text in the sequence',keys:['w'],run:()=>{if(!(store.seq||[]).length){toast('add texts to the sequence first');return}seqStep()}},
     {id:'current.magnet',d:'Magnet: pull or push the current',keys:['g'],run:()=>tool('magnet')},
     {id:'current.view',d:'View: arrows, toolpath, glow, trails',keys:['v'],run:()=>tool('view')},
-    {id:'current.color',d:'Color',keys:[],run:()=>tool('color')},
-    {id:'current.frame',d:'Frame: move, scale and turn the drawing',keys:[],run:()=>tool('frame')},
-    {id:'current.path',d:'Path: edit or draw the toolpath',keys:[],run:()=>tool('path')},
+    {id:'current.color',d:'Color',keys:['h'],run:()=>tool('color')},
+    {id:'current.frame',d:'Frame: move, scale and turn the drawing',keys:['/'],run:()=>tool('frame')},
+    {id:'current.path',d:'Path: edit or draw the toolpath',keys:['.'],run:()=>tool('path')},
     {id:'current.camera',d:'Camera: on, the other camera, off',keys:['C'],run:()=>$('srCam').click()},
     {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
   const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Presets',compact:true,d:'Go straight to preset 1 to 9',actions:PR},{name:'Current',actions:CU}];
@@ -5503,7 +5503,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.20.0';
+const APP_VERSION='0.20.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
