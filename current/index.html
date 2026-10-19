@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261019000836"</script>
+<script>window.__BUILD__="20261019002001"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -4703,6 +4703,7 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
 <script src="surface/install.js"></script>
+<script src="surface/links.js"></script>
 <script src="surface/tips.js"></script>
 <script src="surface/sections.js"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
@@ -4769,7 +4770,13 @@ try{const tip=(id,t)=>{const e=document.getElementById(id);if(e)e.dataset.tip=t}
     keyFor:el=>{const id={pSnd:'sound',pShot:'capture',pRand:'random',pPrev:'prev',pNext:'next',pAuto:'auto',pSteer:'current.steer'}[el.id];
       const k=id&&(SurfaceKeys.keyFor(id)||[])[0];return k?k.replace('mod+','\u2318').replace('shift+','\u21e7'):''}})}catch(e){console.warn('tips',e)}</script>
 <script>/* Surface · Install: the Install section in the drawer index, after the Guide, and a one-time hint */
-try{SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false)})}catch(e){console.warn('install guide',e)}</script>
+let INSTALL=null;try{INSTALL=SurfaceInstall.mount({app:'Current',icon:'icons/icon-192.png',url:SHARE_URL,into:document.getElementById('idx'),open:()=>setPlayer(false),link:true})}catch(e){console.warn('install guide',e)}
+/* DEEP LINKS (0.16.3): works.chamy.xyz/current/#install opens the drawer on the install steps; #guide, #keys, #sound,
+   #credits the same for theirs. Any id inside the index works too. Made from the public address, never the preview's. */
+try{SurfaceLinks.mount({base:SHARE_URL,open:()=>setPlayer(false),names:{
+  install:()=>{if(INSTALL)INSTALL.open()},
+  keys:()=>{setPlayer(true);setTimeout(()=>SurfaceKeys.open(),300)},
+  sound:()=>SurfaceLinks.go('soundGuide'),credits:()=>SurfaceLinks.go('colo'),colophon:()=>SurfaceLinks.go('colo')}})}catch(e){console.warn('links',e)}</script>
 
 <script>/* DISPLAY group in the index: drawer beside/over (wide windows), panes solid/frosted/sheer/clear. Kept per browser. */
 (function(){const idx=document.getElementById('idx');if(!idx)return;const H=document.documentElement;
@@ -4929,7 +4936,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.2';
+const APP_VERSION='0.16.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
