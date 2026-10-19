@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019032253";window.__VERSION__="0.16.16";window.__NOTES__=[{"v":"0.16.16","date":"19 Oct 2026","items":[{"kind":"new","text":"mute on the sound shelf, as in a mixer: the sound keeps playing and the field keeps moving to it, silently; \"muted\" shows under the speaker"}]}]</script>
+<script>window.__BUILD__="20261019034125";window.__VERSION__="0.17.0";window.__NOTES__=[{"v":"0.17.0","date":"19 Oct 2026","items":[{"kind":"new","text":"the mixer. A beat, a bytebeat, your music and the microphone each have a channel with a level, mute (M) and solo (S), and can play together"},{"kind":"new","text":"mixer presets: beat only, beat + byte, voice over beat, room, everything"},{"kind":"new","text":"choose the microphone input (a plugged-in performance mic) and voice or raw sound"},{"kind":"change","text":"tapping a beat no longer stops a bytebeat or your music: each sound goes to its own channel; a look's own sound still replaces everything"},{"kind":"change","text":"\"mix\" moved into the inputs on the sound shelf and opens the mixer"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019032253"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019032253">
+<script src="claude-web.js?v=20261019034125"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019034125">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019032253"></script>
-<script src="surface/auto.js?v=20261019032253"></script>
-<script src="surface/toolpath.js?v=20261019032253"></script>
-<script src="surface/capture.js?v=20261019032253"></script>
-<script src="surface/pop.js?v=20261019032253"></script>
-<script src="surface/hints.js?v=20261019032253"></script>
-<script src="surface/keys.js?v=20261019032253"></script>
-<script src="surface/reset.js?v=20261019032253"></script>
+<script src="vendor/opentype.min.js?v=20261019034125"></script>
+<script src="surface/auto.js?v=20261019034125"></script>
+<script src="surface/toolpath.js?v=20261019034125"></script>
+<script src="surface/capture.js?v=20261019034125"></script>
+<script src="surface/pop.js?v=20261019034125"></script>
+<script src="surface/hints.js?v=20261019034125"></script>
+<script src="surface/keys.js?v=20261019034125"></script>
+<script src="surface/reset.js?v=20261019034125"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -604,6 +604,23 @@ body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-g
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
+#mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#mixPop[hidden]{display:none}
+#mixBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 10px}
+#mixBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 16px 6px}
+.mxPre{display:flex;flex-wrap:wrap;gap:6px 12px;padding:0 16px 8px}.mxPre button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.mxPre button:hover{color:var(--ui-ink)}.mxPre button[aria-pressed=true]{color:#55b8c9}
+.mxCh{display:grid;grid-template-columns:62px 1fr 28px 28px;align-items:center;gap:4px 8px;padding:6px 16px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .06)}
+.mxCh .nm{font:600 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mxCh .nm small{display:block;margin-top:3px;font:500 9px/1.2 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62px}
+.mxCh.idle .nm{color:var(--ui-dim)}
+.mxCh input[type=range]{width:100%;accent-color:#55b8c9}
+.mxCh .mb{width:28px;height:28px;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);border-radius:7px;background:none;color:var(--ui-dim);font:700 10px/1 var(--mono);cursor:pointer}
+.mxCh .mb.m[aria-pressed=true]{background:#e8b04a;border-color:#e8b04a;color:#1b1406}.mxCh .mb.s[aria-pressed=true]{background:#55b8c9;border-color:#55b8c9;color:#04181c}
+.mxCh .pct{grid-column:2;font:500 9px/1 var(--mono);color:var(--ui-dim);margin-top:-2px}
+.mxMic{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding-top:2px}
+.mxMic select{flex:1;min-width:0;max-width:100%;height:28px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}   /* 16px: smaller makes an iPhone zoom in on tap */
+.mxMic .segs button{padding:4px 0;margin-right:10px;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mxMic .segs button[aria-pressed=true]{color:#55b8c9}
+.mxNote{margin:8px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
 #rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #rlist[hidden]{display:none}
 #rlBody{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
@@ -1401,6 +1418,10 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
   <div class="mxh"><span>Words</span><button class="tb" id="wlClose" type="button" aria-label="Close the recent words">Close</button></div>
   <div id="wlSeq"></div>
   <div id="wlItems" role="group" aria-label="Recent words"></div>
+</div>
+<div id="mixPop" role="dialog" aria-label="Mixer" hidden>
+  <div class="mxh"><span>Mixer</span><button class="tb" id="mixClose" type="button" aria-label="Close the mixer">Close</button></div>
+  <div id="mixBody"></div>
 </div>
 <div id="rlist" role="dialog" aria-label="Random matrix" hidden>
   <div class="mxh"><span>Random</span><button class="tb" id="rlClose" type="button" aria-label="Close the random matrix">Close</button></div>
@@ -2303,7 +2324,7 @@ function applyLookNow(p,idx,instant){
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(gr!==S.ground){S.ground=gr;applyGround()}syncLine();
-  S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&AUD.src!==p.audio&&!AUD.file&&AUD.src!=='mic')startBeat(p.audio,true);
+  S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&!isOn(p.audio)&&!AUD.play.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
   Object.assign(S.mods,keepMods);S.maps.push(...keepMaps);   // the picture's automation stays when the look changes
@@ -3860,11 +3881,11 @@ const bbLetters=()=>{const v=k=>Math.round(+(E[k]??S[k]));return[v('bbn'),v('bbl
 const bbRate=()=>+(+(E.bbrate??S.bbrate)).toFixed(3);
 function startByte(name,fromPreset){
   if(!ensureCtx())return;
-  stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();
+  if(fromPreset)stopAudio();else stopCh('byte');AUD.play.byte=name;AUD.src=name;AUD.last=name;AUD.want=name;syncAud();
   const f=bbFormula(name);if(document.activeElement!==$('bbFx'))$('bbFx').value=f;bbMsg();
   bbVoice().then(()=>{if(AUD.want!==name)return;
     const L=bbLetters(),r=bbRate();BBV.post({f,L,rate:r,reset:true});BBV.sent=L.join()+'|'+r;
-    BBV.out.connect(AUD.mainIn);AUD.bbOn=true;AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r;AUD.loopOn=true},
+    BBV.out.connect(AUD.ch.byte);AUD.bbOn=true;if(!AUD.play.beat){AUD.t0=AUD.ctx.currentTime;AUD.dur=1024/8000/r}AUD.loopOn=true},
     ()=>toast('could not start the bytebeat here'));
   if(fromPreset)toast('bytebeat: '+name.replace(/^Byte /,'')+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
 function stopByte(){if(!AUD.bbOn)return;AUD.bbOn=false;try{BBV.post({stop:true});BBV.out.disconnect()}catch(_){}}
@@ -3876,33 +3897,53 @@ function bbPlay(){const fx=$('bbFx').value.trim();if(!fx){bbMsg('Type a formula 
   if(!bbCompile(fx)){bbMsg('That formula does not run: check the brackets and use only t, n, l, o, p, a, b, c, numbers, operators and Math functions.');return}
   bbMsg();BB_USER=fx;if(window.cxCount)cxCount('formula played',1);   /* that one was played, never what it says */try{localStorage.setItem('current.bytebeat',fx)}catch(_){}
   AUD.userOff=false;
-  if(AUD.src==='Byte yours'&&AUD.bbOn){BBV.post({f:fx});syncAud();toast('formula swapped');return}   // live coding: the clock keeps running
+  if(AUD.play.byte==='Byte yours'&&AUD.bbOn){BBV.post({f:fx});syncAud();toast('formula swapped');return}   // live coding: the clock keeps running
   startByte('Byte yours');toast('playing your formula')}
 function openBytebeat(){sndOpen=false;syncSteer();setPlayer(false);
   const g=$('bbGroup');if(window.SurfaceSections)SurfaceSections.open('bbGroup');else if(g.classList.contains('cx-shut')){g.classList.remove('cx-shut');g.querySelector('.cx-grpbtn').setAttribute('aria-expanded','true')}
-  const fx=$('bbFx');if(!fx.value.trim())fx.value=isByte(AUD.src)?bbFormula(AUD.src):(BB_USER||BYTES['Byte 42'].f);
+  const fx=$('bbFx');if(!fx.value.trim())fx.value=AUD.play.byte?bbFormula(AUD.play.byte):(BB_USER||BYTES['Byte 42'].f);
   setTimeout(()=>{const pn=$('panel'),top=pn.scrollTop+g.getBoundingClientRect().top-pn.getBoundingClientRect().top-76;   // clear of the duck-rabbit and the namemark
     pn.scrollTo({top:Math.max(0,top),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});try{fx.focus({preventScroll:true})}catch(_){}},340)}   // after the drawer's slide
-$('bbPlay').addEventListener('click',()=>{if($('bbPlay').dataset.st==='stop'){AUD.userOff=true;stopAudio();toast('bytebeat stopped');return}bbPlay()});
+$('bbPlay').addEventListener('click',()=>{if($('bbPlay').dataset.st==='stop'){stopCh('byte');syncAud();toast('bytebeat stopped');return}bbPlay()});
 $('bbFx').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();bbPlay()}});
 /* THE BOX'S TWO BUTTONS SAY WHAT THEY WILL DO (Dimitry, 18 Oct): Play formula / Stop playing / Play changes, and Undo edits
    only while the box differs from what is playing, so a playing formula can be stopped from here, not only from the bar. */
 const BB_ICO={play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg>',
   stop:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12"/></svg>'};
-function bbPlaying(){return isByte(AUD.src)&&AUD.src!=='off'}
-function bbRef(){return bbPlaying()?bbFormula(AUD.src):BB_USER}
+function bbPlaying(){return !!AUD.play.byte}
+function bbRef(){return bbPlaying()?bbFormula(AUD.play.byte):BB_USER}
 function bbBtns(){const b=$('bbPlay'),k=$('bbBack');if(!b)return;try{AUD}catch(_){return}   // AUD is declared further down; the first sync comes from syncAud
-  const box=$('bbFx').value.trim(),on=bbPlaying(),same=on&&box===bbFormula(AUD.src).trim();
-  const st=same?'stop':on&&AUD.src==='Byte yours'&&box?'swap':'play';
+  const box=$('bbFx').value.trim(),on=bbPlaying(),same=on&&box===bbFormula(AUD.play.byte).trim();
+  const st=same?'stop':on&&AUD.play.byte==='Byte yours'&&box?'swap':'play';
   if(b.dataset.st!==st){b.dataset.st=st;b.innerHTML=(st==='stop'?BB_ICO.stop:BB_ICO.play)+'<span>'+(st==='stop'?'Stop playing':st==='swap'?'Play changes':'Play formula')+'</span>'}
   b.setAttribute('aria-label',st==='stop'?'Stop the bytebeat that is playing':st==='swap'?'Play your changes without restarting the clock':'Play the formula in the box');
-  k.hidden=!on||same||!box&&!bbFormula(AUD.src)}
+  k.hidden=!on||same||!box&&!bbFormula(AUD.play.byte)}
 $('bbBack').addEventListener('click',()=>{$('bbFx').value=bbRef();bbMsg();bbBtns();$('bbFx').focus()});
 $('bbFx').addEventListener('input',bbBtns);bbBtns();
 $('bbFx').value=BB_USER||BYTES['Byte 42'].f;
 const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
+/* THE MIXER (Dimitry, 18 Oct): a beat, a bytebeat, your music and the microphone each have a channel with its own level,
+   mute (M) and solo (S), as in a DAW, and can all play at once. Tapping a sound on the shelf loads it into its channel
+   (a beat replaces the beat, a bytebeat the bytebeat); a look's own sound still replaces everything. The field hears
+   the mix as set here. The microphone never reaches the speakers: its level sets how much it moves the field and how
+   much of it a video holds. */
+const MIX_CH=[['beat','beat'],['byte','bytebeat'],['file','music'],['mic','mic']];
+const MIX=(()=>{const d={beat:{v:1,m:0,s:0},byte:{v:.8,m:0,s:0},file:{v:1,m:0,s:0},mic:{v:1,m:0,s:0},dev:'',voice:false};
+  try{const o=JSON.parse(localStorage.getItem('current.mix')||'{}');for(const k of ['beat','byte','file','mic'])if(o[k])Object.assign(d[k],o[k]);if(typeof o.dev==='string')d.dev=o.dev;d.voice=!!o.voice}catch(_){}return d})();
+function mixSave(){try{localStorage.setItem('current.mix',JSON.stringify(MIX))}catch(_){}}
+function mixEff(k){const solo=MIX_CH.some(([c])=>MIX[c].s);const c=MIX[k];return c.m||(solo&&!c.s)?0:c.v}
+function applyMix(){if(!AUD.ctx||!AUD.ch)return;const t=AUD.ctx.currentTime;for(const k of ['beat','byte','file'])AUD.ch[k].gain.setTargetAtTime(mixEff(k),t,.03);
+  if(AUD.mic&&AUD.mic.node)AUD.mic.node.gain.setTargetAtTime(1.6*mixEff('mic'),t,.03)}
+AUD.play={beat:null,byte:null,file:false};
+function isOn(src){if(!src)return false;if(src==='mic')return !!AUD.mic;if(src==='file')return !!AUD.play.file;return AUD.play.beat===src||AUD.play.byte===src}
+function srcSync(){AUD.src=AUD.play.beat||AUD.play.byte||(AUD.play.file?'file':null)||(AUD.mic?'mic':'off');AUD.loopOn=!!(AUD.play.beat||AUD.play.byte)}
+function stopCh(k){
+  if(k==='beat'){AUD.wantBeat=null;if(AUD.beatNode){try{AUD.beatNode.stop()}catch(_){}try{AUD.beatNode.disconnect()}catch(_){}AUD.beatNode=null}AUD.play.beat=null}
+  else if(k==='byte'){AUD.want=null;stopByte();AUD.play.byte=null}
+  else if(k==='file'){if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.play.file=false}
+  srcSync()}
 function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
     const c=AUD.ctx=new C();AUD.an=c.createAnalyser();AUD.an.fftSize=1024;AUD.an.smoothingTimeConstant=.55;AUD.data=new Uint8Array(AUD.an.frequencyBinCount);
@@ -3913,7 +3954,8 @@ function ensureCtx(){
     {const L=Math.round(c.sampleRate*2.4),ir=c.createBuffer(2,L,c.sampleRate);for(let k=0;k<2;k++){const d=ir.getChannelData(k);for(let i=0;i<L;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/L,3.2)}
      AUD.dry=c.createGain();AUD.conv=c.createConvolver();AUD.conv.buffer=ir;AUD.wetG=c.createGain();
      AUD.bus.connect(AUD.dry);AUD.dry.connect(AUD.vol);AUD.bus.connect(AUD.conv);AUD.conv.connect(AUD.wetG);AUD.wetG.connect(AUD.vol);applyWet()}
-    AUD.mainIn=c.createGain();AUD.mainIn.connect(AUD.bus);AUD.layIn=c.createGain();AUD.layIn.connect(AUD.bus);applyBlend();   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
+    AUD.mainIn=c.createGain();AUD.mainIn.connect(AUD.bus);AUD.layIn=c.createGain();AUD.layIn.connect(AUD.bus);applyBlend();
+    AUD.ch={};for(const k of ['beat','byte','file']){const g=c.createGain();g.connect(AUD.mainIn);AUD.ch[k]=g}applyMix();   /* THE MIXER: one channel each, all feeding the field */   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
     const nb=c.createBuffer(1,c.sampleRate,c.sampleRate),ch=nb.getChannelData(0);for(let i=0;i<ch.length;i++)ch[i]=Math.random()*2-1;AUD.noise=nb}
   if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // iOS also reports 'interrupted'
   try{const c=AUD.ctx,s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0)}catch(_){}   // a sound started inside the gesture is what really unlocks iOS
@@ -3943,19 +3985,19 @@ function renderBeat(name){
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
 function stopMic(force){if(!AUD.mic)return;if(!force)return;/* a mic stays until its own button, the camera going, or the sound switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
-function stopAudio(){if(AUD.userOff)stopLayer();stopByte();AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src=AUD.mic?'mic':'off';syncAud()}
+function stopAudio(){if(AUD.userOff)stopLayer();if(AUD.play.beat||AUD.play.byte||AUD.play.file)AUD.lastSet={...AUD.play};for(const k of ['beat','byte','file'])stopCh(k);AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);srcSync();syncAud()}
 function startBeat(name,fromPreset){
   if(window.cxCount&&name)cxCount('sound: '+(name==='Byte yours'?'own formula':name),1);
   if(isByte(name)){startByte(name,fromPreset);return}
   const pat=BEATS[name];if(!pat)return;if(!ensureCtx())return;
-  stopAudio();AUD.src=name;AUD.last=name;AUD.want=name;syncAud();prerenderBeats();
-  renderBeat(name).then(buf=>{if(AUD.want!==name)return;   // stopped or switched while rendering
-    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;
-    AUD.beat=c.createGain();AUD.beat.connect(AUD.mainIn);n.connect(AUD.beat);
-    const t0=c.currentTime+.05;n.start(t0);AUD.node=n;AUD.t0=t0;AUD.dur=60/pat.bpm/4;AUD.loopOn=true},
+  if(fromPreset)stopAudio();else stopCh('beat');AUD.play.beat=name;AUD.lastBeat=name;AUD.src=name;AUD.last=name;AUD.wantBeat=name;syncAud();prerenderBeats();
+  renderBeat(name).then(buf=>{if(AUD.wantBeat!==name)return;   // stopped or switched while rendering
+    const c=AUD.ctx,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.connect(AUD.ch.beat);
+    const now=c.currentTime;let t0=now+.05;if(AUD.play.byte&&AUD.t0&&AUD.dur){const L=AUD.dur*16;t0=Math.max(now+.02,AUD.t0+Math.ceil((now+.05-AUD.t0)/L)*L)}   // on the bytebeat's bar line when one plays
+    n.start(t0);AUD.beatNode=n;AUD.t0=t0;AUD.dur=60/pat.bpm/4;AUD.loopOn=true},
     ()=>toast('could not build that beat here'));
   if(fromPreset)toast('beat: '+name.toLowerCase()+(AUD.ctx.state!=='running'?' · tap to hear it':''))}
-function startFile(){if(!AUD.fileBuf||!ensureCtx())return;if(window.cxCount)cxCount('sound: own file',1);stopAudio();AUD.want=null;const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.mainIn);n.start();AUD.node=n;AUD.src='file';syncAud()}
+function startFile(){if(!AUD.fileBuf||!ensureCtx())return;if(window.cxCount)cxCount('sound: own file',1);stopCh('file');const n=AUD.ctx.createBufferSource();n.buffer=AUD.fileBuf;n.loop=true;n.connect(AUD.ch.file);n.start();AUD.node=n;AUD.play.file=true;AUD.src='file';AUD.last='file';syncAud()}
 /* MICROPHONE: the room drives the field. The mic feeds only the analyser, never the speakers (no feedback), with the
    browser's voice cleanup off so music and claps read as they are. Inside claude.ai the browser may refuse it; on the
    tool's own address or installed as an app it asks once. */
@@ -3966,7 +4008,8 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
   // raw sound first (no voice cleanup); some browsers (iPhone apps other than Safari among them) refuse those settings, so plain audio next
   let st,err=null;
   audioSessionFor(true);
-  for(const c of [{audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}},{audio:true}]){
+  const dev=MIX.dev?{deviceId:{exact:MIX.dev}}:{},cl=MIX.voice?{echoCancellation:true,noiseSuppression:true,autoGainControl:true}:{echoCancellation:false,noiseSuppression:false,autoGainControl:false};   // the mixer's input and voice/raw
+  for(const c of [{audio:{...dev,...cl}},{audio:MIX.dev?dev:true},{audio:true}]){
     try{st=await navigator.mediaDevices.getUserMedia(c);break}catch(e){err=e;if(e&&e.name==='NotAllowedError')break}}
   if(!st){audioSessionFor(false);const e=err||{},n=e.name||'Error',inside=(()=>{try{return window.top!==window.self}catch(_){return true}})();
     const why={NotAllowedError:inside?'the microphone is blocked inside Claude · open Current on its own or as an app':'microphone not allowed · allow it for this site in the browser’s settings, then try again',
@@ -3984,10 +4027,10 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
    a microphone is live. 0.16.2: the same for the room mic (the mic button), and the capture panel's "sound in the video"
    row (music / music + mic / mic) shows in video mode whenever any mic is live, so the blend is always findable. */
 function hookMic(st,cam){
-  const join=AUD.src!=='off'&&AUD.src!=='mic';
+  const join=!!(AUD.play.beat||AUD.play.byte||AUD.play.file);
   stopMic(true);if(!join)stopAudio();AUD.userOff=false;
   const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
-  AUD.mic={stream:st,node:g,sink:z,cam};if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
+  AUD.mic={stream:st,node:g,sink:z,cam};g.gain.value=1.6*mixEff('mic');if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
   if(AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // a mic goes into a video (the capture panel's sound row says how much), never to the speakers
   if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.mic&&AUD.mic.stream===st){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}});
@@ -4001,10 +4044,11 @@ const audSeg=$('audSrc');
 function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
-    b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
+    b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
   sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=[AUD.mic?'mic':'',AUD.muted&&on?'muted':''].filter(Boolean).join(' · ');sb.setAttribute('aria-label',(on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to stop'):AUD.mic?'Sound on, with the microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
+  try{mixSync()}catch(_){}
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
    stays silent otherwise). Every tap/click/key resumes it. iPhone mute switch: ask for the playback session
@@ -4038,6 +4082,8 @@ function startLayer(name){stopLayer();AUD.lay=name||null;applyBlend();if(!name||
     const now=AUD.ctx.currentTime;let t0=now+.05;if(AUD.loopOn&&AUD.t0&&buf.duration){const k=Math.ceil((now+.05-AUD.t0)/buf.duration);t0=Math.max(now+.02,AUD.t0+k*buf.duration)}   // on the playing sound's bar line when there is one
     n.start(t0);AUD.layNode=n},()=>toast('could not build that beat here'))}
 function soundOn(){
+  const L=AUD.lastSet;if(L&&(L.beat||L.byte||(L.file&&AUD.fileBuf))){AUD.lastSet=null;if(L.beat)startBeat(L.beat);if(L.byte)startByte(L.byte);if(L.file&&AUD.fileBuf)startFile();
+    if(+$('audVol').value<.05){$('audVol').value=.6;$('audVol').dispatchEvent(new Event('input'))}toast('sound: '+[L.beat,L.byte,L.file?(AUD.file||'your music'):null].filter(Boolean).map(x=>x.replace(/^Byte /,'').toLowerCase()).join(' + '));return}
   if(AUD.last==='mic'){startMic();return}
   if(AUD.fileBuf&&AUD.last==='file')startFile();else startBeat(AUD.last&&(BEATS[AUD.last]||isByte(AUD.last))?AUD.last:'Four on the floor');
   if(+$('audVol').value<.05){$('audVol').value=.6;$('audVol').dispatchEvent(new Event('input'))}
@@ -4062,19 +4108,20 @@ const SHELF_QUANT=[[4,'beat'],[8,'½ bar'],[16,'bar'],[2,'8th'],[0,'off']];
 function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   const add=(id,label,svg,aria,fn)=>{const b=document.createElement('button');b.className='si';b.type='button';if(id)b.id=id;b.innerHTML=svg+'<span class="lab">'+label+'</span>';b.setAttribute('aria-label',aria);b.onclick=fn;t.appendChild(b);return b};
   /* no play/stop here (Dimitry, 18 Oct): the bar's speaker is the one on/off. Tapping the sound that is playing stops it */
-  const hush=()=>{AUD.userOff=true;stopAudio();syncSndShelf()};
+  const hush=k=>{stopCh(k);syncAud();syncSndShelf()};
   /* CANON (Dimitry, 18 Oct): inputs first, then presets, then modifiers. Light rules between the families:
-     inputs (mic, your music) | beats | bytes | modifiers (mute, grid, blend, wetness, react) */
+     inputs (mic, your music, mix) | beats | bytes | modifiers (mute, grid, wetness, react) */
   const rule=()=>{const g=document.createElement('span');g.className='sep';g.setAttribute('aria-hidden','true');t.appendChild(g)};
   add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
-    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.src==='file')return hush();if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
+    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(isOn('file'))return hush('file');if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
   if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
+  add('sdMix','mix','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/></svg>','The mixer: how much of the beat, the bytebeat, your music and the microphone you hear and the field follows',()=>openMix());
   rule();
-  for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{if(AUD.src===n)return hush();AUD.userOff=false;startBeat(n)});b.dataset.src=n}
+  for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{if(isOn(n))return hush('beat');AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   rule();
-  for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{if(AUD.src===n)return hush();AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
-  if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{if(AUD.src==='Byte yours')return hush();AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
+  for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{if(isOn(n))return hush('byte');AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
+  if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{if(isOn('Byte yours'))return hush('byte');AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
   add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
@@ -4083,10 +4130,6 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   add('sdMute','mute','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="mx" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>','Mute: the sound keeps playing and the field keeps moving to it, silently. Tap again to hear it',()=>setMute(!AUD.muted));
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
     const i=SHELF_QUANT.findIndex(q=>q[0]===QUANT);QUANT=SHELF_QUANT[(i+1)%SHELF_QUANT.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
-  {const LAYS=[null,...Object.keys(BEATS)],mx=add('sdMix','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>','Blend: tap to put a beat under the sound, drag left or right to blend the two',()=>{});
-    mx.onclick=null;let b0=BLEND;
-    wireTapHold(mx,{tap:()=>{const i=LAYS.indexOf(AUD.lay);const nx=LAYS[(i+1)%LAYS.length];startLayer(nx);if(nx&&AUD.src==='off'){AUD.userOff=false;soundOn()}syncSndShelf();toast(nx?'under it: '+(BEAT_SHORT[nx]||nx.toLowerCase()):'blend off')},hold:()=>{},
-      drag:(ph,dx)=>{if(ph==='start')b0=BLEND;if(ph!=='end'){BLEND=Math.max(0,Math.min(1,Math.round((b0+dx/150)*20)/20));applyBlend();syncSndShelf()}else{try{localStorage.setItem('current.blend',String(BLEND))}catch(_){}}}})}
   {const wt=add('sdWet','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10z"/></svg>','Wetness: tap for dry or wet, drag left or right for how much room is around every sound',()=>{});
     wt.onclick=null;let w0=WET;const save=()=>{try{localStorage.setItem('current.wet',String(WET))}catch(_){}};
     wireTapHold(wt,{tap:()=>{if(WET>0){WET_LAST=WET;WET=0}else WET=WET_LAST||.35;applyWet();save();syncSndShelf();toast(WET?'wet '+Math.round(WET*100)+'%':'dry')},hold:()=>{},
@@ -4094,13 +4137,54 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   add('sdReact','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h3l2-5 3 10 3-8 2 3h5"/></svg>','When a look has no sound links of its own, the sound still moves it: louder is faster, beats push harder. Tap to switch',()=>{
     AUD.react=!AUD.react;try{localStorage.setItem('current.react',AUD.react?'on':'off')}catch(_){}syncSndShelf();toast(AUD.react?'the sound moves every look':'only looks with their own sound links move')});
   syncSndShelf()}
+/* THE MIXER PANEL: presets, then one row per channel (name, level, M, S); the mic row also chooses the input and voice or
+   raw. Tapping a channel's name starts or stops its sound. */
+const MIX_PRESETS=[['beat only',{beat:1},['beat']],['beat + byte',{beat:.85,byte:.6},['beat','byte']],['voice over beat',{beat:.55,mic:1},['beat','mic']],
+  ['room',{mic:1},['mic']],['everything',{beat:.75,byte:.6,file:.8,mic:1},[]]];
+const chSrc=k=>k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k==='file'?(AUD.play.file?'file':null):(AUD.mic?'mic':null);
+const chName=k=>{const v=chSrc(k);if(!v)return k==='file'&&AUD.fileBuf?'ready':'off';return k==='beat'?(BEAT_SHORT[v]||v.toLowerCase()):k==='byte'?v.replace(/^Byte /,'').toLowerCase():k==='file'?(AUD.file||'your music').replace(/\.[^.]+$/,''):(AUD.mic&&AUD.mic.cam?'camera':'on')};
+function chToggle(k){AUD.userOff=false;
+  if(chSrc(k)){if(k==='mic'){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}else{stopCh(k);syncAud()}return}
+  if(k==='beat')startBeat(AUD.lastBeat&&BEATS[AUD.lastBeat]?AUD.lastBeat:'Four on the floor');
+  else if(k==='byte')startByte(Object.keys(BYTES)[0]);
+  else if(k==='file'){if(AUD.fileBuf)startFile();else $('audFile').click()}
+  else startMic()}
+function mixPreset(name,lv,need){MIX.pre=name;for(const [k] of MIX_CH){if(lv[k]!=null){MIX[k].v=lv[k];MIX[k].m=0}else MIX[k].m=name==='everything'?0:1;MIX[k].s=0}
+  mixSave();applyMix();for(const k of need)if(!chSrc(k))chToggle(k);renderMix();toast('mix: '+name)}
+function renderMix(){const b=$('mixBody');if(!b)return;b.innerHTML='';
+  const h=document.createElement('div');h.className='sub';h.textContent='Presets';b.appendChild(h);
+  const pr=document.createElement('div');pr.className='mxPre';for(const [n,lv,need] of MIX_PRESETS){const x=document.createElement('button');x.type='button';x.textContent=n;x.setAttribute('aria-pressed',String(MIX.pre===n));x.onclick=()=>mixPreset(n,lv,need);pr.appendChild(x)}b.appendChild(pr);
+  for(const [k,label] of MIX_CH){const c=MIX[k],row=document.createElement('div');row.className='mxCh'+(chSrc(k)?'':' idle');row.dataset.k=k;
+    const nm=document.createElement('button');nm.type='button';nm.className='nm';nm.style.cssText='padding:0;border:0;background:none;color:inherit;text-align:left;cursor:pointer';
+    nm.innerHTML=label+'<small></small>';nm.querySelector('small').textContent=chName(k);nm.setAttribute('aria-label',(chSrc(k)?'Stop ':'Start ')+label);nm.onclick=()=>{chToggle(k);setTimeout(mixSync,400)};
+    const r=document.createElement('input');r.type='range';r.min=0;r.max=100;r.step=1;r.value=Math.round(c.v*100);r.setAttribute('aria-label',label+' level');
+    const pc=document.createElement('span');pc.className='pct';pc.textContent=Math.round(c.v*100)+'%';
+    r.oninput=()=>{c.v=+r.value/100;pc.textContent=r.value+'%';MIX.pre=null;applyMix();mixSave()};r.onchange=()=>renderMix();
+    const mb=(cls,t,key,aria)=>{const x=document.createElement('button');x.type='button';x.className='mb '+cls;x.textContent=t;x.setAttribute('aria-pressed',String(!!c[key]));x.setAttribute('aria-label',aria+' '+label);
+      x.onclick=()=>{c[key]=c[key]?0:1;MIX.pre=null;applyMix();mixSave();renderMix()};return x};
+    row.append(nm,r,mb('m','M','m','Mute'),mb('s','S','s','Solo'),pc);
+    if(k==='mic'){const m=document.createElement('div');m.className='mxMic';const sel=document.createElement('select');sel.setAttribute('aria-label','Microphone input');
+      sel.innerHTML='<option value="">default mic</option>';
+      (navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices?navigator.mediaDevices.enumerateDevices():Promise.resolve([])).then(ds=>{let i=0;for(const d of ds){if(d.kind!=='audioinput'||d.deviceId==='default'||!d.deviceId)continue;i++;
+        const o=document.createElement('option');o.value=d.deviceId;o.textContent=d.label||('microphone '+i);sel.appendChild(o)}sel.value=MIX.dev&&[...sel.options].some(o=>o.value===MIX.dev)?MIX.dev:''}).catch(()=>{});
+      sel.onchange=()=>{MIX.dev=sel.value;mixSave();if(AUD.mic&&!AUD.mic.cam)startMic()};
+      const sg=document.createElement('div');sg.className='segs';for(const [v,l,a] of [[true,'voice','Voice: the browser cleans the sound up for speech'],[false,'raw','Raw: every sound as it is, for music and performance mics']]){
+        const x=document.createElement('button');x.type='button';x.textContent=l;x.title=a;x.setAttribute('aria-pressed',String(MIX.voice===v));x.onclick=()=>{MIX.voice=v;mixSave();renderMix();if(AUD.mic&&!AUD.mic.cam)startMic()};sg.appendChild(x)}
+      m.append(sel,sg);row.appendChild(m)}
+    b.appendChild(row)}
+  const n=document.createElement('p');n.className='mxNote';n.textContent='The field follows the mix as set here. The microphone is never played aloud: its level is how much it moves the field and how much of it a video holds.';b.appendChild(n)}
+function mixSync(){const b=$('mixBody');if(!b||$('mixPop').hidden)return;b.querySelectorAll('.mxCh').forEach(r=>{const k=r.dataset.k;r.classList.toggle('idle',!chSrc(k));const sm=r.querySelector('.nm small');if(sm)sm.textContent=chName(k)})}
+function openMix(){try{closeWordList();closeFontList()}catch(_){}renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true')}
+function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;p.hidden=true;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
+$('mixClose').onclick=closeMix;
+document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#sdMix,#shelfSnd,#pSnd'))return;closeMix()},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden)closeMix()});
 function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
   try{syncAud()}catch(_){}syncSndShelf();toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
-function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;
+function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
   {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
-  t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.src===AUD.src||(b.dataset.src==='mic'&&!!AUD.mic))));
-  {const m=$('sdMix');if(m){m.querySelector('.lab').textContent=AUD.lay?(BEAT_SHORT[AUD.lay]||'beat')+' '+Math.round(BLEND*100)+'%':'mix';m.setAttribute('aria-pressed',String(!!AUD.lay));
-    m.setAttribute('aria-label',AUD.lay?'Blend: '+AUD.lay+' under the sound at '+Math.round(BLEND*100)+'%. Tap for the next beat, drag left or right to blend':'Blend: tap to put a beat under the sound, then drag left or right to blend the two')}}
+  t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(isOn(b.dataset.src))));
+  {const m=$('sdMix');if(m){const n=['beat','byte','file','mic'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
   {const w=$('sdWet');if(w){w.querySelector('.lab').textContent=WET?'wet '+Math.round(WET*100)+'%':'dry';w.setAttribute('aria-pressed',String(WET>0));
     w.setAttribute('aria-label','Wetness '+Math.round(WET*100)+'%: tap for dry or wet, drag left or right for how much room is around every sound')}}
   $('sdQuant').querySelector('.lab').textContent=(SHELF_QUANT.find(q=>q[0]===QUANT)||[0,'off'])[1];
@@ -4713,9 +4797,9 @@ for(const b of cxSnd){const t=b.textContent.trim().replace(/^(play the look|play
   const n=document.createElement('span');n.textContent=t;b.append(d,n);if(k){const m=document.createElement('span');m.className='cx-pk';m.textContent=k;b.append(m)}
   if(!b.getAttribute('aria-label'))b.setAttribute('aria-label',(b.dataset.fx?'Play the variation ':'Play ')+t)}
 function cxOn(b){if(typeof AUD==='undefined'||AUD.src==='off')return false;
-  if(b.dataset.fx)return AUD.src==='Byte yours'&&BB_USER===b.dataset.fx;
+  if(b.dataset.fx)return AUD.play.byte==='Byte yours'&&BB_USER===b.dataset.fx;
   if(b.dataset.look){const p=PRESETS[presetIdx];return !!p&&p.name===b.dataset.look}
-  return AUD.src===b.dataset.snd}
+  return isOn(b.dataset.snd)}
 function cxSync(){for(const b of cxSnd){const on=cxOn(b);if(b.getAttribute('aria-pressed')!==String(on)){b.setAttribute('aria-pressed',String(on));
   const t=b.dataset.title||'';b.setAttribute('aria-label',(on?'Stop ':b.dataset.fx?'Play the variation ':'Play ')+t)}}}
 const cxStop=()=>{AUD.userOff=true;stopAudio()};
@@ -4727,12 +4811,12 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 </script>
 
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
-try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
+try{[['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019032253"></script>
-<script src="surface/links.js?v=20261019032253"></script>
-<script src="surface/tips.js?v=20261019032253"></script>
-<script src="surface/sections.js?v=20261019032253"></script>
+<script src="surface/install.js?v=20261019034125"></script>
+<script src="surface/links.js?v=20261019034125"></script>
+<script src="surface/tips.js?v=20261019034125"></script>
+<script src="surface/sections.js?v=20261019034125"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4964,7 +5048,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.16';
+const APP_VERSION='0.17.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
