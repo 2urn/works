@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261019000501"</script>
+<script>window.__BUILD__="20261019000836"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3055,10 +3055,10 @@ const pickMime=()=>typeof MediaRecorder==='undefined'||!HTMLCanvasElement.protot
    With both live, the capture panel's "sound" row picks music, both or the mic (CAP.snd). */
 function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=AUD.ctx;
   if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();AUD.vol.connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
-  if(AUD.mic&&AUD.mic.cam&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
+  if(AUD.mic&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
   recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
-function bothLive(){return !!(AUD.mic&&AUD.mic.cam&&AUD.src!=='off'&&AUD.src!=='mic')}
-function recMix(){if(!AUD.recMus)return;const m=bothLive()?(CAP.snd||'both'):'both';AUD.recMus.gain.value=m==='mic'?0:1;AUD.recMic.gain.value=m==='music'?0:.7}
+function micLive(){return !!AUD.mic}
+function recMix(){if(!AUD.recMus)return;const m=micLive()?(CAP.snd||'both'):'both';AUD.recMus.gain.value=m==='mic'?0:1;AUD.recMic.gain.value=m==='music'?0:.7}
 function startVideo(){const mime=pickMime();if(!mime){toast('This browser cannot record video here. Try GIF.');return}
   const[w,h]=capDims(VID_SIDE),c=document.createElement('canvas');CAPBG=css('--stage')||'#000';frameInto(c,w,h,true);
   const vt=c.captureStream(30).getVideoTracks(),make=t=>{try{return new MediaRecorder(new MediaStream(t),{mimeType:mime,videoBitsPerSecond:12e6})}catch(_){return null}};
@@ -3097,7 +3097,7 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and
   shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
   extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]},
     // with the camera's mic and music both live: what the video's sound holds (the field always hears both)
-    {key:'snd',label:'Sound in the video',show:s=>s.mode==='video'&&bothLive(),items:[['music','music','Sound in the video: the music only'],['both','music + mic','Sound in the video: the music and the camera’s microphone'],['mic','mic','Sound in the video: the camera’s microphone only']]}],
+    {key:'snd',label:'Sound in the video',show:s=>s.mode==='video'&&micLive(),items:[['music','music','Sound in the video: the music only'],['both','music + mic','Sound in the video: the music and the microphone'],['mic','mic','Sound in the video: the microphone only']]}],
   get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();syncShot()},busy:()=>!!(REC||ENC),
   dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
   hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
@@ -3941,7 +3941,7 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopMic(force){if(!AUD.mic)return;if(AUD.mic.cam&&!force)return;/* the camera's mic stays until the camera goes or the sound is switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopMic(force){if(!AUD.mic)return;if(!force)return;/* a mic stays until its own button, the camera going, or the sound switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
 function stopAudio(){if(AUD.userOff)stopLayer();stopByte();AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);if(AUD.beat){try{AUD.beat.disconnect()}catch(_){}AUD.beat=null}if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.src=AUD.mic?'mic':'off';syncAud()}
 function startBeat(name,fromPreset){
   if(window.cxCount&&name)cxCount('sound: '+(name==='Byte yours'?'own formula':name),1);
@@ -3980,16 +3980,17 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
    file for the microphone, and turning it off left silence, so a recording ended with the music gone and no clear way
    back. Now: if something is playing, the camera's mic is added under it (the field hears both, a recording holds both)
    and the music never stops; with nothing playing, the mic is the sound, as before. A red dot on the sound button says
-   a microphone is live. The room microphone on its own (the mic button, no camera) is still never recorded. */
+   a microphone is live. 0.16.2: the same for the room mic (the mic button), and the capture panel's "sound in the video"
+   row (music / music + mic / mic) shows in video mode whenever any mic is live, so the blend is always findable. */
 function hookMic(st,cam){
-  const join=cam&&AUD.src!=='off'&&AUD.src!=='mic';
-  if(join)stopMic(true);else stopAudio();AUD.userOff=false;
+  const join=AUD.src!=='off'&&AUD.src!=='mic';
+  stopMic(true);if(!join)stopAudio();AUD.userOff=false;
   const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
   AUD.mic={stream:st,node:g,sink:z,cam};if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
-  if(cam&&AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // the camera's sound goes into the video, never to the speakers
+  if(AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // a mic goes into a video (the capture panel's sound row says how much), never to the speakers
   if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
-  st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.src==='mic')stopAudio()});
-  if(!cam)toast('microphone · the room moves the field')}
+  st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.mic&&AUD.mic.stream===st){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}});
+  if(!cam)toast(join?'microphone joins '+(AUD.src==='file'?(AUD.file||'your file'):AUD.src.toLowerCase())+' · the field hears both':'microphone · the room moves the field')}
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
   f.arrayBuffer().then(b=>AUD.ctx.decodeAudioData(b)).then(buf=>{AUD.fileBuf=buf;AUD.file=f.name;startFile();toast('playing '+f.name)})
    .catch(()=>toast('Could not read that file. Try an mp3, wav or m4a.'));e.target.value=''});
@@ -4002,7 +4003,7 @@ function syncAud(){try{bbBtns()}catch(_){}audSeg.innerHTML='';
     b.setAttribute('aria-pressed',String(AUD.src===o));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.classList.toggle('micOn',!!AUD.mic);sb.setAttribute('aria-label',(on?(AUD.src==='mic'?'Listening to the microphone. Tap to stop':AUD.mic?'Sound on, with the camera’s microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
+  sb.classList.toggle('micOn',!!AUD.mic);sb.setAttribute('aria-label',(on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to stop'):AUD.mic?'Sound on, with the microphone. Tap to stop the sound':'Sound on. Tap to stop'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
    stays silent otherwise). Every tap/click/key resumes it. iPhone mute switch: ask for the playback session
@@ -4043,7 +4044,11 @@ function soundOn(){
   const name=AUD.src==='file'?AUD.file:AUD.src.toLowerCase();toast('sound: '+name);
   // say so if the browser still refuses, so the cause is visible rather than silent
   setTimeout(()=>{if(AUD.ctx&&AUD.src!=='off'&&AUD.ctx.state!=='running')toast('sound: '+name+' · audio is '+AUD.ctx.state+' here, tap again')},700)}
-function toggleSound(){if(AUD.src!=='off'){AUD.userOff=true;stopAudio();return}AUD.userOff=false;soundOn()}
+// with the camera on, its mic belongs to the camera: the sound button starts and stops the music under it (0.16.2)
+function toggleSound(){const cm=!!(AUD.mic&&AUD.mic.cam);
+  if(cm&&AUD.src==='mic'){AUD.userOff=false;if(AUD.last==='mic')AUD.last=null;soundOn();return}
+  if(cm&&AUD.src!=='off'){AUD.userOff=false;stopAudio();toast('music off · the camera’s microphone still listens');return}
+  if(AUD.src!=='off'){AUD.userOff=true;stopAudio();return}AUD.userOff=false;soundOn()}
 // SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your file and timing
 const BEAT_SHORT={'Four on the floor':'four','Broken 96':'broken','Halftime 70':'half','Fibonacci 110':'fibo','Pulse 60':'pulse'};
 function beatGlyph(pat){let d='';for(let i=0;i<16;i++){const x=4.5+(i%4)*5,y=4.5+Math.floor(i/4)*5,k=pat.k[i]==='x',sn=pat.s[i]==='x';
@@ -4068,7 +4073,7 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   rule();
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
     AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
-  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field. Nothing is recorded or sent',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
+  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
   if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
@@ -4924,7 +4929,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.1';
+const APP_VERSION='0.16.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
