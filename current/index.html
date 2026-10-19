@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<script>window.__BUILD__="20261019002001"</script>
+<script>window.__BUILD__="20261019002244"</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -3016,8 +3016,8 @@ const SHARE_URL='https://works.chamy.xyz/current/',SHARE_TITLE='Current';
 function shareUrl(){try{if(window.top===window.self&&/^https?:$/.test(location.protocol))return location.href.split('#')[0].split('?')[0]}catch(_){}return SHARE_URL}
 const CAP_SHAPES=[['screen',0,'this screen'],['9:16',9/16,'story, reel, TikTok: 1080×1920'],['4:5',.8,'Instagram feed post: 1080×1350'],['1:1',1,'square: 1080×1080'],['16:9',16/9,'Full HD, YouTube: 1920×1080']];
 const GIF_FPS=12,GIF_SIDE=540,VID_SIDE=1920,STILL_SIDE=4096;
-const CAP={mode:'still',shape:'screen',gif:5,snd:'both'};
-try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif'].includes(o.mode))CAP.mode=o.mode;if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif;if(['music','both','mic'].includes(o.snd))CAP.snd=o.snd}catch(_){}
+const CAP={mode:'still',shape:'screen',gif:5,snd:.5};
+try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif'].includes(o.mode))CAP.mode=o.mode;if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif;if(typeof o.snd==='number'&&o.snd>=0&&o.snd<=1)CAP.snd=o.snd;else if(o.snd in{music:1,both:1,mic:1})CAP.snd={music:0,both:.5,mic:1}[o.snd]}catch(_){}
 function capSave(){try{localStorage.setItem('toolpath-capture',JSON.stringify(CAP))}catch(_){}}
 // stills and video in a set shape come out at the sizes the platforms want: Full HD video, Instagram's 1080-wide stills
 const CAP_SIZES={'9:16':[1080,1920],'4:5':[1080,1350],'1:1':[1080,1080],'16:9':[1920,1080]};
@@ -3058,17 +3058,24 @@ function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=
   if(AUD.mic&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
   recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
 function micLive(){return !!AUD.mic}
-function recMix(){if(!AUD.recMus)return;const m=micLive()?(CAP.snd||'both'):'both';AUD.recMus.gain.value=m==='mic'?0:1;AUD.recMic.gain.value=m==='music'?0:.7}
+/* THE MIC/MUSIC BLEND (0.16.4, Dimitry: "dial in a mixture, and afterwards it reverts"). CAP.snd runs 0 (music only)
+   to 1 (mic only), 0.5 by default, an equal-power crossfade. While a video records, the music you hear and the music in
+   the video both follow it, and the mic in the video follows it too; when the recording stops the music comes back to
+   its full volume. The field always hears everything. */
+function recLevels(v){v=Math.max(0,Math.min(1,+v||0));return [Math.cos(v*Math.PI/2),Math.sin(v*Math.PI/2)]}
+function recMix(){if(!AUD.recMus)return;const t=AUD.ctx.currentTime,live=micLive(),[m,k]=live?recLevels(CAP.snd):[1,0];
+  AUD.recMus.gain.setTargetAtTime(1,t,.05);AUD.recMic.gain.setTargetAtTime(.7*k,t,.05);
+  if(AUD.vol)AUD.vol.gain.setTargetAtTime((+$('audVol').value)*(AUD.recOn?m:1),t,AUD.recOn?.12:.25)}
 function startVideo(){const mime=pickMime();if(!mime){toast('This browser cannot record video here. Try GIF.');return}
   const[w,h]=capDims(VID_SIDE),c=document.createElement('canvas');CAPBG=css('--stage')||'#000';frameInto(c,w,h,true);
   const vt=c.captureStream(30).getVideoTracks(),make=t=>{try{return new MediaRecorder(new MediaStream(t),{mimeType:mime,videoBitsPerSecond:12e6})}catch(_){return null}};
   const rec=make(vt.concat(recAudio()))||make(vt);if(!rec){toast('The recorder refused.');return}
   const chunks=[],ext=mime.includes('mp4')?'mp4':'webm',st={kind:'video',rec,t0:performance.now(),raf:0,last:0};
   rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
-  rec.onstop=()=>{cancelAnimationFrame(st.raf);vt.forEach(t=>t.stop());REC=null;syncShot();const b=new Blob(chunks,{type:mime.split(';')[0]});b.size?showOut(b,ext,w,h):toast('Nothing was recorded.')};
+  rec.onstop=()=>{cancelAnimationFrame(st.raf);vt.forEach(t=>t.stop());REC=null;AUD.recOn=false;recMix();syncShot();const b=new Blob(chunks,{type:mime.split(';')[0]});b.size?showOut(b,ext,w,h):toast('Nothing was recorded.')};
   const loop=t=>{if(t-st.last>=30){st.last=t;frameInto(c,w,h,true)}st.raf=requestAnimationFrame(loop)};
   try{rec.start(500)}catch(_){vt.forEach(t=>t.stop());toast('The recorder refused.');return}
-  REC=st;st.raf=requestAnimationFrame(loop);syncShot();tickTime()}
+  REC=st;AUD.recOn=true;recMix();if(micLive())toast('recording · music '+Math.round((1-CAP.snd)*100)+'%, mic '+Math.round(CAP.snd*100)+'%; it comes back to full when you stop',3000);st.raf=requestAnimationFrame(loop);syncShot();tickTime()}
 /* gif: frames at 12 fps, then a palette per frame, encoded here on the device (gifenc, inlined) */
 function startGif(maxMs){if(!window.GIFENC){toast('The GIF maker did not load.');return}
   const[w,h]=capDims(GIF_SIDE),c=document.createElement('canvas'),g=c.getContext('2d',{willReadFrequently:true});CAPBG=css('--stage')||'#000';
@@ -3097,8 +3104,9 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and
   shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
   extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]},
     // with the camera's mic and music both live: what the video's sound holds (the field always hears both)
-    {key:'snd',label:'Sound in the video',show:s=>s.mode==='video'&&micLive(),items:[['music','music','Sound in the video: the music only'],['both','music + mic','Sound in the video: the music and the microphone'],['mic','mic','Sound in the video: the microphone only']]}],
-  get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();syncShot()},busy:()=>!!(REC||ENC),
+    {key:'snd',type:'range',label:'Sound in the video: music to microphone',min:0,max:1,step:.05,live:true,show:s=>s.mode==='video'&&micLive(),
+      ends:v=>['music '+Math.round((1-v)*100)+'%','mic '+Math.round(v*100)+'%']}],
+  get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();if(k==='snd'){recMix();return}syncShot()},busy:()=>!!(REC||ENC),
   dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
   hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
     return CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
@@ -4936,7 +4944,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.3';
+const APP_VERSION='0.16.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

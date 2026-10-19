@@ -11,6 +11,8 @@
        modes:  [['still','still'], ['video','video'], ['gif','gif']],
        shapes: SurfaceCapture.SHAPES,                     // [key, what it is for]; Fracture's order and words by default
        extras: [{ key: 'gif', show: s => s.mode === 'gif', items: [[3,'3s'],[5,'5s'],[8,'8s']], label: 'GIF length' }],
+                                                          // or a slider: { key, type: 'range', min: 0, max: 1, step: .05,
+                                                          //   ends: v => ['music 50%', 'mic 50%'], live: true (stays usable while busy) }
        get: () => ({ mode, shape, gif }),                  // the current choices
        set: (key, value) => {},                            // a choice changed (key: 'mode' | 'shape' | an extra's key)
        dims: s => '1080×1920',                             // the head's readout
@@ -52,6 +54,11 @@
     "  font:600 11px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase}",
     ".scap-go.ghost{flex:0 0 auto;padding:0 16px;background:rgb(var(--ui-hi,255 255 255) / .06);border-color:rgb(var(--ui-hi,255 255 255) / .14);color:var(--ui-ink,#fff);font-weight:500}",
     ".scap-go.ghost:hover{border-color:var(--ca)}.scap-go:disabled{opacity:.5}",
+    ".scap-range{display:grid;grid-template-columns:minmax(4.5em,auto) 1fr minmax(4.5em,auto);align-items:center;gap:10px;padding:4px 4px 2px}",
+    ".scap-range[hidden]{display:none}",
+    ".scap-range span{font:500 10px/1.2 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim,#8f8f8f);white-space:nowrap}",
+    ".scap-range span:last-child{text-align:right}",
+    ".scap-range input{width:100%;min-height:36px;margin:0;accent-color:var(--ca);cursor:pointer}",
     ".scap-hint{margin:0;padding:0 4px;font:400 12px/1.4 var(--sc-sans,system-ui,sans-serif);color:var(--ui-dim,#8f8f8f)}.scap-hint:empty{display:none}",
     "@media (prefers-reduced-transparency:reduce){.scap{background:rgb(var(--ui-g,14 14 16));backdrop-filter:none;-webkit-backdrop-filter:none}}"
   ].join("\n");
@@ -70,7 +77,9 @@
     var body = el("div", "scap-body");
     var modes = el("div", "scap-row scap-modes"); modes.setAttribute("role", "radiogroup"); modes.setAttribute("aria-label", "What the shutter makes");
     var shapes = el("div", "scap-row scap-shapes"); shapes.setAttribute("role", "radiogroup"); shapes.setAttribute("aria-label", "Shape");
-    var extras = (o.extras || []).map(function (e) { var d = el("div", "scap-row scap-extra"); d.setAttribute("role", "radiogroup"); d.setAttribute("aria-label", e.label || e.key); return { def: e, el: d }; });
+    var extras = (o.extras || []).map(function (e) {
+      if (e.type === "range") { var g = el("div", "scap-range scap-extra"); g.setAttribute("role", "group"); g.setAttribute("aria-label", e.label || e.key); return { def: e, el: g }; }
+      var d = el("div", "scap-row scap-extra"); d.setAttribute("role", "radiogroup"); d.setAttribute("aria-label", e.label || e.key); return { def: e, el: d }; });
     var acts = el("div", "scap-acts"), go = el("button", "scap-go"); go.type = "button"; acts.append(go);
     var sec = null; if (o.secondary) { sec = el("button", "scap-go ghost"); sec.type = "button"; acts.append(sec); }
     var hint = el("p", "scap-hint");
@@ -89,11 +98,28 @@
         box.append(b);
       });
     }
+    // a slider extra: drawn once, then only its ends and value follow, so a drag is never interrupted by a rebuild
+    function range(box, d, cur) {
+      var inp = box.querySelector("input"), a, b;
+      if (!inp) {
+        a = el("span"); b = el("span"); inp = el("input"); inp.type = "range";
+        inp.min = d.min != null ? d.min : 0; inp.max = d.max != null ? d.max : 1; inp.step = d.step || 0.05;
+        inp.setAttribute("aria-label", d.label || d.key);
+        inp.addEventListener("input", function () { var v = +inp.value; o.set(d.key, v); ends(box, d, v); });
+        box.append(a, inp, b);
+      }
+      if (document.activeElement !== inp) inp.value = cur;
+      inp.disabled = !d.live && !!(o.busy && o.busy());
+      ends(box, d, +inp.value);
+    }
+    function ends(box, d, v) { var t = d.ends ? d.ends(v) : ["", ""], sp = box.querySelectorAll("span"); sp[0].textContent = t[0]; sp[1].textContent = t[1];
+      box.querySelector("input").setAttribute("aria-valuetext", t.join(", ")); }
     function build() {
       var s = o.get();
       radios(modes, o.modes || [["still", "still"], ["video", "video"]], s.mode, "mode");
       radios(shapes, o.shapes || SHAPES, s.shape, "shape", true);
-      extras.forEach(function (e) { var show = !e.def.show || e.def.show(s); e.el.hidden = !show; if (show) radios(e.el, e.def.items, s[e.def.key], e.def.key); });
+      extras.forEach(function (e) { var show = !e.def.show || e.def.show(s); e.el.hidden = !show; if (!show) return;
+        if (e.def.type === "range") range(e.el, e.def, s[e.def.key]); else radios(e.el, e.def.items, s[e.def.key], e.def.key); });
       dims.textContent = o.dims ? o.dims(s) : "";
       hint.textContent = o.hint ? o.hint(s) : "";
       go.textContent = typeof o.primary.label === "function" ? o.primary.label(s) : o.primary.label;
