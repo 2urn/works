@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261019030007";window.__VERSION__="0.16.13";window.__NOTES__=[{"v":"0.16.13","date":"19 Oct 2026","items":[{"kind":"new","text":"the words list sorts by sequence, A to Z, or your own order (drag the handle); the sequence plays in the order shown"},{"kind":"new","text":"\"same size\": every word in the sequence is set at one size, the one that fits the longest word or line"},{"kind":"new","text":"LOOP, SWIM and PLAY are in the list from the start, ready to play"},{"kind":"change","text":"the add row reads \"add word…\", with + at its right"}]}]</script>
+<script>window.__BUILD__="20261019031403";window.__VERSION__="0.16.14";window.__NOTES__=[{"v":"0.16.14","date":"19 Oct 2026","items":[{"kind":"change","text":"the sound shelf reads inputs first (mic, your music), then the beats and bytebeats, then the settings"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261019030007"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261019030007">
+<script src="claude-web.js?v=20261019031403"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261019031403">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,14 +72,14 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261019030007"></script>
-<script src="surface/auto.js?v=20261019030007"></script>
-<script src="surface/toolpath.js?v=20261019030007"></script>
-<script src="surface/capture.js?v=20261019030007"></script>
-<script src="surface/pop.js?v=20261019030007"></script>
-<script src="surface/hints.js?v=20261019030007"></script>
-<script src="surface/keys.js?v=20261019030007"></script>
-<script src="surface/reset.js?v=20261019030007"></script>
+<script src="vendor/opentype.min.js?v=20261019031403"></script>
+<script src="surface/auto.js?v=20261019031403"></script>
+<script src="surface/toolpath.js?v=20261019031403"></script>
+<script src="surface/capture.js?v=20261019031403"></script>
+<script src="surface/pop.js?v=20261019031403"></script>
+<script src="surface/hints.js?v=20261019031403"></script>
+<script src="surface/keys.js?v=20261019031403"></script>
+<script src="surface/reset.js?v=20261019031403"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4063,19 +4063,20 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   const add=(id,label,svg,aria,fn)=>{const b=document.createElement('button');b.className='si';b.type='button';if(id)b.id=id;b.innerHTML=svg+'<span class="lab">'+label+'</span>';b.setAttribute('aria-label',aria);b.onclick=fn;t.appendChild(b);return b};
   // STOP / PLAY (Dimitry, 18 Oct): one button that stops whatever plays, or plays the last sound again; volume is a drag on the bar's speaker
   add('sdOff','stop',SND_STOP,'Stop the sound',()=>{if(AUD.src!=='off'){AUD.userOff=true;stopAudio()}else{AUD.userOff=false;soundOn()}syncSndShelf()});
-  for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
-  /* light rules between the families (Dimitry, 18 Oct): beats | bytes | sources | settings */
+  /* CANON (Dimitry, 18 Oct): inputs first, then presets, then modifiers. Light rules between the families:
+     stop · inputs (mic, your music) | beats | bytes | modifiers (grid, blend, wetness, react) */
   const rule=()=>{const g=document.createElement('span');g.className='sep';g.setAttribute('aria-hidden','true');t.appendChild(g)};
+  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
+  const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
+    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
+  if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
+  rule();
+  for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   rule();
   for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
   if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
   add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
-  rule();
-  const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
-    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
-  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
-  if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
   add('sdQuant','','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18h16"/><path d="M6 18V8M10 18v-6M14 18V8M18 18v-6"/></svg>','When new looks land on the beat grid: beat, half bar, bar, eighth or off. Tap to change',()=>{
     const i=SHELF_QUANT.findIndex(q=>q[0]===QUANT);QUANT=SHELF_QUANT[(i+1)%SHELF_QUANT.length][0];try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}syncQuant();syncSndShelf()});
@@ -4722,10 +4723,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
 try{[['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the recent words'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}))}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261019030007"></script>
-<script src="surface/links.js?v=20261019030007"></script>
-<script src="surface/tips.js?v=20261019030007"></script>
-<script src="surface/sections.js?v=20261019030007"></script>
+<script src="surface/install.js?v=20261019031403"></script>
+<script src="surface/links.js?v=20261019031403"></script>
+<script src="surface/tips.js?v=20261019031403"></script>
+<script src="surface/sections.js?v=20261019031403"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -4957,7 +4958,7 @@ try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#d
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.16.13';
+const APP_VERSION='0.16.14';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
