@@ -11,6 +11,7 @@
        tool: 'current', name: 'Current', version: () => APP_VERSION,   // a string, or a function read at send time
        endpoint: 'https://<project>.supabase.co/rest/v1/bug_reports', key: '<publishable key>',
        state: () => ({ look: …, sound: … }),   // optional: a small object about the moment
+       email: 'hi@chamy.xyz',                   // optional: a contact line under the form ("Rather write?")
        icon: true                               // optional: SurfaceReport.ICON is the bug, for the tool's own buttons
      });
      R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'
@@ -35,6 +36,7 @@
     ".srp details{font:400 11px/1.4 var(--sans,system-ui);color:rgba(255,255,255,.7)}.srp summary{cursor:pointer;font:600 10px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;padding:4px 0}" +
     ".srp pre{margin:6px 0 0;max-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:10px/1.4 var(--mono,monospace);color:rgba(255,255,255,.6);background:rgba(255,255,255,.04);border-radius:8px;padding:8px}" +
     ".srp-go{height:34px;border:0;border-radius:17px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}.srp-go:disabled{opacity:.5;cursor:default}" +
+    ".srp-alt a{color:inherit;text-decoration:underline;text-underline-offset:3px}.srp-alt{font-size:11px!important;color:rgba(255,255,255,.6)!important}" +
     ".srp-msg{min-height:1em;color:var(--acc,#55b8c9)!important}.srp-msg.bad{color:#ff8a80!important}" +
     ".srp :focus-visible{outline:2px solid #fff;outline-offset:2px}" +
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
@@ -58,6 +60,7 @@
       '<label class="srp-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" for="srpN">What happened?</label><textarea id="srpN" maxlength="2000" placeholder="what happened?"></textarea>' +
       '<label style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" for="srpE">Email (optional)</label><input id="srpE" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="email, if you’d like a reply (optional)">' +
       '<details><summary>what’s sent</summary><pre></pre></details>' +
+      (O.email ? '<p class="srp-alt">Rather write? <a href="mailto:' + O.email + '?subject=' + encodeURIComponent((O.name || "Tool") + " bug") + '">' + O.email + '</a></p>' : '') +
       '<button type="button" class="srp-go">send</button><p class="srp-msg" role="status" aria-live="polite"></p>';
     document.body.append(veil, box);
     var ta = box.querySelector("textarea"), em = box.querySelector("input"), pre = box.querySelector("pre"), go = box.querySelector(".srp-go"), msg = box.querySelector(".srp-msg");
