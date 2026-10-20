@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020024127";window.__VERSION__="0.23.2";window.__NOTES__=[{"v":"0.23.2","date":"19 Oct 2026","items":[{"kind":"change","text":"cards follow the share card's layout at every size: CURRENT and its sentence top left, the namemark top right, CHAMY·XYZ up the bottom left in blue, the code bottom right"}]}]</script>
+<script>window.__BUILD__="20261020024303";window.__VERSION__="0.23.3";window.__NOTES__=[{"v":"0.23.3","date":"19 Oct 2026","items":[{"kind":"change","text":"in the index, the beta pill sits under the name, with founding tester and share beside it"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020024127"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020024127">
+<script src="claude-web.js?v=20261020024303"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020024303">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020024127"></script>
-<script src="surface/auto.js?v=20261020024127"></script>
-<script src="surface/toolpath.js?v=20261020024127"></script>
-<script src="surface/capture.js?v=20261020024127"></script>
-<script src="surface/pop.js?v=20261020024127"></script>
-<script src="surface/hints.js?v=20261020024127"></script>
-<script src="surface/paths.js?v=20261020024127"></script>
-<script src="surface/keys.js?v=20261020024127"></script>
-<script src="surface/reset.js?v=20261020024127"></script>
+<script src="vendor/opentype.min.js?v=20261020024303"></script>
+<script src="surface/auto.js?v=20261020024303"></script>
+<script src="surface/toolpath.js?v=20261020024303"></script>
+<script src="surface/capture.js?v=20261020024303"></script>
+<script src="surface/pop.js?v=20261020024303"></script>
+<script src="surface/hints.js?v=20261020024303"></script>
+<script src="surface/paths.js?v=20261020024303"></script>
+<script src="surface/keys.js?v=20261020024303"></script>
+<script src="surface/reset.js?v=20261020024303"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -466,6 +466,10 @@ body:not(.player) #dscMark{opacity:0}
 .idx-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 /* THE BETA PILL: an outline in the accent, the studio's pill (Fracture's .pill), on the name's centre line */
 .beta{display:inline-flex;align-items:center;height:22px;padding:0 9px;border:1.5px solid var(--accent);border-radius:999px;color:var(--accent);font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;flex:none}
+.idx-sub{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-top:12px}
+.idx-link{padding:4px 0;border:0;background:none;color:var(--accent);font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 40%,transparent);text-underline-offset:4px}
+.idx-link:hover{text-decoration-color:var(--accent)}.idx-link:disabled{text-decoration:none;cursor:default}
+.idx-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .idx-ver{margin:10px 0 0;font:500 12px/1.4 var(--mono);color:var(--muted);letter-spacing:.02em}
 .idx-name{margin:0;font:700 34px/1 "Minnerva Title","Anton",sans-serif;letter-spacing:.1em;color:var(--fg)}
 .idx .colo-word{margin:10px 0 0}
@@ -1271,7 +1275,9 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <aside class="panel" id="panel" aria-label="Current: index and settings">
     <div class="pn-veil" aria-hidden="true"></div>
     <div class="idx" id="idx">
-      <div class="idx-head"><h2 class="idx-name">CURRENT</h2><span class="beta" title="Beta: still changing, and some things may not work yet">Beta</span></div>
+      <div class="idx-head"><h2 class="idx-name">CURRENT</h2></div>
+      <!-- under the name: the beta pill, then the founding tester and share links in the same accent (Dimitry, 19 Oct) -->
+      <div class="idx-sub"><span class="beta" title="Beta: still changing, and some things may not work yet">Beta</span><button type="button" class="idx-link" id="idxBeta">founding tester</button><button type="button" class="idx-link" id="idxShare" aria-label="Share Current with a friend">share</button></div>
       <p class="idx-say">I am Dimitry Sa&iuml;d Chamy. Current is one of the tools I am building for audiovisual interactivity and performance. Learn with me as I develop digital instruments for experiences that range from the phone in your hand to participatory immersive environments.</p>
       <section class="cx-grp" id="guide"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="guideL"><span>Guide</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or let a picture, a video or the camera steer it. Many buttons do more when you hold them (a long press; a right-click on a computer). Each one is marked <b style="color:var(--accent)">Hold</b> below.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field. The camera brings its microphone: the field moves to what it hears. On a phone or tablet, <b>camera</b> is a cycle: tap to open it, again for the other camera (front or back; the label says which), and once more to turn it off. With one camera, the second tap turns it off. With the source drawer open, the gestures place the source: pinch zooms it, two fingers move and turn it (on a computer, scroll and shift-scroll); close the drawer and they spread the field's reach again. <b>drive</b> lets the picture steer the current: tap it on, drag left or right for how much. Its neighbours pick how, <b>along</b> the edges, <b>downhill</b> into the dark or <b>across</b> toward the light, and the <b>detail</b>: <b>fine</b> follows small shapes, <b>medium</b>, <b>soft</b>, or <b>broad</b> for only the big masses. The arrows show the result. <b>trace</b> lays the picture's dark shapes (or light, with <b>dark ink</b> switched) over the G-code as extra toolpaths, so the current wraps their outlines as well as the word; they follow the picture when you place it, and drive still blends. Tap it again to take them off. <b>remove</b>, which slides in at the start of the source drawer while a source is on, takes it away and gives the stage back to the field, and to the look you had before a trace</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself.<span class="lp"><b>Hold</b> <span>any of the three: the list of looks. In the list, hold a look to edit its toolpath.</span></span></dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself.<span class="lp"><b>Hold</b> <span>the random matrix: which values roll.</span></span></dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video.<span class="lp"><b>Hold</b> <span>the mode, the shape of the frame, and sharing.</span></span></dd><dt>Sound</dt><dd>On or off: beats, a sound file of your own, or the microphone, that the field moves to. Drag up or down on it for the volume.<span class="lp"><b>Hold</b> <span>the sound shelf: stop or play, the beats and bytebeats, your own file, the microphone, then <b>mix</b> (tap to put a beat under the sound, drag left or right to blend the two), <b>wet</b> (tap for dry or wet, drag for how much room is around the sound), when new looks land on the beat, and whether the sound moves every look.</span></span></dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.<span class="lp"><b>Hold</b> <span>hides or shows the open tool&rsquo;s shelf.</span></span></dd><dt>Full screen</dt><dd>Full screen on a computer or tablet (not on iPhone, where the browser cannot). The space bar, or a three-finger tap on the stage, hides every control (the bar slides down off the screen; the duck-rabbit and the namemark slide up off the top; both fade as they go); the same brings them back. On a computer, while they are away, move the pointer to the bottom of the screen and the bar comes back up until you move away. On a computer the looks play by themselves from the start.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.<span class="lp"><b>Hold</b> <span>a color still for your own (a hex value or the color field); hold and drag up or down for its opacity.</span></span></dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. The clock in the word field opens your words: add a few, press the loop, and they take turns on the field (a small loop on the text icon while they play). The F switch picks the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>spread</dt><dd>The field spreads out from the lines, so the current reaches further around the word or the drawing; pinch to draw it back in close.</dd><dt>twist</dt><dd>The strength of your touch.</dd><dt>picture</dt><dd>With the source shelf open and a picture, video or camera on, the gestures place the source instead: pinch zooms it, two fingers move and turn it.</dd><dt>wheel</dt><dd>Reach on a computer, or the source's zoom with its shelf open; with shift, strength (or the source's turn).</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Your own G-code</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Any G-code a plotter, laser, CNC router or 3D printer would run can become a current. Open a file from <b>path</b> (in the tools) with <b>open file</b>, or drop it on the stage. It is read on this device and never uploaded. Plain moves and arcs are read; files that use subroutines, loops or variables run only their plain moves, for now.</p><dl class="stack"><dt>Free files</dt><dd><a href="https://github.com/LinuxCNC/linuxcnc/tree/master/nc_files" target="_blank" rel="noopener">LinuxCNC&rsquo;s sample programs</a> (GPL), from the long-running free machine-control project. <b>arcspiral</b>, <b>tort</b> and <b>lathe_pawn</b> make strong currents; many of the others are machine tests.</dd><dt>Make your own</dt><dd><a href="https://sameer.github.io/svg2gcode" target="_blank" rel="noopener">svg2gcode</a> (MIT) turns any SVG drawing into G-code in the browser: draw in any vector app, export SVG, convert, open here. <a href="https://github.com/abey79/vpype-gcode" target="_blank" rel="noopener">vpype-gcode</a> (MIT) does the same from the command line, for plotter people.</dd><dt>Or skip the file</dt><dd>Type a word with <b>text</b>, or draw one with <b>path</b>: both are traced into G-code for you.</dd><dt>From a picture</dt><dd>Any picture, video or the camera can become G-code too: open it under <b>Source</b> and tap <b>trace</b>. Its dark shapes (or light, with <b>dark ink</b> switched) are drawn as toolpaths, so a photo you just took, or what the camera sees right now, becomes a current.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl id="keysDl"></dl><p class="cx-acts"><button type="button" class="cx-play" id="keysOpen">show the keys, big</button></p></div></li></ol></div></section>
@@ -5586,6 +5592,8 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
    (chamy-studio, table beta_signups): the browser may only add a row, never read one back; the list is read in the
    Supabase dashboard. Sent: name (required), email, roles picked, a phone only with its own yes to texts, how many Paths steps they've walked, the version. */
 /* the same form anywhere in the tool (a Pro note points here): over the cover while it is up, otherwise its own sheet */
+function syncIdxBeta(){const b=$('idxBeta');if(!b)return;let d=false;try{d=localStorage.getItem('current.beta')==='1'}catch(_){}b.textContent=d?'✓ founding tester':'founding tester';b.setAttribute('aria-label',d?'You are a founding tester':'Become a founding tester');b.disabled=d}
+$('idxBeta').onclick=()=>{try{openBetaSheet()}catch(_){}};$('idxShare').onclick=()=>openShare('index');syncIdxBeta();
 function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.disabled&&bb.getAttribute('aria-expanded')!=='true')bb.click();return}
   if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
   const b=h.querySelector('.lc-betaBtn');if(b.disabled){h.remove();toast('you’re already a founding tester');return}b.click();
@@ -5654,7 +5662,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
     go.disabled=true;say('sending…');
     try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
         body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
-      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);
+      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);
         w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},6000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
       else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
     catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
@@ -5707,10 +5715,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020024127"></script>
-<script src="surface/links.js?v=20261020024127"></script>
-<script src="surface/tips.js?v=20261020024127"></script>
-<script src="surface/sections.js?v=20261020024127"></script>
+<script src="surface/install.js?v=20261020024303"></script>
+<script src="surface/links.js?v=20261020024303"></script>
+<script src="surface/tips.js?v=20261020024303"></script>
+<script src="surface/sections.js?v=20261020024303"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6076,7 +6084,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.23.2';
+const APP_VERSION='0.23.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
