@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020035944";window.__VERSION__="0.25.2";window.__NOTES__=[{"v":"0.25.2","date":"19 Oct 2026","items":[{"kind":"new","text":"the color editor: tap or hold the big swatch in the Color mixer (or its edit label), or hold any swatch, and an editor slides down inside the panel: lightness, chroma and hue, a hex code, the device's color field, and save to My colors"},{"kind":"change","text":"holding a dot on the color shelf selects it and opens that editor; \"your own\" is gone"},{"kind":"new","text":"My colors, a row of the colors you saved, in every group"},{"kind":"new","text":"the toolpath has a color: the G-code's own drawing is a group in the color shelf and the mixer (tap its lit dot to hide it), animatable, kept with looks. Travel moves turn dark on a light ground"}]}]</script>
+<script>window.__BUILD__="20261020040158";window.__VERSION__="0.25.3";window.__NOTES__=[{"v":"0.25.3","date":"20 Oct 2026","items":[{"kind":"change","text":"how the two colors alternate has its own tab in the Color mixer, Mix, after Second: grain, in time (with its seconds) or motion, each explained, plus add or remove the second color. It leaves the color shelf"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020035944"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020035944">
+<script src="claude-web.js?v=20261020040158"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020040158">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020035944"></script>
-<script src="surface/auto.js?v=20261020035944"></script>
-<script src="surface/toolpath.js?v=20261020035944"></script>
-<script src="surface/capture.js?v=20261020035944"></script>
-<script src="surface/pop.js?v=20261020035944"></script>
-<script src="surface/hints.js?v=20261020035944"></script>
-<script src="surface/paths.js?v=20261020035944"></script>
-<script src="surface/keys.js?v=20261020035944"></script>
-<script src="surface/reset.js?v=20261020035944"></script>
+<script src="vendor/opentype.min.js?v=20261020040158"></script>
+<script src="surface/auto.js?v=20261020040158"></script>
+<script src="surface/toolpath.js?v=20261020040158"></script>
+<script src="surface/capture.js?v=20261020040158"></script>
+<script src="surface/pop.js?v=20261020040158"></script>
+<script src="surface/hints.js?v=20261020040158"></script>
+<script src="surface/paths.js?v=20261020040158"></script>
+<script src="surface/keys.js?v=20261020040158"></script>
+<script src="surface/reset.js?v=20261020040158"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -715,6 +715,9 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .cmEdR{display:grid;grid-template-columns:76px 1fr 44px;align-items:center;gap:8px;margin:7px 0;font:400 12px var(--sans);color:var(--ui-dim)}.cmEdR output{font:600 11px/1 var(--mono);color:var(--ui-ink);text-align:right}
 .cmEdR input{-webkit-appearance:none;appearance:none;height:14px;border-radius:7px;margin:0}.cmEdR input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgb(0 0 0 / .5)}.cmEdR input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid rgb(0 0 0 / .5)}
 .cmEdRow{display:flex;gap:8px;margin-top:6px}
+.cmAlt{display:flex;align-items:flex-start;gap:12px;width:100%;margin:6px 0;padding:10px 12px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05);color:var(--ui-ink);text-align:left;cursor:pointer;font:400 12.5px/1.4 var(--sans)}
+.cmAlt svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}.cmAlt b{display:block;font:600 10px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.cmAlt[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--acc,#55b8c9)}.cmNote{margin:8px 0;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmSp output{font:600 11px/1 var(--mono);color:var(--ui-ink);min-width:3.5em;text-align:right}
 .cmPro{margin-top:14px;padding:10px 12px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05)}
 .cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
 .cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
@@ -1685,7 +1688,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
 </div>
 <div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
   <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
-  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div>
+  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div>
 </div>
 <div id="mixPop" role="dialog" aria-label="Sound" hidden>
   <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
@@ -2154,6 +2157,10 @@ const ARROW_DEFAULT='#e8f1f2';
 // line colors, after Chladni Kit's sands; a second color alternates grain by grain, in time (on the beat when a beat plays) or by motion
 const LINE_COLORS=[['Mist','#e8f1f2'],['Quartz','#ede6d6'],['Ochre','#dba359'],['Ink','#121212'],['Resonance','#ff6b2b'],['Cobalt','#336bf2'],['Teal','#55b8c9'],['Rose','#ff6fa5']];
 const LINE_DEFAULT='#e8f1f2';
+/* the alternation's icons: grains, a clock, fast against slow */
+const MIXI={grain:'<circle cx="7" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.8"/><circle cx="10.5" cy="13" r="1.8"/><circle cx="17" cy="12.5" r="1.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="15" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>',
+          time:'<circle cx="12" cy="12" r="8"/><path d="M12 12V7.5M12 12l3.2 2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
+          motion:'<path d="M3.5 8h12m-3-3 3 3-3 3"/><path d="M5 16h4" stroke-dasharray="1.5 2"/><circle cx="14.5" cy="16" r="1.6" fill="currentColor" stroke="none"/>'};
 const ALTS={grain:'Grain by grain: every particle keeps one of the two colors.',time:'In time: the colors swap every few seconds, or on each beat while a beat plays.',motion:'Moving vs settled: fast particles take the second color, slow ones the first.'};
 const GROUNDS={dark:null,paper:'#efeae0'};
 /* THE GROUND IN COLOUR (Dimitry, 19 Oct: the background should be as flexible as the lines, the arrows and the rest;
@@ -4214,12 +4221,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
       for(const c of recent().slice(0,8)){if(seen.length>=10)break;one(c,'recent')}
       if(g==='ground'){const ab=btn('auto','<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>',
           'Ground auto: always the other side of the lines\' lightness, so something is always visible',()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto()},S.ground==='auto')}
-      if(g==='second'){    if(S.line2){const ks=Object.keys(ALTS),nm={grain:'grain',time:'in time',motion:'motion'};
-        // the icon itself says which mix: grains, a clock, or fast-vs-slow
-        const MIXI={grain:'<circle cx="7" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.8"/><circle cx="10.5" cy="13" r="1.8"/><circle cx="17" cy="12.5" r="1.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="15" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>',
-          time:'<circle cx="12" cy="12" r="8"/><path d="M12 12V7.5M12 12l3.2 2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
-          motion:'<path d="M3.5 8h12m-3-3 3 3-3 3"/><path d="M5 16h4" stroke-dasharray="1.5 2"/><circle cx="14.5" cy="16" r="1.6" fill="currentColor" stroke="none"/>'};
-        btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[S.alt]+'</svg>','How the two colors alternate, now '+nm[S.alt]+': '+ALTS[S.alt]+' Tap to change',()=>{S.alt=ks[(ks.indexOf(S.alt)+1)%ks.length];syncLine()})}}}}
+    }}
   if(ACTIVE==='text'){
     // the flip: text cursor (type the word, the default) | F outline (choose the typeface)
     const flip=document.createElement('button');flip.type='button';flip.className='shflip';flip.setAttribute('role','switch');flip.setAttribute('aria-checked',String(TEXT_FLIP));
@@ -5217,7 +5219,21 @@ const CM_PANE={line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround'
 const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3 10c3-5 5-5 8 0s5 5 10-1"/><path d="M3 17c3-5 5-5 8 0s5 5 10-1" opacity=".55"/>',
   touch:'<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7.5" opacity=".5"/>',ground:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 15l5-4 4 3 3-2 4 3" opacity=".6"/>',
   arrows:'<path d="M4 18 18 6M11 6h7v7"/>',toolpath:'<path d="M4 19V9h6v6h5V5h5"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/>'};
-const CM_TABS=SurfaceTabs.mount($('cmTabs'),CG_ORDER.map(g=>({id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}})),'current.cmTab');
+/* THE MIX TAB (Dimitry, 19 Oct: how the two colors alternate got lost in the shelf): its own tab, after Second */
+const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const t={id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}};
+  return g==='second'?[t,{id:'mix',name:'Mix',title:'How the two colors alternate',pane:$('cmMix'),icon:ICO(MIXI.grain),onShow:()=>{CM_ED=null;renderMixTab()}}]:[t]})),'current.cmTab');
+function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
+  const re=()=>{renderMixTab();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
+  const pair=el('div','cmHead');[['Lines',S.lineOff?null:S.line],['Second',S.line2]].forEach(([n,c])=>{const b=document.createElement('span');b.className='cmBig';b.style.background=c||'transparent';if(!c)b.style.boxShadow='inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)';b.title=n;pair.appendChild(b)});
+  const t=document.createElement('span');t.className='cmHex';t.textContent=S.line2?'two colors':'one color';pair.appendChild(t);
+  if(!S.line2){el('p','cmNote','The lines have one color. Add a second and choose how the two share the particles.');
+    const b=el('button','bgGo','add a second color');b.type='button';b.onclick=()=>{S.line2=OKC.lch(S.line)[1]<.03?'#55b8c9':colorComp(S.line);syncLine();re()};return}   // a grey line has no complement worth seeing: teal
+  el('p','cmL','How the two colors alternate');
+  for(const k of Object.keys(ALTS)){const nm={grain:'grain',time:'in time',motion:'motion'}[k],b=el('button','cmAlt');b.type='button';b.setAttribute('aria-pressed',String(S.alt===k));
+    b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[k]+'</svg><span><b>'+nm+'</b>'+ALTS[k].replace(/^[^:]*:\s*/,'')+'</span>';b.onclick=()=>{S.alt=k;syncLine();re()}}
+  if(S.alt==='time'){const sp=el('label','cmSp');sp.innerHTML='<span>every</span>';const r=document.createElement('input');r.type='range';r.min=.5;r.max=12;r.step=.1;r.value=S.altTime;r.setAttribute('aria-label','Seconds between swaps');
+    const o=document.createElement('output');o.textContent=(+S.altTime).toFixed(1)+'s';r.oninput=()=>{S.altTime=+r.value;o.textContent=(+r.value).toFixed(1)+'s';syncLine()};sp.appendChild(r);sp.appendChild(o);el('p','cmNote','While a beat plays, the colors swap on each beat instead.')}
+  const x=el('button','tb','one color');x.type='button';x.style.marginTop='12px';x.setAttribute('aria-label','Remove the second color');x.onclick=()=>{CG.second.off();re()}}
 function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
 function closeColorMix(){const p=$('colorPop');if(!p||p.hidden)return;if(CM_ED){try{rememberColor(CG[CM_ED].get())}catch(_){}colorDid('own');CM_ED=null;try{if(ACTIVE==='color')buildToolShelf()}catch(_){}}p.hidden=true;const f=document.querySelector('#toolTrack .cmPin');if(f&&p.contains(document.activeElement))f.focus({preventScroll:true})}
 let CM_ED=null;
@@ -5277,6 +5293,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   row('Related',[['Opposite',colorOpp(cur)],['Complement',colorComp(cur)],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]],'opposite');
   let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}
   {const my=cmMine();if(my.length)row('My colors',my.map(c=>['Mine',c]))}
+  if(g==='second'&&on){const n=el('p','cmNote');n.innerHTML='Alternating now by <b>'+({grain:'grain',time:'in time',motion:'motion'}[S.alt])+'</b>. ';const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');n.appendChild(a)}
   row('Recent',rec.slice(0,10).map(c=>['Recent',c]));
   if(g==='ground'){el('p','cmL','With a camera, video or picture');const sg=el('div','cmSeg');sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
     for(const [k,t,al] of SRC_GROUND){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String(SRCG===k));b.onclick=()=>setSrcGround(k);sg.appendChild(b)}}
@@ -6042,10 +6059,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020035944"></script>
-<script src="surface/links.js?v=20261020035944"></script>
-<script src="surface/tips.js?v=20261020035944"></script>
-<script src="surface/sections.js?v=20261020035944"></script>
+<script src="surface/install.js?v=20261020040158"></script>
+<script src="surface/links.js?v=20261020040158"></script>
+<script src="surface/tips.js?v=20261020040158"></script>
+<script src="surface/sections.js?v=20261020040158"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6424,7 +6441,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.2';
+const APP_VERSION='0.25.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
