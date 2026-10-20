@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020035320";window.__VERSION__="0.25.1";window.__NOTES__=[{"v":"0.25.1","date":"19 Oct 2026","items":[{"kind":"new","text":"ground auto: the ground takes the other side of the lines' lightness (near-black for light lines, near-white for dark ones), so something is always visible, even while colors animate"},{"kind":"new","text":"random can roll the ground: switch on Ground color in the random matrix (off by default, as before)"},{"kind":"fix","text":"a random roll no longer puts the lines on a ground of nearly their own lightness"},{"kind":"new","text":"Path 07 has a sixth step, set the ground to auto"},{"kind":"new","text":"the controls guard their own contrast: on a colored or light ground the panels' glass thickens, and where teal would fall under 3:1 (WCAG) the accent turns white or ink"},{"kind":"new","text":"the ground with a camera, video or picture: under (as before), overlay (the source blends into the ground) or ignore (the source sits on black). On the source shelf as ground (tap to change, hold for the Color mixer) and in the mixer's Ground tab"},{"kind":"new","text":"the sound's live wave runs behind the speaker button on the bar while sound plays"}]}]</script>
+<script>window.__BUILD__="20261020035944";window.__VERSION__="0.25.2";window.__NOTES__=[{"v":"0.25.2","date":"19 Oct 2026","items":[{"kind":"new","text":"the color editor: tap or hold the big swatch in the Color mixer (or its edit label), or hold any swatch, and an editor slides down inside the panel: lightness, chroma and hue, a hex code, the device's color field, and save to My colors"},{"kind":"change","text":"holding a dot on the color shelf selects it and opens that editor; \"your own\" is gone"},{"kind":"new","text":"My colors, a row of the colors you saved, in every group"},{"kind":"new","text":"the toolpath has a color: the G-code's own drawing is a group in the color shelf and the mixer (tap its lit dot to hide it), animatable, kept with looks. Travel moves turn dark on a light ground"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020035320"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020035320">
+<script src="claude-web.js?v=20261020035944"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020035944">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020035320"></script>
-<script src="surface/auto.js?v=20261020035320"></script>
-<script src="surface/toolpath.js?v=20261020035320"></script>
-<script src="surface/capture.js?v=20261020035320"></script>
-<script src="surface/pop.js?v=20261020035320"></script>
-<script src="surface/hints.js?v=20261020035320"></script>
-<script src="surface/paths.js?v=20261020035320"></script>
-<script src="surface/keys.js?v=20261020035320"></script>
-<script src="surface/reset.js?v=20261020035320"></script>
+<script src="vendor/opentype.min.js?v=20261020035944"></script>
+<script src="surface/auto.js?v=20261020035944"></script>
+<script src="surface/toolpath.js?v=20261020035944"></script>
+<script src="surface/capture.js?v=20261020035944"></script>
+<script src="surface/pop.js?v=20261020035944"></script>
+<script src="surface/hints.js?v=20261020035944"></script>
+<script src="surface/paths.js?v=20261020035944"></script>
+<script src="surface/keys.js?v=20261020035944"></script>
+<script src="surface/reset.js?v=20261020035944"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -705,6 +705,16 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .cmSeg{display:flex;gap:4px;flex-wrap:wrap}.cmSeg button{min-height:30px;padding:0 11px;border-radius:999px;border:0;background:rgb(var(--ui-hi,255 255 255) / .07);color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .cmSeg button[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .cmSp{display:flex;align-items:center;gap:10px;margin-top:8px;font:400 12px var(--sans);color:var(--ui-dim)}.cmSp input{flex:1}.cmSp[hidden]{display:none}
+.cmBig{cursor:pointer}.cmBig:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+.cmEdit{display:flex;align-items:center;gap:8px}.cmEdBtn{min-height:26px!important;padding:0 9px;font-size:9.5px}
+.cmEd{position:sticky;top:-10px;z-index:2;margin:-10px -14px 10px;padding:12px 14px 10px;background:var(--ui-solid,#0f1213);border-bottom:1px solid var(--ui-line);animation:cmEdIn .26s cubic-bezier(.2,.8,.2,1)}
+@keyframes cmEdIn{from{transform:translateY(-100%);opacity:0}}@media (prefers-reduced-motion:reduce){.cmEd{animation:none}}
+.cmEdTop{display:flex;align-items:center;gap:10px;margin-bottom:8px}.cmEdSw{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}
+.cmEdHex{display:flex;align-items:center;gap:2px;font:600 13px/1 var(--mono);color:var(--ui-dim)}.cmEdHex input{width:7.5ch;height:30px;padding:0 6px;border-radius:7px;border:1px solid var(--ui-line);background:transparent;color:var(--ui-ink);font:600 16px/1 var(--mono);text-transform:uppercase}.cmEdHex input.bad{border-color:#ff6a3d}
+.cmEd input[type=color]{width:34px;height:30px;padding:0;border:0;background:none;cursor:pointer}.cmEdDone{margin-left:auto}
+.cmEdR{display:grid;grid-template-columns:76px 1fr 44px;align-items:center;gap:8px;margin:7px 0;font:400 12px var(--sans);color:var(--ui-dim)}.cmEdR output{font:600 11px/1 var(--mono);color:var(--ui-ink);text-align:right}
+.cmEdR input{-webkit-appearance:none;appearance:none;height:14px;border-radius:7px;margin:0}.cmEdR input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgb(0 0 0 / .5)}.cmEdR input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid rgb(0 0 0 / .5)}
+.cmEdRow{display:flex;gap:8px;margin-top:6px}
 .cmPro{margin-top:14px;padding:10px 12px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05)}
 .cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
 .cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
@@ -1675,7 +1685,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
 </div>
 <div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
   <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
-  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div>
+  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div>
 </div>
 <div id="mixPop" role="dialog" aria-label="Sound" hidden>
   <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
@@ -2187,8 +2197,9 @@ const CG={
   second:{name:'Second',get:()=>S.line2||CG_LAST.second,on:()=>!!S.line2,set:v=>{S.line2=v;CG_LAST.second=v;syncLine()},off:()=>{if(S.line2)CG_LAST.second=S.line2;S.line2=null;syncLine()},sw:()=>LINE_COLORS},
   touch:{name:'Touch',get:()=>S.touchColor||CG_LAST.touch,on:()=>!!S.touchColor,set:v=>{S.touchColor=v;CG_LAST.touch=v},off:()=>{if(S.touchColor)CG_LAST.touch=S.touchColor;S.touchColor=null},sw:()=>LINE_COLORS},
   ground:{name:'Ground',get:()=>groundHex()||'#050708',on:()=>true,auto:()=>{S.ground='auto';CAUTO='';applyGround();syncLine();colorDid('auto')},set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
+  toolpath:{name:'Toolpath',get:()=>S.pathColor||'#ff7a52',on:()=>!!S.flags.path,set:v=>{S.pathColor=v;if(!S.flags.path){S.flags.path=true;const c=$('c-path');if(c)c.checked=true}clearTrails()},off:()=>{S.flags.path=false;const c=$('c-path');if(c)c.checked=false;clearTrails()},sw:()=>[['Ember','#ff7a52'],...ARROW_SWATCHES.filter(x=>x[0]!=='Ember')]},
   arrows:{name:'Arrows',get:()=>S.arrowColor,on:()=>!!S.flags.arrows,set:v=>setArrow(v),off:()=>{S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()},sw:()=>ARROW_SWATCHES}};
-const CG_ORDER=['line','second','touch','ground','arrows'];
+const CG_ORDER=['line','second','touch','ground','arrows','toolpath'];   // the toolpath: the G-code's own drawing (Dimitry, 19 Oct)
 /* what Paths listens for: a color event, said once by whatever did it */
 function colorDid(what){try{document.dispatchEvent(new CustomEvent('cxcolor',{detail:what}))}catch(_){}}
 /* the live colors: the group's own color, animated. The drawing reads LC, the look saves S (so a saved look keeps its
@@ -2388,13 +2399,13 @@ function drawOverlay(){
     for(let gy=0;gy<GH;gy+=2)for(let gx=0;gx<GW;gx+=2){const h=LENS_H[gy*GW+gx];if(h<.04)continue;ctx.globalAlpha=h*.05;ctx.fillRect(gx*CELL-CELL,gy*CELL-CELL,CELL*2,CELL*2)}
     ctx.globalAlpha=1}
   if(S.flags.path&&insideGrid&&loopsPx.length&&S.inside!=='same'){
-    ctx.fillStyle=css('--path');ctx.globalAlpha=.1;
+    ctx.fillStyle=LC.toolpath||S.pathColor||css('--path');ctx.globalAlpha=.1;
     for(let gy=0;gy<GH;gy++)for(let gx=0;gx<GW;gx++)if(insideGrid[gy*GW+gx])ctx.fillRect(gx*CELL-CELL/2,gy*CELL-CELL/2,CELL,CELL);
     ctx.globalAlpha=1;
   }
   if(S.flags.path||ACTIVE==='frame'){
     ctx.lineWidth=1;
-    for(const s of segsPx){ctx.strokeStyle=s.travel?'rgba(255,255,255,.18)':css('--path');ctx.globalAlpha=s.travel?1:.55;
+    for(const s of segsPx){ctx.strokeStyle=s.travel?(groundLight()?'rgba(0,0,0,.22)':'rgba(255,255,255,.18)'):(LC.toolpath||S.pathColor||css('--path'));ctx.globalAlpha=s.travel?1:.55;
       ctx.beginPath();ctx.moveTo(s.x0,s.y0);ctx.lineTo(s.x1,s.y1);ctx.stroke()}
     ctx.globalAlpha=1;
   }
@@ -2721,7 +2732,7 @@ function applyLookNow(p,idx,instant){
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;applyGround()}syncLine();
-  S.canim=JSON.parse(JSON.stringify(p.canim||{}));try{if(!$('colorPop').hidden)renderCM()}catch(_){}
+  S.canim=JSON.parse(JSON.stringify(p.canim||{}));S.pathColor=p.pathColor||null;try{if(!$('colorPop').hidden)renderCM()}catch(_){}
   S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&!isOn(p.audio)&&!AUD.play.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
@@ -2903,7 +2914,7 @@ function buildRlist(){
 function openRlist(){closePlist();buildRlist();$('rlist').hidden=false;$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return {name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
-  flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
+  flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
 // AUTO NAMES: a look names itself from what it is (its toolpath, motion, colors, modulation); the name is prefilled
 // and selected, so typing replaces it.
 const NAME_MOTION={along:['Drift','Current','Tide','Run'],across:['Crosscut','Shear','Weft','Grain'],attract:['Pool','Gather','Well','Settle'],
@@ -4173,9 +4184,9 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
         const i=b.querySelector('i');if(i)i.style.opacity=Math.max(.15,v);let l=b.querySelector('.lab');if(!l){l=document.createElement('span');l.className='lab';b.appendChild(l)}l.textContent=Math.round(v*100)+'%'}});
     const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const m=g.mode,g0y=g.ay??g.y,g0a=g.a0;g=null;t.style.overflowX='';
       if(m==='tap'&&e.type==='pointerup'){fn();buildToolShelf()}
-      else if(m==='pick'&&e.type==='pointerup'){openColorPick(pick,c)}
-      else if(m==='alpha'){if(pick&&c&&e.type==='pointerup'&&Math.abs(e.clientY-g0y)<6&&Math.abs(alpha.get()-g0a)<.01)openColorPick(pick,c);else{toast('opacity '+Math.round(alpha.get()*100)+'%');buildToolShelf()}}};
-    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>{e.preventDefault();if(pick&&c&&e.pointerType!=='touch'&&!g)openColorPick(pick,c)});
+      else if(m==='pick'&&e.type==='pointerup'){pickColor(pick,c)}
+      else if(m==='alpha'){if(pick&&c&&e.type==='pointerup'&&Math.abs(e.clientY-g0y)<6&&Math.abs(alpha.get()-g0a)<.01)pickColor(pick,c);else{toast('opacity '+Math.round(alpha.get()*100)+'%');buildToolShelf()}}};
+    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>{e.preventDefault();if(pick&&c&&e.pointerType!=='touch'&&!g)pickColor(pick,c)});
     b.addEventListener('click',e=>{if(e.detail===0){fn();buildToolShelf()}});
     b.style.touchAction='pan-x';t.appendChild(b);return b};
   const lineA={get:()=>S.lineAlpha,set:v=>{S.lineAlpha=v;S.lineOff=false}},arrA={get:()=>S.arrowAlpha,set:v=>{S.arrowAlpha=v;if(!S.flags.arrows){S.flags.arrows=true;$('c-arrows').checked=true}syncArrow()}};
@@ -4192,7 +4203,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
        if(t.scrollLeft<4)gg='line';openColorMix(gg)}}
     const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
     for(const g of CG_ORDER){const G=CG[g],cur=G.get(),on=G.on(),alpha=g==='line'||g==='second'?lineA:g==='arrows'?arrA:null;
-      const PK={title:G.name+' color',get:G.get,set:v=>{G.set(v);try{if(!$('colorPop').hidden)renderCM()}catch(_){}}};
+      const PK={g,title:G.name+' color',get:G.get,set:v=>{G.set(v);try{if(!$('colorPop').hidden)renderCM()}catch(_){}}};
       if(g!=='line')sep();grp(G.name.toLowerCase());t.lastChild.dataset.g=g;
       const an=S.canim&&S.canim[g]&&S.canim[g].m&&S.canim[g].m!=='off'?S.canim[g].m:'';
       const d=dot(cur,G.name+' color '+cur+(on?', on'+(G.off?'. Tap to turn '+G.name.toLowerCase()+' off':''):', off. Tap to turn it on')+(an?'. Animated: '+an:''),()=>{if(on&&G.off)G.off();else G.set(cur)},on,alpha,PK);
@@ -5202,34 +5213,70 @@ window.SurfaceInfo=window.SurfaceInfo||{mount(btn,drawer,tabsList){const tx=draw
   btn.onclick=()=>set(btn.getAttribute('aria-expanded')!=='true');hd.onclick=()=>set(false);
   return {open:()=>set(true),close:()=>set(false),isOpen:()=>btn.getAttribute('aria-expanded')==='true',sync(p){pane=p;fill()}}}};
 window.MIX_INFO=SurfaceInfo.mount($('mixInfoBtn'),$('mixInfo'),$('mixTabs'));
-const CM_PANE={line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround',arrows:'cmArrows'};
+const CM_PANE={line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround',arrows:'cmArrows',toolpath:'cmToolpath'};
 const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3 10c3-5 5-5 8 0s5 5 10-1"/><path d="M3 17c3-5 5-5 8 0s5 5 10-1" opacity=".55"/>',
   touch:'<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7.5" opacity=".5"/>',ground:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 15l5-4 4 3 3-2 4 3" opacity=".6"/>',
-  arrows:'<path d="M4 18 18 6M11 6h7v7"/>'};
-const CM_TABS=SurfaceTabs.mount($('cmTabs'),CG_ORDER.map(g=>({id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>renderCM(g)})),'current.cmTab');
+  arrows:'<path d="M4 18 18 6M11 6h7v7"/>',toolpath:'<path d="M4 19V9h6v6h5V5h5"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/>'};
+const CM_TABS=SurfaceTabs.mount($('cmTabs'),CG_ORDER.map(g=>({id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}})),'current.cmTab');
 function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
-function closeColorMix(){const p=$('colorPop');if(!p||p.hidden)return;p.hidden=true;const f=document.querySelector('#toolTrack .cmPin');if(f&&p.contains(document.activeElement))f.focus({preventScroll:true})}
+function closeColorMix(){const p=$('colorPop');if(!p||p.hidden)return;if(CM_ED){try{rememberColor(CG[CM_ED].get())}catch(_){}colorDid('own');CM_ED=null;try{if(ACTIVE==='color')buildToolShelf()}catch(_){}}p.hidden=true;const f=document.querySelector('#toolTrack .cmPin');if(f&&p.contains(document.activeElement))f.focus({preventScroll:true})}
+let CM_ED=null;
+const cmMine=()=>{try{return JSON.parse(localStorage.getItem('current.mycolors'))||[]}catch(_){return[]}};
+const cmMineSet=a=>{try{localStorage.setItem('current.mycolors',JSON.stringify(a.slice(0,24)))}catch(_){}};
+/* hold: a press that stays still for the person's hold time runs fn and swallows the click that follows */
+function cmHold(b,fn){let t=0,x=0,y=0;b.addEventListener('pointerdown',e=>{if(e.button>0)return;x=e.clientX;y=e.clientY;b._held=false;t=setTimeout(()=>{b._held=true;if(navigator.vibrate)navigator.vibrate(10);fn()},(window.SurfaceKeys?SurfaceKeys.holdMs:520))});
+  b.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-x,e.clientY-y)>8)clearTimeout(t)});['pointerup','pointercancel','pointerleave'].forEach(k=>b.addEventListener(k,()=>clearTimeout(t)));
+  b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(t);b._held=true;fn()})}
+function openColorEdit(g){CM_ED=g;openColorMix(g)}
+const pickColor=(pk,c)=>{if(pk&&pk.g){pk.set(c);openColorEdit(pk.g)}else openColorPick(pk,c)};
+/* THE EDITOR: lightness, chroma and hue (OKLCH), a hex code, the device's own color field, and save to My colors.
+   Changes land live; done (or closing) keeps them and adds the color to Recent. */
+function cmEditor(g,pane){const G=CG[g];let cur=G.get();const d=document.createElement('div');d.className='cmEd';d.setAttribute('role','region');d.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');pane.appendChild(d);
+  let [L,C,H]=OKC.lch(cur);if(C<.002)H=0;
+  d.innerHTML='<div class="cmEdTop"><span class="cmEdSw"></span><label class="cmEdHex"><span>#</span><input type="text" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex code"></label><input type="color" aria-label="The device\'s color field"><button type="button" class="tb cmEdDone">done</button></div>'+
+    [['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" aria-label="'+n+'"><output></output></label>').join('')+
+    '<div class="cmEdRow"><button type="button" class="tb cmEdSave"></button></div>';
+  const sw=d.querySelector('.cmEdSw'),hex=d.querySelector('.cmEdHex input'),nat=d.querySelector('input[type=color]'),rs=[...d.querySelectorAll('.cmEdR input')],save=d.querySelector('.cmEdSave');
+  const paintTracks=()=>{const st=(f)=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>f(i/8)).join(',')+')';
+    rs[0].style.background=st(t=>OKC.hex([t,C,H]));rs[1].style.background=st(t=>OKC.hex([L,t*.37,H]));rs[2].style.background=st(t=>OKC.hex([L,Math.max(C,.08),t*360]))};
+  const show=(fromHex)=>{sw.style.background=cur;if(document.activeElement!==hex)hex.value=cur.slice(1).toUpperCase();nat.value=cur;
+    rs[0].value=L;rs[1].value=C;rs[2].value=H;rs.forEach((r,i)=>r.nextElementSibling.textContent=i===2?Math.round(H)+'°':i===0?Math.round(L*100)+'%':C.toFixed(2));paintTracks();
+    const mine=cmMine().includes(cur.toLowerCase());save.textContent=mine?'saved · remove':'save to my colors';save.setAttribute('aria-pressed',String(mine));
+    const p=pane.querySelector('.cmBig');if(p)p.style.background=cur;const hx=pane.querySelector('.cmEdit');if(hx&&hx.firstChild)hx.firstChild.textContent=cur.toUpperCase()};
+  const apply=v=>{cur=v;G.set(v);show()};
+  rs.forEach(r=>r.addEventListener('input',()=>{const k=r.dataset.k;if(k==='L')L=+r.value;else if(k==='C')C=+r.value;else H=+r.value;apply(OKC.hex([L,C,H]))}));
+  hex.addEventListener('input',()=>{const v=hex.value.trim().replace(/^#/,'');const m=/^[0-9a-f]{6}$/i.test(v)?'#'+v.toLowerCase():/^[0-9a-f]{3}$/i.test(v)?'#'+v.split('').map(x=>x+x).join('').toLowerCase():null;hex.classList.toggle('bad',!m);if(m){[L,C,H]=OKC.lch(m);apply(m)}});
+  nat.addEventListener('input',()=>{[L,C,H]=OKC.lch(nat.value);apply(nat.value.toLowerCase())});
+  save.onclick=()=>{const a=cmMine(),c=cur.toLowerCase();if(a.includes(c))cmMineSet(a.filter(x=>x!==c));else{cmMineSet([c,...a]);toast(c+' saved to my colors')}CM_ED=g;renderCM(g)};
+  d.querySelector('.cmEdDone').onclick=()=>{try{rememberColor(cur)}catch(_){}colorDid('own');CM_ED=null;renderCM(g);try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
+  show()}
 function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE[g]);if(!G||!pane)return;const keep=pane.scrollTop;pane.innerHTML='';
   const cur=G.get(),on=G.on(),A=(S.canim=S.canim||{}),an=A[g]||{m:'off',sp:.5};
   const refresh=()=>{renderCM(g);try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
   const use=(c,ev)=>{G.set(c);if(ev)colorDid(ev);try{rememberColor(c)}catch(_){}refresh()};
   const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
+  if(CM_ED===g)cmEditor(g,pane);
   const head=el('div','cmHead');const big=document.createElement('span');big.className='cmBig';big.style.background=cur;if(!on)big.style.opacity=.35;head.appendChild(big);
   const hx=document.createElement('span');hx.className='cmHex';hx.textContent=cur.toUpperCase()+(on?'':' · off');head.appendChild(hx);
-  const own=document.createElement('button');own.type='button';own.className='tb';own.textContent='your own';own.setAttribute('aria-label','Your own '+G.name.toLowerCase()+' color: a hex code or the color field');
-  own.onclick=()=>openColorPick({title:G.name+' color',get:G.get,set:v=>{G.set(v);renderCM(g)}},cur);head.appendChild(own);
+  /* EDIT (Dimitry, 19 Oct: "your own" was easy to miss): the big swatch, its edit label, or a long press on any swatch
+     opens the editor, a drawer that slides down inside the panel */
+  big.setAttribute('role','button');big.tabIndex=0;big.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');big.title='Tap or hold to edit this color';
+  big.onclick=()=>{CM_ED=g;renderCM(g)};big.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();big.onclick()}};
+  hx.classList.add('cmEdit');hx.innerHTML='';hx.append(cur.toUpperCase()+(on?'':' · off'));const ed=document.createElement('button');ed.type='button';ed.className='tb cmEdBtn';ed.textContent='edit';ed.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');ed.onclick=big.onclick;hx.appendChild(ed);
   if(G.auto){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent='auto';o.setAttribute('aria-pressed',String(S.ground==='auto'));o.setAttribute('aria-label','Ground auto: always contrasts with the lines');
-    o.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();refresh()};head.appendChild(o);if(S.ground==='auto')hx.textContent='AUTO · '+cur.toUpperCase()}
+    o.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();refresh()};head.appendChild(o);if(S.ground==='auto')hx.firstChild.textContent='AUTO · '+cur.toUpperCase()}
   if(G.off){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent=on?'off':'on';o.setAttribute('aria-pressed',String(!on));o.setAttribute('aria-label',(on?'Turn '+G.name.toLowerCase()+' off':'Turn '+G.name.toLowerCase()+' on'));
     o.onclick=()=>{if(on)G.off();else G.set(cur);refresh()};head.appendChild(o)}
   const row=(label,list,ev)=>{el('p','cmL',label);const box=el('div','cmSw');box.setAttribute('role','group');box.setAttribute('aria-label',G.name+': '+label);
+    {const seen=new Set();list=list.filter(([,c])=>{const k=String(c).toLowerCase();if(seen.has(k))return false;seen.add(k);return true})}   // one dot per color
     if(!list.length){box.innerHTML='<em>none yet</em>';return}
     for(const [n,c] of list){const b=document.createElement('button');b.type='button';b.style.background=c;b.title=n+' '+c;b.setAttribute('aria-label',G.name+' '+n+' '+c);
-      b.setAttribute('aria-pressed',String(on&&sameC(c,cur)));b.onclick=()=>use(c,ev);box.appendChild(b)}};
+      b.setAttribute('aria-pressed',String(on&&sameC(c,cur)));b.onclick=()=>{if(b._held){b._held=false;return}use(c,ev)};cmHold(b,()=>{G.set(c);if(ev)colorDid(ev);CM_ED=g;refresh()});box.appendChild(b)}};
   row('Swatches',g==='ground'?G.sw():[...G.sw(),['Black','#000000'],['White','#ffffff']]);   // the ground has its own dark and paper
   const [L,C,H]=OKC.lch(cur);
   row('Related',[['Opposite',colorOpp(cur)],['Complement',colorComp(cur)],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]],'opposite');
   let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}
+  {const my=cmMine();if(my.length)row('My colors',my.map(c=>['Mine',c]))}
   row('Recent',rec.slice(0,10).map(c=>['Recent',c]));
   if(g==='ground'){el('p','cmL','With a camera, video or picture');const sg=el('div','cmSeg');sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
     for(const [k,t,al] of SRC_GROUND){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String(SRCG===k));b.onclick=()=>setSrcGround(k);sg.appendChild(b)}}
@@ -5995,10 +6042,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020035320"></script>
-<script src="surface/links.js?v=20261020035320"></script>
-<script src="surface/tips.js?v=20261020035320"></script>
-<script src="surface/sections.js?v=20261020035320"></script>
+<script src="surface/install.js?v=20261020035944"></script>
+<script src="surface/links.js?v=20261020035944"></script>
+<script src="surface/tips.js?v=20261020035944"></script>
+<script src="surface/sections.js?v=20261020035944"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6377,7 +6424,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.1';
+const APP_VERSION='0.25.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
