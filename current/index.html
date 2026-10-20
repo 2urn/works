@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020064110";window.__VERSION__="0.25.21";window.__NOTES__=[{"v":"0.25.21","date":"20 Oct 2026","items":[{"kind":"change","text":"the Dimitry Saïd Chamy namemark is his vector file now, sharp at any size (in the corner and on cards)"}]}]</script>
+<script>window.__BUILD__="20261020071324";window.__VERSION__="0.25.22";window.__NOTES__=[{"v":"0.25.22","date":"20 Oct 2026","items":[{"kind":"new","text":"cards can carry the QR code again, as a choice: no code (the default) or QR code, beside branding. The code opens the exact look; its tile is the namemark's width"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020064110"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020064110">
+<script src="claude-web.js?v=20261020071324"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020071324">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,17 +72,17 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020064110"></script>
-<script src="surface/auto.js?v=20261020064110"></script>
-<script src="surface/toolpath.js?v=20261020064110"></script>
-<script src="surface/capture.js?v=20261020064110"></script>
-<script src="surface/pop.js?v=20261020064110"></script>
-<script src="surface/hints.js?v=20261020064110"></script>
-<script src="surface/paths.js?v=20261020064110"></script>
-<script src="surface/keys.js?v=20261020064110"></script>
-<script src="surface/reset.js?v=20261020064110"></script>
-<script src="surface/files.js?v=20261020064110"></script>
-<script src="surface/rail.js?v=20261020064110"></script>
+<script src="vendor/opentype.min.js?v=20261020071324"></script>
+<script src="surface/auto.js?v=20261020071324"></script>
+<script src="surface/toolpath.js?v=20261020071324"></script>
+<script src="surface/capture.js?v=20261020071324"></script>
+<script src="surface/pop.js?v=20261020071324"></script>
+<script src="surface/hints.js?v=20261020071324"></script>
+<script src="surface/paths.js?v=20261020071324"></script>
+<script src="surface/keys.js?v=20261020071324"></script>
+<script src="surface/reset.js?v=20261020071324"></script>
+<script src="surface/files.js?v=20261020071324"></script>
+<script src="surface/rail.js?v=20261020071324"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1730,7 +1730,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div id="owEmbedBox" hidden><textarea id="owEmbedCode" rows="3" readonly spellcheck="false" aria-label="Embed code"></textarea><button class="tb" id="owEmbedCopy" type="button">copy the embed</button><p class="owNote">Plays wherever the page is public. A private claude.ai link will not load for other people.</p></div>
   <div id="owCardBox" hidden>
     <div class="cdRail" id="cdRail" role="radiogroup" aria-label="Card designs: pick one"></div>
-    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><div class="cdSw" id="cdSw" role="radiogroup" aria-label="Card colour"></div><div class="cdTx" id="cdTx" role="radiogroup" aria-label="Card texture"></div><div class="cdTx" id="cdBr" role="radiogroup" aria-label="Branding"></div>
+    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><div class="cdSw" id="cdSw" role="radiogroup" aria-label="Card colour"></div><div class="cdTx" id="cdTx" role="radiogroup" aria-label="Card texture"></div><div class="cdTx" id="cdBr" role="radiogroup" aria-label="Branding"></div><div class="cdTx" id="cdQr" role="radiogroup" aria-label="QR code on the card"></div>
     <input type="text" id="cdMsg" class="cdMsg" maxlength="90" placeholder="add a message (optional)" autocomplete="off">
     <div class="owRow"><button class="owBtn" id="cdRoll" type="button" aria-label="A new random look for the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="15" cy="9" r="1.3"/><circle cx="9" cy="15" r="1.3"/></svg>new look</button><button class="owBtn" id="cdSave" type="button" aria-label="Save the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>save</button><button class="owBtn" id="cdShare" type="button" aria-label="Share the card file" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M6 11v8.5h12V11"/></svg>share</button></div>
     <p class="owNote" id="cdNote"></p>
@@ -3704,6 +3704,8 @@ const LOOKS_DB={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_loo
    would scan them). The code path stays, for print. */
 const CARD_TEX=[['none','none'],['grain','grain'],['film','film'],['stipple','stipple']];
 const CARD={brand:true,tex:'grain',size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{},qr:false};
+/* the code is a choice (Dimitry, 20 Oct: not on every card, but worth having, as on the share panel): off unless picked, remembered */
+try{CARD.qr=localStorage.getItem('current.cardQr')==='1'}catch(_){}
 try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(typeof o.color==='string')CARD.color=o.color;if(typeof o.tex==='string'&&CARD_TEX.some(t=>t[0]===o.tex))CARD.tex=o.tex;if(o.brand===false)CARD.brand=false;if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
 function cardSvgImg(key,markup){if(CARD.img[key])return CARD.img[key];return CARD.img[key]=new Promise(res=>{if(!markup){res(null);return}
   let m=markup.replace(/<svg\b/,'<svg xmlns="http://www.w3.org/2000/svg" color="#fff" fill="#fff"').replace(/currentColor/g,'#fff');
@@ -3871,7 +3873,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     const D=CARD_PARTNER[color]?CARD_COLORS.find(x=>x[0]===CARD_PARTNER[color])[1]:INK;   // every colour but the dark ones gets an ink duck
     const G=duckGeom(dw),ar=dw.width/dw.height,mg0=x*.5;
     const ex=(x0,y0,w0,h0)=>[x0-mg0,y0-mg0,w0+mg0*2,h0+mg0*2];
-    const boxes=[ex(M,M,M,tw),ex(sx,capTop,lw,H-M-capTop+cs*.25),[-W,-H,W*3,H+mYv+mh+x],ex(M,H-M-wLen,x,wLen),...(CARD.qr?[ex(tileX,tileY,tileW,tileW)]:[]),
+    const boxes=[ex(M,M,M,tw),ex(sx,capTop,lw,H-M-capTop+cs*.25),[-W,-H,W*3,H+mYv+mh+x],ex(M,H-M-wLen,x,wLen),...(CARD.qr&&brand?[ex(tileX,tileY,tileW,tileW)]:[]),
       [-W,-H,W*3,H+M],[-W,H-M,W*3,H],[-W,-H,W+M,H*3],[W-M,-H,W,H*3]];   // the margins (M) are the walls
     /* on very tall cards (story) the head is the anchor, or the duck sits too high (Dimitry, 19 Oct); elsewhere the heart */
     const ax=H/W>=1.5?G.headX:G.hx,ay=H/W>=1.5?G.headY:G.hy;
@@ -3903,7 +3905,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
      colour is light enough (luminance 0.42 and up: ochre, lime, sky), the code is black modules on a patch of
      the plain colour, the field cleared under it; on dark grounds it keeps its white tile. Decoded in testing. */
   const onColor=cardLum(C)>=.42,TILE=onColor?C:'#fff';   // tested: at 0.3 (rose, ember) the code failed to read on busy designs; from 0.42 (ochre, lime, sky) it reads
-  const qc=document.createElement('canvas');if(CARD.qr&&qrDraw(qc,url,8)){g.fillStyle=TILE;g.fillRect(tileX,tileY,tileW,tileW);
+  const qc=document.createElement('canvas');if(CARD.qr&&brand&&qrDraw(qc,url,8)){g.fillStyle=TILE;g.fillRect(tileX,tileY,tileW,tileW);
     if(onColor){const qg=qc.getContext('2d'),im=qg.getImageData(0,0,qc.width,qc.height),dd=im.data;for(let i=0;i<dd.length;i+=4){if(dd[i]>128){dd[i+3]=0}else{dd[i]=dd[i+1]=dd[i+2]=10}}qg.putImageData(im,0,0)}
     g.imageSmoothingEnabled=false;g.drawImage(qc,qx,qy,qs,qs);g.imageSmoothingEnabled=true;
     /* the duck-rabbit in the middle of the code (Dimitry, 19 Oct): a white pad over 20% of the width, about 4% of the
@@ -3941,13 +3943,16 @@ async function sharpStill(need){const was=DPR,d=densFor(need);
   setDPR(d);try{await waitFrames(130,4500);return stillCanvas(document.createElement('canvas'))}finally{setDPR(was)}}
 function freezeArrows(){return new Promise(res=>{const was=S.flags.arrows;if(was){CARD_LOOK_ARROWS=null;res();return}S.flags.arrows=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{CARD_LOOK_ARROWS=stillCanvas(document.createElement('canvas'));S.flags.arrows=was;res()}))})}
 const cardMsg=()=>($('cdMsg').value||'').replace(/\s+/g,' ').trim();
+function cardQrRow(){const h=$('cdQr');if(!h)return;h.innerHTML='';h.hidden=CARD.brand===false;for(const [v,l] of [[false,'no code'],[true,'QR code']]){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=l;b.setAttribute('aria-checked',String(CARD.qr===v));
+    if(v)b.setAttribute('aria-label','QR code: the card carries a code that opens this exact look');
+    b.onclick=()=>{if(CARD.qr===v)return;CARD.qr=v;try{localStorage.setItem('current.cardQr',v?'1':'0')}catch(_){}cardQrRow();cardRail(true);if(window.cxCount)cxCount('card: '+(v?'with code':'no code'),1)};h.appendChild(b)}}
 function cardBrandRow(){const h=$('cdBr');if(!h)return;h.innerHTML='';for(const [v,l] of [[true,'branded'],[false,'no branding']]){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=l;b.setAttribute('aria-checked',String(CARD.brand===v));
     b.onclick=()=>{if(CARD.brand===v)return;CARD.brand=v;if(!v)CARD.style='behind';try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:CARD.color,tex:CARD.tex,brand:v}))}catch(_){}cardBrandRow();$('cdRail').innerHTML='';cardRail(true);if(window.cxCount)cxCount('card: '+(v?'branded':'no branding'),1)};h.appendChild(b)}}
 function cardTexRow(){const h=$('cdTx');if(!h)return;h.innerHTML='';for(const [n,l] of CARD_TEX){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=l;b.setAttribute('aria-checked',String(CARD.tex===n));
     b.onclick=()=>{if(CARD.tex===n)return;CARD.tex=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:CARD.color,tex:n,brand:CARD.brand}))}catch(_){}cardTexRow();cardRail(true);if(window.cxCount)cxCount('card: texture '+n,1)};h.appendChild(b)}}
 function cardSwatches(){const h=$('cdSw');h.innerHTML='';for(const [n,hex] of CARD_COLORS){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-label',n);b.title=n;b.style.background=hex;b.setAttribute('aria-checked',String(CARD.color===n));
     b.onclick=()=>{if(CARD.color===n)return;CARD.color=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:n,tex:CARD.tex,brand:CARD.brand}))}catch(_){}cardSwatches();cardRail(true);if(window.cxCount)cxCount('card: colour '+n,1)};h.appendChild(b)}}
-async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK){$('cdNote').textContent='drawing the particles at card size…';CARD_LOOK=await sharpLook()}cardSwatches();cardTexRow();cardBrandRow();
+async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK){$('cdNote').textContent='drawing the particles at card size…';CARD_LOOK=await sharpLook()}cardSwatches();cardTexRow();cardBrandRow();cardQrRow();
   if(!rail.children.length)CARD_ALL.filter(x=>CARD.brand||x[1]==='behind').forEach(([sz,st,l])=>{const b=document.createElement('button');b.type='button';b.className='cdPick '+sz;b.setAttribute('role','radio');b.dataset.sz=sz;b.dataset.st=st;b.setAttribute('aria-label',l);
     const cv=document.createElement('canvas');cv.width=8;cv.height=8;const t=document.createElement('span');t.textContent=l;b.append(cv,t);
     b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st,color:CARD.color,tex:CARD.tex,brand:CARD.brand}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
@@ -6165,10 +6170,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020064110"></script>
-<script src="surface/links.js?v=20261020064110"></script>
-<script src="surface/tips.js?v=20261020064110"></script>
-<script src="surface/sections.js?v=20261020064110"></script>
+<script src="surface/install.js?v=20261020071324"></script>
+<script src="surface/links.js?v=20261020071324"></script>
+<script src="surface/tips.js?v=20261020071324"></script>
+<script src="surface/sections.js?v=20261020071324"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6547,7 +6552,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.21';
+const APP_VERSION='0.25.22';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
