@@ -63,6 +63,7 @@
 .sfs-bar button:hover{color:var(--fg,#eef1f2)}
 .sfs-bar button[aria-pressed="true"]{color:var(--accent,#55b8c9)}
 .sfs-bar button[hidden]{display:none}
+.sfs-bar .sfs-end{margin-right:-2px}.sfs-bar .sfs-end[aria-pressed="true"] svg path:first-child{fill:currentColor}
 .sfs-bar button:focus-visible,.sfs-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
 @media (pointer:coarse){.sfs-bar button{width:44px;height:44px}}
 .sfs-root>.sfs-sec{position:relative;border-top:2px solid var(--fg,#eef1f2)}
@@ -325,7 +326,13 @@
         h.insertBefore(row, opts.before || null); return row;
       },
       open(id) { const s = document.getElementById(id); if (!s) return null; if (secs().indexOf(s) >= 0 && isHidden(s)) showSec(id); setShut(s, false); if (st.focus) secs().forEach(x => { if (x !== s && !kept(x)) setShut(x, true); }); persist(); return s; },
-      state: () => JSON.parse(JSON.stringify(st))
+      state: () => JSON.parse(JSON.stringify(st)),
+      /* end(el, name): a tool's own control at the right end of the row, over the grips (Dimitry, 20 Oct: the drawer's
+         pin goes here, and the rest move left by one). It gets the row's look and its hint. */
+      end(el, name) { if (!el) return null; el.classList.add('sfs-end'); if (name) el.dataset.name = name;
+        el.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch' && el.dataset.name) show(el); }); el.addEventListener('pointerleave', hide);
+        el.addEventListener('focus', () => { if (el.dataset.name) show(el); }); el.addEventListener('blur', hide);
+        bar.appendChild(el); return el; }
     };
     ROOTS.push(api); sync();
     return api;

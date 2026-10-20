@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020214556";window.__VERSION__="0.26.40";window.__NOTES__=[{"v":"0.26.40","date":"20 Oct 2026","items":[{"kind":"change","text":"when the sound panel's tabs run out of room, they show icons only, the open one lit, and its name moves to the top of the panel (no more TOU)"}]}]</script>
+<script>window.__BUILD__="20261020215050";window.__VERSION__="0.26.41";window.__NOTES__=[{"v":"0.26.41","date":"20 Oct 2026","items":[{"kind":"change","text":"on a computer the index's pin sits at the right end of the index's icon row, over the move handles; the top bar is for the duck and the namemark only"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020214556"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020214556">
+<script src="claude-web.js?v=20261020215050"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020215050">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,22 +97,22 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020214556"></script>
-<script src="surface/selftest.js?v=20261020214556"></script>
-<script src="surface/auto.js?v=20261020214556"></script>
-<script src="surface/toolpath.js?v=20261020214556"></script>
-<script src="surface/capture.js?v=20261020214556"></script>
-<script src="surface/pop.js?v=20261020214556"></script>
-<script src="surface/hints.js?v=20261020214556"></script>
-<script src="surface/paths.js?v=20261020214556"></script>
-<script src="surface/keys.js?v=20261020214556"></script>
-<script src="surface/reset.js?v=20261020214556"></script>
-<script src="surface/files.js?v=20261020214556"></script>
-<script src="surface/pack.js?v=20261020214556"></script>
-<script src="surface/rail.js?v=20261020214556"></script>
-<script src="surface/touchsound.js?v=20261020214556"></script>
-<script src="surface/float.js?v=20261020214556"></script>
-<script src="surface/manual.js?v=20261020214556"></script>
+<script src="vendor/opentype.min.js?v=20261020215050"></script>
+<script src="surface/selftest.js?v=20261020215050"></script>
+<script src="surface/auto.js?v=20261020215050"></script>
+<script src="surface/toolpath.js?v=20261020215050"></script>
+<script src="surface/capture.js?v=20261020215050"></script>
+<script src="surface/pop.js?v=20261020215050"></script>
+<script src="surface/hints.js?v=20261020215050"></script>
+<script src="surface/paths.js?v=20261020215050"></script>
+<script src="surface/keys.js?v=20261020215050"></script>
+<script src="surface/reset.js?v=20261020215050"></script>
+<script src="surface/files.js?v=20261020215050"></script>
+<script src="surface/pack.js?v=20261020215050"></script>
+<script src="surface/rail.js?v=20261020215050"></script>
+<script src="surface/touchsound.js?v=20261020215050"></script>
+<script src="surface/float.js?v=20261020215050"></script>
+<script src="surface/manual.js?v=20261020215050"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -237,7 +237,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 #launch.seq.s3 .lc-corner,#launch.seq.s3 .lc-foot{opacity:1}
 #launch.seq.going .lc-corner{opacity:0}
 .lc-corner{position:absolute;bottom:calc(4px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));min-width:56px;min-height:56px;padding:6px 8px;border:0;background:none;color:rgba(255,255,255,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s ease,opacity .7s ease}
-.lc-corner[hidden]{display:none}#cePin.top:not(.on){display:none}.lc-corner.l{left:max(10px,env(safe-area-inset-left,0px))}.lc-corner.r{right:max(10px,env(safe-area-inset-right,0px))}
+.lc-corner[hidden]{display:none}@media not all and (min-width:900px) and (hover:hover){#cePin{display:none!important}}.lc-corner.l{left:max(10px,env(safe-area-inset-left,0px))}.lc-corner.r{right:max(10px,env(safe-area-inset-right,0px))}
 /* SHARE on the cover (Dimitry, 19 Oct): centred in the row with install and index; the beta line sits under the row */
 .lc-corner.c{left:50%;transform:translateX(-50%)}
 #launch .lc-corner{bottom:calc(22px + env(safe-area-inset-bottom,0px) - var(--vgap,0px))}
@@ -408,11 +408,8 @@ body:not(.player) #dscMark{opacity:0}
   .ce-b{width:34px;height:34px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
   .ce-b:hover{color:var(--fg)}.ce-b:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
   .ce-b svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  /* the drawer's pin (Dimitry, 20 Oct: "push pins all round", and near the top): the kit's push pin, beside the duck's
-     CLOSE at the top of the drawer; filled when pinned. Placed by script next to the label */
-  #cePin[aria-pressed=true]{color:var(--fg)}#cePin[aria-pressed=true] svg path:first-child{fill:currentColor}
-  #cePin.top{position:fixed;z-index:26;margin:0;opacity:0;pointer-events:none;transition:opacity .3s ease}
-  body:not(.player):not(.betaFocus) #cePin.top.on{opacity:1;pointer-events:auto}
+  /* the drawer's pin: the kit's push pin, filled when pinned, in the index's icon row (see __idxPin) */
+  #cePin[aria-pressed=true] svg path:first-child{fill:currentColor}
   .ce-more{grid-column:1/-1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
   .ce-more>*{overflow:hidden;min-height:0}
   .ce-more{overflow:hidden}
@@ -6288,14 +6285,9 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
       pin.title=pinned?'Pinned: stays open. Unpin to close it with a click on the stage':'Unpinned: a click on the stage closes it'};syncPin();
     pin.onclick=()=>{pinned=!pinned;try{localStorage.setItem('current.pin',pinned?'1':'0')}catch(_){}syncPin();if(typeof toast==='function')toast(pinned?'index pinned open':'a click on the stage closes the index')};
     x.onclick=()=>setPlayer(true);
-    /* up beside CLOSE: the duck's label is where the drawer's own close lives, so its pin sits with it */
-    {document.body.appendChild(pin);pin.classList.add('top');const lab=$('duckLab');
-      const place=()=>{if(!wide()||!lab){pin.classList.remove('on');return}const r=lab.getBoundingClientRect();if(!r.width){pin.classList.remove('on');return}
-        pin.style.left=Math.round(r.right+8)+'px';pin.style.top=Math.round(r.top+r.height/2-17)+'px';pin.classList.add('on')};
-      let raf=0,until=0;const follow=()=>{place();if(performance.now()<until)raf=requestAnimationFrame(follow);else raf=0};
-      const kick=()=>{until=performance.now()+900;if(!raf)raf=requestAnimationFrame(follow)};
-      new MutationObserver(kick).observe(document.body,{attributes:true,attributeFilter:['class']});new MutationObserver(kick).observe(lab,{childList:true,characterData:true,subtree:true});
-      addEventListener('resize',kick);kick()}
+    /* the pin lives at the right end of the index's icon row, over the grips (Dimitry, 20 Oct: the top bar is for the
+       brand only, the duck and the namemark); placed there once the sections mount (SurfaceSections api.end) */
+    window.__idxPin=pin;
     let held=false;const word=end.querySelector('.colo-word');
     const atEnd=()=>pn.scrollTop+pn.clientHeight>=pn.scrollHeight-6;
     const sync=()=>end.classList.toggle('reveal',held||atEnd());
@@ -6527,10 +6519,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020214556"></script>
-<script src="surface/links.js?v=20261020214556"></script>
-<script src="surface/tips.js?v=20261020214556"></script>
-<script src="surface/sections.js?v=20261020214556"></script>
+<script src="surface/install.js?v=20261020215050"></script>
+<script src="surface/links.js?v=20261020215050"></script>
+<script src="surface/tips.js?v=20261020215050"></script>
+<script src="surface/sections.js?v=20261020215050"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6976,8 +6968,8 @@ try{const idx=$('idx'),ins=$('install'),st=$('display');if(idx&&ins&&st&&st.pare
 /* HIDDEN SECTIONS (Dimitry, 19 Oct): the crossed eye hides a section; Settings lists them. The Guide can never go.
    Install hides itself inside the installed app, where it has nothing left to do; a #install link still shows it. */
 const STANDALONE=()=>{try{return matchMedia('(display-mode: standalone)').matches||!!navigator.standalone}catch(_){return false}};
-try{SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#display',also:'#colo',always:'#guide',auto:{install:STANDALONE},links:[{label:'pop out',aria:'Pop the index out into its own window, beside the stage',icon:'out',when:()=>!!(window.SurfaceFloat&&SurfaceFloat.canPopout()),run:()=>popIndex()},
-  {label:'manual',aria:'Print the index as a manual, or save it as a PDF',icon:'print',run:()=>printManual()}],start:{folded:true,focus:true},label:'Index',briefScope:'#panel'})}catch(e){console.warn('sections',e)}
+try{window.IDX_SECTIONS=SurfaceSections.mount({root:'#idx',key:'current',section:'.cx-grp',fixed:'#display',also:'#colo',always:'#guide',auto:{install:STANDALONE},links:[{label:'pop out',aria:'Pop the index out into its own window, beside the stage',icon:'out',when:()=>!!(window.SurfaceFloat&&SurfaceFloat.canPopout()),run:()=>popIndex()},
+  {label:'manual',aria:'Print the index as a manual, or save it as a PDF',icon:'print',run:()=>printManual()}],start:{folded:true,focus:true},label:'Index',briefScope:'#panel'});if(window.IDX_SECTIONS&&window.__idxPin)IDX_SECTIONS.end(__idxPin,'pin')}catch(e){console.warn('sections',e)}
 /* FLOAT, POP OUT, MANUAL (Dimitry, 19–20 Oct; Surface · Float and Surface · Manual).
    1. On desktop and iPad the popovers float: drag one by its grip or head, let go near an edge and it snaps there, pin
       it and it stays open while you play. Double-tap the grip to send it home.
@@ -7076,7 +7068,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.40';
+const APP_VERSION='0.26.41';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
