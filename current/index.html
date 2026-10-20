@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020215552";window.__VERSION__="0.26.42";window.__NOTES__=[{"v":"0.26.42","date":"20 Oct 2026","items":[{"kind":"new","text":"report a bug. On a computer, the bug in the lower left; on any device, Settings › report a bug. Say what happened; Current adds what it knows about the moment (version, browser, what was playing, recent errors), shown before you send"},{"kind":"new","text":"if the sound ever has to restart itself, Current offers to report it"}]}]</script>
+<script>window.__BUILD__="20261020220839";window.__VERSION__="0.26.43";window.__NOTES__=[{"v":"0.26.43","date":"20 Oct 2026","items":[{"kind":"change","text":"smaller icons draw thinner lines (one scale from 1 px at 12-17 px up to the bar's 1.9 px), so the index's section icons, tabs, pins and arrows read cleaner beside the text"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020215552"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020215552">
+<script src="claude-web.js?v=20261020220839"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020220839">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,23 +97,23 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020215552"></script>
-<script src="surface/selftest.js?v=20261020215552"></script>
-<script src="surface/report.js?v=20261020215552"></script>
-<script src="surface/auto.js?v=20261020215552"></script>
-<script src="surface/toolpath.js?v=20261020215552"></script>
-<script src="surface/capture.js?v=20261020215552"></script>
-<script src="surface/pop.js?v=20261020215552"></script>
-<script src="surface/hints.js?v=20261020215552"></script>
-<script src="surface/paths.js?v=20261020215552"></script>
-<script src="surface/keys.js?v=20261020215552"></script>
-<script src="surface/reset.js?v=20261020215552"></script>
-<script src="surface/files.js?v=20261020215552"></script>
-<script src="surface/pack.js?v=20261020215552"></script>
-<script src="surface/rail.js?v=20261020215552"></script>
-<script src="surface/touchsound.js?v=20261020215552"></script>
-<script src="surface/float.js?v=20261020215552"></script>
-<script src="surface/manual.js?v=20261020215552"></script>
+<script src="vendor/opentype.min.js?v=20261020220839"></script>
+<script src="surface/selftest.js?v=20261020220839"></script>
+<script src="surface/report.js?v=20261020220839"></script>
+<script src="surface/auto.js?v=20261020220839"></script>
+<script src="surface/toolpath.js?v=20261020220839"></script>
+<script src="surface/capture.js?v=20261020220839"></script>
+<script src="surface/pop.js?v=20261020220839"></script>
+<script src="surface/hints.js?v=20261020220839"></script>
+<script src="surface/paths.js?v=20261020220839"></script>
+<script src="surface/keys.js?v=20261020220839"></script>
+<script src="surface/reset.js?v=20261020220839"></script>
+<script src="surface/files.js?v=20261020220839"></script>
+<script src="surface/pack.js?v=20261020220839"></script>
+<script src="surface/rail.js?v=20261020220839"></script>
+<script src="surface/touchsound.js?v=20261020220839"></script>
+<script src="surface/float.js?v=20261020220839"></script>
+<script src="surface/manual.js?v=20261020220839"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -219,7 +219,7 @@ html.bare.idle:not(.peek),html.bare.idle:not(.peek) *{cursor:none!important}
 #hideHint{position:fixed;z-index:9;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,6px);display:flex;align-items:center;gap:8px;
   min-height:36px;padding:0 14px 0 10px;border:0;border-radius:999px;background:rgba(14,14,16,.62);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   color:#fff;font:600 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .45s ease,transform .6s cubic-bezier(.5,0,.78,.3)}
-#hideHint svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;display:block}
+#hideHint svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;display:block}
 #hideHint kbd{font:inherit;color:rgba(255,255,255,.62)}
 #hideHint.on{opacity:1;transform:translate(-50%,0);pointer-events:auto;transition:opacity .25s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
 html.bare #hideHint{bottom:calc(22px + env(safe-area-inset-bottom,0px))}
@@ -412,7 +412,7 @@ body:not(.player) #dscMark{opacity:0}
   .ce-tools{display:flex;gap:2px;align-items:center}
   .ce-b{width:34px;height:34px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
   .ce-b:hover{color:var(--fg)}.ce-b:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
-  .ce-b svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ce-b svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
   /* the drawer's pin: the kit's push pin, filled when pinned, in the index's icon row (see __idxPin) */
   #cePin[aria-pressed=true] svg path:first-child{fill:currentColor}
   .ce-more{grid-column:1/-1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
@@ -841,7 +841,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
    WAI-ARIA tabs pattern: arrow keys move between tabs, the last one used comes back. Mixer · Beat · Bytes is the first. */
 .sfTabs{display:flex;align-self:stretch;gap:0;min-width:0;overflow-x:auto;scrollbar-width:none}.sfTabs::-webkit-scrollbar{display:none}
 .sfTab{display:inline-flex;align-items:center;gap:6px;padding:0 10px;min-height:36px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
-.sfTab svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sfTab svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .sfTab:hover{color:var(--ui-ink)}.sfTab[aria-selected=true]{color:var(--ui-ink);border-bottom-color:var(--acc,#55b8c9)}
 .sfTab:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}
 #mixPop .mxh{padding-left:4px;gap:6px}
@@ -855,7 +855,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .sfTabCap{margin:12px 16px 0;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-ink)}.sfTabCap[hidden]{display:none}
 /* SURFACE · INFO: the (i) in the head and the How it works drawer it slides up */
 .sfInfoBtn{margin-left:auto;flex:none;width:32px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer}
-.sfInfoBtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.sfInfoBtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round}
 .sfInfoBtn:hover{color:var(--ui-ink)}.sfInfoBtn[aria-expanded=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .sfInfoBtn:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.sfInfoBtn[hidden]{display:none}
 .sfInfo{position:absolute;left:0;right:0;bottom:0;z-index:3;max-height:72%;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;padding:12px 16px 16px;background:var(--ui-solid);border-top:1px solid var(--ui-line);box-shadow:0 -12px 28px rgb(0 0 0 / .35);
@@ -933,7 +933,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .sgrp{position:relative;display:flex;gap:4px;flex:none;padding:0 2px;border-radius:16px;background:rgb(var(--ui-hi) / .07);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi) / .08)}
 /* the band says: these open one panel; the caret on its top edge opens it (Dimitry, 19 Oct) */
 .sgCaret{position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:34px;height:12px;padding:0;border:0;border-radius:0 0 8px 8px;background:rgb(var(--ui-hi) / .12);color:var(--ui-ink);display:grid;place-items:center;cursor:pointer}
-.sgCaret svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.sgCaret svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .sgCaret:hover{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.sgCaret:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 #micBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px;--fg:var(--ui-ink);--muted:var(--ui-dim);--line:rgb(var(--ui-hi,255 255 255) / .14);--bg:rgb(var(--ui-hi,255 255 255) / .05)}
 #micBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 16px 6px}
@@ -1045,7 +1045,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .shelf .shv{position:absolute;top:50%;z-index:2;width:28px;height:44px;margin-top:-22px;display:none;place-items:center;padding:0;border:0;background:none;color:var(--ui-ink);cursor:pointer}
 .shelf.ovl .shv{display:grid}.shelf .shv:disabled{opacity:0;pointer-events:none}
 .shelf .shv.l{left:2px}.shelf .shv.r{right:2px}
-.shelf .shv svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.shelf .shv svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .si{flex:none;scroll-snap-align:center;width:60px;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 0 5px;
   background:none;border:0;border-radius:14px;color:var(--ui-ink);cursor:pointer;transition:background .12s,transform .12s}
 .si:active{transform:scale(.94)}.si:hover{color:#fff}.si:hover .lab{color:#fff}
@@ -1298,7 +1298,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 @media (prefers-color-scheme:light){html:not([data-theme=dark])[data-panes=frosted] .panel{background:color-mix(in srgb,var(--panel) 88%,transparent)}
   html:not([data-theme=dark])[data-panes=see] .panel{background:color-mix(in srgb,var(--panel) 84%,transparent)}}
 /* the Display group: a gear, then rows of word switches */
-.dsp-gear{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:4px}
+.dsp-gear{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-right:4px}
 .sec-ic *{vector-effect:non-scaling-stroke}.sec-ic [fill=currentColor]{fill:currentColor}
 .dsp-row{display:grid;grid-template-columns:5.5em minmax(0,1fr);align-items:center;gap:6px;min-height:40px;border-bottom:1px solid var(--line)}
 .dsp-row[hidden]{display:none}
@@ -1310,7 +1310,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .dsp-note{margin:8px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted);max-width:38ch}.dsp-note b{color:var(--fg)}
 .dsp-row3{grid-template-columns:5.5em minmax(0,1fr) auto}
 .dsp-re{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--muted);cursor:pointer}.dsp-re:hover,.dsp-re:focus-visible{color:var(--fg)}
-.dsp-re svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dsp-re svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .dsp-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px;max-width:38ch}.dsp-list li{font-size:12.5px;line-height:1.45;color:var(--muted)}.dsp-list b{color:var(--fg);font-weight:700}
 
 /* YOUR OWN COLOR: hold a color dot still (right-click on a computer) for a hex field and the device's color field */
@@ -6534,10 +6534,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020215552"></script>
-<script src="surface/links.js?v=20261020215552"></script>
-<script src="surface/tips.js?v=20261020215552"></script>
-<script src="surface/sections.js?v=20261020215552"></script>
+<script src="surface/install.js?v=20261020220839"></script>
+<script src="surface/links.js?v=20261020220839"></script>
+<script src="surface/tips.js?v=20261020220839"></script>
+<script src="surface/sections.js?v=20261020220839"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7091,7 +7091,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.42';
+const APP_VERSION='0.26.43';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

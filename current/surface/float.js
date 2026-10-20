@@ -37,7 +37,7 @@
     ".sf-pin{cursor:pointer;margin-left:auto}",
     ".sf-grip{margin:0 2px 0 -6px}",
     ".sf-grip svg{width:14px;height:14px;fill:currentColor}",
-    ".sf-pin svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}",
+    ".sf-pin svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}",
     ".sf-pin:hover,.sf-grip:hover{color:var(--ui-ink,#fff)}",
     ".sf-pin[aria-pressed=true]{color:var(--accent,#55b8c9)}",
     ".sf-pin[aria-pressed=true] svg{fill:currentColor}",

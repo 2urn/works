@@ -56,7 +56,7 @@
 .sfs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
 /* the Codex's page tools, as icons (from Pullula's page settings): the name shows in the hint as each is pointed at */
 .sfs-bar button{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.56;stroke-linecap:round;stroke-linejoin:round}
 .sfs-bar .sfs-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .sfs-hint{margin-right:auto;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#8a9396);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
 .sfs-hint.on{opacity:1}
@@ -72,7 +72,7 @@
 .sfs-hide{position:absolute;top:0;right:74px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.45;-webkit-tap-highlight-color:transparent}
 .sfs-hide:hover,.sfs-hide:focus-visible{opacity:1;color:var(--fg,#eef1f2)}.sfs-hide:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
 @media (hover:none){.sfs-hide{opacity:.7}}
-.sfs-hide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sfs-hide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
 .sfs-hlist{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;flex:1}
 .sfs-hlist button{min-height:36px;padding:0;border:0;background:none;cursor:pointer;color:var(--fg,#eef1f2);font:500 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
 .sfs-hlist button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -83,7 +83,7 @@
 @media (hover:none){.sfs-keep{opacity:.8}}
 /* the keep pin is the kit's push pin, the same drawing as a popover's (float.js) and the drawer's (Dimitry, 20 Oct:
    "push pins all round"), smaller here and filled when kept */
-.sfs-pin{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.sfs-pin{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .sfs-keep[aria-pressed="true"] .sfs-pin path:first-child{fill:currentColor}
 .sfs-grip{position:absolute;top:0;right:-6px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 .sfs-grip:hover{color:var(--fg,#eef1f2)}

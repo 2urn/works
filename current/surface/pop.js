@@ -22,7 +22,7 @@
     "  font:500 10px/1 var(--sc-mono,var(--mono,ui-monospace,Menlo,monospace));letter-spacing:.18em;text-transform:uppercase;color:var(--ui-dim,#a8a8a8)}",
     ".spop-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;font-size:0}",
     ".spop-x:hover{color:var(--ui-ink,#fff)}.spop-x:focus-visible{outline:2px solid var(--cap-acc,var(--sc-acc,#8fd3e8));outline-offset:-2px;border-radius:8px}",
-    ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
+    ".spop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}",
     /* a panel glides in when it opens (Dimitry, 19 Oct): up a little and out of transparency. translate, not transform,
        so it never fights a panel's own centring transform. Shown again after [hidden] or display:none, it plays again. */
     /* 0.6 s (Dimitry, 19 Oct: \"0.2 s is instantaneous for a human\"). 0.17.13: in and out with CSS transitions (display and @starting-style), only opacity and translate, which the

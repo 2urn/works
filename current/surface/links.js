@@ -25,7 +25,7 @@
   var O = { open: null, base: null, names: {} }, held = false, waiting = null;
   var LINK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>';
   var CSS = ".slk{display:inline-grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:none;color:var(--ui-dim,#8a9396);cursor:pointer;vertical-align:middle;border-radius:8px}" +
-    ".slk:hover{color:var(--ui-ink,#fff)}.slk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
+    ".slk:hover{color:var(--ui-ink,#fff)}.slk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}" +
     ".slk.done{color:var(--cap-acc,var(--sc-acc,#55b8c9))}";
   function base() { return O.base || (location.origin + location.pathname); }
   function url(name) { return base().replace(/#.*$/, "") + "#" + encodeURIComponent(name); }
