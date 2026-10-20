@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020034235";window.__VERSION__="0.25.0";window.__NOTES__=[{"v":"0.25.0","date":"19 Oct 2026","items":[{"kind":"new","text":"color, one short row per group: lines, second, touch, ground and arrows each show their color, the opposite, the complement, black, white and your recent colors. Tap the lit one to turn a group off; hold any dot for your own color"},{"kind":"new","text":"the Color mixer, behind the icon pinned to the color shelf's left edge: every group as a tab, with swatches, related colors (opposite, complement, lighter, darker, warmer, cooler), recent colors and animation"},{"kind":"new","text":"color animation per group: drift (the hue turns), pulse (a flash on the beat), breathe (lightness rises and falls), with a speed. Looks keep it"},{"kind":"new","text":"Path 07 · Color, five steps and a bonus look, Color Drift"},{"kind":"","text":"note: blend modes, coupling groups and driving colors from paths, sound or the magnet will come with Pro; the mixer shows what's coming"}]}]</script>
+<script>window.__BUILD__="20261020035320";window.__VERSION__="0.25.1";window.__NOTES__=[{"v":"0.25.1","date":"19 Oct 2026","items":[{"kind":"new","text":"ground auto: the ground takes the other side of the lines' lightness (near-black for light lines, near-white for dark ones), so something is always visible, even while colors animate"},{"kind":"new","text":"random can roll the ground: switch on Ground color in the random matrix (off by default, as before)"},{"kind":"fix","text":"a random roll no longer puts the lines on a ground of nearly their own lightness"},{"kind":"new","text":"Path 07 has a sixth step, set the ground to auto"},{"kind":"new","text":"the controls guard their own contrast: on a colored or light ground the panels' glass thickens, and where teal would fall under 3:1 (WCAG) the accent turns white or ink"},{"kind":"new","text":"the ground with a camera, video or picture: under (as before), overlay (the source blends into the ground) or ignore (the source sits on black). On the source shelf as ground (tap to change, hold for the Color mixer) and in the mixer's Ground tab"},{"kind":"new","text":"the sound's live wave runs behind the speaker button on the bar while sound plays"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020034235"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020034235">
+<script src="claude-web.js?v=20261020035320"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020035320">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020034235"></script>
-<script src="surface/auto.js?v=20261020034235"></script>
-<script src="surface/toolpath.js?v=20261020034235"></script>
-<script src="surface/capture.js?v=20261020034235"></script>
-<script src="surface/pop.js?v=20261020034235"></script>
-<script src="surface/hints.js?v=20261020034235"></script>
-<script src="surface/paths.js?v=20261020034235"></script>
-<script src="surface/keys.js?v=20261020034235"></script>
-<script src="surface/reset.js?v=20261020034235"></script>
+<script src="vendor/opentype.min.js?v=20261020035320"></script>
+<script src="surface/auto.js?v=20261020035320"></script>
+<script src="surface/toolpath.js?v=20261020035320"></script>
+<script src="surface/capture.js?v=20261020035320"></script>
+<script src="surface/pop.js?v=20261020035320"></script>
+<script src="surface/hints.js?v=20261020035320"></script>
+<script src="surface/paths.js?v=20261020035320"></script>
+<script src="surface/keys.js?v=20261020035320"></script>
+<script src="surface/reset.js?v=20261020035320"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -99,10 +99,10 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#08090a; --panel:var(--ui-solid); --fg:var(--ui-ink); --muted:var(--ui-dim); --line:var(--ui-line);
-  --stage:#050708; --ink:#e8f1f2; --accent:#55b8c9; --path:#ff7a52; color-scheme:dark}}
+  --stage:#050708; --ink:#e8f1f2; --accent:var(--acc,#55b8c9); --path:#ff7a52; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#08090a; --panel:var(--ui-solid); --fg:var(--ui-ink); --muted:var(--ui-dim); --line:var(--ui-line);
-  --stage:#050708; --ink:#e8f1f2; --accent:#55b8c9; --path:#ff7a52; color-scheme:dark}
+  --stage:#050708; --ink:#e8f1f2; --accent:var(--acc,#55b8c9); --path:#ff7a52; color-scheme:dark}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font:14px/1.45 var(--sans);margin:0}
 .app{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:100%}
@@ -225,7 +225,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-beta{margin-top:clamp(14px,2.6vh,22px);display:flex;flex-direction:column;align-items:center;width:min(300px,calc(100vw - 32px));transition:opacity .4s}
 #launch.going .lc-beta{opacity:0}
 .lc-betaBtn{padding:6px 10px;border:0;background:none;color:rgba(255,255,255,.82);font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}
-.lc-betaBtn:hover{color:#fff}.lc-betaBtn:disabled{text-decoration:none;cursor:default;color:#55b8c9}
+.lc-betaBtn:hover{color:#fff}.lc-betaBtn:disabled{text-decoration:none;cursor:default;color:var(--acc,#55b8c9)}
 .lc-betaBtn:focus-visible,.lc-betaF :focus-visible{outline:2px solid #fff;outline-offset:2px}
 .lc-betaF{position:fixed;z-index:5;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 12px);width:min(380px,calc(100vw - 24px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - 24px);overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding:14px;box-sizing:border-box;border-radius:16px;background:rgba(10,13,16,.92);box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .lc-betaF[hidden]{display:none}
@@ -236,7 +236,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-roles legend{padding:0 0 6px;font:400 11px/1.3 var(--sans);color:rgba(255,255,255,.78)}.lc-roles legend span{color:rgba(255,255,255,.5)}
 .lc-roles label{position:relative;cursor:pointer}.lc-roles input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
 .lc-roles label span{display:block;padding:6px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.22);font:500 11px/1 var(--sans);color:rgba(255,255,255,.82)}
-.lc-roles input:checked+span{background:#55b8c9;border-color:#55b8c9;color:#04181c}.lc-roles input:focus-visible+span{outline:2px solid #fff;outline-offset:2px}
+.lc-roles input:checked+span{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.lc-roles input:focus-visible+span{outline:2px solid #fff;outline-offset:2px}
 .lc-betaF input[type=tel]{width:100%;box-sizing:border-box;height:36px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;font:16px var(--sans)}
 .lc-betaOk[hidden]{display:none}
 .lc-betaHd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-2px 0 2px}
@@ -260,9 +260,9 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 @keyframes betaIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.lc-betaTy,.lc-betaTy .lc-betaDuck.big{animation:none}}
 .lc-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
-.lc-betaOk{display:flex;gap:8px;align-items:flex-start;font:400 11px/1.4 var(--sans);color:rgba(255,255,255,.72);cursor:pointer}.lc-betaOk input{margin-top:2px;accent-color:#55b8c9}
+.lc-betaOk{display:flex;gap:8px;align-items:flex-start;font:400 11px/1.4 var(--sans);color:rgba(255,255,255,.72);cursor:pointer}.lc-betaOk input{margin-top:2px;accent-color:var(--acc,#55b8c9)}
 .lc-betaGo{height:34px;border:0;border-radius:17px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}.lc-betaGo:disabled{opacity:.5;cursor:default}
-.lc-betaMsg{margin:0;min-height:1em;font:400 11px/1.4 var(--sans);color:#55b8c9}.lc-betaMsg:empty{display:none}.lc-betaMsg.bad{color:#ff8a5c}
+.lc-betaMsg{margin:0;min-height:1em;font:400 11px/1.4 var(--sans);color:var(--acc,#55b8c9)}.lc-betaMsg:empty{display:none}.lc-betaMsg.bad{color:#ff8a5c}
 @media (max-height:620px){.lc-beta{margin-top:8px}}
 .lc-word{font:600 12px/1 var(--sans);letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;color:#fff;opacity:.9}
 .lc-foot{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));margin:0;text-align:center;font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);transition:opacity .7s ease}
@@ -357,10 +357,10 @@ body:not(.player) #dscMark{opacity:0}
 #saveAs form{width:min(380px,100%);display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--ui-line);background:var(--ui-solid);color:var(--ui-ink);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 #saveAs label{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
 #saveAs input{min-height:46px;padding:0 12px;border:1px solid var(--ui-line);border-radius:8px;background:transparent;color:var(--ui-ink);font:500 17px/1 var(--sans)}
-#saveAs input:focus{outline:2px solid #55b8c9;outline-offset:1px}
+#saveAs input:focus{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 #saveAs div{display:flex;justify-content:flex-end;gap:8px}
 #saveAs button{min-height:44px;padding:0 18px;border:1px solid var(--ui-line);border-radius:999px;background:none;color:var(--ui-ink);font:600 13px/1 var(--sans);cursor:pointer}
-#saveAs button[type=submit]{background:#55b8c9;border-color:#55b8c9;color:#04181c}
+#saveAs button[type=submit]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* dark drawer, dark card (Dimitry, 18 Oct: the paper read as white): the body turns to ink too, a step lighter than the
    top, and the brand's colours stay. The top is ink already. */
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .air .air-body{--warm:#191714;--cream:#221f1a;--ink:#ede5d0;--mid:#a39a88;--rule:#34302a}}
@@ -524,7 +524,7 @@ html[data-stats="on"] .hud{top:calc(env(safe-area-inset-top,0px) + 20px);transit
    (Dimitry, 18 Oct: fade while the namemark is visible, or wait till it leaves) */
 html:has(#dscMark:not(.tucked)) .hud{opacity:0!important;pointer-events:none;transition:opacity .15s ease 0s}   /* out at once; in only once the namemark's own fade (about 1s) has finished, and 700ms more, so the two never cross */html:has(#dscMark:not(.tucked)) #hudX{pointer-events:none}
 #hudX{pointer-events:auto;flex:none;width:28px;height:28px;margin:-6px -8px 0 0;border:0;border-radius:50%;background:none;color:inherit;font:400 18px/1 var(--sans);cursor:pointer;opacity:.75}
-#hudX:hover,#hudX:focus-visible{opacity:1;background:rgb(255 255 255 / .1)}#hudX:focus-visible{outline:2px solid #55b8c9}
+#hudX:hover,#hudX:focus-visible{opacity:1;background:rgb(255 255 255 / .1)}#hudX:focus-visible{outline:2px solid var(--acc,#55b8c9)}
 @media (max-width:820px){html[data-stats="on"] body:not(.player) .hud{display:none!important}}
 html.bare .hud{display:none!important}
 /* the duck-rabbit: Index / settings */
@@ -541,7 +541,7 @@ body:not(.player) .dk-fill{animation:duckInk 1.5s ease both}
 @keyframes duckInk{0%,40%{fill:var(--fg)}100%{fill:var(--accent)}}
 @media (prefers-reduced-motion:reduce){body:not(.player) .dk-fill{animation:none}}   /* the index is open: the duck-rabbit lights in the app's blue */
 html.paper body.player .dk-fill{fill:#121212}html.paper body.player .duck{filter:none}
-#duckBtn:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
+#duckBtn:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 #playbar,#playbar button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(safe-area-inset-bottom,0px) - 12px) - var(--vgap,0px));display:flex;align-items:center;justify-content:center;gap:clamp(4px,1.6vw,18px);padding:0 clamp(6px,3vw,16px);pointer-events:none}
 /* THE DRAWER CARET (Dimitry, 19 Oct): the sound shelf's caret, generalised. A small chevron over a bar button says a
@@ -549,18 +549,18 @@ body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(s
    only, since ‹ ▶ › share one list. */
 body #playbar>button[data-drawer]{position:relative}
 body #playbar>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
-body #playbar>button[data-drawer][aria-expanded="true"]::after{opacity:1;transform:translateY(0) rotate(45deg);border-color:#55b8c9}
+body #playbar>button[data-drawer][aria-expanded="true"]::after{opacity:1;transform:translateY(0) rotate(45deg);border-color:var(--acc,#55b8c9)}
 @media (hover:hover) and (pointer:fine){body #playbar>button[data-drawer]:hover::after{opacity:.85;transform:translateY(0) rotate(45deg)}}
 @media (prefers-reduced-motion:reduce){body #playbar>button[data-drawer]::after{transition:none}}
 html.bare body #playbar>button[data-drawer]::after{opacity:0}
-body #playbar>button{pointer-events:auto;flex:none;width:clamp(36px,10.4vw,54px);height:clamp(36px,10.4vw,54px);padding:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g) / .62);border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ui-ink);cursor:pointer;transition:transform .12s ease,background .12s ease}
+body #playbar>button{pointer-events:auto;flex:none;width:clamp(36px,10.4vw,54px);height:clamp(36px,10.4vw,54px);padding:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g) / max(.62, var(--ui-glass,0)));border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ui-ink);cursor:pointer;transition:transform .12s ease,background .12s ease}
 body #playbar>button:active{transform:scale(.92)}
 #playbar svg{width:24px;height:24px;display:block}
-body #pTrans{pointer-events:auto;flex:none;display:flex;align-items:stretch;border-radius:999px;overflow:hidden;background:rgb(var(--ui-g) / .62);border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+body #pTrans{pointer-events:auto;flex:none;display:flex;align-items:stretch;border-radius:999px;overflow:hidden;background:rgb(var(--ui-g) / max(.62, var(--ui-glass,0)));border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 body #pTrans>button{flex:none;width:clamp(36px,10.4vw,54px);height:clamp(36px,10.4vw,54px);display:grid;place-items:center;color:var(--ui-ink);background:transparent;border:0;padding:0;cursor:pointer;transition:background .12s ease}
 body #pTrans>button+button{border-left:1px solid rgb(var(--ui-hi) / .12)}
 body #pTrans>button:active{background:rgb(var(--ui-hi) / .14)}
-body #pAuto.on{background:#55b8c9;color:#04181c}
+body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #pAutoStop{display:none}#pAuto.on #pAutoGo{display:none}#pAuto.on #pAutoStop{display:inline}
 /* capture is the same size as every other bar button (Dimitry, 19 Oct) */
 @media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}}
@@ -583,7 +583,7 @@ body #pAuto.on{background:#55b8c9;color:#04181c}
 .segs{display:flex;flex-wrap:wrap;gap:0 12px}
 .sg{min-height:30px;background:transparent;border:0;padding:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .sg:hover{color:var(--ui-ink)}
-.sg[aria-pressed="true"]{color:#55b8c9;font-weight:700}
+.sg[aria-pressed="true"]{color:var(--acc,#55b8c9);font-weight:700}
 #plItems{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 8px}
 /* the glass pop-ups' scrollbars: thin, the glass's own ink, no white OS track (presets, random matrix, order, words, fonts) */
 #plItems,#rlBody,#edOrdList,#wlItems,#flItems{scrollbar-width:thin;scrollbar-color:rgb(var(--ui-hi,255 255 255) / .24) transparent}
@@ -594,7 +594,7 @@ body #pAuto.on{background:#55b8c9;color:#04181c}
 #plItems button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 14px;background:transparent;border:0;color:var(--ui-mid);font:400 14px/1.2 var(--sans);cursor:pointer}
 #plItems button i{width:7px;height:7px;border-radius:50%;flex:none}
 #plItems button.user{font-style:italic}
-#plItems button[aria-current="true"]{color:var(--ui-ink)}#plItems button[aria-current="true"] i{background:#55b8c9}
+#plItems button[aria-current="true"]{color:var(--ui-ink)}#plItems button[aria-current="true"] i{background:var(--acc,#55b8c9)}
 #plItems button:hover{background:rgb(var(--ui-hi) / .05);color:var(--ui-ink)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);background:var(--ui-solid);color:var(--ui-ink);border:1px solid var(--ui-line);padding:7px 13px;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:80vw;font:500 11px/1.3 var(--mono);letter-spacing:.04em}
 #toast.show{opacity:1;transform:translate(-50%,0)}
@@ -605,7 +605,7 @@ body #toast.show{transform:translate(-50%,0)}
 body #playbar>#pSrc,body #playbar>#pSteer,body #playbar>#pShot{position:relative}
 .pCaret{position:absolute;left:50%;top:-11px;width:22px;height:10px;margin-left:-11px;display:grid;place-items:center;color:var(--ui-ink);opacity:0;transform:translateY(3px);transition:opacity .18s,transform .18s;pointer-events:none}
 .pCaret svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-#playbar>.drawerOpen>.pCaret{opacity:1;transform:none;color:#55b8c9}
+#playbar>.drawerOpen>.pCaret{opacity:1;transform:none;color:var(--acc,#55b8c9)}
 @media (hover:hover) and (pointer:fine){#playbar>button:hover>.pCaret{opacity:.75;transform:none}}
 html.bare .pCaret{opacity:0!important}
 #owCardBox{display:flex;flex-direction:column;align-items:center;gap:10px;width:min(420px,100%)}#owCardBox[hidden]{display:none}
@@ -615,7 +615,7 @@ html.bare .pCaret{opacity:0!important}
 .cdPick canvas{position:static;inset:auto;display:block;height:170px;width:auto;border-radius:8px;outline:2px solid transparent;outline-offset:3px;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:outline-color .15s}
 .cdPick.square canvas{height:auto;width:170px}.cdPick.link canvas{height:auto;width:230px}
 .cdPick span{max-width:130px;text-align:center;line-height:1.35;white-space:normal}
-.cdPick[aria-checked=true]{color:#55b8c9}.cdPick[aria-checked=true] canvas{outline-color:#55b8c9}
+.cdPick[aria-checked=true]{color:var(--acc,#55b8c9)}.cdPick[aria-checked=true] canvas{outline-color:var(--acc,#55b8c9)}
 .cdPick:focus-visible{outline:none}.cdPick:focus-visible canvas{outline-color:#fff}
 .cdSw{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .cdSw button{width:28px;height:28px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer}
@@ -623,7 +623,7 @@ html.bare .pCaret{opacity:0!important}
 .cdMsg{width:100%;box-sizing:border-box;height:38px;padding:0 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font:16px var(--sans)}
 .cdSeg{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px}
 .cdSeg button{padding:6px 0;border:0;background:none;color:var(--ui-dim,#8a9396);font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
-.cdSeg button[aria-pressed=true]{color:#55b8c9}
+.cdSeg button[aria-pressed=true]{color:var(--acc,#55b8c9)}
 #imgwrap{position:fixed;inset:0;z-index:40;display:none;background:rgba(4,4,6,.94);flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
 #imgwrap.show{display:flex}
 #imgwrap img{max-width:100%;max-height:74vh;border:1px solid var(--ui-line);-webkit-touch-callout:default}
@@ -637,9 +637,9 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShotSq{display:none}#pShot.rec #pShotDot{display:none}#pShot.rec #pShotSq{display:inline}
 #pRecTime{position:absolute;left:50%;top:100%;transform:translate(-50%,5px);font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-ink);text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none}
 #pShot.rec #pRecTime{color:#ff8a84}
-#pSnd{--sh-ring:rgba(85,184,201,.85)}.sh-here{--sh-acc:#55b8c9}
+#pSnd{--sh-ring:rgb(var(--acc-rgb,85 184 201) / .85)}.sh-here{--sh-acc:var(--acc,#55b8c9)}
 /* the capture panel is Surface's (surface/capture.js, Fracture's layout); Current only places it and gives it the blue */
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px,var(--pop-room,100vh));--cap-acc:#55b8c9;--cap-on:#04181c}
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px,var(--pop-room,100vh));--cap-acc:var(--acc,#55b8c9);--cap-on:var(--acc-ink,#04181c)}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985)}
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
@@ -654,11 +654,11 @@ body #playbar>#pShot.busy{opacity:.55}
 .owBtn{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:66px;padding:6px 4px;background:transparent;border:0;color:var(--ui-mid);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .owBtn[hidden]{display:none}
 .owBtn svg{width:44px;height:44px;padding:11px;border-radius:50%;border:1px solid #2b3235;box-sizing:border-box;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.owBtn.pri svg{background:#55b8c9;border-color:#55b8c9;color:#04181c}
-.owBtn.done,.owBtn.done:hover{color:#55b8c9}.owBtn.done svg{border-color:#55b8c9}
-#imgwrap .tb.done{color:#55b8c9}
-.owBtn:hover{color:var(--ui-ink)}.owBtn:hover svg{border-color:#55b8c9}
-.owBtn[aria-expanded=true]{color:#55b8c9}.owBtn[aria-expanded=true] svg{border-color:#55b8c9}
+.owBtn.pri svg{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+.owBtn.done,.owBtn.done:hover{color:var(--acc,#55b8c9)}.owBtn.done svg{border-color:var(--acc,#55b8c9)}
+#imgwrap .tb.done{color:var(--acc,#55b8c9)}
+.owBtn:hover{color:var(--ui-ink)}.owBtn:hover svg{border-color:var(--acc,#55b8c9)}
+.owBtn[aria-expanded=true]{color:var(--acc,#55b8c9)}.owBtn[aria-expanded=true] svg{border-color:var(--acc,#55b8c9)}
 #imgwrap .owUrl{font:12px/1.4 var(--mono);color:#eef1f2;user-select:all;-webkit-user-select:all;word-break:break-all;max-width:min(520px,100%)}
 #owQRBox,#owEmbedBox{display:flex;flex-direction:column;align-items:center;gap:8px;width:min(420px,100%)}
 #owQRBox[hidden],#owEmbedBox[hidden]{display:none}
@@ -666,45 +666,50 @@ body #playbar>#pShot.busy{opacity:.55}
 #owEmbedCode{width:100%;min-height:66px;font:11px/1.4 var(--mono);background:#050708;color:var(--ui-ink);border:1px solid var(--ui-line);border-radius:0;padding:8px;box-sizing:border-box;resize:none}
 .owSoc{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:min(520px,100%)}
 .owSoc button{font:500 12px/1 var(--sans);padding:9px 12px;border:1px solid #2b3235;background:transparent;color:var(--ui-mid);border-radius:999px;cursor:pointer}
-.owSoc button:hover{color:var(--ui-ink);border-color:#55b8c9}
+.owSoc button:hover{color:var(--ui-ink);border-color:var(--acc,#55b8c9)}
 #imgwrap .owNote{max-width:min(460px,100%)}
 #imgwrap .owNote:last-of-type{margin-bottom:auto}
 #imgX{position:fixed;z-index:41;top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #2b3235;border-radius:50%;background:rgba(15,18,19,.85);color:var(--ui-ink);cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 #imgX svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-#imgX:hover{border-color:#55b8c9}#imgX:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
+#imgX:hover{border-color:var(--acc,#55b8c9)}#imgX:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 
 /* random: drag sets how much (up/down) and how often (left/right); hold opens the matrix */
 #pRand{position:relative;touch-action:none}
 #pRand::before{content:"";position:absolute;inset:-4px;border-radius:50%;pointer-events:none;
-  background:conic-gradient(#55b8c9 calc(var(--amt,.6)*360deg),rgb(var(--ui-hi) / .08) 0);
+  background:conic-gradient(var(--acc,#55b8c9) calc(var(--amt,.6)*360deg),rgb(var(--ui-hi) / .08) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
-body #playbar>#pRand.on,body #playbar>#pSnd.on{background:#55b8c9;color:#04181c}
+body #playbar>#pRand.on,body #playbar>#pSnd.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #pSnd{position:relative}#pSndTag{position:absolute;left:50%;top:100%;transform:translate(-50%,5px);font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-ink);text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none}   /* a microphone is live: "mic" under the speaker, as "video" sits under capture (Dimitry, 18 Oct: a red dot read as recording) */
 body #playbar>#pSnd,#sdMix,#sdWet{touch-action:none}
 html:has(#pSnd.vdrag) .sft{display:none!important}   /* the tip would cover the level readout while you drag */
-body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-gradient(to top,#55b8c9 calc(var(--vol,.6)*100%),rgba(85,184,201,.18) 0);color:#04181c}
+body #playbar>#pSnd.vdrag{position:relative;overflow:visible;background:linear-gradient(to top,var(--acc,#55b8c9) calc(var(--vol,.6)*100%),rgb(var(--acc-rgb,85 184 201) / .18) 0);color:var(--acc-ink,#04181c)}
 body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font:600 11px/1 var(--mono);letter-spacing:.06em;color:var(--ui-ink);background:var(--ui-solid);border:1px solid var(--ui-line);padding:5px 7px;white-space:nowrap;pointer-events:none}
 #pSnd .w{display:none}#pSnd.on .w{display:inline}#pSnd.on .x{display:none}
+/* the sound's own wave behind the speaker (Dimitry, 19 Oct): live while sound plays, gone when it stops */
+#pSnd .sndWave{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;pointer-events:none;z-index:0}#pSnd>svg{position:relative;z-index:1}
 body #playbar>#pRand.dragging{transform:scale(1.12)}
 #mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #mixPop[hidden]{display:none}
 /* THE COLOR MIXER: the groups as tabs, each with its swatches, related colors, recent ones, animation, and what Pro adds */
 #colorPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(380px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
-#colorPop[hidden]{display:none}#colorPop .mxh{padding-left:4px;gap:6px}
+#colorPop[hidden]{display:none}
+/* the ground with a camera, video or picture (Dimitry, 19 Oct): under (the ground shows through a faded source, as
+   before), overlay (the source blends into the ground, CSS Compositing's overlay), ignore (the source sits on black) */
+html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background:#050708}#colorPop .mxh{padding-left:4px;gap:6px}
 .cmPane{overflow-y:auto;padding:10px 14px 14px;overscroll-behavior:contain}
 .cmHead{display:flex;align-items:center;gap:10px;margin-bottom:4px}.cmBig{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}
 .cmHex{font:600 12px/1 var(--mono);letter-spacing:.08em;margin-right:auto}.cmHead .tb{min-height:30px}
 .cmL{margin:12px 0 6px;font:600 9.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)}
 .cmSw{display:flex;flex-wrap:wrap;gap:8px}.cmSw button{width:30px;height:30px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}
-.cmSw button[aria-pressed=true]{box-shadow:0 0 0 2px var(--ui-solid,#111),0 0 0 4px #55b8c9}.cmSw em{font:400 12px var(--sans);color:var(--ui-dim)}
+.cmSw button[aria-pressed=true]{box-shadow:0 0 0 2px var(--ui-solid,#111),0 0 0 4px var(--acc,#55b8c9)}.cmSw em{font:400 12px var(--sans);color:var(--ui-dim)}
 .cmSeg{display:flex;gap:4px;flex-wrap:wrap}.cmSeg button{min-height:30px;padding:0 11px;border-radius:999px;border:0;background:rgb(var(--ui-hi,255 255 255) / .07);color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.cmSeg button[aria-pressed=true]{background:#55b8c9;color:#04181c}
+.cmSeg button[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .cmSp{display:flex;align-items:center;gap:10px;margin-top:8px;font:400 12px var(--sans);color:var(--ui-dim)}.cmSp input{flex:1}.cmSp[hidden]{display:none}
 .cmPro{margin-top:14px;padding:10px 12px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05)}
 .cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
 .cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
 /* the pinned color-mix icon stays at the shelf's left edge while the swatches slide under it */
-#toolTrack .si.cmPin{position:sticky;left:0;z-index:3;background:rgb(8 10 12 / .42);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:12px;box-shadow:10px 0 10px -8px rgb(0 0 0 / .5);min-width:48px}
+#toolTrack .si.cmPin{position:sticky;left:0;z-index:3;background:rgb(var(--ui-g) / .55);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:12px;box-shadow:10px 0 10px -8px rgb(0 0 0 / .5);min-width:48px}
 #toolTrack .si.dot.anim i{animation:cmSpin 6s linear infinite;background-image:conic-gradient(from 0deg,transparent 0 70%,rgb(255 255 255 / .55) 85%,transparent 100%)}
 @keyframes cmSpin{to{filter:hue-rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){#toolTrack .si.dot.anim i{animation:none}}
@@ -713,8 +718,8 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .sfTabs{display:flex;align-self:stretch;gap:0;min-width:0;overflow-x:auto;scrollbar-width:none}.sfTabs::-webkit-scrollbar{display:none}
 .sfTab{display:inline-flex;align-items:center;gap:6px;padding:0 10px;min-height:36px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
 .sfTab svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.sfTab:hover{color:var(--ui-ink)}.sfTab[aria-selected=true]{color:var(--ui-ink);border-bottom-color:#55b8c9}
-.sfTab:focus-visible{outline:2px solid #55b8c9;outline-offset:-2px}
+.sfTab:hover{color:var(--ui-ink)}.sfTab[aria-selected=true]{color:var(--ui-ink);border-bottom-color:var(--acc,#55b8c9)}
+.sfTab:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}
 #mixPop .mxh{padding-left:4px;gap:6px}
 #mixPop.wide{width:min(420px,calc(100vw - 24px))}
 .sfPane[hidden]{display:none!important}
@@ -725,8 +730,8 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 /* SURFACE · INFO: the (i) in the head and the How it works drawer it slides up */
 .sfInfoBtn{margin-left:auto;flex:none;width:32px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer}
 .sfInfoBtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
-.sfInfoBtn:hover{color:var(--ui-ink)}.sfInfoBtn[aria-expanded=true]{background:#55b8c9;color:#04181c}
-.sfInfoBtn:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}.sfInfoBtn[hidden]{display:none}
+.sfInfoBtn:hover{color:var(--ui-ink)}.sfInfoBtn[aria-expanded=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+.sfInfoBtn:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.sfInfoBtn[hidden]{display:none}
 .sfInfo{position:absolute;left:0;right:0;bottom:0;z-index:3;max-height:72%;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;padding:12px 16px 16px;background:var(--ui-solid);border-top:1px solid var(--ui-line);box-shadow:0 -12px 28px rgb(0 0 0 / .35);
   color:var(--ui-dim);font:400 12px/1.5 var(--sans,system-ui);clip-path:inset(100% 0 0 0);transform:translateY(14px);transition:clip-path .32s cubic-bezier(.4,0,.2,1),transform .32s cubic-bezier(.4,0,.2,1)}
 .sfInfo.open{clip-path:inset(0 0 0 0);transform:none}.sfInfo[hidden]{display:none}
@@ -740,28 +745,28 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #bytesBody .btn{background:var(--ui-ink);color:var(--ui-solid);border-color:var(--ui-ink)}#bytesBody .btn.ghost{background:transparent;color:var(--ui-ink)}
 #bytesBody .row{grid-template-columns:64px minmax(0,1fr) 40px}
 #bytesBody .row.sa-led{grid-template-columns:auto 64px minmax(0,1fr) 40px}
-#bytesBody .modes button[aria-pressed="true"]{background:#55b8c9;color:#04181c}
+#bytesBody .modes button[aria-pressed="true"]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* BEAT: sixteen steps to the bar, four voices, the classic drum-machine grid */
 .bgTop{display:flex;align-items:center;gap:8px;padding:0 16px}
 .bgTop select{flex:1;min-width:0;height:30px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);border-radius:8px;font:500 12px var(--mono);padding:0 6px}
 .bgIco{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0;color:var(--ui-dim);cursor:pointer}
 .bgIco:hover{color:var(--ui-ink)}.bgIco svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.bgIco.pl svg{fill:currentColor;stroke:none}.bgIco[aria-pressed=true]{color:#55b8c9}
+.bgIco.pl svg{fill:currentColor;stroke:none}.bgIco[aria-pressed=true]{color:var(--acc,#55b8c9)}
 .bgGrid{display:grid;grid-template-columns:44px repeat(16,minmax(0,1fr));gap:3px;padding:10px 16px 4px;align-items:center}
 .bgGrid .vn{font:600 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim);border:0;background:none;padding:0;text-align:left;cursor:pointer}
 .bgGrid .vn:hover{color:var(--ui-ink)}
 .bgCell{aspect-ratio:1/1.35;min-height:22px;padding:0;border:0;border-radius:3px;background:rgb(var(--ui-hi,255 255 255) / .09);cursor:pointer;touch-action:none}
 .bgCell.q{background:rgb(var(--ui-hi,255 255 255) / .15)}
-.bgCell[aria-pressed=true]{background:#55b8c9}
+.bgCell[aria-pressed=true]{background:var(--acc,#55b8c9)}
 .bgCell.now{box-shadow:0 0 0 2px rgb(var(--ui-hi,255 255 255) / .75)}
-.bgCell:focus-visible{outline:2px solid #55b8c9;outline-offset:1px}
+.bgCell:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 .bgRow{display:grid;grid-template-columns:44px minmax(0,1fr) 40px;align-items:center;gap:10px;padding:6px 16px}
 .bgRow label{font:600 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
-.bgRow input[type=range]{width:100%;accent-color:#55b8c9}.bgRow .v{font:12px var(--mono);text-align:right;color:var(--ui-dim);font-variant-numeric:tabular-nums}
+.bgRow input[type=range]{width:100%;accent-color:var(--acc,#55b8c9)}.bgRow .v{font:12px var(--mono);text-align:right;color:var(--ui-dim);font-variant-numeric:tabular-nums}
 .bgPro{margin:10px 16px 0;padding:10px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);font:400 12px/1.45 var(--sans,system-ui);color:var(--ui-dim)}.bgPro p{margin:0 0 8px}.bgPro b{color:var(--ui-ink);font-weight:600}
 .bgIco.pro{opacity:.55}
 .bgSave{display:flex;gap:6px;padding:8px 16px 0}.bgSave input{flex:1;min-width:0;height:32px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);border-radius:8px;font:500 12px var(--mono);padding:0 8px}
-.bgGo{min-height:32px;padding:0 14px;border:0;border-radius:999px;background:#55b8c9;color:#04181c;font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.bgGo{min-height:32px;padding:0 14px;border:0;border-radius:999px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .bgGo.ghost{background:transparent;color:var(--ui-ink);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}
 .bgNote{margin:10px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
 .bbMoved{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:2px 0 8px}
@@ -771,54 +776,54 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #batchBody{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 12px}
 #batchBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 16px 6px}
 .btSeg{display:flex;flex-wrap:wrap;gap:4px 14px;padding:0 16px}.btSeg button{padding:5px 0;border:0;background:none;color:var(--ui-dim);font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.btSeg button[aria-pressed=true]{color:#55b8c9}.btSeg button:disabled{opacity:.5;cursor:default}
+.btSeg button[aria-pressed=true]{color:var(--acc,#55b8c9)}.btSeg button:disabled{opacity:.5;cursor:default}
 .btNote{margin:6px 16px 0;font:400 11px/1.4 var(--sans,system-ui);color:var(--ui-dim)}
 .btList{margin:6px 10px 0;max-height:min(30vh,240px);overflow-y:auto;border:1px solid rgb(var(--ui-hi,255 255 255) / .1);border-radius:10px;padding:4px 0}
-.btRow{display:flex;align-items:center;gap:10px;padding:6px 10px;font:500 13px/1.2 var(--mono);cursor:pointer}.btRow input{accent-color:#55b8c9;width:16px;height:16px}
-.btAct{display:flex;align-items:center;gap:12px;padding:14px 16px 0}.btGo{min-height:36px;padding:0 16px;border:0;border-radius:999px;background:#55b8c9;color:#04181c;font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.btRow{display:flex;align-items:center;gap:10px;padding:6px 10px;font:500 13px/1.2 var(--mono);cursor:pointer}.btRow input{accent-color:var(--acc,#55b8c9);width:16px;height:16px}
+.btAct{display:flex;align-items:center;gap:12px;padding:14px 16px 0}.btGo{min-height:36px;padding:0 16px;border:0;border-radius:999px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .btGo:disabled{background:rgb(var(--ui-hi,255 255 255) / .12);color:var(--ui-dim);cursor:default}
 #btProg{font:500 10.5px/1.3 var(--mono);color:var(--ui-dim)}
 .tier{display:inline-block;margin-left:6px;padding:2px 6px;border:1px solid currentColor;border-radius:999px;font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#e8b04a;vertical-align:1px}
 #mixBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 10px}
 #mixBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 16px 6px}
 .mxPre{display:flex;flex-wrap:wrap;gap:6px 12px;padding:0 16px 8px}.mxPre button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.mxPre button:hover{color:var(--ui-ink)}.mxPre button[aria-pressed=true]{color:#55b8c9}
+.mxPre button:hover{color:var(--ui-ink)}.mxPre button[aria-pressed=true]{color:var(--acc,#55b8c9)}
 .mxCh{display:grid;grid-template-columns:62px 1fr 28px 28px;align-items:center;gap:4px 8px;padding:6px 16px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .06)}
 .mxCh .nm{font:600 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}.mxCh .nm small{display:block;margin-top:3px;font:500 9px/1.2 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62px}
 .mxCh.idle .nm{color:var(--ui-dim)}
-#sdTap.tapped svg{animation:tapflash .25s ease-out}@keyframes tapflash{0%{transform:scale(1.35);color:#55b8c9}100%{transform:scale(1)}}
+#sdTap.tapped svg{animation:tapflash .25s ease-out}@keyframes tapflash{0%{transform:scale(1.35);color:var(--acc,#55b8c9)}100%{transform:scale(1)}}
 .mxCh.mxMaster{border-top:1px solid rgb(var(--ui-hi,255 255 255) / .18);margin-top:4px;padding-top:10px}
 .mxWave{position:relative;height:30px}
 .mxWave canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:6px;background:rgb(var(--ui-hi,255 255 255) / .04)}
 .mxWave input[type=range]{position:relative;width:100%;height:30px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer}
 .mxWave input[type=range]::-webkit-slider-runnable-track{height:30px;background:transparent;border:0}
 .mxWave input[type=range]::-moz-range-track{height:30px;background:transparent;border:0}
-.mxWave input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:6px;height:30px;border-radius:3px;background:#55b8c9;border:0;box-shadow:0 0 0 2px rgb(var(--ui-g,14 14 16) / .9)}
-.mxWave input[type=range]::-moz-range-thumb{width:6px;height:30px;border-radius:3px;background:#55b8c9;border:0}
-.mxWave input[type=range]:focus-visible{outline:2px solid #55b8c9;outline-offset:2px;border-radius:6px}
+.mxWave input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:6px;height:30px;border-radius:3px;background:var(--acc,#55b8c9);border:0;box-shadow:0 0 0 2px rgb(var(--ui-g,14 14 16) / .9)}
+.mxWave input[type=range]::-moz-range-thumb{width:6px;height:30px;border-radius:3px;background:var(--acc,#55b8c9);border:0}
+.mxWave input[type=range]:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px;border-radius:6px}
 .mxCh .mb{width:28px;height:28px;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);border-radius:7px;background:none;color:var(--ui-dim);font:700 10px/1 var(--mono);cursor:pointer}
-.mxCh .mb.m[aria-pressed=true]{background:#e8b04a;border-color:#e8b04a;color:#1b1406}.mxCh .mb.s[aria-pressed=true]{background:#55b8c9;border-color:#55b8c9;color:#04181c}
+.mxCh .mb.m[aria-pressed=true]{background:#e8b04a;border-color:#e8b04a;color:#1b1406}.mxCh .mb.s[aria-pressed=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .mxCh .pct{grid-column:2;font:500 9px/1 var(--mono);color:var(--ui-dim);margin-top:-2px}
 .sgrp{position:relative;display:flex;gap:4px;flex:none;padding:0 2px;border-radius:16px;background:rgb(var(--ui-hi) / .07);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi) / .08)}
 /* the band says: these open one panel; the caret on its top edge opens it (Dimitry, 19 Oct) */
 .sgCaret{position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:34px;height:12px;padding:0;border:0;border-radius:0 0 8px 8px;background:rgb(var(--ui-hi) / .12);color:var(--ui-ink);display:grid;place-items:center;cursor:pointer}
 .sgCaret svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.sgCaret:hover{background:#55b8c9;color:#04181c}.sgCaret:focus-visible{outline:2px solid #55b8c9;outline-offset:1px}
+.sgCaret:hover{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.sgCaret:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 #micBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px;--fg:var(--ui-ink);--muted:var(--ui-dim);--line:rgb(var(--ui-hi,255 255 255) / .14);--bg:rgb(var(--ui-hi,255 255 255) / .05)}
 #micBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 16px 6px}
 .mcRow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:4px 16px}
 .mcRow select{flex:1;min-width:120px;height:30px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}
 .mcGo{min-height:30px;padding:0 12px;border-radius:15px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.mcGo.on{background:#55b8c9;border-color:#55b8c9;color:#04181c}.mcGo.rec.on{background:#ff6a3d;border-color:#ff6a3d;color:#1b0a04}.mcGo:disabled{opacity:.35;cursor:default}
+.mcGo.on{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.mcGo.rec.on{background:#ff6a3d;border-color:#ff6a3d;color:#1b0a04}.mcGo:disabled{opacity:.35;cursor:default}
 .mcSeg{display:flex;flex-wrap:wrap;gap:0 14px;padding:6px 16px}
-.mcSeg button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mcSeg button[aria-pressed=true]{color:#55b8c9}
+.mcSeg button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mcSeg button[aria-pressed=true]{color:var(--acc,#55b8c9)}
 .mcMeter{position:relative;height:8px;margin:8px 16px 4px;border-radius:4px;background:rgb(var(--ui-hi,255 255 255) / .08);overflow:hidden}
-.mcMeter .lv{position:absolute;left:0;top:0;bottom:0;width:0;background:rgb(150 158 161 / .6)}.mcMeter.open .lv{background:#55b8c9}.mcMeter.rec .lv{background:#ff6a3d}
+.mcMeter .lv{position:absolute;left:0;top:0;bottom:0;width:0;background:rgb(150 158 161 / .6)}.mcMeter.open .lv{background:var(--acc,#55b8c9)}.mcMeter.rec .lv{background:#ff6a3d}
 .mcMeter .th{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--ui-ink)}
 #micBody .row{grid-template-columns:64px minmax(0,1fr) 44px;padding:0 16px}
 .mxMic{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding-top:2px}
 .mxMic select{flex:1;min-width:0;max-width:100%;height:28px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}   /* 16px: smaller makes an iPhone zoom in on tap */
-.mxMic .segs button{padding:4px 0;margin-right:10px;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mxMic .segs button[aria-pressed=true]{color:#55b8c9}
+.mxMic .segs button{padding:4px 0;margin-right:10px;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mxMic .segs button[aria-pressed=true]{color:var(--acc,#55b8c9)}
 .mxNote{margin:8px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
 #rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #rlist[hidden]{display:none}
@@ -826,7 +831,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
 #rlBody .sub .tb{padding:0 0 0 10px}
 .rlAmt{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:10px;align-items:center;padding:2px 14px}
-.rlAmt input{accent-color:#55b8c9}
+.rlAmt input{accent-color:var(--acc,#55b8c9)}
 .rlAmt span{font:12px var(--mono);color:var(--ui-mid);text-align:right;font-variant-numeric:tabular-nums}
 #rlBody .segs{padding:2px 14px}
 .rmBar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 10px;padding:0 0 4px}.rmBar .segs{padding:2px 14px}
@@ -836,18 +841,18 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .rmRow .ck{padding:7px 4px 7px 0}
 .rmGrip{width:30px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:#5a6366;cursor:grab;touch-action:none}
 .rmGrip svg{width:10px;height:16px;fill:currentColor}.rmList:not(.hand) .rmGrip{visibility:hidden}
-.rmRow.dragging{background:rgba(85,184,201,.12);outline:1px solid rgba(85,184,201,.5)}
+.rmRow.dragging{background:rgb(var(--acc-rgb,85 184 201) / .12);outline:1px solid rgb(var(--acc-rgb,85 184 201) / .5)}
 .rmStar{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:#5a6366;cursor:pointer}
 .rmStar svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
-.rmStar[aria-pressed=true]{color:#55b8c9}.rmStar[aria-pressed=true] svg{fill:currentColor}
+.rmStar[aria-pressed=true]{color:var(--acc,#55b8c9)}.rmStar[aria-pressed=true] svg{fill:currentColor}
 .rmN{font:500 10px/1 var(--mono);color:var(--ui-dim);font-variant-numeric:tabular-nums;padding:0 4px}
 .rmShare{display:flex;gap:14px;padding:12px 14px 2px;border-top:1px solid rgb(var(--ui-hi) / .08);margin-top:8px}
 .rmIc{display:flex;align-items:center;gap:6px;min-height:36px;padding:0;border:0;background:none;color:var(--ui-mid);font:500 11px/1 var(--mono);letter-spacing:.06em;cursor:pointer}
 .rmIc svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.rmIc:hover{color:var(--ui-ink)}.rmIc.ok{color:#55b8c9}
+.rmIc:hover{color:var(--ui-ink)}.rmIc.ok{color:var(--acc,#55b8c9)}
 .ck{display:flex;align-items:center;gap:10px;padding:7px 14px;font:400 14px/1.2 var(--sans);color:var(--ui-mid);cursor:pointer}
 .ck:hover{background:rgb(var(--ui-hi) / .05);color:var(--ui-ink)}
-.ck input{accent-color:#55b8c9;margin:0}
+.ck input{accent-color:var(--acc,#55b8c9);margin:0}
 .ck input:checked+span{color:var(--ui-ink)}
 /* random engine: two columns of switches, maths and sound */
 .rlCols{display:grid;grid-template-columns:1fr 1fr;gap:0 6px;padding:2px 8px 4px}
@@ -859,14 +864,14 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .sw input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .sw i{flex:none;width:26px;height:14px;border-radius:999px;background:var(--ui-line);position:relative;transition:background .12s}
 .sw i::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--ui-dim);transition:transform .12s,background .12s}
-.sw input:checked~i{background:#1f4f58}.sw input:checked~i::after{transform:translateX(12px);background:#55b8c9}
+.sw input:checked~i{background:#1f4f58}.sw input:checked~i::after{transform:translateX(12px);background:var(--acc,#55b8c9)}
 .sw input:checked~span{color:var(--ui-ink)}
-.sw input:focus-visible~i{outline:2px solid #55b8c9;outline-offset:2px}
+.sw input:focus-visible~i{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 .rlHint{font:400 13px/1.45 var(--sans);color:var(--ui-dim);padding:2px 14px 0}
 @media (pointer:coarse){.sw{padding:9px 6px}}
 .rlSave{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--ui-line)}
 .rlSave input{flex:1;min-width:0;font:13px var(--mono);padding:7px 8px;border:1px solid var(--ui-line);border-radius:0;background:#050708;color:var(--ui-ink)}
-.rlSaveBtn{flex:none;font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:0 12px;border:0;border-radius:0;background:#55b8c9;color:#04181c;cursor:pointer}
+.rlSaveBtn{flex:none;font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:0 12px;border:0;border-radius:0;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);cursor:pointer}
 /* look list: in-play checkbox, drag handle, per-look morph */
 #plItems .lk{display:grid;grid-template-columns:30px 24px minmax(0,1fr);align-items:center;padding-right:8px}
 #plItems .lk .bd{min-width:0;display:grid;grid-template-columns:62px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:10px;padding:6px 0}
@@ -879,16 +884,16 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 #plItems .lk .acts button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #plItems .lk .acts button:hover{color:var(--ui-ink);background:rgb(var(--ui-hi) / .06)}
 #plItems .lk .acts button.mo{width:auto;padding:0 6px;gap:3px;grid-auto-flow:column;font:500 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-#plItems .lk .acts button.mo.set{color:#55b8c9}
+#plItems .lk .acts button.mo.set{color:var(--acc,#55b8c9)}
 #plItems .lk .acts button.del.arm{color:#ff7a52}
 #plItems .lk>button.hd{width:30px;height:36px;padding:0;justify-content:center;color:#5b6467;cursor:grab;touch-action:none}
 #plItems .lk>button.hd:hover{color:var(--ui-ink);background:transparent}
-#plItems .lk input{accent-color:#55b8c9;margin:0;width:16px;height:16px}
+#plItems .lk input{accent-color:var(--acc,#55b8c9);margin:0;width:16px;height:16px}
 #plItems .lk>button.nm{padding:9px 8px}
 #plItems .lk>button.mc{width:auto;padding:4px 6px;font:500 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#5b6467;border:1px solid var(--ui-line)}
-#plItems .lk>button.mc.set{color:#55b8c9;border-color:#1f4f58}
+#plItems .lk>button.mc.set{color:var(--acc,#55b8c9);border-color:#1f4f58}
 #plItems .lk.off>button.nm{opacity:.42}
-#plItems .lk.dragging{background:rgba(85,184,201,.12);outline:1px solid #1f4f58}
+#plItems .lk.dragging{background:rgb(var(--acc-rgb,85 184 201) / .12);outline:1px solid #1f4f58}
 #plItems .sub{display:flex;justify-content:space-between;align-items:center}#plItems .sub .tb{padding:0 0 0 10px}
 .rlRow{display:flex;flex-wrap:wrap;gap:0 4px;padding:8px 4px 0;border-top:1px solid var(--ui-line);margin-top:6px}
 .meters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
@@ -906,7 +911,7 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
   transform:translate(-50%,14px);opacity:0;visibility:hidden;pointer-events:none;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .2s,visibility 0s .24s}
 .shelf.open{transform:translate(-50%,0);opacity:1;visibility:visible;pointer-events:auto;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .2s,visibility 0s}
 .shelf .track{display:flex;justify-content:safe center;gap:4px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:6px 8px;scrollbar-width:none;
-  background:rgb(var(--ui-g) / .66);border:1px solid rgb(var(--ui-hi) / .14);border-radius:20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  background:rgb(var(--ui-g) / max(.66, var(--ui-glass,0)));border:1px solid rgb(var(--ui-hi) / .14);border-radius:20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .shelf .track::-webkit-scrollbar{display:none}
 .shelf.ovl .track{justify-content:flex-start;padding-left:34px;padding-right:34px;scroll-padding-inline:34px;--fl:30px;--fr:30px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%)}
 .shelf.ovl.atL .track{--fl:0px}.shelf.ovl.atR .track{--fr:0px}
@@ -921,17 +926,17 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .si svg{width:24px;height:24px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .si .lab{font:600 9px/1.1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--ui-hi) / .78);white-space:nowrap}
 /* chosen = colour only, no box around it (Dimitry, 18 Oct): the icon and its label take the accent */
-.si[aria-pressed="true"]{background:none;color:#55b8c9}.si[aria-pressed="true"] .lab{color:#55b8c9}
+.si[aria-pressed="true"]{background:none;color:var(--acc,#55b8c9)}.si[aria-pressed="true"] .lab{color:var(--acc,#55b8c9)}
 #stRec[aria-pressed="true"],#stRec[aria-pressed="true"] .lab{background:none;color:#ff7a52}#stRes[aria-pressed="true"],#stRes[aria-pressed="true"] .lab{background:none;color:#f2c14e}
 #mgRec[aria-pressed="true"]{background:#ff7a52;color:#1a0904}#mgRec[aria-pressed="true"] .lab{color:#1a0904}#mgRec .sq{display:none}#mgRec[aria-pressed="true"] .sq{display:inline}#mgRec[aria-pressed="true"] .dot{display:none}
 #stRec .sq{display:none}#stRec[aria-pressed="true"] .sq{display:inline}#stRec[aria-pressed="true"] .dot{display:none}
 .si:disabled{opacity:.35;cursor:default}
-.si:focus-visible,.shv:focus-visible{outline:2px solid #55b8c9;outline-offset:1px}
+.si:focus-visible,.shv:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 #editor{position:fixed;inset:0;z-index:40;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto auto auto;background:rgba(5,7,8,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 #editor[hidden]{display:none}
 #editor .edTop{display:flex;align-items:center;gap:8px;padding:10px 10px 6px}
 #editor .edTop input{flex:1;min-width:0;height:38px;padding:0 12px;border:1px solid rgb(var(--ui-hi) / .22);border-radius:12px;background:rgba(0,0,0,.35);color:var(--ui-ink);font:500 16px var(--mono);text-align:center}
-#editor .tb.on{color:#04181c;background:#55b8c9;border-radius:12px;padding:12px 14px}
+#editor .tb.on{color:var(--acc-ink,#04181c);background:var(--acc,#55b8c9);border-radius:12px;padding:12px 14px}
 #edZoom{position:absolute;right:10px;top:8px;display:flex;border:1px solid rgb(var(--ui-hi) / .18);border-radius:12px;background:rgba(0,0,0,.45);overflow:hidden}
 #edZoom button{min-width:38px;height:34px;padding:0 8px;border:0;background:none;color:var(--ui-ink);font:500 15px var(--mono);cursor:pointer}
 #edZoom button#edZfit{font-size:10px;letter-spacing:.06em;border-left:1px solid rgb(var(--ui-hi) / .12);border-right:1px solid rgb(var(--ui-hi) / .12)}
@@ -960,11 +965,11 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .edSym{font:700 17px/1 var(--sans);vertical-align:-1px;color:var(--ui-ink)}
 #editor .edHint{font:500 13px/1.5 var(--mono);color:var(--ui-dim);text-align:center;padding:4px 16px}
 #edTools{display:flex;justify-content:center;gap:4px;padding:6px 8px 12px;flex-wrap:wrap}
-#edTools .si[aria-pressed="true"]{color:#55b8c9;background:none}
+#edTools .si[aria-pressed="true"]{color:var(--acc,#55b8c9);background:none}
 #edTools .si:disabled{opacity:.35}
 #edTools .sep{width:1px;margin:8px 4px;background:rgb(var(--ui-hi) / .14)}
 #plItems .lk .th{width:44px;height:30px;flex:none;border-radius:5px;background:#0b0e0f center/contain no-repeat;outline:1px solid var(--ui-line)}
-#plItems .lk.cur .th{outline:1.5px solid #55b8c9}
+#plItems .lk.cur .th{outline:1.5px solid var(--acc,#55b8c9)}
 #plItems .lk>button.cp{width:auto;padding:4px 6px;margin-left:4px;font:500 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#5b6467;border:1px solid var(--ui-line)}
 #plItems .lk>button.cp:hover{color:var(--ui-ink)}
 .shelf .sep{flex:none;width:1px;margin:10px 5px;background:rgb(var(--ui-hi) / .18)}
@@ -973,10 +978,10 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .shelf .si.srRm{overflow:hidden;transition:width .32s cubic-bezier(.2,.7,.2,1),opacity .22s ease,transform .32s cubic-bezier(.2,.7,.2,1),visibility 0s}
 .shelf .si.srRm:not(.in){width:0;opacity:0;transform:translateX(-28px);visibility:hidden;pointer-events:none;transition:width .3s cubic-bezier(.5,0,.78,.3),opacity .2s ease,transform .3s cubic-bezier(.5,0,.78,.3),visibility 0s .3s}
 @media (prefers-reduced-motion:reduce){.shelf .si.srRm,.shelf .si.srRm:not(.in){transition:opacity .15s,visibility 0s;transform:none}}   /* light rules between a drawer's families (18 Oct) */
-body #playbar>#pSteer[aria-pressed="true"]{background:#55b8c9;color:#04181c}
-body #playbar>#pSteer.looping:not([aria-pressed="true"]){border-color:#55b8c9;color:#55b8c9}
-body #playbar>#pSrc.on{border-color:#55b8c9;color:#55b8c9}
-body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,.55)}
+body #playbar>#pSteer[aria-pressed="true"]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+body #playbar>#pSteer.looping:not([aria-pressed="true"]){border-color:var(--acc,#55b8c9);color:var(--acc,#55b8c9)}
+body #playbar>#pSrc.on{border-color:var(--acc,#55b8c9);color:var(--acc,#55b8c9)}
+body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rgb,85 184 201) / .55)}
 #pSteer .ghost{opacity:.35}
 @media (prefers-reduced-motion:reduce){.shelf,.shelf.open{transition:none}}
 .si.dot{width:40px;min-height:52px}
@@ -987,31 +992,31 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shin{flex:none;align-self:center;width:180px;height:40px;padding:0 10px;border:1px solid rgb(var(--ui-hi) / .22);border-radius:12px;background:rgba(0,0,0,.35);color:var(--ui-ink);font:500 16px var(--mono)}
 /* the word field: input + commit check in one bordered field */
 .shfield{flex:none;align-self:center;display:flex;align-items:center;height:40px;border:1px solid rgb(var(--ui-hi) / .22);border-radius:12px;background:rgba(0,0,0,.35);transition:border-color .2s,box-shadow .2s}
-.shfield:focus-within{border-color:#55b8c9}
+.shfield:focus-within{border-color:var(--acc,#55b8c9)}
 .shfield{width:222px;box-sizing:border-box}
 .shfield .shin{flex:1;min-width:0;width:auto;box-sizing:border-box;height:38px;border:0;background:transparent;border-radius:12px 0 0 12px;padding-right:4px}
 .shfield .shin:focus-visible{outline:none}
 .shok{flex:none;width:38px;height:38px;display:grid;place-items:center;padding:0;border:0;background:none;color:rgb(var(--ui-hi) / .7);cursor:pointer;border-radius:0 11px 11px 0;-webkit-tap-highlight-color:transparent}
-.shok:hover{color:var(--ui-ink)}.shok:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
+.shok:hover{color:var(--ui-ink)}.shok:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
 .shok svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .shok circle{opacity:0;transform-origin:12px 12px}
-.shfield.dirty .shok{color:#55b8c9}
-.shfield.ok{border-color:#55b8c9;animation:shpulse .7s ease-out}
-.shfield.ok .shok{color:#04181c}
-.shfield.ok .shok circle{opacity:1;fill:#55b8c9;stroke:none;animation:shpop .35s cubic-bezier(.2,1.6,.4,1)}
-.shfield.ok .shok path{stroke:#04181c;stroke-dasharray:16;animation:shdraw .35s .12s ease-out both}
+.shfield.dirty .shok{color:var(--acc,#55b8c9)}
+.shfield.ok{border-color:var(--acc,#55b8c9);animation:shpulse .7s ease-out}
+.shfield.ok .shok{color:var(--acc-ink,#04181c)}
+.shfield.ok .shok circle{opacity:1;fill:var(--acc,#55b8c9);stroke:none;animation:shpop .35s cubic-bezier(.2,1.6,.4,1)}
+.shfield.ok .shok path{stroke:var(--acc-ink,#04181c);stroke-dasharray:16;animation:shdraw .35s .12s ease-out both}
 @keyframes shpop{from{transform:scale(.3)}to{transform:scale(1)}}
 @keyframes shdraw{from{stroke-dashoffset:16}to{stroke-dashoffset:0}}
-@keyframes shpulse{0%{box-shadow:0 0 0 0 rgba(85,184,201,.55)}100%{box-shadow:0 0 0 10px rgba(85,184,201,0)}}
+@keyframes shpulse{0%{box-shadow:0 0 0 0 rgb(var(--acc-rgb,85 184 201) / .55)}100%{box-shadow:0 0 0 10px rgb(var(--acc-rgb,85 184 201) / 0)}}
 @media (prefers-reduced-motion:reduce){.shfield.ok,.shfield.ok .shok circle,.shfield.ok .shok path{animation:none}}
 /* the text shelf's flip: a switch (text cursor | F outline) in front of one field that is either the word or the typeface */
 .shflip{flex:none;align-self:center;position:relative;width:60px;height:32px;margin-right:2px;padding:0;border:1px solid rgb(var(--ui-hi) / .22);border-radius:999px;background:rgba(0,0,0,.35);color:rgb(var(--ui-hi) / .62);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.shflip .kn{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:#55b8c9;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.shflip .kn{position:absolute;top:2px;left:2px;width:26px;height:26px;border-radius:50%;background:var(--acc,#55b8c9);transition:transform .2s cubic-bezier(.2,.7,.2,1)}
 .shflip[aria-checked="true"] .kn{transform:translateX(28px)}
 .shflip svg{position:absolute;top:6px;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:color .2s}
 .shflip .a{left:6px}.shflip .b{right:6px}
-.shflip[aria-checked="false"] .a,.shflip[aria-checked="true"] .b{color:#04181c}
-.shflip:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}
+.shflip[aria-checked="false"] .a,.shflip[aria-checked="true"] .b{color:var(--acc-ink,#04181c)}
+.shflip:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 .shfield.flipin{animation:shflipin .32s cubic-bezier(.2,.7,.2,1)}
 @keyframes shflipin{from{transform:perspective(400px) rotateX(-90deg);opacity:.2}to{transform:none;opacity:1}}
 .shface{flex:1;min-width:0;display:flex;align-items:center;gap:0;height:38px;padding:0 0 0 10px;border:0;background:none;color:var(--ui-ink);cursor:pointer;text-align:left;border-radius:12px;-webkit-tap-highlight-color:transparent}
@@ -1019,7 +1024,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shface .shend{flex:none;width:38px;height:38px;display:grid;place-items:center}
 .shface svg{flex:none;width:18px;height:18px;fill:none;stroke:rgb(var(--ui-hi) / .7);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
 .shface[aria-expanded="true"] svg{transform:rotate(180deg)}
-.shface:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
+.shface:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
 #fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
@@ -1028,8 +1033,8 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .shfield{width:258px}
 .shhist{flex:none;width:32px;height:38px;display:grid;place-items:center;padding:0;border:0;background:none;color:rgb(var(--ui-hi) / .55);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:#55b8c9}
-.shhist:focus-visible{outline:2px solid #55b8c9;outline-offset:-3px}
+.shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:var(--acc,#55b8c9)}
+.shhist:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
 #wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
@@ -1040,48 +1045,48 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgba(85,184,201,
 .wlRun .rlSaveBtn:disabled{background:var(--ui-line);color:#6b7578;cursor:default}
 .wlRun span{font:400 12px/1.3 var(--sans);color:var(--ui-dim)}
 /* the sequencer's play: a long loop with play (stop) at its left; dashes run round it while words take turns */
-.wlLoop{flex:none;width:96px;height:32px;padding:0;border:0;background:none;color:#55b8c9;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wlLoop{flex:none;width:96px;height:32px;padding:0;border:0;background:none;color:var(--acc,#55b8c9);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wlLoop svg{display:block;width:96px;height:32px}
-.wlLoop .trk{fill:rgba(85,184,201,.12);stroke:currentColor;stroke-width:1.6}
+.wlLoop .trk{fill:rgb(var(--acc-rgb,85 184 201) / .12);stroke:currentColor;stroke-width:1.6}
 .wlLoop .gl{fill:currentColor}
 .wlLoop text{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;fill:currentColor}
-.wlLoop.on{color:#04181c}.wlLoop.on .trk{fill:#55b8c9;stroke:#55b8c9;stroke-dasharray:6 5;animation:wlrun 1.1s linear infinite}
-.wlLoop.on .trk{stroke:#04181c;stroke-opacity:.45}
+.wlLoop.on{color:var(--acc-ink,#04181c)}.wlLoop.on .trk{fill:var(--acc,#55b8c9);stroke:var(--acc,#55b8c9);stroke-dasharray:6 5;animation:wlrun 1.1s linear infinite}
+.wlLoop.on .trk{stroke:var(--acc-ink,#04181c);stroke-opacity:.45}
 @keyframes wlrun{to{stroke-dashoffset:-22}}
 .wlLoop:disabled{color:#4a5254;cursor:default}.wlLoop:disabled .trk{fill:none}
-.wlLoop:focus-visible{outline:2px solid #55b8c9;outline-offset:2px;border-radius:16px}
+.wlLoop:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px;border-radius:16px}
 .wlAdd{display:flex;align-items:center;gap:6px;margin:6px 14px 8px;padding:0 4px 0 8px;height:40px;border:1px dashed #2f3639;border-radius:10px}
-.wlAdd.few{border-color:#55b8c9;border-style:solid}
-.wlAdd .pl{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#55b8c9;color:#04181c;flex:none}
+.wlAdd.few{border-color:var(--acc,#55b8c9);border-style:solid}
+.wlAdd .pl{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);flex:none}
 .wlAdd .pl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
 .wlAdd input{flex:1;min-width:0;border:0;background:none;color:var(--ui-ink);font:500 16px var(--mono);outline:none}
 .wlAdd input::placeholder{color:#6b7578}
 .wlAdd button{flex:none;height:30px;padding:0 10px;border:0;border-radius:8px;background:#1f4f58;color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.wlAdd{padding-left:12px}.wlAdd button{width:30px;padding:0;display:grid;place-items:center;border-radius:50%;background:#55b8c9;color:#04181c}
+.wlAdd{padding-left:12px}.wlAdd button{width:30px;padding:0;display:grid;place-items:center;border-radius:50%;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .wlAdd button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
 .wlSort{display:flex;gap:10px}.wlSort button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
-.wlSort button[aria-pressed=true]{color:#55b8c9}.wlSort button:hover{color:var(--ui-ink)}
+.wlSort button[aria-pressed=true]{color:var(--acc,#55b8c9)}.wlSort button:hover{color:var(--ui-ink)}
 .fl>button.drag{flex:none;width:26px;margin-left:4px;border:0;background:none;color:#6b7578;cursor:grab;display:grid;place-items:center;touch-action:none}
 .fl>button.drag svg{width:16px;height:16px;fill:currentColor}.fl>button.drag:hover{color:var(--ui-ink)}
-.fl.dragging{background:rgb(var(--ui-hi,255 255 255) / .06);border-radius:8px}.fl.dragging>button.drag{cursor:grabbing;color:#55b8c9}
+.fl.dragging{background:rgb(var(--ui-hi,255 255 255) / .06);border-radius:8px}.fl.dragging>button.drag{cursor:grabbing;color:var(--acc,#55b8c9)}
 .wlHint{margin:4px 14px 0;font:400 13px/1.45 var(--sans);color:var(--ui-mid)}
 /* a word sequence is playing: a small loop badge on the text tool, and on the dots when another tool is open */
 #pickTrack .si.seqon{position:relative}
-#pickTrack .si.seqon::after,#pSteer.seqon::before{content:"";position:absolute;top:6px;right:8px;width:12px;height:7px;border-radius:4px;border:1.6px solid #55b8c9;box-sizing:border-box;animation:seqblink 1.4s ease-in-out infinite}
+#pickTrack .si.seqon::after,#pSteer.seqon::before{content:"";position:absolute;top:6px;right:8px;width:12px;height:7px;border-radius:4px;border:1.6px solid var(--acc,#55b8c9);box-sizing:border-box;animation:seqblink 1.4s ease-in-out infinite}
 #pSteer.seqon::before{top:4px;right:2px}
-body #playbar>#pSteer.lit.seqon::before{border-color:#04181c}
+body #playbar>#pSteer.lit.seqon::before{border-color:var(--acc-ink,#04181c)}
 @keyframes seqblink{50%{opacity:.35}}
 /* any shelf up: the dots light too, so they read as the way to close it */
-body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border-color:#55b8c9;color:var(--ui-ink)}
+body #playbar>#pSteer.shelfopen:not(.lit){background:rgb(var(--acc-rgb,85 184 201) / .22);border-color:var(--acc,#55b8c9);color:var(--ui-ink)}
 @media (prefers-reduced-motion:reduce){.wlLoop.on .trk,#pickTrack .si.seqon::after,#pSteer.seqon::before{animation:none}}
 
 #wlItems{overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}
 #wlItems .fl>button.pick .nm{font:500 16px/1.2 var(--mono)}
 .fl>button.inq{flex:none;width:40px;background:transparent;border:0;color:#6b7578;cursor:pointer;display:grid;place-items:center;font:700 11px/1 var(--mono)}
 .fl>button.inq svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-.fl>button.inq b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#55b8c9;color:#04181c;font-weight:700}
+.fl>button.inq b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font-weight:700}
 .fl>button.inq:hover{color:var(--ui-ink)}
-.fl.now>button.pick{color:var(--ui-ink)}.fl.now>button.pick i{background:#55b8c9}
+.fl.now>button.pick{color:var(--ui-ink)}.fl.now>button.pick i{background:var(--acc,#55b8c9)}
 .wlFoot{display:flex;flex-wrap:wrap;gap:0 4px;padding:4px 4px 0;border-top:1px solid var(--ui-line)}
 #flItems{overflow-y:auto;overscroll-behavior:contain;padding:4px 0}
 .fl{display:flex;align-items:stretch}
@@ -1089,12 +1094,12 @@ body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border
 .fl>button.pick i{width:7px;height:7px;border-radius:50%;flex:none}
 .fl>button.pick .nm{flex:1;min-width:0;font-size:22px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fl>button.pick .k{flex:none;font:500 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#6b7578}
-.fl>button.pick[aria-current="true"]{color:var(--ui-ink)}.fl>button.pick[aria-current="true"] i{background:#55b8c9}
+.fl>button.pick[aria-current="true"]{color:var(--ui-ink)}.fl>button.pick[aria-current="true"] i{background:var(--acc,#55b8c9)}
 .fl>button.pick:hover{background:rgb(var(--ui-hi) / .05);color:var(--ui-ink)}
 .fl>button.rm{flex:none;width:40px;background:transparent;border:0;color:#6b7578;cursor:pointer;display:grid;place-items:center}
 .fl>button.rm:hover{color:#ff7a52}
 .fl>button.rm svg,.flFileBtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.fl>button:focus-visible,.flFileBtn:focus-visible,#flGName:focus-visible{outline:2px solid #55b8c9;outline-offset:-2px}
+.fl>button:focus-visible,.flFileBtn:focus-visible,#flGName:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}
 #flAdd{border-top:1px solid var(--ui-line);padding-bottom:6px}
 #flAdd .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 2px}
 #flAdd .rlSave{border-bottom:0;padding:8px 14px 4px}#flGName{font-size:16px}
@@ -1102,25 +1107,25 @@ body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border
 .flFileBtn:hover{background:rgb(var(--ui-hi) / .05);color:var(--ui-ink)}
 .flFileBtn small{margin-left:auto;font:500 10px/1 var(--mono);letter-spacing:.06em;color:#6b7578}
 .flHint{font:400 13px/1.45 var(--sans);color:var(--ui-dim);padding:2px 14px 6px;margin:0}
-#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"]{background:none;color:#04181c}
-#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"] svg{box-sizing:content-box;padding:5px;margin:-5px -5px 2px;border-radius:50%;background:#55b8c9}
-#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"] .lab{color:#55b8c9}
+#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"]{background:none;color:var(--acc-ink,#04181c)}
+#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"] svg{box-sizing:content-box;padding:5px;margin:-5px -5px 2px;border-radius:50%;background:var(--acc,#55b8c9)}
+#toolTrack .si:not(.dot):not(.chip)[aria-pressed="true"] .lab{color:var(--acc,#55b8c9)}
 /* magnet: a bigger icon inside a polarity ring (teal clockwise = attract, coral counter-clockwise = repel) */
 #toolTrack .si.mag{width:56px}
 .si.mag .mi{position:relative;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;transition:background .15s}
 .si.mag .mi svg{width:20px;height:20px}
 .si.mag .mi::before{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
-  background:conic-gradient(var(--mc,#55b8c9) calc(var(--mp,.85)*360deg),rgb(var(--ui-hi) / .1) 0);
+  background:conic-gradient(var(--mc,var(--acc,#55b8c9)) calc(var(--mp,.85)*360deg),rgb(var(--ui-hi) / .1) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
 .si.mag.neg .mi::before{background:conic-gradient(from calc(var(--mp,.5)*-360deg),var(--mc,#ff7a52) 0 calc(var(--mp,.5)*360deg),rgb(var(--ui-hi) / .1) 0)}
 #toolTrack .si.mag[aria-pressed="true"]{background:none}
-.si.mag[aria-pressed="true"] .mi{background:rgba(85,184,201,.22)}.si.mag.neg[aria-pressed="true"] .mi{background:rgba(255,122,82,.22)}
+.si.mag[aria-pressed="true"] .mi{background:rgb(var(--acc-rgb,85 184 201) / .22)}.si.mag.neg[aria-pressed="true"] .mi{background:rgba(255,122,82,.22)}
 #toolTrack .si.mag[aria-pressed="true"] .mi svg{background:none;padding:0;margin:0;color:var(--ui-ink)}
 #toolTrack .si.mag[aria-pressed="true"]{color:var(--ui-ink)}#toolTrack .si.mag.neg[aria-pressed="true"] .lab{color:#ff7a52}
 .si.mag.dragging .mi{transform:scale(1.12)}
 /* magnet on Auto (on the beat, a sound band, a wave): the button follows the live value, blue pull / red push, the word
    swapping with it, and a level rising behind the word with the signal that drives it (Dimitry, 18 Oct) */
-.si.mag.live .lab{padding:2px 5px;border-radius:3px;background:linear-gradient(to top,color-mix(in srgb,var(--mc,#55b8c9) 45%,transparent) calc(var(--lv,0) * 100%),transparent 0);transition:none}
+.si.mag.live .lab{padding:2px 5px;border-radius:3px;background:linear-gradient(to top,color-mix(in srgb,var(--mc,var(--acc,#55b8c9)) 45%,transparent) calc(var(--lv,0) * 100%),transparent 0);transition:none}
 .si.mag.live .mi{transition:none}
 .si.nl{width:44px}
 /* (old 1 2 3 4 A row, unused) */
@@ -1128,9 +1133,9 @@ body #playbar>#pSteer.shelfopen:not(.lit){background:rgba(85,184,201,.22);border
 .shseg button{flex:none;width:30px;padding:0;border:0;background:none;cursor:pointer;color:rgb(var(--ui-hi) / .34);font:600 16px/1 var(--mono);-webkit-tap-highlight-color:transparent;transition:color .15s}
 .shseg button:hover{color:rgb(var(--ui-hi) / .7)}
 .shseg button[aria-pressed="true"]{color:var(--ui-ink)}
-.shseg button:focus-visible{outline:2px solid #55b8c9;outline-offset:-4px}
+.shseg button:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-4px}
 @media (pointer:coarse){.shseg button{width:34px}}
-.si.chip{width:auto;min-width:52px;padding:6px 10px}#toolTrack .si.chip[aria-pressed="true"] .w{color:#55b8c9}.si.chip .w{font:600 12px/1 var(--mono);letter-spacing:.06em}
+.si.chip{width:auto;min-width:52px;padding:6px 10px}#toolTrack .si.chip[aria-pressed="true"] .w{color:var(--acc,#55b8c9)}.si.chip .w{font:600 12px/1 var(--mono);letter-spacing:.06em}
 
 /* DISPLAY (from Pullula's index): the drawer beside the stage or over it, and how much of the stage shows through it.
    Beside only on a wide window; the stage, the bar and everything centred on it move over by the drawer's width. */
@@ -1180,7 +1185,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .cpField input{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;opacity:0}
 .cpField .cpTap{position:absolute;left:8px;bottom:6px;font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#fff;mix-blend-mode:difference;pointer-events:none}
 .cpHexRow{display:flex;align-items:center;gap:6px;height:40px;padding:0 6px 0 10px;border:1px solid #2b3235;background:#050708}
-.cpHexRow:focus-within{border-color:#55b8c9}
+.cpHexRow:focus-within{border-color:var(--acc,#55b8c9)}
 .cpHash{font:500 16px var(--mono);color:#6b7578}
 #cpHex{flex:1;min-width:0;border:0;background:none;color:var(--ui-ink);font:500 16px var(--mono);letter-spacing:.06em;text-transform:lowercase;outline:none}
 #cpHex.bad{color:#ff7a52}
@@ -1194,7 +1199,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 /* tools: ••• ("more"), turned upright on Android to its own ⋮ */
 html.android .ham{transform:rotate(90deg);transform-box:fill-box;transform-origin:center}
 #pSteer .ham{display:none}#pSteer.multi:not(.lit) .ham{display:inline}#pSteer.multi:not(.lit) .ico{display:none}
-body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
+body #playbar>#pSteer.lit{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #pSteer.busy:not(.lit)::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#ff7a52}
 #pSteer{position:relative}
 /* SOURCE LAYER: a picture, video or camera under the particles */
@@ -1206,7 +1211,7 @@ body #playbar>#pSteer.lit{background:#55b8c9;color:#04181c}
 #gestSw[hidden]{display:none}
 body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, not over the open drawer */
 #gestSw .gs-lab{position:absolute;left:-9999px}
-#gestSw [role=radiogroup]{display:flex;border:1px solid rgb(var(--ui-hi) / .28);border-radius:999px;background:rgb(var(--ui-g) / .55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:2px}
+#gestSw [role=radiogroup]{display:flex;border:1px solid rgb(var(--ui-hi) / .28);border-radius:999px;background:rgb(var(--ui-g) / max(.55, var(--ui-glass,0)));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:2px}
 #gestSw [role=radio]{appearance:none;border:0;background:none;color:rgb(var(--ui-hi) / .75);font:600 10.5px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.16em;text-transform:uppercase;padding:9px 13px;min-height:32px;border-radius:999px;cursor:pointer}
 #gestSw [role=radio][aria-checked=true]{background:var(--sc-acc,#4fb3c4);color:#061014}
 #gestSw [role=radio]:focus-visible{outline:2px solid #fff;outline-offset:2px}
@@ -1633,7 +1638,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
 <div class="shelf" id="shelfTool" role="toolbar" aria-label="Tool settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="toolTrack"></div></div>
 <div class="shelf" id="shelfSnd" role="toolbar" aria-label="Sound: beats, your file and settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="sndTrack"></div></div>
-<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si srRm" id="srOff" type="button" aria-label="Remove the source and give the stage back to the field" title="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">remove</span></button><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera. With the camera on, tap to switch between the front and back cameras"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="camI"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></g><g class="camF"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><path d="M9.2 12.4a3 3 0 0 1 5.2-1.6"/><path d="M14.9 9.6v1.6h-1.6"/><path d="M14.8 14a3 3 0 0 1-5.2 1.6"/><path d="M9.1 16.8v-1.6h1.6"/></g></svg><span class="lab" id="srCamV">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srDrive" type="button" aria-pressed="false" aria-label="Picture drive: tap to let the picture steer the current, drag left or right for how much" style="touch-action:none"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14.5c2-3 4-3 5 0s3 3 5 0"/><path d="m15.5 12.6 1.6 1.9 1.9-1.6"/></svg><span class="lab">drive</span></button><button class="si" id="srDriveMode" type="button" aria-label="How the picture steers: along its edges, downhill into the dark, or across toward the light. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16c3-6 5-8 8-8s5 2 8 8"/><path d="M12 8v8m-2.5-2.5L12 16l2.5-2.5"/></svg><span class="lab" id="srDriveModeV">along</span></button><button class="si" id="srDetail" type="button" aria-label="Detail of the picture that drives the field: fine follows small shapes, broad only the big masses. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="3.9" stroke-dasharray="2 2"/></svg><span class="lab" id="srDetailV">detail</span></button><button class="si" id="srAuto" type="button" aria-label="Picture automation: tap to turn it on or off, hold for its controls"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2" fill="currentColor" stroke="none"/></svg><span class="lab" id="srAutoV">auto</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button></div></div>
+<div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si srRm" id="srOff" type="button" aria-label="Remove the source and give the stage back to the field" title="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">remove</span></button><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera. With the camera on, tap to switch between the front and back cameras"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="camI"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></g><g class="camF"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><path d="M9.2 12.4a3 3 0 0 1 5.2-1.6"/><path d="M14.9 9.6v1.6h-1.6"/><path d="M14.8 14a3 3 0 0 1-5.2 1.6"/><path d="M9.1 16.8v-1.6h1.6"/></g></svg><span class="lab" id="srCamV">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><button class="si" id="srGround" type="button" aria-label="The ground under the camera, video or picture. Tap to change; hold for the Color mixer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none" opacity=".45"/></svg><span class="lab" id="srGroundV">under</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into toolpaths: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srDrive" type="button" aria-pressed="false" aria-label="Picture drive: tap to let the picture steer the current, drag left or right for how much" style="touch-action:none"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14.5c2-3 4-3 5 0s3 3 5 0"/><path d="m15.5 12.6 1.6 1.9 1.9-1.6"/></svg><span class="lab">drive</span></button><button class="si" id="srDriveMode" type="button" aria-label="How the picture steers: along its edges, downhill into the dark, or across toward the light. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16c3-6 5-8 8-8s5 2 8 8"/><path d="M12 8v8m-2.5-2.5L12 16l2.5-2.5"/></svg><span class="lab" id="srDriveModeV">along</span></button><button class="si" id="srDetail" type="button" aria-label="Detail of the picture that drives the field: fine follows small shapes, broad only the big masses. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="3.9" stroke-dasharray="2 2"/></svg><span class="lab" id="srDetailV">detail</span></button><button class="si" id="srAuto" type="button" aria-label="Picture automation: tap to turn it on or off, hold for its controls"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2" fill="currentColor" stroke="none"/></svg><span class="lab" id="srAutoV">auto</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button></div></div>
 <input type="file" id="srFile" hidden aria-hidden="true">
 <div id="gestSw" hidden><div id="gestCap" class="sh-coach" role="status" aria-live="polite"></div></div>
 <div id="playname" class="sh-title" aria-live="polite"></div>
@@ -2145,7 +2150,15 @@ const GROUNDS={dark:null,paper:'#efeae0'};
    a selector now, automation and mapping of every colour and blend mode as a system later). S.ground is a name (dark,
    paper) or a colour of your own (#rrggbb). The swatches are the cards' colours; hold one for any colour. */
 const GROUND_COLORS=[['Dark','dark','#050708'],['Paper','paper','#efeae0'],['Rose','#ff5c9d','#ff5c9d'],['Cobalt','#2f5cff','#2f5cff'],['Ember','#ff6a3d','#ff6a3d'],['Violet','#7a5cff','#7a5cff'],['Ochre','#e8a83a','#e8a83a'],['Lime','#9be15d','#9be15d'],['Sky','#4cc3e6','#4cc3e6'],['Ink','#0c0d0f','#0c0d0f']];
-const groundHex=()=>S.ground in GROUNDS?GROUNDS[S.ground]:(/^#[0-9a-f]{6}$/i.test(S.ground||'')?S.ground:null);
+/* AUTO GROUND (Dimitry, 19 Oct: a random roll once put the lines on a ground of nearly their own color and the screen
+   went blank): the ground takes the other side of the foreground's lightness, so something is always visible. The
+   lines count most, the second color less, the arrows least, all as they are drawn this moment (animated or not). A
+   light foreground gets a near-black ground, a dark one a near-white, each tinted toward the lines' complement. */
+const autoGround=()=>{const Ls=[S.lineOff?null:(LC&&LC.line||S.line),S.line2&&(LC&&LC.second||S.line2)].filter(Boolean).map(c=>OKC.lch(c)[0]);if(!Ls.length)Ls.push(.9);
+  const[,C,H]=OKC.lch(S.line||'#e8f1f2'),far=L=>Math.min(...Ls.map(l=>Math.abs(l-L)));   // the ground farthest from the nearest line:
+  const opts=[[.14,Math.min(.035,C*.25)],[.95,Math.min(.03,C*.2)],[.56,.09]];let best=opts[0];for(const o of opts)if(far(o[0])>far(best[0])+.02)best=o;   // dark, light, or a mid tone when the lines take both ends
+  return OKC.hex([best[0],best[1],H+180])};
+const groundHex=()=>S.ground==='auto'?autoGround():S.ground in GROUNDS?GROUNDS[S.ground]:(/^#[0-9a-f]{6}$/i.test(S.ground||'')?S.ground:null);
 const groundLum=()=>{const h=groundHex();if(!h)return 0;const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
 const groundLight=()=>groundLum()>.4;
 /* COLOR (Dimitry, 19 Oct): every major group (lines, second, touch, ground, arrows) gets one short row in the shelf
@@ -2173,7 +2186,7 @@ const CG={
   line:{name:'Lines',get:()=>S.line,on:()=>!S.lineOff,set:v=>{S.line=v;S.lineOff=false;syncLine()},off:()=>{S.lineOff=true;clearTrails()},sw:()=>LINE_COLORS},
   second:{name:'Second',get:()=>S.line2||CG_LAST.second,on:()=>!!S.line2,set:v=>{S.line2=v;CG_LAST.second=v;syncLine()},off:()=>{if(S.line2)CG_LAST.second=S.line2;S.line2=null;syncLine()},sw:()=>LINE_COLORS},
   touch:{name:'Touch',get:()=>S.touchColor||CG_LAST.touch,on:()=>!!S.touchColor,set:v=>{S.touchColor=v;CG_LAST.touch=v},off:()=>{if(S.touchColor)CG_LAST.touch=S.touchColor;S.touchColor=null},sw:()=>LINE_COLORS},
-  ground:{name:'Ground',get:()=>groundHex()||'#050708',on:()=>true,set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
+  ground:{name:'Ground',get:()=>groundHex()||'#050708',on:()=>true,auto:()=>{S.ground='auto';CAUTO='';applyGround();syncLine();colorDid('auto')},set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
   arrows:{name:'Arrows',get:()=>S.arrowColor,on:()=>!!S.flags.arrows,set:v=>setArrow(v),off:()=>{S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()},sw:()=>ARROW_SWATCHES}};
 const CG_ORDER=['line','second','touch','ground','arrows'];
 /* what Paths listens for: a color event, said once by whatever did it */
@@ -2190,8 +2203,32 @@ function colorTick(dt){CAT+=dt;const A=S.canim||{};
     else if(a.m==='breathe')L+=Math.sin(CAT*2*Math.PI/(9-7.5*sp))*.17;
     else if(a.m==='pulse')L+=(L<.62?.34:-.34)*CBEAT*(.45+.55*sp);
     LC[g]=OKC.hex([L,C,H])}
-  if(LC.ground){document.documentElement.style.setProperty('--stage',LC.ground);CGROUND=true}else if(CGROUND){CGROUND=false;applyGround()}}
-const groundName=()=>{const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
+  if(LC.ground){document.documentElement.style.setProperty('--stage',LC.ground);CGROUND=true;if((CAT*4|0)!==(CGT|0)){CGT=CAT*4;uiGuard(LC.ground)}}else if(CGROUND){CGROUND=false;applyGround()}
+  else if(S.ground==='auto'){const h=autoGround();if(h!==CAUTO){CAUTO=h;document.documentElement.style.setProperty('--stage',h);document.documentElement.classList.toggle('paper',groundLight());uiGuard(h)}}}
+let CAUTO='',CGT=0;
+const SRC_GROUND=[['under','under','The ground shows through the faded source'],['overlay','overlay','The source blends into the ground (overlay)'],['ignore','ignore','The source sits on black; the ground waits until it is off']];
+let SRCG=(()=>{try{const v=localStorage.getItem('current.srcGround');return SRC_GROUND.some(x=>x[0]===v)?v:'under'}catch(_){return 'under'}})();
+function applySrcGround(){const on=typeof SRC!=='undefined'&&SRC.kind!=='none',R=document.documentElement.classList;R.toggle('srcOverlay',on&&SRCG==='overlay');R.toggle('srcIgnore',on&&SRCG==='ignore');
+  const l=document.getElementById('srGroundV');if(l)l.textContent=SRCG;const b=document.getElementById('srGround');if(b)b.setAttribute('aria-label','The ground under the camera, video or picture, now '+SRCG+'. Tap to change; hold for the Color mixer')}
+function setSrcGround(v){SRCG=v;try{localStorage.setItem('current.srcGround',v)}catch(_){}applySrcGround();try{if(!$('colorPop').hidden)renderCM()}catch(_){}}
+const stageBg=()=>document.documentElement.classList.contains('srcIgnore')?'#050708':css('--stage');
+/* THE UI GUARD (Dimitry, 19 Oct: with grounds of any color, teal and the glass can't be counted on): whenever the
+   ground changes, the panels' glass thickens on a colored or light ground so the controls keep their own ground, and
+   the accent is checked against the panel it now sits on. Below WCAG 2.1's 3:1 for controls (1.4.11), teal gives way to
+   white or ink, whichever reads; the text on accent fills follows. */
+let UIG='';
+const wcagLum=h=>{const n=parseInt(String(h).slice(1),16)||0;return .2126*OKC.lin(n>>16&255)+.7152*OKC.lin(n>>8&255)+.0722*OKC.lin(n&255)};
+const wcagRatio=(a,b)=>{const x=wcagLum(a),y=wcagLum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+function uiGuard(gh){gh=gh||groundHex()||'#050708';if(gh===UIG)return;UIG=gh;const R=document.documentElement.style,[L,C]=OKC.lch(gh);
+  const plain=L<.24&&C<.05,glass=plain?0:.88;if(glass)R.setProperty('--ui-glass',glass);else R.removeProperty('--ui-glass');
+  const ug=(getComputedStyle(document.documentElement).getPropertyValue('--ui-g').trim()||'14 14 16').split(/\s+/).map(Number),gi=parseInt(gh.slice(1),16),gr=[gi>>16&255,gi>>8&255,gi&255];
+  const a=plain?.62:glass,bg='#'+ug.map((v,i)=>Math.round(v*a+gr[i]*(1-a)).toString(16).padStart(2,'0')).join('');
+  const minR=wcagRatio('#55b8c9',bg);   // the accent sits on the panels, so it is judged against them
+  if(minR>=3||plain){R.removeProperty('--acc');R.removeProperty('--acc-rgb');R.removeProperty('--acc-ink');return}
+  const w=wcagRatio('#f4f6f7',bg),k=wcagRatio('#0d0f10',bg);
+  if(w>=k){R.setProperty('--acc','#f4f6f7');R.setProperty('--acc-rgb','244 246 247');R.setProperty('--acc-ink','#0d0f10')}
+  else{R.setProperty('--acc','#0d0f10');R.setProperty('--acc-rgb','13 15 16');R.setProperty('--acc-ink','#f4f6f7')}}
+const groundName=()=>{if(S.ground==='auto')return 'auto';const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
 const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
 const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d'),fg=document.getElementById('fg'),fctx=fg.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
@@ -2380,7 +2417,7 @@ function frame(now){
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
   if(WM){const u=(performance.now()-WM.t0)/WM.dur;if(u>=1)WM=null;else WM.e=u*u*(3-2*u)}tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
-  simT+=dt;stepMorph(dt);readAudio(dt);try{colorTick(dt)}catch(_){}
+  simT+=dt;stepMorph(dt);readAudio(dt);try{colorTick(dt)}catch(_){}try{sndWave()}catch(_){}
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
    SIGNALS.fx+=(ax-SIGNALS.fx)*.25;SIGNALS.fy+=(ay-SIGNALS.fy)*.25}
@@ -2579,11 +2616,11 @@ function lineSw(id,withNone,get,set){const box=$(id);box.innerHTML='';
 lineSw('lineSw',false,()=>S.line,c=>{S.line=c});lineSw('line2Sw',true,()=>S.line2,c=>{S.line2=c});
 const altSeg=$('altSeg');Object.keys(ALTS).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent={grain:'grain',time:'in time',motion:'motion'}[k];b.dataset.k=k;
   b.setAttribute('aria-label','Alternate: '+ALTS[k]);b.onclick=()=>{S.alt=k;syncLine()};altSeg.appendChild(b)});
-const groundSeg=$('groundSeg');GROUND_COLORS.forEach(([n,k])=>{const b=document.createElement('button');b.type='button';b.textContent=n.toLowerCase();b.dataset.k=k;b.setAttribute('aria-label','Ground: '+n);
+const groundSeg=$('groundSeg');[...GROUND_COLORS,['Auto','auto']].forEach(([n,k])=>{const b=document.createElement('button');b.type='button';b.textContent=n.toLowerCase();b.dataset.k=k;b.setAttribute('aria-label','Ground: '+n);
   b.onclick=()=>{S.ground=k;applyGround();syncLine()};groundSeg.appendChild(b)});
 $('altTime').addEventListener('input',e=>{S.altTime=+e.target.value;syncLine()});
 function applyGround(){const g=groundHex();if(g)document.documentElement.style.setProperty('--stage',g);else document.documentElement.style.removeProperty('--stage');
-  document.documentElement.classList.toggle('paper',groundLight());clearTrails()}   // 'paper' now means any light ground: the marks on the stage turn dark
+  document.documentElement.classList.toggle('paper',groundLight());clearTrails();try{uiGuard()}catch(_){}}   // 'paper' now means any light ground: the marks on the stage turn dark
 function syncLine(){for(const id of ['lineSw','line2Sw']){const box=$(id),v=(box._get()||'').toLowerCase();[...box.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===v)))}
   const two=!!S.line2;altSeg.hidden=!two;$('altNote').hidden=!two;$('altNote').textContent=ALTS[S.alt];
   [...altSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===S.alt)));
@@ -2712,7 +2749,7 @@ AUTO_MORPH.forEach(([t,v])=>{const b=document.createElement('button');b.type='bu
 function syncMorphSeg(){[...morphSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===AUTO.morph)))}
 // ---------- Random: a matrix of what may roll, how much (amount) and how often (tempo) ----------
 const RAND_SPAN={falloff:[1.5,7],strength:[.6,1.8],speed:[.8,2.4],count:[1500,5000],fade:[.02,.1],life:[80,320],lens:[0,2.5],wobble:[0,.7],magnet:[-.6,.9],pulse:[0,.8],lag:[.6,4]};
-const RAND_CHOICES=[['lineColor','Line colors'],['mode','Field mode'],['inside','Inside closed shapes'],['lensMode','Lens mode'],['mods','Auto'],['maps','Mappings'],['arrows','Arrows on or off'],['arrowColor','Arrow color']];
+const RAND_CHOICES=[['lineColor','Line colors'],['ground','Ground color (off unless you switch it on)'],['mode','Field mode'],['inside','Inside closed shapes'],['lensMode','Lens mode'],['mods','Auto'],['maps','Mappings'],['arrows','Arrows on or off'],['arrowColor','Arrow color']];
 const RAND_TEMPOS=[0,2,4,8,15,30,60];
 const RAND={amt:.6,tempo:0,keys:{},shapes:{}};
 // what the random engine may hand a modulator or a mapping: maths shapes, and sound bands (live only when a beat or file plays)
@@ -2720,7 +2757,7 @@ const RAND_MATHS=[['sine','Sine'],['tri','Triangle'],['square','Square'],['saw',
 const RAND_SOUND=[['bass','Bass'],['mid','Mid'],['high','High'],['level','Level'],['beat','Beat']];
 const inShape=k=>RAND.shapes[k]!==false;
 if(store.rand&&typeof store.rand==='object'){if(+store.rand.amt>0)RAND.amt=Math.min(1,+store.rand.amt);if(store.rand.keys&&typeof store.rand.keys==='object')RAND.keys={...store.rand.keys};if(store.rand.shapes&&typeof store.rand.shapes==='object')RAND.shapes={...store.rand.shapes}}
-const inMatrix=k=>RAND.keys[k]!==false;
+const inMatrix=k=>k==='ground'?RAND.keys.ground===true:RAND.keys[k]!==false;   // the ground stays out until switched on
 /* THE MATRIX LIST (Dimitry, 18 Oct): drag to order it, sort by hand / A-Z / most used, star favourites, filter to
    favourites or to what is on, and pass a matrix to someone as a text code. Order, stars and view are this device's. */
 const RM={order:[],fav:{},sort:'hand',filter:'all',used:{}};
@@ -2757,10 +2794,16 @@ function randomLook(manual){
   const arrow=inMatrix('arrowColor')&&flip()?pick(ARROW_SWATCHES.slice(0,7))[1]:S.arrowColor;
   const g=$('gcode').value;
   let line=S.line,line2=S.line2,alt=S.alt;
-  if(inMatrix('lineColor')&&flip()){const pal=LINE_COLORS.filter(([n])=>groundLight()?n!=='Mist'&&n!=='Quartz':n!=='Ink');line=pick(pal)[1];
-    line2=Math.random()<.55?pick(pal.filter(x=>x[1]!==line))[1]:null;alt=pick(Object.keys(ALTS))}
+  /* the ground, when it is in the matrix: auto two times in five, otherwise one of the grounds */
+  let ground=S.ground;if(inMatrix('ground')&&flip())ground=Math.random()<.4?'auto':pick(GROUND_COLORS)[1];
+  const gHex=ground==='auto'?null:(ground in GROUNDS?GROUNDS[ground]||'#050708':ground),gL=gHex?OKC.lch(gHex)[0]:null,far=c=>gL==null||Math.abs(OKC.lch(c)[0]-gL)>=.3;
+  if(inMatrix('lineColor')&&flip()){const pal0=LINE_COLORS.filter(x=>far(x[1])),pal=pal0.length?pal0:LINE_COLORS;line=pick(pal)[1];
+    const pal2=pal.filter(x=>x[1]!==line);line2=pal2.length&&Math.random()<.55?pick(pal2)[1]:null;alt=pick(Object.keys(ALTS))}
+  /* KEEP SOMETHING VISIBLE: if the lines (kept or rolled) sit too close to the ground, the ground goes auto when the
+     roll may touch it; otherwise the lines take their opposite */
+  if(!far(line)){if(inMatrix('ground'))ground='auto';else{line=colorOpp(line);if(!far(line))line=gL>.5?'#121212':'#e8f1f2'}}
   // on type, the roll carries no word: it retraces whatever word is current when it lands
-  applyLook({name:'Random',gen:onTypeField()?textGen:()=>g,mode,inside,lensMode,blur:S.blur,p:to,flags:{...S.flags,arrows},arrow,arrowAlpha:S.arrowAlpha,line,line2,alt,altTime:S.altTime,ground:S.ground,mods,maps},-1);
+  applyLook({name:'Random',gen:onTypeField()?textGen:()=>g,mode,inside,lensMode,blur:S.blur,p:to,flags:{...S.flags,arrows},arrow,arrowAlpha:S.arrowAlpha,line,line2,alt,altTime:S.altTime,ground,mods,maps},-1);
   if(manual)flashName('random '+Math.round(a*100)+'%');
 }
 let randT=null;
@@ -3189,9 +3232,9 @@ wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'
 })($('pRand'));
 function stillCanvas(c){c=c||document.createElement('canvas');if(c.width!==cv.width||c.height!==cv.height){c.width=cv.width;c.height=cv.height}const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);
   if(!TRANSP||!srcEl()){g.drawImage(cv,0,0);g.drawImage(ov,0,0);return c}
-  g.fillStyle=css('--stage');g.fillRect(0,0,c.width,c.height);
+  g.fillStyle=stageBg();g.fillRect(0,0,c.width,c.height);
   const el=srcEl(),r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect(),iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;
-  if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
+  if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG==='overlay')g.globalCompositeOperation='overlay';let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
     g.beginPath();g.rect(x,y,w,h);g.clip();
     if(el.style.objectFit==='cover'){const k=Math.max(w/iw,h/ih);const dw=iw*k,dh=ih*k;x+=(w-dw)/2;y+=(h-dh)/2;w=dw;h=dh}
     if(bgL.classList.contains('mirror')&&el===bgVid){g.translate(2*x+w,0);g.scale(-1,1)}
@@ -4158,6 +4201,8 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
         dot(c,G.name+': '+label+' '+c,()=>{G.set(c);if(ev)colorDid(ev);try{rememberColor(c)}catch(_){}},false,null,PK)};
       one(colorOpp(cur),'the opposite','opposite');one(colorComp(cur),'the complement','opposite');one('#000000','black');one('#ffffff','white');
       for(const c of recent().slice(0,8)){if(seen.length>=10)break;one(c,'recent')}
+      if(g==='ground'){const ab=btn('auto','<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg>',
+          'Ground auto: always the other side of the lines\' lightness, so something is always visible',()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto()},S.ground==='auto')}
       if(g==='second'){    if(S.line2){const ks=Object.keys(ALTS),nm={grain:'grain',time:'in time',motion:'motion'};
         // the icon itself says which mix: grains, a clock, or fast-vs-slow
         const MIXI={grain:'<circle cx="7" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.8"/><circle cx="10.5" cy="13" r="1.8"/><circle cx="17" cy="12.5" r="1.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="15" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>',
@@ -5173,6 +5218,8 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   const hx=document.createElement('span');hx.className='cmHex';hx.textContent=cur.toUpperCase()+(on?'':' · off');head.appendChild(hx);
   const own=document.createElement('button');own.type='button';own.className='tb';own.textContent='your own';own.setAttribute('aria-label','Your own '+G.name.toLowerCase()+' color: a hex code or the color field');
   own.onclick=()=>openColorPick({title:G.name+' color',get:G.get,set:v=>{G.set(v);renderCM(g)}},cur);head.appendChild(own);
+  if(G.auto){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent='auto';o.setAttribute('aria-pressed',String(S.ground==='auto'));o.setAttribute('aria-label','Ground auto: always contrasts with the lines');
+    o.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();refresh()};head.appendChild(o);if(S.ground==='auto')hx.textContent='AUTO · '+cur.toUpperCase()}
   if(G.off){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent=on?'off':'on';o.setAttribute('aria-pressed',String(!on));o.setAttribute('aria-label',(on?'Turn '+G.name.toLowerCase()+' off':'Turn '+G.name.toLowerCase()+' on'));
     o.onclick=()=>{if(on)G.off();else G.set(cur);refresh()};head.appendChild(o)}
   const row=(label,list,ev)=>{el('p','cmL',label);const box=el('div','cmSw');box.setAttribute('role','group');box.setAttribute('aria-label',G.name+': '+label);
@@ -5184,6 +5231,8 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   row('Related',[['Opposite',colorOpp(cur)],['Complement',colorComp(cur)],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]],'opposite');
   let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}
   row('Recent',rec.slice(0,10).map(c=>['Recent',c]));
+  if(g==='ground'){el('p','cmL','With a camera, video or picture');const sg=el('div','cmSeg');sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
+    for(const [k,t,al] of SRC_GROUND){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String(SRCG===k));b.onclick=()=>setSrcGround(k);sg.appendChild(b)}}
   el('p','cmL','Animation');const seg=el('div','cmSeg');seg.setAttribute('role','group');seg.setAttribute('aria-label',G.name+' animation');
   for(const [k,t,al] of CANIM_MODES){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String((an.m||'off')===k));
     b.onclick=()=>{if(k==='off')delete A[g];else{A[g]={m:k,sp:an.sp==null?.5:an.sp};colorDid('anim')}refresh()};seg.appendChild(b)}
@@ -5224,6 +5273,18 @@ wireTapHold($('pSnd'),{tap:()=>{if(sndOpen){sndOpen=false;syncSteer();return}tog
     if(ph!=='end'){vi.value=r;vi.dispatchEvent(new Event('input'));b.style.setProperty('--vol',r);b.dataset.vol=Math.round(r*100)+'%';syncSndShelf()}
     else{setTimeout(()=>b.classList.remove('vdrag'),700);toast('volume '+Math.round(+vi.value*100)+'%');volDrag=null}}});
 $('pSnd').setAttribute('aria-haspopup','true');$('pSnd').setAttribute('aria-controls','shelfSnd');
+/* THE WAVE BEHIND THE SPEAKER: the analyser's time-domain samples, drawn across the bar's sound button, dark on the
+   lit button; about thirty times a second, and only while sound is on */
+let SWV=null,SWT=0;
+function sndWave(){const b=$('pSnd');if(!b)return;let c=b.querySelector('canvas.sndWave');
+  const live=AUD&&AUD.src!=='off'&&AUD.an&&!document.documentElement.classList.contains('bare');
+  if(!live){if(c&&c._on){c.getContext('2d').clearRect(0,0,c.width,c.height);c._on=false}return}
+  const now=performance.now();if(now-SWT<33)return;SWT=now;
+  if(!c){c=document.createElement('canvas');c.className='sndWave';c.setAttribute('aria-hidden','true');b.insertBefore(c,b.firstChild)}
+  const r=b.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1),w=Math.round(r.width*d),h=Math.round(r.height*d);if(!w||!h)return;if(c.width!==w||c.height!==h){c.width=w;c.height=h}
+  const n=AUD.an.fftSize;if(!SWV||SWV.length!==n)SWV=new Uint8Array(n);AUD.an.getByteTimeDomainData(SWV);
+  const g=c.getContext('2d');g.clearRect(0,0,w,h);g.lineWidth=1.6*d;g.lineJoin='round';g.strokeStyle=b.classList.contains('on')?'rgba(4,24,28,.42)':'rgba(85,184,201,.6)';
+  g.beginPath();const step=Math.max(1,Math.floor(n/96));for(let i=0,k=0;i<n;i+=step,k++){const x=i/(n-1)*w,y=h/2+(SWV[i]-128)/128*h*.42;k?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();c._on=true}
 function readAudio(dt){
   const decay=k=>{SIGNALS[k]*=Math.exp(-dt*5)};
   if(AUD.src==='off'||!AUD.an){['bass','mid','high','level','beat'].forEach(decay);return}
@@ -5280,7 +5341,7 @@ function syncSrc(){{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle
   $('srTrace').disabled=SRC.kind!=='picture';   // trace takes one still frame: on a moving video or camera its outlines go stale at once (Dimitry, 18 Oct)
   syncDrive();{const t=$('srOff'),on=SRC.kind!=='none';t.classList.toggle('in',on);t.tabIndex=on?0:-1;t.setAttribute('aria-hidden',String(!on))}
   $('pSrc').classList.toggle('on',SRC.kind!=='none');gestCap();
-  setTransp();layoutBg();syncShelves()}
+  setTransp();layoutBg();syncShelves();try{applySrcGround();$('srGround').disabled=SRC.kind==='none'}catch(_){}}
 /* Gestures, field or picture: while a picture, video or camera is loaded (and not traced), a small switch at the top of
    the stage chooses what pinching moves. picture (the default): zoom, move and turn the source; the toolpath field stays,
    and drive reads the picture where it lands. field: pinch spreads the field's reach, as without a source.
@@ -5332,6 +5393,10 @@ $('srCam').onclick=async()=>{
     if(heard&&st.getAudioTracks().length){const was=AUD.src!=='off'&&AUD.src!=='mic'?(AUD.src==='file'?(AUD.file||'your file'):AUD.src.toLowerCase()):'';startMic(new MediaStream(st.getAudioTracks()));toast(was?'camera on · its microphone joins '+was+': the field hears both, a video records both':'camera and its microphone · the field moves to what it hears',3600)}
     else{audioSessionFor(false);toast('camera under the field (no microphone) · drive lets it steer')}}
   catch(err){audioSessionFor(false);toast(err&&err.name==='NotAllowedError'?'camera blocked: this viewer or the browser said no':'camera unavailable here: try a picture or a video')}};
+(b=>{let t=0,held=false;b.addEventListener('pointerdown',e=>{if(e.button>0)return;held=false;t=setTimeout(()=>{held=true;if(navigator.vibrate)navigator.vibrate(10);openColorMix('ground')},(window.SurfaceKeys?SurfaceKeys.holdMs:520))});
+  const up=()=>clearTimeout(t);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('pointerleave',up);
+  b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(t);openColorMix('ground')});
+  b.addEventListener('click',()=>{if(held){held=false;return}const i=SRC_GROUND.findIndex(x=>x[0]===SRCG),n=SRC_GROUND[(i+1)%SRC_GROUND.length];setSrcGround(n[0]);toast('ground '+n[0]+': '+n[2].toLowerCase())})})($('srGround'));
 $('srShow').onclick=()=>{SRC.show=SHOWS[(SHOWS.indexOf(SRC.show)+1)%SHOWS.length];syncSrc()};
 $('srMir').onclick=()=>{SRC.mirror=!SRC.mirror;syncSrc()};
 $('srOff').onclick=()=>{const traced=SRC.gcode&&$('gcode').value===SRC.gcode;stopSource();SRC.kind='none';SRC.gcode=null;
@@ -5930,10 +5995,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020034235"></script>
-<script src="surface/links.js?v=20261020034235"></script>
-<script src="surface/tips.js?v=20261020034235"></script>
-<script src="surface/sections.js?v=20261020034235"></script>
+<script src="surface/install.js?v=20261020035320"></script>
+<script src="surface/links.js?v=20261020035320"></script>
+<script src="surface/tips.js?v=20261020035320"></script>
+<script src="surface/sections.js?v=20261020035320"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6191,7 +6256,7 @@ try{(function(){
         steps:[{id:'beat',go:'#sndTrack .si[data-src]:not(.bb):not([data-src=file])',shelf:'snd',label:'Play a <b>beat</b>'},{id:'mine',go:'#sdMic',shelf:'snd',label:'Use the <b>microphone</b> or a sound file of your own'},{id:'byte',go:'#sndTrack .si.bb',shelf:'snd',label:'Play a <b>bytebeat</b> formula'},{id:'bbsave',go:{link:'bbGroup'},label:'Save a formula to <b>My formulas</b>'}],
         reward:{label:'a bonus look, Square Rings',toast:'Square Rings is in your looks',give:()=>unlock('05'),given:'Unlocked: <b>Path 05 · Square Rings</b>, in your looks.'}},
       {id:'07',title:'Color',note:'Every group\'s color, its opposite, your own, and color that moves. Blending and driving colors come with Pro.',badges:['#pickTrack [data-tool=color]'],
-        steps:[{id:'cground',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Change the <b>ground</b> in <b>color</b>'},{id:'copp',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Use an <b>opposite</b> or a <b>complement</b>'},{id:'cown',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Mix <b>your own</b> color (hold any dot)'},{id:'canim',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Animate a color in the <b>Color mixer</b>: drift, pulse or breathe'},{id:'clook',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Save a look with color that moves'}],
+        steps:[{id:'cground',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Change the <b>ground</b> in <b>color</b>'},{id:'copp',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Use an <b>opposite</b> or a <b>complement</b>'},{id:'cown',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Mix <b>your own</b> color (hold any dot)'},{id:'cauto',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Set the ground to <b>auto</b>: it always contrasts with the lines'},{id:'canim',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Animate a color in the <b>Color mixer</b>: drift, pulse or breathe'},{id:'clook',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Save a look with color that moves'}],
         reward:{label:'a bonus look, Color Drift',toast:'Color Drift is in your looks',give:()=>unlock('07'),given:'Unlocked: <b>Path 07 · Color Drift</b>, in your looks.'}},
       {id:'06',title:'Under the hood',advanced:true,note:'Every look is G-code: the path a machine would cut. Here you can change it.',badges:['#pickTrack [data-tool=path]'],
         steps:[{id:'edit',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Open a look&rsquo;s toolpath in the editor (<b>path</b> › <b>edit</b>)'},{id:'drawsave',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Draw a toolpath of your own and save it'},{id:'dup',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Duplicate</b> a look as one of yours'},{id:'gfile',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Open</b> a G-code file, or drop one on the stage'}],
@@ -6211,7 +6276,7 @@ try{(function(){
   wrap('loadPreset',()=>D('look'));wrap('setAuto',a=>{if(a[0])D('auto')});wrap('randomLook',()=>D('random'));
   wrap('selectTool',a=>{if(a[0]==='color')D('color');if(a[0]==='frame')D('frame')});
   wrap('rememberWord',()=>D('word'));document.addEventListener('change',e=>{if(e.target&&e.target.id==='word'&&e.target.value.trim())D('word')},true);
-  document.addEventListener('cxcolor',e=>{const k={ground:'cground',opposite:'copp',own:'cown',anim:'canim'}[e.detail];if(k)D(k)});
+  document.addEventListener('cxcolor',e=>{const k={ground:'cground',opposite:'copp',own:'cown',anim:'canim',auto:'cauto'}[e.detail];if(k)D(k)});
   wrap('savePreset',()=>{if(S.canim&&Object.values(S.canim).some(a=>a&&a.m&&a.m!=='off'))D('clook')});
   wrap('openEditor',()=>D('edit'));{const f=window.saveEditor;if(typeof f==='function')window.saveEditor=function(...a){const had=!!(ED&&ED.paths&&ED.paths.length);const r=f.apply(this,a);if(had)D('drawsave');return r}}wrap('dupPreset',()=>D('dup'));wrap('loadGcodeText',()=>D('gfile'));
   /* and what can only be seen in the state: polled, quietly, a few times a second */
@@ -6312,7 +6377,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.0';
+const APP_VERSION='0.25.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
