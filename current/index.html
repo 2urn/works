@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020032118";window.__VERSION__="0.24.2";window.__NOTES__=[{"v":"0.24.2","date":"19 Oct 2026","items":[{"kind":"new","text":"the ground in colour: in color, a ground row of swatches (dark, paper, rose, cobalt, ember, violet, ochre, lime, sky, ink); hold one for any colour. Looks keep their ground"}]}]</script>
+<script>window.__BUILD__="20261020034235";window.__VERSION__="0.25.0";window.__NOTES__=[{"v":"0.25.0","date":"19 Oct 2026","items":[{"kind":"new","text":"color, one short row per group: lines, second, touch, ground and arrows each show their color, the opposite, the complement, black, white and your recent colors. Tap the lit one to turn a group off; hold any dot for your own color"},{"kind":"new","text":"the Color mixer, behind the icon pinned to the color shelf's left edge: every group as a tab, with swatches, related colors (opposite, complement, lighter, darker, warmer, cooler), recent colors and animation"},{"kind":"new","text":"color animation per group: drift (the hue turns), pulse (a flash on the beat), breathe (lightness rises and falls), with a speed. Looks keep it"},{"kind":"new","text":"Path 07 · Color, five steps and a bonus look, Color Drift"},{"kind":"","text":"note: blend modes, coupling groups and driving colors from paths, sound or the magnet will come with Pro; the mixer shows what's coming"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020032118"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020032118">
+<script src="claude-web.js?v=20261020034235"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020034235">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020032118"></script>
-<script src="surface/auto.js?v=20261020032118"></script>
-<script src="surface/toolpath.js?v=20261020032118"></script>
-<script src="surface/capture.js?v=20261020032118"></script>
-<script src="surface/pop.js?v=20261020032118"></script>
-<script src="surface/hints.js?v=20261020032118"></script>
-<script src="surface/paths.js?v=20261020032118"></script>
-<script src="surface/keys.js?v=20261020032118"></script>
-<script src="surface/reset.js?v=20261020032118"></script>
+<script src="vendor/opentype.min.js?v=20261020034235"></script>
+<script src="surface/auto.js?v=20261020034235"></script>
+<script src="surface/toolpath.js?v=20261020034235"></script>
+<script src="surface/capture.js?v=20261020034235"></script>
+<script src="surface/pop.js?v=20261020034235"></script>
+<script src="surface/hints.js?v=20261020034235"></script>
+<script src="surface/paths.js?v=20261020034235"></script>
+<script src="surface/keys.js?v=20261020034235"></script>
+<script src="surface/reset.js?v=20261020034235"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -688,6 +688,26 @@ body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:5
 body #playbar>#pRand.dragging{transform:scale(1.12)}
 #mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #mixPop[hidden]{display:none}
+/* THE COLOR MIXER: the groups as tabs, each with its swatches, related colors, recent ones, animation, and what Pro adds */
+#colorPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(380px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#colorPop[hidden]{display:none}#colorPop .mxh{padding-left:4px;gap:6px}
+.cmPane{overflow-y:auto;padding:10px 14px 14px;overscroll-behavior:contain}
+.cmHead{display:flex;align-items:center;gap:10px;margin-bottom:4px}.cmBig{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}
+.cmHex{font:600 12px/1 var(--mono);letter-spacing:.08em;margin-right:auto}.cmHead .tb{min-height:30px}
+.cmL{margin:12px 0 6px;font:600 9.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)}
+.cmSw{display:flex;flex-wrap:wrap;gap:8px}.cmSw button{width:30px;height:30px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}
+.cmSw button[aria-pressed=true]{box-shadow:0 0 0 2px var(--ui-solid,#111),0 0 0 4px #55b8c9}.cmSw em{font:400 12px var(--sans);color:var(--ui-dim)}
+.cmSeg{display:flex;gap:4px;flex-wrap:wrap}.cmSeg button{min-height:30px;padding:0 11px;border-radius:999px;border:0;background:rgb(var(--ui-hi,255 255 255) / .07);color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.cmSeg button[aria-pressed=true]{background:#55b8c9;color:#04181c}
+.cmSp{display:flex;align-items:center;gap:10px;margin-top:8px;font:400 12px var(--sans);color:var(--ui-dim)}.cmSp input{flex:1}.cmSp[hidden]{display:none}
+.cmPro{margin-top:14px;padding:10px 12px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05)}
+.cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
+.cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
+/* the pinned color-mix icon stays at the shelf's left edge while the swatches slide under it */
+#toolTrack .si.cmPin{position:sticky;left:0;z-index:3;background:rgb(8 10 12 / .42);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:12px;box-shadow:10px 0 10px -8px rgb(0 0 0 / .5);min-width:48px}
+#toolTrack .si.dot.anim i{animation:cmSpin 6s linear infinite;background-image:conic-gradient(from 0deg,transparent 0 70%,rgb(255 255 255 / .55) 85%,transparent 100%)}
+@keyframes cmSpin{to{filter:hue-rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){#toolTrack .si.dot.anim i{animation:none}}
 /* SURFACE · TABS (Dimitry, 19 Oct): a popover panel can carry tabs across its head, icon and name, one pane each. The
    WAI-ARIA tabs pattern: arrow keys move between tabs, the last one used comes back. Mixer · Beat · Bytes is the first. */
 .sfTabs{display:flex;align-self:stretch;gap:0;min-width:0;overflow-x:auto;scrollbar-width:none}.sfTabs::-webkit-scrollbar{display:none}
@@ -1648,6 +1668,10 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div class="mxh"><span>Batch <b class="tier">artist</b></span><button class="tb" id="batchClose" type="button" aria-label="Close batch export">Close</button></div>
   <div id="batchBody"></div>
 </div>
+<div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
+  <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
+  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div>
+</div>
 <div id="mixPop" role="dialog" aria-label="Sound" hidden>
   <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
   <div id="micBody" class="sfPane" role="tabpanel" hidden></div>
@@ -2124,6 +2148,49 @@ const GROUND_COLORS=[['Dark','dark','#050708'],['Paper','paper','#efeae0'],['Ros
 const groundHex=()=>S.ground in GROUNDS?GROUNDS[S.ground]:(/^#[0-9a-f]{6}$/i.test(S.ground||'')?S.ground:null);
 const groundLum=()=>{const h=groundHex();if(!h)return 0;const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
 const groundLight=()=>groundLum()>.4;
+/* COLOR (Dimitry, 19 Oct): every major group (lines, second, touch, ground, arrows) gets one short row in the shelf
+   (its color, the opposite, the complement, black, white, the last five) and the Color mixer behind its ⋯, with the
+   groups as tabs. Animation per group is free: drift (the hue turns), pulse (a flash on the beat), breathe (lightness
+   rises and falls), with a speed. Blend modes, coupling one group to another and driving colors from paths, sound or
+   the magnet are Pro, shown in the mixer and not yet built.
+   Colors move in OKLCH (lightness, chroma, hue: Björn Ottosson's OKLab, 2020, public domain; CSS Color 4 uses it), so a
+   drifting hue keeps its lightness and a breath keeps its hue. */
+const OKC={lin:v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)},srgb:v=>{v=v<=.0031308?12.92*v:1.055*Math.pow(v,1/2.4)-.055;return Math.round(Math.max(0,Math.min(1,v))*255)},
+  lch(hex){const n=parseInt(String(hex).slice(1),16)||0,r=OKC.lin(n>>16&255),g=OKC.lin(n>>8&255),b=OKC.lin(n&255);
+    const l=Math.cbrt(.4122214708*r+.5363325363*g+.0514459929*b),m=Math.cbrt(.2119034982*r+.6806995451*g+.1073969566*b),q=Math.cbrt(.0883024619*r+.2817188376*g+.6299787005*b);
+    const L=.2104542553*l+.793617785*m-.0040720468*q,A=1.9779984951*l-2.428592205*m+.4505937099*q,B=.0259040371*l+.7827717662*m-.808675766*q;return [L,Math.hypot(A,B),Math.atan2(B,A)*180/Math.PI]},
+  hex([L,C,H]){L=Math.max(0,Math.min(1,L));for(let k=0;k<14;k++){const a=C*Math.cos(H*Math.PI/180),b=C*Math.sin(H*Math.PI/180);
+      const l=(L+.3963377774*a+.2158037573*b)**3,m=(L-.1055613458*a-.0638541728*b)**3,q=(L-.0894841775*a-1.291485548*b)**3;
+      const r=4.0767416621*l-3.3077115913*m+.2309699292*q,g=-1.2684380046*l+2.6097574011*m-.3413193965*q,bb=-.0041960863*l-.7034186147*m+1.707614701*q;
+      if((r>-.002&&r<1.002&&g>-.002&&g<1.002&&bb>-.002&&bb<1.002)||k===13)return '#'+[r,g,bb].map(v=>OKC.srgb(v).toString(16).padStart(2,'0')).join('');C*=.86}}};
+/* the opposite turns the color inside out (light for dark); the complement keeps its lightness and turns its hue half way */
+const colorOpp=h=>'#'+(0xffffff^(parseInt(String(h).slice(1),16)||0)).toString(16).padStart(6,'0');
+const colorComp=h=>{const [L,C,H]=OKC.lch(h);return C<.025?OKC.hex([1-L,0,0]):OKC.hex([L,C,H+180])};
+const sameC=(a,b)=>String(a||'').toLowerCase()===String(b||'').toLowerCase();
+const CANIM_MODES=[['off','off','No animation'],['drift','drift','Drift: the hue slowly turns round the wheel'],['pulse','pulse','Pulse: a flash on every beat'],['breathe','breathe','Breathe: lightness rises and falls']];
+const CG_LAST={second:'#55b8c9',touch:'#ff6fa5'};
+const CG={
+  line:{name:'Lines',get:()=>S.line,on:()=>!S.lineOff,set:v=>{S.line=v;S.lineOff=false;syncLine()},off:()=>{S.lineOff=true;clearTrails()},sw:()=>LINE_COLORS},
+  second:{name:'Second',get:()=>S.line2||CG_LAST.second,on:()=>!!S.line2,set:v=>{S.line2=v;CG_LAST.second=v;syncLine()},off:()=>{if(S.line2)CG_LAST.second=S.line2;S.line2=null;syncLine()},sw:()=>LINE_COLORS},
+  touch:{name:'Touch',get:()=>S.touchColor||CG_LAST.touch,on:()=>!!S.touchColor,set:v=>{S.touchColor=v;CG_LAST.touch=v},off:()=>{if(S.touchColor)CG_LAST.touch=S.touchColor;S.touchColor=null},sw:()=>LINE_COLORS},
+  ground:{name:'Ground',get:()=>groundHex()||'#050708',on:()=>true,set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
+  arrows:{name:'Arrows',get:()=>S.arrowColor,on:()=>!!S.flags.arrows,set:v=>setArrow(v),off:()=>{S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()},sw:()=>ARROW_SWATCHES}};
+const CG_ORDER=['line','second','touch','ground','arrows'];
+/* what Paths listens for: a color event, said once by whatever did it */
+function colorDid(what){try{document.dispatchEvent(new CustomEvent('cxcolor',{detail:what}))}catch(_){}}
+/* the live colors: the group's own color, animated. The drawing reads LC, the look saves S (so a saved look keeps its
+   colors, not the moment of the drift it was saved in). */
+const LC={};let CAT=0,CBEAT=0,CBHI=false,CBT=0,CGROUND=false;
+function colorTick(dt){CAT+=dt;const A=S.canim||{};
+  let hit=false;if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!CBHI){hit=true;CBHI=true}else if(SIGNALS.beat<.5)CBHI=false}else{CBT+=dt;if(CBT>.6){CBT=0;hit=true}}
+  if(hit)CBEAT=1;CBEAT*=Math.exp(-dt*4);
+  for(const g of CG_ORDER){const a=A[g];if(!a||!a.m||a.m==='off'){LC[g]=null;continue}
+    const base=CG[g].get();if(!base){LC[g]=null;continue}const sp=a.sp==null?.5:+a.sp;let [L,C,H]=OKC.lch(base);
+    if(a.m==='drift'){H+=CAT*360/(60-54*sp);C=Math.max(C,.09)}   // a grey has no hue to turn: it takes a little color first
+    else if(a.m==='breathe')L+=Math.sin(CAT*2*Math.PI/(9-7.5*sp))*.17;
+    else if(a.m==='pulse')L+=(L<.62?.34:-.34)*CBEAT*(.45+.55*sp);
+    LC[g]=OKC.hex([L,C,H])}
+  if(LC.ground){document.documentElement.style.setProperty('--stage',LC.ground);CGROUND=true}else if(CGROUND){CGROUND=false;applyGround()}}
 const groundName=()=>{const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
 const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
@@ -2295,7 +2362,7 @@ function drawOverlay(){
     ctx.globalAlpha=1;
   }
   if(S.flags.arrows||STEER.on){
-    const step=Math.max(2,Math.round(26/CELL)),sg=STEER.any&&STEER.gw===GW&&STEER.gh===GH?STEER.g:null,dOn=driveOn();ctx.strokeStyle=S.arrowColor;ctx.globalAlpha=Math.max(S.arrowAlpha,STEER.on?.5:0);ctx.lineWidth=1;
+    const step=Math.max(2,Math.round(26/CELL)),sg=STEER.any&&STEER.gw===GW&&STEER.gh===GH?STEER.g:null,dOn=driveOn();ctx.strokeStyle=LC.arrows||S.arrowColor;ctx.globalAlpha=Math.max(S.arrowAlpha,STEER.on?.5:0);ctx.lineWidth=1;
     for(let gy=0;gy<GH;gy+=step)for(let gx=0;gx<GW;gx+=step){
       const k=(gy*GW+gx)*2;let vx=field[k],vy=field[k+1];if(dOn)[vx,vy]=mixDrive(k,k,k,k,0,0,vx,vy);if(sg){vx+=sg[k];vy+=sg[k+1]}if(UN.on)[vx,vy]=unsteady(gx*CELL,gy*CELL,vx,vy);const m=Math.hypot(vx,vy);if(m<0.04)continue;
       const L=CELL*step*0.42*Math.min(1,m*1.6),x=gx*CELL,y=gy*CELL,ux=vx/m,uy=vy/m,ex=x+ux*L,ey=y+uy*L;
@@ -2313,7 +2380,7 @@ function frame(now){
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(S.paused||!field)return;
   if(WM){const u=(performance.now()-WM.t0)/WM.dur;if(u>=1)WM=null;else WM.e=u*u*(3-2*u)}tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
-  simT+=dt;stepMorph(dt);readAudio(dt);
+  simT+=dt;stepMorph(dt);readAudio(dt);try{colorTick(dt)}catch(_){}
   SIGNALS.touch=SIGNALS.touch*.85+(TOUCH.on?Math.min(1,Math.hypot(TOUCH.vx,TOUCH.vy)/14):0)*.15;
   {const c=v=>v<0?0:v>1?1:v,ax=TOUCH.on&&W?c(TOUCH.x/W):0,ay=TOUCH.on&&H?c(1-TOUCH.y/H):0;   // where the finger is: 0 at the left/bottom, 1 at the right/top; back to 0 when it lifts
    SIGNALS.fx+=(ax-SIGNALS.fx)*.25;SIGNALS.fy+=(ay-SIGNALS.fy)*.25}
@@ -2328,10 +2395,10 @@ function frame(now){
   fadeTrails(sustain?0.002:E.fade);
   const two=!!S.line2,pA=two?new Path2D():null,pB=two?new Path2D():null;
   // touch color: particles the finger or magnet is working take it on, then fade back to their own color
-  const GH=!TOUCH.on&&UN.ghost,tcol=S.touchColor,pC=tcol?new Path2D():null,tdk=Math.exp(-dt/.9),tfin=tcol&&((TOUCH.on&&!STEER.on)||!!GH);
+  const GH=!TOUCH.on&&UN.ghost,tcol=S.touchColor&&(LC.touch||S.touchColor),pC=tcol?new Path2D():null,tdk=Math.exp(-dt/.9),tfin=tcol&&((TOUCH.on&&!STEER.on)||!!GH);
   const dotN=Math.round(E.dots||0),dS=1;
   if(two&&S.alt==='time'){if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!beatHi){beatFlip++;beatHi=true}else if(SIGNALS.beat<.5)beatHi=false}else beatFlip=Math.floor(simT/Math.max(.5,S.altTime))}
-  ctx.strokeStyle=S.line;ctx.lineWidth=1;ctx.globalAlpha=S.lineOff?0:S.lineAlpha;ctx.beginPath();
+  ctx.strokeStyle=LC.line||S.line;ctx.lineWidth=1;ctx.globalAlpha=S.lineOff?0:S.lineAlpha;ctx.beginPath();
   const sp=E.speed*CELL*0.35*(reduce?0.4:1),st=E.strength;
   const lensK=(S.lensMode!=='off'&&LENS)?E.lens:0;
   const pvx=GH?GH.vx:tvx,pvy=GH?GH.vy:tvy,push=(TOUCH.on||!!GH)&&(Math.abs(pvx)+Math.abs(pvy))>0.3,R=Math.max(50,Math.min(W,H)*0.12),R2=R*R,tx=GH?GH.x:TOUCH.x,ty=GH?GH.y:TOUCH.y;
@@ -2356,9 +2423,9 @@ function frame(now){
     p.x=nx;p.y=ny;p.age++;
     if((mn++&7)===0)msum+=m;
   }
-  if(dotN){if(!S.lineOff){ctx.globalAlpha=Math.min(1,S.lineAlpha*1.5);if(two){ctx.fillStyle=S.line;ctx.fill(pA);ctx.fillStyle=S.line2;ctx.fill(pB)}else{ctx.fillStyle=S.line;ctx.fill()}}
+  if(dotN){if(!S.lineOff){ctx.globalAlpha=Math.min(1,S.lineAlpha*1.5);if(two){ctx.fillStyle=LC.line||S.line;ctx.fill(pA);ctx.fillStyle=LC.second||S.line2;ctx.fill(pB)}else{ctx.fillStyle=LC.line||S.line;ctx.fill()}}
     if(tcol){ctx.fillStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha*1.5,.75);ctx.fill(pC)}}
-  else{if(!S.lineOff){if(two){ctx.strokeStyle=S.line;ctx.stroke(pA);ctx.strokeStyle=S.line2;ctx.stroke(pB)}else ctx.stroke()}
+  else{if(!S.lineOff){if(two){ctx.strokeStyle=LC.line||S.line;ctx.stroke(pA);ctx.strokeStyle=LC.second||S.line2;ctx.stroke(pB)}else ctx.stroke()}
     if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
   steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
@@ -2617,6 +2684,7 @@ function applyLookNow(p,idx,instant){
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;applyGround()}syncLine();
+  S.canim=JSON.parse(JSON.stringify(p.canim||{}));try{if(!$('colorPop').hidden)renderCM()}catch(_){}
   S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&!isOn(p.audio)&&!AUD.play.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
@@ -2792,7 +2860,7 @@ function buildRlist(){
 function openRlist(){closePlist();buildRlist();$('rlist').hidden=false;$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return {name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
-  flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
+  flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
 // AUTO NAMES: a look names itself from what it is (its toolpath, motion, colors, modulation); the name is prefilled
 // and selected, so typing replaces it.
 const NAME_MOTION={along:['Drift','Current','Tide','Run'],across:['Crosscut','Shear','Weft','Grain'],attract:['Pool','Gather','Well','Settle'],
@@ -4071,39 +4139,31 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
   const grp=txt=>{const g=document.createElement('span');g.className='shg';g.textContent=txt;t.appendChild(g)};
   const sep=()=>{const g=document.createElement('span');g.className='sep';t.appendChild(g)};
   if(ACTIVE==='color'){
-    const PK={line:{title:'Line color',get:()=>S.line,set:v=>{S.line=v;S.lineOff=false;syncLine()}},
-      second:{title:'Second color',get:()=>S.line2||S.line,set:v=>{S.line2=v;syncLine()}},
-      touch:{title:'Touch color',get:()=>S.touchColor||'#ff6fa5',set:v=>{S.touchColor=v}},
-      arrows:{title:'Arrow color',get:()=>S.arrowColor,set:v=>setArrow(v)}};
-    const known=(v,list)=>!v||list.some(x=>x[1].toLowerCase()===String(v).toLowerCase());
-    const own=(v,pk,alpha)=>{const d=dot(v,pk.title+' '+v+' (your own)',()=>openColorPick(pk,v),true,alpha,pk);d.classList.add('own')};
-    grp('line');dot(null,'No lines: hide the particles',()=>{S.lineOff=!S.lineOff;clearTrails()},S.lineOff);
-    for(const [n,c] of LINE_COLORS){const on=!S.lineOff&&S.line.toLowerCase()===c.toLowerCase();
-      dot(c,'Line color '+n,()=>{if(on){S.lineOff=true;clearTrails()}else{S.line=c;S.lineOff=false}syncLine()},on,lineA,PK.line)}
-    if(!S.lineOff&&!known(S.line,LINE_COLORS))own(S.line,PK.line,lineA);
-    sep();grp('second');dot(null,'No second color',()=>{S.line2=null;syncLine()},!S.line2);
-    for(const [n,c] of LINE_COLORS){const on=(S.line2||'').toLowerCase()===c.toLowerCase();
-      dot(c,'Second color '+n,()=>{S.line2=on?null:c;syncLine()},on,lineA,PK.second)}
-    if(S.line2&&!known(S.line2,LINE_COLORS))own(S.line2,PK.second,lineA);
-    sep();grp('touch');dot(null,'No touch color: the finger and the magnet only move the colors already there',()=>{S.touchColor=null},!S.touchColor);
-    for(const [n,c] of LINE_COLORS){const on=(S.touchColor||'').toLowerCase()===c.toLowerCase();
-      dot(c,'Touch color '+n+': mixed in where the finger or magnet is working, then fades back',()=>{S.touchColor=on?null:c;if(!on)toast('touch color '+n.toLowerCase()+' · drag on the field')},on,null,PK.touch)}
-    if(S.touchColor&&!known(S.touchColor,LINE_COLORS))own(S.touchColor,PK.touch,null);
-    sep();
-    if(S.line2){const ks=Object.keys(ALTS),nm={grain:'grain',time:'in time',motion:'motion'};
-      // the icon itself says which mix: grains, a clock, or fast-vs-slow
-      const MIXI={grain:'<circle cx="7" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.8"/><circle cx="10.5" cy="13" r="1.8"/><circle cx="17" cy="12.5" r="1.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="15" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>',
-        time:'<circle cx="12" cy="12" r="8"/><path d="M12 12V7.5M12 12l3.2 2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
-        motion:'<path d="M3.5 8h12m-3-3 3 3-3 3"/><path d="M5 16h4" stroke-dasharray="1.5 2"/><circle cx="14.5" cy="16" r="1.6" fill="currentColor" stroke="none"/>'};
-      btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[S.alt]+'</svg>','How the two colors alternate, now '+nm[S.alt]+': '+ALTS[S.alt]+' Tap to change',()=>{S.alt=ks[(ks.indexOf(S.alt)+1)%ks.length];syncLine()})}
-    sep();grp('ground');
-    const PKG={title:'Ground',get:()=>groundHex()||'#050708',set:v=>{S.ground=v;applyGround();syncLine()}};
-    for(const [n,k,c] of GROUND_COLORS){const on=String(S.ground).toLowerCase()===k.toLowerCase();dot(c,'Ground '+n,()=>{S.ground=k;applyGround();syncLine()},on,null,PKG)}
-    if(!GROUND_COLORS.some(x=>x[1].toLowerCase()===String(S.ground).toLowerCase()))own(groundHex(),PKG,null);
-    sep();grp('arrows');dot(null,'No arrows',()=>{S.flags.arrows=!S.flags.arrows;$('c-arrows').checked=S.flags.arrows;clearTrails()},!S.flags.arrows);
-    for(const [n,c] of ARROW_SWATCHES){const on=S.flags.arrows&&S.arrowColor.toLowerCase()===c.toLowerCase();
-      dot(c,'Arrow color '+n,()=>{if(on){S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()}else setArrow(c)},on,arrA,PK.arrows)}
-    if(S.flags.arrows&&!known(S.arrowColor,ARROW_SWATCHES))own(S.arrowColor,PK.arrows,arrA)}
+    /* ONE ROW PER GROUP (Dimitry, 19 Oct: the shelf had grown very wide): its color (lit while on; tap it to turn the
+       group off), the opposite, the complement, black, white, your last five, and ⋯ for the Color mixer. Hold any dot
+       for your own color; hold and drag the lit one for its opacity. */
+    /* the color-mix icon, pinned to the shelf's left edge while the swatches slide under it (Dimitry, 19 Oct): opens the
+       Color mixer at the group in view */
+    {const m=btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg>','The Color mixer: every group’s colors and animation',()=>{},null,'cmPin');
+     m.setAttribute('aria-haspopup','dialog');m.onclick=()=>{const x=t.scrollLeft+m.offsetWidth+8;let gg='line';for(const h of t.querySelectorAll('.shg[data-g]')){if(h.offsetLeft+h.offsetWidth*.5<=x+40)gg=h.dataset.g;else break}
+       if(t.scrollLeft<4)gg='line';openColorMix(gg)}}
+    const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
+    for(const g of CG_ORDER){const G=CG[g],cur=G.get(),on=G.on(),alpha=g==='line'||g==='second'?lineA:g==='arrows'?arrA:null;
+      const PK={title:G.name+' color',get:G.get,set:v=>{G.set(v);try{if(!$('colorPop').hidden)renderCM()}catch(_){}}};
+      if(g!=='line')sep();grp(G.name.toLowerCase());t.lastChild.dataset.g=g;
+      const an=S.canim&&S.canim[g]&&S.canim[g].m&&S.canim[g].m!=='off'?S.canim[g].m:'';
+      const d=dot(cur,G.name+' color '+cur+(on?', on'+(G.off?'. Tap to turn '+G.name.toLowerCase()+' off':''):', off. Tap to turn it on')+(an?'. Animated: '+an:''),()=>{if(on&&G.off)G.off();else G.set(cur)},on,alpha,PK);
+      d.classList.add('cur');if(an)d.classList.add('anim');
+      const seen=[String(cur).toLowerCase()];const one=(c,label,ev)=>{if(!c||seen.includes(c.toLowerCase()))return;seen.push(c.toLowerCase());
+        dot(c,G.name+': '+label+' '+c,()=>{G.set(c);if(ev)colorDid(ev);try{rememberColor(c)}catch(_){}},false,null,PK)};
+      one(colorOpp(cur),'the opposite','opposite');one(colorComp(cur),'the complement','opposite');one('#000000','black');one('#ffffff','white');
+      for(const c of recent().slice(0,8)){if(seen.length>=10)break;one(c,'recent')}
+      if(g==='second'){    if(S.line2){const ks=Object.keys(ALTS),nm={grain:'grain',time:'in time',motion:'motion'};
+        // the icon itself says which mix: grains, a clock, or fast-vs-slow
+        const MIXI={grain:'<circle cx="7" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.8"/><circle cx="10.5" cy="13" r="1.8"/><circle cx="17" cy="12.5" r="1.8" fill="currentColor" stroke="none"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="15" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>',
+          time:'<circle cx="12" cy="12" r="8"/><path d="M12 12V7.5M12 12l3.2 2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
+          motion:'<path d="M3.5 8h12m-3-3 3 3-3 3"/><path d="M5 16h4" stroke-dasharray="1.5 2"/><circle cx="14.5" cy="16" r="1.6" fill="currentColor" stroke="none"/>'};
+        btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[S.alt]+'</svg>','How the two colors alternate, now '+nm[S.alt]+': '+ALTS[S.alt]+' Tap to change',()=>{S.alt=ks[(ks.indexOf(S.alt)+1)%ks.length];syncLine()})}}}}
   if(ACTIVE==='text'){
     // the flip: text cursor (type the word, the default) | F outline (choose the typeface)
     const flip=document.createElement('button');flip.type='button';flip.className='shflip';flip.setAttribute('role','switch');flip.setAttribute('aria-checked',String(TEXT_FLIP));
@@ -5097,6 +5157,46 @@ window.SurfaceInfo=window.SurfaceInfo||{mount(btn,drawer,tabsList){const tx=draw
   btn.onclick=()=>set(btn.getAttribute('aria-expanded')!=='true');hd.onclick=()=>set(false);
   return {open:()=>set(true),close:()=>set(false),isOpen:()=>btn.getAttribute('aria-expanded')==='true',sync(p){pane=p;fill()}}}};
 window.MIX_INFO=SurfaceInfo.mount($('mixInfoBtn'),$('mixInfo'),$('mixTabs'));
+const CM_PANE={line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround',arrows:'cmArrows'};
+const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3 10c3-5 5-5 8 0s5 5 10-1"/><path d="M3 17c3-5 5-5 8 0s5 5 10-1" opacity=".55"/>',
+  touch:'<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7.5" opacity=".5"/>',ground:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 15l5-4 4 3 3-2 4 3" opacity=".6"/>',
+  arrows:'<path d="M4 18 18 6M11 6h7v7"/>'};
+const CM_TABS=SurfaceTabs.mount($('cmTabs'),CG_ORDER.map(g=>({id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>renderCM(g)})),'current.cmTab');
+function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
+function closeColorMix(){const p=$('colorPop');if(!p||p.hidden)return;p.hidden=true;const f=document.querySelector('#toolTrack .cmPin');if(f&&p.contains(document.activeElement))f.focus({preventScroll:true})}
+function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE[g]);if(!G||!pane)return;const keep=pane.scrollTop;pane.innerHTML='';
+  const cur=G.get(),on=G.on(),A=(S.canim=S.canim||{}),an=A[g]||{m:'off',sp:.5};
+  const refresh=()=>{renderCM(g);try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
+  const use=(c,ev)=>{G.set(c);if(ev)colorDid(ev);try{rememberColor(c)}catch(_){}refresh()};
+  const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
+  const head=el('div','cmHead');const big=document.createElement('span');big.className='cmBig';big.style.background=cur;if(!on)big.style.opacity=.35;head.appendChild(big);
+  const hx=document.createElement('span');hx.className='cmHex';hx.textContent=cur.toUpperCase()+(on?'':' · off');head.appendChild(hx);
+  const own=document.createElement('button');own.type='button';own.className='tb';own.textContent='your own';own.setAttribute('aria-label','Your own '+G.name.toLowerCase()+' color: a hex code or the color field');
+  own.onclick=()=>openColorPick({title:G.name+' color',get:G.get,set:v=>{G.set(v);renderCM(g)}},cur);head.appendChild(own);
+  if(G.off){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent=on?'off':'on';o.setAttribute('aria-pressed',String(!on));o.setAttribute('aria-label',(on?'Turn '+G.name.toLowerCase()+' off':'Turn '+G.name.toLowerCase()+' on'));
+    o.onclick=()=>{if(on)G.off();else G.set(cur);refresh()};head.appendChild(o)}
+  const row=(label,list,ev)=>{el('p','cmL',label);const box=el('div','cmSw');box.setAttribute('role','group');box.setAttribute('aria-label',G.name+': '+label);
+    if(!list.length){box.innerHTML='<em>none yet</em>';return}
+    for(const [n,c] of list){const b=document.createElement('button');b.type='button';b.style.background=c;b.title=n+' '+c;b.setAttribute('aria-label',G.name+' '+n+' '+c);
+      b.setAttribute('aria-pressed',String(on&&sameC(c,cur)));b.onclick=()=>use(c,ev);box.appendChild(b)}};
+  row('Swatches',g==='ground'?G.sw():[...G.sw(),['Black','#000000'],['White','#ffffff']]);   // the ground has its own dark and paper
+  const [L,C,H]=OKC.lch(cur);
+  row('Related',[['Opposite',colorOpp(cur)],['Complement',colorComp(cur)],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]],'opposite');
+  let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}
+  row('Recent',rec.slice(0,10).map(c=>['Recent',c]));
+  el('p','cmL','Animation');const seg=el('div','cmSeg');seg.setAttribute('role','group');seg.setAttribute('aria-label',G.name+' animation');
+  for(const [k,t,al] of CANIM_MODES){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String((an.m||'off')===k));
+    b.onclick=()=>{if(k==='off')delete A[g];else{A[g]={m:k,sp:an.sp==null?.5:an.sp};colorDid('anim')}refresh()};seg.appendChild(b)}
+  const sp=el('label','cmSp');sp.hidden=!an.m||an.m==='off';sp.innerHTML='<span>speed</span>';const r=document.createElement('input');r.type='range';r.min=0;r.max=1;r.step=.01;r.value=an.sp==null?.5:an.sp;r.setAttribute('aria-label',G.name+' animation speed');
+  r.oninput=()=>{if(A[g])A[g].sp=+r.value};sp.appendChild(r);
+  /* FREE AND PRO (Dimitry, 19 Oct): colors and their basic animation are free; blend modes and mappings will be Pro */
+  const lock='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+  const pro=el('div','cmPro');pro.innerHTML='<p>'+lock+' <b>With Pro:</b> blend modes, one group following another, and colors driven by the paths, the sound, the magnet or your finger. Founding testers get Pro free.</p><button type="button" class="bgGo ghost">become a founding tester</button>';
+  pro.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};
+  pane.scrollTop=keep}
+$('cmClose').onclick=closeColorMix;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('colorPop').hidden&&$('colorPick').hidden){closeColorMix()}});
+document.addEventListener('pointerdown',e=>{const p=$('colorPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#colorPick,#toolTrack,.cmPin,.lc-beta,#betaHost'))return;closeColorMix()},true);
 
 $('batchClose').onclick=closeBatch;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('batchPop').hidden)closeBatch()});
 document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#sdMix,#sdMic,#sdFile,.sgCaret,#shelfSnd,#pSnd,#bbStub,#sdWrite'))return;closeMix()},true);
@@ -5827,13 +5927,13 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 </script>
 
 <script>/* every panel over the stage wears the capture panel's chrome: rounded card, small-caps head, × to close (kit pop.js) */
-try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
+try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020032118"></script>
-<script src="surface/links.js?v=20261020032118"></script>
-<script src="surface/tips.js?v=20261020032118"></script>
-<script src="surface/sections.js?v=20261020032118"></script>
+<script src="surface/install.js?v=20261020034235"></script>
+<script src="surface/links.js?v=20261020034235"></script>
+<script src="surface/tips.js?v=20261020034235"></script>
+<script src="surface/sections.js?v=20261020034235"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6035,6 +6135,7 @@ try{(function(){
     '03':{name:'Path 03 · Golden Angle',gen:'golden',mode:'along',line:'#dba359',line2:'#336bf2',alt:'time',p:{falloff:2.6,speed:1.3,fade:0.05,magnet:.4,lag:2},flags:{arrows:false,path:false,travel:false,feed:true}},
     '04':{name:'Path 04 · Hilbert',gen:'hilbert',mode:'along',line:'#ede6d6',p:{falloff:2.2,speed:1.4,fade:0.06},flags:{arrows:false,path:true,travel:false,feed:false}},
     '05':{name:'Path 05 · Square Rings',gen:'rings',mode:'orbit',line:'#336bf2',line2:'#ff6b2b',alt:'time',p:{falloff:3,speed:1.6,fade:0.05,pulse:.5},flags:{arrows:false,path:false,travel:false,feed:true}},
+    '07':{name:'Path 07 · Color Drift',gen:'spiro',mode:'orbit',line:'#e8a83a',line2:'#ffffff',alt:'grain',ground:'#2f5cff',canim:{line:{m:'drift',sp:.45},ground:{m:'breathe',sp:.25}},p:{falloff:3.2,speed:1.5,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
     '06':{name:'Path 06 · Arcs',gen:'arcs',mode:'along',arrow:'#ff7a52',p:{falloff:3.5,speed:1.3,fade:0.05},flags:{arrows:true,path:true,travel:true,feed:true}}};
   const lookFor=id=>{const L=LOOKS[id],{gen,...rest}=L;return {...rest,gcode:GEN[gen](),p:{...DEFAULTS,...L.p},paths:id}};
   const unlock=id=>{const L=LOOKS[id];if(store.user.some(u=>u.name===L.name))return;store.user.push(lookFor(id));persist();
@@ -6053,7 +6154,7 @@ try{(function(){
     for(const id of Object.keys(LOOKS)){const L=lookFor(id);files.push(['gcode/'+slug(L.name)+'.nc',L.gcode]);const {gcode,...s}=L;looks.push(s)}
     files.push(['looks.json',JSON.stringify({kind:'current.looks',made:new Date().toISOString(),looks},null,2)]);
     files.push(['README.txt',['CURRENT · the Paths pack','CHAMY·XYZ, Dimitry Saïd Chamy, '+new Date().getFullYear(),'',
-      'Six toolpaths, one for each path through Current. Open any .nc file in Current (tools › path › open file, or drop it on the stage),',
+      'Seven toolpaths, one for each path through Current. Open any .nc file in Current (tools › path › open file, or drop it on the stage),',
       'or send it to a plotter, laser or CNC router: it is ordinary G-code (G21 millimetres, G90 absolute, a 100 mm square).','',
       'looks.json holds the settings each bonus look uses.','',
       'Foundations: Lissajous figures (Jules Antoine Lissajous, 1857), the hypotrochoid of the Spirograph (Denys Fisher, 1965),',
@@ -6063,7 +6164,7 @@ try{(function(){
   /* the paths, deepest last */
   const pick=()=>{if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()};
   const P=SurfacePaths.mount({key:'current',after:'#guide',settings:'#displayL',title:'Paths',filePrefix:FILE_PREFIX,
-    lead:'Six paths through Current, from your first look to the G-code under it. Each box ticks itself when you do the thing. The numbers on the buttons point to the path that teaches them; switch them off in <b>Settings › Paths</b>.',
+    lead:'Seven paths through Current, from your first look to the G-code under it. Each box ticks itself when you do the thing. The numbers on the buttons point to the path that teaches them; switch them off in <b>Settings › Paths</b>.',
     save:(n,b)=>saveBlob(n,b),toast:m=>toast(m,2400),
     showWhere:p=>{setPlayer(true);if(['02','03','06'].includes(p.id))setTimeout(pick,320)},
     /* take me there (0.20.0): the stage in front, and the shelf a step's control lives on */
@@ -6089,6 +6190,9 @@ try{(function(){
       {id:'05',title:'Sound',note:'Beats, your own sound, and songs made from one line of arithmetic.',badges:['#pSnd'],
         steps:[{id:'beat',go:'#sndTrack .si[data-src]:not(.bb):not([data-src=file])',shelf:'snd',label:'Play a <b>beat</b>'},{id:'mine',go:'#sdMic',shelf:'snd',label:'Use the <b>microphone</b> or a sound file of your own'},{id:'byte',go:'#sndTrack .si.bb',shelf:'snd',label:'Play a <b>bytebeat</b> formula'},{id:'bbsave',go:{link:'bbGroup'},label:'Save a formula to <b>My formulas</b>'}],
         reward:{label:'a bonus look, Square Rings',toast:'Square Rings is in your looks',give:()=>unlock('05'),given:'Unlocked: <b>Path 05 · Square Rings</b>, in your looks.'}},
+      {id:'07',title:'Color',note:'Every group\'s color, its opposite, your own, and color that moves. Blending and driving colors come with Pro.',badges:['#pickTrack [data-tool=color]'],
+        steps:[{id:'cground',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Change the <b>ground</b> in <b>color</b>'},{id:'copp',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Use an <b>opposite</b> or a <b>complement</b>'},{id:'cown',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Mix <b>your own</b> color (hold any dot)'},{id:'canim',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Animate a color in the <b>Color mixer</b>: drift, pulse or breathe'},{id:'clook',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Save a look with color that moves'}],
+        reward:{label:'a bonus look, Color Drift',toast:'Color Drift is in your looks',give:()=>unlock('07'),given:'Unlocked: <b>Path 07 · Color Drift</b>, in your looks.'}},
       {id:'06',title:'Under the hood',advanced:true,note:'Every look is G-code: the path a machine would cut. Here you can change it.',badges:['#pickTrack [data-tool=path]'],
         steps:[{id:'edit',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Open a look&rsquo;s toolpath in the editor (<b>path</b> › <b>edit</b>)'},{id:'drawsave',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'Draw a toolpath of your own and save it'},{id:'dup',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Duplicate</b> a look as one of yours'},{id:'gfile',go:'#pickTrack [data-tool=path]',shelf:'pick',label:'<b>Open</b> a G-code file, or drop one on the stage'}],
         reward:{label:'a bonus look, Arcs',toast:'Arcs is in your looks',give:()=>unlock('06'),given:'Unlocked: <b>Path 06 · Arcs</b>, in your looks.'}}],
@@ -6107,6 +6211,8 @@ try{(function(){
   wrap('loadPreset',()=>D('look'));wrap('setAuto',a=>{if(a[0])D('auto')});wrap('randomLook',()=>D('random'));
   wrap('selectTool',a=>{if(a[0]==='color')D('color');if(a[0]==='frame')D('frame')});
   wrap('rememberWord',()=>D('word'));document.addEventListener('change',e=>{if(e.target&&e.target.id==='word'&&e.target.value.trim())D('word')},true);
+  document.addEventListener('cxcolor',e=>{const k={ground:'cground',opposite:'copp',own:'cown',anim:'canim'}[e.detail];if(k)D(k)});
+  wrap('savePreset',()=>{if(S.canim&&Object.values(S.canim).some(a=>a&&a.m&&a.m!=='off'))D('clook')});
   wrap('openEditor',()=>D('edit'));{const f=window.saveEditor;if(typeof f==='function')window.saveEditor=function(...a){const had=!!(ED&&ED.paths&&ED.paths.length);const r=f.apply(this,a);if(had)D('drawsave');return r}}wrap('dupPreset',()=>D('dup'));wrap('loadGcodeText',()=>D('gfile'));
   /* and what can only be seen in the state: polled, quietly, a few times a second */
   new MutationObserver(()=>{if(document.documentElement.classList.contains('bare'))D('bare')}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
@@ -6139,7 +6245,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 (function(){const P=$('colorPick'),hex=$('cpHex'),wh=$('cpWheel'),sw=$('cpSw');let pk=null,prev=null,cur='#ffffff';
   const norm=v=>{v=String(v||'').trim().replace(/^#/,'').toLowerCase();if(/^[0-9a-f]{3}$/.test(v))v=v.split('').map(x=>x+x).join('');return /^[0-9a-f]{6}$/.test(v)?'#'+v:null};
   const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
-  const remember=v=>{const r=[v,...recent().filter(x=>x!==v)].slice(0,10);try{localStorage.setItem('current.colors',JSON.stringify(r))}catch(_){}};
+  const remember=v=>{v=String(v).toLowerCase();const r=[v,...recent().filter(x=>x!==v)].slice(0,10);try{localStorage.setItem('current.colors',JSON.stringify(r))}catch(_){}};window.rememberColor=remember;
   const show=(v,live)=>{cur=v;sw.style.background=v;wh.value=v;if(document.activeElement!==hex)hex.value=v.slice(1);hex.classList.remove('bad');P.querySelector('.cpField').style.background=v;if(live&&pk)pk.set(v)};
   function paintRecent(){const r=recent(),box=$('cpRecent');box.innerHTML='';if(!r.length){box.innerHTML='<em>none yet</em>';return}
     r.forEach(v=>{const b=document.createElement('button');b.type='button';b.style.background=v;b.setAttribute('aria-label','Use '+v);b.onclick=()=>show(v,true);box.appendChild(b)})}
@@ -6150,9 +6256,9 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
   hex.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('cpUse').click()}if(e.key==='Escape'){e.preventDefault();close(false)}});
   hex.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData)?.getData('text');const v=norm(t);if(v){e.preventDefault();hex.value=v.slice(1);show(v,true)}});
   wh.addEventListener('input',()=>show(wh.value,true));
-  $('cpUse').onclick=()=>{if(pk){pk.set(cur);remember(cur);toast(pk.title.toLowerCase()+' '+cur)}close(true)};
+  $('cpUse').onclick=()=>{if(pk){pk.set(cur);remember(cur);toast(pk.title.toLowerCase()+' '+cur);colorDid('own')}close(true)};
   $('cpCancel').onclick=$('cpClose').onclick=()=>close(false);
-  document.addEventListener('pointerdown',e=>{if(!P.hidden&&!P.contains(e.target)&&!e.target.closest('.si.dot'))close(true)},true);
+  document.addEventListener('pointerdown',e=>{if(!P.hidden&&!P.contains(e.target)&&!e.target.closest('.si.dot')&&!(e.target.closest('#colorPop .tb')))close(true)},true);
   ['pointerdown','contextmenu'].forEach(ev=>P.addEventListener(ev,e=>e.stopPropagation()))})();
 
 /* FULL SCREEN, NO UI, AUTOPLAY ON A COMPUTER */
@@ -6206,7 +6312,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.24.2';
+const APP_VERSION='0.25.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
