@@ -53,16 +53,42 @@
     conv.buffer = ir;
     input.connect(fader); fader.connect(filt); var last = filt; if (pan) { filt.connect(pan); last = pan; }
     last.connect(dry); last.connect(conv); conv.connect(wet); dry.connect(out); wet.connect(out); out.connect(output);
-    A = { ctx: ctx, fader: fader, filt: filt, pan: pan, wet: wet };
+    /* the watch (Current 0.26.39): ears on what comes in and what goes out, so a filter that breaks can be replaced */
+    var inAn = ctx.createAnalyser(), outAn = ctx.createAnalyser(); inAn.fftSize = outAn.fftSize = 512;
+    input.connect(inAn); out.connect(outAn);
+    A = { ctx: ctx, fader: fader, filt: filt, pan: pan, wet: wet, dry: dry, conv: conv, inAn: inAn, outAn: outAn, buf: new Float32Array(512), quiet: 0, check: 0, heals: 0 };
     return A;
   }
+  function fin(v, d) { v = +v; return isFinite(v) ? v : d; }
+  function peak(an) { an.getFloatTimeDomainData(A.buf); var m = 0, bad = false; for (var i = 0; i < A.buf.length; i++) { var v = A.buf[i]; if (!isFinite(v)) { bad = true; break; } if (v < 0) v = -v; if (v > m) m = v; } return bad ? -1 : m; }
+  /* SELF-REPAIR (Dimitry's iPhone, 20 Oct: Beat: Hat Shimmer with Pan + Sweep went silent mid-drag, and stayed silent).
+     Safari's BiquadFilterNode can be pushed into NaN by a fast-moving cutoff; once its state is NaN everything after it
+     is silent for good. A few times a second, compare what comes in with what goes out: NaN out, or music in and
+     nothing out for half a second, and the filter is replaced with a fresh one at the same settings. */
+  function heal() {
+    var c = A.ctx, old = A.filt, nf = c.createBiquadFilter();
+    nf.type = "lowpass"; nf.frequency.value = 20000; nf.Q.value = 0.7;
+    try { A.fader.disconnect(old); } catch (e) {} try { old.disconnect(); } catch (e) {}
+    A.fader.connect(nf);
+    if (A.pan) nf.connect(A.pan); else { nf.connect(A.dry); nf.connect(A.conv); }   // without a panner the filter fed dry and the room
+    A.filt = nf; A.heals++; A.quiet = 0;
+    try { console.warn("[touchsound] filter replaced (" + A.heals + ")"); } catch (e) {}
+  }
+  function watch(dt) {
+    A.check += dt; if (A.check < 0.25) return; var step = A.check; A.check = 0;
+    var o = peak(A.outAn); if (o < 0) { heal(); return; }
+    var i = peak(A.inAn); if (i > 0.02 && o < 1e-5) { A.quiet += step; if (A.quiet >= 0.5) heal(); } else A.quiet = 0;
+  }
   function tick(s, dt) {
-    if (!A) return; s = s || {}; dt = Math.min(0.1, dt || 0.016);
+    if (!A) return; s = s || {}; dt = Math.min(0.1, fin(dt, 0.016));
+    s = { down: !!s.down, x: Math.max(0, Math.min(1, fin(s.x, 0.5))), y: Math.max(0, Math.min(1, fin(s.y, 0.5))), speed: fin(s.speed, 0) };
+    try { watch(dt); } catch (e) {}
     var t = A.ctx.currentTime, down = !!s.down, sp = down ? Math.max(0, Math.min(1, s.speed || 0)) : 0;
     env.speed += (sp - env.speed) * (sp > env.speed ? Math.min(1, dt / 0.08) : Math.min(1, dt / 1.2));   // quick to rise, slow to settle
     A.fader.gain.setTargetAtTime(on("fader") ? 0.35 + 0.65 * env.speed : 1, t, 0.06);
-    if (on("sweep") && down) { A.filt.frequency.setTargetAtTime(160 * Math.pow(2, 7 * Math.max(0, Math.min(1, s.y))), t, 0.05); A.filt.Q.setTargetAtTime(1.4, t, 0.1); }
-    else { A.filt.frequency.setTargetAtTime(20000, t, 0.35); A.filt.Q.setTargetAtTime(0.7, t, 0.3); }
+    var top = Math.min(18000, A.ctx.sampleRate * 0.4);
+    if (on("sweep") && down) { A.filt.frequency.setTargetAtTime(Math.min(top, 160 * Math.pow(2, 7 * s.y)), t, 0.09); A.filt.Q.setTargetAtTime(1.0, t, 0.15); }
+    else { A.filt.frequency.setTargetAtTime(top, t, 0.35); A.filt.Q.setTargetAtTime(0.7, t, 0.3); }
     if (A.pan) A.pan.pan.setTargetAtTime(on("pan") && down ? (Math.max(0, Math.min(1, s.x)) * 2 - 1) * 0.85 : 0, t, on("pan") && down ? 0.05 : 0.4);
     var still = down && sp < 0.06, goal = on("wash") ? (still ? 0.75 : 0) : 0, rate = goal > env.wet ? dt / 2.5 : (down ? dt / 0.4 : dt / 1.5);
     env.wet += (goal - env.wet) * Math.min(1, rate * 3);
@@ -108,6 +134,7 @@
   }
   function add(p) { if (p && p.id && !known(p.id)) PRESETS.push({ id: p.id, name: p.name || p.id, note: p.note || "" }); }
   window.SurfaceTouchSound = { use: use, attach: attach, tick: tick, picker: picker, on: on, set: set, toggle: toggle, enabled: enabled, add: add,
-    state: function () { return A ? { fader: +A.fader.gain.value.toFixed(3), cutoff: Math.round(A.filt.frequency.value), pan: A.pan ? +A.pan.pan.value.toFixed(3) : 0, wet: +A.wet.gain.value.toFixed(3) } : null; },
+    state: function () { return A ? { heals: A.heals, fader: +A.fader.gain.value.toFixed(3), cutoff: Math.round(A.filt.frequency.value), pan: A.pan ? +A.pan.pan.value.toFixed(3) : 0, wet: +A.wet.gain.value.toFixed(3) } : null; },
+    _chain: function () { return A; },   // for tests: break a stage on purpose and watch it heal
     active: function () { return st.on ? st.act.slice() : []; }, listen: function (f) { listeners.push(f); }, presets: function () { return PRESETS.slice(); } };
 })();
