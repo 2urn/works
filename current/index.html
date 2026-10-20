@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020031256";window.__VERSION__="0.24.0";window.__NOTES__=[{"v":"0.24.0","date":"19 Oct 2026","items":[{"kind":"change","text":"cards: the field in colour (a dark, a vivid colour that clashes with the ground, and white), zoomed so it runs off the edges, framed differently on each design, some with the field's arrows"},{"kind":"change","text":"the duck-rabbit is anchored at its heart, the corner where its back meets its neck, at the centre of the card; on story cards its head is the centre"},{"kind":"change","text":"on ochre, lime and sky cards the code sits straight on the colour, no white square"}]}]</script>
+<script>window.__BUILD__="20261020031356";window.__VERSION__="0.24.1";window.__NOTES__=[{"v":"0.24.1","date":"19 Oct 2026","items":[{"kind":"change","text":"a new line for Current, on cards and link previews: G-code in. Beats and dancing particles out. The field is your playground."}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -42,7 +42,7 @@
   w.addEventListener("appinstalled", function () { w.cxCount("installed", 1); });
 })({"code":"2urn","hosts":["works.chamy.xyz"],"prefix":"current/"});
 </script>
-<meta name="description" content="G-code in. Every cut becomes a current. Particles follow it.">
+<meta name="description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -50,7 +50,7 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta property="og:title" content="Current"><meta property="og:description" content="G-code in. Every cut becomes a current. Particles follow it.">
+<meta property="og:title" content="Current"><meta property="og:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <link rel="canonical" href="https://works.chamy.xyz/current/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://works.chamy.xyz/current/">
@@ -60,10 +60,10 @@
 <meta property="og:image:alt" content="CURRENT in white over a full-bleed still of pink and blue particles on black, the Dimitry Saïd Chamy namemark, and CHAMY·XYZ in the app's blue">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
-<meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
+<meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020031256"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020031256">
+<script src="claude-web.js?v=20261020031356"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020031356">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020031256"></script>
-<script src="surface/auto.js?v=20261020031256"></script>
-<script src="surface/toolpath.js?v=20261020031256"></script>
-<script src="surface/capture.js?v=20261020031256"></script>
-<script src="surface/pop.js?v=20261020031256"></script>
-<script src="surface/hints.js?v=20261020031256"></script>
-<script src="surface/paths.js?v=20261020031256"></script>
-<script src="surface/keys.js?v=20261020031256"></script>
-<script src="surface/reset.js?v=20261020031256"></script>
+<script src="vendor/opentype.min.js?v=20261020031356"></script>
+<script src="surface/auto.js?v=20261020031356"></script>
+<script src="surface/toolpath.js?v=20261020031356"></script>
+<script src="surface/capture.js?v=20261020031356"></script>
+<script src="surface/pop.js?v=20261020031356"></script>
+<script src="surface/hints.js?v=20261020031356"></script>
+<script src="surface/paths.js?v=20261020031356"></script>
+<script src="surface/keys.js?v=20261020031356"></script>
+<script src="surface/reset.js?v=20261020031356"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1320,7 +1320,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
     <div class="ph">
       <div>
         <h1>Current</h1>
-        <p class="sub">G-code in. Every cut becomes a current. Particles follow it.</p>
+        <p class="sub">G-code in. Beats and dancing particles out. The field is your playground.</p>
       </div>
       <button class="pill" id="bPlay" type="button" aria-label="Close the settings drawer (p)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6 L9 12 L15 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>close</button>
     </div>
@@ -3642,7 +3642,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   const tall=H/W>=1.25,room=W-pad*2-mw-40*u;
   if(tall){ts=Math.round(120*u);while(ts<360&&fit()<H*.42)ts+=4;while(ts>40&&fit()>H*.46)ts-=2}
   else while(ts>30&&fit()>room)ts-=2;try{g.letterSpacing='0px'}catch(_){}
-  const ls=Math.round(25*u),lh=Math.round(ls*1.4),words=(msg&&msg.trim()?msg.trim():'G-code in. Every cut becomes a current. Particles follow it.').split(/\s+/),lines=[];g.font='400 '+ls+'px '+SANS;
+  const ls=Math.round(25*u),lh=Math.round(ls*1.4),words=(msg&&msg.trim()?msg.trim():'G-code in. Beats and dancing particles out. The field is your playground.').split(/\s+/),lines=[];g.font='400 '+ls+'px '+SANS;
   const sx=tall?pad+ts*.78+Math.round(36*u):pad;
   {let cur='';const max=tall?Math.min(470*u,W-sx-mw-xh-40*u):Math.min(470*u,W-pad*2-(wide?mw:0));for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
   const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(44*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
@@ -5819,10 +5819,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020031256"></script>
-<script src="surface/links.js?v=20261020031256"></script>
-<script src="surface/tips.js?v=20261020031256"></script>
-<script src="surface/sections.js?v=20261020031256"></script>
+<script src="surface/install.js?v=20261020031356"></script>
+<script src="surface/links.js?v=20261020031356"></script>
+<script src="surface/tips.js?v=20261020031356"></script>
+<script src="surface/sections.js?v=20261020031356"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6195,7 +6195,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.24.0';
+const APP_VERSION='0.24.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
