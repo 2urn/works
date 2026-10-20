@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020205415";window.__VERSION__="0.26.27";window.__NOTES__=[{"v":"0.26.27","date":"20 Oct 2026","items":[{"kind":"change","text":"the founders club sheet opens in one second: the graphics fade back, then the sheet comes into focus with a slight lift. A tap outside it closes it"}]}]</script>
+<script>window.__BUILD__="20261020210348";window.__VERSION__="0.26.29";window.__NOTES__=[{"v":"0.26.29","date":"20 Oct 2026","items":[{"kind":"change","text":"the founders club form asks one step at a time: name, email and phone first; the rest opens once your email is in"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020205415"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020205415">
+<script src="claude-web.js?v=20261020210348"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020210348">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,21 +97,21 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020205415"></script>
-<script src="surface/selftest.js?v=20261020205415"></script>
-<script src="surface/auto.js?v=20261020205415"></script>
-<script src="surface/toolpath.js?v=20261020205415"></script>
-<script src="surface/capture.js?v=20261020205415"></script>
-<script src="surface/pop.js?v=20261020205415"></script>
-<script src="surface/hints.js?v=20261020205415"></script>
-<script src="surface/paths.js?v=20261020205415"></script>
-<script src="surface/keys.js?v=20261020205415"></script>
-<script src="surface/reset.js?v=20261020205415"></script>
-<script src="surface/files.js?v=20261020205415"></script>
-<script src="surface/rail.js?v=20261020205415"></script>
-<script src="surface/touchsound.js?v=20261020205415"></script>
-<script src="surface/float.js?v=20261020205415"></script>
-<script src="surface/manual.js?v=20261020205415"></script>
+<script src="vendor/opentype.min.js?v=20261020210348"></script>
+<script src="surface/selftest.js?v=20261020210348"></script>
+<script src="surface/auto.js?v=20261020210348"></script>
+<script src="surface/toolpath.js?v=20261020210348"></script>
+<script src="surface/capture.js?v=20261020210348"></script>
+<script src="surface/pop.js?v=20261020210348"></script>
+<script src="surface/hints.js?v=20261020210348"></script>
+<script src="surface/paths.js?v=20261020210348"></script>
+<script src="surface/keys.js?v=20261020210348"></script>
+<script src="surface/reset.js?v=20261020210348"></script>
+<script src="surface/files.js?v=20261020210348"></script>
+<script src="surface/rail.js?v=20261020210348"></script>
+<script src="surface/touchsound.js?v=20261020210348"></script>
+<script src="surface/float.js?v=20261020210348"></script>
+<script src="surface/manual.js?v=20261020210348"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -270,16 +270,33 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-betaBtn:focus-visible,.lc-betaF :focus-visible{outline:2px solid #fff;outline-offset:2px}
 .lc-betaF{position:fixed;z-index:5;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 12px);width:min(380px,calc(100vw - 24px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - 24px);overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding:14px;box-sizing:border-box;border-radius:16px;background:rgba(10,13,16,.92);box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .lc-betaF[hidden]{display:none}
-/* OPENING (Dimitry, 20 Oct: "fade out the graphics and focus it in with a slight lift, 1 sec total"): the graphics
-   dim under a veil over 0.6 s; from 0.35 s the sheet comes into focus (blur to sharp) as it rises 14 px, done at 1 s.
-   translate, not transform, so the centring stays put. Reduced motion: the veil and a plain fade, no blur or lift. */
-.lc-betaVeil{position:fixed;inset:0;z-index:4;background:rgba(5,7,9,.84);opacity:0;pointer-events:none;transition:opacity .6s ease}
+/* THE INVITATION (Dimitry, 20 Oct: fade the graphics out, "focus it in with a slight lift, 1 sec total"; then: the
+   interface to zero, only the field showing, "a soft vignette window", "more jewel-like", "partially frosted", "an
+   energetic field that's inviting you to apply"). Over 0.6 s every control, mark and the cover fade to nothing and a
+   jewel vignette (the accent, deepened) comes up: clear in the middle round the sheet, deep at the edges; the frost
+   sits only at the edges (a masked blur), so a phone isn't asked to blur the whole moving field. From 0.35 s the sheet
+   focuses in with a 14 px lift; settled at 1 s. Reduced motion: the vignette and a plain fade. */
+:root{--jewel:color-mix(in srgb,var(--accent,#1f7a8c) 62%,#0b0326)}
+.lc-betaVeil,.lc-betaFrost{position:fixed;inset:0;z-index:4;pointer-events:none}
+.lc-betaVeil{opacity:0;transition:opacity .6s ease;
+  background:radial-gradient(ellipse 46% 58% at 50% 50%,color-mix(in srgb,var(--jewel) 12%,transparent) 0%,color-mix(in srgb,var(--jewel) 30%,transparent) 45%,color-mix(in srgb,var(--jewel) 72%,transparent) 78%,color-mix(in srgb,var(--jewel) 55%,#020104) 100%)}
+.lc-betaFrost{-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);transition:-webkit-backdrop-filter .6s ease,backdrop-filter .6s ease;
+  -webkit-mask-image:radial-gradient(ellipse 50% 62% at 50% 50%,transparent 40%,#000 85%);mask-image:radial-gradient(ellipse 50% 62% at 50% 50%,transparent 40%,#000 85%)}
 .lc-beta.open .lc-betaVeil{opacity:1;pointer-events:auto}
+.lc-beta.open .lc-betaFrost{-webkit-backdrop-filter:blur(7px) saturate(1.35);backdrop-filter:blur(7px) saturate(1.35)}
 #betaHost{background:none!important}
-.lc-beta.open .lc-betaF{animation:betaFocus .65s cubic-bezier(.2,.75,.25,1) .35s both}
+#launch.betaOpen .lc-frost{opacity:0!important;transition:opacity .6s ease}
+body.betaFocus #playbar,body.betaFocus #duckBtn,body.betaFocus #duckLab,body.betaFocus #panel,body.betaFocus #dscMark,body.betaFocus #toast,body.betaFocus .sh-here,body.betaFocus #hud{opacity:0!important;pointer-events:none!important;transition:opacity .5s ease!important}
+.lc-beta.open .lc-betaF{animation:betaFocus .65s cubic-bezier(.2,.75,.25,1) .35s both;border-color:color-mix(in srgb,var(--jewel) 40%,rgba(255,255,255,.18));box-shadow:0 30px 90px color-mix(in srgb,var(--jewel) 45%,rgba(0,0,0,.6)),0 0 0 1px rgba(255,255,255,.04)}
 @keyframes betaFocus{from{opacity:0;filter:blur(10px);translate:0 14px}to{opacity:1;filter:none;translate:0 0}}
 @media (prefers-reduced-motion:reduce){.lc-beta.open .lc-betaF{animation:betaFade .4s ease .2s both}}
 @keyframes betaFade{from{opacity:0}to{opacity:1}}
+.lc-more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.2,.75,.25,1),opacity .35s ease .1s}
+.lc-more.on{grid-template-rows:1fr;opacity:1}
+.lc-moreIn{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}
+.lc-more:not(.on){margin-top:-8px}
+@media (prefers-reduced-motion:reduce){.lc-more{transition:none}}
+#launch.betaOpen .lc-corner,#launch.betaOpen .lc-foot{opacity:0!important;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
 /* on a computer the sheet sits in the middle of the window (Dimitry, 20 Oct); on a phone it stays at the top, clear of the keyboard */
 @media (min-width:900px) and (hover:hover){.lc-betaF{top:50%;transform:translate(-50%,-50%)}}
 .lc-betaLead{margin:0 0 2px;font:400 12px/1.45 var(--sans);color:rgba(255,255,255,.78)}.lc-betaLead b{color:#fff}
@@ -6313,9 +6330,12 @@ window.fitCover=fitCover;
   try{visualViewport&&visualViewport.addEventListener('resize',again)}catch(_){}try{document.fonts&&document.fonts.ready.then(again)}catch(_){}
   [300,1200,3000].forEach(ms=>setTimeout(again,ms))}
 function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.dataset.joined&&bb.getAttribute('aria-expanded')!=='true')bb.click();else if(bb.dataset.joined)toast('you’re already in the founders club');return}
-  if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
+  if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';
+  /* the drawer steps aside so only the field shows; it comes back if they close without joining */
+  if(!document.body.classList.contains('player')){h.dataset.drawer='1';try{setPlayer(true)}catch(_){}}
+  document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
   const b=h.querySelector('.lc-betaBtn');if(b.dataset.joined){h.remove();toast('you’re already in the founders club');return}b.click();
-  h.addEventListener('pointerdown',e=>{if(e.target===h)h.remove()})}
+  h.addEventListener('pointerdown',e=>{if(e.target===h){document.body.classList.remove('betaFocus');h.remove()}})}
 /* THE THANK-YOU (Dimitry, 19 Oct: hide the form, keep the sheet, confetti, then close): the fields fold away, the
    duck-rabbit grows and hops, a line thanks them by name, and confetti in the app's colours falls inside the sheet.
    Hand-rolled (a few dozen lines) rather than a library, so the player stays offline-ready; reduced motion skips it. */
@@ -6343,7 +6363,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   const duck=window.__DUCKC?'<img class="lc-betaDuck" alt="" src="'+window.__DUCKC+'">':(()=>{const d=document.querySelector('#duckBtn svg.duck');return d?d.outerHTML.replace('class="duck"','class="lc-betaDuck"'):''})();let done=false;try{done=localStorage.getItem('current.beta')==='1'}catch(_){}
   const w=document.createElement('div');w.className='lc-beta';
   w.innerHTML='<button type="button" class="lc-betaBtn" aria-expanded="false" aria-controls="lcBetaF"></button>'+
-    '<div class="lc-betaVeil" aria-hidden="true"></div>'+
+    '<div class="lc-betaFrost" aria-hidden="true"></div><div class="lc-betaVeil" aria-hidden="true"></div>'+
     '<form id="lcBetaF" class="lc-betaF" novalidate hidden aria-labelledby="lcBetaH">'+
       '<div class="lc-betaHd"><p class="lc-betaH" id="lcBetaH">'+duck+'<span>Founders club</span></p><button type="button" class="lc-betaX" aria-label="Close the sign-up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
       '<p class="lc-betaLead"><b>The challenge:</b> at 100 founders, the Pro pre-release opens to the club. The first 100 keep Pro free and get the <b>founding pack</b>: 10 beats, 10 looks, 10 bytebeats. Plus <b>missions</b> and a say in what Current does next.</p>'+
@@ -6351,10 +6371,12 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
       '<label class="sr-only" for="lcBetaN">Name</label><input type="text" id="lcBetaN" required maxlength="80" autocomplete="name" placeholder="your name">'+
       '<label class="sr-only" for="lcBetaE">Email</label><input type="email" id="lcBetaE" required maxlength="254" autocomplete="email" inputmode="email" placeholder="your email">'+
       '<label class="sr-only" for="lcBetaP">Phone (optional)</label><input type="tel" id="lcBetaP" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="phone (optional) · for texts">'+
+      '<div class="lc-more" inert><div class="lc-moreIn">'+
       '<fieldset class="lc-roles"><legend>I’m a… <span>(pick any)</span></legend>'+BETA_ROLES.map(([v,l])=>'<label><input type="checkbox" value="'+v+'"><span>'+l+'</span></label>').join('')+'</fieldset>'+
       '<input class="lc-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">'+
       '<label class="lc-betaOk"><input type="checkbox" id="lcBetaC"> <span>Email me about the beta, live jams, content packs and releases. No spam, never shared.</span></label>'+
       '<label class="lc-betaOk lc-sms" hidden><input type="checkbox" id="lcBetaS"> <span>Text me about the same. Reply STOP any time. Message rates may apply.</span></label>'+
+      '</div></div>'+
       '<button type="submit" class="lc-betaGo">join</button>'+
       '<p class="lc-betaMsg" role="status" aria-live="polite"></p>'+
     '</form>';
@@ -6363,12 +6385,21 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   {const g=w.querySelector('.lc-betaGoal');let tries=0;const fill=()=>{if(window.FPACK&&FPACK.goal)FPACK.goal(g);else if(++tries<40)setTimeout(fill,100);else if(g)g.remove()};fill()}
   const b=w.querySelector('.lc-betaBtn'),f=w.querySelector('form'),msg=w.querySelector('.lc-betaMsg'),go=w.querySelector('.lc-betaGo');
   const ph=$('lcBetaP'),smsRow=w.querySelector('.lc-sms');ph.addEventListener('input',()=>{smsRow.hidden=!ph.value.trim()});
+  /* one step at a time (Dimitry, 20 Oct): name, email and phone first, with join; the roles and the consent boxes open
+     once a name and a complete-looking email are in, or when join is pressed early */
+  const more=w.querySelector('.lc-more'),reveal=()=>{if(more.classList.contains('on'))return;more.classList.add('on');more.inert=false;try{say('')}catch(_){}};
+  const ready=()=>$('lcBetaN').value.trim()&&/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test($('lcBetaE').value.trim());
+  ['lcBetaN','lcBetaE'].forEach(id=>$(id).addEventListener('input',()=>{if(ready())reveal()}));
   /* joined (0.26.19): the same two-line shape as the invite, the tick in the accent, and a way to the pack (Dimitry, 20 Oct) */
   const label=()=>{b.innerHTML=done?'<span class="lc-bbH">✓ Founders club</span><span class="lc-bbS">Your founding pack</span>':'<span class="lc-bbH">Play the field</span><span class="lc-bbS">Join the Current founders club.</span>';b.classList.toggle('joined',done);if(done)b.dataset.joined='1';else delete b.dataset.joined;b.setAttribute('aria-label',done?'You are in the Current founders club: open your founding pack':'Play the field: join the Current founders club');b.disabled=false;b.removeAttribute(done?'aria-controls':'x');try{window.fitCover&&fitCover()}catch(_){}};label();
   /* it opens as a sheet from the top of the screen, over a dimmed cover (Dimitry, 19 Oct: unfolding under the meter ran off the
      bottom on a phone); top-anchored, so a phone's keyboard comes up under it, not over it */
   const L=document.getElementById('launch');
-  const show=on=>{if(!on&&host.id==='betaHost'){host.remove();return}f.hidden=!on;b.setAttribute('aria-expanded',String(on));w.classList.toggle('open',on);if(L)L.classList.toggle('betaOpen',on);if(on)setTimeout(()=>{try{$('lcBetaN').focus({preventScroll:true})}catch(_){}},30);else try{b.focus()}catch(_){}};
+  /* the invitation (Dimitry, 20 Oct): while the sheet is open the interface goes to zero and only the field shows,
+     through a jewel vignette; once joined, closing it (the timer after the celebration, the cross, Escape, the veil)
+     launches straight into play */
+  const show=on=>{document.body.classList.toggle('betaFocus',on);if(!on&&done&&!w.dataset.launched){w.dataset.launched='1';setTimeout(()=>{try{const g=$('launchGo');if(L&&g&&!L.classList.contains('going'))g.click();else if(!L||L.classList.contains('going')||!document.body.contains(L))setPlayer(true)}catch(_){}},60)}
+    if(!on&&host.id==='betaHost'){const back=!done&&host.dataset.drawer==='1';host.remove();if(back)try{setPlayer(false)}catch(_){}return}f.hidden=!on;b.setAttribute('aria-expanded',String(on));w.classList.toggle('open',on);if(L)L.classList.toggle('betaOpen',on);if(on)setTimeout(()=>{try{$('lcBetaN').focus({preventScroll:true})}catch(_){}},30);else try{b.focus()}catch(_){}};
   b.onclick=()=>{if(done){const g=$('launchGo');if(host.id==='betaHost'){host.remove();try{SurfaceLinks.go('pack')}catch(_){}return}try{SurfaceLinks.queue('pack')}catch(_){}if(g&&L&&!L.classList.contains('going'))g.click();return}show(f.hidden)};w.querySelector('.lc-betaX').onclick=()=>show(false);w.querySelector('.lc-betaVeil').onclick=()=>show(false);
   f.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();show(false)}});
   const say=(t,bad)=>{msg.textContent=t;msg.classList.toggle('bad',!!bad)};
@@ -6380,13 +6411,14 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
       if(!$('lcBetaS').checked){say('Tick the texts box, or leave the phone empty.',1);return}}
     if(f.querySelector('.lc-hp').value)return;   // a bot filled the hidden field
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){say('That email doesn’t look complete.',1);$('lcBetaE').focus();return}
+    if(!more.classList.contains('on')){reveal();say('One more step: tick the email box below.');return}
     if(!ok){say('Tick the email box so we can write to you.',1);return}
     let steps=null;try{const pr=P&&P.progress;if(pr)steps=Math.min(99,pr[0]|0)}catch(_){}
     go.disabled=true;say('sending…');
     try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
         body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
       if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);try{setTimeout(()=>window.FPACK&&FPACK.claim(f),400)}catch(_){}
-        w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},6000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
+        w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},5000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
       else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
     catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
 }
@@ -6438,10 +6470,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020205415"></script>
-<script src="surface/links.js?v=20261020205415"></script>
-<script src="surface/tips.js?v=20261020205415"></script>
-<script src="surface/sections.js?v=20261020205415"></script>
+<script src="surface/install.js?v=20261020210348"></script>
+<script src="surface/links.js?v=20261020210348"></script>
+<script src="surface/tips.js?v=20261020210348"></script>
+<script src="surface/sections.js?v=20261020210348"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6952,7 +6984,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.27';
+const APP_VERSION='0.26.29';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
