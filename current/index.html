@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020021100";window.__VERSION__="0.22.2";window.__NOTES__=[{"v":"0.22.2","date":"19 Oct 2026","items":[{"kind":"new","text":"joining as a founding tester says thank you with the duck-rabbit and confetti, then closes"}]}]</script>
+<script>window.__BUILD__="20261020022034";window.__VERSION__="0.22.3";window.__NOTES__=[{"v":"0.22.3","date":"19 Oct 2026","items":[{"kind":"new","text":"share on the launch screen, between install and index: send the link, copy it, or show a QR code"},{"kind":"new","text":"after joining as a founding tester, share Current with a friend"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020021100"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020021100">
+<script src="claude-web.js?v=20261020022034"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020022034">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020021100"></script>
-<script src="surface/auto.js?v=20261020021100"></script>
-<script src="surface/toolpath.js?v=20261020021100"></script>
-<script src="surface/capture.js?v=20261020021100"></script>
-<script src="surface/pop.js?v=20261020021100"></script>
-<script src="surface/hints.js?v=20261020021100"></script>
-<script src="surface/paths.js?v=20261020021100"></script>
-<script src="surface/keys.js?v=20261020021100"></script>
-<script src="surface/reset.js?v=20261020021100"></script>
+<script src="vendor/opentype.min.js?v=20261020022034"></script>
+<script src="surface/auto.js?v=20261020022034"></script>
+<script src="surface/toolpath.js?v=20261020022034"></script>
+<script src="surface/capture.js?v=20261020022034"></script>
+<script src="surface/pop.js?v=20261020022034"></script>
+<script src="surface/hints.js?v=20261020022034"></script>
+<script src="surface/paths.js?v=20261020022034"></script>
+<script src="surface/keys.js?v=20261020022034"></script>
+<script src="surface/reset.js?v=20261020022034"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -200,6 +200,10 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 #launch[hidden]{display:none}
 .lc-corner{position:absolute;bottom:calc(4px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));min-width:56px;min-height:56px;padding:6px 8px;border:0;background:none;color:rgba(255,255,255,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .2s ease,opacity .7s ease}
 .lc-corner.l{left:max(10px,env(safe-area-inset-left,0px))}.lc-corner.r{right:max(10px,env(safe-area-inset-right,0px))}
+/* SHARE on the cover (Dimitry, 19 Oct): centred in the row with install and index; the beta line sits under the row */
+.lc-corner.c{left:50%;transform:translateX(-50%)}
+#launch .lc-corner{bottom:calc(22px + env(safe-area-inset-bottom,0px) - var(--vgap,0px))}
+#launch .lc-foot{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px))}
 .lc-corner svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .lc-corner span{font:500 9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase}
 .lc-corner:hover,.lc-corner:focus-visible{color:#fff}.lc-corner:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:10px}
@@ -250,6 +254,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-betaTy{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:10px 0 14px;animation:betaIn .45s cubic-bezier(.2,.8,.2,1)}
 .lc-betaTy p{margin:0;font:600 18px/1.3 var(--sans);color:#fff}.lc-betaTy p.sm{font:400 13px/1.45 var(--sans);color:rgba(255,255,255,.78);max-width:28ch}
 .lc-betaTy .lc-betaDuck.big{width:72px;height:80px;margin-bottom:6px;animation:duckHop .9s cubic-bezier(.3,.7,.3,1) .1s 3}
+.lc-betaTy .lc-betaShare{margin-top:12px;padding:0 18px;width:auto}
 .lc-confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
 .lc-betaF{position:fixed}.lc-betaF.done{overflow:hidden}
 @keyframes betaIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
@@ -583,6 +588,7 @@ body #pAuto.on{background:#55b8c9;color:#04181c}
 /* toasts sit at the top, clear of the player bar and the steer column */
 body #toast{bottom:auto;top:calc(16px + env(safe-area-inset-top,0px));transform:translate(-50%,-12px)}
 body #toast.show{transform:translate(-50%,0)}
+#imgwrap.overCover{z-index:10001}
 #imgwrap{position:fixed;inset:0;z-index:40;display:none;background:rgba(4,4,6,.94);flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
 #imgwrap.show{display:flex}
 #imgwrap img{max-width:100%;max-height:74vh;border:1px solid var(--ui-line);-webkit-touch-callout:default}
@@ -1654,6 +1660,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <p class="lc-foot" aria-hidden="true">Beta · v<span class="vNum"></span></p>
   <!-- shortcuts on the cover (Dimitry, 18 Oct): "click the install icon on the lower left" works without sending a link -->
   <button type="button" class="lc-corner l" data-go="install" aria-label="Install: keep Current as an app on this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 15.5v3.5h14v-3.5"/></svg><span>install</span></button>
+  <button type="button" class="lc-corner c lc-share" aria-label="Share Current: send the link, copy it, or show a QR code"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M6 11v8.5h12V11"/></svg><span>share</span></button>
   <button type="button" class="lc-corner r" data-go="index" aria-label="Index: the guide, settings and credits"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><path d="M12 7.6v.01" stroke-width="2.6"/></svg><span>index</span></button>
 </div>
 <button id="hideHint" type="button" tabindex="-1" aria-label="Hide or bring back every control (space bar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="dn" d="M12 5v13M6 12l6 6 6-6"/><path class="up" d="M12 19V6M6 12l6-6 6 6"/></svg><span class="hhw">Hide</span><kbd>&middot; space</kbd></button>
@@ -3488,6 +3495,7 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
     $('owShare').hidden=!canShareFile(new File([OUT.blob],OUT.name,{type:OUT.blob.type}));
     $('owNote').textContent='The buttons below post the link. Instagram and TikTok take the file itself: save it, or use share file on a phone.'+(OUT.ext==='png'||OUT.ext==='gif'?' You can also press and hold the picture to save it.':'')}
   else $('owNote').textContent='';
+  $('owHead').textContent=withMedia?'Share the piece':'Share Current';
   $('owSend').hidden=!navigator.share;$('owUrl').textContent=u;
   $('owEmbedCode').value='<iframe src="'+u+'" width="960" height="540" style="border:0" allow="autoplay; fullscreen; camera; microphone" title="'+SHARE_TITLE+'"></iframe>';
   const soc=$('owSoc');soc.innerHTML='';SOC.forEach(([n,t])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-label','Post the link to '+n);
@@ -3495,7 +3503,12 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
       if(href.startsWith('mailto:')){if(!win)location.href=href;flashBtn(b,'opening…');return}
       if(win){flashBtn(b,'opened')}else{copyText(u,'Link',b).then(ok=>{if(ok)toast('The window was blocked, so the link is copied instead.',3000)})}};soc.appendChild(b)});
   fold(null);w.classList.add('show');$('imgX').focus({preventScroll:true})}
-function closeOut(){$('imgwrap').classList.remove('show');try{$('vidout').pause()}catch(_){}}
+/* the link alone, from anywhere: over the cover too (the cover makes the rest of the page inert, so the modal is
+   lifted out of that for as long as it is open) */
+function openShare(from){const w=$('imgwrap'),L=document.getElementById('launch');if(L){w.removeAttribute('inert');w.classList.add('overCover')}
+  if(window.cxCount)cxCount('share: '+(from||'link'),1);openOut(false)}
+function closeOut(){const w=$('imgwrap');if(w.classList.contains('overCover')){w.classList.remove('overCover');if(document.getElementById('launch'))w.setAttribute('inert','');try{document.querySelector('#launch .lc-share').focus({preventScroll:true})}catch(_){}}
+  $('imgwrap').classList.remove('show');try{$('vidout').pause()}catch(_){}}
 function fold(which){[['owQRBox','owQR'],['owEmbedBox','owEmbed']].forEach(([box,btn])=>{const on=box===which&&$(box).hidden;$(box).hidden=!on;$(btn).setAttribute('aria-expanded',String(on))})}
 function qrDraw(c,text,S){const m=qrMatrix(text);if(!m)return false;const n=m.length,q=4,side=(n+q*2)*S;c.width=c.height=side;const g=c.getContext('2d');
   g.fillStyle='#fff';g.fillRect(0,0,side,side);g.fillStyle='#000';for(let r=0;r<n;r++)for(let j=0;j<n;j++)if(m[r][j])g.fillRect((j+q)*S,(r+q)*S,S,S);return true}
@@ -5443,7 +5456,8 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
   el.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('.lc-beta'))return;if(e.key==='Enter'||e.key===' '||e.code==='Space'){e.preventDefault();open()}});
   document.addEventListener('keydown',e=>{if(e.target&&e.target.closest&&e.target.closest('.lc-beta'))return;if($('launch')&&!opened&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}},true);
   go.addEventListener('click',()=>{opened=true},true);
-  el.querySelectorAll('.lc-corner').forEach(b=>b.onclick=()=>{try{SurfaceLinks.queue(b.dataset.go)}catch(_){}open()});   // the place first, then through the cover
+  el.querySelectorAll('.lc-corner[data-go]').forEach(b=>b.onclick=()=>{try{SurfaceLinks.queue(b.dataset.go)}catch(_){}open()});
+  {const sh=el.querySelector('.lc-share');if(sh){sh.dataset.wired='1';sh.onclick=e=>{e.stopPropagation();try{openShare('cover')}catch(_){}}}}   // share stays on the cover   // the place first, then through the cover
 })();
 
 /* FOUNDING TESTERS (Dimitry, 19 Oct): on the launch cover, under the Paths meter, a quiet line that opens a short form.
@@ -5460,7 +5474,9 @@ function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.query
    Hand-rolled (a few dozen lines) rather than a library, so the player stays offline-ready; reduced motion skips it. */
 function betaCelebrate(f,name,already){f.classList.add('done');let ty=f.querySelector('.lc-betaTy');if(!ty){ty=document.createElement('div');ty.className='lc-betaTy';f.querySelector('.lc-betaHd').after(ty)}
   const first=String(name||'').split(' ')[0];const d=f.querySelector('.lc-betaDuck');if(d){const big=d.cloneNode(true);big.classList.add('big');ty.appendChild(big)}
-  const t=document.createElement('p');t.textContent=(already?'Welcome back':'Welcome')+(first?', '+first:'')+'.';const u=document.createElement('p');u.className='sm';u.textContent=already?'You’re already on the list. Missions are on their way.':'You’re a founding tester. Your first missions are on their way.';ty.append(t,u);
+  const t=document.createElement('p');t.textContent=(already?'Welcome back':'Welcome')+(first?', '+first:'')+'.';const u=document.createElement('p');u.className='sm';u.textContent=already?'You’re already on the list. Missions are on their way.':'You’re a founding tester. Your first missions are on their way.';
+  const sb=document.createElement('button');sb.type='button';sb.className='lc-betaGo lc-betaShare';sb.textContent='share Current with a friend';sb.onclick=()=>{const x=f.querySelector('.lc-betaX');if(x)x.click();setTimeout(()=>openShare('thank-you'),120)};
+  ty.append(t,u,sb);f.addEventListener('pointerdown',()=>{f.dataset.stay='1'},{once:true});
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const cv=document.createElement('canvas');cv.className='lc-confetti';cv.setAttribute('aria-hidden','true');f.appendChild(cv);const r=f.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
   cv.width=r.width*dpr;cv.height=r.height*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
@@ -5473,6 +5489,7 @@ function betaCelebrate(f,name,already){f.classList.add('done');let ty=f.querySel
 const BETA_ROLES=[['artist','artist'],['musician','musician · sound'],['designer','designer'],['performer','VJ · performer'],['educator','educator'],['maker','maker · CNC, plotter'],['developer','developer'],['student','student'],['other','other']];
 const BETA={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/beta_signups',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp',tool:'current'};
 function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
+  {const sh=document.querySelector('#launch .lc-share');if(sh&&!sh.dataset.wired){sh.dataset.wired='1';sh.onclick=e=>{e.stopPropagation();openShare('cover')}}}
   /* the sheet wears the duck-rabbit (Dimitry, 19 Oct: "a friendly rabbitduck"): the cover's coloured one, kept for later
      sheets once the cover has gone; the drawer's white one when the cover never showed */
   try{const ci=document.querySelector('#launch img.lc-duck-c');if(ci)window.__DUCKC=ci.src}catch(_){}
@@ -5517,7 +5534,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
     try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
         body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
       if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);
-        w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden)show(false)},3800)}   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
+        w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},6000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
       else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
     catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
 }
@@ -5569,10 +5586,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020021100"></script>
-<script src="surface/links.js?v=20261020021100"></script>
-<script src="surface/tips.js?v=20261020021100"></script>
-<script src="surface/sections.js?v=20261020021100"></script>
+<script src="surface/install.js?v=20261020022034"></script>
+<script src="surface/links.js?v=20261020022034"></script>
+<script src="surface/tips.js?v=20261020022034"></script>
+<script src="surface/sections.js?v=20261020022034"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5938,7 +5955,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.22.2';
+const APP_VERSION='0.22.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
