@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020030319";window.__VERSION__="0.23.9";window.__NOTES__=[{"v":"0.23.9","date":"19 Oct 2026","items":[{"kind":"change","text":"duck-rabbit cards: the look runs inside and outside the duck on two contrasting grounds; the duck is as big as the card allows without touching the type, the marks or the code, its head at the centre"}]}]</script>
+<script>window.__BUILD__="20261020031256";window.__VERSION__="0.24.0";window.__NOTES__=[{"v":"0.24.0","date":"19 Oct 2026","items":[{"kind":"change","text":"cards: the field in colour (a dark, a vivid colour that clashes with the ground, and white), zoomed so it runs off the edges, framed differently on each design, some with the field's arrows"},{"kind":"change","text":"the duck-rabbit is anchored at its heart, the corner where its back meets its neck, at the centre of the card; on story cards its head is the centre"},{"kind":"change","text":"on ochre, lime and sky cards the code sits straight on the colour, no white square"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020030319"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020030319">
+<script src="claude-web.js?v=20261020031256"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020031256">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020030319"></script>
-<script src="surface/auto.js?v=20261020030319"></script>
-<script src="surface/toolpath.js?v=20261020030319"></script>
-<script src="surface/capture.js?v=20261020030319"></script>
-<script src="surface/pop.js?v=20261020030319"></script>
-<script src="surface/hints.js?v=20261020030319"></script>
-<script src="surface/paths.js?v=20261020030319"></script>
-<script src="surface/keys.js?v=20261020030319"></script>
-<script src="surface/reset.js?v=20261020030319"></script>
+<script src="vendor/opentype.min.js?v=20261020031256"></script>
+<script src="surface/auto.js?v=20261020031256"></script>
+<script src="surface/toolpath.js?v=20261020031256"></script>
+<script src="surface/capture.js?v=20261020031256"></script>
+<script src="surface/pop.js?v=20261020031256"></script>
+<script src="surface/hints.js?v=20261020031256"></script>
+<script src="surface/paths.js?v=20261020031256"></script>
+<script src="surface/keys.js?v=20261020031256"></script>
+<script src="surface/reset.js?v=20261020031256"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3591,12 +3591,35 @@ const CARD_COLORS=[['rose','#ff5c9d'],['cobalt','#2f5cff'],['ember','#ff6a3d'],[
 function duckGeom(dw){if(CARD.geom)return CARD.geom;const w=200,h=Math.round(200*dw.height/dw.width),c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(dw,0,0,w,h);
   const d=g.getImageData(0,0,w,h).data;let x0=w,x1=0,y0=h,y1=0;for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>100){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
   const top=y0+(y1-y0)*.2;let sx=0,sy=0,n=0;for(let y=y0;y<=top;y++)for(let x=x0;x<=x1;x++)if(d[(y*w+x)*4+3]>100){sx+=x;sy+=y;n++}
-  return CARD.geom={hx:(n?sx/n:w/2)/w,hy:(n?sy/n:h*.1)/h,x0:x0/w,x1:(x1+1)/w,y0:y0/h,y1:(y1+1)/h}}
+  /* THE HEART (Dimitry, 19 Oct, revising the head): the inner corner where the back curves up into the neck. Down the
+     right edge of the shape, the neck is narrow and the back juts out; the corner is where the right edge jumps
+     furthest within a few rows, taken at the neck's edge and the back's top. */
+  const R=y=>{for(let x=x1;x>=x0;x--)if(d[(y*w+x)*4+3]>100)return x;return -1};let best=0,cx=w/2,cy=h/2;const ya=Math.round(y0+(y1-y0)*.18),yb=Math.round(y0+(y1-y0)*.7),K=4;
+  for(let y=ya;y<yb-K;y++){const a=R(y),b=R(y+K);if(a<0||b<0)continue;const j=b-a;if(j>best){best=j;cx=a;cy=y+K}}
+  return CARD.geom={hx:cx/w,hy:cy/h,headX:(n?sx/n:w/2)/w,headY:(n?sy/n:h*.1)/h,x0:x0/w,x1:(x1+1)/w,y0:y0/h,y1:(y1+1)/h}}
 /* does the duck-rabbit, drawn at (bx,by,bw,bh), touch any of the boxes? checked on a small mask, not the bounding box,
    so the duck can grow into the gaps its shape leaves */
 function duckHits(dw,W,H,bx,by,bw,bh,boxes){const k=.16,w=Math.ceil(W*k),h=Math.ceil(H*k),c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');
   g.fillStyle='#000';for(const [x,y,ww,hh] of boxes)g.fillRect(x*k,y*k,ww*k,hh*k);g.globalCompositeOperation='destination-in';g.drawImage(dw,bx*k,by*k,bw*k,bh*k);
   const d=g.getImageData(0,0,w,h).data;for(let i=3;i<d.length;i+=16)if(d[i]>40)return true;return false}
+/* THE FIELD IN COLOUR (Dimitry, 19 Oct: more than white; a dark and a light, vibrant colours that clash with the
+   ground). The look's brightness is mapped through three stops: its faint trails take the dark, the body takes the
+   vivid colour, the brightest cores go white; where it is black it stays clear, so the ground shows. Made once per
+   frozen frame and colour. */
+const CARD_CLASH={rose:['#1d1352','#c8ff3c'],cobalt:['#0b0a1c','#ff4fa0'],ember:['#151340','#4cd2ff'],violet:['#170630','#4cf0ff'],ochre:['#1d0f24','#ff3d8b'],lime:['#0f2208','#8a3dff'],sky:['#0d1533','#ff4f6d'],ink:['#3b2cff','#c8ff3c']};
+function cardTint(look,color){const key=color;look.__tint=look.__tint||{};if(look.__tint[key])return look.__tint[key];
+  const k=Math.min(1,1400/Math.max(look.width,look.height)),w=Math.round(look.width*k),h=Math.round(look.height*k),c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(look,0,0,w,h);
+  const im=g.getImageData(0,0,w,h),d=im.data,[dk,vv]=CARD_CLASH[color]||CARD_CLASH.rose,hx=x=>[parseInt(x.slice(1,3),16),parseInt(x.slice(3,5),16),parseInt(x.slice(5,7),16)],A=hx(dk),V=hx(vv),Wt=[255,255,255];
+  let lo=255,hi=0;for(let i=0;i<d.length;i+=40){const L=Math.max(d[i],d[i+1],d[i+2]);if(L<lo)lo=L;if(L>hi)hi=L}const span=Math.max(30,hi-lo);
+  for(let i=0;i<d.length;i+=4){const L=(Math.max(d[i],d[i+1],d[i+2])-lo)/span;let a,r,gg,b;
+    if(L<.06){d[i+3]=0;continue}
+    a=Math.min(1,(L-.06)/.14);let c0,c1,t;if(L<.45){c0=A;c1=V;t=(L-.06)/.39}else if(L<.8){c0=V;c1=V;t=0}else{c0=V;c1=Wt;t=Math.min(1,(L-.8)/.15)}
+    d[i]=c0[0]+(c1[0]-c0[0])*t;d[i+1]=c0[1]+(c1[1]-c0[1])*t;d[i+2]=c0[2]+(c1[2]-c0[2])*t;d[i+3]=255*a}
+  g.putImageData(im,0,0);return look.__tint[key]=c}
+/* VARIETY: each design frames the field its own way, zoomed in so it bleeds off the edges, offset off-centre; some
+   designs carry the field's arrows. Fixed per design, so the thumbnail is the card. */
+const CARD_FRAME={post:{behind:[1.45,.12,-.08,1],duck:[1.7,-.18,.1,0]},story:{behind:[1.3,-.1,.12,0],duck:[1.6,.16,-.14,1]},square:{behind:[1.55,.14,.1,0],duck:[1.4,-.12,-.1,1]},link:{behind:[1.6,-.08,.15,1],duck:[1.35,.1,-.06,0]}};
+function cardField(g,img,x,y,w,h,f){const iw=img.width,ih=img.height,k=Math.max(w/iw,h/ih)*f[0],dw=iw*k,dh=ih*k;g.drawImage(img,x+(w-dw)/2+f[1]*w,y+(h-dh)/2+f[2]*h,dw,dh)}
 const CARD_PARTNER={ink:'rose',cobalt:'ochre',violet:'lime'};   // dark grounds get a bright duck; bright grounds an ink one
 const cardLum=h=>{const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
 async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=style||CARD.style;color=color||CARD.color||'rose';c=c||document.createElement('canvas');const [,,W,H]=CARD_SIZES.find(x=>x[0]===size);c.width=W;c.height=H;const g=c.getContext('2d');
@@ -3625,12 +3648,13 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(44*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
   const qs=Math.round(Math.min(W,H)*(wide?.27:.21)),qx=W-pad-qs,qy=H-pad-qs;
   const paper=S.ground==='paper';   // a light look is laid over the colour by multiplying, a dark one by screening
-  if(style==='behind'){g.save();g.globalCompositeOperation=paper?'multiply':'screen';cardCover(g,look,0,0,W,H);g.restore()}
+  const FR=(CARD_FRAME[size]||{})[style]||[1.4,0,0,0],field=(FR[3]&&CARD_LOOK_ARROWS)?CARD_LOOK_ARROWS:look,tint=cardTint(field,color);
+  if(style==='behind'){cardField(g,tint,0,0,W,H,FR)}
   else if(dw){/* THE DUCK-RABBIT (Dimitry, 19 Oct): the look runs inside and outside it on two different grounds, so the
        duck stands out by contrast and the card is one composition: outside, the card's colour; inside, ink on a bright
        colour, or a bright partner on a dark one. As big as it can be without touching the type, the marks or the code
        and without leaving the card, its head anchored at the card's centre. */
-    g.save();g.globalAlpha=.55;g.globalCompositeOperation=paper?'multiply':'screen';cardCover(g,look,0,0,W,H);g.restore();
+    g.save();g.globalAlpha=.8;cardField(g,tint,0,0,W,H,FR);g.restore();
     const D=CARD_PARTNER[color]?CARD_COLORS.find(x=>x[0]===CARD_PARTNER[color])[1]:INK;   // every colour but the dark ones gets an ink duck
     const G=duckGeom(dw),ar=dw.width/dw.height,mg0=Math.round(18*u);
     g.save();g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}const tw=g.measureText('CURRENT').width;g.font='400 '+ls+'px '+SANS;try{g.letterSpacing='0px'}catch(_){}
@@ -3639,9 +3663,11 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     const ex=(x,y,w,h)=>[x-mg0,y-mg0,w+mg0*2,h+mg0*2];
     const boxes=[tall?ex(pad,pad,ts*.8,tw):ex(pad,titleTop,tw,ts*.86),ex(sx,lineTop,lw,lines.length*lh),ex(W-xh-mw,xh,mw,mh),ex(xh,H-xh-cw0,xh*1.1,cw0),ex(qx-12*u,qy-12*u,qs+24*u,qs+24*u),
       [-W,-H,W*3,H+xh],[-W,H-xh,W*3,H],[-W,-H,W+xh,H*3],[W-xh,-H,W,H*3]];   // the card's own edges, an x-height in
-    let bh=H*1.3,bw,bx,by;for(let i=0;i<80;i++){bw=bh*ar;bx=W/2-G.hx*bw;by=H/2-G.hy*bh;if(!duckHits(dw,W,H,bx,by,bw,bh,boxes))break;bh*=.97}
+    /* on very tall cards (story) the head is the anchor, or the duck sits too high (Dimitry, 19 Oct); elsewhere the heart */
+    const ax=H/W>=1.5?G.headX:G.hx,ay=H/W>=1.5?G.headY:G.hy;
+    let bh=H*1.3,bw,bx,by;for(let i=0;i<80;i++){bw=bh*ar;bx=W/2-ax*bw;by=H/2-ay*bh;if(!duckHits(dw,W,H,bx,by,bw,bh,boxes))break;bh*=.97}
     const m=document.createElement('canvas');m.width=W;m.height=H;const mg=m.getContext('2d');mg.drawImage(dw,bx,by,bw,bh);mg.globalCompositeOperation='source-in';mg.fillStyle=D;mg.fillRect(0,0,W,H);
-    mg.globalCompositeOperation=paper?'multiply':'screen';cardCover(mg,look,bx+G.x0*bw,by+G.y0*bh,(G.x1-G.x0)*bw,(G.y1-G.y0)*bh);mg.globalCompositeOperation='destination-in';mg.drawImage(dw,bx,by,bw,bh);
+    mg.globalCompositeOperation='source-atop';cardField(mg,cardTint(look,CARD_PARTNER[color]||'ink'),bx+G.x0*bw,by+G.y0*bh,(G.x1-G.x0)*bw,(G.y1-G.y0)*bh,[1.15,0,0]);mg.globalCompositeOperation='destination-in';mg.drawImage(dw,bx,by,bw,bh);
     g.save();g.shadowColor='rgba(0,0,0,.25)';g.shadowBlur=36*u;g.shadowOffsetY=8*u;g.drawImage(m,0,0);g.restore()}
   /* top left: CURRENT and its sentence */
   g.fillStyle=FG;g.textAlign='left';g.textBaseline='top';g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
@@ -3655,11 +3681,16 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   g.save();const cfs=xh/.7;g.font='600 '+cfs.toFixed(1)+'px '+SANS;try{g.letterSpacing=(cfs*.12).toFixed(1)+'px'}catch(_){}g.fillStyle=color==='ink'?'#55b8c9':FG;
   const cw=g.measureText('CHAMY·XYZ').width;g.translate(xh,H-xh-cw);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',0,0);g.restore();
   /* bottom right: the code, white tile, with the duck-rabbit in its middle */
-  const qc=document.createElement('canvas');if(qrDraw(qc,url,8)){const r=16*u;g.fillStyle='#fff';g.beginPath();g.roundRect?g.roundRect(qx-12*u,qy-12*u,qs+24*u,qs+24*u,r):g.rect(qx-12*u,qy-12*u,qs+24*u,qs+24*u);g.fill();
+  /* THE CODE ON THE COLOUR (Dimitry, 19 Oct: no big white square where the ground is light enough). When the card's
+     colour is light enough (luminance 0.42 and up: ochre, lime, sky), the code is black modules on a patch of
+     the plain colour, the field cleared under it; on dark grounds it keeps its white tile. Decoded in testing. */
+  const onColor=cardLum(C)>=.42,TILE=onColor?C:'#fff';   // tested: at 0.3 (rose, ember) the code failed to read on busy designs; from 0.42 (ochre, lime, sky) it reads
+  const qc=document.createElement('canvas');if(qrDraw(qc,url,8)){const r=16*u;g.fillStyle=TILE;g.beginPath();g.roundRect?g.roundRect(qx-12*u,qy-12*u,qs+24*u,qs+24*u,r):g.rect(qx-12*u,qy-12*u,qs+24*u,qs+24*u);g.fill();
+    if(onColor){const qg=qc.getContext('2d'),im=qg.getImageData(0,0,qc.width,qc.height),dd=im.data;for(let i=0;i<dd.length;i+=4){if(dd[i]>128){dd[i+3]=0}else{dd[i]=dd[i+1]=dd[i+2]=10}}qg.putImageData(im,0,0)}
     g.imageSmoothingEnabled=false;g.drawImage(qc,qx,qy,qs,qs);g.imageSmoothingEnabled=true;
     /* the duck-rabbit in the middle of the code (Dimitry, 19 Oct): a white pad over 20% of the width, about 4% of the
        modules, inside what level M error correction rebuilds; checked by decoding the rendered card */
-    const ld=dc||dw;if(ld){const ps=qs*.2,px=qx+(qs-ps)/2,py=qy+(qs-ps)/2;g.fillStyle='#fff';g.beginPath();g.roundRect?g.roundRect(px,py,ps,ps,ps*.18):g.rect(px,py,ps,ps);g.fill();
+    const ld=onColor?dw:(dc||dw);if(ld){const ps=qs*.2,px=qx+(qs-ps)/2,py=qy+(qs-ps)/2;g.fillStyle=TILE;g.beginPath();g.roundRect?g.roundRect(px,py,ps,ps,ps*.18):g.rect(px,py,ps,ps);g.fill();
       const dh=ps*.82,dwid=dh*ld.width/ld.height;if(ld===dw){const t=document.createElement('canvas');t.width=ld.width;t.height=ld.height;const tg=t.getContext('2d');tg.drawImage(ld,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);g.drawImage(t,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}else g.drawImage(ld,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}}
   const linked=url!==SHARE_URL;CARD.note=linked?'The code opens this exact look, live.':'The code opens Current (this look could not be kept from here: try on works.chamy.xyz).';
   return c}
@@ -3667,11 +3698,13 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
    as Substack does): all eight designs from one frozen frame of the look, as thumbnails; the picked one is
    remembered and is what save and share make, full size. A message, if given, takes the place of the sentence. */
 const CARD_ALL=[];CARD_SIZES.forEach(([sz,l])=>CARD_STYLES.forEach(([st,sl])=>CARD_ALL.push([sz,st,l+' · '+sl])));
-let CARD_LOOK=null,CARD_GEN=0;
+let CARD_LOOK=null,CARD_LOOK_ARROWS=null,CARD_GEN=0;
+/* the field's arrows, for the designs that carry them: switched on for two frames, captured, put back */
+function freezeArrows(){return new Promise(res=>{const was=S.flags.arrows;if(was){CARD_LOOK_ARROWS=null;res();return}S.flags.arrows=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{CARD_LOOK_ARROWS=stillCanvas(document.createElement('canvas'));S.flags.arrows=was;res()}))})}
 const cardMsg=()=>($('cdMsg').value||'').replace(/\s+/g,' ').trim();
 function cardSwatches(){const h=$('cdSw');h.innerHTML='';for(const [n,hex] of CARD_COLORS){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-label',n);b.title=n;b.style.background=hex;b.setAttribute('aria-checked',String(CARD.color===n));
     b.onclick=()=>{if(CARD.color===n)return;CARD.color=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:n}))}catch(_){}cardSwatches();cardRail(true);if(window.cxCount)cxCount('card: colour '+n,1)};h.appendChild(b)}}
-async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK)CARD_LOOK=stillCanvas(document.createElement('canvas'));cardSwatches();
+async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK){CARD_LOOK=stillCanvas(document.createElement('canvas'));await freezeArrows()}cardSwatches();
   if(!rail.children.length)CARD_ALL.forEach(([sz,st,l])=>{const b=document.createElement('button');b.type='button';b.className='cdPick '+sz;b.setAttribute('role','radio');b.dataset.sz=sz;b.dataset.st=st;b.setAttribute('aria-label',l);
     const cv=document.createElement('canvas');cv.width=8;cv.height=8;const t=document.createElement('span');t.textContent=l;b.append(cv,t);
     b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st,color:CARD.color}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
@@ -5786,10 +5819,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020030319"></script>
-<script src="surface/links.js?v=20261020030319"></script>
-<script src="surface/tips.js?v=20261020030319"></script>
-<script src="surface/sections.js?v=20261020030319"></script>
+<script src="surface/install.js?v=20261020031256"></script>
+<script src="surface/links.js?v=20261020031256"></script>
+<script src="surface/tips.js?v=20261020031256"></script>
+<script src="surface/sections.js?v=20261020031256"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6162,7 +6195,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.23.9';
+const APP_VERSION='0.24.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
