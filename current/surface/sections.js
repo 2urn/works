@@ -211,40 +211,59 @@
     root.addEventListener('click', onFold);
     for (const x of extra()) x.addEventListener('click', onFold);
 
-    /* grips */
-    for (const s of movable()) {
-      s.classList.add('sfs-sec');
-      const g = document.createElement('button'); g.type = 'button'; g.className = 'sfs-grip'; g.innerHTML = GRIP;
-      g.setAttribute('aria-label', 'Move ' + nameOf(s) + '. Drag, or use the arrow keys');
-      s.appendChild(g);
-      g.addEventListener('keydown', e => {
-        const ms = movable(), i = ms.indexOf(s); let j = -1;
-        if (e.key === 'ArrowUp') j = i - 1; else if (e.key === 'ArrowDown') j = i + 1; else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = ms.length - 1; else return;
-        e.preventDefault(); if (j < 0 || j >= ms.length || j === i) return;
-        const ref = j < i ? ms[j] : ms[j].nextSibling; s.parentNode.insertBefore(s, ref); g.focus(); persist();
-        say(nameOf(s) + ', ' + (j + 1) + ' of ' + ms.length);
-      });
-      g.addEventListener('pointerdown', e => drag(e, s, g));
-    }
-    for (const s of secs()) if (isFixed(s)) s.classList.add('sfs-sec', 'sfs-fixed');
-    for (const s of extra()) s.classList.add('sfs-out');
-    /* keep pins, on every section */
-    for (const s of secs()) {
+    /* each section's handles: the grip (movable ones), the keep pin, the crossed eye. wire() runs once per section,
+       at mount and for any section the tool adds later (below) */
+    const wired = new WeakSet();
+    function wire(s) {
+      if (wired.has(s)) return; wired.add(s);
+      if (isFixed(s)) s.classList.add('sfs-sec', 'sfs-fixed');
+      else {
+        s.classList.add('sfs-sec');
+        const g = document.createElement('button'); g.type = 'button'; g.className = 'sfs-grip'; g.innerHTML = GRIP;
+        g.setAttribute('aria-label', 'Move ' + nameOf(s) + '. Drag, or use the arrow keys');
+        s.appendChild(g);
+        g.addEventListener('keydown', e => {
+          const ms = movable(), i = ms.indexOf(s); let j = -1;
+          if (e.key === 'ArrowUp') j = i - 1; else if (e.key === 'ArrowDown') j = i + 1; else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = ms.length - 1; else return;
+          e.preventDefault(); if (j < 0 || j >= ms.length || j === i) return;
+          const ref = j < i ? ms[j] : ms[j].nextSibling; s.parentNode.insertBefore(s, ref); g.focus(); persist();
+          say(nameOf(s) + ', ' + (j + 1) + ' of ' + ms.length);
+        });
+        g.addEventListener('pointerdown', e => drag(e, s, g));
+      }
+      if (s.parentNode !== root) s.classList.add('sfs-out');
+      /* keep pins, on every section */
       const k = document.createElement('button'); k.type = 'button'; k.className = 'sfs-keep'; k.innerHTML = '<span class="sfs-pin" aria-hidden="true"></span>';
       const syncK = () => { k.setAttribute('aria-pressed', String(kept(s))); k.setAttribute('aria-label', (kept(s) ? 'Kept open: ' : 'Keep open: ') + nameOf(s) + (kept(s) ? '. Tap to let it fold with the rest' : '. It stays open when the rest fold')); };
       k.onclick = () => { st.keep = (st.keep || []).filter(id => id !== s.id); if (k.getAttribute('aria-pressed') !== 'true') { st.keep.push(s.id); setShut(s, false); } syncK(); persist(); say(nameOf(s) + (kept(s) ? ' kept open' : ' folds with the rest')); };
       syncK(); s.insertBefore(k, s.querySelector(':scope>.sfs-grip') || null);
+      /* the crossed eye, on every section that may be hidden */
+      if (canHide(s)) {
+        s.classList.add('sfs-can');
+        const h = document.createElement('button'); h.type = 'button'; h.className = 'sfs-hide'; h.innerHTML = EYE_OFF;
+        h.setAttribute('aria-label', 'Hide ' + nameOf(s) + '. Bring it back in Settings'); h.title = 'Hide ' + nameOf(s);
+        h.onclick = () => { const next = s.nextElementSibling; hideSec(s.id); const f = next && next.querySelector && next.querySelector(':scope>.cx-grpbtn'); if (f) f.focus({ preventScroll: true }); };
+        s.insertBefore(h, s.querySelector(':scope>.sfs-keep') || null);
+      }
     }
+    for (const s of secs()) wire(s);
 
-    /* the crossed eye, on every section that may be hidden */
-    for (const s of secs()) {
-      if (!canHide(s)) continue;
-      s.classList.add('sfs-can');
-      const h = document.createElement('button'); h.type = 'button'; h.className = 'sfs-hide'; h.innerHTML = EYE_OFF;
-      h.setAttribute('aria-label', 'Hide ' + nameOf(s) + '. Bring it back in Settings'); h.title = 'Hide ' + nameOf(s);
-      h.onclick = () => { const next = s.nextElementSibling; hideSec(s.id); const f = next && next.querySelector && next.querySelector(':scope>.cx-grpbtn'); if (f) f.focus({ preventScroll: true }); };
-      s.insertBefore(h, s.querySelector(':scope>.sfs-keep') || null);
-    }
+    /* LATE SECTIONS (Current 0.26.23, 20 Oct): a section the tool builds after mount (Current's Founders Club is drawn
+       a tick later) used to stay bare: a thin rule, no grip, pin or eye. Now any section that joins the column is
+       wired like the rest, takes its saved place and fold if this device has seen it, and its shipped place if not. */
+    if (window.MutationObserver) new MutationObserver(ms => {
+      let any = false;
+      for (const m of ms) for (const n of m.addedNodes) {
+        if (n.nodeType !== 1 || !n.id || wired.has(n) || !n.matches(o.section)) continue;
+        any = true; wire(n);
+        if (!isFixed(n) && DEFAULT.indexOf(n.id) < 0) { const ids = movable().map(x => x.id), i = ids.indexOf(n.id); const after = ids.slice(0, i).reverse().find(id => DEFAULT.indexOf(id) >= 0); DEFAULT.splice(after ? DEFAULT.indexOf(after) + 1 : 0, 0, n.id); }
+        const seen = Array.isArray(st.order) && st.order.indexOf(n.id) >= 0;
+        if (seen) { applyOrder(st.order); if (Array.isArray(st.shut)) setShut(n, st.shut.indexOf(n.id) >= 0); }
+        else if (st.focus || (o.start && o.start.folded && !Array.isArray(st.shut)) || secs().filter(x => x !== n && !kept(x)).every(x => x.classList.contains('cx-shut'))) setShut(n, true);   // a newcomer folds with the rest
+        if (kept(n)) setShut(n, false);
+      }
+      if (any) { paintHidden(); sync(); }
+    }).observe(root, { childList: true });
     paintHidden();
 
     /* drag: fold everything to its header, let the section follow the pointer, swap as it passes a neighbour's middle */
