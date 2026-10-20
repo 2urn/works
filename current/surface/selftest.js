@@ -13,6 +13,12 @@
       tick or a cross, the first error, and three buttons: reload, copy report, email report. When everything passes,
       nothing shows. #selftest (or SurfaceSelfTest.show()) opens the card on demand with every check, pass or fail.
    If the tool never calls start() (its own script died first), the kit shows the card anyway 12 s after load.
+   Once the stage has played, a stall is never a card: it is logged, O.recover() is tried, then O.resume() (the tool
+   reloads straight back to its state, no cover), at most once a minute; the card shows only if that fails too.
+   Start-up failures (the stage never played) still show the card.
+   False alarms (20 Oct): a failure must hold on a second look 2.5 s later; coming back from the background restarts
+   the heartbeat's clock; a slow start passes once it finishes. The last report shown is kept on the device, and
+   #selftest offers "copy last report", so a card closed too soon can still be sent.
    5. THE MASCOT (Dimitry, 20 Oct: "a glitch character of the duck-rabbit as the mascot for the error page ... say
       something congratulatory: you found a bad thing, help us fix it"). The card turns the tool's own mark into
       glitching ASCII: it rasterizes the SVG the page already carries (`mascot: selector`, or any element marked
@@ -27,6 +33,8 @@
        ready: () => booted,                    // the tool has finished booting (checks wait for it; default: load)
        within: 9000, stall: 4000,              // ms: first beat after load; longest gap between beats
        email: 'hi@chamy.xyz',
+       recover: () => …,                      // try to get the frames going again without a reload
+       resume: () => …,                       // save state, reload straight back to it (no cover, no opening)
        mascot: '#duckBtn svg',                // the mark to glitch (default: [data-selftest-mascot])
        checks: [{ id: 'index', name: 'Index', test: () => !!document.getElementById('idx') }, …]
      })
@@ -65,7 +73,10 @@
 
   function esc(t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function beat(state) { last = Date.now(); if (!first) first = last; if (state === "paused") beat.paused = true; else beat.paused = false; }
-  addEventListener("visibilitychange", function () { if (!document.hidden && !first) t0 = Date.now(); });
+  /* back from the background (another app, the lock screen, the back-forward cache): the frames have not had a chance
+     to run yet, so the clock starts again rather than calling a stall (20 Oct: a false alarm on iPhone) */
+  var wake = function () { if (document.hidden) return; var n = Date.now(); if (!first) t0 = n; else last = n; };
+  addEventListener("visibilitychange", wake); addEventListener("pageshow", wake); addEventListener("focus", wake);
   function heart() {
     var now = Date.now();
     if (!first && document.hidden) return null;
@@ -75,17 +86,25 @@
   }
   function run() {
     results = [];
-    var all = [{ id: "field", name: O.heartName || "Stage playing", test: function () { var h = heart(); return h === null ? "still starting" : h; } }].concat(O.checks || []);
+    var all = [{ id: "field", name: O.heartName || "Stage playing", test: function () { var h = heart(); return h === null ? "still starting" : (first && h !== true && !unhealed) ? "still starting" : h; } }].concat(O.checks || []);
     all.forEach(function (c) {
       var r; try { r = c.test(); } catch (e) { r = "threw: " + (e && e.message || e); }
       results.push({ id: c.id, name: c.name, ok: r === true, why: r === true ? "" : r === false ? "failed" : String(r) });
     });
     return results;
   }
+  /* ---- the log: what went wrong and what was done about it, kept on the device (last 20) ---- */
+  var LOGK = "surface.selftest.log", unhealed = false;
+  function logGet() { try { return JSON.parse(localStorage.getItem(LOGK + "." + ((O && O.tool) || "tool")) || "[]") || []; } catch (e) { return []; } }
+  function log(what) {
+    var l = logGet(); l.push({ at: new Date().toISOString(), what: what, err: ERR.slice(-2) });
+    try { localStorage.setItem(LOGK + "." + ((O && O.tool) || "tool"), JSON.stringify(l.slice(-20))); } catch (e) {}
+  }
   function report() {
     var lines = [(O.tool || "Tool") + " self-test", "version " + (O.version || "?") + (window.__BUILD__ ? " · build " + window.__BUILD__ : ""), location.href.split("#")[0], navigator.userAgent, ""];
     results.forEach(function (r) { lines.push((r.ok ? "ok   " : "FAIL ") + r.name + (r.why ? ": " + r.why : "")); });
     if (ERR.length) { lines.push("", "Errors and warnings:"); ERR.forEach(function (e) { lines.push(e); }); }
+    var lg = logGet(); if (lg.length) { lines.push("", "Log (this device):"); lg.forEach(function (e) { lines.push(e.at + "  " + e.what + (e.err && e.err.length ? "  [" + e.err.join(" / ") + "]" : "")); }); }
     return lines.join("\n");
   }
   /* ---- the mascot: the page's own mark, sampled into ASCII, glitching ---- */
@@ -132,7 +151,7 @@
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
   }
   function card(force) {
-    var bad = results.filter(function (r) { return !r.ok; });
+    var bad = results.filter(function (r) { return !r.ok; }), LAST = lastReport();
     if (!el) {
       var s = document.createElement("style"); s.textContent = CSS; document.head.appendChild(s);
       el = document.createElement("div"); el.className = "st-card"; el.setAttribute("role", "alertdialog"); el.setAttribute("aria-live", "assertive"); document.body.appendChild(el);
@@ -146,19 +165,26 @@
       (bad.length ? '<p class="st-p">' + esc(O.tool || "The tool") + " checked itself and something is broken. Send the report: it says exactly what failed, and that is how it gets fixed. Reload usually gets you playing again.</p>" : "") +
       '<ul class="st-l">' + results.map(function (r) { return '<li class="' + (r.ok ? "" : "f") + '"><i>' + (r.ok ? "✓" : "✕") + "</i><span>" + esc(r.name) + (r.why ? "<small>" + esc(r.why) + "</small>" : "") + "</span></li>"; }).join("") + "</ul>" +
       (bad.length && ERR.length ? '<pre class="st-e">' + esc(ERR.slice(-3).join("\n")) + "</pre>" : "") +
-      '<div class="st-a">' + (bad.length ? '<button type="button" class="pri" data-a="reload">reload</button>' : "") + '<button type="button" data-a="copy">copy report</button>' + (O.email ? '<button type="button" data-a="mail">email report</button>' : "") + "</div></div>";
+      (!bad.length && LAST ? '<p class="st-p">The last problem was ' + esc(new Date(LAST.at).toLocaleString()) + '. Its report is kept here so you can still send it.</p>' : "") +
+      '<div class="st-a">' + (bad.length ? '<button type="button" class="pri" data-a="reload">reload</button>' : "") + (!bad.length && LAST ? '<button type="button" class="pri" data-a="last">copy last report</button>' : "") + '<button type="button" data-a="copy">copy report</button>' + (O.email ? '<button type="button" data-a="mail">email report</button>' : "") + "</div></div>";
     el.querySelector(".st-x").onclick = function () { el.hidden = true; dismissed = true; };
+    var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { lb.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
     var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { location.reload(); };
     el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
     var m = el.querySelector('[data-a="mail"]'); if (m) m.onclick = function () { location.href = "mailto:" + O.email + "?subject=" + encodeURIComponent((O.tool || "Tool") + " self-test " + (O.version || "")) + "&body=" + encodeURIComponent(report().slice(0, 1800)); };
     if (bad.length) mascot(el.querySelector(".st-m"));
     el.hidden = false; shown = true;
   }
-  function check() {
+  /* a failure has to hold for a second look 2.5 s later before the card shows: one late frame is not a broken tool */
+  var LASTK = "surface.selftest.last";
+  function check(confirmed) {
     run();
     var bad = results.filter(function (r) { return !r.ok && r.why !== "still starting"; });
+    if (bad.length && !confirmed) { setTimeout(function () { if (!dismissed && !shown) check(true); }, 2500); return bad.length; }
     if (bad.length && !dismissed && !shown) {
       card();
+      /* kept, so a report closed too soon can still be sent: #selftest shows it */
+      try { localStorage.setItem(LASTK + "." + (O.tool || "tool"), JSON.stringify({ at: new Date().toISOString(), text: report() })); } catch (e) {}
       if (window.cxCount) bad.forEach(function (r) { try { cxCount("selftest: " + r.id, 1); } catch (e) {} });
     }
     return bad.length;
@@ -169,11 +195,36 @@
       var ready = true; try { ready = O.ready ? !!O.ready() : true; } catch (e) { ready = false; }
       waited += 500;
       if (!ready && waited < (O.within || 9000)) return setTimeout(go, 500);
-      if (!ready) { (O.checks = O.checks || []).unshift({ id: "boot", name: "Start-up", test: function () { return "the tool did not finish starting"; } }); }
+      /* a slow start is only a failure while it lasts: the check asks again each time */
+      if (!ready) { (O.checks = O.checks || []).unshift({ id: "boot", name: "Start-up", test: function () { try { return !!O.ready() || "the tool did not finish starting"; } catch (e) { return "the tool did not finish starting"; } } }); }
       /* a first pass once ready, a second a few seconds later; then the heartbeat alone, every two seconds */
       setTimeout(function () {
-        if (check()) return;
-        setTimeout(function watch() { run(); var f = results[0]; if (f && !f.ok && f.why !== "still starting" && !dismissed && !shown) check(); else setTimeout(watch, 2000); }, 2000);
+        var h0 = heart(); if (first && h0 !== true && h0 !== null) heal(h0); else check();
+        var watch = function () {
+          var h = heart();
+          /* once the stage has played, a stall never interrupts with a card (Dimitry, 20 Oct: a performer on HDMI must
+             not see one): it is logged, the tool is asked to recover, and if the frames don't come back, the tool
+             resumes itself (a reload straight back to where it was). The card only shows when that fails too. */
+          if (first && h !== true && h !== null) { heal(h); return; }
+          run(); var f = results[0]; if (f && !f.ok && f.why !== "still starting" && !dismissed && !shown) check();
+          if (!shown && !dismissed) setTimeout(watch, 2000);
+        };
+        setTimeout(watch, 2000);
+        function heal(why) {
+          log("stall: " + why); if (window.cxCount) try { cxCount("selftest: stall", 1); } catch (e) {}
+          var before = last;
+          try { if (O.recover) O.recover(); } catch (e) { keep("recover", e && e.message || e); }
+          setTimeout(function () {
+            if (last > before && Date.now() - last < 1500) { log("recovered by itself"); return setTimeout(watch, 2000); }
+            var k = "surface.selftest.resumed." + (O.tool || "tool"), prev = 0; try { prev = +sessionStorage.getItem(k) || 0; } catch (e) {}
+            if (O.resume && Date.now() - prev > 60000) {
+              log("resumed: reloaded back to where it was");
+              try { sessionStorage.setItem(k, String(Date.now())); } catch (e) {}
+              try { return O.resume(); } catch (e) { keep("resume", e && e.message || e); }
+            }
+            log("could not recover"); unhealed = true; check(true);
+          }, 3000);
+        }
       }, Math.max(0, (O.within || 9000) - (Date.now() - t0)));
     };
     if (document.readyState === "complete") go(); else addEventListener("load", go);
@@ -182,6 +233,7 @@
   }
   /* if the tool's own script died before it could call start(), the kit still speaks: 12 s after load, a card */
   addEventListener("load", function () { setTimeout(function () { if (O) return; O = { tool: document.title || "This tool", version: window.__VERSION__ || "", email: "hi@chamy.xyz", checks: [{ id: "boot", name: "Start-up", test: function () { return "the tool did not finish starting"; } }] }; check(); }, 12000); });
-  var api = { start: start, beat: beat, run: run, report: report, show: function () { run(); card(true); }, get errors() { return ERR.slice(); } };
+  function lastReport() { try { return JSON.parse(localStorage.getItem(LASTK + "." + ((O && O.tool) || "tool")) || "null"); } catch (e) { return null; } }
+  var api = { start: start, beat: beat, run: run, report: report, last: lastReport, log: logGet, show: function () { run(); card(true); }, get errors() { return ERR.slice(); } };
   window.SurfaceSelfTest = api;
 })();
