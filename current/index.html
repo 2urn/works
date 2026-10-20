@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020054019";window.__VERSION__="0.25.7";window.__NOTES__=[{"v":"0.25.7","date":"20 Oct 2026","items":[{"kind":"change","text":"cards on the CHAMY·XYZ brand grid: a margin of a twelfth of the short side on every edge; the namemark's x-height on the top and right margins; CURRENT down the left column, its capitals one margin tall; CHAMY·XYZ on the left and bottom margins, its capitals the namemark's x-height; the sentence's last line on the bottom margin; the duck-rabbit in the room left. The same composition at every size"}]}]</script>
+<script>window.__BUILD__="20261020054728";window.__VERSION__="0.25.8";window.__NOTES__=[{"v":"0.25.8","date":"20 Oct 2026","items":[{"kind":"new","text":"cards with the look behind carry a small duck-rabbit in the bottom right corner, on the margins, as wide (without the rabbit's tail) as the namemark's two turned words"},{"kind":"change","text":"CURRENT on the cards is not letterspaced"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020054019"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020054019">
+<script src="claude-web.js?v=20261020054728"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020054728">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020054019"></script>
-<script src="surface/auto.js?v=20261020054019"></script>
-<script src="surface/toolpath.js?v=20261020054019"></script>
-<script src="surface/capture.js?v=20261020054019"></script>
-<script src="surface/pop.js?v=20261020054019"></script>
-<script src="surface/hints.js?v=20261020054019"></script>
-<script src="surface/paths.js?v=20261020054019"></script>
-<script src="surface/keys.js?v=20261020054019"></script>
-<script src="surface/reset.js?v=20261020054019"></script>
+<script src="vendor/opentype.min.js?v=20261020054728"></script>
+<script src="surface/auto.js?v=20261020054728"></script>
+<script src="surface/toolpath.js?v=20261020054728"></script>
+<script src="surface/capture.js?v=20261020054728"></script>
+<script src="surface/pop.js?v=20261020054728"></script>
+<script src="surface/hints.js?v=20261020054728"></script>
+<script src="surface/paths.js?v=20261020054728"></script>
+<script src="surface/keys.js?v=20261020054728"></script>
+<script src="surface/reset.js?v=20261020054728"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3712,6 +3712,7 @@ const cardMark=()=>CARD.img.corner||(CARD.img.corner=new Promise(res=>{let u='';
   if(!u){res(null);return}const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const g=c.getContext('2d');g.drawImage(i,0,0);g.globalCompositeOperation='source-in';g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);res(c)};i.onerror=()=>res(null);i.src=u}));
 /* CHAMY·XYZ ON THE CARDS (Dimitry, 20 Oct: "YOUR Current cards" had the logo typed in a font): the wordmark is his
    file, the SVG in the drawer's colophon (sys/brands/chamy-xyz/word.svg), drawn as an image, never typed */
+const NM_COL=51/188,DUCK_TAIL=.10;   // the namemark's Chamy/Saïd column as a share of its width; where the duck-rabbit's tail ends (share of its width)
 const cardWord=()=>CARD.img.word||(CARD.img.word=new Promise(res=>{const el=document.querySelector('svg.colo-word');if(!el){res(null);return}
   const sv=el.cloneNode(true);sv.setAttribute('xmlns','http://www.w3.org/2000/svg');sv.setAttribute('width','3000');sv.setAttribute('height',String(Math.round(3000*132/996)));sv.setAttribute('fill','#fff');sv.querySelectorAll('[fill]').forEach(n=>n.setAttribute('fill','#fff'));
   const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d').drawImage(i,0,0);res(c)};i.onerror=()=>res(null);
@@ -3792,11 +3793,17 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   /* CHAMY·XYZ first: its length is the room CURRENT must leave */
   const WB=cardInk(word),wS=word?x/((WB.y1-WB.y0)*word.height):0,wLen=word?(WB.x1-WB.x0)*word.width*wS:0;
   /* CURRENT: its cap height is M; on a short card (the link) it shrinks only if it would reach CHAMY·XYZ (an M apart) */
-  const tm=n=>{g.font='700 '+n.toFixed(1)+'px '+font;try{g.letterSpacing=(n*.14).toFixed(1)+'px'}catch(_){}const t=g.measureText('CURRENT');return {asc:t.actualBoundingBoxAscent||n*.72,lead:t.actualBoundingBoxLeft||0,len:(t.actualBoundingBoxLeft||0)+(t.actualBoundingBoxRight||t.width)}};
+  const tm=n=>{g.font='700 '+n.toFixed(1)+'px '+font;try{g.letterSpacing='0px'}catch(_){}   // CURRENT is not letterspaced (Dimitry, 20 Oct)
+  const t=g.measureText('CURRENT');return {asc:t.actualBoundingBoxAscent||n*.72,lead:t.actualBoundingBoxLeft||0,len:(t.actualBoundingBoxLeft||0)+(t.actualBoundingBoxRight||t.width)}};
   let ts=100*M/tm(100).asc;{const room=H-3*M-wLen,l=tm(ts).len;if(l>room)ts*=room/l}
   const CM=tm(ts),cLead=CM.lead,cAsc=CM.asc,tw=CM.len;try{g.letterSpacing='0px'}catch(_){}
   /* the sentence: semibold, 0.95 x (his master: 24.3 px at x 25.6), line 1.2, broken at its sentences, then wrapped */
-  const cs=.95*x,lh=cs*1.2,sx=2*M+o,max=W-sx-M,lines=[];g.font='600 '+cs.toFixed(1)+'px '+SANS;
+  /* THE SMALL DUCK-RABBIT (Dimitry, 20 Oct, added to his master): when the duck is not the main actor (the look
+     behind), a small one sits in the bottom right corner, its ink on the bottom and right margins (o over, like every
+     mark). Scaled optically (Dimitry): leaving out the rabbit's tail, its width is the width of the namemark's two
+     turned words, Chamy and Saïd (ink 131-182 of the namemark's 188 px). The sentence keeps an M clear of it. */
+  let sd=null;if(style==='behind'&&dw){const G=duckGeom(dw),ar=dw.width/dw.height,bw=mw*NM_COL/(G.x1-DUCK_TAIL),bh=bw/ar;sd={bx:W-M+o-G.x1*bw,by:H-M+o-G.y1*bh,bw,bh,inkL:W-M+o-(G.x1-G.x0)*bw}}
+  const cs=.95*x,lh=cs*1.2,sx=2*M+o,max=(sd?sd.inkL-M:W-M)-sx,lines=[];g.font='600 '+cs.toFixed(1)+'px '+SANS;
   for(const sen of (msg&&msg.trim()?msg.trim():'G-code in. Beats and dancing particles out. The field is your playground.').split(/(?<=[.!?])\s+/)){let cur='';for(const w of sen.split(/\s+/)){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
   const lw=Math.max(0,...lines.map(t=>g.measureText(t).width)),lastBase=H-M,capTop=lastBase-(lines.length-1)*lh-cs*.74;
   const paper=groundLight();   // a light look is laid over the colour by multiplying, a dark one by screening
@@ -3825,13 +3832,14 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     mg.globalCompositeOperation='source-atop';cardField(mg,cardTint(look,CARD_PARTNER[color]||'ink'),bx+G.x0*bw,by+G.y0*bh,(G.x1-G.x0)*bw,(G.y1-G.y0)*bh,[1.15,0,0]);mg.globalCompositeOperation='destination-in';mg.drawImage(dw,bx,by,bw,bh);
     g.save();g.shadowColor='rgba(0,0,0,.25)';g.shadowBlur=36*u;g.shadowOffsetY=8*u;g.drawImage(m,0,0);g.restore()}
   /* CURRENT, reading down the left column */
-  g.fillStyle=FG;g.textAlign='left';g.font='700 '+ts.toFixed(1)+'px '+font;try{g.letterSpacing=(ts*.14).toFixed(1)+'px'}catch(_){}
+  g.fillStyle=FG;g.textAlign='left';g.font='700 '+ts.toFixed(1)+'px '+font;try{g.letterSpacing='0px'}catch(_){}
   g.textBaseline='alphabetic';g.save();g.translate(M,M+cLead);g.rotate(Math.PI/2);g.fillText('CURRENT',0,0);g.restore();try{g.letterSpacing='0px'}catch(_){}
   /* the sentence, lower left, its last baseline on the bottom margin */
   g.font='600 '+cs.toFixed(1)+'px '+SANS;lines.forEach((t,k)=>g.fillText(t,sx,lastBase-(lines.length-1-k)*lh));g.textBaseline='top';
   /* top right: the namemark */
   if(mark){let mk=mark;if(light){const t=document.createElement('canvas');t.width=mark.width;t.height=mark.height;const tg=t.getContext('2d');tg.drawImage(mark,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);mk=t}
     g.drawImage(mk,mX,mYv,mw,mh)}
+  if(sd){const t=document.createElement('canvas');t.width=dw.width;t.height=dw.height;const tg=t.getContext('2d');tg.drawImage(dw,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=FG;tg.fillRect(0,0,t.width,t.height);g.drawImage(t,sd.bx,sd.by,sd.bw,sd.bh)}
   /* bottom left: CHAMY·XYZ (his file), the app's blue on ink, the type's colour on a colour */
   if(word){const t=document.createElement('canvas');t.width=word.width;t.height=word.height;const tg=t.getContext('2d');tg.drawImage(word,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=color==='ink'?'#55b8c9':FG;tg.fillRect(0,0,t.width,t.height);
     g.save();g.translate(M,H-M-wLen);g.rotate(Math.PI/2);g.drawImage(t,-WB.x0*word.width*wS,-WB.y1*word.height*wS,word.width*wS,word.height*wS);g.restore()}
@@ -6076,10 +6084,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020054019"></script>
-<script src="surface/links.js?v=20261020054019"></script>
-<script src="surface/tips.js?v=20261020054019"></script>
-<script src="surface/sections.js?v=20261020054019"></script>
+<script src="surface/install.js?v=20261020054728"></script>
+<script src="surface/links.js?v=20261020054728"></script>
+<script src="surface/tips.js?v=20261020054728"></script>
+<script src="surface/sections.js?v=20261020054728"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6458,7 +6466,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.7';
+const APP_VERSION='0.25.8';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
