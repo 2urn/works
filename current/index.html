@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020121852";window.__VERSION__="0.26.6";window.__NOTES__=[{"v":"0.26.6","date":"20 Oct 2026","items":[{"kind":"new","text":"cards carry the tagline, Play the field, over a shorter line that ends with an invitation to the founders club"},{"kind":"new","text":"the cards are made ahead: when you open share, they are already there, and they sharpen while you look"}]}]</script>
+<script>window.__BUILD__="20261020122151";window.__VERSION__="0.26.7";window.__NOTES__=[{"v":"0.26.7","date":"20 Oct 2026","items":[{"kind":"change","text":"the founders count shows once 20 have joined; until then the club invites you to be one of the first 100"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020121852"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020121852">
+<script src="claude-web.js?v=20261020122151"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020122151">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,19 +72,19 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020121852"></script>
-<script src="surface/auto.js?v=20261020121852"></script>
-<script src="surface/toolpath.js?v=20261020121852"></script>
-<script src="surface/capture.js?v=20261020121852"></script>
-<script src="surface/pop.js?v=20261020121852"></script>
-<script src="surface/hints.js?v=20261020121852"></script>
-<script src="surface/paths.js?v=20261020121852"></script>
-<script src="surface/keys.js?v=20261020121852"></script>
-<script src="surface/reset.js?v=20261020121852"></script>
-<script src="surface/files.js?v=20261020121852"></script>
-<script src="surface/rail.js?v=20261020121852"></script>
-<script src="surface/float.js?v=20261020121852"></script>
-<script src="surface/manual.js?v=20261020121852"></script>
+<script src="vendor/opentype.min.js?v=20261020122151"></script>
+<script src="surface/auto.js?v=20261020122151"></script>
+<script src="surface/toolpath.js?v=20261020122151"></script>
+<script src="surface/capture.js?v=20261020122151"></script>
+<script src="surface/pop.js?v=20261020122151"></script>
+<script src="surface/hints.js?v=20261020122151"></script>
+<script src="surface/paths.js?v=20261020122151"></script>
+<script src="surface/keys.js?v=20261020122151"></script>
+<script src="surface/reset.js?v=20261020122151"></script>
+<script src="surface/files.js?v=20261020122151"></script>
+<script src="surface/rail.js?v=20261020122151"></script>
+<script src="surface/float.js?v=20261020122151"></script>
+<script src="surface/manual.js?v=20261020122151"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -6252,10 +6252,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020121852"></script>
-<script src="surface/links.js?v=20261020121852"></script>
-<script src="surface/tips.js?v=20261020121852"></script>
-<script src="surface/sections.js?v=20261020121852"></script>
+<script src="surface/install.js?v=20261020122151"></script>
+<script src="surface/links.js?v=20261020122151"></script>
+<script src="surface/tips.js?v=20261020122151"></script>
+<script src="surface/sections.js?v=20261020122151"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6560,7 +6560,9 @@ try{(function(){
     return zip(files)}
   /* its place in the index, under Paths: what is in it, and either the download or how to get it */
   /* the challenge's progress line, shared by the pack panel and the cover form */
-  const fpGoal=n=>n>=FP_MAX?FP_MAX+' founders reached. The Pro pre-release is opening.':n+' of '+FP_MAX+' founders so far. At '+FP_MAX+', the Pro pre-release opens.';
+  /* below 20 the count reads as empty ("3 of 100"), so it stays out of sight until then (Dimitry, 20 Oct) */
+  const FP_SHOW=20;
+  const fpGoal=n=>n<FP_SHOW?'':n>=FP_MAX?FP_MAX+' founders reached. The Pro pre-release is opening.':n+' of '+FP_MAX+' founders so far. At '+FP_MAX+', the Pro pre-release opens.';
   let fpSec=null;
   function fpPaint(){const on=fpOn();if(!fpSec){const after=$('paths')||$('guide');if(!after)return;fpSec=document.createElement('section');fpSec.className='cx-grp';fpSec.id='pack';
       fpSec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="packL"><span>Founding pack</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="packL"></div>';
@@ -6569,10 +6571,10 @@ try{(function(){
     b.innerHTML='<p class="cx-lead">'+(on?'Yours, as a founder:':'For the first '+FP_MAX+' founders:')+' <b>10 beats</b> (sound › Beat › Start from), <b>10 looks</b> on 10 new G-code paths (in your looks), and <b>10 bytebeats</b> (sound › Bytes › My formulas). They keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
       '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">'+(on?'download the pack':'join the founders club')+'</button></div>';
     b.querySelector('.btn').onclick=on?()=>{saveBlob(FILE_PREFIX+'founding-pack.zip',fpZip());if(window.cxCount)cxCount('pack: download',1)}:()=>{try{openBetaSheet()}catch(_){}};
-    if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=fpGoal(n)}).catch(()=>{})}
+    if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=fpGoal(n)||'Be one of the first '+FP_MAX+'.'}).catch(()=>{})}
   /* on sign-up: count, and give the pack if they are within the first 100. If the count can't be read, give it: a
      gift should not fail on a network hiccup. Testers who joined before the pack existed get it on their next visit. */
-  window.FPACK={goal:async el=>{if(!el)return;try{el.textContent=fpGoal(await fpCount())}catch(_){el.remove()}},claim:async(f)=>{let n=null;try{n=await fpCount()}catch(_){}
+  window.FPACK={goal:async el=>{if(!el)return;try{const t=fpGoal(await fpCount());if(t)el.textContent=t;else el.remove()}catch(_){el.remove()}},claim:async(f)=>{let n=null;try{n=await fpCount()}catch(_){}
       const ok=n==null||n<=FP_MAX;if(ok){fpGive();toast('your founding pack is in · 10 beats, 10 looks, 10 bytebeats',3600);if(window.cxCount)cxCount('pack: unlocked',1)}else fpPaint();
       const ty=f&&f.querySelector('.lc-betaTy');if(ty){const p=document.createElement('p');p.className='sm';
         p.textContent=ok?'Your founding pack is in: 10 beats, 10 looks on new G-code paths, 10 bytebeats.'+(n!=null&&n<=FP_PRO?' You’re founder '+n+' of '+FP_PRO+': Pro is yours free, starting with the pre-release.'+(n>=FP_MAX?' You made it 100: the pre-release is opening.':''):''):'The first 100 are in, so the Pro pre-release is coming. The missions are yours.';ty.insertBefore(p,ty.querySelector('.lc-betaShare'))}
@@ -6762,7 +6764,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.6';
+const APP_VERSION='0.26.7';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
