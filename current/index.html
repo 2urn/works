@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020023417";window.__VERSION__="0.23.0";window.__NOTES__=[{"v":"0.23.0","date":"19 Oct 2026","items":[{"kind":"new","text":"cards: in share, make a card from a look for social media (post, story, square, link), with the look behind or inside the duck-rabbit, the title, the namemark and a QR code"},{"kind":"new","text":"the QR code on a card opens that exact look, live, with the duck-rabbit in its middle"},{"kind":"new","text":"a small caret over the bar's buttons that open a drawer, while it is open and on hover"}]}]</script>
+<script>window.__BUILD__="20261020023946";window.__VERSION__="0.23.1";window.__NOTES__=[{"v":"0.23.1","date":"19 Oct 2026","items":[{"kind":"change","text":"on every card, CURRENT sits top left, across from the namemark, with its line under it; the small duck-rabbit sits over CHAMY·XYZ"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020023417"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020023417">
+<script src="claude-web.js?v=20261020023946"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020023946">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020023417"></script>
-<script src="surface/auto.js?v=20261020023417"></script>
-<script src="surface/toolpath.js?v=20261020023417"></script>
-<script src="surface/capture.js?v=20261020023417"></script>
-<script src="surface/pop.js?v=20261020023417"></script>
-<script src="surface/hints.js?v=20261020023417"></script>
-<script src="surface/paths.js?v=20261020023417"></script>
-<script src="surface/keys.js?v=20261020023417"></script>
-<script src="surface/reset.js?v=20261020023417"></script>
+<script src="vendor/opentype.min.js?v=20261020023946"></script>
+<script src="surface/auto.js?v=20261020023946"></script>
+<script src="surface/toolpath.js?v=20261020023946"></script>
+<script src="surface/capture.js?v=20261020023946"></script>
+<script src="surface/pop.js?v=20261020023946"></script>
+<script src="surface/hints.js?v=20261020023946"></script>
+<script src="surface/paths.js?v=20261020023946"></script>
+<script src="surface/keys.js?v=20261020023946"></script>
+<script src="surface/reset.js?v=20261020023946"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3575,15 +3575,16 @@ async function drawCard(){const [,,W,H]=CARD_SIZES.find(x=>x[0]===CARD.size),c=$
     g.save();g.shadowColor='rgba(85,184,201,.35)';g.shadowBlur=60*u;g.drawImage(m,0,0);g.restore()}
   /* the marks */
   g.fillStyle='#fff';g.textBaseline='alphabetic';
-  if(CARD.style==='behind'&&dc){const ih=110*u,iw=ih*dc.width/dc.height;g.drawImage(dc,pad,pad,iw,ih)}
-  if(mark){const mh=(wide?70:84)*u,mw=mh*mark.width/mark.height;g.globalAlpha=.95;g.drawImage(mark,W-pad-mw,pad,mw,mh);g.globalAlpha=1}
-  const ts=Math.round((wide?120:150)*u);g.font='700 '+ts+'px '+font;g.textAlign='left';
-  const title='CURRENT';try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
-  const qs=Math.round((wide?190:230)*u),qx=W-pad-qs,qy=H-pad-qs,tx=pad,ty=wide?H*.5:qy-Math.round(44*u);
-  g.fillText(title,tx,ty);try{g.letterSpacing='0px'}catch(_){}
-  g.font='500 '+Math.round(26*u)+'px "JetBrains Mono", ui-monospace, monospace';g.globalAlpha=.85;
-  try{g.letterSpacing=Math.round(6*u)+'px'}catch(_){}
-  g.fillText('G-CODE IN · PARTICLES FOLLOW',tx,wide?ty+Math.round(52*u):H-pad-Math.round(46*u));g.fillText('CHAMY·XYZ',tx,H-pad);try{g.letterSpacing='0px'}catch(_){}g.globalAlpha=1;
+  /* top left: CURRENT, sized to fit beside the namemark, the line under it (Dimitry, 19 Oct: CURRENT top left on all) */
+  let mw=0;if(mark){const mh=(wide?70:84)*u;mw=mh*mark.width/mark.height;g.globalAlpha=.95;g.drawImage(mark,W-pad-mw,pad,mw,mh);g.globalAlpha=1}
+  const room=W-pad*2-mw-40*u;let ts=Math.round((wide?110:132)*u);const fit=()=>{g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}return g.measureText('CURRENT').width};
+  while(ts>40&&fit()>room)ts-=4;g.textAlign='left';g.textBaseline='top';g.fillText('CURRENT',pad,pad);try{g.letterSpacing='0px'}catch(_){}
+  g.font='500 '+Math.round(24*u)+'px "JetBrains Mono", ui-monospace, monospace';g.globalAlpha=.85;try{g.letterSpacing=Math.round(6*u)+'px'}catch(_){}
+  g.fillText('G-CODE IN · PARTICLES FOLLOW',pad,pad+ts*1.02+14*u);
+  /* bottom left: the small duck-rabbit (look-behind style) over CHAMY·XYZ */
+  g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',pad,H-pad);try{g.letterSpacing='0px'}catch(_){}g.globalAlpha=1;
+  if(CARD.style==='behind'&&(dc||dw)){const ld=dc||dw,ih=(wide?80:100)*u,iw=ih*ld.width/ld.height;g.drawImage(ld,pad,H-pad-ih-44*u,iw,ih)}
+  const qs=Math.round((wide?190:230)*u),qx=W-pad-qs,qy=H-pad-qs;
   /* the code: white tile, dark modules, a line under it */
   const qc=document.createElement('canvas');if(qrDraw(qc,url,8)){const r=16*u;g.fillStyle='#fff';g.beginPath();g.roundRect?g.roundRect(qx-12*u,qy-12*u,qs+24*u,qs+24*u,r):g.rect(qx-12*u,qy-12*u,qs+24*u,qs+24*u);g.fill();
     g.imageSmoothingEnabled=false;g.drawImage(qc,qx,qy,qs,qs);g.imageSmoothingEnabled=true;
@@ -5698,10 +5699,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020023417"></script>
-<script src="surface/links.js?v=20261020023417"></script>
-<script src="surface/tips.js?v=20261020023417"></script>
-<script src="surface/sections.js?v=20261020023417"></script>
+<script src="surface/install.js?v=20261020023946"></script>
+<script src="surface/links.js?v=20261020023946"></script>
+<script src="surface/tips.js?v=20261020023946"></script>
+<script src="surface/sections.js?v=20261020023946"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6067,7 +6068,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.23.0';
+const APP_VERSION='0.23.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
