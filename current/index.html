@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020212400";window.__VERSION__="0.26.35";window.__NOTES__=[{"v":"0.26.35","date":"20 Oct 2026","items":[{"kind":"change","text":"Founders Club says how to unlock the pack on another device: join again there with the same email"}]}]</script>
+<script>window.__BUILD__="20261020212827";window.__VERSION__="0.26.36";window.__NOTES__=[{"v":"0.26.36","date":"20 Oct 2026","items":[{"kind":"fix","text":"on a phone, the sound shelf's labels no longer run into each other: two touch sounds read like \"sweep +1\", a look's own links read \"links\", and any label too long for its button ends in an ellipsis"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020212400"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020212400">
+<script src="claude-web.js?v=20261020212827"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020212827">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,22 +97,22 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020212400"></script>
-<script src="surface/selftest.js?v=20261020212400"></script>
-<script src="surface/auto.js?v=20261020212400"></script>
-<script src="surface/toolpath.js?v=20261020212400"></script>
-<script src="surface/capture.js?v=20261020212400"></script>
-<script src="surface/pop.js?v=20261020212400"></script>
-<script src="surface/hints.js?v=20261020212400"></script>
-<script src="surface/paths.js?v=20261020212400"></script>
-<script src="surface/keys.js?v=20261020212400"></script>
-<script src="surface/reset.js?v=20261020212400"></script>
-<script src="surface/files.js?v=20261020212400"></script>
-<script src="surface/pack.js?v=20261020212400"></script>
-<script src="surface/rail.js?v=20261020212400"></script>
-<script src="surface/touchsound.js?v=20261020212400"></script>
-<script src="surface/float.js?v=20261020212400"></script>
-<script src="surface/manual.js?v=20261020212400"></script>
+<script src="vendor/opentype.min.js?v=20261020212827"></script>
+<script src="surface/selftest.js?v=20261020212827"></script>
+<script src="surface/auto.js?v=20261020212827"></script>
+<script src="surface/toolpath.js?v=20261020212827"></script>
+<script src="surface/capture.js?v=20261020212827"></script>
+<script src="surface/pop.js?v=20261020212827"></script>
+<script src="surface/hints.js?v=20261020212827"></script>
+<script src="surface/paths.js?v=20261020212827"></script>
+<script src="surface/keys.js?v=20261020212827"></script>
+<script src="surface/reset.js?v=20261020212827"></script>
+<script src="surface/files.js?v=20261020212827"></script>
+<script src="surface/pack.js?v=20261020212827"></script>
+<script src="surface/rail.js?v=20261020212827"></script>
+<script src="surface/touchsound.js?v=20261020212827"></script>
+<script src="surface/float.js?v=20261020212827"></script>
+<script src="surface/manual.js?v=20261020212827"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1043,7 +1043,8 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
   background:none;border:0;border-radius:14px;color:var(--ui-ink);cursor:pointer;transition:background .12s,transform .12s}
 .si:active{transform:scale(.94)}.si:hover{color:#fff}.si:hover .lab{color:#fff}
 .si svg{width:24px;height:24px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.si .lab{font:600 9px/1.1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--ui-hi) / .78);white-space:nowrap}
+.si .lab{font:600 9px/1.1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--ui-hi) / .78);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* a label never runs past its button (Dimitry's iPhone, 20 Oct: SWEEP+FADER ran into OWN LINKS): clipped with an ellipsis */
 /* chosen = colour only, no box around it (Dimitry, 18 Oct): the icon and its label take the accent */
 .si[aria-pressed="true"]{background:none;color:var(--acc,#55b8c9)}.si[aria-pressed="true"] .lab{color:var(--acc,#55b8c9)}
 #stRec[aria-pressed="true"],#stRec[aria-pressed="true"] .lab{background:none;color:#ff7a52}#stRes[aria-pressed="true"],#stRes[aria-pressed="true"] .lab{background:none;color:#f2c14e}
@@ -5639,12 +5640,12 @@ function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;t
   {const m=$('sdMix');if(m){const n=['beat','byte','file','mic','loop'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
   {const w=$('sdWet');if(w){w.querySelector('.lab').textContent=WET?'wet '+Math.round(WET*100)+'%':'dry';w.setAttribute('aria-pressed',String(WET>0));
     w.setAttribute('aria-label','Wetness '+Math.round(WET*100)+'%: tap for dry or wet, drag left or right for how much room is around every sound')}}
-  {const tb=$('sdTouch');if(tb&&window.SurfaceTouchSound){const a=SurfaceTouchSound.active();tb.setAttribute('aria-pressed',String(a.length>0));tb.querySelector('.lab').textContent=a.length?a.map(x=>x).join('+').slice(0,11):'touch'}}
+  {const tb=$('sdTouch');if(tb&&window.SurfaceTouchSound){const a=SurfaceTouchSound.active();tb.setAttribute('aria-pressed',String(a.length>0));tb.querySelector('.lab').textContent=a.length?(a.length>1?a[0]+' +'+(a.length-1):a[0]):'touch'}}
   {const tp=$('sdTap');if(tp){tp.querySelector('.lab').textContent=TAP.bpm?'tap · '+Math.round(TAP.bpm):'tap';tp.setAttribute('aria-pressed',String(!!TAP.bpm))}}
   $('sdQuant').querySelector('.lab').textContent=(SHELF_QUANT.find(q=>q[0]===QUANT)||[0,'off'])[1];
   {const on=AUD.src!=='off',b=$('sdOff');if(b)b.querySelector('svg').outerHTML=on?SND_STOP:SND_PLAY;if(b){b.querySelector('.lab').textContent=on?'stop':'play';
    b.setAttribute('aria-label',on?'Stop the sound':'Play the last sound again')}}
-  const r=$('sdReact');if(r){r.setAttribute('aria-pressed',String(AUD.react));r.querySelector('.lab').textContent=lookListens()?'own links':AUD.react?'react on':'react off'}}
+  const r=$('sdReact');if(r){r.setAttribute('aria-pressed',String(AUD.react));r.querySelector('.lab').textContent=lookListens()?'links':AUD.react?'react on':'react off'}}
 /* the speaker (Dimitry, 18 Oct): tap = sound on/off, hold = the sound drawer, drag up or down = volume, shown as a level
    filling the button from the bottom while you drag */
 let volDrag=null;
@@ -6504,10 +6505,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020212400"></script>
-<script src="surface/links.js?v=20261020212400"></script>
-<script src="surface/tips.js?v=20261020212400"></script>
-<script src="surface/sections.js?v=20261020212400"></script>
+<script src="surface/install.js?v=20261020212827"></script>
+<script src="surface/links.js?v=20261020212827"></script>
+<script src="surface/tips.js?v=20261020212827"></script>
+<script src="surface/sections.js?v=20261020212827"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7053,7 +7054,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.35';
+const APP_VERSION='0.26.36';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
