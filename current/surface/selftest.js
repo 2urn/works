@@ -13,6 +13,11 @@
       tick or a cross, the first error, and three buttons: reload, copy report, email report. When everything passes,
       nothing shows. #selftest (or SurfaceSelfTest.show()) opens the card on demand with every check, pass or fail.
    If the tool never calls start() (its own script died first), the kit shows the card anyway 12 s after load.
+   5. THE MASCOT (Dimitry, 20 Oct: "a glitch character of the duck-rabbit as the mascot for the error page ... say
+      something congratulatory: you found a bad thing, help us fix it"). The card turns the tool's own mark into
+      glitching ASCII: it rasterizes the SVG the page already carries (`mascot: selector`, or any element marked
+      data-selftest-mascot), samples its ink into characters and lets a few rows slip and a few glyphs break. It is
+      his file, sampled at run time, never a drawing. Still under reduced motion.
    Counting: when window.cxCount exists, a failure sends the check's built-in name only ("selftest: field"), never error
    text or anything a person typed.
 
@@ -22,6 +27,7 @@
        ready: () => booted,                    // the tool has finished booting (checks wait for it; default: load)
        within: 9000, stall: 4000,              // ms: first beat after load; longest gap between beats
        email: 'hi@chamy.xyz',
+       mascot: '#duckBtn svg',                // the mark to glitch (default: [data-selftest-mascot])
        checks: [{ id: 'index', name: 'Index', test: () => !!document.getElementById('idx') }, …]
      })
      SurfaceSelfTest.beat()  beat('paused')  show()  run() → results  report() → text */
@@ -44,6 +50,9 @@
     ".st-l li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px}.st-l i{font-style:normal;color:#6fd08c}.st-l li.f i{color:#ff6a3d}.st-l small{display:block;color:var(--ui-dim,#a8a8a8)}",
     ".st-e{margin:0;padding:8px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .06);font:11px/1.4 var(--mono,ui-monospace,Menlo,monospace);white-space:pre-wrap;word-break:break-word;max-height:7.5em;overflow:auto;color:var(--ui-mid,#c9cfd1)}",
     ".st-a{display:flex;flex-wrap:wrap;gap:8px}",
+    ".st-m{margin:2px auto 0;font:700 7.5px/7px var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.5px;color:var(--ui-ink,#fff);white-space:pre;text-align:left;",
+    "  text-shadow:-1.5px 0 rgba(255,60,90,.85),1.5px 0 rgba(60,220,255,.85);user-select:none;min-height:1em}",
+    ".st-k{margin:0;font:500 10px/1.2 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.16em;text-transform:uppercase;color:#ff6a3d}",
     ".st-a button{min-height:36px;padding:0 12px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:none;color:var(--ui-ink,#fff);cursor:pointer;font:600 10.5px/1 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase}",
     ".st-a button.pri{background:#ff6a3d;border-color:#ff6a3d;color:#0b0f10}",
     ".st-a button:focus-visible,.st-x:focus-visible{outline:2px solid #fff;outline-offset:2px}"
@@ -79,6 +88,49 @@
     if (ERR.length) { lines.push("", "Errors and warnings:"); ERR.forEach(function (e) { lines.push(e); }); }
     return lines.join("\n");
   }
+  /* ---- the mascot: the page's own mark, sampled into ASCII, glitching ---- */
+  var RAMP = " .:-=+*#%@", GL = "░▒▓█/\\|<>_~#%", mt = 0;
+  function mascot(pre) {
+    var src = null; try { src = document.querySelector(O.mascot || "[data-selftest-mascot]"); } catch (e) {}
+    if (!src || !pre) { if (pre) pre.remove(); return; }
+    var svg = src.closest && src.tagName.toLowerCase() !== "svg" ? src.querySelector("svg") : src; if (!svg) { pre.remove(); return; }
+    var c = svg.cloneNode(true); c.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    var vb = (c.getAttribute("viewBox") || "0 0 100 100").split(/[\s,]+/).map(Number), ar = vb[3] / vb[2] || 1;
+    var cols = 34, rows = Math.max(8, Math.round(cols * ar * 0.5)), W = cols * 4, H = Math.round(W * ar);
+    c.setAttribute("width", W); c.setAttribute("height", H); c.removeAttribute("class"); c.setAttribute("style", "fill:#000;color:#000");
+    var img = new Image();
+    img.onload = function () {
+      var cv = document.createElement("canvas"); cv.width = W; cv.height = H; var g = cv.getContext("2d"); g.drawImage(img, 0, 0, W, H);
+      var d; try { d = g.getImageData(0, 0, W, H).data; } catch (e) { pre.remove(); return; }
+      var base = [];
+      for (var y = 0; y < rows; y++) {
+        var line = "";
+        for (var x = 0; x < cols; x++) {
+          var a = 0, n = 0, x0 = Math.floor(x * W / cols), x1 = Math.floor((x + 1) * W / cols), y0 = Math.floor(y * H / rows), y1 = Math.floor((y + 1) * H / rows);
+          for (var yy = y0; yy < y1; yy++) for (var xx = x0; xx < x1; xx++) { a += d[(yy * W + xx) * 4 + 3]; n++; }
+          var v = n ? a / n / 255 : 0; line += RAMP[Math.min(RAMP.length - 1, Math.round(v * (RAMP.length - 1)))];
+        }
+        base.push(line.replace(/\s+$/, ""));
+      }
+      while (base.length && !base[0].trim()) base.shift(); while (base.length && !base[base.length - 1].trim()) base.pop();
+      var still = matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var draw = function () {
+        if (!pre.isConnected) return;
+        var out = base.map(function (l) {
+          if (still) return l;
+          var s = l;
+          if (Math.random() < .12) { var k = (Math.random() * 4 | 0) - 2; s = k > 0 ? new Array(k + 1).join(" ") + s : s.slice(-k); }
+          if (Math.random() < .2) s = s.replace(/[^ ]/g, function (ch) { return Math.random() < .08 ? GL[Math.random() * GL.length | 0] : ch; });
+          return s;
+        });
+        pre.textContent = out.join("\n");
+        if (!still) mt = setTimeout(draw, Math.random() < .2 ? 60 : 180 + Math.random() * 420);
+      };
+      clearTimeout(mt); draw();
+    };
+    img.onerror = function () { pre.remove(); };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
+  }
   function card(force) {
     var bad = results.filter(function (r) { return !r.ok; });
     if (!el) {
@@ -87,10 +139,11 @@
       document.addEventListener("keydown", function (e) { if (e.key === "Escape" && el && !el.hidden) { el.hidden = true; dismissed = true; } }, true);
     }
     el.classList.toggle("ok", !bad.length);
-    el.setAttribute("aria-label", bad.length ? "Something isn't working" : "Self-test passed");
+    el.setAttribute("aria-label", bad.length ? "You found a bad thing. Help us fix it" : "Self-test passed");
     el.innerHTML = '<div class="st-hd"><span>' + (bad.length ? "System check · " + bad.length + " down" : "System check · all clear") + '</span><button type="button" class="st-x" aria-label="Close">×</button></div>' +
-      '<div class="st-bd"><p class="st-h">' + (bad.length ? "Something isn’t working" : "Everything is running") + "</p>" +
-      (bad.length ? '<p class="st-p">' + esc(O.tool || "The tool") + " checked itself and found a problem. Reload usually fixes it. If it comes back, send the report: it says what failed.</p>" : "") +
+      '<div class="st-bd">' + (bad.length ? '<pre class="st-m" aria-hidden="true"></pre><p class="st-k">✦ Congratulations</p>' : "") +
+      '<p class="st-h">' + (bad.length ? "You found a bad thing. Help us fix it!" : "Everything is running") + "</p>" +
+      (bad.length ? '<p class="st-p">' + esc(O.tool || "The tool") + " checked itself and something is broken. Send the report: it says exactly what failed, and that is how it gets fixed. Reload usually gets you playing again.</p>" : "") +
       '<ul class="st-l">' + results.map(function (r) { return '<li class="' + (r.ok ? "" : "f") + '"><i>' + (r.ok ? "✓" : "✕") + "</i><span>" + esc(r.name) + (r.why ? "<small>" + esc(r.why) + "</small>" : "") + "</span></li>"; }).join("") + "</ul>" +
       (bad.length && ERR.length ? '<pre class="st-e">' + esc(ERR.slice(-3).join("\n")) + "</pre>" : "") +
       '<div class="st-a">' + (bad.length ? '<button type="button" class="pri" data-a="reload">reload</button>' : "") + '<button type="button" data-a="copy">copy report</button>' + (O.email ? '<button type="button" data-a="mail">email report</button>' : "") + "</div></div>";
@@ -98,6 +151,7 @@
     var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { location.reload(); };
     el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
     var m = el.querySelector('[data-a="mail"]'); if (m) m.onclick = function () { location.href = "mailto:" + O.email + "?subject=" + encodeURIComponent((O.tool || "Tool") + " self-test " + (O.version || "")) + "&body=" + encodeURIComponent(report().slice(0, 1800)); };
+    if (bad.length) mascot(el.querySelector(".st-m"));
     el.hidden = false; shown = true;
   }
   function check() {

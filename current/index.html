@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020124623";window.__VERSION__="0.26.10";window.__NOTES__=[{"v":"0.26.10","date":"20 Oct 2026","items":[{"kind":"fix","text":"no flash of the open index before the cover: the stage is there from the first moment"}]}]</script>
+<script>window.__BUILD__="20261020125157";window.__VERSION__="0.26.11";window.__NOTES__=[{"v":"0.26.11","date":"20 Oct 2026","items":[{"kind":"new","text":"when the self-test finds a problem, a glitching ASCII duck-rabbit congratulates you: you found a bad thing, help us fix it. The report button is right there"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020124623"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020124623">
+<script src="claude-web.js?v=20261020125157"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020125157">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -76,20 +76,20 @@ try{document.body.classList.add("player")}catch(e){}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020124623"></script>
-<script src="surface/selftest.js?v=20261020124623"></script>
-<script src="surface/auto.js?v=20261020124623"></script>
-<script src="surface/toolpath.js?v=20261020124623"></script>
-<script src="surface/capture.js?v=20261020124623"></script>
-<script src="surface/pop.js?v=20261020124623"></script>
-<script src="surface/hints.js?v=20261020124623"></script>
-<script src="surface/paths.js?v=20261020124623"></script>
-<script src="surface/keys.js?v=20261020124623"></script>
-<script src="surface/reset.js?v=20261020124623"></script>
-<script src="surface/files.js?v=20261020124623"></script>
-<script src="surface/rail.js?v=20261020124623"></script>
-<script src="surface/float.js?v=20261020124623"></script>
-<script src="surface/manual.js?v=20261020124623"></script>
+<script src="vendor/opentype.min.js?v=20261020125157"></script>
+<script src="surface/selftest.js?v=20261020125157"></script>
+<script src="surface/auto.js?v=20261020125157"></script>
+<script src="surface/toolpath.js?v=20261020125157"></script>
+<script src="surface/capture.js?v=20261020125157"></script>
+<script src="surface/pop.js?v=20261020125157"></script>
+<script src="surface/hints.js?v=20261020125157"></script>
+<script src="surface/paths.js?v=20261020125157"></script>
+<script src="surface/keys.js?v=20261020125157"></script>
+<script src="surface/reset.js?v=20261020125157"></script>
+<script src="surface/files.js?v=20261020125157"></script>
+<script src="surface/rail.js?v=20261020125157"></script>
+<script src="surface/float.js?v=20261020125157"></script>
+<script src="surface/manual.js?v=20261020125157"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -5843,7 +5843,7 @@ const go=()=>{loadPreset(0,true);booted=true;requestAnimationFrame(frame);try{op
 /* SELF-TEST (Dimitry, 20 Oct: "a check system self test on load ... if the field doesn't play, a system down message
    appears automatically ... index, G-code, settings, field presets"). Surface · Self-test: the frame loop beats; these
    are Current's parts. A failure shows the card by itself; #selftest shows it on demand. */
-try{SurfaceSelfTest.start({tool:'Current',version:window.__VERSION__||'dev',ready:()=>booted,within:10000,stall:5000,email:'hi@chamy.xyz',heartName:'Field playing',
+try{SurfaceSelfTest.start({tool:'Current',version:window.__VERSION__||'dev',ready:()=>booted,within:10000,stall:5000,email:'hi@chamy.xyz',heartName:'Field playing',mascot:'#duckBtn svg.duck',
   checks:[
     {id:'presets',name:'Field presets',test:()=>PRESETS.length>0&&allPresets().length>0||'no looks loaded'},
     {id:'gcode',name:'G-code',test:()=>!!parsed&&segsPx.length>0||'the look’s toolpath has no moves'},
@@ -6273,10 +6273,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020124623"></script>
-<script src="surface/links.js?v=20261020124623"></script>
-<script src="surface/tips.js?v=20261020124623"></script>
-<script src="surface/sections.js?v=20261020124623"></script>
+<script src="surface/install.js?v=20261020125157"></script>
+<script src="surface/links.js?v=20261020125157"></script>
+<script src="surface/tips.js?v=20261020125157"></script>
+<script src="surface/sections.js?v=20261020125157"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6785,7 +6785,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.10';
+const APP_VERSION='0.26.11';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
