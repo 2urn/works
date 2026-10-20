@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020011117";window.__VERSION__="0.20.4";window.__NOTES__=[{"v":"0.20.4","date":"19 Oct 2026","items":[{"kind":"change","text":"Auto comes first in the keyboard order too, the way it reads"}]}]</script>
+<script>window.__BUILD__="20261020020455";window.__VERSION__="0.22.0";window.__NOTES__=[{"v":"0.22.0","date":"19 Oct 2026","items":[{"kind":"new","text":"a Mic tab in the sound panel: presets (room, whisper, voice through, feedback), input, voice or raw, gain, a noise gate with a meter, and heard, which sends the mic to the speakers (feedback is yours to play)"},{"kind":"new","text":"a phrase looper: record a few seconds from the mic, free or 1, 2 or 4 bars in time with the beat, forward or reversed; it plays as a loop channel in the mixer"},{"kind":"new","text":"How it works: an (i) in the sound panel slides up the explanation for the open tab"},{"kind":"new","text":"become a founding tester, from the launch screen"},{"kind":"change","text":"mic, your music and mix share a band on the sound shelf; the caret above it opens the sound panel, and holding mic opens the Mic tab"},{"kind":"change","text":"three saved beats are free; more saves and beat export will come with Pro"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020011117"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020011117">
+<script src="claude-web.js?v=20261020020455"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020020455">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020011117"></script>
-<script src="surface/auto.js?v=20261020011117"></script>
-<script src="surface/toolpath.js?v=20261020011117"></script>
-<script src="surface/capture.js?v=20261020011117"></script>
-<script src="surface/pop.js?v=20261020011117"></script>
-<script src="surface/hints.js?v=20261020011117"></script>
-<script src="surface/paths.js?v=20261020011117"></script>
-<script src="surface/keys.js?v=20261020011117"></script>
-<script src="surface/reset.js?v=20261020011117"></script>
+<script src="vendor/opentype.min.js?v=20261020020455"></script>
+<script src="surface/auto.js?v=20261020020455"></script>
+<script src="surface/toolpath.js?v=20261020020455"></script>
+<script src="surface/capture.js?v=20261020020455"></script>
+<script src="surface/pop.js?v=20261020020455"></script>
+<script src="surface/hints.js?v=20261020020455"></script>
+<script src="surface/paths.js?v=20261020020455"></script>
+<script src="surface/keys.js?v=20261020020455"></script>
+<script src="surface/reset.js?v=20261020020455"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -218,6 +218,39 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-duck img.lc-duck-c{inset:auto;left:2.45%;top:2.28%;width:94.97%;height:95.43%}
 .lc-duck-c{object-fit:fill;clip-path:inset(100% 0 0 0);transition:clip-path 1.6s cubic-bezier(.45,.05,.25,1)}
 #launch.ready .lc-duck-c{clip-path:inset(0 0 0 0)}
+.lc-beta{margin-top:clamp(14px,2.6vh,22px);display:flex;flex-direction:column;align-items:center;width:min(300px,calc(100vw - 32px));transition:opacity .4s}
+#launch.going .lc-beta{opacity:0}
+.lc-betaBtn{padding:6px 10px;border:0;background:none;color:rgba(255,255,255,.82);font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}
+.lc-betaBtn:hover{color:#fff}.lc-betaBtn:disabled{text-decoration:none;cursor:default;color:#55b8c9}
+.lc-betaBtn:focus-visible,.lc-betaF :focus-visible{outline:2px solid #fff;outline-offset:2px}
+.lc-betaF{position:fixed;z-index:5;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 12px);width:min(380px,calc(100vw - 24px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - 24px);overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding:14px;box-sizing:border-box;border-radius:16px;background:rgba(10,13,16,.92);box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.lc-betaF[hidden]{display:none}
+.lc-betaLead{margin:0 0 2px;font:400 12px/1.45 var(--sans);color:rgba(255,255,255,.78)}.lc-betaLead b{color:#fff}
+.lc-betaF input[type=email],.lc-betaF input[type=text]{width:100%;box-sizing:border-box;height:36px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;font:16px var(--sans)}
+.lc-betaF input::placeholder{color:rgba(255,255,255,.45)}
+.lc-roles{margin:0;padding:0;border:0;display:flex;flex-wrap:wrap;gap:6px}
+.lc-roles legend{padding:0 0 6px;font:400 11px/1.3 var(--sans);color:rgba(255,255,255,.78)}.lc-roles legend span{color:rgba(255,255,255,.5)}
+.lc-roles label{position:relative;cursor:pointer}.lc-roles input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.lc-roles label span{display:block;padding:6px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.22);font:500 11px/1 var(--sans);color:rgba(255,255,255,.82)}
+.lc-roles input:checked+span{background:#55b8c9;border-color:#55b8c9;color:#04181c}.lc-roles input:focus-visible+span{outline:2px solid #fff;outline-offset:2px}
+.lc-betaF input[type=tel]{width:100%;box-sizing:border-box;height:36px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;font:16px var(--sans)}
+.lc-betaOk[hidden]{display:none}
+.lc-betaHd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-2px 0 2px}
+.lc-betaDuck{width:30px;height:34px;flex:none;object-fit:contain;transform-origin:50% 100%}svg.lc-betaDuck path{fill:#fff}
+.lc-beta.hop .lc-betaDuck{animation:duckHop .9s cubic-bezier(.3,.7,.3,1) 2}
+@keyframes duckHop{0%,100%{transform:none}30%{transform:translateY(-7px) rotate(-6deg)}55%{transform:translateY(0) scaleY(.92)}75%{transform:translateY(-2px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){.lc-beta.hop .lc-betaDuck{animation:none}}
+.lc-betaH{display:flex;align-items:center;gap:10px;margin:0;font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.lc-betaX{width:32px;height:32px;margin:-6px -6px -6px 0;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+.lc-betaX svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+#launch.betaOpen .lc-body>:not(.lc-below),#launch.betaOpen .lc-below>:not(.lc-beta),#launch.betaOpen .lc-betaBtn,#launch.betaOpen .lc-corner,#launch.betaOpen .lc-foot{opacity:0;pointer-events:none;transition:opacity .25s}
+#launch.betaOpen .lc-frost{background:rgba(6,8,10,.7)}
+#betaHost{position:fixed;inset:0;z-index:70;background:rgba(6,8,10,.72)}#betaHost .lc-betaBtn{display:none}#betaHost .lc-beta{margin:0}
+.lc-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.lc-betaOk{display:flex;gap:8px;align-items:flex-start;font:400 11px/1.4 var(--sans);color:rgba(255,255,255,.72);cursor:pointer}.lc-betaOk input{margin-top:2px;accent-color:#55b8c9}
+.lc-betaGo{height:34px;border:0;border-radius:17px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}.lc-betaGo:disabled{opacity:.5;cursor:default}
+.lc-betaMsg{margin:0;min-height:1em;font:400 11px/1.4 var(--sans);color:#55b8c9}.lc-betaMsg:empty{display:none}.lc-betaMsg.bad{color:#ff8a5c}
+@media (max-height:620px){.lc-beta{margin-top:8px}}
 .lc-word{font:600 12px/1 var(--sans);letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;color:#fff;opacity:.9}
 .lc-foot{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));margin:0;text-align:center;font:500 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);transition:opacity .7s ease}
 #launch.going .lc-foot{opacity:0}
@@ -606,6 +639,61 @@ body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:5
 body #playbar>#pRand.dragging{transform:scale(1.12)}
 #mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #mixPop[hidden]{display:none}
+/* SURFACE · TABS (Dimitry, 19 Oct): a popover panel can carry tabs across its head, icon and name, one pane each. The
+   WAI-ARIA tabs pattern: arrow keys move between tabs, the last one used comes back. Mixer · Beat · Bytes is the first. */
+.sfTabs{display:flex;align-self:stretch;gap:0;min-width:0;overflow-x:auto;scrollbar-width:none}.sfTabs::-webkit-scrollbar{display:none}
+.sfTab{display:inline-flex;align-items:center;gap:6px;padding:0 10px;min-height:36px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.sfTab svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sfTab:hover{color:var(--ui-ink)}.sfTab[aria-selected=true]{color:var(--ui-ink);border-bottom-color:#55b8c9}
+.sfTab:focus-visible{outline:2px solid #55b8c9;outline-offset:-2px}
+#mixPop .mxh{padding-left:4px;gap:6px}
+#mixPop.wide{width:min(420px,calc(100vw - 24px))}
+.sfPane[hidden]{display:none!important}
+/* four tabs on a phone: the open one shows its name, the others their icon (the name stays for screen readers and in the tip) */
+@media (max-width:460px){.sfTab{padding:0 9px}.sfTab[aria-selected=false] span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+/* SURFACE · INFO: the (i) in the head and the How it works drawer it slides up */
+.sfInfoBtn{margin-left:auto;flex:none;width:32px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer}
+.sfInfoBtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.sfInfoBtn:hover{color:var(--ui-ink)}.sfInfoBtn[aria-expanded=true]{background:#55b8c9;color:#04181c}
+.sfInfoBtn:focus-visible{outline:2px solid #55b8c9;outline-offset:2px}.sfInfoBtn[hidden]{display:none}
+.sfInfo{position:absolute;left:0;right:0;bottom:0;z-index:3;max-height:72%;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;padding:12px 16px 16px;background:var(--ui-solid);border-top:1px solid var(--ui-line);box-shadow:0 -12px 28px rgb(0 0 0 / .35);
+  color:var(--ui-dim);font:400 12px/1.5 var(--sans,system-ui);clip-path:inset(100% 0 0 0);transform:translateY(14px);transition:clip-path .32s cubic-bezier(.4,0,.2,1),transform .32s cubic-bezier(.4,0,.2,1)}
+.sfInfo.open{clip-path:inset(0 0 0 0);transform:none}.sfInfo[hidden]{display:none}
+.sfInfoH{margin:0 0 8px;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-ink);cursor:pointer}
+.sfInfo p{margin:0 0 8px}.sfInfo ul{margin:0 0 8px;padding-left:16px;display:flex;flex-direction:column;gap:4px}.sfInfo b{color:var(--ui-ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){.sfInfo{transition:none}}
+#beatBody,#bytesBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px}
+#beatBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 16px 6px}
+/* the bytebeat writer, at home in the glass: the drawer's colours swapped for the panel's */
+#bytesBody{padding:10px 16px 12px;--fg:var(--ui-ink);--muted:var(--ui-dim);--line:rgb(var(--ui-hi,255 255 255) / .14);--bg:rgb(var(--ui-hi,255 255 255) / .05);--panel:transparent;color:var(--ui-ink)}
+#bytesBody .btn{background:var(--ui-ink);color:var(--ui-solid);border-color:var(--ui-ink)}#bytesBody .btn.ghost{background:transparent;color:var(--ui-ink)}
+#bytesBody .row{grid-template-columns:64px minmax(0,1fr) 40px}
+#bytesBody .row.sa-led{grid-template-columns:auto 64px minmax(0,1fr) 40px}
+#bytesBody .modes button[aria-pressed="true"]{background:#55b8c9;color:#04181c}
+/* BEAT: sixteen steps to the bar, four voices, the classic drum-machine grid */
+.bgTop{display:flex;align-items:center;gap:8px;padding:0 16px}
+.bgTop select{flex:1;min-width:0;height:30px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);border-radius:8px;font:500 12px var(--mono);padding:0 6px}
+.bgIco{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0;color:var(--ui-dim);cursor:pointer}
+.bgIco:hover{color:var(--ui-ink)}.bgIco svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bgIco.pl svg{fill:currentColor;stroke:none}.bgIco[aria-pressed=true]{color:#55b8c9}
+.bgGrid{display:grid;grid-template-columns:44px repeat(16,minmax(0,1fr));gap:3px;padding:10px 16px 4px;align-items:center}
+.bgGrid .vn{font:600 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim);border:0;background:none;padding:0;text-align:left;cursor:pointer}
+.bgGrid .vn:hover{color:var(--ui-ink)}
+.bgCell{aspect-ratio:1/1.35;min-height:22px;padding:0;border:0;border-radius:3px;background:rgb(var(--ui-hi,255 255 255) / .09);cursor:pointer;touch-action:none}
+.bgCell.q{background:rgb(var(--ui-hi,255 255 255) / .15)}
+.bgCell[aria-pressed=true]{background:#55b8c9}
+.bgCell.now{box-shadow:0 0 0 2px rgb(var(--ui-hi,255 255 255) / .75)}
+.bgCell:focus-visible{outline:2px solid #55b8c9;outline-offset:1px}
+.bgRow{display:grid;grid-template-columns:44px minmax(0,1fr) 40px;align-items:center;gap:10px;padding:6px 16px}
+.bgRow label{font:600 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
+.bgRow input[type=range]{width:100%;accent-color:#55b8c9}.bgRow .v{font:12px var(--mono);text-align:right;color:var(--ui-dim);font-variant-numeric:tabular-nums}
+.bgPro{margin:10px 16px 0;padding:10px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);font:400 12px/1.45 var(--sans,system-ui);color:var(--ui-dim)}.bgPro p{margin:0 0 8px}.bgPro b{color:var(--ui-ink);font-weight:600}
+.bgIco.pro{opacity:.55}
+.bgSave{display:flex;gap:6px;padding:8px 16px 0}.bgSave input{flex:1;min-width:0;height:32px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);border-radius:8px;font:500 12px var(--mono);padding:0 8px}
+.bgGo{min-height:32px;padding:0 14px;border:0;border-radius:999px;background:#55b8c9;color:#04181c;font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.bgGo.ghost{background:transparent;color:var(--ui-ink);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}
+.bgNote{margin:10px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
+.bbMoved{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:2px 0 8px}
 #batchPop{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(76vh,620px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #batchPop[hidden]{display:none}
 .scap-go.btOpen.soon{opacity:.38;cursor:default}
@@ -640,6 +728,23 @@ body #playbar>#pRand.dragging{transform:scale(1.12)}
 .mxCh .mb{width:28px;height:28px;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);border-radius:7px;background:none;color:var(--ui-dim);font:700 10px/1 var(--mono);cursor:pointer}
 .mxCh .mb.m[aria-pressed=true]{background:#e8b04a;border-color:#e8b04a;color:#1b1406}.mxCh .mb.s[aria-pressed=true]{background:#55b8c9;border-color:#55b8c9;color:#04181c}
 .mxCh .pct{grid-column:2;font:500 9px/1 var(--mono);color:var(--ui-dim);margin-top:-2px}
+.sgrp{position:relative;display:flex;gap:4px;flex:none;padding:0 2px;border-radius:16px;background:rgb(var(--ui-hi) / .07);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi) / .08)}
+/* the band says: these open one panel; the caret on its top edge opens it (Dimitry, 19 Oct) */
+.sgCaret{position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:34px;height:12px;padding:0;border:0;border-radius:0 0 8px 8px;background:rgb(var(--ui-hi) / .12);color:var(--ui-ink);display:grid;place-items:center;cursor:pointer}
+.sgCaret svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.sgCaret:hover{background:#55b8c9;color:#04181c}.sgCaret:focus-visible{outline:2px solid #55b8c9;outline-offset:1px}
+#micBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px;--fg:var(--ui-ink);--muted:var(--ui-dim);--line:rgb(var(--ui-hi,255 255 255) / .14);--bg:rgb(var(--ui-hi,255 255 255) / .05)}
+#micBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 16px 6px}
+.mcRow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:4px 16px}
+.mcRow select{flex:1;min-width:120px;height:30px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}
+.mcGo{min-height:30px;padding:0 12px;border-radius:15px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.mcGo.on{background:#55b8c9;border-color:#55b8c9;color:#04181c}.mcGo.rec.on{background:#ff6a3d;border-color:#ff6a3d;color:#1b0a04}.mcGo:disabled{opacity:.35;cursor:default}
+.mcSeg{display:flex;flex-wrap:wrap;gap:0 14px;padding:6px 16px}
+.mcSeg button{padding:4px 0;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mcSeg button[aria-pressed=true]{color:#55b8c9}
+.mcMeter{position:relative;height:8px;margin:8px 16px 4px;border-radius:4px;background:rgb(var(--ui-hi,255 255 255) / .08);overflow:hidden}
+.mcMeter .lv{position:absolute;left:0;top:0;bottom:0;width:0;background:rgb(150 158 161 / .6)}.mcMeter.open .lv{background:#55b8c9}.mcMeter.rec .lv{background:#ff6a3d}
+.mcMeter .th{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--ui-ink)}
+#micBody .row{grid-template-columns:64px minmax(0,1fr) 44px;padding:0 16px}
 .mxMic{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding-top:2px}
 .mxMic select{flex:1;min-width:0;max-width:100%;height:28px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}   /* 16px: smaller makes an iPhone zoom in on tap */
 .mxMic .segs button{padding:4px 0;margin-right:10px;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mxMic .segs button[aria-pressed=true]{color:#55b8c9}
@@ -1072,10 +1177,14 @@ body:not(.player) #gestSw{display:none}   /* the caption belongs to the stage, n
 .bbBox{display:flex;flex-direction:column;gap:8px;padding:2px 0 8px}
 .cx-grp.cx-shut>.bbBox{display:none}
 #bbMsg.bad{color:var(--path)}
+.bbRefH{margin:14px 0 0}#bbStub .cx-ul{margin:6px 0 0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);max-width:60ch}#bbStub .cx-ul b{color:var(--fg);font-weight:600}
 /* BYTEBEAT, 0.18 (Dimitry, 19 Oct): one box, two views. Typing shows the letters; away from the box it shows the numbers
    the sliders are feeding it, in the accent, fixed-width so the line never jitters. Mode and clock sit above it. */
 .bbWrap{position:relative}
 #bbLive{position:absolute;inset:0;margin:0;padding:8px;border:1px solid var(--line);box-sizing:border-box;background:var(--bg);color:var(--fg);font:11.5px/1.5 var(--mono);font-variant-numeric:tabular-nums;white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none}
+/* the box's own letters go clear while the numbers lie over them: the pane's ground is glass, so both showed and read as garble (Dimitry, 19 Oct) */
+.bbWrap.live #bbFx{color:transparent;caret-color:transparent}
+@media (pointer:coarse){#bbLive{font-size:16px}}
 #bbLive[hidden]{display:none}#bbLive b{color:var(--accent);font-weight:inherit}#bbLive i{display:block;font-style:normal;color:var(--muted);margin-top:4px}
 .bbOpts{display:flex;flex-direction:column;gap:2px}
 .bbOpt{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px}
@@ -1143,7 +1252,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
         <div class="bbWrap"><textarea id="bbFx" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="bbMsg" placeholder="t*(42&amp;t>>10)"></textarea><pre id="bbLive" aria-hidden="true" hidden></pre></div>
         <div class="actions bbActs"><button class="btn" id="bbPlay" type="button" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg><span>Play formula</span></button><button class="btn ghost" id="bbBack" type="button" hidden title="Undo your edits: put back the formula that is playing"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Undo edits</span></button><button class="bbIco" id="bbSave" type="button" aria-label="Save the formula in the box to My formulas" title="Save to My formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-5-6 5z"/></svg></button></div>
         <div class="bbMine" id="bbMine"><div class="bbMineHd"><span>My formulas</span><button class="bbIco" id="bbImp" type="button" aria-label="Import formulas from a file" title="Import formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5V15M7.5 10.5 12 15l4.5-4.5"/><path d="M5 13v6.5h14V13"/></svg></button><button class="bbIco" id="bbExp" type="button" aria-label="Export My formulas as a file" title="Export formulas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 13v6.5h14V13"/></svg></button></div><div id="bbList" role="list" aria-label="My formulas"></div></div>
-        <p class="note" id="bbMsg">One line of JavaScript in <b>t</b>, which counts at the <b>clock</b> (8000 times a second unless you pick another); <b>byte</b> mode reads the result as 0 to 255, <b>signed</b> as −128 to 127, <b>float</b> as −1 to 1. Strings and lists work as lookup tables, so <b>t*("36364689"[t>>13&amp;7]&amp;15)</b> plays a melody; a pair [left, right] is heard as one. Away from the box, it shows the numbers the sliders are sending; <b>View</b> pins the letters instead. <b>n l o p</b> are the sliders below (each can take Auto or a mapping); <b>a b c</b> are 4. <b>Play formula</b> (or Ctrl/⌘+Enter) starts it; while it plays, the same button stops it, or reads <b>Play changes</b> once you edit and swaps them in without restarting. <b>Undo edits</b> puts back what is playing.</p>
+        <p class="note" id="bbMsg" role="status" hidden></p>
         <div id="bbSliders"></div>
       </div>
     </section>
@@ -1348,7 +1457,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
       <p>We try our best to make Current work well everywhere. If something breaks or gets in your way, write to <a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a>. ADA accommodations are available on request.</p>
 </div></li></ol></div></section>
     <div class="colo-end"><svg class="colo-word" viewBox="462 836 996 132" aria-hidden="true" focusable="false"><path d="M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z"/><path d="M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z"/><path d="M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z"/><path d="M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z"/><path d="M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z"/><path d="M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z"/><path d="M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z"/></svg><span class="ce-tools"><button type="button" id="cePin" class="ce-b" aria-pressed="true" aria-label="Pin the index: it stays open while you use the stage" title="Pinned: stays open. Unpin to close it with a click on the stage"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/></svg></button><button type="button" id="ceX" class="ce-b" aria-label="Close the index" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span><div class="ce-more"><p class="idx-ver" id="idxVer"></p><p class="idx-copy">&copy; <span class="cYear">2026</span> Dimitry Sa&iuml;d Chamy / CHAMY&middot;XYZ. All rights reserved; free for personal use under the license above. The credited works are their authors&rsquo;.</p></div></div>
-    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Foundations", "name": "Lissajous figures", "by": "Jules Antoine Lissajous, 1857", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Lissajous_curve", "for": "the Path 01 look"}, {"group": "Foundations", "name": "The Spirograph's hypotrochoid", "by": "Denys Fisher, 1965", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hypotrochoid", "for": "the Path 02 look"}, {"group": "Foundations", "name": "Phyllotaxis at the golden angle", "by": "Helmut Vogel, 1979", "label": "Method", "url": "https://en.wikipedia.org/wiki/Fermat%27s_spiral", "for": "the Path 03 look"}, {"group": "Foundations", "name": "Hilbert curve", "by": "David Hilbert, 1891", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hilbert_curve", "for": "the Path 04 look"}, {"group": "Foundations", "name": "Learning paths and achievements", "by": "the checklist and badge traditions of games and scouting", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Achievement_(video_games)", "for": "Paths: boxes that tick themselves, a gift for each one walked"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "Formats", "name": "ZIP", "by": "Phil Katz, PKWARE, 1989 (APPNOTE)", "label": "Format", "url": "https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT", "for": "the Paths pack"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
+    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Foundations", "name": "Lissajous figures", "by": "Jules Antoine Lissajous, 1857", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Lissajous_curve", "for": "the Path 01 look"}, {"group": "Foundations", "name": "The Spirograph's hypotrochoid", "by": "Denys Fisher, 1965", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hypotrochoid", "for": "the Path 02 look"}, {"group": "Foundations", "name": "Phyllotaxis at the golden angle", "by": "Helmut Vogel, 1979", "label": "Method", "url": "https://en.wikipedia.org/wiki/Fermat%27s_spiral", "for": "the Path 03 look"}, {"group": "Foundations", "name": "Hilbert curve", "by": "David Hilbert, 1891", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hilbert_curve", "for": "the Path 04 look"}, {"group": "Foundations", "name": "Learning paths and achievements", "by": "the checklist and badge traditions of games and scouting", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Achievement_(video_games)", "for": "Paths: boxes that tick themselves, a gift for each one walked"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "The step sequencer", "by": "Roland TR-808, 1980, after the drum machines before it", "label": "Instrument", "url": "https://en.wikipedia.org/wiki/Roland_TR-808", "for": "the Beat tab’s sixteen-step grid"}, {"group": "Foundations", "name": "WAI-ARIA tabs pattern", "by": "W3C, ARIA Authoring Practices Guide", "label": "Standard", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/", "for": "the sound panel’s tabs (Surface · Tabs)"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "Formats", "name": "ZIP", "by": "Phil Katz, PKWARE, 1989 (APPNOTE)", "label": "Format", "url": "https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT", "for": "the Paths pack"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
 <script type="application/json" id="credits">[
  {
   "name": "opentype.js",
@@ -1486,9 +1595,18 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div class="mxh"><span>Batch <b class="tier">artist</b></span><button class="tb" id="batchClose" type="button" aria-label="Close batch export">Close</button></div>
   <div id="batchBody"></div>
 </div>
-<div id="mixPop" role="dialog" aria-label="Mixer" hidden>
-  <div class="mxh"><span>Mixer</span><button class="tb" id="mixClose" type="button" aria-label="Close the mixer">Close</button></div>
-  <div id="mixBody"></div>
+<div id="mixPop" role="dialog" aria-label="Sound" hidden>
+  <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
+  <div id="micBody" class="sfPane" role="tabpanel" hidden></div>
+  <div id="mixBody" class="sfPane" role="tabpanel"></div>
+  <div id="beatBody" class="sfPane" role="tabpanel" hidden></div>
+  <div id="bytesBody" class="sfPane" role="tabpanel" hidden></div>
+  <div class="sfInfo" id="mixInfo" role="region" aria-labelledby="mixInfoH" hidden><p class="sfInfoH" id="mixInfoH">How it works</p><div class="sfInfoTx"></div></div>
+  <!-- one explanation per tab: the drawer shows the open tab's, and each pane names its own as its description (aria-describedby) -->
+  <div class="sfInfoSrc" id="info-micBody" hidden><p>The microphone moves the field: its sound is split into bass, mid, high, level and beat like any other. Nothing is sent anywhere.</p><ul><li><b>voice</b> cleans the sound up for speech and cancels echo; <b>raw</b> keeps every sound as it is.</li><li><b>gain</b> lifts a quiet mic. <b>gate</b> lets only sound above its line through (the mark on the meter), so room hum stays still.</li><li><b>heard</b> sends the mic to the speakers too. With speakers and raw sound it feeds back: that howl is yours to play. Distance, gain and wetness shape it; a limiter keeps it from getting dangerous. Headphones keep it clean.</li><li><b>loop</b> records a phrase from the mic and plays it as its own channel in the mixer. <b>free</b> is tap to start, tap to stop (8 seconds at most); <b>1, 2 or 4 bars</b> start on the next bar line of the beat playing and stay in time. <b>reverse</b> plays it backwards.</li><li>A video holds the mic as the capture panel's sound row says; when heard, it is in the music side as well.</li></ul></div>
+  <div class="sfInfoSrc" id="info-mixBody" hidden><p>The field follows the mix as set here: level, mute (M) and solo (S) for each sound. The mic's level is how much it moves the field and how much of it a video holds; whether you hear it is set in the Mic tab. The loop is the phrase recorded there.</p></div>
+  <div class="sfInfoSrc" id="info-beatBody" hidden><p>Tap or drag across the steps. Sixteen steps make a bar; each lighter block of four is one beat.</p><p>Edits are heard on the next step while it plays. <b>Save</b> puts the beat on the sound shelf and in the mixer’s beat channel; tap tempo still sets its speed.</p><p>Three saved beats are free. More saves, export and MIDI will come with Pro; founding testers can get Pro free.</p></div>
+  <div class="sfInfoSrc" id="info-bytesBody" hidden><p>One expression in <b>t</b>. <b>Play formula</b> or Ctrl/⌘+Enter.</p><ul><li><b>t</b> counts at the <b>clock</b>, 8000 times a second unless you pick another.</li><li><b>byte</b> reads the result as 0 to 255, <b>signed</b> as −128 to 127, <b>float</b> as −1 to 1.</li><li>Strings and lists are lookup tables: <b>t*("36364689"[t>>13&amp;7]&amp;15)</b> plays a melody. A pair [left, right] is stereo.</li><li><b>n l o p</b> are the sliders below; each can take Auto or a mapping. <b>a b c</b> are 4.</li><li>Away from the box it shows the numbers the sliders send; <b>View</b> pins the letters.</li><li>While it plays, the button stops it, or reads <b>Play changes</b> after an edit and swaps them in. <b>Undo edits</b> puts back what is playing.</li></ul><p>Lessons for each built-in bytebeat are in the index, under Sound.</p></div>
 </div>
 <div id="rlist" role="dialog" aria-label="Random matrix" hidden>
   <div class="mxh"><span>Random</span><button class="tb" id="rlClose" type="button" aria-label="Close the random matrix">Close</button></div>
@@ -2270,9 +2388,12 @@ function syncMods(){try{syncPicAuto()}catch(_){}const mapped=new Set(S.maps.map(
     $('rw-'+k).classList.toggle('on',!!S.mods[k]||mapped.has(k));if(!S.mods[k]&&!mapped.has(k))PAINT[k].paint({on:false})})}
 let liveN=0;
 function liveMarkers(){
-  if(document.body.classList.contains('player'))return;
+  /* the player hides the builder's sliders, but the Bytes and Picture sliders show in the sound panel and the index:
+     those keep moving with their Auto in the player (Dimitry, 19 Oct: Byte n's range and value sat still) */
+  const pl=document.body.classList.contains('player');
   const txt=(liveN++%6)===0;
   SLIDERS.forEach(([k,,mn,mx,st])=>{const rw=$('rw-'+k);if(!rw.classList.contains('on'))return;
+    if(pl&&!BB_SLIDERS.has(k)&&!PIC_SLIDERS.has(k))return;if(!rw.offsetParent)return;
     PAINT[k].paint({on:true,m:autoOf(k),baseN:Math.max(0,Math.min(1,(S[k]-mn)/(mx-mn))),liveN:Math.max(0,Math.min(1,(E[k]-mn)/(mx-mn)))});
     if(txt){const d=st<0.01?3:st<1?2:0;$('v-'+k).textContent=(+E[k]).toFixed(d)}})}
 
@@ -4009,6 +4130,11 @@ const BEATS={
   'Fibonacci 110':{bpm:110,k:'xxx.x..x....x...',s:'.....x.......x..',h:'xxxxxxxxxxxxxxxx',b:'x.......x.......'},
   'Pulse 60':{bpm:60,k:'x...............',s:'................',h:'........x.......',b:'x...............'}
 };
+/* YOUR BEATS (Dimitry, 19 Oct): beats made on the Beat tab's grid, kept on this device, played like the built-in ones */
+const BEAT_BUILTIN=Object.keys(BEATS);
+const BEAT_OK=p=>p&&typeof p==='object'&&+p.bpm>=30&&+p.bpm<=300&&['k','s','h','b'].every(v=>typeof p[v]==='string'&&/^[x.]{16}$/.test(p[v]));
+let BEAT_USER={};try{const o=JSON.parse(localStorage.getItem('current.beats')||'{}');for(const n in o)if(BEAT_OK(o[n])&&!BEAT_BUILTIN.includes(n)&&!/^Byte /.test(n))BEAT_USER[n]={bpm:+o[n].bpm,k:o[n].k,s:o[n].s,h:o[n].h,b:o[n].b}}catch(_){}
+Object.assign(BEATS,BEAT_USER);
 /* ---------- Bytebeat (the Bytebeat Reef engine): one-line formulas in t, which counts 8000 times a second; the result is read as a byte.
    Rendered once into a long mono loop, like the beats, so it never stutters. Letters n l o p a b c are fixed here (the Reef moves them live). ---------- */
 const BYTES={
@@ -4119,7 +4245,7 @@ function startByte(name,fromPreset){
 function stopByte(){if(!AUD.bbOn)return;AUD.bbOn=false;try{BBV.post({stop:true});BBV.out.disconnect()}catch(_){}}
 // every frame: send the letters and rate as the modulators and mappings move them (only when they change)
 function bbTick(){if(!AUD.bbOn||!BBV.post)return;const L=bbLetters(),r=bbRate(),k=L.join()+'|'+r;if(k===BBV.sent)return;BBV.sent=k;BBV.post({L,rate:r})}
-function bbMsg(err){const m=$('bbMsg');m.classList.toggle('bad',!!err);if(err)m.textContent=err;else if(m.dataset.base)m.innerHTML=m.dataset.base}
+function bbMsg(err){const m=$('bbMsg');m.classList.toggle('bad',!!err);m.textContent=err||'';m.hidden=!err}   // only problems show here now; the how-to is in the panel's How it works
 function bbPlay(){const fx=$('bbFx').value.trim();if(!fx){bbMsg('Type a formula first, for example t*(42&t>>10).');return}
   if(!$('bbMsg').dataset.base)$('bbMsg').dataset.base=$('bbMsg').innerHTML;
   if(!bbCompile(fx)){bbMsg(/;|\b(?:for|while|var|let|const|function|return)\b|=>/.test(fx)?'That is a whole song (statements, variables or loops), which Current does not play: it takes one expression.':'That formula does not run: check the brackets and quotes, and use only t, n, l, o, p, a, b, c, numbers, strings, [lists], operators and Math functions.');return}
@@ -4127,7 +4253,8 @@ function bbPlay(){const fx=$('bbFx').value.trim();if(!fx){bbMsg('Type a formula 
   AUD.userOff=false;
   if(AUD.play.byte==='Byte yours'&&AUD.bbOn){BBV.post({f:fx,...bbSet('Byte yours')});syncAud();bbList();toast('formula swapped');return}   // live coding: the clock keeps running
   startByte('Byte yours');bbList();toast('playing your formula')}
-function openBytebeat(){sndOpen=false;syncSteer();setPlayer(false);
+function openBytebeat(){openMix('bytes');const fx=$('bbFx');if(!fx.value.trim())fx.value=AUD.play.byte?bbFormula(AUD.play.byte):(BB_USER||BYTES['Byte 42'].f);try{bbBtns()}catch(_){}if(matchMedia('(pointer:coarse)').matches){try{bbView()}catch(_){}return}setTimeout(()=>{try{fx.focus({preventScroll:true})}catch(_){}},60)}   // on a phone the keyboard would cover the panel and hide the live numbers
+function openBytebeatOld(){sndOpen=false;syncSteer();setPlayer(false);
   const g=$('bbGroup');if(window.SurfaceSections)SurfaceSections.open('bbGroup');else if(g.classList.contains('cx-shut')){g.classList.remove('cx-shut');g.querySelector('.cx-grpbtn').setAttribute('aria-expanded','true')}
   const fx=$('bbFx');if(!fx.value.trim())fx.value=AUD.play.byte?bbFormula(AUD.play.byte):(BB_USER||BYTES['Byte 42'].f);
   setTimeout(()=>{const pn=$('panel'),top=pn.scrollTop+g.getBoundingClientRect().top-pn.getBoundingClientRect().top-76;   // clear of the duck-rabbit and the namemark
@@ -4170,7 +4297,7 @@ function bbFill(src,L){let out='',prevDot=false;const re=/("(?:[^"\\]|\\.)*"?|'(
 let bbViewT=0;
 function bbView(){const fx=$('bbFx'),lv=$('bbLive');if(!fx||!lv)return;const box=fx.value.trim();
   const show=BB_VIEW==='live'&&box&&document.activeElement!==fx&&/[nlopabc]/.test(box)&&!!bbCompile(box);
-  lv.hidden=!show;clearInterval(bbViewT);if(!show)return;
+  lv.hidden=!show;fx.parentNode.classList.toggle('live',!!show);clearInterval(bbViewT);if(!show)return;
   const draw=()=>{const L=bbLetters(),r=bbRate().toFixed(2);lv.innerHTML=bbFill(fx.value,L)+'<i>rate ×'+r+' · '+(BB_HZ/1000)+' kHz · '+BB_MODES[BB_MODE]+'</i>'};
   draw();bbViewT=setInterval(()=>{if(lv.hidden||document.hidden)return;draw()},100)}   // ten times a second, not every frame
 $('bbFx').addEventListener('focus',bbView);$('bbFx').addEventListener('blur',bbView);$('bbFx').addEventListener('input',()=>{if(document.activeElement!==$('bbFx'))bbView()});
@@ -4223,22 +4350,23 @@ const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}
 /* THE MIXER (Dimitry, 18 Oct): a beat, a bytebeat, your music and the microphone each have a channel with its own level,
    mute (M) and solo (S), as in a DAW, and can all play at once. Tapping a sound on the shelf loads it into its channel
    (a beat replaces the beat, a bytebeat the bytebeat); a look's own sound still replaces everything. The field hears
-   the mix as set here. The microphone never reaches the speakers: its level sets how much it moves the field and how
-   much of it a video holds. */
-const MIX_CH=[['mic','mic'],['file','music'],['beat','beat'],['byte','bytebeat']];   // the sound shelf's order, left to right (Dimitry, 19 Oct)
-const MIX=(()=>{const d={beat:{v:1,m:0,s:0},byte:{v:.8,m:0,s:0},file:{v:1,m:0,s:0},mic:{v:1,m:0,s:0},dev:'',voice:false};
-  try{const o=JSON.parse(localStorage.getItem('current.mix')||'{}');for(const k of ['beat','byte','file','mic'])if(o[k])Object.assign(d[k],o[k]);if(typeof o.dev==='string')d.dev=o.dev;d.voice=!!o.voice}catch(_){}return d})();
+   the mix as set here. The microphone reaches the speakers only through the Mic tab's heard; its level sets how much it
+   moves the field and how much of it a video holds. */
+const MIX_CH=[['mic','mic'],['loop','loop'],['file','music'],['beat','beat'],['byte','bytebeat']];   // the sound shelf's order; the loop is the mic's phrase (Dimitry, 19 Oct)   // the sound shelf's order, left to right (Dimitry, 19 Oct)
+const MIX=(()=>{const d={beat:{v:1,m:0,s:0},byte:{v:.8,m:0,s:0},file:{v:1,m:0,s:0},mic:{v:1,m:0,s:0},loop:{v:1,m:0,s:0},dev:'',voice:false,gain:1,gate:0,heard:0,len:'free',rev:false,micPre:null};
+  try{const o=JSON.parse(localStorage.getItem('current.mix')||'{}');for(const k of ['beat','byte','file','mic','loop'])if(o[k])Object.assign(d[k],o[k]);for(const k of ['gain','gate','heard'])if(typeof o[k]==='number')d[k]=o[k];if(['free','1','2','4'].includes(o.len))d.len=o.len;d.rev=!!o.rev;if(typeof o.micPre==='string')d.micPre=o.micPre;if(typeof o.dev==='string')d.dev=o.dev;d.voice=!!o.voice}catch(_){}return d})();
 function mixSave(){try{localStorage.setItem('current.mix',JSON.stringify(MIX))}catch(_){}}
 function mixEff(k){const solo=MIX_CH.some(([c])=>MIX[c].s);const c=MIX[k];return c.m||(solo&&!c.s)?0:c.v}
-function applyMix(){if(!AUD.ctx||!AUD.ch)return;const t=AUD.ctx.currentTime;for(const k of ['beat','byte','file'])AUD.ch[k].gain.setTargetAtTime(mixEff(k),t,.03);
-  if(AUD.mic&&AUD.mic.node)AUD.mic.node.gain.setTargetAtTime(1.6*mixEff('mic'),t,.03)}
-AUD.play={beat:null,byte:null,file:false};
-function isOn(src){if(!src)return false;if(src==='mic')return !!AUD.mic;if(src==='file')return !!AUD.play.file;return AUD.play.beat===src||AUD.play.byte===src}
-function srcSync(){AUD.src=AUD.play.beat||AUD.play.byte||(AUD.play.file?'file':null)||(AUD.mic?'mic':'off');AUD.loopOn=!!(AUD.play.beat||AUD.play.byte)}
+function applyMix(){if(!AUD.ctx||!AUD.ch)return;const t=AUD.ctx.currentTime;for(const k of ['beat','byte','file','loop'])AUD.ch[k].gain.setTargetAtTime(mixEff(k),t,.03);
+  if(AUD.mic&&AUD.mic.node){AUD.mic.node.gain.setTargetAtTime(1.6*mixEff('mic'),t,.03);AUD.mic.inG.gain.setTargetAtTime(MIX.gain,t,.03);AUD.mic.mon.gain.setTargetAtTime(MIX.heard*mixEff('mic'),t,.03)}}
+AUD.play={beat:null,byte:null,file:false,loop:false};
+function isOn(src){if(!src)return false;if(src==='mic')return !!AUD.mic;if(src==='file')return !!AUD.play.file;if(src==='loop')return !!AUD.play.loop;return AUD.play.beat===src||AUD.play.byte===src}
+function srcSync(){AUD.src=AUD.play.beat||AUD.play.byte||(AUD.play.file?'file':null)||(AUD.play.loop?'loop':null)||(AUD.mic?'mic':'off');AUD.loopOn=!!(AUD.play.beat||AUD.play.byte)}
 function stopCh(k){
   if(k==='beat'){AUD.wantBeat=null;if(AUD.beatNode){try{AUD.beatNode.stop()}catch(_){}try{AUD.beatNode.disconnect()}catch(_){}AUD.beatNode=null}AUD.play.beat=null}
   else if(k==='byte'){AUD.want=null;stopByte();AUD.play.byte=null}
   else if(k==='file'){if(AUD.node){try{AUD.node.stop()}catch(_){}AUD.node=null}AUD.play.file=false}
+  else if(k==='loop'){if(AUD.loopNode){try{AUD.loopNode.stop()}catch(_){}try{AUD.loopNode.disconnect()}catch(_){}AUD.loopNode=null}AUD.play.loop=false}
   srcSync()}
 function ensureCtx(){
   if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
@@ -4251,7 +4379,7 @@ function ensureCtx(){
      AUD.dry=c.createGain();AUD.conv=c.createConvolver();AUD.conv.buffer=ir;AUD.wetG=c.createGain();
      AUD.bus.connect(AUD.dry);AUD.dry.connect(AUD.vol);AUD.bus.connect(AUD.conv);AUD.conv.connect(AUD.wetG);AUD.wetG.connect(AUD.vol);applyWet()}
     AUD.mainIn=c.createGain();AUD.mainIn.connect(AUD.bus);AUD.layIn=c.createGain();AUD.layIn.connect(AUD.bus);applyBlend();
-    AUD.ch={};AUD.pre={};AUD.chAn={};for(const k of ['beat','byte','file']){const g=c.createGain();g.connect(AUD.mainIn);AUD.ch[k]=g;const pr=c.createGain();pr.connect(g);AUD.pre[k]=pr;const a=c.createAnalyser();a.fftSize=2048;pr.connect(a);AUD.chAn[k]=a}applyMix();   // the wave is read before the channel's level, so a muted source still shows (in grey)   /* THE MIXER: one channel each, all feeding the field */   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
+    AUD.ch={};AUD.pre={};AUD.chAn={};for(const k of ['beat','byte','file','loop']){const g=c.createGain();g.connect(AUD.mainIn);AUD.ch[k]=g;const pr=c.createGain();pr.connect(g);AUD.pre[k]=pr;const a=c.createAnalyser();a.fftSize=2048;pr.connect(a);AUD.chAn[k]=a}applyMix();   // the wave is read before the channel's level, so a muted source still shows (in grey)   /* THE MIXER: one channel each, all feeding the field */   // the blend: what plays, and a second sound under it   // analysis reads before the volume, so a muted beat still drives the field
     const nb=c.createBuffer(1,c.sampleRate,c.sampleRate),ch=nb.getChannelData(0);for(let i=0;i<ch.length;i++)ch[i]=Math.random()*2-1;AUD.noise=nb}
   if(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // iOS also reports 'interrupted'
   try{const c=AUD.ctx,s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0)}catch(_){}   // a sound started inside the gesture is what really unlocks iOS
@@ -4280,8 +4408,8 @@ function renderBeat(name){
     const pr=oc.startRendering();if(pr&&pr.then)pr.then(done,rej);else oc.oncomplete=e=>done(e.renderedBuffer)}).catch(e=>{delete BEAT_BUF[name];throw e})}
 // warm every beat in the background once audio exists, so switching beats is instant too
 function prerenderBeats(){if(AUD.pre||!AUD.ctx)return;AUD.pre=true;let q=Object.keys(BEATS);const next=()=>{const n=q.shift();if(n)renderBeat(n).then(()=>setTimeout(next,30),()=>setTimeout(next,30))};setTimeout(next,200)}
-function stopMic(force){if(!AUD.mic)return;if(!force)return;/* a mic stays until its own button, the camera going, or the sound switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
-function stopAudio(){if(AUD.userOff)stopLayer();if(AUD.play.beat||AUD.play.byte||AUD.play.file)AUD.lastSet={...AUD.play};for(const k of ['beat','byte','file'])stopCh(k);AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);srcSync();syncAud()}
+function stopMic(force){if(!AUD.mic)return;if(!force)return;clearInterval(AUD.mic.gt);try{loopRecStop(true)}catch(_){}try{AUD.mic.mon.disconnect()}catch(_){}/* a mic stays until its own button, the camera going, or the sound switched off */setTimeout(()=>{if(!AUD.mic)audioSessionFor(false)},0);try{AUD.mic.node.disconnect()}catch(_){}try{AUD.mic.sink.disconnect()}catch(_){}try{AUD.mic.stream.getTracks().forEach(t=>t.stop())}catch(_){}AUD.mic=null}
+function stopAudio(){if(AUD.userOff)stopLayer();if(AUD.play.beat||AUD.play.byte||AUD.play.file)AUD.lastSet={...AUD.play};for(const k of ['beat','byte','file','loop'])stopCh(k);AUD.loopOn=false;AUD.want=null;stopMic(AUD.userOff);srcSync();syncAud()}
 function startBeat(name,fromPreset){
   if(window.cxCount&&name)cxCount('sound: '+(name==='Byte yours'?'own formula':name),1);
   if(isByte(name)){startByte(name,fromPreset);return}
@@ -4316,6 +4444,85 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
       OverconstrainedError:'this microphone refused the settings · try again'}[n];
     toast(why||('could not open the microphone ('+n+(e.message?': '+String(e.message).slice(0,60):'')+') · try Safari or Chrome'));console.warn('mic',e);return}
   hookMic(st,false)}
+/* THE MIC TAB (Dimitry, 19 Oct): the microphone gets its own room in the sound panel.
+   GAIN lifts a quiet mic; the GATE lets only sound above its threshold through, so room hum does not move the field;
+   HEARD sends the mic to the speakers as well. With speakers and raw sound that makes feedback: here that is an
+   instrument, not an error (experimental composers play it), so nothing blocks it. A limiter after it keeps the howl
+   from getting dangerously loud. LOOP records a short phrase from the mic and plays it back as its own channel. */
+function micGate(){const m=AUD.mic;if(!m)return;clearInterval(m.gt);const buf=new Float32Array(m.pa.fftSize);
+  m.gt=setInterval(()=>{if(!AUD.mic||AUD.mic!==m){clearInterval(m.gt);return}m.pa.getFloatTimeDomainData(buf);let q=0;for(let i=0;i<buf.length;i+=2)q+=buf[i]*buf[i];
+    const r=Math.sqrt(q/(buf.length/2));m.lvl=r;const th=MIX.gate*.25,now=performance.now();   // the gate's 0..1 is 0..0.25 RMS
+    let open=th<=0||r>th;if(!open&&m.open&&now-m.shut<160)open=true;if(open)m.shut=now;   // a short hold, so words don't chop
+    if(open!==m.open){m.open=open;m.gate.gain.setTargetAtTime(open?1:0,AUD.ctx.currentTime,open?.004:.04)}
+    if(LOOPREC&&LOOPREC.meter)LOOPREC.meter()},30)}
+const MIC_PRESETS=[
+  ['room',{voice:false,gain:1,gate:.08,heard:0},'The room moves the field; nothing is heard.'],
+  ['whisper',{voice:true,gain:3,gate:.04,heard:0},'A quiet voice moves the field as much as music.'],
+  ['voice through',{voice:true,gain:1.2,gate:.1,heard:.8},'Your voice is heard, cleaned up for speech. Headphones keep it from howling.'],
+  ['feedback',{voice:false,gain:2.5,gate:0,heard:.9},'Raw mic to the speakers: it howls, and the howl moves the field. Move closer or further to play it. The limiter keeps it in check.']];
+function micPreset(n){const p=MIC_PRESETS.find(x=>x[0]===n);if(!p)return;const v=MIX.voice;Object.assign(MIX,p[1]);MIX.micPre=n;mixSave();applyMix();
+  if(AUD.mic&&!AUD.mic.cam&&v!==MIX.voice)startMic();else if(!AUD.mic)startMic();renderMic();toast('mic: '+n)}
+let LOOPREC=null;AUD.loopBuf=null;
+function loopBar(){return AUD.dur?AUD.dur*16:0}   // one bar of whatever beat or bytebeat plays
+function loopRecStart(){if(!AUD.mic){toast('turn the mic on first');return}if(LOOPREC)return loopRecStop();
+  const c=AUD.ctx,bars=MIX.len==='free'?0:+MIX.len,bar=loopBar(),sr=c.sampleRate;
+  const synced=bars&&bar&&(AUD.play.beat||AUD.play.byte);let t0=c.currentTime+.05,len=8*sr;   // free takes stop at 8 seconds
+  if(synced){const L=bar;t0=AUD.t0?Math.max(c.currentTime+.02,AUD.t0+Math.ceil((c.currentTime+.02-AUD.t0)/L)*L):t0;len=Math.round(bars*L*sr)}
+  else if(bars&&!bar)toast('no beat playing · recording a free take');
+  const sp=c.createScriptProcessor(2048,1,1),z=c.createGain();z.gain.value=0;AUD.mic.gate.connect(sp);sp.connect(z);z.connect(c.destination);
+  const data=new Float32Array(len);let n=0;
+  LOOPREC={sp,z,data,t0,synced,get n(){return n}};
+  sp.onaudioprocess=e=>{const tb=e.playbackTime,inp=e.inputBuffer.getChannelData(0);let i0=0;
+    if(tb+inp.length/sr<=t0)return;if(tb<t0)i0=Math.floor((t0-tb)*sr);
+    for(let i=i0;i<inp.length&&n<len;i++)data[n++]=inp[i];if(n>=len)setTimeout(()=>loopRecStop(),0)};
+  renderMic();toast(synced?'recording '+bars+' bar'+(bars>1?'s':'')+' from the next bar line':'recording · tap again to stop (8 seconds at most)')}
+function loopRecStop(quiet){const R=LOOPREC;if(!R)return;LOOPREC=null;try{AUD.mic&&AUD.mic.gate.disconnect(R.sp)}catch(_){}try{R.sp.disconnect();R.z.disconnect()}catch(_){}R.sp.onaudioprocess=null;
+  if(quiet){renderMic();return}
+  const n=R.synced?R.data.length:R.n;if(n<AUD.ctx.sampleRate*.15){toast('too short to loop');renderMic();return}
+  const b=AUD.ctx.createBuffer(1,n,AUD.ctx.sampleRate),d=b.getChannelData(0);d.set(R.data.subarray(0,n));
+  const f=Math.min(n>>1,Math.round(AUD.ctx.sampleRate*.006));for(let i=0;i<f;i++){const k=i/f;d[i]*=k;d[n-1-i]*=k}   // a few ms of fade so the seam doesn't click
+  AUD.loopRaw=b;AUD.loopBuf=MIX.rev?loopRev(b):b;AUD.loopSync=R.synced;startLoop();toast('loop · '+(n/AUD.ctx.sampleRate).toFixed(1)+' s')}
+function loopRev(b){const r=AUD.ctx.createBuffer(1,b.length,b.sampleRate),s0=b.getChannelData(0),d=r.getChannelData(0);for(let i=0,n=s0.length;i<n;i++)d[i]=s0[n-1-i];return r}
+function startLoop(){if(!AUD.loopBuf||!ensureCtx())return;stopCh('loop');AUD.userOff=false;const c=AUD.ctx,n=c.createBufferSource();n.buffer=AUD.loopBuf;n.loop=true;n.connect(AUD.pre.loop);
+  let t0=c.currentTime+.03;if(AUD.loopSync&&AUD.t0&&loopBar()){const L=loopBar();t0=Math.max(c.currentTime+.02,AUD.t0+Math.ceil((c.currentTime+.02-AUD.t0)/L)*L)}
+  n.start(t0);AUD.loopNode=n;AUD.play.loop=true;srcSync();syncAud();renderMic()}
+function renderMic(){const b=$('micBody');if(!b||b.hidden)return;b.innerHTML='';
+  const sub=t=>{const h=document.createElement('div');h.className='sub';h.textContent=t;b.appendChild(h)};
+  const seg=(items,cur,fn,label)=>{const w=document.createElement('div');w.className='mcSeg';w.setAttribute('role','group');w.setAttribute('aria-label',label);
+    for(const [v,l,t] of items){const x=document.createElement('button');x.type='button';x.textContent=l;if(t)x.title=t;x.setAttribute('aria-pressed',String(cur===v));x.onclick=()=>fn(v);w.appendChild(x)}return w};
+  sub('Presets');{const pr=document.createElement('div');pr.className='mxPre';for(const [n,,t] of MIC_PRESETS){const x=document.createElement('button');x.type='button';x.textContent=n;x.title=t;x.setAttribute('aria-pressed',String(MIX.micPre===n));x.onclick=()=>micPreset(n);pr.appendChild(x)}b.appendChild(pr)}
+  sub('Input');
+  {const r=document.createElement('div');r.className='mcRow';const on=!!AUD.mic;
+    const go=document.createElement('button');go.type='button';go.className='mcGo'+(on?' on':'');go.textContent=on?(AUD.mic.cam?'camera mic on':'mic on · stop'):'start the mic';go.setAttribute('aria-pressed',String(on));
+    go.onclick=()=>{if(AUD.mic){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}else startMic();setTimeout(renderMic,400)};
+    const sel=document.createElement('select');sel.setAttribute('aria-label','Microphone input');sel.innerHTML='<option value="">default mic</option>';
+    (navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices?navigator.mediaDevices.enumerateDevices():Promise.resolve([])).then(ds=>{let i=0;for(const d of ds){if(d.kind!=='audioinput'||d.deviceId==='default'||!d.deviceId)continue;i++;
+      const o=document.createElement('option');o.value=d.deviceId;o.textContent=d.label||('microphone '+i);sel.appendChild(o)}sel.value=MIX.dev&&[...sel.options].some(o=>o.value===MIX.dev)?MIX.dev:''}).catch(()=>{});
+    sel.onchange=()=>{MIX.dev=sel.value;mixSave();if(AUD.mic&&!AUD.mic.cam)startMic()};
+    r.append(go,sel);b.appendChild(r)}
+  b.appendChild(seg([[true,'voice','Voice: the browser cleans the sound up for speech and cancels echo'],[false,'raw','Raw: every sound as it is, for music, performance mics and feedback']],MIX.voice,v=>{MIX.voice=v;MIX.micPre=null;mixSave();renderMic();if(AUD.mic&&!AUD.mic.cam)startMic()},'Voice or raw'));
+  {const m=document.createElement('div');m.className='mcMeter';m.innerHTML='<i class="lv"></i><i class="th"></i>';m.setAttribute('aria-hidden','true');b.appendChild(m)}
+  const slider=(lab,key,mn,mx,st,fmt,aria)=>{const r=document.createElement('div');r.className='row mcSl';const id='mc-'+key;
+    r.innerHTML='<label class="name" for="'+id+'">'+lab+'</label><div class="rw"><input type="range" id="'+id+'" min="'+mn+'" max="'+mx+'" step="'+st+'" aria-label="'+aria+'"></div><span class="val"></span>';
+    const i=r.querySelector('input'),v=r.querySelector('.val');i.value=MIX[key];v.textContent=fmt(MIX[key]);
+    i.oninput=()=>{MIX[key]=+i.value;MIX.micPre=null;v.textContent=fmt(MIX[key]);applyMix();mixSave();b.querySelectorAll('.mxPre button').forEach(x=>x.setAttribute('aria-pressed','false'))};b.appendChild(r)};
+  slider('gain','gain',0,4,.05,v=>'×'+v.toFixed(1),'Input gain: lifts a quiet mic');
+  slider('gate','gate',0,1,.01,v=>v?Math.round(v*100)+'':'off','Noise gate: only sound above this moves the field and is heard');
+  slider('heard','heard',0,1,.01,v=>v?Math.round(v*100)+'%':'off','Heard: how much of the mic goes to the speakers. With speakers and raw sound it feeds back');
+  sub('Loop');
+  {const r=document.createElement('div');r.className='mcRow';const rec=!!LOOPREC;
+    const rb=document.createElement('button');rb.type='button';rb.className='mcGo rec'+(rec?' on':'');rb.textContent=rec?'stop':'record';rb.setAttribute('aria-pressed',String(rec));rb.setAttribute('aria-label',rec?'Stop recording the loop':'Record a phrase from the mic to loop');rb.onclick=()=>rec?loopRecStop():loopRecStart();
+    const pb=document.createElement('button');pb.type='button';pb.className='mcGo';pb.textContent=AUD.play.loop?'stop loop':'play loop';pb.disabled=!AUD.loopBuf;pb.setAttribute('aria-pressed',String(!!AUD.play.loop));
+    pb.onclick=()=>{if(AUD.play.loop){stopCh('loop');syncAud();renderMic()}else startLoop()};
+    const cl=document.createElement('button');cl.type='button';cl.className='mcGo';cl.textContent='clear';cl.disabled=!AUD.loopBuf;cl.onclick=()=>{stopCh('loop');AUD.loopBuf=AUD.loopRaw=null;syncAud();renderMic()};
+    r.append(rb,pb,cl);b.appendChild(r)}
+  b.appendChild(seg([['free','free','Tap record, tap stop; 8 seconds at most'],['1','1 bar','On the beat: starts at the next bar line, stops after one bar'],['2','2 bars',''],['4','4 bars','']],MIX.len,v=>{MIX.len=v;mixSave();renderMic()},'Loop length'));
+  b.appendChild(seg([[false,'forward',''],[true,'reverse','The phrase plays backwards']],MIX.rev,v=>{MIX.rev=v;mixSave();if(AUD.loopRaw){AUD.loopBuf=v?loopRev(AUD.loopRaw):AUD.loopRaw;if(AUD.play.loop)startLoop()}renderMic()},'Loop direction'));
+  micMeter()}
+let MCRAF=0;function micMeter(){cancelAnimationFrame(MCRAF);const b=$('micBody');if(!b||b.hidden||$('mixPop').hidden)return;const m=b.querySelector('.mcMeter');if(m){
+    const lv=AUD.mic?Math.min(1,AUD.mic.lvl*4):0;m.querySelector('.lv').style.width=(lv*100).toFixed(1)+'%';m.querySelector('.th').style.left=(MIX.gate*100).toFixed(1)+'%';
+    m.classList.toggle('open',!!(AUD.mic&&AUD.mic.open&&lv>0.01));m.classList.toggle('rec',!!LOOPREC)}
+  MCRAF=requestAnimationFrame(micMeter)}
 /* THE CAMERA'S MICROPHONE JOINS, IT DOES NOT REPLACE (Dimitry, 18 Oct). Turning the camera on used to swap the beat or
    file for the microphone, and turning it off left silence, so a recording ended with the music gone and no clear way
    back. Now: if something is playing, the camera's mic is added under it (the field hears both, a recording holds both)
@@ -4325,8 +4532,8 @@ async function startMic(given){if(window.cxCount)cxCount('sound: microphone',1);
 function hookMic(st,cam){
   const join=!!(AUD.play.beat||AUD.play.byte||AUD.play.file);
   stopMic(true);if(!join)stopAudio();AUD.userOff=false;
-  const node=AUD.ctx.createMediaStreamSource(st),g=AUD.ctx.createGain();g.gain.value=1.6;node.connect(g);g.connect(AUD.an);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
-  AUD.mic={stream:st,node:g,sink:z,cam};g.gain.value=1.6*mixEff('mic');if(AUD.chAn){const a=AUD.ctx.createAnalyser();a.fftSize=2048;node.connect(a);AUD.chAn.mic=a}   // the mixer's waveif(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
+  const c0=AUD.ctx,node=c0.createMediaStreamSource(st),inG=c0.createGain(),gate=c0.createGain(),g=c0.createGain();inG.gain.value=MIX.gain;gate.gain.value=1;g.gain.value=1.6;node.connect(inG);inG.connect(gate);gate.connect(g);g.connect(AUD.an);const mon=c0.createGain(),lim=c0.createDynamicsCompressor();mon.gain.value=0;lim.threshold.value=-8;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.003;lim.release.value=.12;gate.connect(mon);mon.connect(lim);lim.connect(AUD.dry||AUD.vol);if(AUD.conv)lim.connect(AUD.conv);const pa=c0.createAnalyser();pa.fftSize=1024;inG.connect(pa);const z=AUD.ctx.createGain();z.gain.value=0;g.connect(z);z.connect(AUD.ctx.destination);   // to the analyser, and to the speakers at zero: Safari only runs a mic graph that reaches them, and silence means no feedback
+  AUD.mic={stream:st,node:g,sink:z,cam,inG,gate,mon,pa,lvl:0,open:true,shut:0};g.gain.value=1.6*mixEff('mic');mon.gain.value=MIX.heard*mixEff('mic');micGate();if(AUD.chAn){const a=AUD.ctx.createAnalyser();a.fftSize=2048;node.connect(a);AUD.chAn.mic=a}   // the mixer's waveif(AUD.ctx.state!=='running')AUD.ctx.resume().catch(()=>{});   // switching iOS to record can leave the context suspended
   if(AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // a mic goes into a video (the capture panel's sound row says how much), never to the speakers
   if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.mic&&AUD.mic.stream===st){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}});
@@ -4411,18 +4618,23 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   /* MUTE (Dimitry, 18 Oct, after DAWs' mute; first on the shelf, where play/stop was, at his word): the sound keeps playing and the field keeps moving to it; only what you
      hear, and what a video records, goes silent */
   add('sdMute','mute','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="mx" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>','Mute: the sound keeps playing and the field keeps moving to it, silently. Tap again to hear it',()=>setMute(!AUD.muted));
-  add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()}).dataset.src='mic';
+  const grp=document.createElement('span');grp.className='sgrp';grp.setAttribute('role','group');grp.setAttribute('aria-label','Sound panel');t.appendChild(grp);
+  const into=b=>{grp.appendChild(b);return b};
+  into(add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{})).dataset.src='mic';
+  {const mb=$('sdMic');mb.onclick=null;wireTapHold(mb,{tap:()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()},hold:()=>openMix('mic')});mb.setAttribute('aria-label',mb.getAttribute('aria-label')+'. Hold for the Mic tab: gain, gate, heard and the looper')}
   const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
-    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{if(isOn('file'))return hush('file');if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()});f.dataset.src='file';
-  if(AUD.fileBuf)add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click());
-  add('sdMix','mix','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/></svg>','The mixer: how much of the beat, the bytebeat, your music and the microphone you hear and the field follows',()=>openMix());
+    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{});into(f);f.dataset.src='file';f.onclick=null;
+  wireTapHold(f,{tap:()=>{if(isOn('file'))return hush('file');if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()},hold:()=>openMix('mix')});
+  if(AUD.fileBuf)into(add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click()));
+  into(add('sdMix','mix','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/></svg>','The mixer: how much of the beat, the bytebeat, your music, the microphone and its loop you hear and the field follows',()=>openMix('mix')));
+  {const cr=document.createElement('button');cr.type='button';cr.className='sgCaret';cr.setAttribute('aria-label','Open the sound panel');cr.title='The sound panel: Mic, Mixer, Beat, Bytes';cr.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 14l5-5 5 5"/></svg>';cr.onclick=()=>openMix();grp.appendChild(cr)}
   rule();
   for(const n of Object.keys(BEATS)){const b=add(null,BEAT_SHORT[n]||n.toLowerCase(),beatGlyph(BEATS[n]),'Play the built-in beat '+n+', '+BEATS[n].bpm+' bpm',()=>{if(isOn(n))return hush('beat');AUD.userOff=false;startBeat(n)});b.dataset.src=n}
   rule();
   for(const n of Object.keys(BYTES)){const b=add(null,n.replace(/^Byte /,'').slice(0,9),byteGlyph,'Play the bytebeat '+n+': '+BYTES[n].f,()=>{if(isOn(n))return hush('byte');AUD.userOff=false;startBeat(n)});b.dataset.src=n;b.classList.add('bb')}
   if(BB_USER){const b=add(null,'yours',byteGlyph,'Play your own bytebeat formula: '+BB_USER,()=>{if(isOn('Byte yours'))return hush('byte');AUD.userOff=false;startBeat('Byte yours')});b.dataset.src='Byte yours';b.classList.add('bb')}
   // WRITE: opens the index at the Bytebeat box, unfolded, ready to type
-  add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens the Bytebeat box in the index',openBytebeat);
+  add('sdWrite','write','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>','Write your own bytebeat: opens Bytes in the sound panel',openBytebeat);
   const sep=document.createElement('span');sep.className='sep';sep.setAttribute('aria-hidden','true');t.appendChild(sep);
   {const tp=add('sdTap','tap','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2"/></svg>','Tap tempo: tap in time; hold to let go (b; shift+b lets go)',()=>{});
     tp.onclick=null;tp.addEventListener('pointerdown',()=>{TAP.down=tapNow()});wireTapHold(tp,{tap:()=>tapTempo(TAP.down),hold:tapClear})}   // the beat is when the finger lands, not when it lifts
@@ -4439,13 +4651,14 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
    raw. Tapping a channel's name starts or stops its sound. */
 const MIX_PRESETS=[['beat only',{beat:1},['beat']],['beat + byte',{beat:.85,byte:.6},['beat','byte']],['voice over beat',{beat:.55,mic:1},['beat','mic']],
   ['room',{mic:1},['mic']],['everything',{beat:.75,byte:.6,file:.8,mic:1},[]]];
-const chSrc=k=>k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k==='file'?(AUD.play.file?'file':null):(AUD.mic?'mic':null);
-const chName=k=>{const v=chSrc(k);if(!v)return k==='file'&&AUD.fileBuf?'ready':'off';return k==='beat'?(BEAT_SHORT[v]||v.toLowerCase()):k==='byte'?v.replace(/^Byte /,'').toLowerCase():k==='file'?(AUD.file||'your music').replace(/\.[^.]+$/,''):(AUD.mic&&AUD.mic.cam?'camera':'on')};
+const chSrc=k=>k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k==='file'?(AUD.play.file?'file':null):k==='loop'?(AUD.play.loop?'loop':null):(AUD.mic?'mic':null);
+const chName=k=>{const v=chSrc(k);if(!v)return (k==='file'&&AUD.fileBuf)||(k==='loop'&&AUD.loopBuf)?'ready':k==='loop'?'empty':'off';if(k==='loop')return (AUD.loopBuf.duration).toFixed(1)+' s';return k==='beat'?(BEAT_SHORT[v]||v.toLowerCase()):k==='byte'?v.replace(/^Byte /,'').toLowerCase():k==='file'?(AUD.file||'your music').replace(/\.[^.]+$/,''):(AUD.mic&&AUD.mic.cam?'camera':'on')};
 function chToggle(k){AUD.userOff=false;
   if(chSrc(k)){if(k==='mic'){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}else{stopCh(k);syncAud()}return}
   if(k==='beat')startBeat(AUD.lastBeat&&BEATS[AUD.lastBeat]?AUD.lastBeat:'Four on the floor');
   else if(k==='byte')startByte(Object.keys(BYTES)[0]);
   else if(k==='file'){if(AUD.fileBuf)startFile();else $('audFile').click()}
+  else if(k==='loop'){if(AUD.loopBuf)startLoop();else openMix('mic')}
   else startMic()}
 function mixPreset(name,lv,need){MIX.pre=name;for(const [k] of MIX_CH){if(lv[k]!=null){MIX[k].v=lv[k];MIX[k].m=0}else MIX[k].m=name==='everything'?0:1;MIX[k].s=0}
   mixSave();applyMix();for(const k of need)if(!chSrc(k))chToggle(k);renderMix();toast('mix: '+name)}
@@ -4462,14 +4675,7 @@ function renderMix(){const b=$('mixBody');if(!b)return;b.innerHTML='';
     const mb=(cls,t,key,aria)=>{const x=document.createElement('button');x.type='button';x.className='mb '+cls;x.textContent=t;x.setAttribute('aria-pressed',String(!!c[key]));x.setAttribute('aria-label',aria+' '+label);
       x.onclick=()=>{c[key]=c[key]?0:1;MIX.pre=null;applyMix();mixSave();renderMix()};return x};
     row.append(nm,wv,mb('m','M','m','Mute'),mb('s','S','s','Solo'),pc);
-    if(k==='mic'){const m=document.createElement('div');m.className='mxMic';const sel=document.createElement('select');sel.setAttribute('aria-label','Microphone input');
-      sel.innerHTML='<option value="">default mic</option>';
-      (navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices?navigator.mediaDevices.enumerateDevices():Promise.resolve([])).then(ds=>{let i=0;for(const d of ds){if(d.kind!=='audioinput'||d.deviceId==='default'||!d.deviceId)continue;i++;
-        const o=document.createElement('option');o.value=d.deviceId;o.textContent=d.label||('microphone '+i);sel.appendChild(o)}sel.value=MIX.dev&&[...sel.options].some(o=>o.value===MIX.dev)?MIX.dev:''}).catch(()=>{});
-      sel.onchange=()=>{MIX.dev=sel.value;mixSave();if(AUD.mic&&!AUD.mic.cam)startMic()};
-      const sg=document.createElement('div');sg.className='segs';for(const [v,l,a] of [[true,'voice','Voice: the browser cleans the sound up for speech'],[false,'raw','Raw: every sound as it is, for music and performance mics']]){
-        const x=document.createElement('button');x.type='button';x.textContent=l;x.title=a;x.setAttribute('aria-pressed',String(MIX.voice===v));x.onclick=()=>{MIX.voice=v;mixSave();renderMix();if(AUD.mic&&!AUD.mic.cam)startMic()};sg.appendChild(x)}
-      m.append(sel,sg);row.appendChild(m)}
+    /* the mic's input, voice/raw, gain, gate and heard live in the Mic tab now, so every wave lines up (Dimitry, 19 Oct) */
     b.appendChild(row)}
   { /* MASTER: the overall volume (the same as dragging on the speaker) and mute (the same as the shelf's): the field
        keeps hearing everything; this is only what reaches your ears and a video */
@@ -4481,8 +4687,8 @@ function renderMix(){const b=$('mixBody');if(!b)return;b.innerHTML='';
     r.oninput=()=>{vol.value=(+r.value/100*mx).toFixed(2);vol.dispatchEvent(new Event('input'));pc.textContent=r.value+'%'};
     const m=document.createElement('button');m.type='button';m.className='mb m';m.textContent='M';m.setAttribute('aria-pressed',String(!!AUD.muted));m.setAttribute('aria-label','Mute everything you hear; the field keeps moving');m.onclick=()=>{setMute(!AUD.muted);renderMix()};
     const sp=document.createElement('span');row.append(nm,wv,m,sp,pc);b.appendChild(row)}
-  const n=document.createElement('p');n.className='mxNote';n.textContent='The field follows the mix as set here. The microphone is never played aloud: its level is how much it moves the field and how much of it a video holds.';b.appendChild(n)}
-function mixSync(){const b=$('mixBody');if(!b||$('mixPop').hidden)return;b.querySelectorAll('.mxCh:not(.mxMaster)').forEach(r=>{const k=r.dataset.k;r.classList.toggle('idle',!chSrc(k));const sm=r.querySelector('.nm small');if(sm)sm.textContent=chName(k)})}
+  /* the explanation lives in the panel's How it works drawer (Surface · Info) */}
+function mixSync(){try{if(!$('micBody').hidden&&!$('mixPop').hidden){const go=$('micBody').querySelector('.mcGo');if(go&&go.getAttribute('aria-pressed')!==String(!!AUD.mic))renderMic()}}catch(_){}const b=$('mixBody');if(!b||$('mixPop').hidden)return;b.querySelectorAll('.mxCh:not(.mxMaster)').forEach(r=>{const k=r.dataset.k;r.classList.toggle('idle',!chSrc(k));const sm=r.querySelector('.nm small');if(sm)sm.textContent=chName(k)})}
 /* each channel's sound, drawn live behind its slider: the wave as it leaves the channel (after level, mute and solo),
    the level's share of the track tinted (Dimitry, 18 Oct) */
 let MXRAF=0;const MXBUF=new Uint8Array(2048);
@@ -4497,18 +4703,157 @@ function mixDraw(){MXRAF=0;const pop=$('mixPop');if(!pop||pop.hidden)return;
     else{g.moveTo(0,h/2);g.lineTo(w,h/2)}
     g.stroke()});
   MXRAF=requestAnimationFrame(mixDraw)}
-function openMix(){try{closeWordList();closeFontList()}catch(_){}renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
-function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;p.hidden=true;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
+function openMix(tab){try{closeWordList();closeFontList()}catch(_){}if(window.MIX_TABS)MIX_TABS.show(typeof tab==='string'?tab:MIX_TABS.last());else renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
+function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;cancelAnimationFrame(MCRAF);try{MIX_INFO.close()}catch(_){}p.hidden=true;try{BG.stopHead()}catch(_){}const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
 $('mixClose').onclick=closeMix;
+/* ===== SURFACE · TABS: a popover with tabs across its head (Dimitry, 19 Oct). Generic: give it the tab list element, the
+   tabs (id, name, icon, pane, onShow) and a storage key; it builds the buttons, follows the WAI-ARIA tabs pattern and
+   remembers the last tab. Candidate for Surface (sys) so every tool's panels can carry tabs. ===== */
+window.SurfaceTabs=window.SurfaceTabs||{mount(list,tabs,key){const btns={};let cur=null;
+  const get=()=>{try{const v=localStorage.getItem(key);return tabs.some(t=>t.id===v)?v:tabs[0].id}catch(_){return tabs[0].id}};
+  const show=id=>{if(!tabs.some(t=>t.id===id))id=tabs[0].id;cur=id;for(const t of tabs){const on=t.id===id,b=btns[t.id];b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;t.pane.hidden=!on}
+    try{localStorage.setItem(key,id)}catch(_){}const t=tabs.find(t=>t.id===id);if(t.onShow)t.onShow();list.dispatchEvent(new CustomEvent('sftab',{detail:{id,pane:t.pane}}))};
+  tabs.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='sfTab';b.setAttribute('role','tab');b.id=list.id+'-'+t.id;
+    b.setAttribute('aria-controls',t.pane.id);t.pane.setAttribute('aria-labelledby',b.id);b.innerHTML=(t.icon||'')+'<span></span>';b.querySelector('span').textContent=t.name;
+    if(t.title)b.title=t.title;b.onclick=()=>show(t.id);
+    b.onkeydown=e=>{const k=e.key;let j=-1;if(k==='ArrowRight')j=(i+1)%tabs.length;else if(k==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;else if(k==='Home')j=0;else if(k==='End')j=tabs.length-1;
+      if(j<0)return;e.preventDefault();show(tabs[j].id);btns[tabs[j].id].focus()};btns[t.id]=b;list.appendChild(b)});
+  return {show,last:get,current:()=>cur}}};
+
+/* ===== BEAT: a sixteen-step grid for your own beats, the Roland TR-808's way of writing a bar (Dimitry, 19 Oct). Four
+   voices, the same synthesized kick, snare, hat and bass as the built-in beats. The grid is a draft that plays as
+   "Your beat"; editing while it plays swaps the new bar in on the next step, so the groove never restarts. Save keeps
+   it under a name: it joins the sound shelf and the mixer like a built-in beat. ===== */
+const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DRAFT='Your beat';
+  const blank=()=>({bpm:110,k:'x.......x.......',s:'....x.......x...',h:'..x...x...x...x.',b:'x...............'});
+  let D=null,src='';try{const o=JSON.parse(localStorage.getItem('current.beatDraft')||'null');if(BEAT_OK(o?.p)){D={bpm:+o.p.bpm,k:o.p.k,s:o.p.s,h:o.p.h,b:o.p.b};src=o.src||''}}catch(_){}
+  if(!D)D=blank();
+  const saveDraft=()=>{try{localStorage.setItem('current.beatDraft',JSON.stringify({p:D,src}))}catch(_){}};
+  const saveUser=()=>{try{localStorage.setItem('current.beats',JSON.stringify(BEAT_USER))}catch(_){}};
+  /* FREE AND PRO (Dimitry, 19 Oct): the grid is free to play; three saved beats are free. More saves, export and MIDI
+     will be Pro. Beats saved before the limit stay; only a new name past three waits for Pro. Updating a saved beat is free. */
+  const FREE_BEATS=3,nUser=()=>Object.keys(BEAT_USER).length;
+  const proNote=(b,what)=>{let n=b.querySelector('.bgPro');if(!n){n=document.createElement('div');n.className='bgPro';n.setAttribute('role','status');b.appendChild(n)}
+    n.innerHTML='<p><b>'+what+'</b> come with Pro. Free keeps '+FREE_BEATS+' beats. Founding testers can get Pro free.</p><button type="button" class="bgGo">become a founding tester</button>';
+    n.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}};
+  const shelf=()=>{try{if($('sndTrack')&&$('sndTrack').children.length)buildSndShelf()}catch(_){}try{syncAud()}catch(_){}};
+  const playing=()=>AUD.play&&AUD.play.beat===DRAFT;
+  /* swap a playing beat's bar for a fresh render on the next step, keeping its place in the bar */
+  function swap(name){delete BEAT_BUF[name];const pat=BEATS[name];if(!pat||!AUD.ctx)return;
+    const old=AUD.beatNode;if(!(AUD.play.beat===name&&old)){startBeat(name);return}
+    AUD.wantBeat=name;
+    renderBeat(name).then(buf=>{if(AUD.wantBeat!==name||AUD.beatNode!==old||AUD.play.beat!==name)return;
+      const c=AUD.ctx,now=c.currentTime,oStep=old.buffer.duration/old.playbackRate.value/16;
+      const k=Math.max(1,Math.ceil((now+.03-AUD.t0)/oStep)),at=AUD.t0+k*oStep,i=((k%16)+16)%16;
+      const rate=TAP.bpm?TAP.bpm/pat.bpm:1,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.playbackRate.value=rate;n.connect(AUD.pre.beat);
+      n.start(at,i*buf.duration/16);try{old.stop(at)}catch(_){}
+      const nStep=buf.duration/rate/16;AUD.beatNode=n;AUD.t0=at-i*nStep;AUD.dur=nStep},()=>{})}
+  function sync(){BEATS[DRAFT]={bpm:D.bpm,k:D.k,s:D.s,h:D.h,b:D.b};saveDraft()}
+  function changed(){sync();if(playing())swap(DRAFT);else delete BEAT_BUF[DRAFT]}
+  function play(){sync();delete BEAT_BUF[DRAFT];if(playing()){stopCh('beat');syncAud();render();return}
+    AUD.userOff=false;const first=!$('sndTrack')||![...$('sndTrack').querySelectorAll('[data-src]')].some(b=>b.dataset.src===DRAFT);startBeat(DRAFT);if(first)shelf();render();head()}
+  let RAF=0;
+  function head(){cancelAnimationFrame(RAF);RAF=0;const g=$('bgGrid');if(!g||$('beatBody').hidden||$('mixPop').hidden){clear();return}
+    const tick=()=>{RAF=0;const gg=$('bgGrid');if(!gg||$('beatBody').hidden||$('mixPop').hidden){clear();return}
+      let st=-1;if(playing()&&AUD.ctx&&AUD.dur&&AUD.beatNode){const x=(AUD.ctx.currentTime-AUD.t0)/AUD.dur;if(x>=0)st=Math.floor(x)%16}
+      if(gg.dataset.st!==String(st)){gg.dataset.st=st;gg.querySelectorAll('.bgCell').forEach(c=>c.classList.toggle('now',+c.dataset.i===st))}
+      RAF=requestAnimationFrame(tick)};RAF=requestAnimationFrame(tick)}
+  function clear(){cancelAnimationFrame(RAF);RAF=0;const g=$('bgGrid');if(g){g.dataset.st='';g.querySelectorAll('.now').forEach(c=>c.classList.remove('now'))}}
+  const svg=(p,cls)=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
+  function load(name){const p=BEATS[name];if(!p)return;D={bpm:p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};src=name;changed();render();if(window.cxCount)cxCount('beat grid: load',1)}
+  function render(){const b=$('beatBody');if(!b)return;b.innerHTML='';
+    const h=document.createElement('div');h.className='sub';h.textContent='Start from';b.appendChild(h);
+    const top=document.createElement('div');top.className='bgTop';
+    const sel=document.createElement('select');sel.setAttribute('aria-label','Load a beat into the grid');
+    const og=(lab,names)=>{if(!names.length)return;const g=document.createElement('optgroup');g.label=lab;for(const n of names){const o=document.createElement('option');o.value=n;o.textContent=n;g.appendChild(o)}sel.appendChild(g)};
+    const o0=document.createElement('option');o0.value='';o0.textContent=src&&BEATS[src]?'from '+src:'your grid';sel.appendChild(o0);
+    og('Built in',BEAT_BUILTIN);og('My beats',Object.keys(BEAT_USER));sel.value='';sel.onchange=()=>{if(sel.value)load(sel.value)};
+    const pl=document.createElement('button');pl.type='button';pl.className='bgIco pl';pl.innerHTML=playing()?svg('<rect x="6" y="6" width="12" height="12" rx="1.5"/>'):svg('<path d="M7 5l12 7-12 7z"/>');
+    pl.setAttribute('aria-pressed',String(playing()));pl.setAttribute('aria-label',playing()?'Stop your beat':'Play the grid');pl.title=playing()?'Stop':'Play the grid';pl.onclick=play;
+    const nw=document.createElement('button');nw.type='button';nw.className='bgIco';nw.innerHTML=svg('<path d="M5 5h14v14H5z"/><path d="M9 12h6"/>');nw.title='Clear the grid';nw.setAttribute('aria-label','Clear the grid');
+    nw.onclick=()=>{D={bpm:D.bpm,k:'.'.repeat(16),s:'.'.repeat(16),h:'.'.repeat(16),b:'.'.repeat(16)};src='';changed();render()};
+    top.append(sel,pl,nw);b.appendChild(top);
+    const g=document.createElement('div');g.className='bgGrid';g.id='bgGrid';g.setAttribute('role','grid');g.setAttribute('aria-label','Beat grid: four voices, sixteen steps');
+    let paint=null;   // drag across the cells to paint or erase, as on a drum machine's row of buttons
+    const setCell=(v,i,on)=>{const a=D[v].split('');if((a[i]==='x')===on)return false;a[i]=on?'x':'.';D[v]=a.join('');return true};
+    for(const [v,lab] of VO){const vn=document.createElement('button');vn.type='button';vn.className='vn';vn.textContent=lab;vn.title='Fill or empty the '+lab+' row';vn.setAttribute('aria-label','Fill or empty every '+lab+' step');
+      vn.onclick=()=>{const full=D[v].indexOf('.')<0;D[v]=(full?'.':'x').repeat(16);changed();render()};g.appendChild(vn);
+      for(let i=0;i<16;i++){const c=document.createElement('button');c.type='button';c.className='bgCell'+((i>>2)%2?' q':'');c.dataset.v=v;c.dataset.i=i;
+        c.setAttribute('aria-pressed',String(D[v][i]==='x'));c.setAttribute('aria-label',lab+' step '+(i+1));
+        c.addEventListener('pointerdown',e=>{e.preventDefault();paint=D[v][i]!=='x';setCell(v,i,paint);c.setAttribute('aria-pressed',String(paint));try{c.releasePointerCapture(e.pointerId)}catch(_){}});
+        c.addEventListener('pointerenter',()=>{if(paint===null)return;if(setCell(v,i,paint))c.setAttribute('aria-pressed',String(paint))});
+        c.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();const on=D[v][i]!=='x';setCell(v,i,on);c.setAttribute('aria-pressed',String(on));changed()}});
+        g.appendChild(c)}}
+    const end=()=>{if(paint===null)return;paint=null;changed()};g.addEventListener('pointerup',end);g.addEventListener('pointerleave',end);g.addEventListener('pointercancel',end);
+    b.appendChild(g);
+    const r=document.createElement('div');r.className='bgRow';const l=document.createElement('label');l.textContent='tempo';l.htmlFor='bgBpm';
+    const rg=document.createElement('input');rg.type='range';rg.id='bgBpm';rg.min=50;rg.max=180;rg.step=1;rg.value=D.bpm;const vv=document.createElement('span');vv.className='v';vv.textContent=D.bpm;
+    rg.oninput=()=>{D.bpm=+rg.value;vv.textContent=rg.value};rg.onchange=()=>changed();r.append(l,rg,vv);b.appendChild(r);
+    const sv=document.createElement('div');sv.className='bgSave';const nm=document.createElement('input');nm.type='text';nm.maxLength=28;nm.placeholder='name this beat';nm.setAttribute('aria-label','Name for this beat');
+    nm.value=src&&BEAT_USER[src]?src:'';const go=document.createElement('button');go.type='button';go.className='bgGo';go.textContent='save';
+    go.onclick=()=>{const n=nm.value.trim().replace(/\s+/g,' ');if(!n){nm.focus();toast('name the beat first');return}
+      if(BEAT_BUILTIN.includes(n)||n===DRAFT||/^Byte /i.test(n)){toast('that name is taken by a built-in sound');return}
+      const had=!!BEAT_USER[n];if(!had&&nUser()>=FREE_BEATS){proNote(b,'More saved beats');if(window.cxCount)cxCount('pro: beat save limit',1);return}
+      BEAT_USER[n]={bpm:D.bpm,k:D.k,s:D.s,h:D.h,b:D.b};BEATS[n]={...BEAT_USER[n]};delete BEAT_BUF[n];src=n;saveUser();saveDraft();shelf();render();
+      toast((had?'updated ':'saved ')+n+' · on the sound shelf');if(window.cxCount)cxCount('beat grid: save',1)};
+    sv.append(nm,go);
+    if(src&&BEAT_USER[src]){const del=document.createElement('button');del.type='button';del.className='bgGo ghost';del.textContent='delete';del.setAttribute('aria-label','Delete '+src+' from My beats');
+      del.onclick=()=>{const n=src;delete BEAT_USER[n];if(AUD.play.beat===n){stopCh('beat')}delete BEATS[n];delete BEAT_BUF[n];src='';saveUser();saveDraft();shelf();render();toast('deleted '+n)};sv.appendChild(del)}
+    b.appendChild(sv);
+    const io=document.createElement('div');io.className='bgTop';io.style.marginTop='8px';
+    const sub=document.createElement('span');sub.style.cssText='flex:1;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)';sub.textContent='My beats · '+nUser()+' of '+FREE_BEATS;
+    const ex=document.createElement('button');ex.type='button';ex.className='bgIco';ex.innerHTML=svg('<path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 13v6.5h14V13"/>');ex.title='Export My beats (Pro)';ex.setAttribute('aria-label','Export My beats as a file: a Pro feature');ex.classList.add('pro');
+    ex.onclick=()=>{proNote(b,'Exporting beats');if(window.cxCount)cxCount('pro: beat export',1);return;if(!Object.keys(BEAT_USER).length){toast('no saved beats yet');return}const bl=new Blob([JSON.stringify({kind:'current-beats',v:1,beats:BEAT_USER},null,1)],{type:'application/json'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='current-beats.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+    const im=document.createElement('button');im.type='button';im.className='bgIco';im.innerHTML=svg('<path d="M12 3.5V15M7.5 10.5 12 15l4.5-4.5"/><path d="M5 13v6.5h14V13"/>');im.title='Import beats';im.setAttribute('aria-label','Import beats from a file');
+    im.onclick=()=>{const f=document.createElement('input');f.type='file';f.accept='.json,application/json';f.onchange=()=>{const x=f.files&&f.files[0];if(!x)return;x.text().then(t=>{const o=JSON.parse(t),bs=o&&o.beats||o;let n=0;
+      let over=0;for(const k in bs){const nm2=String(k).slice(0,28).trim();if(!nm2||BEAT_BUILTIN.includes(nm2)||nm2===DRAFT||/^Byte /i.test(nm2)||!BEAT_OK(bs[k]))continue;if(!BEAT_USER[nm2]&&nUser()>=FREE_BEATS){over++;continue}const p=bs[k];BEAT_USER[nm2]={bpm:+p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};BEATS[nm2]={...BEAT_USER[nm2]};delete BEAT_BUF[nm2];n++}
+      saveUser();shelf();render();toast(n?'imported '+n+' beat'+(n>1?'s':''):'no beats in that file');if(over)proNote(b,over+' more beat'+(over>1?'s':''))}).catch(()=>toast('could not read that file'))};f.click()};
+    io.append(sub,im,ex);b.appendChild(io);
+    /* the explanation lives in the panel's How it works drawer (Surface · Info) */
+    head()}
+  return {render,head,stopHead:clear,swap,DRAFT}})();
+if(BG&&localStorage)try{const o=JSON.parse(localStorage.getItem('current.beatDraft')||'null');if(o&&BEAT_OK(o.p))BEATS[BG.DRAFT]={...o.p}}catch(_){}
+
+/* ===== BYTES: the bytebeat writer moves from the index into the sound panel (Dimitry, 19 Oct). The same box, moved
+   whole, so every control keeps working; the index keeps a door to it. ===== */
+(()=>{const box=$('bbL'),pane=$('bytesBody'),grp=$('bbGroup');if(!box||!pane)return;pane.appendChild(box);box.classList.add('inPop');
+  if(grp){const st=document.createElement('div');st.className='cx-gbody bbMoved';st.id='bbStub';
+    st.innerHTML='<p class="note">The bytebeat writer lives in the sound panel, under <b>Bytes</b>, beside the mixer and the beat grid.</p><button class="btn ghost" type="button">Open Bytes</button><p class="glabel bbRefH">How it works</p><ul class="cx-ul"><li><b>t</b> counts at the <b>clock</b>, 8000 times a second unless you pick another.</li><li><b>byte</b> reads the result as 0 to 255, <b>signed</b> as −128 to 127, <b>float</b> as −1 to 1.</li><li>Strings and lists are lookup tables: <b>t*("36364689"[t>>13&amp;7]&amp;15)</b> plays a melody. A pair [left, right] is stereo.</li><li><b>n l o p</b> can each take Auto or a mapping; <b>a b c</b> are 4.</li><li>Away from the box it shows the numbers the sliders send; <b>View</b> pins the letters.</li><li>While it plays, the button stops it, or reads <b>Play changes</b> after an edit and swaps them in. <b>Undo edits</b> puts back what is playing.</li></ul>';
+    st.querySelector('button').onclick=()=>{try{setPlayer(true)}catch(_){}openBytebeat()};grp.appendChild(st);const gb=grp.querySelector('.cx-grpbtn');if(gb)gb.setAttribute('aria-controls','bbStub')}})();
+const ICO=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
+const MIX_TABS=SurfaceTabs.mount($('mixTabs'),[
+  {id:'mic',name:'Mic',title:'The microphone: input, gain, gate, heard, and a phrase looper',pane:$('micBody'),icon:ICO('<rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.stopHead();renderMic()}},
+  {id:'mix',name:'Mixer',title:'Levels, mute and solo for each sound',pane:$('mixBody'),icon:ICO('<path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/>'),onShow:()=>{$('mixPop').classList.remove('wide');renderMix();BG.stopHead();cancelAnimationFrame(MCRAF)}},
+  {id:'beat',name:'Beat',title:'Make your own beat on a sixteen-step grid',pane:$('beatBody'),icon:ICO('<rect x="4" y="4" width="4" height="4" rx="1"/><rect x="10" y="4" width="4" height="4" rx="1"/><rect x="16" y="10" width="4" height="4" rx="1"/><rect x="4" y="16" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="16" y="16" width="4" height="4" rx="1"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.render()}},
+  {id:'bytes',name:'Bytes',title:'Write a bytebeat: music from one line of arithmetic',pane:$('bytesBody'),icon:ICO('<path d="M8 5c-2 0-2 2-2 4s-1 3-2 3c1 0 2 1 2 3s0 4 2 4M16 5c2 0 2 2 2 4s1 3 2 3c-1 0-2 1-2 3s0 4-2 4"/><path d="M10.5 15l3-6"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.stopHead();try{bbBtns();bbView()}catch(_){}}}
+],'current.mixTab');
+window.MIX_TABS=MIX_TABS;
+/* SURFACE · INFO (Dimitry, 19 Oct): the long explanations leave the panes for a How it works drawer behind an (i) in the
+   panel's head. It slides up over the pane when wanted and follows the open tab. Each tab's text is also that pane's
+   accessible description (aria-describedby reads hidden text), so a screen reader hears it without opening anything.
+   Patterns: WAI-ARIA disclosure (the button) and aria-describedby (the description). */
+window.SurfaceInfo=window.SurfaceInfo||{mount(btn,drawer,tabsList){const tx=drawer.querySelector('.sfInfoTx'),hd=drawer.querySelector('.sfInfoH');let pane=null;
+  const src=p=>p&&document.getElementById('info-'+p.id);
+  const set=on=>{if(on){drawer.hidden=false;void drawer.offsetWidth;drawer.classList.add('open')}else{drawer.classList.remove('open');setTimeout(()=>{if(!drawer.classList.contains('open'))drawer.hidden=true},320)}
+    btn.setAttribute('aria-expanded',String(on))};
+  const fill=()=>{const s=src(pane);tx.innerHTML=s?s.innerHTML:'';btn.hidden=!s;if(!s&&!drawer.hidden)set(false);
+    const lab=pane&&document.getElementById(pane.getAttribute('aria-labelledby')||'');hd.textContent='How it works'+(lab?' · '+lab.textContent.trim():'')};
+  tabsList.addEventListener('sftab',e=>{pane=e.detail.pane;fill()});
+  document.querySelectorAll('.sfInfoSrc').forEach(s=>{const p=document.getElementById(s.id.slice(5));if(p)p.setAttribute('aria-describedby',s.id)});
+  btn.onclick=()=>set(btn.getAttribute('aria-expanded')!=='true');hd.onclick=()=>set(false);
+  return {open:()=>set(true),close:()=>set(false),isOpen:()=>btn.getAttribute('aria-expanded')==='true',sync(p){pane=p;fill()}}}};
+window.MIX_INFO=SurfaceInfo.mount($('mixInfoBtn'),$('mixInfo'),$('mixTabs'));
+
 $('batchClose').onclick=closeBatch;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('batchPop').hidden)closeBatch()});
-document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#sdMix,#shelfSnd,#pSnd'))return;closeMix()},true);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden)closeMix()});
+document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#sdMix,#sdMic,#sdFile,.sgCaret,#shelfSnd,#pSnd,#bbStub,#sdWrite'))return;closeMix()},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden){if(window.MIX_INFO&&MIX_INFO.isOpen()){MIX_INFO.close();$('mixInfoBtn').focus();return}closeMix()}});
 function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
   try{syncAud()}catch(_){}syncSndShelf();try{if(!$('mixPop').hidden)renderMix()}catch(_){}toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
 function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
   {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(isOn(b.dataset.src))));
-  {const m=$('sdMix');if(m){const n=['beat','byte','file','mic'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
+  {const m=$('sdMix');if(m){const n=['beat','byte','file','mic','loop'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
   {const w=$('sdWet');if(w){w.querySelector('.lab').textContent=WET?'wet '+Math.round(WET*100)+'%':'dry';w.setAttribute('aria-pressed',String(WET>0));
     w.setAttribute('aria-label','Wetness '+Math.round(WET*100)+'%: tap for dry or wet, drag left or right for how much room is around every sound')}}
   {const tp=$('sdTap');if(tp){tp.querySelector('.lab').textContent=TAP.bpm?'tap · '+Math.round(TAP.bpm):'tap';tp.setAttribute('aria-pressed',String(!!TAP.bpm))}}
@@ -5086,13 +5431,73 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
   /* any touch on the cover, or Return or the space bar anywhere, opens it (Dimitry, 18 Oct): the duck-rabbit is the
      invitation, not the only door. Once only, and a tap on the duck itself is its own click. */
   let opened=false;const open=()=>{if(opened)return;opened=true;go.click()};
-  el.addEventListener('pointerup',e=>{if(e.target.closest&&e.target.closest('#launchGo,.lc-corner'))return;if(e.button>0)return;open()});
-  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.code==='Space'){e.preventDefault();open()}});
-  document.addEventListener('keydown',e=>{if($('launch')&&!opened&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}},true);
+  el.addEventListener('pointerup',e=>{if(e.target.closest&&e.target.closest('#launchGo,.lc-corner,.lc-beta'))return;if(e.button>0)return;open()});
+  el.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('.lc-beta'))return;if(e.key==='Enter'||e.key===' '||e.code==='Space'){e.preventDefault();open()}});
+  document.addEventListener('keydown',e=>{if(e.target&&e.target.closest&&e.target.closest('.lc-beta'))return;if($('launch')&&!opened&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open()}},true);
   go.addEventListener('click',()=>{opened=true},true);
   el.querySelectorAll('.lc-corner').forEach(b=>b.onclick=()=>{try{SurfaceLinks.queue(b.dataset.go)}catch(_){}open()});   // the place first, then through the cover
 })();
 
+/* FOUNDING TESTERS (Dimitry, 19 Oct): on the launch cover, under the Paths meter, a quiet line that opens a short form.
+   The offer is the missions: new Paths to walk before they ship. Sign-ups go to the studio's Supabase project
+   (chamy-studio, table beta_signups): the browser may only add a row, never read one back; the list is read in the
+   Supabase dashboard. Sent: name (required), email, roles picked, a phone only with its own yes to texts, how many Paths steps they've walked, the version. */
+/* the same form anywhere in the tool (a Pro note points here): over the cover while it is up, otherwise its own sheet */
+function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.disabled&&bb.getAttribute('aria-expanded')!=='true')bb.click();return}
+  if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
+  const b=h.querySelector('.lc-betaBtn');if(b.disabled){h.remove();toast('you’re already a founding tester');return}b.click();
+  h.addEventListener('pointerdown',e=>{if(e.target===h)h.remove()})}
+const BETA_ROLES=[['artist','artist'],['musician','musician · sound'],['designer','designer'],['performer','VJ · performer'],['educator','educator'],['maker','maker · CNC, plotter'],['developer','developer'],['student','student'],['other','other']];
+const BETA={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/beta_signups',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp',tool:'current'};
+function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
+  /* the sheet wears the duck-rabbit (Dimitry, 19 Oct: "a friendly rabbitduck"): the cover's coloured one, kept for later
+     sheets once the cover has gone; the drawer's white one when the cover never showed */
+  try{const ci=document.querySelector('#launch img.lc-duck-c');if(ci)window.__DUCKC=ci.src}catch(_){}
+  const duck=window.__DUCKC?'<img class="lc-betaDuck" alt="" src="'+window.__DUCKC+'">':(()=>{const d=document.querySelector('#duckBtn svg.duck');return d?d.outerHTML.replace('class="duck"','class="lc-betaDuck"'):''})();let done=false;try{done=localStorage.getItem('current.beta')==='1'}catch(_){}
+  const w=document.createElement('div');w.className='lc-beta';
+  w.innerHTML='<button type="button" class="lc-betaBtn" aria-expanded="false" aria-controls="lcBetaF"></button>'+
+    '<form id="lcBetaF" class="lc-betaF" novalidate hidden aria-labelledby="lcBetaH">'+
+      '<div class="lc-betaHd"><p class="lc-betaH" id="lcBetaH">'+duck+'<span>Founding testers</span></p><button type="button" class="lc-betaX" aria-label="Close the sign-up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+      '<p class="lc-betaLead">Founding testers get <b>missions</b>: new Paths to walk before they ship, and a say in what Current does next.</p>'+
+      '<label class="sr-only" for="lcBetaN">Name</label><input type="text" id="lcBetaN" required maxlength="80" autocomplete="name" placeholder="your name">'+
+      '<label class="sr-only" for="lcBetaE">Email</label><input type="email" id="lcBetaE" required maxlength="254" autocomplete="email" inputmode="email" placeholder="your email">'+
+      '<label class="sr-only" for="lcBetaP">Phone (optional)</label><input type="tel" id="lcBetaP" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="phone (optional) · for texts">'+
+      '<fieldset class="lc-roles"><legend>I’m a… <span>(pick any)</span></legend>'+BETA_ROLES.map(([v,l])=>'<label><input type="checkbox" value="'+v+'"><span>'+l+'</span></label>').join('')+'</fieldset>'+
+      '<input class="lc-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">'+
+      '<label class="lc-betaOk"><input type="checkbox" id="lcBetaC"> <span>Email me about the beta, live jams, content packs and releases. No spam, never shared.</span></label>'+
+      '<label class="lc-betaOk lc-sms" hidden><input type="checkbox" id="lcBetaS"> <span>Text me about the same. Reply STOP any time. Message rates may apply.</span></label>'+
+      '<button type="submit" class="lc-betaGo">join</button>'+
+      '<p class="lc-betaMsg" role="status" aria-live="polite"></p>'+
+    '</form>';
+  host.appendChild(w);
+  const b=w.querySelector('.lc-betaBtn'),f=w.querySelector('form'),msg=w.querySelector('.lc-betaMsg'),go=w.querySelector('.lc-betaGo');
+  const ph=$('lcBetaP'),smsRow=w.querySelector('.lc-sms');ph.addEventListener('input',()=>{smsRow.hidden=!ph.value.trim()});
+  const label=()=>{b.textContent=done?'✓ founding tester':'become a founding tester';b.disabled=done};label();
+  /* it opens as a sheet from the top of the screen, over a dimmed cover (Dimitry, 19 Oct: unfolding under the meter ran off the
+     bottom on a phone); top-anchored, so a phone's keyboard comes up under it, not over it */
+  const L=document.getElementById('launch');
+  const show=on=>{if(!on&&host.id==='betaHost'){host.remove();return}f.hidden=!on;b.setAttribute('aria-expanded',String(on));w.classList.toggle('open',on);if(L)L.classList.toggle('betaOpen',on);if(on)setTimeout(()=>{try{$('lcBetaN').focus({preventScroll:true})}catch(_){}},30);else try{b.focus()}catch(_){}};
+  b.onclick=()=>show(f.hidden);w.querySelector('.lc-betaX').onclick=()=>show(false);
+  f.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();show(false)}});
+  const say=(t,bad)=>{msg.textContent=t;msg.classList.toggle('bad',!!bad)};
+  f.onsubmit=async e=>{e.preventDefault();if(go.disabled)return;
+    const name=$('lcBetaN').value.replace(/\s+/g,' ').trim(),email=$('lcBetaE').value.trim(),ok=$('lcBetaC').checked,roles=[...f.querySelectorAll('.lc-roles input:checked')].map(x=>x.value);
+    if(!name){say('Add your name.',1);$('lcBetaN').focus();return}
+    const pr0=$('lcBetaP').value.trim();let phone=null;if(pr0){const d=pr0.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'');const n=d.replace('+','');phone=d.startsWith('+')?'+'+n:(n.length===10?'+1'+n:n.length===11&&n[0]==='1'?'+'+n:'+'+n);
+      if(!/^\+[0-9]{7,15}$/.test(phone)){say('That phone number doesn’t look complete.',1);$('lcBetaP').focus();return}
+      if(!$('lcBetaS').checked){say('Tick the texts box, or leave the phone empty.',1);return}}
+    if(f.querySelector('.lc-hp').value)return;   // a bot filled the hidden field
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){say('That email doesn’t look complete.',1);$('lcBetaE').focus();return}
+    if(!ok){say('Tick the email box so we can write to you.',1);return}
+    let steps=null;try{const pr=P&&P.progress;if(pr)steps=Math.min(99,pr[0]|0)}catch(_){}
+    go.disabled=true;say('sending…');
+    try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
+      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);
+        w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button').forEach(x=>x.disabled=true);label()}
+      else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
+    catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
+}
 /* THE GUIDE'S ICONS: each row of the bar and the tools carries the icon itself, copied from the button it names
    (so it can never drift from what is on screen), ids stripped, and only the resting state kept. */
 (()=>{const bar={'Source':['pSrc'],'\u2039 \u25b6 \u203a':['pPrev','pAuto','pNext'],'Random':['pRand'],'Capture':['pShot'],'Sound':['pSnd'],'Tools':['pSteer'],'Full screen':['pFull']};
@@ -5141,10 +5546,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020011117"></script>
-<script src="surface/links.js?v=20261020011117"></script>
-<script src="surface/tips.js?v=20261020011117"></script>
-<script src="surface/sections.js?v=20261020011117"></script>
+<script src="surface/install.js?v=20261020020455"></script>
+<script src="surface/links.js?v=20261020020455"></script>
+<script src="surface/tips.js?v=20261020020455"></script>
+<script src="surface/sections.js?v=20261020020455"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -5429,6 +5834,7 @@ try{(function(){
      the progress, one segment per path, under the cover's duck-rabbit */
   {const L=$('launch');
     if(L){P.meter(L.querySelector('.lc-below'),{go:n=>{try{SurfaceLinks.queue(n)}catch(_){}const g=$('launchGo');if(g&&!L.classList.contains('going'))g.click()}});
+      try{betaSignup(L.querySelector('.lc-below'),P)}catch(e){console.warn('beta',e)}
       const mo=new MutationObserver(()=>{if(!document.getElementById('launch')){mo.disconnect();setTimeout(()=>P.nag(),1800)}});mo.observe(document.body,{childList:true})}
     else setTimeout(()=>P.nag(),2600)}
   /* the section wears its icon, like every other: a trail of steps to a flag */
@@ -5509,7 +5915,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.20.4';
+const APP_VERSION='0.22.0';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
