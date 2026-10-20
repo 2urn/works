@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020182738";window.__VERSION__="0.26.18";window.__NOTES__=[{"v":"0.26.18","date":"20 Oct 2026","items":[{"kind":"fix","text":"in a phone browser the cover no longer crowds its bottom row: install, share and index keep their own band, and on a short screen the title moves up instead of the founders call running into Share"}]}]</script>
+<script>window.__BUILD__="20261020183259";window.__VERSION__="0.26.19";window.__NOTES__=[{"v":"0.26.19","date":"20 Oct 2026","items":[{"kind":"fix","text":"a safety net for the cover's bottom row: if a browser still crowds it, the cover measures the overlap on the device and lifts itself just enough"},{"kind":"change","text":"once you've joined, the cover reads “✓ Founders club · Your founding pack”, and tapping it opens the pack"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020182738"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020182738">
+<script src="claude-web.js?v=20261020183259"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020183259">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,20 +97,20 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020182738"></script>
-<script src="surface/selftest.js?v=20261020182738"></script>
-<script src="surface/auto.js?v=20261020182738"></script>
-<script src="surface/toolpath.js?v=20261020182738"></script>
-<script src="surface/capture.js?v=20261020182738"></script>
-<script src="surface/pop.js?v=20261020182738"></script>
-<script src="surface/hints.js?v=20261020182738"></script>
-<script src="surface/paths.js?v=20261020182738"></script>
-<script src="surface/keys.js?v=20261020182738"></script>
-<script src="surface/reset.js?v=20261020182738"></script>
-<script src="surface/files.js?v=20261020182738"></script>
-<script src="surface/rail.js?v=20261020182738"></script>
-<script src="surface/float.js?v=20261020182738"></script>
-<script src="surface/manual.js?v=20261020182738"></script>
+<script src="vendor/opentype.min.js?v=20261020183259"></script>
+<script src="surface/selftest.js?v=20261020183259"></script>
+<script src="surface/auto.js?v=20261020183259"></script>
+<script src="surface/toolpath.js?v=20261020183259"></script>
+<script src="surface/capture.js?v=20261020183259"></script>
+<script src="surface/pop.js?v=20261020183259"></script>
+<script src="surface/hints.js?v=20261020183259"></script>
+<script src="surface/paths.js?v=20261020183259"></script>
+<script src="surface/keys.js?v=20261020183259"></script>
+<script src="surface/reset.js?v=20261020183259"></script>
+<script src="surface/files.js?v=20261020183259"></script>
+<script src="surface/rail.js?v=20261020183259"></script>
+<script src="surface/float.js?v=20261020183259"></script>
+<script src="surface/manual.js?v=20261020183259"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -246,7 +246,9 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 #launch.going .lc-corner{opacity:0}
 .lc-frost{position:absolute;inset:0;background:rgba(10,13,16,.38);-webkit-backdrop-filter:blur(24px) saturate(1.15);backdrop-filter:blur(24px) saturate(1.15);
   transition:opacity 1.1s ease .15s,backdrop-filter 1.1s ease,-webkit-backdrop-filter 1.1s ease}
-.lc-body{position:absolute;inset:0;display:grid;grid-template-rows:minmax(0,1fr) auto minmax(0,1fr);justify-items:center;padding:0 16px;transition:opacity .7s ease,filter .7s ease,transform 1.1s ease}
+/* --lift (0.26.19): set by fitCover() when the cover's content would run into the bottom row (Dimitry, 20 Oct: on Safari the
+   club line sat on Share). Measured on the device, so each browser and phone gets exactly the room it needs. */
+.lc-body{position:absolute;inset:0;top:calc(-1 * var(--lift,0px));bottom:var(--lift,0px);display:grid;grid-template-rows:minmax(0,1fr) auto minmax(0,1fr);justify-items:center;padding:0 16px;transition:opacity .7s ease,filter .7s ease,transform 1.1s ease}
 /* the title holds the exact vertical centre; the mark sits above it and the duck-rabbit below, each the same distance away */
 .lc-above{align-self:end;padding-bottom:clamp(18px,4.5vh,40px);display:flex;justify-content:center}
 .lc-below{align-self:start;padding-top:clamp(20px,5vh,44px);display:flex;flex-direction:column;align-items:center}#launch.going .sp-cover{opacity:0}
@@ -262,6 +264,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 #launch.going .lc-beta{opacity:0}
 .lc-betaBtn{padding:6px 10px;border:0;background:none;color:rgba(255,255,255,.82);font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}
 .lc-betaBtn:has(.lc-bbH){text-decoration:none}.lc-betaBtn .lc-bbH,.lc-betaBtn .lc-bbS{display:block}.lc-betaBtn .lc-bbH{text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}.lc-betaBtn .lc-bbS{margin-top:7px;text-decoration:none;text-transform:none;letter-spacing:.02em;font:400 11px/1.3 var(--sans);color:rgba(255,255,255,.6)}/* the cover's sign-up line (Dimitry, 20 Oct comment): Play the field, then Join the Current founders club. */
+.lc-betaBtn.joined .lc-bbH{color:var(--acc,#55b8c9);text-decoration:none}.lc-betaBtn.joined .lc-bbS{text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}.lc-betaBtn.joined:hover .lc-bbS{color:#fff}
 .lc-betaBtn:hover{color:#fff}.lc-betaBtn:disabled{text-decoration:none;cursor:default;color:var(--acc,#55b8c9)}
 .lc-betaBtn:focus-visible,.lc-betaF :focus-visible{outline:2px solid #fff;outline-offset:2px}
 .lc-betaF{position:fixed;z-index:5;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 12px);width:min(380px,calc(100vw - 24px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - 24px);overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding:14px;box-sizing:border-box;border-radius:16px;background:rgba(10,13,16,.92);box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
@@ -6232,9 +6235,30 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
 /* the same form anywhere in the tool (a Pro note points here): over the cover while it is up, otherwise its own sheet */
 function syncIdxBeta(){const b=$('idxBeta');if(!b)return;let d=false;try{d=localStorage.getItem('current.beta')==='1'}catch(_){}b.textContent=d?'✓ founders club':'founders club';b.setAttribute('aria-label',d?'You are in the founders club':'Join the founders club');b.disabled=d}
 $('idxBeta').onclick=()=>{try{openBetaSheet()}catch(_){}};$('idxShare').onclick=()=>openShare('index');syncIdxBeta();
-function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.disabled&&bb.getAttribute('aria-expanded')!=='true')bb.click();return}
+/* FIT THE COVER (0.26.19). Dimitry, 20 Oct, on an iPhone in Safari: the founders line sat on the Share button. Safari lays the
+   bottom out its own way (toolbars over the page, the safe area), so nothing fixed is right everywhere. Instead, measure: if the
+   lowest thing under the duck comes within GAP of the bottom row (install, share, index, the version), lift the whole cover by
+   exactly that much, never more than the room above the namemark allows. Re-measured on resize, on Safari's toolbars showing
+   or hiding (visualViewport), when fonts land and when the club line changes. */
+function fitCover(){const L=document.getElementById('launch');if(!L||L.classList.contains('going')||L.classList.contains('betaOpen'))return;
+  const body=L.querySelector('.lc-body'),below=L.querySelector('.lc-below'),above=L.querySelector('.lc-above');if(!body||!below)return;
+  const GAP=20,vh=(window.visualViewport&&visualViewport.height)||innerHeight;
+  const vis=e=>{const r=e.getBoundingClientRect();return r.height>0&&r.width>0?r:null};
+  const row=[...L.querySelectorAll('.lc-corner,.lc-foot')].map(vis).filter(Boolean);
+  const floor=Math.min(vh,...row.map(r=>r.top));
+  const parts=[...below.children].flatMap(c=>c.classList.contains('lc-beta')?[...c.querySelectorAll('.lc-betaBtn,.lc-betaGoal')]:[c]).map(vis).filter(Boolean);
+  if(!parts.length)return;
+  const cur=parseFloat(getComputedStyle(body).getPropertyValue('--lift'))||0,low=Math.max(...parts.map(r=>r.bottom));
+  const room=above?Math.max(0,above.getBoundingClientRect().top-Math.max(64,(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat'))||0)+16)):0;
+  const want=Math.max(0,Math.min(cur+room,cur+(low+GAP-floor)));
+  if(Math.abs(want-cur)>1)body.style.setProperty('--lift',Math.round(want)+'px')}
+window.fitCover=fitCover;
+{let t=0;const again=()=>{clearTimeout(t);t=setTimeout(()=>{try{fitCover()}catch(_){}},60)};addEventListener('resize',again);addEventListener('orientationchange',again);
+  try{visualViewport&&visualViewport.addEventListener('resize',again)}catch(_){}try{document.fonts&&document.fonts.ready.then(again)}catch(_){}
+  [300,1200,3000].forEach(ms=>setTimeout(again,ms))}
+function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.dataset.joined&&bb.getAttribute('aria-expanded')!=='true')bb.click();else if(bb.dataset.joined)toast('you’re already in the founders club');return}
   if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
-  const b=h.querySelector('.lc-betaBtn');if(b.disabled){h.remove();toast('you’re already in the founders club');return}b.click();
+  const b=h.querySelector('.lc-betaBtn');if(b.dataset.joined){h.remove();toast('you’re already in the founders club');return}b.click();
   h.addEventListener('pointerdown',e=>{if(e.target===h)h.remove()})}
 /* THE THANK-YOU (Dimitry, 19 Oct: hide the form, keep the sheet, confetti, then close): the fields fold away, the
    duck-rabbit grows and hops, a line thanks them by name, and confetti in the app's colours falls inside the sheet.
@@ -6282,12 +6306,13 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   {const g=w.querySelector('.lc-betaGoal');let tries=0;const fill=()=>{if(window.FPACK&&FPACK.goal)FPACK.goal(g);else if(++tries<40)setTimeout(fill,100);else if(g)g.remove()};fill()}
   const b=w.querySelector('.lc-betaBtn'),f=w.querySelector('form'),msg=w.querySelector('.lc-betaMsg'),go=w.querySelector('.lc-betaGo');
   const ph=$('lcBetaP'),smsRow=w.querySelector('.lc-sms');ph.addEventListener('input',()=>{smsRow.hidden=!ph.value.trim()});
-  const label=()=>{if(done)b.textContent='✓ in the founders club';else b.innerHTML='<span class="lc-bbH">Play the field</span><span class="lc-bbS">Join the Current founders club.</span>';b.setAttribute('aria-label',done?'You are in the Current founders club':'Play the field: join the Current founders club');b.disabled=done};label();
+  /* joined (0.26.19): the same two-line shape as the invite, the tick in the accent, and a way to the pack (Dimitry, 20 Oct) */
+  const label=()=>{b.innerHTML=done?'<span class="lc-bbH">✓ Founders club</span><span class="lc-bbS">Your founding pack</span>':'<span class="lc-bbH">Play the field</span><span class="lc-bbS">Join the Current founders club.</span>';b.classList.toggle('joined',done);if(done)b.dataset.joined='1';else delete b.dataset.joined;b.setAttribute('aria-label',done?'You are in the Current founders club: open your founding pack':'Play the field: join the Current founders club');b.disabled=false;b.removeAttribute(done?'aria-controls':'x');try{window.fitCover&&fitCover()}catch(_){}};label();
   /* it opens as a sheet from the top of the screen, over a dimmed cover (Dimitry, 19 Oct: unfolding under the meter ran off the
      bottom on a phone); top-anchored, so a phone's keyboard comes up under it, not over it */
   const L=document.getElementById('launch');
   const show=on=>{if(!on&&host.id==='betaHost'){host.remove();return}f.hidden=!on;b.setAttribute('aria-expanded',String(on));w.classList.toggle('open',on);if(L)L.classList.toggle('betaOpen',on);if(on)setTimeout(()=>{try{$('lcBetaN').focus({preventScroll:true})}catch(_){}},30);else try{b.focus()}catch(_){}};
-  b.onclick=()=>show(f.hidden);w.querySelector('.lc-betaX').onclick=()=>show(false);
+  b.onclick=()=>{if(done){const g=$('launchGo');if(host.id==='betaHost'){host.remove();try{SurfaceLinks.go('pack')}catch(_){}return}try{SurfaceLinks.queue('pack')}catch(_){}if(g&&L&&!L.classList.contains('going'))g.click();return}show(f.hidden)};w.querySelector('.lc-betaX').onclick=()=>show(false);
   f.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();show(false)}});
   const say=(t,bad)=>{msg.textContent=t;msg.classList.toggle('bad',!!bad)};
   f.onsubmit=async e=>{e.preventDefault();if(go.disabled)return;
@@ -6356,10 +6381,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020182738"></script>
-<script src="surface/links.js?v=20261020182738"></script>
-<script src="surface/tips.js?v=20261020182738"></script>
-<script src="surface/sections.js?v=20261020182738"></script>
+<script src="surface/install.js?v=20261020183259"></script>
+<script src="surface/links.js?v=20261020183259"></script>
+<script src="surface/tips.js?v=20261020183259"></script>
+<script src="surface/sections.js?v=20261020183259"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6755,6 +6780,7 @@ try{(function(){
   {const L=$('launch');
     if(L){P.meter(L.querySelector('.lc-below'),{go:n=>{try{SurfaceLinks.queue(n)}catch(_){}const g=$('launchGo');if(g&&!L.classList.contains('going'))g.click()}});
       try{betaSignup(L.querySelector('.lc-below'),P)}catch(e){console.warn('beta',e)}
+      try{fitCover()}catch(e){console.warn('fit',e)}
       const mo=new MutationObserver(()=>{if(!document.getElementById('launch')){mo.disconnect();setTimeout(()=>P.nag(),1800)}});mo.observe(document.body,{childList:true})}
     else setTimeout(()=>P.nag(),2600)}
   /* the section wears its icon, like every other: a trail of steps to a flag */
@@ -6868,7 +6894,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.18';
+const APP_VERSION='0.26.19';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
