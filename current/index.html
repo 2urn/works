@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020212221";window.__VERSION__="0.26.34";window.__NOTES__=[{"v":"0.26.34","date":"20 Oct 2026","items":[{"kind":"new","text":"open a whole pack: drop a pack's zip anywhere on Current, or choose it with open file. No unzipping; its looks, beats and bytebeats all go in at once"},{"kind":"change","text":"Founders Club says the pack is already in your Current, with a way to each part; saving a copy is for another device or a plotter"},{"kind":"change","text":"beats from a pack get their own group in Start from (Packs) and don't count against your three free beats"},{"kind":"fix","text":"the founding pack's G-code files no longer call themselves a Paths reward"}]}]</script>
+<script>window.__BUILD__="20261020212400";window.__VERSION__="0.26.35";window.__NOTES__=[{"v":"0.26.35","date":"20 Oct 2026","items":[{"kind":"change","text":"Founders Club says how to unlock the pack on another device: join again there with the same email"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020212221"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020212221">
+<script src="claude-web.js?v=20261020212400"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020212400">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,22 +97,22 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020212221"></script>
-<script src="surface/selftest.js?v=20261020212221"></script>
-<script src="surface/auto.js?v=20261020212221"></script>
-<script src="surface/toolpath.js?v=20261020212221"></script>
-<script src="surface/capture.js?v=20261020212221"></script>
-<script src="surface/pop.js?v=20261020212221"></script>
-<script src="surface/hints.js?v=20261020212221"></script>
-<script src="surface/paths.js?v=20261020212221"></script>
-<script src="surface/keys.js?v=20261020212221"></script>
-<script src="surface/reset.js?v=20261020212221"></script>
-<script src="surface/files.js?v=20261020212221"></script>
-<script src="surface/pack.js?v=20261020212221"></script>
-<script src="surface/rail.js?v=20261020212221"></script>
-<script src="surface/touchsound.js?v=20261020212221"></script>
-<script src="surface/float.js?v=20261020212221"></script>
-<script src="surface/manual.js?v=20261020212221"></script>
+<script src="vendor/opentype.min.js?v=20261020212400"></script>
+<script src="surface/selftest.js?v=20261020212400"></script>
+<script src="surface/auto.js?v=20261020212400"></script>
+<script src="surface/toolpath.js?v=20261020212400"></script>
+<script src="surface/capture.js?v=20261020212400"></script>
+<script src="surface/pop.js?v=20261020212400"></script>
+<script src="surface/hints.js?v=20261020212400"></script>
+<script src="surface/paths.js?v=20261020212400"></script>
+<script src="surface/keys.js?v=20261020212400"></script>
+<script src="surface/reset.js?v=20261020212400"></script>
+<script src="surface/files.js?v=20261020212400"></script>
+<script src="surface/pack.js?v=20261020212400"></script>
+<script src="surface/rail.js?v=20261020212400"></script>
+<script src="surface/touchsound.js?v=20261020212400"></script>
+<script src="surface/float.js?v=20261020212400"></script>
+<script src="surface/manual.js?v=20261020212400"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -6451,7 +6451,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
     go.disabled=true;say('sending…');
     try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
         body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
-      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);try{setTimeout(()=>window.FPACK&&FPACK.claim(f),400)}catch(_){}
+      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);try{setTimeout(()=>window.FPACK&&FPACK.claim(f,r.status===409),400)}catch(_){}
         w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},5000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
       else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
     catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
@@ -6504,10 +6504,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020212221"></script>
-<script src="surface/links.js?v=20261020212221"></script>
-<script src="surface/tips.js?v=20261020212221"></script>
-<script src="surface/sections.js?v=20261020212221"></script>
+<script src="surface/install.js?v=20261020212400"></script>
+<script src="surface/links.js?v=20261020212400"></script>
+<script src="surface/tips.js?v=20261020212400"></script>
+<script src="surface/sections.js?v=20261020212400"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6851,7 +6851,7 @@ try{(function(){
        zip is a copy for another device or a machine, and opens whole on Current with no unzipping */
     if(on){b.innerHTML='<p class="cx-lead">Already in your Current, nothing to download: <b>10 looks</b> on 10 new G-code paths, <b>10 beats</b> and <b>10 bytebeats</b>. Founders keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
         '<div class="actions fpGo"><button type="button" class="btn" data-go="looks">the looks</button><button type="button" class="btn" data-go="beat">the beats</button><button type="button" class="btn" data-go="bytes">the bytebeats</button></div>'+
-        '<p class="cx-lead fpCopy">On another phone or computer, or for a plotter: <button type="button" class="cx-lnk fpDl">save a copy</button> of the pack (a zip). Drop the whole zip on Current there, or choose it with open file; no unzipping. For a machine, unzip it and send any file in gcode/.</p>'+
+        '<p class="cx-lead fpCopy">On another phone or computer, join again there with the same email: it unlocks the pack there too. For a plotter, laser or router, <button type="button" class="cx-lnk fpDl">save a copy</button> (a zip of the G-code and the rest; dropped whole on Current, it opens there too).</p>'+
         '<p class="cx-lead fpLeft"></p>';
       b.querySelectorAll('.fpGo .btn').forEach(x=>x.onclick=()=>{const g=x.dataset.go;
         if(g==='looks'){try{setPlayer(true);if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()}catch(_){}}else{try{setPlayer(true);openMix(g)}catch(_){}}});
@@ -6862,10 +6862,10 @@ try{(function(){
     if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=fpGoal(n)||'Be one of the first '+FP_MAX+'.'}).catch(()=>{})}
   /* on sign-up: count, and give the pack if they are within the first 100. If the count can't be read, give it: a
      gift should not fail on a network hiccup. Testers who joined before the pack existed get it on their next visit. */
-  window.FPACK={goal:async el=>{if(!el)return;try{const t=fpGoal(await fpCount());if(t)el.textContent=t;else el.remove()}catch(_){el.remove()}},claim:async(f)=>{let n=null;try{n=await fpCount()}catch(_){}
+  window.FPACK={goal:async el=>{if(!el)return;try{const t=fpGoal(await fpCount());if(t)el.textContent=t;else el.remove()}catch(_){el.remove()}},claim:async(f,again)=>{let n=null;try{n=await fpCount()}catch(_){}
       const ok=n==null||n<=FP_MAX;if(ok){fpGive();toast('your founding pack is in · 10 beats, 10 looks, 10 bytebeats',3600);if(window.cxCount)cxCount('pack: unlocked',1)}else fpPaint();
       const ty=f&&f.querySelector('.lc-betaTy');if(ty){const p=document.createElement('p');p.className='sm';
-        p.textContent=ok?'Your founding pack is in: 10 beats, 10 looks on new G-code paths, 10 bytebeats.'+(n!=null&&n<=FP_PRO?' You’re founder '+n+' of '+FP_PRO+': Pro is yours free, starting with the pre-release.'+(n>=FP_MAX?' You made it 100: the pre-release is opening.':''):''):'The first 100 are in, so the Pro pre-release is coming. The missions are yours.';ty.insertBefore(p,ty.querySelector('.lc-betaShare'))}
+        p.textContent=ok?'Your founding pack is in: 10 beats, 10 looks on new G-code paths, 10 bytebeats.'+(n!=null&&n<=FP_PRO?(again?' Pro is yours free, starting with the pre-release.':' You’re founder '+n+' of '+FP_PRO+': Pro is yours free, starting with the pre-release.')+(n>=FP_MAX?' You made it 100: the pre-release is opening.':''):''):'The first 100 are in, so the Pro pre-release is coming. The missions are yours.';ty.insertBefore(p,ty.querySelector('.lc-betaShare'))}
       return ok},zip:fpZip};
   try{if(localStorage.getItem('current.beta')==='1'&&!fpOn())fpGive()}catch(_){}
   setTimeout(fpPaint,0);
@@ -7053,7 +7053,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.34';
+const APP_VERSION='0.26.35';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
