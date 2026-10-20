@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020060317";window.__VERSION__="0.25.11";window.__NOTES__=[{"v":"0.25.11","date":"20 Oct 2026","items":[{"kind":"fix","text":"cards are sharp: the particles are drawn again at the card's own size (up to four times the screen's) instead of the screen's pixels being stretched"}]}]</script>
+<script>window.__BUILD__="20261020060805";window.__VERSION__="0.25.13";window.__NOTES__=[{"v":"0.25.13","date":"20 Oct 2026","items":[{"kind":"new","text":"a 16:9 card for video screens (1920×1080), on the same grid"},{"kind":"fix","text":"stills are sharp: drawn again at their own size, as far as the device can hold (up to four times the screen), instead of the screen being stretched"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020060317"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020060317">
+<script src="claude-web.js?v=20261020060805"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020060805">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,17 +72,17 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020060317"></script>
-<script src="surface/auto.js?v=20261020060317"></script>
-<script src="surface/toolpath.js?v=20261020060317"></script>
-<script src="surface/capture.js?v=20261020060317"></script>
-<script src="surface/pop.js?v=20261020060317"></script>
-<script src="surface/hints.js?v=20261020060317"></script>
-<script src="surface/paths.js?v=20261020060317"></script>
-<script src="surface/keys.js?v=20261020060317"></script>
-<script src="surface/reset.js?v=20261020060317"></script>
-<script src="surface/files.js?v=20261020060317"></script>
-<script src="surface/rail.js?v=20261020060317"></script>
+<script src="vendor/opentype.min.js?v=20261020060805"></script>
+<script src="surface/auto.js?v=20261020060805"></script>
+<script src="surface/toolpath.js?v=20261020060805"></script>
+<script src="surface/capture.js?v=20261020060805"></script>
+<script src="surface/pop.js?v=20261020060805"></script>
+<script src="surface/hints.js?v=20261020060805"></script>
+<script src="surface/paths.js?v=20261020060805"></script>
+<script src="surface/keys.js?v=20261020060805"></script>
+<script src="surface/reset.js?v=20261020060805"></script>
+<script src="surface/files.js?v=20261020060805"></script>
+<script src="surface/rail.js?v=20261020060805"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -618,6 +618,7 @@ body #playbar>#pSrc,body #playbar>#pSteer,body #playbar>#pShot{position:relative
 .cdSw{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .cdSw button{width:28px;height:28px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer}
 .cdSw button[aria-checked=true]{outline:2px solid #fff;outline-offset:3px}
+.cdTx{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.cdTx button{padding:6px 11px;border-radius:14px;border:1px solid rgb(var(--ui-hi) / .22);background:none;color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}.cdTx button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cdTx button:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 .cdMsg{width:100%;box-sizing:border-box;height:38px;padding:0 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font:16px var(--sans)}
 .cdSeg{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px}
 .cdSeg button{padding:6px 0;border:0;background:none;color:var(--ui-dim,#8a9396);font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
@@ -1728,7 +1729,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div id="owEmbedBox" hidden><textarea id="owEmbedCode" rows="3" readonly spellcheck="false" aria-label="Embed code"></textarea><button class="tb" id="owEmbedCopy" type="button">copy the embed</button><p class="owNote">Plays wherever the page is public. A private claude.ai link will not load for other people.</p></div>
   <div id="owCardBox" hidden>
     <div class="cdRail" id="cdRail" role="radiogroup" aria-label="Card designs: pick one"></div>
-    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><div class="cdSw" id="cdSw" role="radiogroup" aria-label="Card colour"></div>
+    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><div class="cdSw" id="cdSw" role="radiogroup" aria-label="Card colour"></div><div class="cdTx" id="cdTx" role="radiogroup" aria-label="Card texture"></div>
     <input type="text" id="cdMsg" class="cdMsg" maxlength="90" placeholder="add a message (optional)" autocomplete="off">
     <div class="owRow"><button class="owBtn" id="cdRoll" type="button" aria-label="A new random look for the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="15" cy="9" r="1.3"/><circle cx="9" cy="15" r="1.3"/></svg>new look</button><button class="owBtn" id="cdSave" type="button" aria-label="Save the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>save</button><button class="owBtn" id="cdShare" type="button" aria-label="Share the card file" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M6 11v8.5h12V11"/></svg>share</button></div>
     <p class="owNote" id="cdNote"></p>
@@ -3459,10 +3460,10 @@ function capDims(side){if(side!==GIF_SIDE&&CAP_SIZES[CAP.shape])return CAP_SIZES
   const sw=cv.width,sh=cv.height,s=CAP_SHAPES.find(x=>x[0]===CAP.shape)||CAP_SHAPES[0],a=s[1]||sw/sh;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
   const k=Math.min(1,side/Math.max(cw,ch));return[Math.max(2,Math.round(cw*k)&~1),Math.max(2,Math.round(ch*k)&~1)]}
 let capSrc=null,CAPBG='#000';
-function frameInto(dst,w,h,fill){capSrc=stillCanvas(capSrc);const sw=capSrc.width,sh=capSrc.height,a=w/h;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
+function frameInto(dst,w,h,fill,keep){if(!keep)capSrc=stillCanvas(capSrc);const sw=capSrc.width,sh=capSrc.height,a=w/h;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
   if(dst.width!==w)dst.width=w;if(dst.height!==h)dst.height=h;const g=dst.getContext('2d');
   if(fill){g.fillStyle=CAPBG;g.fillRect(0,0,w,h)}else g.clearRect(0,0,w,h);
-  g.drawImage(capSrc,(sw-cw)/2,(sh-ch)/2,cw,ch,0,0,w,h);return dst}
+  g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(capSrc,(sw-cw)/2,(sh-ch)/2,cw,ch,0,0,w,h);return dst}
 /* saving: the claude.ai viewer grants a save through the downloads capability (on iOS that is the
    share sheet, so Photos is right there); anywhere else, an ordinary download */
 let DLP=null;const downloader=()=>DLP||(DLP=(async()=>{try{return window.claude&&claude.use?await claude.use('downloads'):null}catch(_){return null}})());
@@ -3482,7 +3483,7 @@ const stamp=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return d.getF
 const fmtSize=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
 let REC=null,ENC=false,recTick=0,RECDEST=null;
 /* still */
-async function capStill(){try{const[w,h]=capDims(STILL_SIDE),c=frameInto(document.createElement('canvas'),w,h,false);
+async function capStill(){try{const[w,h]=capDims(STILL_SIDE);toast('drawing the still at full size…',1600);capSrc=await sharpStill(Math.max(w/W,h/H));const c=frameInto(document.createElement('canvas'),w,h,false,true);
   const b=await new Promise(r=>c.toBlob(r,'image/png'));if(!b)throw 0;showOut(b,'png',w,h)}catch(e){toast('This viewer blocks saving a still.')}}
 /* video: the composite (source + field + overlay) painted to its own canvas at 30 fps, with the sound when it is on */
 const REC_MIMES=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1.42E01E','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm;codecs=vp9','video/webm'];
@@ -3693,13 +3694,14 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
    CHAMY·XYZ and a QR code that opens THIS look: the look is kept (Supabase chamy-studio.shared_looks, public by id)
    and the code points at works.chamy.xyz/current/?l=<id>. Without a connection the code opens Current itself.
    Stills first; reels and duck-rabbit sticker GIFs come next. */
-const CARD_SIZES=[['post','post 4:5',1080,1350],['story','story 9:16',1080,1920],['square','square',1080,1080],['link','link 1.91:1',1200,630]];
+const CARD_SIZES=[['post','post 4:5',1080,1350],['story','story 9:16',1080,1920],['square','square',1080,1080],['link','link 1.91:1',1200,630],['wide','screen 16:9',1920,1080]];   // 16:9 for video screens (Dimitry, 20 Oct)
 const CARD_STYLES=[['behind','look behind'],['duck','duck-rabbit']];
 const LOOKS_DB={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_looks',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp'};
 /* qr: the code on the card. Off (Dimitry, 20 Oct: the social cards don't need a QR code; they are seen on the phone that
    would scan them). The code path stays, for print. */
-const CARD={size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{},qr:false};
-try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(typeof o.color==='string')CARD.color=o.color;if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
+const CARD_TEX=[['none','none'],['grain','grain'],['film','film'],['stipple','stipple']];
+const CARD={tex:'grain',size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{},qr:false};
+try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(typeof o.color==='string')CARD.color=o.color;if(typeof o.tex==='string'&&CARD_TEX.some(t=>t[0]===o.tex))CARD.tex=o.tex;if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
 function cardSvgImg(key,markup){if(CARD.img[key])return CARD.img[key];return CARD.img[key]=new Promise(res=>{if(!markup){res(null);return}
   let m=markup.replace(/<svg\b/,'<svg xmlns="http://www.w3.org/2000/svg" color="#fff" fill="#fff"').replace(/currentColor/g,'#fff');
   const vb=(m.match(/viewBox="([^"]+)"/)||[])[1],v=vb?vb.split(/[ ,]+/).map(Number):[0,0,100,100],w=1000,h=Math.round(1000*v[3]/v[2]);
@@ -3769,7 +3771,23 @@ function cardTint(look,color){const key=color;look.__tint=look.__tint||{};if(loo
   g.putImageData(im,0,0);return look.__tint[key]=c}
 /* VARIETY: each design frames the field its own way, zoomed in so it bleeds off the edges, offset off-centre; some
    designs carry the field's arrows. Fixed per design, so the thumbnail is the card. */
-const CARD_FRAME={post:{behind:[1.45,.12,-.08,1],duck:[1.7,-.18,.1,0]},story:{behind:[1.3,-.1,.12,0],duck:[1.6,.16,-.14,1]},square:{behind:[1.55,.14,.1,0],duck:[1.4,-.12,-.1,1]},link:{behind:[1.6,-.08,.15,1],duck:[1.35,.1,-.06,0]}};
+const CARD_FRAME={post:{behind:[1.45,.12,-.08,1],duck:[1.7,-.18,.1,0]},story:{behind:[1.3,-.1,.12,0],duck:[1.6,.16,-.14,1]},square:{behind:[1.55,.14,.1,0],duck:[1.4,-.12,-.1,1]},link:{behind:[1.6,-.08,.15,1],duck:[1.35,.1,-.06,0]},wide:{behind:[1.45,.08,.1,0],duck:[1.3,-.08,-.06,1]}};
+/* TEXTURE (Dimitry, 20 Oct: "some grain or stippling noise might be nice"). Laid over the look and the duck, under the
+   type and the marks, so his logos are never touched. Scaled with the card (grain size from the short side), seeded,
+   so the same card always comes out the same. Named presets: */
+const CARD_TEX_P={grain:{amt:.075,cell:1},film:{amt:.11,cell:2.2},stipple:{dens:.11,amt:.3,cell:1.6}};
+function cardTexture(g,W,H,tex){const P=CARD_TEX_P[tex];if(!P)return;const S=Math.min(W,H),cell=Math.max(1,P.cell*S/1080);
+  let seed=0x2f6b1d;const rnd=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)/4294967296};
+  const gn=()=>(rnd()+rnd()+rnd()-1.5)/.87;   // near-normal, unit spread
+  const id=g.getImageData(0,0,W,H),d=id.data;
+  if(tex==='stipple'){const r=Math.max(1,Math.round(cell)),n=Math.round(W*H/(r*r)*P.dens);
+    for(let k=0;k<n;k++){const x0=(rnd()*W)|0,y0=(rnd()*H)|0,i0=(y0*W+x0)*4,l=(d[i0]*.3+d[i0+1]*.59+d[i0+2]*.11)/255,s=(l>.5?-1:1)*P.amt*255;   // a dot against the ground: dark on light, light on dark
+      if(rnd()>.25+Math.abs(l-.5)*1.5)continue;   // more dots where the look is darkest or lightest, the way stippling shades
+      for(let y=y0;y<Math.min(H,y0+r);y++)for(let x=x0;x<Math.min(W,x0+r);x++){const i=(y*W+x)*4;d[i]+=s;d[i+1]+=s;d[i+2]+=s}}}
+  else{const cw=Math.ceil(W/cell)+2,ch=Math.ceil(H/cell)+2,N=new Float32Array(cw*ch);for(let i=0;i<N.length;i++)N[i]=gn();
+    const a=P.amt*255;for(let y=0;y<H;y++){const fy=y/cell,y0=fy|0,ty=fy-y0;for(let x=0;x<W;x++){const fx=x/cell,x0=fx|0,tx=fx-x0,j=y0*cw+x0;
+      const v=cell<=1?N[j]:(N[j]*(1-tx)+N[j+1]*tx)*(1-ty)+(N[j+cw]*(1-tx)+N[j+cw+1]*tx)*ty,i=(y*W+x)*4,s=v*a;d[i]+=s;d[i+1]+=s;d[i+2]+=s}}}
+  g.putImageData(id,0,0)}
 function cardField(g,img,x,y,w,h,f){const iw=img.width,ih=img.height,k=Math.max(w/iw,h/ih)*f[0],dw=iw*k,dh=ih*k;g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(img,x+(w-dw)/2+f[1]*w,y+(h-dh)/2+f[2]*h,dw,dh)}
 const CARD_PARTNER={ink:'rose',cobalt:'ochre',violet:'lime'};   // dark grounds get a bright duck; bright grounds an ink one
 const cardLum=h=>{const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
@@ -3836,6 +3854,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     const m=document.createElement('canvas');m.width=W;m.height=H;const mg=m.getContext('2d');mg.drawImage(dw,bx,by,bw,bh);mg.globalCompositeOperation='source-in';mg.fillStyle=D;mg.fillRect(0,0,W,H);
     mg.globalCompositeOperation='source-atop';cardField(mg,cardTint(look,CARD_PARTNER[color]||'ink'),bx+G.x0*bw,by+G.y0*bh,(G.x1-G.x0)*bw,(G.y1-G.y0)*bh,[1.15,0,0]);mg.globalCompositeOperation='destination-in';mg.drawImage(dw,bx,by,bw,bh);
     g.save();g.shadowColor='rgba(0,0,0,.25)';g.shadowBlur=36*u;g.shadowOffsetY=8*u;g.drawImage(m,0,0);g.restore()}
+  cardTexture(g,W,H,CARD.tex);
   /* CURRENT, reading down the left column */
   g.fillStyle=FG;g.textAlign='left';g.font='700 '+ts.toFixed(1)+'px '+font;try{g.letterSpacing='0px'}catch(_){}
   g.textBaseline='alphabetic';g.save();g.translate(M,M+cLead);g.rotate(Math.PI/2);g.fillText('CURRENT',0,0);g.restore();try{g.letterSpacing='0px'}catch(_){}
@@ -3873,20 +3892,32 @@ let CARD_LOOK=null,CARD_LOOK_ARROWS=null,CARD_GEN=0;
    drawn at the density the biggest card needs (up to 4x, and at most 24 million pixels): the particles keep their
    places, the trails form again at that density over about two seconds, the look is taken, and the stage goes back.
    Same composition, drawn sharp. When the look is paused there is nothing to redraw, so it is taken as it stands. */
-function cardDPR(){let need=DPR;for(const [sz,,cw,ch] of CARD_SIZES){const fr=CARD_FRAME[sz]||{};for(const st in fr)need=Math.max(need,Math.max(cw/W,ch/H)*fr[st][0])}return Math.min(need,4,Math.sqrt(24e6/(W*H)))}
+/* HOW MUCH THIS DEVICE CAN DRAW (Dimitry, 20 Oct: "adapt based on device"): the biggest canvas it can hold. iPhone and
+   iPad Safari stop at 16.7 million pixels; a computer with 8 GB or more takes 48 million; anything else 24 million.
+   Density never goes past 4. */
+function denseCap(){const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),mem=navigator.deviceMemory||0;
+  return ios?16.7e6:mem>=8||(!mem&&matchMedia('(pointer:fine)').matches)?48e6:24e6}
+const densFor=need=>Math.max(DPR,Math.min(need,4,Math.sqrt(denseCap()/(W*H))));
+function cardDPR(){let need=DPR;for(const [sz,,cw,ch] of CARD_SIZES){const fr=CARD_FRAME[sz]||{};for(const st in fr)need=Math.max(need,Math.max(cw/W,ch/H)*fr[st][0])}return densFor(need)}
 function setDPR(d){DPR=d;cv.width=Math.round(W*d);cv.height=Math.round(H*d);tctx.setTransform(d,0,0,d,0,0);ov.width=cv.width;ov.height=cv.height;octx.setTransform(d,0,0,d,0,0);fg.width=cv.width;fg.height=cv.height;fctx.setTransform(d,0,0,d,0,0);clearTrails()}
 const waitFrames=(n,ms)=>new Promise(res=>{const t0=performance.now();let k=0;const f=()=>{if(++k>=n||performance.now()-t0>ms)res();else requestAnimationFrame(f)};requestAnimationFrame(f)});
 async function sharpLook(){const was=DPR,d=cardDPR();
   if(S.paused||!field||d<=was*1.05){const c=stillCanvas(document.createElement('canvas'));await freezeArrows();return c}
   setDPR(d);try{await waitFrames(130,4500);const c=stillCanvas(document.createElement('canvas'));await freezeArrows();return c}finally{setDPR(was)}}
+/* the same for a still: drawn at the density its size needs (as far as the device allows), then framed */
+async function sharpStill(need){const was=DPR,d=densFor(need);
+  if(S.paused||!field||d<=was*1.05)return stillCanvas(document.createElement('canvas'));
+  setDPR(d);try{await waitFrames(130,4500);return stillCanvas(document.createElement('canvas'))}finally{setDPR(was)}}
 function freezeArrows(){return new Promise(res=>{const was=S.flags.arrows;if(was){CARD_LOOK_ARROWS=null;res();return}S.flags.arrows=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{CARD_LOOK_ARROWS=stillCanvas(document.createElement('canvas'));S.flags.arrows=was;res()}))})}
 const cardMsg=()=>($('cdMsg').value||'').replace(/\s+/g,' ').trim();
+function cardTexRow(){const h=$('cdTx');if(!h)return;h.innerHTML='';for(const [n,l] of CARD_TEX){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=l;b.setAttribute('aria-checked',String(CARD.tex===n));
+    b.onclick=()=>{if(CARD.tex===n)return;CARD.tex=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:CARD.color,tex:n}))}catch(_){}cardTexRow();cardRail(true);if(window.cxCount)cxCount('card: texture '+n,1)};h.appendChild(b)}}
 function cardSwatches(){const h=$('cdSw');h.innerHTML='';for(const [n,hex] of CARD_COLORS){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-label',n);b.title=n;b.style.background=hex;b.setAttribute('aria-checked',String(CARD.color===n));
-    b.onclick=()=>{if(CARD.color===n)return;CARD.color=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:n}))}catch(_){}cardSwatches();cardRail(true);if(window.cxCount)cxCount('card: colour '+n,1)};h.appendChild(b)}}
-async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK){$('cdNote').textContent='drawing the particles at card size…';CARD_LOOK=await sharpLook()}cardSwatches();
+    b.onclick=()=>{if(CARD.color===n)return;CARD.color=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:n,tex:CARD.tex}))}catch(_){}cardSwatches();cardRail(true);if(window.cxCount)cxCount('card: colour '+n,1)};h.appendChild(b)}}
+async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK){$('cdNote').textContent='drawing the particles at card size…';CARD_LOOK=await sharpLook()}cardSwatches();cardTexRow();
   if(!rail.children.length)CARD_ALL.forEach(([sz,st,l])=>{const b=document.createElement('button');b.type='button';b.className='cdPick '+sz;b.setAttribute('role','radio');b.dataset.sz=sz;b.dataset.st=st;b.setAttribute('aria-label',l);
     const cv=document.createElement('canvas');cv.width=8;cv.height=8;const t=document.createElement('span');t.textContent=l;b.append(cv,t);
-    b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st,color:CARD.color}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
+    b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st,color:CARD.color,tex:CARD.tex}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
     b.onkeydown=e=>{const all=[...rail.children],k=all.indexOf(b),n=e.key==='ArrowRight'?k+1:e.key==='ArrowLeft'?k-1:-1;if(n<0||n>=all.length)return;e.preventDefault();all[n].focus();all[n].click()};rail.appendChild(b)});
   if(window.SurfaceRail)SurfaceRail.mount(rail,{label:'Card designs'});   // arrows either side and dots under it (Dimitry, 20 Oct): the row shows it moves
   railSync(true);$('cdNote').textContent='making the cards…';const msg=cardMsg();
@@ -6101,10 +6132,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020060317"></script>
-<script src="surface/links.js?v=20261020060317"></script>
-<script src="surface/tips.js?v=20261020060317"></script>
-<script src="surface/sections.js?v=20261020060317"></script>
+<script src="surface/install.js?v=20261020060805"></script>
+<script src="surface/links.js?v=20261020060805"></script>
+<script src="surface/tips.js?v=20261020060805"></script>
+<script src="surface/sections.js?v=20261020060805"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6483,7 +6514,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.11';
+const APP_VERSION='0.25.13';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
