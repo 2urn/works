@@ -80,11 +80,10 @@
 .sfs-keep:hover{opacity:1;color:var(--fg,#eef1f2)}.sfs-keep[aria-pressed="true"]{opacity:1;color:var(--accent,#55b8c9)}
 .sfs-keep:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px;opacity:1}
 @media (hover:none){.sfs-keep{opacity:.8}}
-/* the pin, after the Codex's: a solid dot and a short stem tapering to a point, one x-height tall; kept or not is the colour */
-.sfs-pin{--pm:1ex;--ps:max(1.2px,calc(var(--pm) * .2));display:inline-block;position:relative;width:var(--pm);height:var(--pm);pointer-events:none}
-.sfs-pin::before,.sfs-pin::after{content:"";position:absolute;background:currentColor}
-.sfs-pin::before{left:calc(50% - var(--pm) * .26);top:0;width:calc(var(--pm) * .52);height:calc(var(--pm) * .52);border-radius:50%}
-.sfs-pin::after{left:calc(50% - var(--ps) / 2);top:calc(var(--pm) * .44);width:var(--ps);height:calc(var(--pm) * .56);clip-path:polygon(0 0,100% 0,50% 100%)}
+/* the keep pin is the kit's push pin, the same drawing as a popover's (float.js) and the drawer's (Dimitry, 20 Oct:
+   "push pins all round"), smaller here and filled when kept */
+.sfs-pin{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.sfs-keep[aria-pressed="true"] .sfs-pin path:first-child{fill:currentColor}
 .sfs-grip{position:absolute;top:0;right:-6px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 .sfs-grip:hover{color:var(--fg,#eef1f2)}
 .sfs-grip svg{width:16px;height:16px;fill:currentColor}
@@ -233,7 +232,7 @@
       }
       if (s.parentNode !== root) s.classList.add('sfs-out');
       /* keep pins, on every section */
-      const k = document.createElement('button'); k.type = 'button'; k.className = 'sfs-keep'; k.innerHTML = '<span class="sfs-pin" aria-hidden="true"></span>';
+      const k = document.createElement('button'); k.type = 'button'; k.className = 'sfs-keep'; k.innerHTML = '<svg class="sfs-pin" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 6 3.5 3.5h-11L10 9.5z"/><path d="M12 13v7.5"/></svg>';
       const syncK = () => { k.setAttribute('aria-pressed', String(kept(s))); k.setAttribute('aria-label', (kept(s) ? 'Kept open: ' : 'Keep open: ') + nameOf(s) + (kept(s) ? '. Tap to let it fold with the rest' : '. It stays open when the rest fold')); };
       k.onclick = () => { st.keep = (st.keep || []).filter(id => id !== s.id); if (k.getAttribute('aria-pressed') !== 'true') { st.keep.push(s.id); setShut(s, false); } syncK(); persist(); say(nameOf(s) + (kept(s) ? ' kept open' : ' folds with the rest')); };
       syncK(); s.insertBefore(k, s.querySelector(':scope>.sfs-grip') || null);
