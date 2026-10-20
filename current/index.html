@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020041422";window.__VERSION__="0.25.4";window.__NOTES__=[{"v":"0.25.4","date":"20 Oct 2026","items":[{"kind":"fix","text":"cards: the duck-rabbit slides toward the middle of the room the type leaves (it crowded CURRENT on the 4:5 post), then grows back as far as it can"}]}]</script>
+<script>window.__BUILD__="20261020042236";window.__VERSION__="0.25.5";window.__NOTES__=[{"v":"0.25.5","date":"20 Oct 2026","items":[{"kind":"change","text":"cards on one grid: the namemark comes in to CURRENT's inset; the back of CURRENT's C sits on Dimitry's baseline (lying flat, the two share a baseline); CHAMY·XYZ shares CURRENT's baseline and runs the namemark's width"},{"kind":"change","text":"cards carry no QR code: they are seen on the phone that would scan them. The link you share still opens the exact look"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020041422"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020041422">
+<script src="claude-web.js?v=20261020042236"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020042236">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020041422"></script>
-<script src="surface/auto.js?v=20261020041422"></script>
-<script src="surface/toolpath.js?v=20261020041422"></script>
-<script src="surface/capture.js?v=20261020041422"></script>
-<script src="surface/pop.js?v=20261020041422"></script>
-<script src="surface/hints.js?v=20261020041422"></script>
-<script src="surface/paths.js?v=20261020041422"></script>
-<script src="surface/keys.js?v=20261020041422"></script>
-<script src="surface/reset.js?v=20261020041422"></script>
+<script src="vendor/opentype.min.js?v=20261020042236"></script>
+<script src="surface/auto.js?v=20261020042236"></script>
+<script src="surface/toolpath.js?v=20261020042236"></script>
+<script src="surface/capture.js?v=20261020042236"></script>
+<script src="surface/pop.js?v=20261020042236"></script>
+<script src="surface/hints.js?v=20261020042236"></script>
+<script src="surface/paths.js?v=20261020042236"></script>
+<script src="surface/keys.js?v=20261020042236"></script>
+<script src="surface/reset.js?v=20261020042236"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3695,7 +3695,9 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
 const CARD_SIZES=[['post','post 4:5',1080,1350],['story','story 9:16',1080,1920],['square','square',1080,1080],['link','link 1.91:1',1200,630]];
 const CARD_STYLES=[['behind','look behind'],['duck','duck-rabbit']];
 const LOOKS_DB={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_looks',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp'};
-const CARD={size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{}};
+/* qr: the code on the card. Off (Dimitry, 20 Oct: the social cards don't need a QR code; they are seen on the phone that
+   would scan them). The code path stays, for print. */
+const CARD={size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{},qr:false};
 try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(typeof o.color==='string')CARD.color=o.color;if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
 function cardSvgImg(key,markup){if(CARD.img[key])return CARD.img[key];return CARD.img[key]=new Promise(res=>{if(!markup){res(null);return}
   let m=markup.replace(/<svg\b/,'<svg xmlns="http://www.w3.org/2000/svg" color="#fff" fill="#fff"').replace(/currentColor/g,'#fff');
@@ -3706,6 +3708,10 @@ const cardDuckW=()=>cardSvgImg('duckW',(document.querySelector('#duckBtn svg.duc
 /* THE CORNER MARK (Dimitry, 19 Oct, canon): the centred lockup only ever sits centred (the cover, the top of a
    screen); the corner lockup only ever sits in the top right corner of any format, or an internal corner a frame
    makes. Cards use the corner one, the index's own: its mask, tinted white. */
+function cardInk(img){if(!img)return {x0:0,y0:0,x1:1,y1:1,base:.3};if(img.__ink)return img.__ink;const w=Math.min(400,img.width),h=Math.round(w*img.height/img.width),c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(img,0,0,w,h);
+  const d=g.getImageData(0,0,w,h).data;let x0=w,y0=h,x1=0,y1=0;for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>60){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+  let base=y1;{const xa=x0,xb=x0+Math.round((x1-x0)*.4);base=y0;for(let y=y0;y<=y1;y++){let any=false;for(let x=xa;x<=xb;x++)if(d[(y*w+x)*4+3]>60){any=true;break}if(any)base=y;else if(y>base+2)break}}   // Dimitry's baseline: the foot of D-i-m-i-t
+  return img.__ink=x1>x0?{x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h,base:(base+1)/h}:{x0:0,y0:0,x1:1,y1:1,base:.3}}
 const cardMark=()=>CARD.img.corner||(CARD.img.corner=new Promise(res=>{let u='';try{const d=document.querySelector('#dscMark .dsc')||document.querySelector('.dsc:not(svg)');const mi=d&&(getComputedStyle(d).webkitMaskImage||getComputedStyle(d).maskImage)||'';u=(mi.match(/url\(["']?(.*?)["']?\)/)||[])[1]||''}catch(_){}
   if(!u){res(null);return}const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const g=c.getContext('2d');g.drawImage(i,0,0);g.globalCompositeOperation='source-in';g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);res(c)};i.onerror=()=>res(null);i.src=u}));
 const cardDuckC=()=>CARD.img.duckC||(CARD.img.duckC=new Promise(res=>{if(!window.__DUCKC){res(null);return}const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=window.__DUCKC}));
@@ -3782,8 +3788,20 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   const ls=Math.round(25*u),lh=Math.round(ls*1.4),words=(msg&&msg.trim()?msg.trim():'G-code in. Beats and dancing particles out. The field is your playground.').split(/\s+/),lines=[];g.font='400 '+ls+'px '+SANS;
   const sx=tall?pad+ts*.78+Math.round(36*u):pad;
   {let cur='';const max=tall?Math.min(470*u,W-sx-mw-xh-40*u):Math.min(470*u,W-pad*2-(wide?mw:0));for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
-  const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(44*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
-  const qs=Math.round(Math.min(W,H)*(wide?.27:.21)),qx=W-pad-qs,qy=H-pad-qs;
+  /* THE GRID (Dimitry, 20 Oct): one inset for everything, CURRENT's. The namemark comes in from its corner to it: its
+     ink's right edge an inset from the right (its height: see the baseline note below). The code's tile is exactly the namemark's width and right edge, square-cornered, an inset from
+     the bottom. CHAMY·XYZ shares CURRENT's baseline line (its left edge when CURRENT lies flat), runs exactly the
+     tile's height and ends level with the tile's foot. Everything is placed by its measured ink, not its box. */
+  const I=pad,MB=cardInk(mark),mInkW=mark?(MB.x1-MB.x0)*mw:Math.round(Math.min(W,H)*.23),mX=W-I-MB.x1*mw,mY=I-MB.y0*mh;
+  const tileW=Math.round(mInkW),tileX=W-I-tileW,tileY=H-I-tileW,qm=Math.round(tileW*.075),qs=tileW-qm*2,qx=tileX+qm,qy=tileY+qm;
+  g.save();g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}const CM=g.measureText('CURRENT');g.restore();
+  const cLead=CM.actualBoundingBoxLeft||0,cAsc=CM.actualBoundingBoxAscent||ts*.72;   // the C's side bearing, the caps' height
+  /* (Dimitry, 20 Oct) the back of the C sits optically on the namemark's baseline (Dimitry's): on tall cards CURRENT
+     starts at that line; when it lies flat, its baseline is that line, so the namemark comes down to meet it */
+  let mYv=mY;if(!tall&&mark)mYv=I+cAsc-MB.base*mh;const baseY=mYv+MB.base*mh,cTop=tall?baseY:I;
+  const chamy=(()=>{let f=xh/.7;g.save();const m=()=>{g.font='600 '+f.toFixed(1)+'px '+SANS;try{g.letterSpacing=(f*.12).toFixed(1)+'px'}catch(_){}const t=g.measureText('CHAMY·XYZ');return [(t.actualBoundingBoxLeft||0)+(t.actualBoundingBoxRight||t.width),t.actualBoundingBoxLeft||0]};
+    let [len]=m();f*=tileW/len;const [l2,lead]=m();g.restore();return {f,len:l2,lead}})();
+  const titleTop=pad,lineTop=tall?pad:titleTop+cAsc+Math.round(40*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
   const paper=groundLight();   // a light look is laid over the colour by multiplying, a dark one by screening
   const FR=(CARD_FRAME[size]||{})[style]||[1.4,0,0,0],field=(FR[3]&&CARD_LOOK_ARROWS)?CARD_LOOK_ARROWS:look,tint=cardTint(field,color);
   if(style==='behind'){cardField(g,tint,0,0,W,H,FR)}
@@ -3798,7 +3816,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     const lw=Math.max(0,...lines.map(t=>g.measureText(t).width));g.restore();
     const cfs0=xh/.7;g.save();g.font='600 '+cfs0.toFixed(1)+'px '+SANS;try{g.letterSpacing=(cfs0*.12).toFixed(1)+'px'}catch(_){}const cw0=g.measureText('CHAMY·XYZ').width;g.restore();
     const ex=(x,y,w,h)=>[x-mg0,y-mg0,w+mg0*2,h+mg0*2];
-    const boxes=[tall?ex(pad,pad,ts*.8,tw):ex(pad,titleTop,tw,ts*.86),ex(sx,lineTop,lw,lines.length*lh),ex(W-xh-mw,xh,mw,mh),ex(xh,H-xh-cw0,xh*1.1,cw0),ex(qx-12*u,qy-12*u,qs+24*u,qs+24*u),
+    const boxes=[tall?ex(I,cTop,cAsc,tw):ex(I,I,tw,cAsc),ex(sx,lineTop,lw,lines.length*lh),ex(mX,mYv,mw,mh),ex(I,H-I-tileW,chamy.f*.8,tileW),...(CARD.qr?[ex(tileX,tileY,tileW,tileW)]:[]),
       [-W,-H,W*3,H+xh],[-W,H-xh,W*3,H],[-W,-H,W+xh,H*3],[W-xh,-H,W,H*3]];   // the card's own edges, an x-height in
     /* on very tall cards (story) the head is the anchor, or the duck sits too high (Dimitry, 19 Oct); elsewhere the heart */
     const ax=H/W>=1.5?G.headX:G.hx,ay=H/W>=1.5?G.headY:G.hy;
@@ -3814,28 +3832,28 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     g.save();g.shadowColor='rgba(0,0,0,.25)';g.shadowBlur=36*u;g.shadowOffsetY=8*u;g.drawImage(m,0,0);g.restore()}
   /* top left: CURRENT and its sentence */
   g.fillStyle=FG;g.textAlign='left';g.textBaseline='top';g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
-  if(tall){g.save();g.translate(pad,pad);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CURRENT',0,0);g.restore()}else g.fillText('CURRENT',pad,titleTop);try{g.letterSpacing='0px'}catch(_){}
+  g.textBaseline='alphabetic';if(tall){g.save();g.translate(I,cTop+cLead);g.rotate(Math.PI/2);g.fillText('CURRENT',0,0);g.restore()}else g.fillText('CURRENT',I+cLead,I+cAsc);g.textBaseline='top';try{g.letterSpacing='0px'}catch(_){}
   g.font='400 '+ls+'px '+SANS;lines.forEach((t,k)=>g.fillText(t,sx,lineTop+k*lh));
   /* top right: the namemark, its x-height in from the top and the right */
   if(mark){let mk=mark;if(light){const t=document.createElement('canvas');t.width=mark.width;t.height=mark.height;const tg=t.getContext('2d');tg.drawImage(mark,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);mk=t}
-    g.drawImage(mk,W-xh-mw,xh,mw,mh)}
+    g.drawImage(mk,mX,mYv,mw,mh)}
   /* bottom left: CHAMY·XYZ, reading down, cap height = the namemark's x-height, baseline that far from the left edge
      and its end that far from the bottom; the app's blue on ink, the type's colour on a colour */
-  g.save();const cfs=xh/.7;g.font='600 '+cfs.toFixed(1)+'px '+SANS;try{g.letterSpacing=(cfs*.12).toFixed(1)+'px'}catch(_){}g.fillStyle=color==='ink'?'#55b8c9':FG;
-  const cw=g.measureText('CHAMY·XYZ').width;g.translate(xh,H-xh-cw);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',0,0);g.restore();
+  g.save();g.font='600 '+chamy.f.toFixed(1)+'px '+SANS;try{g.letterSpacing=(chamy.f*.12).toFixed(1)+'px'}catch(_){}g.fillStyle=color==='ink'?'#55b8c9':FG;
+  g.translate(I,H-I-chamy.len+chamy.lead);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',0,0);g.restore();
   /* bottom right: the code, white tile, with the duck-rabbit in its middle */
   /* THE CODE ON THE COLOUR (Dimitry, 19 Oct: no big white square where the ground is light enough). When the card's
      colour is light enough (luminance 0.42 and up: ochre, lime, sky), the code is black modules on a patch of
      the plain colour, the field cleared under it; on dark grounds it keeps its white tile. Decoded in testing. */
   const onColor=cardLum(C)>=.42,TILE=onColor?C:'#fff';   // tested: at 0.3 (rose, ember) the code failed to read on busy designs; from 0.42 (ochre, lime, sky) it reads
-  const qc=document.createElement('canvas');if(qrDraw(qc,url,8)){const r=16*u;g.fillStyle=TILE;g.beginPath();g.roundRect?g.roundRect(qx-12*u,qy-12*u,qs+24*u,qs+24*u,r):g.rect(qx-12*u,qy-12*u,qs+24*u,qs+24*u);g.fill();
+  const qc=document.createElement('canvas');if(CARD.qr&&qrDraw(qc,url,8)){g.fillStyle=TILE;g.fillRect(tileX,tileY,tileW,tileW);
     if(onColor){const qg=qc.getContext('2d'),im=qg.getImageData(0,0,qc.width,qc.height),dd=im.data;for(let i=0;i<dd.length;i+=4){if(dd[i]>128){dd[i+3]=0}else{dd[i]=dd[i+1]=dd[i+2]=10}}qg.putImageData(im,0,0)}
     g.imageSmoothingEnabled=false;g.drawImage(qc,qx,qy,qs,qs);g.imageSmoothingEnabled=true;
     /* the duck-rabbit in the middle of the code (Dimitry, 19 Oct): a white pad over 20% of the width, about 4% of the
        modules, inside what level M error correction rebuilds; checked by decoding the rendered card */
     const ld=onColor?dw:(dc||dw);if(ld){const ps=qs*.2,px=qx+(qs-ps)/2,py=qy+(qs-ps)/2;g.fillStyle=TILE;g.beginPath();g.roundRect?g.roundRect(px,py,ps,ps,ps*.18):g.rect(px,py,ps,ps);g.fill();
       const dh=ps*.82,dwid=dh*ld.width/ld.height;if(ld===dw){const t=document.createElement('canvas');t.width=ld.width;t.height=ld.height;const tg=t.getContext('2d');tg.drawImage(ld,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);g.drawImage(t,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}else g.drawImage(ld,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}}
-  const linked=url!==SHARE_URL;CARD.note=linked?'The code opens this exact look, live.':'The code opens Current (this look could not be kept from here: try on works.chamy.xyz).';
+  const linked=url!==SHARE_URL;CARD.note=linked?'The link opens this exact look, live.':'The link opens Current (this look could not be kept from here: try on works.chamy.xyz).';
   return c}
 /* THE RAIL (Dimitry, 19 Oct: not one giant card, a horizontal slider of every design to pick from, and a message,
    as Substack does): all eight designs from one frozen frame of the look, as thumbnails; the picked one is
@@ -6065,10 +6083,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020041422"></script>
-<script src="surface/links.js?v=20261020041422"></script>
-<script src="surface/tips.js?v=20261020041422"></script>
-<script src="surface/sections.js?v=20261020041422"></script>
+<script src="surface/install.js?v=20261020042236"></script>
+<script src="surface/links.js?v=20261020042236"></script>
+<script src="surface/tips.js?v=20261020042236"></script>
+<script src="surface/sections.js?v=20261020042236"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6447,7 +6465,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.4';
+const APP_VERSION='0.25.5';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
