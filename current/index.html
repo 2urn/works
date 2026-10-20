@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020111230";window.__VERSION__="0.26.0";window.__NOTES__=[{"v":"0.26.0","date":"20 Oct 2026","items":[{"kind":"new","text":"on desktop and iPad the popovers float: drag one by its grip, let go near an edge and it snaps there, pin it to keep it open while you play; double-tap the grip to send it home"},{"kind":"new","text":"pop out: the index moves into its own window beside the stage (desktop); the duck-rabbit brings it back"},{"kind":"new","text":"manual: print the index as a manual, or save it as a PDF, with a cover, contents and every section opened out"}]}]</script>
+<script>window.__BUILD__="20261020120300";window.__VERSION__="0.26.3";window.__NOTES__=[{"v":"0.26.3","date":"20 Oct 2026","items":[{"kind":"fix","text":"Batch export's badge says Pro, not artist, like every other Pro feature"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020111230"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020111230">
+<script src="claude-web.js?v=20261020120300"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020120300">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,19 +72,19 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020111230"></script>
-<script src="surface/auto.js?v=20261020111230"></script>
-<script src="surface/toolpath.js?v=20261020111230"></script>
-<script src="surface/capture.js?v=20261020111230"></script>
-<script src="surface/pop.js?v=20261020111230"></script>
-<script src="surface/hints.js?v=20261020111230"></script>
-<script src="surface/paths.js?v=20261020111230"></script>
-<script src="surface/keys.js?v=20261020111230"></script>
-<script src="surface/reset.js?v=20261020111230"></script>
-<script src="surface/files.js?v=20261020111230"></script>
-<script src="surface/rail.js?v=20261020111230"></script>
-<script src="surface/float.js?v=20261020111230"></script>
-<script src="surface/manual.js?v=20261020111230"></script>
+<script src="vendor/opentype.min.js?v=20261020120300"></script>
+<script src="surface/auto.js?v=20261020120300"></script>
+<script src="surface/toolpath.js?v=20261020120300"></script>
+<script src="surface/capture.js?v=20261020120300"></script>
+<script src="surface/pop.js?v=20261020120300"></script>
+<script src="surface/hints.js?v=20261020120300"></script>
+<script src="surface/paths.js?v=20261020120300"></script>
+<script src="surface/keys.js?v=20261020120300"></script>
+<script src="surface/reset.js?v=20261020120300"></script>
+<script src="surface/files.js?v=20261020120300"></script>
+<script src="surface/rail.js?v=20261020120300"></script>
+<script src="surface/float.js?v=20261020120300"></script>
+<script src="surface/manual.js?v=20261020120300"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -554,8 +554,21 @@ body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(s
    only, since ‹ ▶ › share one list. */
 body #playbar>button[data-drawer]{position:relative}
 body #playbar>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
-body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after{opacity:1;transform:translateY(0) rotate(45deg);border-color:var(--acc,#55b8c9)}
+/* 20 Oct: the caret is the hint on hover only. Once the strip is open, the strip itself points down to the button (the
+   notch below), so the caret goes: it sat behind the strip and peeked out under it */
+body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after{opacity:0!important}
 @media (hover:hover) and (pointer:fine){body #playbar>button[data-drawer]:hover::after{opacity:.85;transform:translateY(0) rotate(45deg)}}
+/* THE NOTCH (Dimitry, 20 Oct): an open strip grows a point on its lower edge, centred over the button it came from, part
+   of the strip's own outline: the strip's edge is cut where the point joins it, and the point carries the same glass and
+   the same hairline on its two sides. One element, placed by script, since the strips are centred on the screen and the
+   buttons are not. */
+#drawerNotch{position:fixed;z-index:9;left:0;top:0;width:20px;height:10px;pointer-events:none;opacity:0;
+  clip-path:polygon(0 0,100% 0,50% 100%);background:rgb(var(--ui-g) / max(.66, var(--ui-glass,0)));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#drawerNotch svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#drawerNotch path{fill:none;stroke:rgb(var(--ui-hi) / .14);stroke-width:2}
+.shelf:not(.ovl) .track.notched,#shotPop.notched{-webkit-mask:linear-gradient(#000 0 0),linear-gradient(#000 0 0) no-repeat calc(var(--nx,50%) - 9px) 100% / 18px 1px;-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0),linear-gradient(#000 0 0) no-repeat calc(var(--nx,50%) - 9px) 100% / 18px 1px;mask-composite:exclude}
+html.bare #drawerNotch{opacity:0!important}
 @media (prefers-reduced-motion:reduce){body #playbar>button[data-drawer]::after{transition:none}}
 html.bare body #playbar>button[data-drawer]::after{opacity:0}
 body #playbar>button{pointer-events:auto;flex:none;width:clamp(36px,10.4vw,54px);height:clamp(36px,10.4vw,54px);padding:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g) / max(.62, var(--ui-glass,0)));border:1px solid rgb(var(--ui-hi) / .14);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--ui-ink);cursor:pointer;transition:transform .12s ease,background .12s ease}
@@ -1550,7 +1563,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
       <p>We try our best to make Current work well everywhere. If something breaks or gets in your way, write to <a href="mailto:hi@chamy.xyz">hi@chamy.xyz</a>. ADA accommodations are available on request.</p>
 </div></li></ol></div></section>
     <div class="colo-end"><svg class="colo-word" viewBox="462 836 996 132" aria-hidden="true" focusable="false"><path d="M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z"/><path d="M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z"/><path d="M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z"/><path d="M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z"/><path d="M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z"/><path d="M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z"/><path d="M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z"/><path d="M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z"/></svg><span class="ce-tools"><button type="button" id="cePin" class="ce-b" aria-pressed="true" aria-label="Pin the index: it stays open while you use the stage" title="Pinned: stays open. Unpin to close it with a click on the stage"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/></svg></button><button type="button" id="ceX" class="ce-b" aria-label="Close the index" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span><div class="ce-more"><p class="idx-ver" id="idxVer"></p><p class="idx-copy">&copy; <span class="cYear">2026</span> Dimitry Sa&iuml;d Chamy / CHAMY&middot;XYZ. All rights reserved; free for personal use under the license above. The credited works are their authors&rsquo;.</p></div></div>
-    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Foundations", "name": "Lissajous figures", "by": "Jules Antoine Lissajous, 1857", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Lissajous_curve", "for": "the Path 01 look"}, {"group": "Foundations", "name": "The Spirograph's hypotrochoid", "by": "Denys Fisher, 1965", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hypotrochoid", "for": "the Path 02 look"}, {"group": "Foundations", "name": "Phyllotaxis at the golden angle", "by": "Helmut Vogel, 1979", "label": "Method", "url": "https://en.wikipedia.org/wiki/Fermat%27s_spiral", "for": "the Path 03 look"}, {"group": "Foundations", "name": "Hilbert curve", "by": "David Hilbert, 1891", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hilbert_curve", "for": "the Path 04 look"}, {"group": "Foundations", "name": "Learning paths and achievements", "by": "the checklist and badge traditions of games and scouting", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Achievement_(video_games)", "for": "Paths: boxes that tick themselves, a gift for each one walked"}, {"group": "Foundations", "name": "Clave and tresillo", "by": "Afro-Cuban music, from sub-Saharan African timeline patterns", "label": "Tradition", "url": "https://en.wikipedia.org/wiki/Clave_(rhythm)", "for": "the son clave, tresillo and dembow starters"}, {"group": "Foundations", "name": "WAI-ARIA tabs pattern", "by": "W3C, ARIA Authoring Practices Guide", "label": "Standard", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/", "for": "the sound panel’s tabs (Surface · Tabs)"}, {"group": "Foundations", "name": "Snapping windows to the screen's edges", "by": "desktop window managers, from Windows 7's Aero Snap (2009) onward", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Aero_Snap", "for": "popovers that snap to the window's edges"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Euclidean rhythms", "by": "Godfried Toussaint, 2005, after Euclid's algorithm and E. Bjorklund", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Euclidean_rhythm", "for": "the Euclid 5 in 16 starter beat"}, {"group": "Methods", "name": "The step sequencer", "by": "Roland TR-808, 1980, after the drum machines before it", "label": "Instrument", "url": "https://en.wikipedia.org/wiki/Roland_TR-808", "for": "the Beat tab’s sixteen-step grid"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "Formats", "name": "ZIP", "by": "Phil Katz, PKWARE, 1989 (APPNOTE)", "label": "Format", "url": "https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT", "for": "the Paths pack"}, {"group": "Formats", "name": "Document Picture-in-Picture", "by": "W3C Web Incubator Community Group, 2023", "label": "Standard", "url": "https://wicg.github.io/document-picture-in-picture/", "for": "the index in its own window, on top"}, {"group": "Formats", "name": "CSS Paged Media", "by": "W3C", "label": "Standard", "url": "https://www.w3.org/TR/css-page-3/", "for": "the printed manual: pages, margins, page numbers"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
+    <script type="application/json" id="foundations">[{"group": "Foundations", "name": "G-code", "by": "MIT Servomechanisms Laboratory, 1950s · EIA RS-274 (1963), ISO 6983", "label": "Standard", "url": "https://en.wikipedia.org/wiki/G-code", "for": "the cuts every current is grown from"}, {"group": "Foundations", "name": "Particle systems", "by": "William Reeves, 1983", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Particle_system", "for": "thousands of points that draw together"}, {"group": "Foundations", "name": "Flow fields", "by": "the generative-art practice of tracing particles through a vector field", "label": "Technique", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "particles following the field"}, {"group": "Foundations", "name": "Field arrows", "by": "the quiver plot: a vector field drawn as a grid of arrows", "label": "Convention", "url": "https://en.wikipedia.org/wiki/Vector_field", "for": "the arrows on the field"}, {"group": "Foundations", "name": "Bytebeat", "by": "viznut (Ville-Matias Heikkilä), 2011 · the 42 melody, found by at least three people", "label": "Idea", "url": "https://arxiv.org/abs/1112.1368", "for": "the music: one line of arithmetic"}, {"group": "Foundations", "name": "Lines of force", "by": "Michael Faraday, 1850s", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Line_of_force", "for": "the magnet"}, {"group": "Foundations", "name": "Sand figures", "by": "Ernst Chladni, 1787", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Ernst_Chladni", "for": "two-color sands, by way of Chladni Kit"}, {"group": "Foundations", "name": "Duck-rabbit", "by": "Fliegende Blätter, 1892 · Joseph Jastrow, 1899", "label": "Public domain", "url": "https://mathworld.wolfram.com/Rabbit-DuckIllusion.html", "for": "the index's mark, by way of Pullula"}, {"group": "Foundations", "name": "Lissajous figures", "by": "Jules Antoine Lissajous, 1857", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Lissajous_curve", "for": "the Path 01 look"}, {"group": "Foundations", "name": "The Spirograph's hypotrochoid", "by": "Denys Fisher, 1965", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hypotrochoid", "for": "the Path 02 look"}, {"group": "Foundations", "name": "Phyllotaxis at the golden angle", "by": "Helmut Vogel, 1979", "label": "Method", "url": "https://en.wikipedia.org/wiki/Fermat%27s_spiral", "for": "the Path 03 look"}, {"group": "Foundations", "name": "Hilbert curve", "by": "David Hilbert, 1891", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Hilbert_curve", "for": "the Path 04 look"}, {"group": "Foundations", "name": "Learning paths and achievements", "by": "the checklist and badge traditions of games and scouting", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Achievement_(video_games)", "for": "Paths: boxes that tick themselves, a gift for each one walked"}, {"group": "Foundations", "name": "Clave and tresillo", "by": "Afro-Cuban music, from sub-Saharan African timeline patterns", "label": "Tradition", "url": "https://en.wikipedia.org/wiki/Clave_(rhythm)", "for": "the son clave, tresillo and dembow starters"}, {"group": "Foundations", "name": "WAI-ARIA tabs pattern", "by": "W3C, ARIA Authoring Practices Guide", "label": "Standard", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/", "for": "the sound panel’s tabs (Surface · Tabs)"}, {"group": "Foundations", "name": "Snapping windows to the screen's edges", "by": "desktop window managers, from Windows 7's Aero Snap (2009) onward", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Aero_Snap", "for": "popovers that snap to the window's edges"}, {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"}, {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"}, {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"}, {"group": "Methods", "name": "Sierpiński triangle", "by": "Wacław Sierpiński, 1915", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle", "for": "the fractal bytebeat"}, {"group": "Methods", "name": "Curves of the founding pack", "by": "Grandi's rose (1723), the epicycloid (Dürer 1525, Rømer 1674), Fay's butterfly (1989), Archimedes' spiral, Gielis' superformula (2003), Lorenz's attractor (1963), the Heighway dragon (1966), Blackburn's harmonograph (1844), Truchet tiles (1704), the Koch snowflake (1904)", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/List_of_curves", "for": "the ten G-code paths of the founding pack"}, {"group": "Methods", "name": "Beatty sequence", "by": "Samuel Beatty, 1926: floor(n·φ)", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Beatty_sequence", "for": "the Golden 118 beat"}, {"group": "Methods", "name": "Euclidean rhythms", "by": "Godfried Toussaint, 2005, after Euclid's algorithm and E. Bjorklund", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Euclidean_rhythm", "for": "the Euclid 5 in 16 starter beat"}, {"group": "Methods", "name": "The step sequencer", "by": "Roland TR-808, 1980, after the drum machines before it", "label": "Instrument", "url": "https://en.wikipedia.org/wiki/Roland_TR-808", "for": "the Beat tab’s sixteen-step grid"}, {"group": "Methods", "name": "Fibonacci numbers", "by": "Leonardo of Pisa, Liber Abaci, 1202", "label": "Mathematics", "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence", "for": "the fibo beat"}, {"group": "Formats", "name": "OpenType", "by": "Microsoft and Adobe, 1996", "label": "Format", "url": "https://en.wikipedia.org/wiki/OpenType", "for": "type outlines, read by opentype.js"}, {"group": "Formats", "name": "GIF and LZW", "by": "CompuServe, 1987 · Terry Welch, 1984, after Abraham Lempel and Jacob Ziv", "label": "Format", "url": "https://en.wikipedia.org/wiki/GIF", "for": "GIF capture, written by gifenc"}, {"group": "Formats", "name": "QR Code", "by": "Masahiro Hara, Denso Wave, 1994 · QR Code is a registered trademark of DENSO WAVE INCORPORATED", "label": "Trademark", "url": "https://en.wikipedia.org/wiki/QR_code", "for": "sharing as a code"}, {"group": "Formats", "name": "Web standards", "by": "W3C: Web Audio and AudioWorklet, Pointer Events, Web App Manifest", "label": "Standard", "url": "https://www.w3.org/", "for": "running in any browser, and as an app"}, {"group": "Formats", "name": "ZIP", "by": "Phil Katz, PKWARE, 1989 (APPNOTE)", "label": "Format", "url": "https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT", "for": "the Paths pack"}, {"group": "Formats", "name": "Document Picture-in-Picture", "by": "W3C Web Incubator Community Group, 2023", "label": "Standard", "url": "https://wicg.github.io/document-picture-in-picture/", "for": "the index in its own window, on top"}, {"group": "Formats", "name": "CSS Paged Media", "by": "W3C", "label": "Standard", "url": "https://www.w3.org/TR/css-page-3/", "for": "the printed manual: pages, margins, page numbers"}, {"group": "The studio", "name": "Bytebeat Reef", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the bytebeat engine; ladder, weave, chord and tide"}, {"group": "The studio", "name": "Fracture", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the player and capture"}, {"group": "The studio", "name": "Pullula", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the drawer, the index and the gestures"}, {"group": "The studio", "name": "The Codex", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "arranging the index; the keep pin"}, {"group": "The studio", "name": "_____ American _____", "by": "CHAMY·XYZ", "label": "Own", "url": "https://works.chamy.xyz/_____American_____/", "for": "the share sheet and the QR encoder"}, {"group": "The studio", "name": "Surface", "by": "CHAMY·XYZ", "label": "Own", "url": "", "for": "the shared interface"}]</script>
 <script type="application/json" id="credits">[
  {
   "name": "opentype.js",
@@ -1685,7 +1698,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div id="wlItems" role="group" aria-label="Recent words"></div>
 </div>
 <div id="batchPop" role="dialog" aria-label="Batch export" hidden>
-  <div class="mxh"><span>Batch <b class="tier">artist</b></span><button class="tb" id="batchClose" type="button" aria-label="Close batch export">Close</button></div>
+  <div class="mxh"><span>Batch <b class="tier">pro</b></span><button class="tb" id="batchClose" type="button" aria-label="Close batch export">Close</button></div>
   <div id="batchBody"></div>
 </div>
 <div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
@@ -2697,7 +2710,7 @@ try{const q=JSON.parse(localStorage.getItem('toolpath-quant'));if(QUANT_STEPS.so
    line up with your taps (the first tap of a run is beat one), new looks land on your grid, the word sequence's "bar"
    counts your beats, and with no beat playing the field gets a pulse on each of your beats. Two taps set a tempo, more
    refine it (the last eight count); a pause of two seconds starts a new run. Hold the tap button (or shift+b) to let go:
-   the beats return to their own tempo. Free: an outside clock (MIDI clock, OSC) is for the Artist plan. */
+   the beats return to their own tempo. Free: an outside clock (MIDI clock, OSC) is for Pro. */
 const TAP={bpm:null,taps:[],s0:0,n:0,lastK:-1,timer:0};
 const tapNow=()=>performance.now()/1000;
 function tapTempo(at){const t=at&&tapNow()-at<.6?at:tapNow(),L=TAP.taps;TAP.down=0;
@@ -3593,11 +3606,11 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and
   secondary:{label:'share',run:()=>{closeShotPop();openOut(false)}},
   onClose:()=>$('pShot').setAttribute('aria-expanded','false')});
 function buildShotPop(){SHOT.build();batchBtn()}
-/* batch is for the Artist plan: greyed in the public app; usable inside Claude, where Dimitry tests it (19 Oct) */
+/* batch is for Pro (the tier once called Artist, renamed 19-20 Oct): greyed in the public app; usable inside Claude, where Dimitry tests it (19 Oct) */
 const batchOpen=()=>{try{return window.top!==window.self||/(^|\.)claude(usercontent)?\.(ai|com)$/.test(location.hostname)}catch(_){return true}};
 function batchBtn(){const acts=$('shotPop').querySelector('.scap-acts');if(acts&&!acts.querySelector('.btOpen')){const x=document.createElement('button');x.type='button';x.className='scap-go ghost btOpen';
-  if(!batchOpen()){x.disabled=true;x.classList.add('soon');x.title='Batch export comes with the Artist plan'}
-  x.innerHTML='batch <b class="tier">artist</b>';x.setAttribute('aria-label',x.disabled?'Batch export: coming with the Artist plan':'Batch export: capture many looks or texts in this mode, saved as one zip (Artist plan)');if(!x.disabled)x.onclick=openBatch;acts.appendChild(x)}}
+  if(!batchOpen()){x.disabled=true;x.classList.add('soon');x.title='Batch export comes with Pro'}
+  x.innerHTML='batch <b class="tier">pro</b>';x.setAttribute('aria-label',x.disabled?'Batch export: coming with Pro':'Batch export: capture many looks or texts in this mode, saved as one zip (Pro)');if(!x.disabled)x.onclick=openBatch;acts.appendChild(x)}}
 function openShotPop(){if(typeof closePlist==='function')closePlist();if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();$('pShot').setAttribute('aria-expanded','true')}
 function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
 document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot'))closeShotPop()},true);
@@ -4620,6 +4633,22 @@ const BEAT_BUILTIN=Object.keys(BEATS);
 const BEAT_OK=p=>p&&typeof p==='object'&&+p.bpm>=30&&+p.bpm<=300&&['k','s','h','b'].every(v=>typeof p[v]==='string'&&/^[x.]{16}$/.test(p[v]));
 let BEAT_USER={};try{const o=JSON.parse(localStorage.getItem('current.beats')||'{}');for(const n in o)if(BEAT_OK(o[n])&&!BEAT_BUILTIN.includes(n)&&!/^Byte /.test(n))BEAT_USER[n]={bpm:+o[n].bpm,k:o[n].k,s:o[n].s,h:o[n].h,b:o[n].b}}catch(_){}
 Object.assign(BEATS,BEAT_USER);
+/* THE FOUNDING PACK'S BEATS (Dimitry, 20 Oct): ten more grooves for the first 500 founding testers, in "Start from"
+   once the pack is theirs. Golden places its kicks by the Beatty sequence of the golden ratio, floor(n·φ). */
+const FP_BEATS=(()=>{const g=Array(16).fill('.');for(let n=1;n<=9;n++){const i=Math.floor(n*1.6180339887)-1;if(i<16)g[i]='x'}
+  const e=(k,n)=>{let s='';for(let i=0;i<n;i++)s+=(i*k)%n<k?'x':'.';return s};
+  return {
+  'Afrobeat 104':{bpm:104,k:'x..x....x..x....',s:'....x.......x.x.',h:'x.xxx.xxx.xxx.xx',b:'x.....x.x.......'},
+  'Bossa 140':{bpm:140,k:'x..xx..xx..xx..x',s:'x..x..x...x..x..',h:'x.x.x.x.x.x.x.x.',b:'x..x....x..x....'},
+  'Footwork 160':{bpm:160,k:'x..x..x...x..x..',s:'........x.......',h:'x.x.x.x.x.x.x.x.',b:'x..x..x.........'},
+  'Dub 74':{bpm:74,k:'x.........x.....',s:'........x.......',h:'..x...x...x...x.',b:'x...x.....x.x...'},
+  'Electro 128':{bpm:128,k:'x.....x...x.....',s:'....x.......x...',h:'xxxxxxxxxxxxxxxx',b:'x.x...x.x.x...x.'},
+  'Shuffle 96':{bpm:96,k:'x.....x.x.....x.',s:'....x..x....x...',h:'x..x..x.x..x..x.',b:'x.......x.......'},
+  'Euclid 7 in 16':{bpm:114,k:e(7,16),s:'....x.......x...',h:'xx.xx.xx.xx.xx.x',b:'x.......x.......'},
+  'Golden 118':{bpm:118,k:g.join(''),s:'....x.......x...',h:'..x...x...x...x.',b:'x.......x.......'},
+  'Gqom 124':{bpm:124,k:'x..x..x...x..x..',s:'......x.......x.',h:'..x...x...x...x.',b:'x.....x.........'},
+  'Half-step 85':{bpm:85,k:'x......x..x.....',s:'........x.......',h:'x.xxx.x.x.xxx.x.',b:'x......x..x.....'}}})();
+const fpOn=()=>{try{return localStorage.getItem('current.pack')==='1'}catch(_){return false}};
 /* STARTERS (Dimitry, 20 Oct): grooves to load into the Beat grid and change. They are templates, not shelf sounds:
    they live in "Start from" only, so the sound shelf stays short. Each names its tempo, as the built-in beats do. */
 const BEAT_STARTERS={
@@ -5260,14 +5289,14 @@ const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DR
       RAF=requestAnimationFrame(tick)};RAF=requestAnimationFrame(tick)}
   function clear(){cancelAnimationFrame(RAF);RAF=0;const g=$('bgGrid');if(g){g.dataset.st='';g.querySelectorAll('.now').forEach(c=>c.classList.remove('now'))}}
   const svg=(p,cls)=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
-  function load(name){const p=BEATS[name]||BEAT_STARTERS[name];if(!p)return;D={bpm:p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};src=name;changed();render();if(window.cxCount)cxCount('beat grid: load',1)}
+  function load(name){const p=BEATS[name]||BEAT_STARTERS[name]||(fpOn()&&FP_BEATS[name]);if(!p)return;D={bpm:p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};src=name;changed();render();if(window.cxCount)cxCount('beat grid: load',1)}
   function render(){const b=$('beatBody');if(!b)return;b.innerHTML='';
     const h=document.createElement('div');h.className='sub';h.textContent='Start from';b.appendChild(h);
     const top=document.createElement('div');top.className='bgTop';
     const sel=document.createElement('select');sel.setAttribute('aria-label','Load a beat into the grid');
     const og=(lab,names)=>{if(!names.length)return;const g=document.createElement('optgroup');g.label=lab;for(const n of names){const o=document.createElement('option');o.value=n;o.textContent=n;g.appendChild(o)}sel.appendChild(g)};
     const o0=document.createElement('option');o0.value='';o0.textContent=src&&BEATS[src]?'from '+src:'your grid';sel.appendChild(o0);
-    og('Starters',Object.keys(BEAT_STARTERS));og('Built in',BEAT_BUILTIN);og('My beats',Object.keys(BEAT_USER));sel.value='';sel.onchange=()=>{if(sel.value)load(sel.value)};
+    og('Starters',Object.keys(BEAT_STARTERS));if(fpOn())og('Founding pack',Object.keys(FP_BEATS));og('Built in',BEAT_BUILTIN);og('My beats',Object.keys(BEAT_USER));sel.value='';sel.onchange=()=>{if(sel.value)load(sel.value)};
     const pl=document.createElement('button');pl.type='button';pl.className='bgIco pl';pl.innerHTML=playing()?svg('<rect x="6" y="6" width="12" height="12" rx="1.5"/>'):svg('<path d="M7 5l12 7-12 7z"/>');
     pl.setAttribute('aria-pressed',String(playing()));pl.setAttribute('aria-label',playing()?'Stop your beat':'Play the grid');pl.title=playing()?'Stop':'Play the grid';pl.onclick=play;
     const nw=document.createElement('button');nw.type='button';nw.className='bgIco';nw.innerHTML=svg('<path d="M5 5h14v14H5z"/><path d="M9 12h6"/>');nw.title='Clear the grid';nw.setAttribute('aria-label','Clear the grid');
@@ -5768,7 +5797,23 @@ resize();
   const sync=()=>{for(const id in MAP){const b=$(id);if(b)b.classList.toggle('drawerOpen',open(MAP[id]))}};
   for(const id in MAP){const b=$(id);if(!b)continue;b.setAttribute('data-drawer','');
     for(const q of MAP[id]){const e=document.querySelector(q);if(e)new MutationObserver(sync).observe(e,{attributes:true,attributeFilter:['class','hidden']})}}
-  sync()})();
+  sync();
+  /* the notch: follows the open drawer (and the one fading out) each frame, so it rides the strip's slide and fade */
+  const N=document.createElement('div');N.id='drawerNotch';N.setAttribute('aria-hidden','true');N.innerHTML='<svg viewBox="0 0 20 10" preserveAspectRatio="none"><path d="M0 0L10 10L20 0"/></svg>';document.body.appendChild(N);
+  let cur=null,raf=0;const face=e=>e.id==='shotPop'?e:(e.querySelector('.track')||e);
+  const tick=()=>{raf=0;let pick=null;
+    for(const id in MAP){const b=$(id);if(!b)continue;for(const q of MAP[id]){const e=document.querySelector(q);if(e&&(e.id==='shotPop'?!e.hidden:e.classList.contains('open'))){pick=[b,e];break}}if(pick)break}
+    if(pick)cur=pick;if(!cur){N.style.opacity='0';return}
+    const [b,e]=cur,f=face(e),op=e.id==='shotPop'?(e.hidden?0:1):+getComputedStyle(e).opacity;
+    if(!pick&&op<.01){f.classList.remove('notched');cur=null;N.style.opacity='0';return}
+    const r=f.getBoundingClientRect(),c=b.getBoundingClientRect(),x=Math.max(r.left+22,Math.min(r.right-22,c.left+c.width/2));
+    document.querySelectorAll('.notched').forEach(o=>{if(o!==f)o.classList.remove('notched')});
+    f.classList.add('notched');f.style.setProperty('--nx',(x-r.left).toFixed(1)+'px');
+    N.style.transform='translate('+(x-10).toFixed(1)+'px,'+(r.bottom-1).toFixed(1)+'px)';N.style.opacity=String(op);
+    raf=requestAnimationFrame(tick)};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(tick)};
+  for(const id in MAP)for(const q of MAP[id]){const e=document.querySelector(q);if(e)new MutationObserver(kick).observe(e,{attributes:true,attributeFilter:['class','hidden']})}
+  addEventListener('resize',kick);kick()})();
 const go=()=>{loadPreset(0,true);booted=true;requestAnimationFrame(frame);try{openSharedLook()}catch(_){}};
 // trace only after the face is loaded, or the canvas rasterizes a fallback
 (document.fonts&&document.fonts.load?Promise.all([document.fonts.load(FONTS.sans),document.fonts.load(FONTS.mono),Promise.race([loadUserFonts().then(()=>loadOutline($('font').value)),new Promise(r=>setTimeout(r,6000))])]).catch(()=>{}):Promise.resolve()).then(go)
@@ -6099,7 +6144,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   w.innerHTML='<button type="button" class="lc-betaBtn" aria-expanded="false" aria-controls="lcBetaF"></button>'+
     '<form id="lcBetaF" class="lc-betaF" novalidate hidden aria-labelledby="lcBetaH">'+
       '<div class="lc-betaHd"><p class="lc-betaH" id="lcBetaH">'+duck+'<span>Founding testers</span></p><button type="button" class="lc-betaX" aria-label="Close the sign-up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
-      '<p class="lc-betaLead">Founding testers get <b>missions</b>: new Paths to walk before they ship, and a say in what Current does next.</p>'+
+      '<p class="lc-betaLead">Founding testers get <b>missions</b>: new Paths to walk before they ship, and a say in what Current does next. The first 500 get the <b>founding pack</b>: 10 beats, 10 looks, 10 bytebeats.</p>'+
       '<label class="sr-only" for="lcBetaN">Name</label><input type="text" id="lcBetaN" required maxlength="80" autocomplete="name" placeholder="your name">'+
       '<label class="sr-only" for="lcBetaE">Email</label><input type="email" id="lcBetaE" required maxlength="254" autocomplete="email" inputmode="email" placeholder="your email">'+
       '<label class="sr-only" for="lcBetaP">Phone (optional)</label><input type="tel" id="lcBetaP" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="phone (optional) · for texts">'+
@@ -6134,7 +6179,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
     go.disabled=true;say('sending…');
     try{const r=await fetch(BETA.url,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json','Prefer':'return=minimal'},
         body:JSON.stringify({tool:BETA.tool,name,email,roles,phone,sms_consent:!!phone,paths_done:steps,version:window.__VERSION__||null,consent:true})});
-      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);
+      if(r.ok||r.status===409){done=true;try{localStorage.setItem('current.beta','1')}catch(_){}try{syncIdxBeta()}catch(_){}if(window.cxCount)cxCount('beta: signed up',1);try{setTimeout(()=>window.FPACK&&FPACK.claim(f),400)}catch(_){}
         w.classList.add('hop');say(r.status===409?'You’re already on the list. Missions are on their way.':'You’re in. Your first missions are on their way.');f.querySelectorAll('input,button:not(.lc-betaX)').forEach(x=>x.disabled=true);label();betaCelebrate(f,name,r.status===409);setTimeout(()=>{if(!f.hidden&&!f.dataset.stay)show(false)},6000)}   // a touch on the sheet keeps it open   // the form gives way to a thank-you with confetti, then the sheet closes (Dimitry, 19 Oct)
       else{say('That didn’t go through ('+r.status+'). Try again in a moment.',1);go.disabled=false}}
     catch(_){say('Couldn’t reach the list from here. Try again, or open Current at works.chamy.xyz/current.',1);go.disabled=false}};
@@ -6187,10 +6232,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020111230"></script>
-<script src="surface/links.js?v=20261020111230"></script>
-<script src="surface/tips.js?v=20261020111230"></script>
-<script src="surface/sections.js?v=20261020111230"></script>
+<script src="surface/install.js?v=20261020120300"></script>
+<script src="surface/links.js?v=20261020120300"></script>
+<script src="surface/tips.js?v=20261020120300"></script>
+<script src="surface/sections.js?v=20261020120300"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6418,11 +6463,107 @@ try{(function(){
       'phyllotaxis at the golden angle (Helmut Vogel, 1979), the Hilbert curve (David Hilbert, 1891), G2/G3 arcs (G-code, EIA RS-274),',
       'and ZIP (PKWARE APPNOTE). Made for walking every path.'].join('\n')]);
     return zip(files)}
+
+  /* ===== THE FOUNDING PACK (Dimitry, 20 Oct): the first 500 founding testers get 10 beats, 10 looks each riding one of
+     10 new G-code paths, and 10 bytebeats. It opens in the app on sign-up (looks into your looks, formulas into My
+     formulas, beats into Beat › Start from) and downloads as a ZIP. The count comes from Supabase's beta_count(): a
+     number, never a row. The first 100 also get Pro free when Pro exists. Like every reward here, it lives on this
+     device; a gift, not a lock. ===== */
+  const FP_GEN={
+    rose(){const p=[];for(let i=0;i<=1600;i++){const t=i/1600*Math.PI*2,r=40*Math.cos(4*t);p.push([50+r*Math.cos(t),50+r*Math.sin(t)])}
+      return prog('Rose r = cos 4θ, eight petals (Guido Grandi, 1723)',p)},
+    epi(){const R=5,r=1,k=40/(R+2*r),p=[];for(let i=0;i<=1200;i++){const t=i/1200*Math.PI*2;p.push([50+k*((R+r)*Math.cos(t)-r*Math.cos((R+r)/r*t)),50+k*((R+r)*Math.sin(t)-r*Math.sin((R+r)/r*t))])}
+      return prog('Epicycloid, five cusps: a circle rolling around a circle (Dürer, 1525; Rømer, 1674)',p)},
+    butterfly(){const p=[];for(let i=0;i<=2400;i++){const t=i/2400*Math.PI*12,e=Math.exp(Math.cos(t))-2*Math.cos(4*t)-Math.pow(Math.sin(t/12),5);p.push([50+9.5*Math.sin(t)*e,46-9.5*Math.cos(t)*e])}
+      return prog('Butterfly curve (Temple H. Fay, 1989)',p)},
+    archi(){const p=[];for(let i=0;i<=1400;i++){const t=i/1400*Math.PI*2*9,r=t/(Math.PI*2*9)*42;p.push([50+r*Math.cos(t),50+r*Math.sin(t)])}
+      return prog('Archimedean spiral, nine turns (Archimedes, On Spirals, c. 225 BC)',p,i=>Math.round(400+i*.8))},
+    superf(){const m=7,n1=.35,n2=.8,n3=.8,p=[];let mx=0;const R=t=>Math.pow(Math.pow(Math.abs(Math.cos(m*t/4)),n2)+Math.pow(Math.abs(Math.sin(m*t/4)),n3),-1/n1);
+      for(let i=0;i<=1400;i++)mx=Math.max(mx,R(i/1400*Math.PI*2));for(let i=0;i<=1400;i++){const t=i/1400*Math.PI*2,r=R(t)/mx*42;p.push([50+r*Math.cos(t),50+r*Math.sin(t)])}
+      return prog('Superformula m 7 (Johan Gielis, 2003)',p)},
+    lorenz(){let x=.1,y=0,z=0;const p=[],dt=.006;for(let i=0;i<5200;i++){const dx=10*(y-x),dy=x*(28-z)-y,dz=x*y-8/3*z;x+=dx*dt;y+=dy*dt;z+=dz*dt;if(i>200&&i%2===0)p.push([50+x*1.7,92-z*1.62])}
+      return prog('Lorenz attractor, seen side on (Edward Lorenz, 1963)',p)},
+    dragon(){let s='FX';for(let k=0;k<11;k++)s=s.replace(/[XY]/g,c=>c==='X'?'X+YF+':'-FX-Y');let x=0,y=0,a=0;const q=[[0,0]];
+      for(const c of s){if(c==='F'){x+=Math.cos(a);y+=Math.sin(a);q.push([x,y])}else if(c==='+')a+=Math.PI/2;else if(c==='-')a-=Math.PI/2}
+      const xs=q.map(v=>v[0]),ys=q.map(v=>v[1]),x0=Math.min(...xs),y0=Math.min(...ys),sc=84/Math.max(Math.max(...xs)-x0,Math.max(...ys)-y0);
+      return prog('Dragon curve, order 11 (Heighway, Banks and Harter, 1966)',q.map(v=>[8+(v[0]-x0)*sc,8+(v[1]-y0)*sc]))},
+    harmono(){const p=[];for(let i=0;i<=3200;i++){const t=i/3200*60,d=Math.exp(-.035*t);p.push([50+40*d*Math.sin(2.01*t+.4)*Math.cos(.02*t),50+40*d*Math.sin(3*t)])}
+      return prog('Harmonograph: two damped pendulums (Hugh Blackburn, 1844)',p)},
+    truchet(){const g=['; Truchet tiles: quarter arcs turned at random, the same tile making endless patterns (Sébastien Truchet, 1704)','; CHAMY·XYZ · Current · the founding pack','G21 G90'];
+      let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};const N=8,s=84/N;
+      for(let r=0;r<N;r++)for(let c=0;c<N;c++){const x=8+c*s,y=8+r*s,flip=rnd()<.5;
+        const arcs=flip?[[x,y,0],[x+s,y+s,Math.PI]]:[[x+s,y,Math.PI/2],[x,y+s,-Math.PI/2]];
+        for(const [cx,cy,a0] of arcs){const pts=[];for(let i=0;i<=10;i++){const a=a0+i/10*Math.PI/2;pts.push([cx+s/2*Math.cos(a),cy+s/2*Math.sin(a)])}
+          g.push(`G0 Z2 X${fx(pts[0][0])} Y${fx(pts[0][1])}`,'G1 Z0 F400');pts.slice(1).forEach(q=>g.push(`G1 X${fx(q[0])} Y${fx(q[1])} F900`));g.push('G0 Z2')}}
+      return g.join('\n')},
+    koch(){let pts=[[0,0],[1,0],[.5,-Math.sqrt(3)/2],[0,0]];for(let k=0;k<4;k++){const n=[];for(let i=0;i<pts.length-1;i++){const [a,b]=[pts[i],pts[i+1]],dx=(b[0]-a[0])/3,dy=(b[1]-a[1])/3,
+        p1=[a[0]+dx,a[1]+dy],p2=[a[0]+2*dx,a[1]+2*dy],pk=[p1[0]+dx*.5-dy*Math.sqrt(3)/2,p1[1]+dy*.5+dx*Math.sqrt(3)/2];n.push(a,p1,pk,p2)}n.push(pts[pts.length-1]);pts=n}
+      const xs=pts.map(v=>v[0]),ys=pts.map(v=>v[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),sc=80/Math.max(x1-x0,y1-y0);
+      return prog('Koch snowflake, order 4 (Helge von Koch, 1904)',pts.map(v=>[50+(v[0]-(x0+x1)/2)*sc,50+(v[1]-(y0+y1)/2)*sc]))}};
+  const FP_LOOKS={
+    rose:{name:'Pack · Rose',mode:'orbit',line:'#ff5c8a',line2:'#ede6d6',alt:'grain',p:{falloff:3,speed:1.5,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
+    epi:{name:'Pack · Epicycloid',mode:'along',line:'#55b8c9',line2:'#ede6d6',alt:'motion',p:{falloff:3.2,speed:1.4,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:true}},
+    butterfly:{name:'Pack · Butterfly',mode:'along',line:'#e8a83a',line2:'#ff5c8a',alt:'time',p:{falloff:2.6,speed:1.6,fade:0.045},flags:{arrows:false,path:false,travel:false,feed:false}},
+    archi:{name:'Pack · Archimedes',mode:'orbit',line:'#ede6d6',line2:'#336bf2',alt:'motion',p:{falloff:3.4,speed:1.3,fade:0.06},flags:{arrows:false,path:false,travel:false,feed:true}},
+    superf:{name:'Pack · Superformula',mode:'orbit',line:'#9b7bff',line2:'#55b8c9',alt:'grain',p:{falloff:3,speed:1.5,fade:0.05,pulse:.4},flags:{arrows:false,path:false,travel:false,feed:false}},
+    lorenz:{name:'Pack · Lorenz',mode:'along',line:'#ff6b2b',line2:'#ede6d6',alt:'time',p:{falloff:2.4,speed:1.7,fade:0.04},flags:{arrows:false,path:false,travel:false,feed:true}},
+    dragon:{name:'Pack · Dragon',mode:'along',line:'#ede6d6',p:{falloff:2.2,speed:1.4,fade:0.06},flags:{arrows:false,path:true,travel:false,feed:false}},
+    harmono:{name:'Pack · Harmonograph',mode:'along',line:'#dba359',line2:'#336bf2',alt:'motion',p:{falloff:2.8,speed:1.5,fade:0.05},flags:{arrows:false,path:false,travel:false,feed:false}},
+    truchet:{name:'Pack · Truchet',mode:'orbit',line:'#55b8c9',line2:'#ff5c8a',alt:'grain',p:{falloff:3.2,speed:1.4,fade:0.05},flags:{arrows:false,path:true,travel:false,feed:false}},
+    koch:{name:'Pack · Koch',mode:'along',arrow:'#ff7a52',line:'#ede6d6',p:{falloff:3,speed:1.4,fade:0.05},flags:{arrows:true,path:true,travel:false,feed:true}}};
+  const FP_BYTES=[['Stair tide','t*((t>>11)%8+1)&t>>5'],['Ninefold','t*9&t>>4|t*5&t>>7|t*3&t>>10'],['Lantern','t*("6798"[t>>12&3]&15)/2&t>>4'],
+    ['Pulse field','t*((t>>10)%3+2)&(t>>6|64)'],['Coastline','t*(t>>8^t>>11)&t>>3'],['Signal fire','(t&t>>7)*(t>>11&7)'],['Long walk','t*("13579753"[t>>11&7]&15)/4|t>>6'],
+    ['Copper','t*3&t>>10^t*2&t>>7'],['Undertow','(t>>4)*(t>>7&t>>10&15)|t*2&t>>12'],['Fourths','t*("0257"[t>>13&3]-(-4))&t>>5|t>>4']];
+  const fpLook=k=>{const L=FP_LOOKS[k];return {...L,gcode:FP_GEN[k](),p:{...DEFAULTS,...L.p},pack:'founding'}};
+  const FP_MAX=500,FP_PRO=100,FP_RPC=BETA.url.replace(/\/[^/]+$/,'/rpc/beta_count');
+  const fpGive=()=>{let add=0;
+    for(const k of Object.keys(FP_LOOKS))if(!store.user.some(u=>u.name===FP_LOOKS[k].name)){store.user.push(fpLook(k));add++}
+    if(!Array.isArray(store.formulas))store.formulas=[];
+    for(const [n,f] of FP_BYTES){const nm='Pack · '+n;if(!store.formulas.some(x=>x.name===nm||x.f===f))store.formulas.push({name:nm,f,mode:0,hz:8000})}
+    persist();try{renderPresets()}catch(_){}try{if(typeof buildLooks==='function')buildLooks()}catch(_){}try{syncPlist()}catch(_){}try{bbList()}catch(_){}
+    try{localStorage.setItem('current.pack','1')}catch(_){}fpPaint();return add};
+  const fpCount=async()=>{const r=await fetch(FP_RPC,{method:'POST',headers:{'apikey':BETA.key,'Content-Type':'application/json'},body:JSON.stringify({p_tool:BETA.tool})});if(!r.ok)throw r.status;return +(await r.json())};
+  function fpZip(){const files=[],looks=[];
+    for(const k of Object.keys(FP_LOOKS)){const L=fpLook(k);files.push(['gcode/'+slug(L.name)+'.nc',L.gcode]);const {gcode,...st}=L;looks.push(st)}
+    files.push(['looks.json',JSON.stringify({kind:'current.looks',made:new Date().toISOString(),looks},null,2)]);
+    files.push(['beats.json',JSON.stringify({kind:'current-beats',v:1,beats:FP_BEATS},null,1)]);
+    files.push(['formulas.json',JSON.stringify({kind:'current/formulas',v:1,formulas:FP_BYTES.map(([n,f])=>({name:'Pack · '+n,f,mode:'byte',hz:8000}))},null,1)]);
+    files.push(['README.txt',['CURRENT · the founding pack','CHAMY·XYZ, Dimitry Saïd Chamy, '+new Date().getFullYear(),'','For the first 500 founding testers. Thank you.','',
+      'gcode/      ten toolpaths: open any .nc in Current (tools › path › open file, or drop it on the stage), or send it to a plotter, laser or router.',
+      '            Ordinary G-code: G21 millimetres, G90 absolute, a 100 mm square.','looks.json  the ten looks that ride them.',
+      'beats.json  ten beats for the Beat grid (sound › Beat › import).','formulas.json  ten bytebeats for Bytes (My formulas › import).','',
+      'Foundations: rose curves (Guido Grandi, 1723), the epicycloid (Dürer, 1525; Rømer, 1674), the butterfly curve (Temple H. Fay, 1989),',
+      'the Archimedean spiral (Archimedes), the superformula (Johan Gielis, 2003), the Lorenz attractor (Edward Lorenz, 1963), the dragon curve',
+      '(Heighway, Banks and Harter, 1966), the harmonograph (Hugh Blackburn, 1844), Truchet tiles (Sébastien Truchet, 1704), the Koch snowflake',
+      '(Helge von Koch, 1904), Euclidean rhythms (Godfried Toussaint, 2005), the Beatty sequence of the golden ratio, the step sequencer',
+      '(Roland TR-808, 1980), bytebeat (viznut, 2011), and ZIP (PKWARE APPNOTE).'].join('\n')]);
+    return zip(files)}
+  /* its place in the index, under Paths: what is in it, and either the download or how to get it */
+  let fpSec=null;
+  function fpPaint(){const on=fpOn();if(!fpSec){const after=$('paths')||$('guide');if(!after)return;fpSec=document.createElement('section');fpSec.className='cx-grp';fpSec.id='pack';
+      fpSec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="packL"><span>Founding pack</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="packL"></div>';
+      after.after(fpSec);const gb=fpSec.querySelector('.cx-grpbtn');gb.onclick=()=>{const s=fpSec.classList.toggle('cx-shut');gb.setAttribute('aria-expanded',String(!s))}}
+    const b=$('packL');
+    b.innerHTML='<p class="cx-lead">'+(on?'Yours, as a founding tester:':'For the first '+FP_MAX+' founding testers:')+' <b>10 beats</b> (sound › Beat › Start from), <b>10 looks</b> on 10 new G-code paths (in your looks), and <b>10 bytebeats</b> (sound › Bytes › My formulas). The first '+FP_PRO+' also get Pro free when it arrives.</p>'+
+      '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">'+(on?'download the pack':'become a founding tester')+'</button></div>';
+    b.querySelector('.btn').onclick=on?()=>{saveBlob(FILE_PREFIX+'founding-pack.zip',fpZip());if(window.cxCount)cxCount('pack: download',1)}:()=>{try{openBetaSheet()}catch(_){}};
+    if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=Math.max(0,FP_MAX-n)+' of '+FP_MAX+' packs left.'}).catch(()=>{})}
+  /* on sign-up: count, and give the pack if they are within the first 500. If the count can't be read, give it: a
+     gift should not fail on a network hiccup. Testers who joined before the pack existed get it on their next visit. */
+  window.FPACK={claim:async(f)=>{let n=null;try{n=await fpCount()}catch(_){}
+      const ok=n==null||n<=FP_MAX;if(ok){fpGive();toast('your founding pack is in · 10 beats, 10 looks, 10 bytebeats',3600);if(window.cxCount)cxCount('pack: unlocked',1)}else fpPaint();
+      const ty=f&&f.querySelector('.lc-betaTy');if(ty){const p=document.createElement('p');p.className='sm';
+        p.textContent=ok?'Your founding pack is in: 10 beats, 10 looks on new G-code paths, 10 bytebeats.'+(n!=null&&n<=FP_PRO?' You’re one of the first 100: Pro is yours when it comes.':''):'The 500 founding packs are gone, but the missions are yours.';ty.insertBefore(p,ty.querySelector('.lc-betaShare'))}
+      return ok},zip:fpZip};
+  try{if(localStorage.getItem('current.beta')==='1'&&!fpOn())fpGive()}catch(_){}
+  setTimeout(fpPaint,0);
   /* the paths, deepest last */
   const pick=()=>{if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()};
   const P=SurfacePaths.mount({key:'current',after:'#guide',settings:'#displayL',title:'Paths',filePrefix:FILE_PREFIX,
     lead:'Seven paths through Current, from your first look to the G-code under it. Each box ticks itself when you do the thing. The numbers on the buttons point to the path that teaches them; switch them off in <b>Settings › Paths</b>.',
     save:(n,b)=>saveBlob(n,b),toast:m=>toast(m,2400),
+    first:{title:'Your first path discovery',open:'see the paths',
+      body:'That was step one of <b>Path 01</b>. Current hides seven <b>paths</b>: short checklists that tick themselves as you play. The colored numbers on the buttons show which path a control belongs to. Finish a path for a <b>bonus look</b>; walk them all for the Paths pack.'},
     showWhere:p=>{setPlayer(true);if(['02','03','06'].includes(p.id))setTimeout(pick,320)},
     /* take me there (0.20.0): the stage in front, and the shelf a step's control lives on */
     below:'#playbar',nagAbove:'#playbar',
@@ -6432,8 +6573,10 @@ try{(function(){
       else if(k==='src'){srcOpen=true;sndOpen=false;pickOpen=false;syncSteer()}
       else if(k==='hide')setTimeout(()=>{try{flashHideHint()}catch(_){}},200)},
     paths:[
-      {id:'01',title:'First current',note:'The bar: looks, Auto, random, and the clean stage.',badges:['#pTrans','#pRand'],
-        steps:[{id:'look',go:'#pNext',label:'Change the look with <b>&lsaquo;</b> or <b>&rsaquo;</b>'},{id:'auto',go:'#pAuto',label:'Let <b>Auto</b> morph through the looks'},{id:'random',go:'#pRand',label:'Roll a <b>random</b> look'},{id:'bare',go:'#hideHint',shelf:'hide',label:'Hide every control (<b>space</b>, or a three-finger tap) and bring them back'}],
+      {id:'01',title:'First current',note:'The bar: the speaker, looks, Auto, random, and the clean stage.',badges:['#pSnd','#pTrans','#pRand'],
+        /* step one is the speaker (Dimitry, 20 Oct): "start here" already points at it, so following the hint is the
+           first path discovery, and the first-discovery card explains the paths */
+        steps:[{id:'sound',go:'#pSnd',label:'Tap the <b>speaker</b> to turn the sound on'},{id:'look',go:'#pNext',label:'Change the look with <b>&lsaquo;</b> or <b>&rsaquo;</b>'},{id:'auto',go:'#pAuto',label:'Let <b>Auto</b> morph through the looks'},{id:'random',go:'#pRand',label:'Roll a <b>random</b> look'},{id:'bare',go:'#hideHint',shelf:'hide',label:'Hide every control (<b>space</b>, or a three-finger tap) and bring them back'}],
         reward:{label:'a bonus look, Lissajous',toast:'Lissajous is in your looks',give:()=>unlock('01'),given:'Unlocked: <b>Path 01 · Lissajous</b>, in your looks.'}},
       {id:'02',title:'Make it yours',note:'Your word, your colors, your frame, and something to keep.',badges:['#pickTrack [data-tool=text]','#pickTrack [data-tool=color]','#pickTrack [data-tool=frame]','#pShot'],
         steps:[{id:'word',go:'#pickTrack [data-tool=text]',shelf:'pick',label:'Type your own word in <b>text</b>'},{id:'color',go:'#pickTrack [data-tool=color]',shelf:'pick',label:'Change the colors in <b>color</b>'},{id:'frame',go:'#pickTrack [data-tool=frame]',shelf:'pick',label:'Move, scale or turn the drawing in <b>frame</b>'},{id:'capture',go:'#pShot',label:'Take a still, a GIF or a video with <b>capture</b>'}],
@@ -6461,6 +6604,7 @@ try{(function(){
   /* the hooks: Current's own functions, wrapped so they also tick a box */
   const wrap=(name,after)=>{const f=window[name];if(typeof f!=='function')return;window[name]=function(...a){const r=f.apply(this,a);try{after(a,r)}catch(_){}return r}};
   const cc=window.cxCount;window.cxCount=function(n,once){try{const s=String(n);
+      if(s.startsWith('sound: '))D('sound');
       if(s.startsWith('look: '))D('look');else if(s.startsWith('capture: '))D('capture');
       else if(s==='formula played'||s==='sound: own formula')D('byte');else if(s==='formula saved')D('bbsave');
       else if(s==='sound: microphone'||s==='sound: own file')D('mine');else if(s.startsWith('sound: Byte'))D('byte');else if(s.startsWith('sound: '))D('beat')}catch(_){}
@@ -6473,6 +6617,7 @@ try{(function(){
   wrap('openEditor',()=>D('edit'));{const f=window.saveEditor;if(typeof f==='function')window.saveEditor=function(...a){const had=!!(ED&&ED.paths&&ED.paths.length);const r=f.apply(this,a);if(had)D('drawsave');return r}}wrap('dupPreset',()=>D('dup'));wrap('loadGcodeText',()=>D('gfile'));
   /* and what can only be seen in the state: polled, quietly, a few times a second */
   new MutationObserver(()=>{if(document.documentElement.classList.contains('bare'))D('bare')}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  {const sb=$('pSnd');if(sb)new MutationObserver(()=>{if(sb.getAttribute('aria-pressed')==='true')D('sound')}).observe(sb,{attributes:true,attributeFilter:['aria-pressed']})}
   setInterval(()=>{try{
     if(STEER.on)D('steer');if(STEER.take)D('steerloop');if(MGR.take)D('magloop');if(ACTIVE==='magnet'&&Math.abs(S.magnet)>.05)D('magnet');
     if(SRC.kind==='picture'||SRC.kind==='video')D('picture');if(SRC.kind==='camera')D('camera');
@@ -6595,7 +6740,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.0';
+const APP_VERSION='0.26.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

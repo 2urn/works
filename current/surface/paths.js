@@ -23,6 +23,11 @@
       finale (Current: a downloadable pack). Progress lives in this browser only: no accounts, so a reward is a gift,
       never a credit with value. Save progress / load progress carry it to another browser (Safari can clear a site's
       storage after about a week without a visit).
+   6. THE FIRST DISCOVERY (Dimitry, 20 Oct 2026). The very first step anyone ticks, on a device with no progress yet, is
+      a moment: instead of a toast, a card above the bar says they found their first path step and, in a few lines,
+      what the paths are (the checklists, the numbers on the controls, the rewards), with "see the paths" one tap away.
+      Shown once per tool, per device. A tool steers that first tick by making its "start here" control (Current: the
+      speaker) step one of path 01, so following the hint is the discovery.
 
    Plain script, window.SurfacePaths, no dependencies (uses SurfaceLinks and SurfaceSections when present).
      SurfacePaths.mount({
@@ -40,6 +45,7 @@
        finale: { label: 'the pack', give: () => …, button: 'download the pack' },
        save: (name, blob) => …,                 // how the tool saves a file (progress export)
        toast: msg => …                          // how the tool speaks (a tick, a finished path)
+       first: { title: '…', body: '…html…', open: 'see the paths', stay: 24000 }   // the first-discovery card (6)
      })
      step.go: a selector (the control), a function, or { link: 'name' } (a SurfaceLinks name); default: the path's
        first badge. The control is outlined in the path's color for a moment, and focused.
@@ -119,6 +125,13 @@
     ".sp-acts button.pri{background:var(--c);border-color:var(--c);color:#0b0f10}",
     ".sp-acts button:focus-visible,.sp-ln:focus-visible{outline:2px solid #fff;outline-offset:2px}",
     ".sp-nag .sp-meter{margin:2px 0 2px}",
+    /* the first discovery: the suggestion card, ringed in the path's color, a headline and a few lines */
+    ".sp-first{width:min(340px,calc(100vw - 24px));border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 14px 48px color-mix(in srgb,var(--c) 38%,transparent)}",
+    ".sp-first .sp-hd{color:var(--c)}.sp-first .sp-hd b{color:var(--c);font-weight:700}",
+    ".sp-fh{margin:0;font:600 18px/1.25 var(--sans,system-ui,sans-serif);letter-spacing:-.01em}",
+    ".sp-fb{margin:0;font-size:13.5px;line-height:1.45;color:var(--ui-mid,#c9cfd1)}.sp-fb b{color:var(--ui-ink,#fff);font-weight:600}",
+    "@media (prefers-reduced-motion:no-preference){.sp-first .sp-fst{display:inline-block;animation:sp-spark 1.4s ease-in-out 3}}",
+    "@keyframes sp-spark{0%,100%{scale:1;rotate:0deg}50%{scale:1.35;rotate:20deg}}",
     ".sp-nl{list-style:none;margin:0;padding:0;display:grid;gap:2px}",
     ".sp-ln{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) 20px;gap:10px;align-items:center;min-height:40px;padding:4px 6px;margin:0 -6px;box-sizing:content-box;border:0;border-radius:10px;background:none;color:var(--ui-ink,#fff);cursor:pointer;text-align:left;font:inherit;font-size:13.5px}",
     ".sp-ln:hover{background:rgb(var(--ui-hi,255 255 255) / .07)}.sp-ln b{font-weight:600}.sp-ln svg{color:var(--ui-dim,#a8a8a8)}",
@@ -144,8 +157,8 @@
   function plain(t) { return String(t || "").replace(/<[^>]+>/g, "").replace(/&rsaquo;/g, "›").replace(/&lsaquo;/g, "‹").replace(/&rsquo;/g, "’").replace(/&amp;/g, "&"); }
   function shown(el) { if (!el || !el.isConnected || !el.getClientRects().length) return false; var c = getComputedStyle(el); return c.visibility !== "hidden" && c.display !== "none"; }
 
-  var O = null, S = { on: "on", nag: "on", done: {}, given: {}, fin: false, visits: 0 }, SK = "", sec = null, badgeMO = null;
-  function load() { try { var v = JSON.parse(localStorage.getItem(SK)); if (v && typeof v === "object") { S.on = v.on === "off" ? "off" : "on"; S.nag = v.nag === "off" ? "off" : "on"; S.done = v.done || {}; S.given = v.given || {}; S.fin = !!v.fin; S.visits = +v.visits || 0; } } catch (e) {} }
+  var O = null, S = { on: "on", nag: "on", done: {}, given: {}, fin: false, visits: 0, first: 0 }, SK = "", sec = null, badgeMO = null;
+  function load() { try { var v = JSON.parse(localStorage.getItem(SK)); if (v && typeof v === "object") { S.on = v.on === "off" ? "off" : "on"; S.nag = v.nag === "off" ? "off" : "on"; S.done = v.done || {}; S.given = v.given || {}; S.fin = !!v.fin; S.visits = +v.visits || 0; S.first = +v.first || 0; } } catch (e) {} }
   function persist() { try { localStorage.setItem(SK, JSON.stringify(S)); } catch (e) {} }
   function col(p) { return p.color || PAL[O.paths.indexOf(p) % PAL.length]; }
   function byId(id) { return O.paths.filter(function (x) { return x.id === id; })[0] || null; }
@@ -442,6 +455,36 @@
     return true;
   }
 
+  /* ---- the first discovery: the first step ever ticked on this device (6) ---- */
+  function firstCard(p, s) {
+    var f = O.first || {}, c = col(p);
+    if (nag.el) nag.el.hidden = true;
+    var el = firstCard.el;
+    if (!el) {
+      el = firstCard.el = document.createElement("div"); el.className = "sp-nag sp-first"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", f.title || "Your first path discovery"); el.hidden = true; document.body.appendChild(el);
+      var keep = false; el.addEventListener("pointerenter", function () { keep = true; }); el.addEventListener("focusin", function () { keep = true; });
+      firstCard.keep = function () { return keep; };
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !el.hidden) el.hidden = true; }, true);
+    }
+    var dots = p.steps.map(function (x) { return "<i" + (S.done[x.id] ? ' class="d"' : "") + "></i>"; }).join("");
+    el.style.setProperty("--c", c);
+    el.innerHTML = '<div class="sp-hd"><span><span class="sp-fst" aria-hidden="true">✦</span> <b>First discovery</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
+      '<div class="sp-bd"><p class="sp-fh">' + (f.title || "You found your first path step") + "</p>" +
+      '<div class="sp-dots" style="--c:' + c + '"><i class="sp-pip" style="--c:' + c + '">' + esc(p.id) + "</i>" + dots + "<span>" + esc(plain(p.title)) + " · " + count(p) + " of " + p.steps.length + "</span></div>" +
+      '<p class="sp-fb">' + (f.body || "") + "</p>" + meterHTML() +
+      '<div class="sp-acts"><button type="button" class="pri" data-a="see">' + esc(f.open || "see the paths") + '</button><button type="button" data-a="ok">keep playing</button></div></div>';
+    var shut = function () { el.hidden = true; };
+    el.querySelector(".sp-x").onclick = shut; el.querySelector('[data-a="ok"]').onclick = shut;
+    el.querySelector('[data-a="see"]').onclick = function () { shut(); open(p.id); };
+    var above = q(O.nagAbove), ar = above && shown(above) ? above.getBoundingClientRect() : null;
+    el.style.left = "50%"; el.style.transform = "translateX(-50%)";
+    el.style.bottom = (ar ? Math.round(innerHeight - ar.top + 14) : 96) + "px";
+    el.hidden = false;
+    try { flash(p); } catch (e) {}
+    clearTimeout(firstCard.t); firstCard.t = setTimeout(function () { if (firstCard.keep && firstCard.keep()) return; el.hidden = true; }, f.stay || 24000);
+    return el;
+  }
+
   /* ---- the meter under a launch cover's start button ---- */
   var meters = [];
   function meter(host, opt) {
@@ -488,12 +531,15 @@
   function done(id) {
     if (!O || S.done[id]) return false;
     var ps = stepOf(id); if (!ps) return false;
-    var p = ps[0], s = ps[1];
-    S.done[id] = Date.now(); persist();
+    var p = ps[0], s = ps[1], none = total()[0] === 0;
+    S.done[id] = Date.now();
+    var first = !!(O.first && !S.first && none && S.on === "on"); if (first || none) S.first = S.first || Date.now();
+    persist();
     var gave = reward(p), all = allFull();
     paint(); badges();
     if (sec) { var li = sec.querySelector('[data-step="' + id + '"]'); if (li) li.classList.add("fresh"); }
-    if (all && !S.fin) { S.fin = true; persist(); tell("✓ every path walked" + (O.finale ? " · " + (O.finale.toast || "your reward is in the index, under " + (O.title || "Paths")) : "")); }
+    if (first) firstCard(p, s);
+    else if (all && !S.fin) { S.fin = true; persist(); tell("✓ every path walked" + (O.finale ? " · " + (O.finale.toast || "your reward is in the index, under " + (O.title || "Paths")) : "")); }
     else if (gave) tell("✓ path " + p.id + " walked · " + (p.reward.toast || p.reward.label));
     else if (full(p)) tell("✓ path " + p.id + " walked");
     else tell("✓ " + p.id + " · " + plain(s.label));
@@ -507,7 +553,7 @@
     applyOn(); build(); switchRows(); badges(); watchBadges(); linkNames();
     return api;
   }
-  var api = { mount: mount, done: done, set: set, setNag: setNag, open: open, go: go, nag: nag, meter: meter, layout: layout,
+  var api = { mount: mount, done: done, firstCard: function (id) { var p = O && byId(id || O.paths[0].id); return p ? firstCard(p, p.steps[0]) : null; }, set: set, setNag: setNag, open: open, go: go, nag: nag, meter: meter, layout: layout,
     flash: function (id) { var p = O && byId(id); return p ? flash(p) : 0; },
     isDone: function (id) { return !!S.done[id]; }, get on() { return S.on; }, get suggest() { return S.nag; }, get progress() { return total(); } };
   window.SurfacePaths = api;
