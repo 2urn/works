@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020024303";window.__VERSION__="0.23.3";window.__NOTES__=[{"v":"0.23.3","date":"19 Oct 2026","items":[{"kind":"change","text":"in the index, the beta pill sits under the name, with founding tester and share beside it"}]}]</script>
+<script>window.__BUILD__="20261020024448";window.__VERSION__="0.23.4";window.__NOTES__=[{"v":"0.23.4","date":"19 Oct 2026","items":[{"kind":"change","text":"on tall cards (post and story), CURRENT runs down the left edge, large, with the sentence beside it at the top"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020024303"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020024303">
+<script src="claude-web.js?v=20261020024448"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020024448">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020024303"></script>
-<script src="surface/auto.js?v=20261020024303"></script>
-<script src="surface/toolpath.js?v=20261020024303"></script>
-<script src="surface/capture.js?v=20261020024303"></script>
-<script src="surface/pop.js?v=20261020024303"></script>
-<script src="surface/hints.js?v=20261020024303"></script>
-<script src="surface/paths.js?v=20261020024303"></script>
-<script src="surface/keys.js?v=20261020024303"></script>
-<script src="surface/reset.js?v=20261020024303"></script>
+<script src="vendor/opentype.min.js?v=20261020024448"></script>
+<script src="surface/auto.js?v=20261020024448"></script>
+<script src="surface/toolpath.js?v=20261020024448"></script>
+<script src="surface/capture.js?v=20261020024448"></script>
+<script src="surface/pop.js?v=20261020024448"></script>
+<script src="surface/hints.js?v=20261020024448"></script>
+<script src="surface/paths.js?v=20261020024448"></script>
+<script src="surface/keys.js?v=20261020024448"></script>
+<script src="surface/reset.js?v=20261020024448"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3577,22 +3577,27 @@ async function drawCard(){const [,,W,H]=CARD_SIZES.find(x=>x[0]===CARD.size),c=$
   /* the type first (measured), so the duck-rabbit can keep clear of it */
   g.font='700 '+Math.round(96*u)+'px '+font;try{g.letterSpacing=Math.round(96*u*.14)+'px'}catch(_){}
   const mw=mark?190*u:0,room=W-pad*2-mw-40*u;let ts=Math.round(96*u);const fit=()=>{g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}return g.measureText('CURRENT').width};
-  while(ts>30&&fit()>room)ts-=2;try{g.letterSpacing='0px'}catch(_){}
+  /* TALL CARDS (Dimitry, 19 Oct): the name runs down the top of the left edge, reading down like CHAMY·XYZ under it,
+     sized to the edge (about half the height); the sentence moves to the top, beside it */
+  const tall=H/W>=1.25;let vlen=0;
+  if(tall){ts=Math.round(150*u);const want=H*.5;while(ts<400&&fit()<want)ts+=4;while(ts>40&&fit()>H*.56)ts-=2;vlen=fit()}
+  else while(ts>30&&fit()>room)ts-=2;try{g.letterSpacing='0px'}catch(_){}
   const ls=Math.round(25*u),lh=Math.round(ls*1.4),words='G-code in. Every cut becomes a current. Particles follow it.'.split(' '),lines=[];g.font='400 '+ls+'px '+SANS;
-  {let cur='';const max=Math.min(470*u,W-pad*2);for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
-  const titleTop=pad,lineTop=titleTop+ts+Math.round(48*u),typeBottom=lineTop+lines.length*lh;
+  const sx=tall?pad+ts*.78+Math.round(36*u):pad;
+  {let cur='';const max=tall?Math.min(470*u,W-sx-mw-pad-40*u):Math.min(470*u,W-pad*2);for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
+  const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(48*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,pad+(mw?mw*mark.height/mark.width:0)):lineTop+lines.length*lh;
   const qs=Math.round(Math.min(W,H)*(wide?.27:.21)),qx=W-pad-qs,qy=H-pad-qs;
   if(CARD.style==='behind'){cardCover(g,look,0,0,W,H);
     const g2=g.createLinearGradient(0,0,0,typeBottom+60*u);g2.addColorStop(0,'rgba(5,7,8,.6)');g2.addColorStop(1,'rgba(5,7,8,0)');g.fillStyle=g2;g.fillRect(0,0,W,typeBottom+60*u)}
   else if(dw){/* the duck-rabbit, filled with the look, in the space the type and the code leave */
     let bh,bx,by;if(wide){bh=H*.8;by=(H-bh)/2;const bw=bh*dw.width/dw.height;bx=Math.min(W*.6-bw/2,W-pad-qs-24*u-bw)}
-    else{const top=typeBottom+40*u,bot=H-pad-qs-30*u;bh=Math.max(H*.3,bot-top);by=top;const bw0=bh*dw.width/dw.height;if(bw0>W-pad*2){bh=(W-pad*2)*dw.height/dw.width}bx=(W-bh*dw.width/dw.height)/2}
+    else{const left=tall?sx:pad,top=typeBottom+40*u,bot=H-pad-qs-30*u;bh=Math.max(H*.3,bot-top);by=top;const avail=W-left-pad;if(bh*dw.width/dw.height>avail){bh=avail*dw.height/dw.width}bx=left+(avail-bh*dw.width/dw.height)/2}
     const bw=bh*dw.width/dw.height,m=document.createElement('canvas');m.width=W;m.height=H;const mg=m.getContext('2d');mg.drawImage(dw,bx,by,bw,bh);mg.globalCompositeOperation='source-in';cardCover(mg,look,bx,by,bw,bh);
     g.save();g.shadowColor='rgba(85,184,201,.35)';g.shadowBlur=60*u;g.drawImage(m,0,0);g.restore()}
   /* top left: CURRENT and its sentence */
   g.fillStyle='#fff';g.textAlign='left';g.textBaseline='top';g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
-  g.fillText('CURRENT',pad,titleTop);try{g.letterSpacing='0px'}catch(_){}
-  g.font='400 '+ls+'px '+SANS;lines.forEach((t,k)=>g.fillText(t,pad,lineTop+k*lh));
+  if(tall){g.save();g.translate(pad,pad);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CURRENT',0,0);g.restore()}else g.fillText('CURRENT',pad,titleTop);try{g.letterSpacing='0px'}catch(_){}
+  g.font='400 '+ls+'px '+SANS;lines.forEach((t,k)=>g.fillText(t,sx,lineTop+k*lh));
   /* top right: the namemark */
   if(mark){const mh=mw*mark.height/mark.width;g.drawImage(mark,W-pad-mw,pad,mw,mh)}
   /* bottom left: CHAMY·XYZ, reading down, in the app's blue */
@@ -5715,10 +5720,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020024303"></script>
-<script src="surface/links.js?v=20261020024303"></script>
-<script src="surface/tips.js?v=20261020024303"></script>
-<script src="surface/sections.js?v=20261020024303"></script>
+<script src="surface/install.js?v=20261020024448"></script>
+<script src="surface/links.js?v=20261020024448"></script>
+<script src="surface/tips.js?v=20261020024448"></script>
+<script src="surface/sections.js?v=20261020024448"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6084,7 +6089,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.23.3';
+const APP_VERSION='0.23.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
