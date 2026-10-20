@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020123536";window.__VERSION__="0.26.8";window.__NOTES__=[{"v":"0.26.8","date":"20 Oct 2026","items":[{"kind":"new","text":"a self-test on load: Current checks the field is playing, and its presets, G-code, index, settings, paths and sound. If something is down, a message says so by itself, with reload and a report to send"}]}]</script>
+<script>window.__BUILD__="20261020124137";window.__VERSION__="0.26.9";window.__NOTES__=[{"v":"0.26.9","date":"20 Oct 2026","items":[{"kind":"fix","text":"the field plays again for anyone with saved bytebeat formulas (the founding pack gives ten). The formula list was drawn before the sound engine existed, which stopped Current from starting"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020123536"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020123536">
+<script src="claude-web.js?v=20261020124137"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020124137">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,20 +72,20 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020123536"></script>
-<script src="surface/selftest.js?v=20261020123536"></script>
-<script src="surface/auto.js?v=20261020123536"></script>
-<script src="surface/toolpath.js?v=20261020123536"></script>
-<script src="surface/capture.js?v=20261020123536"></script>
-<script src="surface/pop.js?v=20261020123536"></script>
-<script src="surface/hints.js?v=20261020123536"></script>
-<script src="surface/paths.js?v=20261020123536"></script>
-<script src="surface/keys.js?v=20261020123536"></script>
-<script src="surface/reset.js?v=20261020123536"></script>
-<script src="surface/files.js?v=20261020123536"></script>
-<script src="surface/rail.js?v=20261020123536"></script>
-<script src="surface/float.js?v=20261020123536"></script>
-<script src="surface/manual.js?v=20261020123536"></script>
+<script src="vendor/opentype.min.js?v=20261020124137"></script>
+<script src="surface/selftest.js?v=20261020124137"></script>
+<script src="surface/auto.js?v=20261020124137"></script>
+<script src="surface/toolpath.js?v=20261020124137"></script>
+<script src="surface/capture.js?v=20261020124137"></script>
+<script src="surface/pop.js?v=20261020124137"></script>
+<script src="surface/hints.js?v=20261020124137"></script>
+<script src="surface/paths.js?v=20261020124137"></script>
+<script src="surface/keys.js?v=20261020124137"></script>
+<script src="surface/reset.js?v=20261020124137"></script>
+<script src="surface/files.js?v=20261020124137"></script>
+<script src="surface/rail.js?v=20261020124137"></script>
+<script src="surface/float.js?v=20261020124137"></script>
+<script src="surface/manual.js?v=20261020124137"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4852,7 +4852,7 @@ $('bbFx').addEventListener('focus',bbView);$('bbFx').addEventListener('blur',bbV
 // My formulas: kept with your looks on this device; Export and Import carry them to another
 if(!Array.isArray(store.formulas))store.formulas=[];
 const bbSame=(x,f,m,h)=>x.f===f&&(x.mode|0)===m&&(+x.hz||8000)===h;
-function bbIsOn(x){return AUD.play.byte==='Byte yours'&&bbSame(x,BB_USER,BB_MODE,BB_HZ)}
+function bbIsOn(x){try{return AUD.play.byte==='Byte yours'&&bbSame(x,BB_USER,BB_MODE,BB_HZ)}catch(_){return false}}
 const BBI={play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7z"/></svg>',stop:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12"/></svg>',
   ren:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',del:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
 function bbUse(x){$('bbFx').value=x.f;BB_MODE=x.mode|0;BB_HZ=+x.hz||8000;try{localStorage.setItem('current.bbmode',BB_MODES[BB_MODE]);localStorage.setItem('current.bbhz',String(BB_HZ))}catch(_){}bbOpts();bbBtns()}
@@ -4891,7 +4891,9 @@ $('bbImp').addEventListener('click',()=>{const inp=document.createElement('input
         store.formulas.push({name:n,f,mode:m,hz:h});add++}
       persist();bbList();toast(add+' added'+(skip?' · '+skip+' already here':'')+(bad?' · '+bad+' would not run':''),2600)}
     catch(e){toast('that file is not a formula list')}};inp.click()});
-bbOpts();bbList();setTimeout(bbView,0);
+/* 0.26.9: the list waits a tick. Drawn here, it asked AUD (declared further down) whether each saved formula was
+   playing, and with any formula saved (the founding pack gives ten) that stopped the whole script: no field (iPhone, 20 Oct) */
+bbOpts();setTimeout(()=>{bbList();bbView()},0);
 const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 16h3V8h3v10h3V5h3v9h3v-4h3"/></svg>';
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
@@ -6267,10 +6269,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020123536"></script>
-<script src="surface/links.js?v=20261020123536"></script>
-<script src="surface/tips.js?v=20261020123536"></script>
-<script src="surface/sections.js?v=20261020123536"></script>
+<script src="surface/install.js?v=20261020124137"></script>
+<script src="surface/links.js?v=20261020124137"></script>
+<script src="surface/tips.js?v=20261020124137"></script>
+<script src="surface/sections.js?v=20261020124137"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6779,7 +6781,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.8';
+const APP_VERSION='0.26.9';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
