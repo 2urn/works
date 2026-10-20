@@ -40,7 +40,8 @@
                                         //   section and every row inside them shut, so the index arrives as a short
                                         //   menu; focus: one at a time on. Someone who has arranged it keeps theirs.
        briefScope: '#panel',            // optional: where LESS TEXT applies, if wider than root
-       links: [{label, aria, run}],     // optional: the tool's own jumps in the toolbar (Current: licenses)
+       links: [{label, aria, run, icon, when}], // optional: the tool's own jumps in the toolbar (Current: licenses, pop out,
+                                        //   manual). icon: a name in ICO (link, out, print); when: () => bool, shown only if true
        always: '#guide',                // optional: sections that can never be hidden
        auto: { install: () => bool }    // optional: sections hidden by the tool itself while the test holds
 
@@ -166,7 +167,7 @@
        Each button carries its name three ways: aria-label for screen readers, title for a desktop hover, and the hint at the
        left of the row while it is pointed at or focused (and briefly after a tap, for touch). */
     const ICO = { fold: '<path d="M5 12h14"/>', open: '<path d="M5 12h14M12 5v14"/>', one: '<path d="M5 5h14M5 19h14"/><rect x="5" y="9" width="14" height="6" rx="1"/>',
-      why: '<path d="M5 7h14M5 12h14M5 17h9"/>', reset: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v3.8h3.8"/>', link: '<path d="M14 5h5v5M19 5l-8 8"/><path d="M17 14v5H5V7h5"/>' };
+      why: '<path d="M5 7h14M5 12h14M5 17h9"/>', out: '<rect x="3.5" y="5" width="11" height="14" rx="1.5"/><path d="M14 9.5h6.5V19H9"/><path d="M17 3.5h3.5V7M20.5 3.5 15 9"/>', print: '<path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="1.5"/><path d="M7 14h10v6.5H7z"/>', reset: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v3.8h3.8"/>', link: '<path d="M14 5h5v5M19 5l-8 8"/><path d="M17 14v5H5V7h5"/>' };
     const hint = document.createElement('span'); hint.className = 'sfs-hint'; hint.setAttribute('aria-hidden', 'true'); bar.appendChild(hint);
     let ht = 0;
     const show = (b, ms) => { clearTimeout(ht); hint.textContent = b.dataset.name; hint.classList.add('on'); if (ms) ht = setTimeout(() => hint.classList.remove('on'), ms); };
@@ -187,7 +188,7 @@
       persist(); say(st.focus ? 'Focus on: one section at a time' : 'Focus off');
     }, 'one');
     const bBrief = mk('less text', 'Less text: hide the explanations, keep the tools', () => { st.brief = !st.brief; persist(); say(st.brief ? 'Showing the tools only' : 'Showing the explanations'); }, 'why');
-    for (const l of (o.links || [])) mk(l.label, l.aria || l.label, l.run, l.icon || 'link');   // the tool's own jumps (e.g. licenses)
+    for (const l of (o.links || [])) { if (l.when && !l.when()) continue; mk(l.label, l.aria || l.label, l.run, l.icon || 'link'); }   // the tool's own jumps (e.g. licenses)
     const bReset = mk('reset order', 'Put the sections back in their first order', () => { applyOrder(DEFAULT); persist(); say('Order reset'); }, 'reset');
     const first = movable()[0] || secs()[0];
     root.insertBefore(bar, first);
