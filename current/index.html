@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020194742";window.__VERSION__="0.26.21";window.__NOTES__=[{"v":"0.26.21","date":"20 Oct 2026","items":[{"kind":"new","text":"on a computer, the caret over a bar button opens its drawer: click it, or rest on it for a moment"}]}]</script>
+<script>window.__BUILD__="20261020204006";window.__VERSION__="0.26.22";window.__NOTES__=[{"v":"0.26.22","date":"20 Oct 2026","items":[{"kind":"change","text":"in View, pause is now still / move, with its own icons (three particles at rest; a particle with its trail), so it no longer reads like the presets' play/pause"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020194742"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020194742">
+<script src="claude-web.js?v=20261020204006"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020204006">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,21 +97,21 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020194742"></script>
-<script src="surface/selftest.js?v=20261020194742"></script>
-<script src="surface/auto.js?v=20261020194742"></script>
-<script src="surface/toolpath.js?v=20261020194742"></script>
-<script src="surface/capture.js?v=20261020194742"></script>
-<script src="surface/pop.js?v=20261020194742"></script>
-<script src="surface/hints.js?v=20261020194742"></script>
-<script src="surface/paths.js?v=20261020194742"></script>
-<script src="surface/keys.js?v=20261020194742"></script>
-<script src="surface/reset.js?v=20261020194742"></script>
-<script src="surface/files.js?v=20261020194742"></script>
-<script src="surface/rail.js?v=20261020194742"></script>
-<script src="surface/touchsound.js?v=20261020194742"></script>
-<script src="surface/float.js?v=20261020194742"></script>
-<script src="surface/manual.js?v=20261020194742"></script>
+<script src="vendor/opentype.min.js?v=20261020204006"></script>
+<script src="surface/selftest.js?v=20261020204006"></script>
+<script src="surface/auto.js?v=20261020204006"></script>
+<script src="surface/toolpath.js?v=20261020204006"></script>
+<script src="surface/capture.js?v=20261020204006"></script>
+<script src="surface/pop.js?v=20261020204006"></script>
+<script src="surface/hints.js?v=20261020204006"></script>
+<script src="surface/paths.js?v=20261020204006"></script>
+<script src="surface/keys.js?v=20261020204006"></script>
+<script src="surface/reset.js?v=20261020204006"></script>
+<script src="surface/files.js?v=20261020204006"></script>
+<script src="surface/rail.js?v=20261020204006"></script>
+<script src="surface/touchsound.js?v=20261020204006"></script>
+<script src="surface/float.js?v=20261020204006"></script>
+<script src="surface/manual.js?v=20261020204006"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1563,7 +1563,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
       <div class="actions">
         <button class="btn" id="apply" aria-label="Build the field from this G-code">Build field</button>
         <button class="btn ghost" id="clear" aria-label="Clear the particle trails">Clear trails</button>
-        <button class="btn ghost" id="pause" aria-label="Pause or play the particles">Pause</button>
+        <button class="btn ghost" id="pause" aria-label="Still or move: hold the particles where they are, or let them go">Still</button>
       </div>
       <div class="stats" id="stats"></div>
       <div class="err" id="err" hidden></div>
@@ -3168,7 +3168,7 @@ let gfIn=null;function openGcodeFile(){if(!gfIn){gfIn=document.createElement('in
   st.addEventListener('dragover',e=>{const it=e.dataTransfer&&e.dataTransfer.items;if(it&&it.length&&it[0].kind==='file'){e.preventDefault();e.dataTransfer.dropEffect='copy'}});
   st.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(!isG(f))return;e.preventDefault();e.stopPropagation();f.text().then(t=>loadGcodeText(t,f.name))},true)})();
 $('clear').addEventListener('click',clearTrails);
-const pb=$('pause');pb.addEventListener('click',()=>{S.paused=!S.paused;pb.textContent=S.paused?'Play':'Pause'});
+const pb=$('pause');pb.addEventListener('click',()=>{S.paused=!S.paused;pb.textContent=S.paused?'Move':'Still'});
 
 // ---------- Player (Fracture's chrome): presets as looks, auto, random, still, back to builder ----------
 let toT=0;function toast(t,ms){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>el.classList.remove('show'),ms||1600)}
@@ -4530,7 +4530,10 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
        ()=>{S.dots=nx;const i=$('s-dots');if(i)i.value=nx;syncVals();toast(nx?'dotted trails, a pixel every '+nx+' frame'+(nx>1?'s':''):'line trails')},!!cur)}
     sep();
     btn('trails','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19h14M7 15l7-9 4 3-7 9z"/></svg>','Clear the trails',()=>clearTrails());
-    btn(S.paused?'play':'pause',S.paused?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5 18 12 8 18.5z"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg>',S.paused?'Play the particles':'Pause the particles',()=>$('pause').click(),S.paused)}
+    /* STILL / MOVE (Dimitry, 20 Oct: "pause" read too close to the presets' play/pause). The label is what a tap does:
+       still holds every particle where it is (three particles resting, no trails); move lets them go again (a particle
+       with its trail behind it) */
+    btn(S.paused?'move':'still',S.paused?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9h6M5.5 12h7M3.5 15h6"/><circle cx="17" cy="12" r="3" fill="currentColor" stroke="none"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.5h16"/><circle cx="6.5" cy="14" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r="2" fill="currentColor" stroke="none"/><circle cx="17.5" cy="14" r="2" fill="currentColor" stroke="none"/></svg>',S.paused?'Move: let the particles go again':'Still: hold every particle where it is',()=>$('pause').click(),S.paused)}
   if(ACTIVE==='frame'){
     const ic=d=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>',set=f=>{f();frameChanged(true)};
     btn('center',ic('<circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/>'),'Center the drawing',()=>set(()=>{FRAME.x=0;FRAME.y=0}),!FRAME.x&&!FRAME.y);
@@ -6421,10 +6424,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020194742"></script>
-<script src="surface/links.js?v=20261020194742"></script>
-<script src="surface/tips.js?v=20261020194742"></script>
-<script src="surface/sections.js?v=20261020194742"></script>
+<script src="surface/install.js?v=20261020204006"></script>
+<script src="surface/links.js?v=20261020204006"></script>
+<script src="surface/tips.js?v=20261020204006"></script>
+<script src="surface/sections.js?v=20261020204006"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6934,7 +6937,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.21';
+const APP_VERSION='0.26.22';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
