@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020025227";window.__VERSION__="0.23.7";window.__NOTES__=[{"v":"0.23.7","date":"19 Oct 2026","items":[{"kind":"change","text":"cards: a slider of every design to pick from (four sizes, two styles) instead of one big card"},{"kind":"new","text":"add a message to a card; it takes the place of the sentence"}]}]</script>
+<script>window.__BUILD__="20261020025916";window.__VERSION__="0.23.8";window.__NOTES__=[{"v":"0.23.8","date":"19 Oct 2026","items":[{"kind":"new","text":"card colours: rose, cobalt, ember, violet, ochre, lime, sky or ink; the look's lines glow over the colour"},{"kind":"change","text":"the namemark and CHAMY·XYZ are a little bigger and set by the brand rule (CHAMY·XYZ's capitals match the namemark's lowercase); CURRENT is a little smaller"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Every cut becomes a current. Particles follow it.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020025227"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020025227">
+<script src="claude-web.js?v=20261020025916"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020025916">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020025227"></script>
-<script src="surface/auto.js?v=20261020025227"></script>
-<script src="surface/toolpath.js?v=20261020025227"></script>
-<script src="surface/capture.js?v=20261020025227"></script>
-<script src="surface/pop.js?v=20261020025227"></script>
-<script src="surface/hints.js?v=20261020025227"></script>
-<script src="surface/paths.js?v=20261020025227"></script>
-<script src="surface/keys.js?v=20261020025227"></script>
-<script src="surface/reset.js?v=20261020025227"></script>
+<script src="vendor/opentype.min.js?v=20261020025916"></script>
+<script src="surface/auto.js?v=20261020025916"></script>
+<script src="surface/toolpath.js?v=20261020025916"></script>
+<script src="surface/capture.js?v=20261020025916"></script>
+<script src="surface/pop.js?v=20261020025916"></script>
+<script src="surface/hints.js?v=20261020025916"></script>
+<script src="surface/paths.js?v=20261020025916"></script>
+<script src="surface/keys.js?v=20261020025916"></script>
+<script src="surface/reset.js?v=20261020025916"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -617,6 +617,9 @@ html.bare .pCaret{opacity:0!important}
 .cdPick span{max-width:130px;text-align:center;line-height:1.35;white-space:normal}
 .cdPick[aria-checked=true]{color:#55b8c9}.cdPick[aria-checked=true] canvas{outline-color:#55b8c9}
 .cdPick:focus-visible{outline:none}.cdPick:focus-visible canvas{outline-color:#fff}
+.cdSw{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cdSw button{width:28px;height:28px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer}
+.cdSw button[aria-checked=true]{outline:2px solid #fff;outline-offset:3px}
 .cdMsg{width:100%;box-sizing:border-box;height:38px;padding:0 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font:16px var(--sans)}
 .cdSeg{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px}
 .cdSeg button{padding:6px 0;border:0;background:none;color:var(--ui-dim,#8a9396);font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
@@ -1685,7 +1688,8 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div id="owEmbedBox" hidden><textarea id="owEmbedCode" rows="3" readonly spellcheck="false" aria-label="Embed code"></textarea><button class="tb" id="owEmbedCopy" type="button">copy the embed</button><p class="owNote">Plays wherever the page is public. A private claude.ai link will not load for other people.</p></div>
   <div id="owCardBox" hidden>
     <div class="cdRail" id="cdRail" role="radiogroup" aria-label="Card designs: pick one"></div>
-    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><input type="text" id="cdMsg" class="cdMsg" maxlength="90" placeholder="add a message (optional)" autocomplete="off">
+    <label class="sr-only" for="cdMsg">A message on the card (optional)</label><div class="cdSw" id="cdSw" role="radiogroup" aria-label="Card colour"></div>
+    <input type="text" id="cdMsg" class="cdMsg" maxlength="90" placeholder="add a message (optional)" autocomplete="off">
     <div class="owRow"><button class="owBtn" id="cdRoll" type="button" aria-label="A new random look for the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="15" cy="9" r="1.3"/><circle cx="9" cy="15" r="1.3"/></svg>new look</button><button class="owBtn" id="cdSave" type="button" aria-label="Save the card"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>save</button><button class="owBtn" id="cdShare" type="button" aria-label="Share the card file" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M6 11v8.5h12V11"/></svg>share</button></div>
     <p class="owNote" id="cdNote"></p>
   </div>
@@ -3554,8 +3558,8 @@ function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u
 const CARD_SIZES=[['post','post 4:5',1080,1350],['story','story 9:16',1080,1920],['square','square',1080,1080],['link','link 1.91:1',1200,630]];
 const CARD_STYLES=[['behind','look behind'],['duck','duck-rabbit']];
 const LOOKS_DB={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_looks',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp'};
-const CARD={size:'post',style:'behind',link:null,linkKey:'',img:{}};
-try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
+const CARD={size:'post',style:'behind',color:'rose',link:null,linkKey:'',img:{}};
+try{const o=JSON.parse(localStorage.getItem('current.card')||'{}');if(typeof o.color==='string')CARD.color=o.color;if(CARD_SIZES.some(x=>x[0]===o.size))CARD.size=o.size;if(CARD_STYLES.some(x=>x[0]===o.style))CARD.style=o.style}catch(_){}
 function cardSvgImg(key,markup){if(CARD.img[key])return CARD.img[key];return CARD.img[key]=new Promise(res=>{if(!markup){res(null);return}
   let m=markup.replace(/<svg\b/,'<svg xmlns="http://www.w3.org/2000/svg" color="#fff" fill="#fff"').replace(/currentColor/g,'#fff');
   const vb=(m.match(/viewBox="([^"]+)"/)||[])[1],v=vb?vb.split(/[ ,]+/).map(Number):[0,0,100,100],w=1000,h=Math.round(1000*v[3]/v[2]);
@@ -3577,52 +3581,63 @@ async function lookLink(){const snap=snapshot(curName&&curName!=='Random'?curNam
     if(!r.ok)throw new Error(r.status);CARD.link=SHARE_URL+'?l='+id;CARD.linkKey=key;if(window.cxCount)cxCount('card: look link',1);return CARD.link}
   catch(_){CARD.linkKey=key;CARD.link=SHARE_URL;return SHARE_URL}}
 function cardCover(g,img,x,y,w,h){const iw=img.width,ih=img.height,k=Math.max(w/iw,h/ih),dw=iw*k,dh=ih*k;g.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh)}
-async function drawCard(size,style,c,look,msg){size=size||CARD.size;style=style||CARD.style;c=c||document.createElement('canvas');const [,,W,H]=CARD_SIZES.find(x=>x[0]===size);c.width=W;c.height=H;const g=c.getContext('2d');
+/* CARD COLOURS (Dimitry, 19 Oct: more colourful backgrounds; the dark green was too dominant). The card is filled with
+   the colour and the look is laid over it in screen mode, so the look's dark ground takes the colour and its lines
+   stay light; in the duck-rabbit style the duck is dark ink with the look inside, on the colour. Type and marks turn
+   dark on light colours. Ink is a neutral black, not the stage's green-black. */
+const CARD_COLORS=[['rose','#ff5c9d'],['cobalt','#2f5cff'],['ember','#ff6a3d'],['violet','#7a5cff'],['ochre','#e8a83a'],['lime','#9be15d'],['sky','#4cc3e6'],['ink','#0c0d0f']];
+const cardLum=h=>{const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
+async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=style||CARD.style;color=color||CARD.color||'rose';c=c||document.createElement('canvas');const [,,W,H]=CARD_SIZES.find(x=>x[0]===size);c.width=W;c.height=H;const g=c.getContext('2d');
   /* LAYOUT after the share card (og.jpg, 1200×630), pinned to the nearest side at every aspect (Dimitry, 19 Oct):
-     CURRENT and its sentence top left, the namemark top right, CHAMY·XYZ up the bottom left in the app's blue, the
-     code bottom right. One unit u scales from the share card by whichever side is tighter. */
+     CURRENT and its sentence top left, the namemark top right, CHAMY·XYZ down the bottom left, the code bottom right.
+     One unit u scales from the share card by whichever side is tighter. */
   look=look||stillCanvas(document.createElement('canvas'));const u=Math.min(W/1200,H/630),font=(window.__TITLES__&&window.__TITLES__.font)||'sans-serif';
   try{await Promise.all([document.fonts.load('700 100px '+font),document.fonts.load('400 24px "Instrument Sans"'),document.fonts.load('600 24px "Instrument Sans"')])}catch(_){}
   const [dw,mark,dc,url]=await Promise.all([cardDuckW(),cardMark(),cardDuckC(),lookLink()]);
+  const C=(CARD_COLORS.find(x=>x[0]===color)||CARD_COLORS[0])[1],light=cardLum(C)>.4,INK='#0c0d0f',FG=light?INK:'#fff';
   const wide=W/H>1.4,pad=Math.round(42*u),SANS='"Instrument Sans", system-ui, sans-serif';
-  g.fillStyle='#0b1012';g.fillRect(0,0,W,H);
-  /* the type first (measured), so the duck-rabbit can keep clear of it */
-  g.font='700 '+Math.round(96*u)+'px '+font;try{g.letterSpacing=Math.round(96*u*.14)+'px'}catch(_){}
-  const mw=mark?190*u:0,room=W-pad*2-mw-40*u;let ts=Math.round(96*u);const fit=()=>{g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}return g.measureText('CURRENT').width};
-  /* TALL CARDS (Dimitry, 19 Oct): the name runs down the top of the left edge, reading down like CHAMY·XYZ under it,
-     sized to the edge (about half the height); the sentence moves to the top, beside it */
-  const tall=H/W>=1.25;let vlen=0;
-  if(tall){ts=Math.round(150*u);const want=H*.5;while(ts<400&&fit()<want)ts+=4;while(ts>40&&fit()>H*.56)ts-=2;vlen=fit()}
+  /* THE MARKS, by the brand rule: the namemark's x-height (the m of Chamy, 10.5% of its width) is its offset from the
+     top and right edges; CHAMY·XYZ's cap height equals that x-height, and the same distance sets its baseline from
+     the left edge and its end from the bottom. A touch bigger than the share card's (240 u). */
+  const mw=mark?Math.round(240*u):0,xh=mw*.105,mh=mark?mw*mark.height/mark.width:0;
+  g.fillStyle=C;g.fillRect(0,0,W,H);
+  /* the type first (measured), so the duck-rabbit can keep clear of it; CURRENT a little smaller, so the look has room */
+  let ts=Math.round(84*u);const fit=()=>{g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}return g.measureText('CURRENT').width};
+  /* TALL CARDS (Dimitry, 19 Oct): the name runs down the top of the left edge, reading down like CHAMY·XYZ under it */
+  const tall=H/W>=1.25,room=W-pad*2-mw-40*u;
+  if(tall){ts=Math.round(120*u);while(ts<360&&fit()<H*.42)ts+=4;while(ts>40&&fit()>H*.46)ts-=2}
   else while(ts>30&&fit()>room)ts-=2;try{g.letterSpacing='0px'}catch(_){}
   const ls=Math.round(25*u),lh=Math.round(ls*1.4),words=(msg&&msg.trim()?msg.trim():'G-code in. Every cut becomes a current. Particles follow it.').split(/\s+/),lines=[];g.font='400 '+ls+'px '+SANS;
   const sx=tall?pad+ts*.78+Math.round(36*u):pad;
-  {let cur='';const max=tall?Math.min(470*u,W-sx-mw-pad-40*u):Math.min(470*u,W-pad*2);for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
-  const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(48*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,pad+(mw?mw*mark.height/mark.width:0)):lineTop+lines.length*lh;
+  {let cur='';const max=tall?Math.min(470*u,W-sx-mw-xh-40*u):Math.min(470*u,W-pad*2-(wide?mw:0));for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
+  const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(44*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
   const qs=Math.round(Math.min(W,H)*(wide?.27:.21)),qx=W-pad-qs,qy=H-pad-qs;
-  if(style==='behind'){cardCover(g,look,0,0,W,H);
-    const g2=g.createLinearGradient(0,0,0,typeBottom+60*u);g2.addColorStop(0,'rgba(5,7,8,.6)');g2.addColorStop(1,'rgba(5,7,8,0)');g.fillStyle=g2;g.fillRect(0,0,W,typeBottom+60*u)}
-  else if(dw){/* the duck-rabbit, filled with the look, in the space the type and the code leave */
+  const paper=S.ground==='paper';   // a light look is laid over the colour by multiplying, a dark one by screening
+  if(style==='behind'){g.save();g.globalCompositeOperation=paper?'multiply':'screen';cardCover(g,look,0,0,W,H);g.restore()}
+  else if(dw){/* the duck-rabbit, dark ink with the look inside, in the space the type and the code leave */
     let bh,bx,by;if(wide){bh=H*.8;by=(H-bh)/2;const bw=bh*dw.width/dw.height;bx=Math.min(W*.6-bw/2,W-pad-qs-24*u-bw)}
     else{const left=tall?sx:pad,top=typeBottom+40*u,bot=H-pad-qs-30*u;bh=Math.max(H*.3,bot-top);by=top;const avail=W-left-pad;if(bh*dw.width/dw.height>avail){bh=avail*dw.height/dw.width}bx=left+(avail-bh*dw.width/dw.height)/2}
-    const bw=bh*dw.width/dw.height,m=document.createElement('canvas');m.width=W;m.height=H;const mg=m.getContext('2d');mg.drawImage(dw,bx,by,bw,bh);mg.globalCompositeOperation='source-in';cardCover(mg,look,bx,by,bw,bh);
-    g.save();g.shadowColor='rgba(85,184,201,.35)';g.shadowBlur=60*u;g.drawImage(m,0,0);g.restore()}
+    const bw=bh*dw.width/dw.height,m=document.createElement('canvas');m.width=W;m.height=H;const mg=m.getContext('2d');mg.drawImage(dw,bx,by,bw,bh);mg.globalCompositeOperation='source-in';mg.fillStyle=paper?'#f2efe8':color==='ink'?'#23272c':INK;mg.fillRect(0,0,W,H);
+    mg.globalCompositeOperation=paper?'multiply':'screen';cardCover(mg,look,bx,by,bw,bh);mg.globalCompositeOperation='destination-in';mg.drawImage(dw,bx,by,bw,bh);
+    g.save();g.shadowColor='rgba(0,0,0,.28)';g.shadowBlur=40*u;g.shadowOffsetY=10*u;g.drawImage(m,0,0);g.restore()}
   /* top left: CURRENT and its sentence */
-  g.fillStyle='#fff';g.textAlign='left';g.textBaseline='top';g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
+  g.fillStyle=FG;g.textAlign='left';g.textBaseline='top';g.font='700 '+ts+'px '+font;try{g.letterSpacing=Math.round(ts*.14)+'px'}catch(_){}
   if(tall){g.save();g.translate(pad,pad);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CURRENT',0,0);g.restore()}else g.fillText('CURRENT',pad,titleTop);try{g.letterSpacing='0px'}catch(_){}
   g.font='400 '+ls+'px '+SANS;lines.forEach((t,k)=>g.fillText(t,sx,lineTop+k*lh));
-  /* top right: the namemark */
-  if(mark){const mh=mw*mark.height/mark.width;g.drawImage(mark,W-pad-mw,pad,mw,mh)}
-  /* bottom left: CHAMY·XYZ, reading down, in the app's blue */
-  g.save();g.font='600 '+Math.round(22*u)+'px '+SANS;try{g.letterSpacing=Math.round(22*u*.12)+'px'}catch(_){}g.fillStyle='#55b8c9';
-  const cw=g.measureText('CHAMY·XYZ').width;g.translate(pad,H-pad-cw);g.rotate(Math.PI/2);g.textBaseline='bottom';g.fillText('CHAMY·XYZ',0,0);g.restore();
-  /* bottom right: the code, with the duck-rabbit in its middle */
-  /* the code: white tile, dark modules, a line under it */
+  /* top right: the namemark, its x-height in from the top and the right */
+  if(mark){let mk=mark;if(light){const t=document.createElement('canvas');t.width=mark.width;t.height=mark.height;const tg=t.getContext('2d');tg.drawImage(mark,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);mk=t}
+    g.drawImage(mk,W-xh-mw,xh,mw,mh)}
+  /* bottom left: CHAMY·XYZ, reading down, cap height = the namemark's x-height, baseline that far from the left edge
+     and its end that far from the bottom; the app's blue on ink, the type's colour on a colour */
+  g.save();const cfs=xh/.7;g.font='600 '+cfs.toFixed(1)+'px '+SANS;try{g.letterSpacing=(cfs*.12).toFixed(1)+'px'}catch(_){}g.fillStyle=color==='ink'?'#55b8c9':FG;
+  const cw=g.measureText('CHAMY·XYZ').width;g.translate(xh,H-xh-cw);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',0,0);g.restore();
+  /* bottom right: the code, white tile, with the duck-rabbit in its middle */
   const qc=document.createElement('canvas');if(qrDraw(qc,url,8)){const r=16*u;g.fillStyle='#fff';g.beginPath();g.roundRect?g.roundRect(qx-12*u,qy-12*u,qs+24*u,qs+24*u,r):g.rect(qx-12*u,qy-12*u,qs+24*u,qs+24*u);g.fill();
     g.imageSmoothingEnabled=false;g.drawImage(qc,qx,qy,qs,qs);g.imageSmoothingEnabled=true;
     /* the duck-rabbit in the middle of the code (Dimitry, 19 Oct): a white pad over 20% of the width, about 4% of the
        modules, inside what level M error correction rebuilds; checked by decoding the rendered card */
     const ld=dc||dw;if(ld){const ps=qs*.2,px=qx+(qs-ps)/2,py=qy+(qs-ps)/2;g.fillStyle='#fff';g.beginPath();g.roundRect?g.roundRect(px,py,ps,ps,ps*.18):g.rect(px,py,ps,ps);g.fill();
-      const dh=ps*.82,dwid=dh*ld.width/ld.height;if(ld===dw){const t=document.createElement('canvas');t.width=ld.width;t.height=ld.height;const tg=t.getContext('2d');tg.drawImage(ld,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle='#0b1012';tg.fillRect(0,0,t.width,t.height);g.drawImage(t,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}else g.drawImage(ld,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}}
+      const dh=ps*.82,dwid=dh*ld.width/ld.height;if(ld===dw){const t=document.createElement('canvas');t.width=ld.width;t.height=ld.height;const tg=t.getContext('2d');tg.drawImage(ld,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);g.drawImage(t,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}else g.drawImage(ld,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}}
   const linked=url!==SHARE_URL;CARD.note=linked?'The code opens this exact look, live.':'The code opens Current (this look could not be kept from here: try on works.chamy.xyz).';
   return c}
 /* THE RAIL (Dimitry, 19 Oct: not one giant card, a horizontal slider of every design to pick from, and a message,
@@ -3631,18 +3646,20 @@ async function drawCard(size,style,c,look,msg){size=size||CARD.size;style=style|
 const CARD_ALL=[];CARD_SIZES.forEach(([sz,l])=>CARD_STYLES.forEach(([st,sl])=>CARD_ALL.push([sz,st,l+' · '+sl])));
 let CARD_LOOK=null,CARD_GEN=0;
 const cardMsg=()=>($('cdMsg').value||'').replace(/\s+/g,' ').trim();
-async function cardRail(){const gen=++CARD_GEN,rail=$('cdRail');CARD_LOOK=stillCanvas(document.createElement('canvas'));
+function cardSwatches(){const h=$('cdSw');h.innerHTML='';for(const [n,hex] of CARD_COLORS){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-label',n);b.title=n;b.style.background=hex;b.setAttribute('aria-checked',String(CARD.color===n));
+    b.onclick=()=>{if(CARD.color===n)return;CARD.color=n;try{localStorage.setItem('current.card',JSON.stringify({size:CARD.size,style:CARD.style,color:n}))}catch(_){}cardSwatches();cardRail(true);if(window.cxCount)cxCount('card: colour '+n,1)};h.appendChild(b)}}
+async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!CARD_LOOK)CARD_LOOK=stillCanvas(document.createElement('canvas'));cardSwatches();
   if(!rail.children.length)CARD_ALL.forEach(([sz,st,l])=>{const b=document.createElement('button');b.type='button';b.className='cdPick '+sz;b.setAttribute('role','radio');b.dataset.sz=sz;b.dataset.st=st;b.setAttribute('aria-label',l);
     const cv=document.createElement('canvas');cv.width=8;cv.height=8;const t=document.createElement('span');t.textContent=l;b.append(cv,t);
-    b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
+    b.onclick=()=>{CARD.size=sz;CARD.style=st;try{localStorage.setItem('current.card',JSON.stringify({size:sz,style:st,color:CARD.color}))}catch(_){}railSync();if(window.cxCount)cxCount('card: pick '+sz+' '+st,1)};
     b.onkeydown=e=>{const all=[...rail.children],k=all.indexOf(b),n=e.key==='ArrowRight'?k+1:e.key==='ArrowLeft'?k-1:-1;if(n<0||n>=all.length)return;e.preventDefault();all[n].focus();all[n].click()};rail.appendChild(b)});
   railSync(true);$('cdNote').textContent='making the cards…';const msg=cardMsg();
-  for(const b of rail.children){if(gen!==CARD_GEN)return;const full=await drawCard(b.dataset.sz,b.dataset.st,null,CARD_LOOK,msg),k=Math.min(1,520/Math.max(full.width,full.height)),cv=b.querySelector('canvas');
+  for(const b of rail.children){if(gen!==CARD_GEN)return;const full=await drawCard(b.dataset.sz,b.dataset.st,null,CARD_LOOK,msg,CARD.color),k=Math.min(1,520/Math.max(full.width,full.height)),cv=b.querySelector('canvas');
     cv.width=Math.round(full.width*k);cv.height=Math.round(full.height*k);cv.getContext('2d').drawImage(full,0,0,cv.width,cv.height);await new Promise(r=>setTimeout(r,0))}
   if(gen===CARD_GEN)$('cdNote').textContent=CARD.note||''}
 function railSync(scroll){const rail=$('cdRail');for(const b of rail.children){const on=b.dataset.sz===CARD.size&&b.dataset.st===CARD.style;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1;if(on&&scroll)try{b.scrollIntoView({inline:'center',block:'nearest'})}catch(_){}}}
-const cardBlob=async()=>{const c=await drawCard(CARD.size,CARD.style,null,CARD_LOOK,cardMsg());return new Promise(r=>c.toBlob(r,'image/png'))};
-let msgT=0;$('cdMsg').addEventListener('input',()=>{clearTimeout(msgT);msgT=setTimeout(cardRail,450)});
+const cardBlob=async()=>{const c=await drawCard(CARD.size,CARD.style,null,CARD_LOOK,cardMsg(),CARD.color);return new Promise(r=>c.toBlob(r,'image/png'))};
+let msgT=0;$('cdMsg').addEventListener('input',()=>{clearTimeout(msgT);msgT=setTimeout(()=>cardRail(true),450)});
 $('owCard').onclick=()=>{const box=$('owCardBox'),on=box.hidden;box.hidden=!on;$('owCard').setAttribute('aria-expanded',String(on));if(on){cardRail().then(()=>cardBlob()).then(b=>{$('cdShare').hidden=!(b&&canShareFile(new File([b],'current-card.png',{type:'image/png'})))});if(window.cxCount)cxCount('card: open',1);try{box.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}}};
 $('cdRoll').onclick=()=>{randomLook(false);$('cdNote').textContent='a new look is settling…';setTimeout(cardRail,1400)};
 $('cdSave').onclick=async()=>{const b=await cardBlob();if(b&&await saveBlob('current-card-'+CARD.size+'-'+CARD.style+'.png',b)){toast('card saved');if(window.cxCount)cxCount('card: save '+CARD.size,1)}};
@@ -5746,10 +5763,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020025227"></script>
-<script src="surface/links.js?v=20261020025227"></script>
-<script src="surface/tips.js?v=20261020025227"></script>
-<script src="surface/sections.js?v=20261020025227"></script>
+<script src="surface/install.js?v=20261020025916"></script>
+<script src="surface/links.js?v=20261020025916"></script>
+<script src="surface/tips.js?v=20261020025916"></script>
+<script src="surface/sections.js?v=20261020025916"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6122,7 +6139,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.23.7';
+const APP_VERSION='0.23.8';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
