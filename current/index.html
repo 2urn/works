@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020031356";window.__VERSION__="0.24.1";window.__NOTES__=[{"v":"0.24.1","date":"19 Oct 2026","items":[{"kind":"change","text":"a new line for Current, on cards and link previews: G-code in. Beats and dancing particles out. The field is your playground."}]}]</script>
+<script>window.__BUILD__="20261020032118";window.__VERSION__="0.24.2";window.__NOTES__=[{"v":"0.24.2","date":"19 Oct 2026","items":[{"kind":"new","text":"the ground in colour: in color, a ground row of swatches (dark, paper, rose, cobalt, ember, violet, ochre, lime, sky, ink); hold one for any colour. Looks keep their ground"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020031356"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020031356">
+<script src="claude-web.js?v=20261020032118"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020032118">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020031356"></script>
-<script src="surface/auto.js?v=20261020031356"></script>
-<script src="surface/toolpath.js?v=20261020031356"></script>
-<script src="surface/capture.js?v=20261020031356"></script>
-<script src="surface/pop.js?v=20261020031356"></script>
-<script src="surface/hints.js?v=20261020031356"></script>
-<script src="surface/paths.js?v=20261020031356"></script>
-<script src="surface/keys.js?v=20261020031356"></script>
-<script src="surface/reset.js?v=20261020031356"></script>
+<script src="vendor/opentype.min.js?v=20261020032118"></script>
+<script src="surface/auto.js?v=20261020032118"></script>
+<script src="surface/toolpath.js?v=20261020032118"></script>
+<script src="surface/capture.js?v=20261020032118"></script>
+<script src="surface/pop.js?v=20261020032118"></script>
+<script src="surface/hints.js?v=20261020032118"></script>
+<script src="surface/paths.js?v=20261020032118"></script>
+<script src="surface/keys.js?v=20261020032118"></script>
+<script src="surface/reset.js?v=20261020032118"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -2117,6 +2117,14 @@ const LINE_COLORS=[['Mist','#e8f1f2'],['Quartz','#ede6d6'],['Ochre','#dba359'],[
 const LINE_DEFAULT='#e8f1f2';
 const ALTS={grain:'Grain by grain: every particle keeps one of the two colors.',time:'In time: the colors swap every few seconds, or on each beat while a beat plays.',motion:'Moving vs settled: fast particles take the second color, slow ones the first.'};
 const GROUNDS={dark:null,paper:'#efeae0'};
+/* THE GROUND IN COLOUR (Dimitry, 19 Oct: the background should be as flexible as the lines, the arrows and the rest;
+   a selector now, automation and mapping of every colour and blend mode as a system later). S.ground is a name (dark,
+   paper) or a colour of your own (#rrggbb). The swatches are the cards' colours; hold one for any colour. */
+const GROUND_COLORS=[['Dark','dark','#050708'],['Paper','paper','#efeae0'],['Rose','#ff5c9d','#ff5c9d'],['Cobalt','#2f5cff','#2f5cff'],['Ember','#ff6a3d','#ff6a3d'],['Violet','#7a5cff','#7a5cff'],['Ochre','#e8a83a','#e8a83a'],['Lime','#9be15d','#9be15d'],['Sky','#4cc3e6','#4cc3e6'],['Ink','#0c0d0f','#0c0d0f']];
+const groundHex=()=>S.ground in GROUNDS?GROUNDS[S.ground]:(/^#[0-9a-f]{6}$/i.test(S.ground||'')?S.ground:null);
+const groundLum=()=>{const h=groundHex();if(!h)return 0;const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
+const groundLight=()=>groundLum()>.4;
+const groundName=()=>{const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
 const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
 const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d'),fg=document.getElementById('fg'),fctx=fg.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
@@ -2504,16 +2512,16 @@ function lineSw(id,withNone,get,set){const box=$(id);box.innerHTML='';
 lineSw('lineSw',false,()=>S.line,c=>{S.line=c});lineSw('line2Sw',true,()=>S.line2,c=>{S.line2=c});
 const altSeg=$('altSeg');Object.keys(ALTS).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent={grain:'grain',time:'in time',motion:'motion'}[k];b.dataset.k=k;
   b.setAttribute('aria-label','Alternate: '+ALTS[k]);b.onclick=()=>{S.alt=k;syncLine()};altSeg.appendChild(b)});
-const groundSeg=$('groundSeg');Object.keys(GROUNDS).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=k;b.dataset.k=k;b.setAttribute('aria-label','Ground: '+k);
+const groundSeg=$('groundSeg');GROUND_COLORS.forEach(([n,k])=>{const b=document.createElement('button');b.type='button';b.textContent=n.toLowerCase();b.dataset.k=k;b.setAttribute('aria-label','Ground: '+n);
   b.onclick=()=>{S.ground=k;applyGround();syncLine()};groundSeg.appendChild(b)});
 $('altTime').addEventListener('input',e=>{S.altTime=+e.target.value;syncLine()});
-function applyGround(){const g=GROUNDS[S.ground];if(g)document.documentElement.style.setProperty('--stage',g);else document.documentElement.style.removeProperty('--stage');
-  document.documentElement.classList.toggle('paper',!!g);clearTrails()}
+function applyGround(){const g=groundHex();if(g)document.documentElement.style.setProperty('--stage',g);else document.documentElement.style.removeProperty('--stage');
+  document.documentElement.classList.toggle('paper',groundLight());clearTrails()}   // 'paper' now means any light ground: the marks on the stage turn dark
 function syncLine(){for(const id of ['lineSw','line2Sw']){const box=$(id),v=(box._get()||'').toLowerCase();[...box.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===v)))}
   const two=!!S.line2;altSeg.hidden=!two;$('altNote').hidden=!two;$('altNote').textContent=ALTS[S.alt];
   [...altSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===S.alt)));
   $('altRow').hidden=!two||S.alt!=='time';$('altTime').value=S.altTime;$('altTimeV').textContent=(+S.altTime).toFixed(1)+'s';
-  [...groundSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===S.ground)))}
+  [...groundSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k.toLowerCase()===String(S.ground).toLowerCase())))}
 aal.addEventListener('input',()=>{S.arrowAlpha=+aal.value;syncArrow();clearTrails()});
 
 const md=$('modes');
@@ -2608,7 +2616,7 @@ function applyLookNow(p,idx,instant){
   if(doMorph){MORPH={from:{},to,t:0,dur:mdur,af:S.arrowColor,at:p.arrow||ARROW_DEFAULT,aaf:S.arrowAlpha,aat:p.arrowAlpha||.55};for(const k in to)MORPH.from[k]=S[k]}
   else{MORPH=null;Object.assign(S,to);S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55}
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
-  S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(gr!==S.ground){S.ground=gr;applyGround()}syncLine();
+  S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;applyGround()}syncLine();
   S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);if(p.audio&&!isOn(p.audio)&&!AUD.play.file&&AUD.src!=='mic')startBeat(p.audio,true);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
@@ -2681,7 +2689,7 @@ function randomLook(manual){
   const arrow=inMatrix('arrowColor')&&flip()?pick(ARROW_SWATCHES.slice(0,7))[1]:S.arrowColor;
   const g=$('gcode').value;
   let line=S.line,line2=S.line2,alt=S.alt;
-  if(inMatrix('lineColor')&&flip()){const pal=LINE_COLORS.filter(([n])=>S.ground==='paper'?n!=='Mist'&&n!=='Quartz':n!=='Ink');line=pick(pal)[1];
+  if(inMatrix('lineColor')&&flip()){const pal=LINE_COLORS.filter(([n])=>groundLight()?n!=='Mist'&&n!=='Quartz':n!=='Ink');line=pick(pal)[1];
     line2=Math.random()<.55?pick(pal.filter(x=>x[1]!==line))[1]:null;alt=pick(Object.keys(ALTS))}
   // on type, the roll carries no word: it retraces whatever word is current when it lands
   applyLook({name:'Random',gen:onTypeField()?textGen:()=>g,mode,inside,lensMode,blur:S.blur,p:to,flags:{...S.flags,arrows},arrow,arrowAlpha:S.arrowAlpha,line,line2,alt,altTime:S.altTime,ground:S.ground,mods,maps},-1);
@@ -2806,7 +2814,7 @@ function autoName(){const pick=a=>a[(Math.random()*a.length)|0],cn=h=>{const c=L
   const motion=pick(NAME_MOTION[S.mode]||['Field']),noun=nameNoun(),mood=pick(nameMood()),c1=cn(S.line),c2=cn(S.line2),col=c1&&c1!=='Mist'?c1:c2;
   const forms=[`${mood} ${motion}`,`${noun} ${motion}`,`${mood} ${noun}`,`${motion} of ${noun}`];
   if(col)forms.push(`${col} ${motion}`,`${noun} in ${col}`,c2&&c1&&c1!=='Mist'?`${c1} & ${c2}`:`${mood} ${col}`);
-  if(S.ground==='paper')forms.push(`${motion} on Paper`);
+  if(S.ground==='paper')forms.push(`${motion} on Paper`);else if(S.ground!=='dark'&&S.ground)forms.push(`${motion} on ${groundName().replace(/^./,c=>c.toUpperCase())}`);
   let n=pick(forms.filter(f=>f.length<=26));
   const taken=new Set(allPresets().map(p=>p.name));if(taken.has(n)){const R=['II','III','IV','V','VI','VII','VIII','IX','X'];for(const x of R)if(!taken.has(n+' '+x)){n+=' '+x;break}}
   return n}
@@ -3647,7 +3655,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   {let cur='';const max=tall?Math.min(470*u,W-sx-mw-xh-40*u):Math.min(470*u,W-pad*2-(wide?mw:0));for(const w of words){const t=cur?cur+' '+w:w;if(g.measureText(t).width>max&&cur){lines.push(cur);cur=w}else cur=t}if(cur)lines.push(cur)}
   const titleTop=pad,lineTop=tall?pad+Math.round(4*u):titleTop+ts+Math.round(44*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
   const qs=Math.round(Math.min(W,H)*(wide?.27:.21)),qx=W-pad-qs,qy=H-pad-qs;
-  const paper=S.ground==='paper';   // a light look is laid over the colour by multiplying, a dark one by screening
+  const paper=groundLight();   // a light look is laid over the colour by multiplying, a dark one by screening
   const FR=(CARD_FRAME[size]||{})[style]||[1.4,0,0,0],field=(FR[3]&&CARD_LOOK_ARROWS)?CARD_LOOK_ARROWS:look,tint=cardTint(field,color);
   if(style==='behind'){cardField(g,tint,0,0,W,H,FR)}
   else if(dw){/* THE DUCK-RABBIT (Dimitry, 19 Oct): the look runs inside and outside it on two different grounds, so the
@@ -4088,7 +4096,10 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
         time:'<circle cx="12" cy="12" r="8"/><path d="M12 12V7.5M12 12l3.2 2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
         motion:'<path d="M3.5 8h12m-3-3 3 3-3 3"/><path d="M5 16h4" stroke-dasharray="1.5 2"/><circle cx="14.5" cy="16" r="1.6" fill="currentColor" stroke="none"/>'};
       btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[S.alt]+'</svg>','How the two colors alternate, now '+nm[S.alt]+': '+ALTS[S.alt]+' Tap to change',()=>{S.alt=ks[(ks.indexOf(S.alt)+1)%ks.length];syncLine()})}
-    btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" '+(S.ground==='paper'?'fill="#efeae0" stroke="#efeae0"':'fill="#050708"')+'/><path d="M7 15c2.5-4 5-5 10-6" stroke="'+(S.ground==='paper'?'#121212':'currentColor')+'"/></svg>','Ground, now '+S.ground+'. Tap for '+(S.ground==='paper'?'dark':'paper'),()=>{const ks=Object.keys(GROUNDS);S.ground=ks[(ks.indexOf(S.ground)+1)%ks.length];applyGround();syncLine()});
+    sep();grp('ground');
+    const PKG={title:'Ground',get:()=>groundHex()||'#050708',set:v=>{S.ground=v;applyGround();syncLine()}};
+    for(const [n,k,c] of GROUND_COLORS){const on=String(S.ground).toLowerCase()===k.toLowerCase();dot(c,'Ground '+n,()=>{S.ground=k;applyGround();syncLine()},on,null,PKG)}
+    if(!GROUND_COLORS.some(x=>x[1].toLowerCase()===String(S.ground).toLowerCase()))own(groundHex(),PKG,null);
     sep();grp('arrows');dot(null,'No arrows',()=>{S.flags.arrows=!S.flags.arrows;$('c-arrows').checked=S.flags.arrows;clearTrails()},!S.flags.arrows);
     for(const [n,c] of ARROW_SWATCHES){const on=S.flags.arrows&&S.arrowColor.toLowerCase()===c.toLowerCase();
       dot(c,'Arrow color '+n,()=>{if(on){S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()}else setArrow(c)},on,arrA,PK.arrows)}
@@ -5819,10 +5830,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020031356"></script>
-<script src="surface/links.js?v=20261020031356"></script>
-<script src="surface/tips.js?v=20261020031356"></script>
-<script src="surface/sections.js?v=20261020031356"></script>
+<script src="surface/install.js?v=20261020032118"></script>
+<script src="surface/links.js?v=20261020032118"></script>
+<script src="surface/tips.js?v=20261020032118"></script>
+<script src="surface/sections.js?v=20261020032118"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6195,7 +6206,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.24.1';
+const APP_VERSION='0.24.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
