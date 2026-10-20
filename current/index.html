@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020060805";window.__VERSION__="0.25.13";window.__NOTES__=[{"v":"0.25.13","date":"20 Oct 2026","items":[{"kind":"new","text":"a 16:9 card for video screens (1920×1080), on the same grid"},{"kind":"fix","text":"stills are sharp: drawn again at their own size, as far as the device can hold (up to four times the screen), instead of the screen being stretched"}]}]</script>
+<script>window.__BUILD__="20261020060932";window.__VERSION__="0.25.14";window.__NOTES__=[{"v":"0.25.14","date":"20 Oct 2026","items":[{"kind":"change","text":"grain and film are soft film grain now, as in Photoshop: small soft clumps, strongest in the midtones, not dithering"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020060805"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020060805">
+<script src="claude-web.js?v=20261020060932"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020060932">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,17 +72,17 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020060805"></script>
-<script src="surface/auto.js?v=20261020060805"></script>
-<script src="surface/toolpath.js?v=20261020060805"></script>
-<script src="surface/capture.js?v=20261020060805"></script>
-<script src="surface/pop.js?v=20261020060805"></script>
-<script src="surface/hints.js?v=20261020060805"></script>
-<script src="surface/paths.js?v=20261020060805"></script>
-<script src="surface/keys.js?v=20261020060805"></script>
-<script src="surface/reset.js?v=20261020060805"></script>
-<script src="surface/files.js?v=20261020060805"></script>
-<script src="surface/rail.js?v=20261020060805"></script>
+<script src="vendor/opentype.min.js?v=20261020060932"></script>
+<script src="surface/auto.js?v=20261020060932"></script>
+<script src="surface/toolpath.js?v=20261020060932"></script>
+<script src="surface/capture.js?v=20261020060932"></script>
+<script src="surface/pop.js?v=20261020060932"></script>
+<script src="surface/hints.js?v=20261020060932"></script>
+<script src="surface/paths.js?v=20261020060932"></script>
+<script src="surface/keys.js?v=20261020060932"></script>
+<script src="surface/reset.js?v=20261020060932"></script>
+<script src="surface/files.js?v=20261020060932"></script>
+<script src="surface/rail.js?v=20261020060932"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -3775,7 +3775,7 @@ const CARD_FRAME={post:{behind:[1.45,.12,-.08,1],duck:[1.7,-.18,.1,0]},story:{be
 /* TEXTURE (Dimitry, 20 Oct: "some grain or stippling noise might be nice"). Laid over the look and the duck, under the
    type and the marks, so his logos are never touched. Scaled with the card (grain size from the short side), seeded,
    so the same card always comes out the same. Named presets: */
-const CARD_TEX_P={grain:{amt:.075,cell:1},film:{amt:.11,cell:2.2},stipple:{dens:.11,amt:.3,cell:1.6}};
+const CARD_TEX_P={grain:{amt:.045,soft:1.1},film:{amt:.065,soft:1.6},stipple:{dens:.11,amt:.3,cell:1.6}};   // soft: the grain's clump radius in px at 1080
 function cardTexture(g,W,H,tex){const P=CARD_TEX_P[tex];if(!P)return;const S=Math.min(W,H),cell=Math.max(1,P.cell*S/1080);
   let seed=0x2f6b1d;const rnd=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)/4294967296};
   const gn=()=>(rnd()+rnd()+rnd()-1.5)/.87;   // near-normal, unit spread
@@ -3784,9 +3784,17 @@ function cardTexture(g,W,H,tex){const P=CARD_TEX_P[tex];if(!P)return;const S=Mat
     for(let k=0;k<n;k++){const x0=(rnd()*W)|0,y0=(rnd()*H)|0,i0=(y0*W+x0)*4,l=(d[i0]*.3+d[i0+1]*.59+d[i0+2]*.11)/255,s=(l>.5?-1:1)*P.amt*255;   // a dot against the ground: dark on light, light on dark
       if(rnd()>.25+Math.abs(l-.5)*1.5)continue;   // more dots where the look is darkest or lightest, the way stippling shades
       for(let y=y0;y<Math.min(H,y0+r);y++)for(let x=x0;x<Math.min(W,x0+r);x++){const i=(y*W+x)*4;d[i]+=s;d[i+1]+=s;d[i+2]+=s}}}
-  else{const cw=Math.ceil(W/cell)+2,ch=Math.ceil(H/cell)+2,N=new Float32Array(cw*ch);for(let i=0;i<N.length;i++)N[i]=gn();
-    const a=P.amt*255;for(let y=0;y<H;y++){const fy=y/cell,y0=fy|0,ty=fy-y0;for(let x=0;x<W;x++){const fx=x/cell,x0=fx|0,tx=fx-x0,j=y0*cw+x0;
-      const v=cell<=1?N[j]:(N[j]*(1-tx)+N[j+1]*tx)*(1-ty)+(N[j+cw]*(1-tx)+N[j+cw+1]*tx)*ty,i=(y*W+x)*4,s=v*a;d[i]+=s;d[i+1]+=s;d[i+2]+=s}}}
+  else{/* SOFT FILM GRAIN (Dimitry, 20 Oct: "like grain in Photoshop, a soft film grain", not dithering): monochrome
+       noise softened into small clumps (two box-blur passes each way), scaled back to its spread, and strongest in the
+       midtones, easing off in the deep shadows and bright highlights */
+    const r=Math.max(1,Math.round(P.soft*S/1080)),N=new Float32Array(W*H),T=new Float32Array(W*H);for(let k=0;k<N.length;k++)N[k]=gn();
+    const box=(src,dst,horiz)=>{const n=2*r+1;if(horiz){for(let y=0;y<H;y++){const o=y*W;let acc=0;for(let x=-r;x<=r;x++)acc+=src[o+Math.min(W-1,Math.max(0,x))];
+        for(let x=0;x<W;x++){dst[o+x]=acc/n;acc+=src[o+Math.min(W-1,x+r+1)]-src[o+Math.max(0,x-r)]}}}
+      else{for(let x=0;x<W;x++){let acc=0;for(let y=-r;y<=r;y++)acc+=src[Math.min(H-1,Math.max(0,y))*W+x];
+        for(let y=0;y<H;y++){dst[y*W+x]=acc/n;acc+=src[Math.min(H-1,y+r+1)*W+x]-src[Math.max(0,y-r)*W+x]}}}};
+    box(N,T,true);box(T,N,false);box(N,T,true);box(T,N,false);
+    let v2=0;for(let k=0;k<N.length;k+=97)v2+=N[k]*N[k];const norm=1/Math.sqrt(v2/Math.ceil(N.length/97)||1),a=P.amt*255*norm;
+    for(let k=0,i=0;k<N.length;k++,i+=4){const l=(d[i]*.3+d[i+1]*.59+d[i+2]*.11)/255,s=N[k]*a*(.3+2.8*l*(1-l));d[i]+=s;d[i+1]+=s;d[i+2]+=s}}
   g.putImageData(id,0,0)}
 function cardField(g,img,x,y,w,h,f){const iw=img.width,ih=img.height,k=Math.max(w/iw,h/ih)*f[0],dw=iw*k,dh=ih*k;g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(img,x+(w-dw)/2+f[1]*w,y+(h-dh)/2+f[2]*h,dw,dh)}
 const CARD_PARTNER={ink:'rose',cobalt:'ochre',violet:'lime'};   // dark grounds get a bright duck; bright grounds an ink one
@@ -6132,10 +6140,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020060805"></script>
-<script src="surface/links.js?v=20261020060805"></script>
-<script src="surface/tips.js?v=20261020060805"></script>
-<script src="surface/sections.js?v=20261020060805"></script>
+<script src="surface/install.js?v=20261020060932"></script>
+<script src="surface/links.js?v=20261020060932"></script>
+<script src="surface/tips.js?v=20261020060932"></script>
+<script src="surface/sections.js?v=20261020060932"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6514,7 +6522,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.13';
+const APP_VERSION='0.25.14';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
