@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020210348";window.__VERSION__="0.26.29";window.__NOTES__=[{"v":"0.26.29","date":"20 Oct 2026","items":[{"kind":"change","text":"the founders club form asks one step at a time: name, email and phone first; the rest opens once your email is in"}]}]</script>
+<script>window.__BUILD__="20261020210505";window.__VERSION__="0.26.30";window.__NOTES__=[{"v":"0.26.30","date":"20 Oct 2026","items":[{"kind":"change","text":"on the cover, once everything has settled, the founders call gives a little jiggle and a glow"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020210348"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020210348">
+<script src="claude-web.js?v=20261020210505"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020210505">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,21 +97,21 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020210348"></script>
-<script src="surface/selftest.js?v=20261020210348"></script>
-<script src="surface/auto.js?v=20261020210348"></script>
-<script src="surface/toolpath.js?v=20261020210348"></script>
-<script src="surface/capture.js?v=20261020210348"></script>
-<script src="surface/pop.js?v=20261020210348"></script>
-<script src="surface/hints.js?v=20261020210348"></script>
-<script src="surface/paths.js?v=20261020210348"></script>
-<script src="surface/keys.js?v=20261020210348"></script>
-<script src="surface/reset.js?v=20261020210348"></script>
-<script src="surface/files.js?v=20261020210348"></script>
-<script src="surface/rail.js?v=20261020210348"></script>
-<script src="surface/touchsound.js?v=20261020210348"></script>
-<script src="surface/float.js?v=20261020210348"></script>
-<script src="surface/manual.js?v=20261020210348"></script>
+<script src="vendor/opentype.min.js?v=20261020210505"></script>
+<script src="surface/selftest.js?v=20261020210505"></script>
+<script src="surface/auto.js?v=20261020210505"></script>
+<script src="surface/toolpath.js?v=20261020210505"></script>
+<script src="surface/capture.js?v=20261020210505"></script>
+<script src="surface/pop.js?v=20261020210505"></script>
+<script src="surface/hints.js?v=20261020210505"></script>
+<script src="surface/paths.js?v=20261020210505"></script>
+<script src="surface/keys.js?v=20261020210505"></script>
+<script src="surface/reset.js?v=20261020210505"></script>
+<script src="surface/files.js?v=20261020210505"></script>
+<script src="surface/rail.js?v=20261020210505"></script>
+<script src="surface/touchsound.js?v=20261020210505"></script>
+<script src="surface/float.js?v=20261020210505"></script>
+<script src="surface/manual.js?v=20261020210505"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -297,6 +297,11 @@ body.betaFocus #playbar,body.betaFocus #duckBtn,body.betaFocus #duckLab,body.bet
 .lc-more:not(.on){margin-top:-8px}
 @media (prefers-reduced-motion:reduce){.lc-more{transition:none}}
 #launch.betaOpen .lc-corner,#launch.betaOpen .lc-foot{opacity:0!important;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+/* the nudge: a quick jiggle (0.7 s) inside a glow that swells and fades (1.6 s), in the accent */
+.lc-betaBtn.nudge{animation:bbJiggle .7s cubic-bezier(.36,.07,.19,.97) both,bbGlow 1.6s ease-out both}
+@keyframes bbJiggle{0%,100%{transform:none}15%{transform:rotate(-4deg) scale(1.06)}30%{transform:rotate(3.5deg) scale(1.06)}45%{transform:rotate(-2.5deg) scale(1.04)}60%{transform:rotate(1.5deg) scale(1.02)}75%{transform:rotate(-.6deg)}}
+@keyframes bbGlow{0%{text-shadow:none;filter:none}30%{text-shadow:0 0 14px color-mix(in srgb,var(--acc,#55b8c9) 90%,#fff),0 0 34px var(--acc,#55b8c9);filter:brightness(1.25)}100%{text-shadow:none;filter:none}}
+@media (prefers-reduced-motion:reduce){.lc-betaBtn.nudge{animation:bbGlow 1.6s ease-out both}}
 /* on a computer the sheet sits in the middle of the window (Dimitry, 20 Oct); on a phone it stays at the top, clear of the keyboard */
 @media (min-width:900px) and (hover:hover){.lc-betaF{top:50%;transform:translate(-50%,-50%)}}
 .lc-betaLead{margin:0 0 2px;font:400 12px/1.45 var(--sans);color:rgba(255,255,255,.78)}.lc-betaLead b{color:#fff}
@@ -6282,7 +6287,9 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
        the frost over the moving field as the namemark and CURRENT come in; then the paths and founders call; then the
        bottom row */
     requestAnimationFrame(()=>requestAnimationFrame(()=>{try{__bootVeil(el.querySelector('.lc-duck'))}catch(_){}
-      setTimeout(()=>el.classList.add('s1'),800);setTimeout(()=>el.classList.add('s2'),1700);setTimeout(()=>el.classList.add('s3'),2400)}))};
+      setTimeout(()=>el.classList.add('s1'),800);setTimeout(()=>el.classList.add('s2'),1700);setTimeout(()=>el.classList.add('s3'),2400);
+      /* once it has all settled, the founders call gives a little jiggle and a glow (Dimitry, 20 Oct); not once joined */
+      setTimeout(()=>{const bb=el.querySelector('.lc-betaBtn');if(bb&&!bb.dataset.joined&&!el.classList.contains('going')&&!el.classList.contains('betaOpen')){bb.classList.remove('nudge');void bb.offsetWidth;bb.classList.add('nudge')}},3600)}))};
     el.classList.add('seq');hand()}
   /* the duck-rabbit fills with the app's colours, bottom to top, as the page finishes loading */
   const fillUp=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('ready')));
@@ -6470,10 +6477,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020210348"></script>
-<script src="surface/links.js?v=20261020210348"></script>
-<script src="surface/tips.js?v=20261020210348"></script>
-<script src="surface/sections.js?v=20261020210348"></script>
+<script src="surface/install.js?v=20261020210505"></script>
+<script src="surface/links.js?v=20261020210505"></script>
+<script src="surface/tips.js?v=20261020210505"></script>
+<script src="surface/sections.js?v=20261020210505"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6984,7 +6991,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.29';
+const APP_VERSION='0.26.30';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
