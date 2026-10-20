@@ -8,7 +8,9 @@
      and in a browser tab when it is already installed on this device (Chrome/Edge report it; elsewhere it is remembered
      from installing in this browser; Safari can't tell), with the steps one tap away; inside claude.ai points to the public link
      (installing there would save claude.ai, not the tool),
-   - can show a one-time hint after a while of use.
+   - can show a one-time hint after a while of use,
+   - tells a tool whether it is installed: SurfaceInstall.installed(), SurfaceInstall.onChange(f) (Current's cover drops its
+     install button for share).
    Mount: SurfaceInstall.mount({app:'Current', icon:'icons/icon-192.png', url:'https://works.chamy.xyz/current/', into:el, before:el,
             open:()=>{...open the drawer...}, hint:true, link:true})
    link:true adds "send someone straight here" with a copy-link button (links.js); the section's id is install, so #install opens it.
@@ -282,5 +284,10 @@ function mount(o){
   if(o.hint)setTimeout(hint,o.hintAfter);
   return {section:sec,open:openGuide,render,platform:()=>plat,setPlatform:p=>{if(SCENES[p]){plat=p;render()}}};
 }
-window.SurfaceInstall={mount,guess,standalone,embedded,scenes:()=>SCENES};
+/* installed() (20 Oct, additive): true when running as the app, or when this browser knows it is installed on this
+   device (Chrome/Edge say so; elsewhere remembered from installing here; Safari can't tell, so it stays false there).
+   onChange(f) runs f whenever that may have changed (the browser offers install, an install finishes, the check returns). */
+const installed=()=>standalone()||installedHere();
+const onChange=f=>{if(typeof f==='function'){bipWaiters.push(f);try{matchMedia('(display-mode: standalone)').addEventListener('change',f)}catch(_){}}};
+window.SurfaceInstall={mount,guess,standalone,embedded,installed,onChange,scenes:()=>SCENES};
 })();
