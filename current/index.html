@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020211330";window.__VERSION__="0.26.33";window.__NOTES__=[{"v":"0.26.33","date":"20 Oct 2026","items":[{"kind":"change","text":"once Current is installed, the cover drops its install button and share takes its corner"}]}]</script>
+<script>window.__BUILD__="20261020212221";window.__VERSION__="0.26.34";window.__NOTES__=[{"v":"0.26.34","date":"20 Oct 2026","items":[{"kind":"new","text":"open a whole pack: drop a pack's zip anywhere on Current, or choose it with open file. No unzipping; its looks, beats and bytebeats all go in at once"},{"kind":"change","text":"Founders Club says the pack is already in your Current, with a way to each part; saving a copy is for another device or a plotter"},{"kind":"change","text":"beats from a pack get their own group in Start from (Packs) and don't count against your three free beats"},{"kind":"fix","text":"the founding pack's G-code files no longer call themselves a Paths reward"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020211330"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020211330">
+<script src="claude-web.js?v=20261020212221"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020212221">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,21 +97,22 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020211330"></script>
-<script src="surface/selftest.js?v=20261020211330"></script>
-<script src="surface/auto.js?v=20261020211330"></script>
-<script src="surface/toolpath.js?v=20261020211330"></script>
-<script src="surface/capture.js?v=20261020211330"></script>
-<script src="surface/pop.js?v=20261020211330"></script>
-<script src="surface/hints.js?v=20261020211330"></script>
-<script src="surface/paths.js?v=20261020211330"></script>
-<script src="surface/keys.js?v=20261020211330"></script>
-<script src="surface/reset.js?v=20261020211330"></script>
-<script src="surface/files.js?v=20261020211330"></script>
-<script src="surface/rail.js?v=20261020211330"></script>
-<script src="surface/touchsound.js?v=20261020211330"></script>
-<script src="surface/float.js?v=20261020211330"></script>
-<script src="surface/manual.js?v=20261020211330"></script>
+<script src="vendor/opentype.min.js?v=20261020212221"></script>
+<script src="surface/selftest.js?v=20261020212221"></script>
+<script src="surface/auto.js?v=20261020212221"></script>
+<script src="surface/toolpath.js?v=20261020212221"></script>
+<script src="surface/capture.js?v=20261020212221"></script>
+<script src="surface/pop.js?v=20261020212221"></script>
+<script src="surface/hints.js?v=20261020212221"></script>
+<script src="surface/paths.js?v=20261020212221"></script>
+<script src="surface/keys.js?v=20261020212221"></script>
+<script src="surface/reset.js?v=20261020212221"></script>
+<script src="surface/files.js?v=20261020212221"></script>
+<script src="surface/pack.js?v=20261020212221"></script>
+<script src="surface/rail.js?v=20261020212221"></script>
+<script src="surface/touchsound.js?v=20261020212221"></script>
+<script src="surface/float.js?v=20261020212221"></script>
+<script src="surface/manual.js?v=20261020212221"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -503,6 +504,8 @@ body:not(.player) #dscMark{opacity:0}
 .cx-grpbtn[aria-expanded=false] .cx-ch{transform:rotate(-90deg)}
 .cx-grp.cx-shut>.cx-gbody{display:none}
 .cx-lead{margin:0 0 8px;font-size:13px;line-height:1.45;max-width:38ch}
+.cx-lnk{display:inline;padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.cx-lnk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#packL .fpCopy{margin-top:14px;color:var(--muted)}#packL .fpGo{margin-top:4px}
 /* two lines of space between every section title and its intro (Dimitry, 18 Oct): two of the intro's own lines */
 .cx-gbody>.cx-lead:first-child,.cx-gbody>p:first-child,.cx-gbody>.note:first-child{margin-top:2.9em}
 .cx-list{list-style:none;margin:0;padding:0}
@@ -3204,11 +3207,17 @@ function loadGcodeText(t,name){const segs=(()=>{try{return parseGcode(t)}catch(e
   if(!n){toast(macro?'this file uses subroutines or variables, which Current does not run yet':'no moves found in '+(name||'that file'),3200);return false}
   $('gcode').value=t;$('apply').click();curName=(name||'G-code').replace(/\.[a-z0-9]+$/i,'').slice(0,32);syncPresetBtns();
   toast((name||'G-code')+': '+n.toLocaleString()+' moves'+(macro?' (its subroutines are skipped)':''),2600);return true}
-let gfIn=null;function openGcodeFile(){if(!gfIn){gfIn=document.createElement('input');gfIn.type='file';gfIn.accept='.gcode,.gco,.gc,.nc,.ngc,.tap,.cnc,.txt';gfIn.hidden=true;
-  gfIn.onchange=()=>{const f=gfIn.files[0];if(f)f.text().then(t=>loadGcodeText(t,f.name));gfIn.value=''};document.body.append(gfIn)}gfIn.click()}
+let gfIn=null;function openGcodeFile(){if(!gfIn){gfIn=document.createElement('input');gfIn.type='file';gfIn.accept='.gcode,.gco,.gc,.nc,.ngc,.tap,.cnc,.txt,.zip';gfIn.hidden=true;
+  gfIn.onchange=()=>{const f=gfIn.files[0];if(f){if(window.SurfacePack&&SurfacePack.isZip(f)&&window.openPack)openPack(f);else f.text().then(t=>loadGcodeText(t,f.name))}gfIn.value=''};document.body.append(gfIn)}gfIn.click()}
 (function(){const st=document.querySelector('.stage')||document.body,isG=f=>f&&/\.(gcode|gco|gc|nc|ngc|tap|cnc)$/i.test(f.name);
   st.addEventListener('dragover',e=>{const it=e.dataTransfer&&e.dataTransfer.items;if(it&&it.length&&it[0].kind==='file'){e.preventDefault();e.dataTransfer.dropEffect='copy'}});
-  st.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(!isG(f))return;e.preventDefault();e.stopPropagation();f.text().then(t=>loadGcodeText(t,f.name))},true)})();
+  st.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f&&window.SurfacePack&&SurfacePack.isZip(f)&&window.openPack){e.preventDefault();e.stopPropagation();openPack(f);return}   // a pack: the whole zip
+    if(!isG(f))return;e.preventDefault();e.stopPropagation();f.text().then(t=>loadGcodeText(t,f.name))},true)
+  /* a pack can land anywhere: on the cover, the drawer, the bar (the stage takes it first, above) */
+  document.addEventListener('dragover',e=>{const it=e.dataTransfer&&e.dataTransfer.items;if(it&&it.length&&it[0].kind==='file'){e.preventDefault();e.dataTransfer.dropEffect='copy'}});
+  document.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(!f)return;e.preventDefault();
+    if(window.SurfacePack&&SurfacePack.isZip(f)&&window.openPack)openPack(f);else if(isG(f))f.text().then(t=>loadGcodeText(t,f.name))})})();
 $('clear').addEventListener('click',clearTrails);
 const pb=$('pause');pb.addEventListener('click',()=>{S.paused=!S.paused;pb.textContent=S.paused?'Move':'Still'});
 
@@ -4786,6 +4795,10 @@ const FP_BEATS=(()=>{const g=Array(16).fill('.');for(let n=1;n<=9;n++){const i=M
   'Gqom 124':{bpm:124,k:'x..x..x...x..x..',s:'......x.......x.',h:'..x...x...x...x.',b:'x.....x.........'},
   'Half-step 85':{bpm:85,k:'x......x..x.....',s:'........x.......',h:'x.xxx.x.x.xxx.x.',b:'x......x..x.....'}}})();
 const fpOn=()=>{try{return localStorage.getItem('current.pack')==='1'}catch(_){return false}};
+/* beats that came in a pack (a zip dropped on Current): their own group in Start from, so they never count against the
+   three free beats of your own (Dimitry, 20 Oct) */
+let PACK_BEATS={};try{const o=JSON.parse(localStorage.getItem('current.packBeats')||'{}');for(const n in o)if(BEAT_OK(o[n]))PACK_BEATS[n]={bpm:+o[n].bpm,k:o[n].k,s:o[n].s,h:o[n].h,b:o[n].b}}catch(_){}
+const savePackBeats=()=>{try{localStorage.setItem('current.packBeats',JSON.stringify(PACK_BEATS))}catch(_){}};
 /* STARTERS (Dimitry, 20 Oct): grooves to load into the Beat grid and change. They are templates, not shelf sounds:
    they live in "Start from" only, so the sound shelf stays short. Each names its tempo, as the built-in beats do. */
 const BEAT_STARTERS={
@@ -5430,14 +5443,14 @@ const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DR
       RAF=requestAnimationFrame(tick)};RAF=requestAnimationFrame(tick)}
   function clear(){cancelAnimationFrame(RAF);RAF=0;const g=$('bgGrid');if(g){g.dataset.st='';g.querySelectorAll('.now').forEach(c=>c.classList.remove('now'))}}
   const svg=(p,cls)=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
-  function load(name){const p=BEATS[name]||BEAT_STARTERS[name]||(fpOn()&&FP_BEATS[name]);if(!p)return;D={bpm:p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};src=name;changed();render();if(window.cxCount)cxCount('beat grid: load',1)}
+  function load(name){const p=BEATS[name]||BEAT_STARTERS[name]||(fpOn()&&FP_BEATS[name])||PACK_BEATS[name];if(!p)return;D={bpm:p.bpm,k:p.k,s:p.s,h:p.h,b:p.b};src=name;changed();render();if(window.cxCount)cxCount('beat grid: load',1)}
   function render(){const b=$('beatBody');if(!b)return;b.innerHTML='';
     const h=document.createElement('div');h.className='sub';h.textContent='Start from';b.appendChild(h);
     const top=document.createElement('div');top.className='bgTop';
     const sel=document.createElement('select');sel.setAttribute('aria-label','Load a beat into the grid');
     const og=(lab,names)=>{if(!names.length)return;const g=document.createElement('optgroup');g.label=lab;for(const n of names){const o=document.createElement('option');o.value=n;o.textContent=n;g.appendChild(o)}sel.appendChild(g)};
     const o0=document.createElement('option');o0.value='';o0.textContent=src&&BEATS[src]?'from '+src:'your grid';sel.appendChild(o0);
-    og('Starters',Object.keys(BEAT_STARTERS));if(fpOn())og('Founding pack',Object.keys(FP_BEATS));og('Built in',BEAT_BUILTIN);og('My beats',Object.keys(BEAT_USER));sel.value='';sel.onchange=()=>{if(sel.value)load(sel.value)};
+    og('Starters',Object.keys(BEAT_STARTERS));if(fpOn())og('Founding pack',Object.keys(FP_BEATS));{const pk=Object.keys(PACK_BEATS).filter(n=>!(fpOn()&&FP_BEATS[n]));if(pk.length)og('Packs',pk)}og('Built in',BEAT_BUILTIN);og('My beats',Object.keys(BEAT_USER));sel.value='';sel.onchange=()=>{if(sel.value)load(sel.value)};
     const pl=document.createElement('button');pl.type='button';pl.className='bgIco pl';pl.innerHTML=playing()?svg('<rect x="6" y="6" width="12" height="12" rx="1.5"/>'):svg('<path d="M7 5l12 7-12 7z"/>');
     pl.setAttribute('aria-pressed',String(playing()));pl.setAttribute('aria-label',playing()?'Stop your beat':'Play the grid');pl.title=playing()?'Stop':'Play the grid';pl.onclick=play;
     const nw=document.createElement('button');nw.type='button';nw.className='bgIco';nw.innerHTML=svg('<path d="M5 5h14v14H5z"/><path d="M9 12h6"/>');nw.title='Clear the grid';nw.setAttribute('aria-label','Clear the grid');
@@ -6491,10 +6504,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020211330"></script>
-<script src="surface/links.js?v=20261020211330"></script>
-<script src="surface/tips.js?v=20261020211330"></script>
-<script src="surface/sections.js?v=20261020211330"></script>
+<script src="surface/install.js?v=20261020212221"></script>
+<script src="surface/links.js?v=20261020212221"></script>
+<script src="surface/tips.js?v=20261020212221"></script>
+<script src="surface/sections.js?v=20261020212221"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6773,7 +6786,7 @@ try{(function(){
   const FP_BYTES=[['Stair tide','t*((t>>11)%8+1)&t>>5'],['Ninefold','t*9&t>>4|t*5&t>>7|t*3&t>>10'],['Lantern','t*("6798"[t>>12&3]&15)/2&t>>4'],
     ['Pulse field','t*((t>>10)%3+2)&(t>>6|64)'],['Coastline','t*(t>>8^t>>11)&t>>3'],['Signal fire','(t&t>>7)*(t>>11&7)'],['Long walk','t*("13579753"[t>>11&7]&15)/4|t>>6'],
     ['Copper','t*3&t>>10^t*2&t>>7'],['Undertow','(t>>4)*(t>>7&t>>10&15)|t*2&t>>12'],['Fourths','t*("0257"[t>>13&3]-(-4))&t>>5|t>>4']];
-  const fpLook=k=>{const L=FP_LOOKS[k];return {...L,gcode:FP_GEN[k](),p:{...DEFAULTS,...L.p},pack:'founding'}};
+  const fpLook=k=>{const L=FP_LOOKS[k];return {...L,gcode:FP_GEN[k]().replace('; CHAMY·XYZ · Current · a Paths reward','; CHAMY·XYZ · Current · the founding pack'),p:{...DEFAULTS,...L.p},pack:'founding'}};
   const FP_MAX=100,FP_PRO=100,FP_RPC=BETA.url.replace(/\/[^/]+$/,'/rpc/beta_count');
   const fpGive=()=>{let add=0;
     for(const k of Object.keys(FP_LOOKS))if(!store.user.some(u=>u.name===FP_LOOKS[k].name)){store.user.push(fpLook(k));add++}
@@ -6787,16 +6800,42 @@ try{(function(){
     files.push(['looks.json',JSON.stringify({kind:'current.looks',made:new Date().toISOString(),looks},null,2)]);
     files.push(['beats.json',JSON.stringify({kind:'current-beats',v:1,beats:FP_BEATS},null,1)]);
     files.push(['formulas.json',JSON.stringify({kind:'current/formulas',v:1,formulas:FP_BYTES.map(([n,f])=>({name:'Pack · '+n,f,mode:'byte',hz:8000}))},null,1)]);
+    files.unshift(['pack.json',JSON.stringify({kind:'surface.pack',v:1,tool:'current',id:'founding',name:'The founding pack',made:new Date().toISOString(),
+      files:{'looks.json':'ten looks, each riding a G-code file in gcode/','beats.json':'ten beats for the Beat grid','formulas.json':'ten bytebeats for Bytes','gcode/':'ten toolpaths'}},null,1)]);
     files.push(['README.txt',['CURRENT · the founding pack','CHAMY·XYZ, Dimitry Saïd Chamy, '+new Date().getFullYear(),'','For the first 100 founders. Thank you.','',
-      'gcode/      ten toolpaths: open any .nc in Current (tools › path › open file, or drop it on the stage), or send it to a plotter, laser or router.',
-      '            Ordinary G-code: G21 millimetres, G90 absolute, a 100 mm square.','looks.json  the ten looks that ride them.',
-      'beats.json  ten beats for the Beat grid (sound › Beat › import).','formulas.json  ten bytebeats for Bytes (My formulas › import).','',
+      'TO ADD IT TO CURRENT (another phone or computer): open Current and drop this zip on it, or choose it with',
+      'open file. Don\'t unzip it. Everything goes in at once: the looks into your looks, the beats into',
+      'Beat › Start from › Packs, the bytebeats into Bytes › My formulas.','',
+      'FOR A MACHINE: unzip it and send any file in gcode/ to a plotter, laser or router. Ordinary G-code:',
+      'G21 millimetres, G90 absolute, inside a 100 mm square.','',
       'Foundations: rose curves (Guido Grandi, 1723), the epicycloid (Dürer, 1525; Rømer, 1674), the butterfly curve (Temple H. Fay, 1989),',
       'the Archimedean spiral (Archimedes), the superformula (Johan Gielis, 2003), the Lorenz attractor (Edward Lorenz, 1963), the dragon curve',
       '(Heighway, Banks and Harter, 1966), the harmonograph (Hugh Blackburn, 1844), Truchet tiles (Sébastien Truchet, 1704), the Koch snowflake',
       '(Helge von Koch, 1904), Euclidean rhythms (Godfried Toussaint, 2005), the Beatty sequence of the golden ratio, the step sequencer',
       '(Roland TR-808, 1980), bytebeat (viznut, 2011), and ZIP (PKWARE APPNOTE).'].join('\n')]);
     return zip(files)}
+  /* OPEN A PACK (Dimitry, 20 Oct): the whole zip, dropped on Current or chosen with open file; nobody unzips. Reads it
+     with the kit (surface/pack.js) and takes in what it knows: looks (looks.json, each riding gcode/<name>.nc), beats
+     (beats.json, into Start from › Packs), bytebeats (formulas.json, into My formulas). Anything already here is
+     skipped, so opening it twice is harmless. A zip of bare G-code opens its first file on the stage. */
+  window.openPack=async f=>{let P;try{P=await SurfacePack.read(f)}catch(e){toast(/compressed/.test(e&&e.message)?'this browser can\'t open that zip':'that zip could not be read',3200);return false}
+    const nm=(P.manifest&&P.manifest.name)||String(f.name||'pack').replace(/\.zip$/i,'');let lk=0,bt=0,fm=0,had=0;
+    const LJ=P.json('looks.json'),looks=LJ&&Array.isArray(LJ.looks)?LJ.looks:Array.isArray(LJ)?LJ:[];
+    for(const L of looks.slice(0,200)){if(!L||typeof L.name!=='string')continue;const g=typeof L.gcode==='string'?L.gcode:P.text('gcode/'+slug(L.name)+'.nc');if(!g)continue;
+      if(store.user.some(u=>u.name===L.name)){had++;continue}store.user.push({...L,gcode:g,p:{...DEFAULTS,...(L.p||{})}});lk++}
+    const BJ=P.json('beats.json'),beats=BJ&&BJ.beats&&typeof BJ.beats==='object'?BJ.beats:{};
+    for(const k in beats){const n=String(k).slice(0,28).trim(),b=beats[k];if(!n||!BEAT_OK(b))continue;
+      if(BEATS[n]||PACK_BEATS[n]||(fpOn()&&FP_BEATS[n])){had++;continue}PACK_BEATS[n]={bpm:+b.bpm,k:b.k,s:b.s,h:b.h,b:b.b};bt++}
+    if(bt)savePackBeats();
+    const FJ=P.json('formulas.json'),fs=FJ&&Array.isArray(FJ.formulas)?FJ.formulas:Array.isArray(FJ)?FJ:[];if(!Array.isArray(store.formulas))store.formulas=[];
+    for(const y of fs.slice(0,500)){const fx=String(y&&y.f||'').trim().slice(0,4000),m=Math.max(0,BB_MODES.indexOf(y&&y.mode)),h=BB_HZS.includes(+(y&&y.hz))?+y.hz:8000;
+      if(!fx||!bbCompile(fx))continue;if(store.formulas.some(x=>bbSame(x,fx,m,h)||x.f===fx)){had++;continue}
+      let n=String(y.name||'Imported').replace(/\s+/g,' ').trim().slice(0,40)||'Imported';if(store.formulas.some(x=>x.name===n))n=n.slice(0,34)+' (in)';store.formulas.push({name:n,f:fx,mode:m,hz:h});fm++}
+    persist();try{renderPresets()}catch(_){}try{if(typeof buildLooks==='function')buildLooks()}catch(_){}try{syncPlist()}catch(_){}try{bbList()}catch(_){}
+    if(!lk&&!bt&&!fm&&!had){const g=[...P.files.keys()].find(k=>/\.(gcode|gco|gc|nc|ngc|tap|cnc)$/i.test(k));if(g)return loadGcodeText(P.text(g),g.split('/').pop());toast('nothing in that zip Current can use',3000);return false}
+    const parts=[lk&&lk+' look'+(lk>1?'s':''),bt&&bt+' beat'+(bt>1?'s':''),fm&&fm+' bytebeat'+(fm>1?'s':'')].filter(Boolean);
+    toast(parts.length?nm+': '+parts.join(', ')+' added'+(had?' · '+had+' already here':''):nm+': all of it is already here',3600);
+    if(window.cxCount)cxCount('pack: opened',1);return true};
   /* its place in the index, under Paths: what is in it, and either the download or how to get it. Its own section,
      "Founders Club", with a bolt for Current (Dimitry, 20 Oct): a section like the others, not a tail of Paths */
   /* the challenge's progress line, shared by the pack panel and the cover form */
@@ -6808,9 +6847,18 @@ try{(function(){
       fpSec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="packL"><svg class="dsp-gear sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.5 2.5 5.5 13.5h6l-1 8 8-11h-6z"/></svg><span>Founders Club</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="packL"></div>';
       after.after(fpSec);const gb=fpSec.querySelector('.cx-grpbtn');gb.onclick=()=>{const s=fpSec.classList.toggle('cx-shut');gb.setAttribute('aria-expanded',String(!s))}}
     const b=$('packL');
-    b.innerHTML='<p class="cx-lead">'+(on?'Yours, as a founder:':'For the first '+FP_MAX+' founders:')+' <b>10 beats</b> (sound › Beat › Start from), <b>10 looks</b> on 10 new G-code paths (in your looks), and <b>10 bytebeats</b> (sound › Bytes › My formulas). They keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
-      '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">'+(on?'download the pack':'join the founders club')+'</button></div>';
-    b.querySelector('.btn').onclick=on?()=>{saveBlob(FILE_PREFIX+'founding-pack.zip',fpZip());if(window.cxCount)cxCount('pack: download',1)}:()=>{try{openBetaSheet()}catch(_){}};
+    /* founders already have it all in Current (Dimitry, 20 Oct: the download confused): say where, with a way there; the
+       zip is a copy for another device or a machine, and opens whole on Current with no unzipping */
+    if(on){b.innerHTML='<p class="cx-lead">Already in your Current, nothing to download: <b>10 looks</b> on 10 new G-code paths, <b>10 beats</b> and <b>10 bytebeats</b>. Founders keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
+        '<div class="actions fpGo"><button type="button" class="btn" data-go="looks">the looks</button><button type="button" class="btn" data-go="beat">the beats</button><button type="button" class="btn" data-go="bytes">the bytebeats</button></div>'+
+        '<p class="cx-lead fpCopy">On another phone or computer, or for a plotter: <button type="button" class="cx-lnk fpDl">save a copy</button> of the pack (a zip). Drop the whole zip on Current there, or choose it with open file; no unzipping. For a machine, unzip it and send any file in gcode/.</p>'+
+        '<p class="cx-lead fpLeft"></p>';
+      b.querySelectorAll('.fpGo .btn').forEach(x=>x.onclick=()=>{const g=x.dataset.go;
+        if(g==='looks'){try{setPlayer(true);if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()}catch(_){}}else{try{setPlayer(true);openMix(g)}catch(_){}}});
+      b.querySelector('.fpDl').onclick=()=>{saveBlob(FILE_PREFIX+'founding-pack.zip',fpZip());if(window.cxCount)cxCount('pack: download',1)}}
+    else{b.innerHTML='<p class="cx-lead">For the first '+FP_MAX+' founders: <b>10 beats</b>, <b>10 looks</b> on 10 new G-code paths, and <b>10 bytebeats</b>, added to Current the moment you join. They keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
+      '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">join the founders club</button></div>';
+      b.querySelector('.btn').onclick=()=>{try{openBetaSheet()}catch(_){}}}
     if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=fpGoal(n)||'Be one of the first '+FP_MAX+'.'}).catch(()=>{})}
   /* on sign-up: count, and give the pack if they are within the first 100. If the count can't be read, give it: a
      gift should not fail on a network hiccup. Testers who joined before the pack existed get it on their next visit. */
@@ -7005,7 +7053,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.33';
+const APP_VERSION='0.26.34';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
