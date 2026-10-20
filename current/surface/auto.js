@@ -32,6 +32,7 @@
        painter.paint({on, baseN, liveN})    on: Auto (or a mapping) is moving it; baseN/liveN normalised
      SurfaceAuto.editor(host, opts)         renders the editor into host (see the function for opts)
      SurfaceAuto.button(label)              the row's Auto button (aria-pressed = running, aria-expanded = open)
+     SurfaceAuto.lead(row, button)          puts it first in its row, left of the name (CONVENTIONS › Auto)
 */
 (function () {
   "use strict";
@@ -44,6 +45,7 @@
     ".sa-btn{flex:none;width:26px;height:28px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--sa-quiet,currentColor);opacity:.55;cursor:pointer;-webkit-tap-highlight-color:transparent}",
     ".sa-btn:hover,.sa-btn:focus-visible,.sa-btn[aria-expanded=true]{opacity:1}",
     ".sa-btn svg{width:18px;height:18px;overflow:visible}",
+    ".sa-led>.sa-btn{margin-left:-6px}",
     ".sa-btn path{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}",
     ".sa-btn circle{fill:currentColor}",
     ".sa-btn[aria-pressed=true]{color:var(--sa-acc);opacity:1}",
@@ -108,6 +110,13 @@
     b.setAttribute("aria-pressed", "false"); b.setAttribute("aria-expanded", "false");
     b.setAttribute("aria-label", "Auto: " + label); b.title = "Auto: " + label + " moves by itself";
     return b;
+  }
+  /* WHERE IT SITS (Dimitry, 19 Oct 2026): the symbol leads its row, left of the parameter's name. At the row's far end
+     it read as the next control's. lead() puts it first in the DOM too, so the tab order and a screen reader meet it in
+     the order it is seen; the row gets .sa-led, and the tool's grid gives that row a leading auto column, e.g.
+       .row.sa-led{grid-template-columns:auto 88px minmax(0,1fr) 44px} */
+  function lead(row, b) {
+    injectCSS(); row.classList.add("sa-led"); row.insertBefore(b, row.firstChild); return b;
   }
   function decorate(track) {
     injectCSS(); track.classList.add("sa-trk");
@@ -190,5 +199,5 @@
   }
 
   window.SurfaceAuto = { ICON: ICON, MOTION: MOTION, isMotion: function (s) { return !!MOTION_SET[s]; },
-    shape: shape, apply: apply, migrate: migrate, seed: seedOf, button: button, decorate: decorate, editor: editor, css: injectCSS };
+    shape: shape, apply: apply, migrate: migrate, seed: seedOf, button: button, lead: lead, decorate: decorate, editor: editor, css: injectCSS };
 })();
