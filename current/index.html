@@ -1,6 +1,6 @@
 <!doctype html><html><head>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020042236";window.__VERSION__="0.25.5";window.__NOTES__=[{"v":"0.25.5","date":"20 Oct 2026","items":[{"kind":"change","text":"cards on one grid: the namemark comes in to CURRENT's inset; the back of CURRENT's C sits on Dimitry's baseline (lying flat, the two share a baseline); CHAMY·XYZ shares CURRENT's baseline and runs the namemark's width"},{"kind":"change","text":"cards carry no QR code: they are seen on the phone that would scan them. The link you share still opens the exact look"}]}]</script>
+<script>window.__BUILD__="20261020050107";window.__VERSION__="0.25.6";window.__NOTES__=[{"v":"0.25.6","date":"20 Oct 2026","items":[{"kind":"fix","text":"share cards carry the real CHAMY·XYZ wordmark, not the name typed in a font"},{"kind":"fix","text":"one caret over a bar button on hover, not two (a second caret had been added on Source, Sound, Tools and Capture)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020042236"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020042236">
+<script src="claude-web.js?v=20261020050107"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020050107">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -72,15 +72,15 @@
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020042236"></script>
-<script src="surface/auto.js?v=20261020042236"></script>
-<script src="surface/toolpath.js?v=20261020042236"></script>
-<script src="surface/capture.js?v=20261020042236"></script>
-<script src="surface/pop.js?v=20261020042236"></script>
-<script src="surface/hints.js?v=20261020042236"></script>
-<script src="surface/paths.js?v=20261020042236"></script>
-<script src="surface/keys.js?v=20261020042236"></script>
-<script src="surface/reset.js?v=20261020042236"></script>
+<script src="vendor/opentype.min.js?v=20261020050107"></script>
+<script src="surface/auto.js?v=20261020050107"></script>
+<script src="surface/toolpath.js?v=20261020050107"></script>
+<script src="surface/capture.js?v=20261020050107"></script>
+<script src="surface/pop.js?v=20261020050107"></script>
+<script src="surface/hints.js?v=20261020050107"></script>
+<script src="surface/paths.js?v=20261020050107"></script>
+<script src="surface/keys.js?v=20261020050107"></script>
+<script src="surface/reset.js?v=20261020050107"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -549,7 +549,7 @@ body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(s
    only, since ‹ ▶ › share one list. */
 body #playbar>button[data-drawer]{position:relative}
 body #playbar>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
-body #playbar>button[data-drawer][aria-expanded="true"]::after{opacity:1;transform:translateY(0) rotate(45deg);border-color:var(--acc,#55b8c9)}
+body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after{opacity:1;transform:translateY(0) rotate(45deg);border-color:var(--acc,#55b8c9)}
 @media (hover:hover) and (pointer:fine){body #playbar>button[data-drawer]:hover::after{opacity:.85;transform:translateY(0) rotate(45deg)}}
 @media (prefers-reduced-motion:reduce){body #playbar>button[data-drawer]::after{transition:none}}
 html.bare body #playbar>button[data-drawer]::after{opacity:0}
@@ -603,11 +603,7 @@ body #toast{bottom:auto;top:calc(16px + env(safe-area-inset-top,0px));transform:
 body #toast.show{transform:translate(-50%,0)}
 #imgwrap.overCover{z-index:10001}
 body #playbar>#pSrc,body #playbar>#pSteer,body #playbar>#pShot{position:relative}
-.pCaret{position:absolute;left:50%;top:-11px;width:22px;height:10px;margin-left:-11px;display:grid;place-items:center;color:var(--ui-ink);opacity:0;transform:translateY(3px);transition:opacity .18s,transform .18s;pointer-events:none}
-.pCaret svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-#playbar>.drawerOpen>.pCaret{opacity:1;transform:none;color:var(--acc,#55b8c9)}
-@media (hover:hover) and (pointer:fine){#playbar>button:hover>.pCaret{opacity:.75;transform:none}}
-html.bare .pCaret{opacity:0!important}
+/* one caret per button: the [data-drawer]::after chevron above (a second, .pCaret, doubled it on hover; removed 20 Oct) */
 #owCardBox{display:flex;flex-direction:column;align-items:center;gap:10px;width:min(420px,100%)}#owCardBox[hidden]{display:none}
 .cdStage{width:100%;display:grid;place-items:center;min-height:120px}
 .cdRail{display:flex;align-items:flex-end;gap:12px;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:6px 4px 10px;scrollbar-width:none}.cdRail::-webkit-scrollbar{display:none}
@@ -3714,6 +3710,12 @@ function cardInk(img){if(!img)return {x0:0,y0:0,x1:1,y1:1,base:.3};if(img.__ink)
   return img.__ink=x1>x0?{x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h,base:(base+1)/h}:{x0:0,y0:0,x1:1,y1:1,base:.3}}
 const cardMark=()=>CARD.img.corner||(CARD.img.corner=new Promise(res=>{let u='';try{const d=document.querySelector('#dscMark .dsc')||document.querySelector('.dsc:not(svg)');const mi=d&&(getComputedStyle(d).webkitMaskImage||getComputedStyle(d).maskImage)||'';u=(mi.match(/url\(["']?(.*?)["']?\)/)||[])[1]||''}catch(_){}
   if(!u){res(null);return}const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const g=c.getContext('2d');g.drawImage(i,0,0);g.globalCompositeOperation='source-in';g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);res(c)};i.onerror=()=>res(null);i.src=u}));
+/* CHAMY·XYZ ON THE CARDS (Dimitry, 20 Oct: "YOUR Current cards" had the logo typed in a font): the wordmark is his
+   file, the SVG in the drawer's colophon (sys/brands/chamy-xyz/word.svg), drawn as an image, never typed */
+const cardWord=()=>CARD.img.word||(CARD.img.word=new Promise(res=>{const el=document.querySelector('svg.colo-word');if(!el){res(null);return}
+  const sv=el.cloneNode(true);sv.setAttribute('xmlns','http://www.w3.org/2000/svg');sv.setAttribute('width','3000');sv.setAttribute('height',String(Math.round(3000*132/996)));sv.setAttribute('fill','#fff');sv.querySelectorAll('[fill]').forEach(n=>n.setAttribute('fill','#fff'));
+  const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d').drawImage(i,0,0);res(c)};i.onerror=()=>res(null);
+  i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(new XMLSerializer().serializeToString(sv))}));
 const cardDuckC=()=>CARD.img.duckC||(CARD.img.duckC=new Promise(res=>{if(!window.__DUCKC){res(null);return}const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=window.__DUCKC}));
 const cardId=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789',r=crypto.getRandomValues(new Uint8Array(10));let o='';for(const x of r)o+=A[x%A.length];return o};
 /* the look's own link, made once per look; the QR carries it */
@@ -3771,7 +3773,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
      One unit u scales from the share card by whichever side is tighter. */
   look=look||stillCanvas(document.createElement('canvas'));const u=Math.min(W/1200,H/630),font=(window.__TITLES__&&window.__TITLES__.font)||'sans-serif';
   try{await Promise.all([document.fonts.load('700 100px '+font),document.fonts.load('400 24px "Instrument Sans"'),document.fonts.load('600 24px "Instrument Sans"')])}catch(_){}
-  const [dw,mark,dc,url]=await Promise.all([cardDuckW(),cardMark(),cardDuckC(),lookLink()]);
+  const [dw,mark,dc,url,word]=await Promise.all([cardDuckW(),cardMark(),cardDuckC(),lookLink(),cardWord()]);
   const C=(CARD_COLORS.find(x=>x[0]===color)||CARD_COLORS[0])[1],light=cardLum(C)>.4,INK='#0c0d0f',FG=light?INK:'#fff';
   const wide=W/H>1.4,pad=Math.round(42*u),SANS='"Instrument Sans", system-ui, sans-serif';
   /* THE MARKS, by the brand rule: the namemark's x-height (the m of Chamy, 10.5% of its width) is its offset from the
@@ -3799,8 +3801,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
   /* (Dimitry, 20 Oct) the back of the C sits optically on the namemark's baseline (Dimitry's): on tall cards CURRENT
      starts at that line; when it lies flat, its baseline is that line, so the namemark comes down to meet it */
   let mYv=mY;if(!tall&&mark)mYv=I+cAsc-MB.base*mh;const baseY=mYv+MB.base*mh,cTop=tall?baseY:I;
-  const chamy=(()=>{let f=xh/.7;g.save();const m=()=>{g.font='600 '+f.toFixed(1)+'px '+SANS;try{g.letterSpacing=(f*.12).toFixed(1)+'px'}catch(_){}const t=g.measureText('CHAMY·XYZ');return [(t.actualBoundingBoxLeft||0)+(t.actualBoundingBoxRight||t.width),t.actualBoundingBoxLeft||0]};
-    let [len]=m();f*=tileW/len;const [l2,lead]=m();g.restore();return {f,len:l2,lead}})();
+  const WB=cardInk(word),wS=word?tileW/((WB.x1-WB.x0)*word.width):0,wCap=word?(WB.y1-WB.y0)*word.height*wS:0;   // the wordmark's ink runs the tile's height
   const titleTop=pad,lineTop=tall?pad:titleTop+cAsc+Math.round(40*u),typeBottom=tall?Math.max(lineTop+lines.length*lh,xh+mh):lineTop+lines.length*lh;
   const paper=groundLight();   // a light look is laid over the colour by multiplying, a dark one by screening
   const FR=(CARD_FRAME[size]||{})[style]||[1.4,0,0,0],field=(FR[3]&&CARD_LOOK_ARROWS)?CARD_LOOK_ARROWS:look,tint=cardTint(field,color);
@@ -3816,7 +3817,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     const lw=Math.max(0,...lines.map(t=>g.measureText(t).width));g.restore();
     const cfs0=xh/.7;g.save();g.font='600 '+cfs0.toFixed(1)+'px '+SANS;try{g.letterSpacing=(cfs0*.12).toFixed(1)+'px'}catch(_){}const cw0=g.measureText('CHAMY·XYZ').width;g.restore();
     const ex=(x,y,w,h)=>[x-mg0,y-mg0,w+mg0*2,h+mg0*2];
-    const boxes=[tall?ex(I,cTop,cAsc,tw):ex(I,I,tw,cAsc),ex(sx,lineTop,lw,lines.length*lh),ex(mX,mYv,mw,mh),ex(I,H-I-tileW,chamy.f*.8,tileW),...(CARD.qr?[ex(tileX,tileY,tileW,tileW)]:[]),
+    const boxes=[tall?ex(I,cTop,cAsc,tw):ex(I,I,tw,cAsc),ex(sx,lineTop,lw,lines.length*lh),ex(mX,mYv,mw,mh),ex(I,H-I-tileW,wCap,tileW),...(CARD.qr?[ex(tileX,tileY,tileW,tileW)]:[]),
       [-W,-H,W*3,H+xh],[-W,H-xh,W*3,H],[-W,-H,W+xh,H*3],[W-xh,-H,W,H*3]];   // the card's own edges, an x-height in
     /* on very tall cards (story) the head is the anchor, or the duck sits too high (Dimitry, 19 Oct); elsewhere the heart */
     const ax=H/W>=1.5?G.headX:G.hx,ay=H/W>=1.5?G.headY:G.hy;
@@ -3839,8 +3840,8 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
     g.drawImage(mk,mX,mYv,mw,mh)}
   /* bottom left: CHAMY·XYZ, reading down, cap height = the namemark's x-height, baseline that far from the left edge
      and its end that far from the bottom; the app's blue on ink, the type's colour on a colour */
-  g.save();g.font='600 '+chamy.f.toFixed(1)+'px '+SANS;try{g.letterSpacing=(chamy.f*.12).toFixed(1)+'px'}catch(_){}g.fillStyle=color==='ink'?'#55b8c9':FG;
-  g.translate(I,H-I-chamy.len+chamy.lead);g.rotate(Math.PI/2);g.textBaseline='alphabetic';g.fillText('CHAMY·XYZ',0,0);g.restore();
+  if(word){const t=document.createElement('canvas');t.width=word.width;t.height=word.height;const tg=t.getContext('2d');tg.drawImage(word,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=color==='ink'?'#55b8c9':FG;tg.fillRect(0,0,t.width,t.height);
+    g.save();g.translate(I,H-I-tileW);g.rotate(Math.PI/2);g.drawImage(t,-WB.x0*word.width*wS,-WB.y1*word.height*wS,word.width*wS,word.height*wS);g.restore()}
   /* bottom right: the code, white tile, with the duck-rabbit in its middle */
   /* THE CODE ON THE COLOUR (Dimitry, 19 Oct: no big white square where the ground is light enough). When the card's
      colour is light enough (luminance 0.42 and up: ochre, lime, sky), the code is black modules on a patch of
@@ -5659,10 +5660,9 @@ resize();
    buttons that open a drawer (source, sound, tools, capture): shown while their drawer is open, and on hover where
    there is a mouse, so it says "there is more above this". Watching the drawers, not the code that opens them. */
 (()=>{const MAP={pSrc:['#shelfSrc'],pSnd:['#shelfSnd'],pSteer:['#shelfPick','#shelfTool','#shelfSteer','#shelfText'],pShot:['#shotPop']};
-  const sv='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 14l5-5 5 5"/></svg>';
   const open=sel=>sel.some(q=>{const e=document.querySelector(q);return e&&(e.id==='shotPop'?!e.hidden:e.classList.contains('open'))});
   const sync=()=>{for(const id in MAP){const b=$(id);if(b)b.classList.toggle('drawerOpen',open(MAP[id]))}};
-  for(const id in MAP){const b=$(id);if(!b)continue;const c=document.createElement('span');c.className='pCaret';c.setAttribute('aria-hidden','true');c.innerHTML=sv;b.appendChild(c);
+  for(const id in MAP){const b=$(id);if(!b)continue;b.setAttribute('data-drawer','');
     for(const q of MAP[id]){const e=document.querySelector(q);if(e)new MutationObserver(sync).observe(e,{attributes:true,attributeFilter:['class','hidden']})}}
   sync()})();
 const go=()=>{loadPreset(0,true);booted=true;requestAnimationFrame(frame);try{openSharedLook()}catch(_){}};
@@ -6083,10 +6083,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020042236"></script>
-<script src="surface/links.js?v=20261020042236"></script>
-<script src="surface/tips.js?v=20261020042236"></script>
-<script src="surface/sections.js?v=20261020042236"></script>
+<script src="surface/install.js?v=20261020050107"></script>
+<script src="surface/links.js?v=20261020050107"></script>
+<script src="surface/tips.js?v=20261020050107"></script>
+<script src="surface/sections.js?v=20261020050107"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6465,7 +6465,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.25.5';
+const APP_VERSION='0.25.6';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
