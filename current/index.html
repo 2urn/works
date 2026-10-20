@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020204006";window.__VERSION__="0.26.22";window.__NOTES__=[{"v":"0.26.22","date":"20 Oct 2026","items":[{"kind":"change","text":"in View, pause is now still / move, with its own icons (three particles at rest; a particle with its trail), so it no longer reads like the presets' play/pause"}]}]</script>
+<script>window.__BUILD__="20261020204339";window.__VERSION__="0.26.22";window.__NOTES__=[{"v":"0.26.22","date":"20 Oct 2026","items":[{"kind":"change","text":"in View, pause is now still / move, with its own icons (three particles at rest; a particle with its trail), so it no longer reads like the presets' play/pause"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020204006"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020204006">
+<script src="claude-web.js?v=20261020204339"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261020204339">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,21 +97,21 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020204006"></script>
-<script src="surface/selftest.js?v=20261020204006"></script>
-<script src="surface/auto.js?v=20261020204006"></script>
-<script src="surface/toolpath.js?v=20261020204006"></script>
-<script src="surface/capture.js?v=20261020204006"></script>
-<script src="surface/pop.js?v=20261020204006"></script>
-<script src="surface/hints.js?v=20261020204006"></script>
-<script src="surface/paths.js?v=20261020204006"></script>
-<script src="surface/keys.js?v=20261020204006"></script>
-<script src="surface/reset.js?v=20261020204006"></script>
-<script src="surface/files.js?v=20261020204006"></script>
-<script src="surface/rail.js?v=20261020204006"></script>
-<script src="surface/touchsound.js?v=20261020204006"></script>
-<script src="surface/float.js?v=20261020204006"></script>
-<script src="surface/manual.js?v=20261020204006"></script>
+<script src="vendor/opentype.min.js?v=20261020204339"></script>
+<script src="surface/selftest.js?v=20261020204339"></script>
+<script src="surface/auto.js?v=20261020204339"></script>
+<script src="surface/toolpath.js?v=20261020204339"></script>
+<script src="surface/capture.js?v=20261020204339"></script>
+<script src="surface/pop.js?v=20261020204339"></script>
+<script src="surface/hints.js?v=20261020204339"></script>
+<script src="surface/paths.js?v=20261020204339"></script>
+<script src="surface/keys.js?v=20261020204339"></script>
+<script src="surface/reset.js?v=20261020204339"></script>
+<script src="surface/files.js?v=20261020204339"></script>
+<script src="surface/rail.js?v=20261020204339"></script>
+<script src="surface/touchsound.js?v=20261020204339"></script>
+<script src="surface/float.js?v=20261020204339"></script>
+<script src="surface/manual.js?v=20261020204339"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -6424,10 +6424,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020204006"></script>
-<script src="surface/links.js?v=20261020204006"></script>
-<script src="surface/tips.js?v=20261020204006"></script>
-<script src="surface/sections.js?v=20261020204006"></script>
+<script src="surface/install.js?v=20261020204339"></script>
+<script src="surface/links.js?v=20261020204339"></script>
+<script src="surface/tips.js?v=20261020204339"></script>
+<script src="surface/sections.js?v=20261020204339"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6730,14 +6730,15 @@ try{(function(){
       '(Helge von Koch, 1904), Euclidean rhythms (Godfried Toussaint, 2005), the Beatty sequence of the golden ratio, the step sequencer',
       '(Roland TR-808, 1980), bytebeat (viznut, 2011), and ZIP (PKWARE APPNOTE).'].join('\n')]);
     return zip(files)}
-  /* its place in the index, under Paths: what is in it, and either the download or how to get it */
+  /* its place in the index, under Paths: what is in it, and either the download or how to get it. Its own section,
+     "Founders Club", with a bolt for Current (Dimitry, 20 Oct): a section like the others, not a tail of Paths */
   /* the challenge's progress line, shared by the pack panel and the cover form */
   /* below 20 the count reads as empty ("3 of 100"), so it stays out of sight until then (Dimitry, 20 Oct) */
   const FP_SHOW=20;
   const fpGoal=n=>n<FP_SHOW?'':n>=FP_MAX?FP_MAX+' founders reached. The Pro pre-release is opening.':n+' of '+FP_MAX+' founders so far. At '+FP_MAX+', the Pro pre-release opens.';
   let fpSec=null;
   function fpPaint(){const on=fpOn();if(!fpSec){const after=$('paths')||$('guide');if(!after)return;fpSec=document.createElement('section');fpSec.className='cx-grp';fpSec.id='pack';
-      fpSec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="packL"><span>Founding pack</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="packL"></div>';
+      fpSec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="packL"><svg class="dsp-gear sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.5 2.5 5.5 13.5h6l-1 8 8-11h-6z"/></svg><span>Founders Club</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="packL"></div>';
       after.after(fpSec);const gb=fpSec.querySelector('.cx-grpbtn');gb.onclick=()=>{const s=fpSec.classList.toggle('cx-shut');gb.setAttribute('aria-expanded',String(!s))}}
     const b=$('packL');
     b.innerHTML='<p class="cx-lead">'+(on?'Yours, as a founder:':'For the first '+FP_MAX+' founders:')+' <b>10 beats</b> (sound › Beat › Start from), <b>10 looks</b> on 10 new G-code paths (in your looks), and <b>10 bytebeats</b> (sound › Bytes › My formulas). They keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
@@ -6937,7 +6938,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.22';
+const APP_VERSION='0.26.23';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
