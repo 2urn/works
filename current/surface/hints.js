@@ -9,7 +9,7 @@
         titles  scene names still show as the scenes change; no start-here or other coach marks
         none    a clean stage: no titles either
       Hover and long-press tooltips (tips.js) stay at every level: they only show when asked for.
-      The level is written on <html data-hints="…">. A tool marks its preset-name caption with the class
+      The level is written on <html data-hints="…">. A tool marks its scene-name caption with the class
       sh-title and it hides at "none"; anything marked sh-coach hides below "all".
    3. THE DISPLAY CONTROLS, for the index: the three levels and "show hints again" (replays the first-run hints).
 
@@ -31,7 +31,7 @@
    Events: 'surface:hints' on document, detail { level }. */
 (function () {
   "use strict";
-  var KEY = "surface.hints", LEVELS = [["all", "all hints", "Every hint, for a first visit"], ["titles", "titles only", "Preset names only: no start-here hints"], ["none", "none", "A clean stage: no hints or titles"]];
+  var KEY = "surface.hints", LEVELS = [["all", "all hints", "Every hint, for a first visit"], ["titles", "titles only", "Scene names only: no start-here hints"], ["none", "none", "A clean stage: no hints or titles"]];
   var CSS = [
     "[data-hints=none] .sh-title,[data-hints=none] .sh-coach,[data-hints=titles] .sh-coach{display:none!important}",
     ".sh-here{position:fixed;z-index:40;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;",
