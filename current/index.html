@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021013926";window.__VERSION__="0.26.51";window.__NOTES__=[{"v":"0.26.51","date":"20 Oct 2026","items":[{"kind":"new","text":"trim a video you just recorded. In the viewer, trim shows a strip under the video: drag the start and end, it loops the part you keep, done makes that the file you save or share"}]}]</script>
+<script>window.__BUILD__="20261021021853";window.__VERSION__="0.26.52";window.__NOTES__=[{"v":"0.26.52","date":"20 Oct 2026","items":[{"kind":"fix","text":"when the phone takes the sound away (another app, a call, leaving the app) and does not give it back, the next tap brings it back: Current rebuilds its sound and starts again what was playing, instead of showing playing in silence until a restart"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021013926"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021013926">
+<script src="claude-web.js?v=20261021021853"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021021853">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -112,26 +112,27 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021013926"></script>
-<script src="surface/selftest.js?v=20261021013926"></script>
-<script src="surface/report.js?v=20261021013926"></script>
-<script src="surface/auto.js?v=20261021013926"></script>
-<script src="surface/toolpath.js?v=20261021013926"></script>
-<script src="surface/capture.js?v=20261021013926"></script>
-<script src="surface/pop.js?v=20261021013926"></script>
-<script src="surface/hints.js?v=20261021013926"></script>
-<script src="surface/paths.js?v=20261021013926"></script>
-<script src="surface/keys.js?v=20261021013926"></script>
-<script src="surface/reset.js?v=20261021013926"></script>
-<script src="surface/files.js?v=20261021013926"></script>
-<script src="surface/tabs.js?v=20261021013926"></script>
-<script src="surface/running.js?v=20261021013926"></script>
-<script src="surface/trim.js?v=20261021013926"></script>
-<script src="surface/pack.js?v=20261021013926"></script>
-<script src="surface/rail.js?v=20261021013926"></script>
-<script src="surface/touchsound.js?v=20261021013926"></script>
-<script src="surface/float.js?v=20261021013926"></script>
-<script src="surface/manual.js?v=20261021013926"></script>
+<script src="vendor/opentype.min.js?v=20261021021853"></script>
+<script src="surface/selftest.js?v=20261021021853"></script>
+<script src="surface/report.js?v=20261021021853"></script>
+<script src="surface/auto.js?v=20261021021853"></script>
+<script src="surface/toolpath.js?v=20261021021853"></script>
+<script src="surface/capture.js?v=20261021021853"></script>
+<script src="surface/pop.js?v=20261021021853"></script>
+<script src="surface/hints.js?v=20261021021853"></script>
+<script src="surface/paths.js?v=20261021021853"></script>
+<script src="surface/keys.js?v=20261021021853"></script>
+<script src="surface/reset.js?v=20261021021853"></script>
+<script src="surface/files.js?v=20261021021853"></script>
+<script src="surface/tabs.js?v=20261021021853"></script>
+<script src="surface/running.js?v=20261021021853"></script>
+<script src="surface/trim.js?v=20261021021853"></script>
+<script src="surface/audiowake.js?v=20261021021853"></script>
+<script src="surface/pack.js?v=20261021021853"></script>
+<script src="surface/rail.js?v=20261021021853"></script>
+<script src="surface/touchsound.js?v=20261021021853"></script>
+<script src="surface/float.js?v=20261021021853"></script>
+<script src="surface/manual.js?v=20261021021853"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -5306,6 +5307,20 @@ function unlockAudio(){
   if(AUD.silent&&AUD.src!=='off')AUD.silent.play().catch(()=>{})}
 ['pointerdown','touchend','click','keydown'].forEach(t=>window.addEventListener(t,unlockAudio,{capture:true,passive:true}));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AUD.ctx&&AUD.src!=='off')AUD.ctx.resume().catch(()=>{})});
+/* LOST SOUND (Dimitry's iPhone, home-screen copy, 20 Oct: left the app, came back, the controls said playing and there
+   was no sound, nothing brought it back short of a restart). iOS can keep a context interrupted for good after another
+   app or the background takes the audio. The kit's audio wake notices and, on the next touch, this rebuilds the whole
+   sound: a new context, then everything that was playing started again (beat, bytebeat, music, loop, layer, mic). */
+function audRebuild(){const was={...AUD.play},lay=AUD.lay,mic=AUD.mic,camMic=mic&&mic.cam&&mic.stream?mic.stream.getAudioTracks().filter(t=>t.readyState==='live'):null;
+  for(const k of ['beat','byte','file','loop'])stopCh(k);stopLayer();
+  if(mic){if(camMic&&camMic.length){try{AUD.mic.node.disconnect();AUD.mic.sink.disconnect();AUD.mic.mon.disconnect();clearInterval(AUD.mic.gt)}catch(_){}AUD.mic=null}else stopMic(true)}
+  const old=AUD.ctx;AUD.ctx=null;try{old&&old.close()}catch(_){}
+  BBV.ready=null;BBV.post=null;BBV.out=null;BBV.sent='';AUD.bbOn=false;RECDEST=null;
+  if(!ensureCtx())return;
+  if(was.beat)startBeat(was.beat);if(was.byte)startByte(was.byte);if(was.file&&AUD.fileBuf)startFile();if(was.loop&&AUD.loopBuf)startLoop();if(lay)startLayer(lay);
+  if(mic)startMic(camMic&&camMic.length?new MediaStream(camMic):undefined);
+  srcSync();syncAud();if(window.cxCount)cxCount('sound: woke after the phone took it',1)}
+const AUDWAKE=window.SurfaceAudioWake?SurfaceAudioWake.watch({ctx:()=>AUD.ctx,playing:()=>AUD.src!=='off'&&!!AUD.ctx,rebuild:audRebuild,say:t=>toast(t,2600)}):null;
 /* THE BLEND (Dimitry, 18 Oct): a second sound under the one that plays. In the sound drawer, tap "mix" to pick it (one of
    the beats, or none), drag left or right on it to blend the two (equal-power crossfade; 0% only the first, 100% only the
    second). Both feed the field. Stop stops both; play brings both back. */
@@ -6562,10 +6577,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021013926"></script>
-<script src="surface/links.js?v=20261021013926"></script>
-<script src="surface/tips.js?v=20261021013926"></script>
-<script src="surface/sections.js?v=20261021013926"></script>
+<script src="surface/install.js?v=20261021021853"></script>
+<script src="surface/links.js?v=20261021021853"></script>
+<script src="surface/tips.js?v=20261021021853"></script>
+<script src="surface/sections.js?v=20261021021853"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7119,7 +7134,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.51';
+const APP_VERSION='0.26.52';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
