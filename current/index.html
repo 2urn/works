@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021111734";window.__VERSION__="0.27.0";window.__NOTES__=[{"v":"0.27.0","date":"21 Oct 2026","items":[{"kind":"change","text":"new words. A scene is the whole thing you save, star and play (it was a look); its pattern is the G-code under it; its style is how the field looks and moves. Looks only is now Built-in, and Random rolls a new style on your pattern"},{"kind":"new","text":"in Auto play, Changes: the whole scene, the style only (your word or pattern stays), or the pattern only (your style stays); ‹ › follow it too"},{"kind":"new","text":"rename a scene of yours with its pencil; editing its pattern has its own icon"},{"kind":"change","text":"Random saves with the same Save this scene button, named for you, no name box"},{"kind":"fix","text":"the Random and Scenes lists line up the same way (star, checkbox, row, handle), and a tapped row no longer stays highlighted"}]}]</script>
+<script>window.__BUILD__="20261021130550";window.__VERSION__="0.27.1";window.__NOTES__=[{"v":"0.27.1","date":"21 Oct 2026","items":[{"kind":"change","text":"Auto play's Every is a row of beads with the count inside; count in seconds, beats or bars, or pick the dice bead for a random length each time. Beats and bars follow the beat that plays"},{"kind":"change","text":"Changes shows the whole scene across the top and its two halves, pattern and style, under it; the whole scene lights both"},{"kind":"change","text":"counts sit at each tile's top right, morph times too; a Pro feature shows a lock, a dotted edge and a faint tint"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021111734"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021111734">
+<script src="claude-web.js?v=20261021130550"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021130550">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -112,29 +112,29 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021111734"></script>
-<script src="surface/selftest.js?v=20261021111734"></script>
-<script src="surface/report.js?v=20261021111734"></script>
-<script src="surface/auto.js?v=20261021111734"></script>
-<script src="surface/toolpath.js?v=20261021111734"></script>
-<script src="surface/capture.js?v=20261021111734"></script>
-<script src="surface/pop.js?v=20261021111734"></script>
-<script src="surface/hints.js?v=20261021111734"></script>
-<script src="surface/paths.js?v=20261021111734"></script>
-<script src="surface/keys.js?v=20261021111734"></script>
-<script src="surface/reset.js?v=20261021111734"></script>
-<script src="surface/files.js?v=20261021111734"></script>
-<script src="surface/tabs.js?v=20261021111734"></script>
-<script src="surface/running.js?v=20261021111734"></script>
-<script src="surface/trim.js?v=20261021111734"></script>
-<script src="surface/audiowake.js?v=20261021111734"></script>
-<script src="surface/listview.js?v=20261021111734"></script>
-<script src="surface/sheetnav.js?v=20261021111734"></script>
-<script src="surface/pack.js?v=20261021111734"></script>
-<script src="surface/rail.js?v=20261021111734"></script>
-<script src="surface/touchsound.js?v=20261021111734"></script>
-<script src="surface/float.js?v=20261021111734"></script>
-<script src="surface/manual.js?v=20261021111734"></script>
+<script src="vendor/opentype.min.js?v=20261021130550"></script>
+<script src="surface/selftest.js?v=20261021130550"></script>
+<script src="surface/report.js?v=20261021130550"></script>
+<script src="surface/auto.js?v=20261021130550"></script>
+<script src="surface/toolpath.js?v=20261021130550"></script>
+<script src="surface/capture.js?v=20261021130550"></script>
+<script src="surface/pop.js?v=20261021130550"></script>
+<script src="surface/hints.js?v=20261021130550"></script>
+<script src="surface/paths.js?v=20261021130550"></script>
+<script src="surface/keys.js?v=20261021130550"></script>
+<script src="surface/reset.js?v=20261021130550"></script>
+<script src="surface/files.js?v=20261021130550"></script>
+<script src="surface/tabs.js?v=20261021130550"></script>
+<script src="surface/running.js?v=20261021130550"></script>
+<script src="surface/trim.js?v=20261021130550"></script>
+<script src="surface/audiowake.js?v=20261021130550"></script>
+<script src="surface/listview.js?v=20261021130550"></script>
+<script src="surface/sheetnav.js?v=20261021130550"></script>
+<script src="surface/pack.js?v=20261021130550"></script>
+<script src="surface/rail.js?v=20261021130550"></script>
+<script src="surface/touchsound.js?v=20261021130550"></script>
+<script src="surface/float.js?v=20261021130550"></script>
+<script src="surface/manual.js?v=20261021130550"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -733,7 +733,23 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apTiles{display:grid;gap:6px}
 .apTiles.every{grid-template-columns:repeat(5,minmax(0,1fr))}
 .apTiles.order{grid-template-columns:repeat(3,minmax(0,1fr))}
-.apTiles.morph,.apTiles.part{grid-template-columns:repeat(3,minmax(0,1fr))}
+.apTiles.morph{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* CHANGES (Dimitry, 21 Oct): the whole scene across the column, its two halves under it; the whole lights both halves */
+.apTiles.part{grid-template-columns:repeat(2,minmax(0,1fr))}
+.apTiles.part .apT[data-v=all]{grid-column:1/-1;flex-direction:row;gap:10px;min-height:48px}
+.apTiles.part.whole .apT[data-v=pattern],.apTiles.part.whole .apT[data-v=style]{background:rgb(var(--acc-rgb,85 184 201) / .2);border-color:rgb(var(--acc-rgb,85 184 201) / .6);color:var(--ui-ink)}
+/* EVERY: beads on a string, the count inside; the unit at the heading's right */
+.apEveryH{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0 8px}.apEveryH .apH{margin:0}
+.apUnit{display:flex;gap:2px;padding:2px;border:1px solid rgb(var(--ui-hi) / .14);border-radius:99px}
+.apUnit button{border:0;background:none;color:var(--ui-dim);font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;border-radius:99px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.apUnit button[aria-checked=true]{background:rgb(var(--ui-hi) / .14);color:var(--ui-ink)}
+.apUnit button:focus-visible,.apBead:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+.apBeads{position:relative;display:flex;justify-content:space-between;align-items:center;padding:2px 0}
+.apBeads::before{content:'';position:absolute;left:20px;right:20px;top:50%;height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi) / .18)}
+.apBead{position:relative;width:42px;height:42px;flex:none;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .22);background:var(--ui-solid);background-image:linear-gradient(rgb(var(--ui-hi) / .05),rgb(var(--ui-hi) / .05));color:var(--ui-mid,var(--ui-ink));display:grid;place-items:center;padding:0;font:600 15px/1 var(--sans);font-variant-numeric:tabular-nums;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.apBead svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}.apBead svg .dt{fill:currentColor;stroke:none}
+@media (hover:hover){.apBead:hover{border-color:rgb(var(--ui-hi) / .4)}}
+.apBead[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apTiles.part .apT small{letter-spacing:.04em;text-transform:none;font-size:9.5px}
 .apT{position:relative;min-height:58px;padding:8px 4px;border-radius:12px;border:1px solid rgb(var(--ui-hi) / .14);background:rgb(var(--ui-hi) / .04);color:var(--ui-mid,var(--ui-ink));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;font:500 10px/1.1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-align:center}
 .apT b{font:600 20px/1 var(--sans);letter-spacing:0;text-transform:none}
@@ -744,8 +760,9 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apT[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apT[aria-checked=true] small{color:var(--acc-ink,#04181c);opacity:.7}
 .apT:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
-.apT.pro{border-style:dashed;color:var(--ui-dim);padding-top:20px}.apT.pro>svg{opacity:.8}
-.apT .proB{position:absolute;top:5px;right:6px;display:inline-flex;align-items:center;gap:3px;font:700 8px/1 var(--mono);font-style:normal;letter-spacing:.12em;text-transform:uppercase;padding:3px 5px;border-radius:6px;background:rgb(var(--acc-rgb,85 184 201) / .18);color:var(--acc,#55b8c9)}
+/* PRO, shown before it is built (21 Oct): the lock at the top right, a dotted edge, a faint tint */
+.apT.pro{border-style:dotted;border-width:1.5px;border-color:rgb(var(--acc-rgb,85 184 201) / .55);background:rgb(var(--acc-rgb,85 184 201) / .08);color:var(--ui-dim)}.apT.pro>svg{opacity:.8}
+.apT .proB{position:absolute;top:6px;right:7px;display:inline-flex;align-items:center;padding:0;font-style:normal;color:var(--acc,#55b8c9)}
 #plAuto #apPro{margin:8px 0 0}
 .apT .proB svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:1}.apT .proB svg .bolt{fill:currentColor;stroke:none}
 .apNote{margin:16px 0 0;font:400 12px/1.4 var(--sans);color:var(--ui-dim)}.apNote b{color:var(--ui-ink);font-weight:600}
@@ -2906,10 +2923,20 @@ function playIds(){const all=allPresets(),ids=orderedIds(),on=ids.filter(i=>inPl
 // walk the ordered list from the current scene to the next one in play, either way
 function walk(ids,d){const ord=orderedIds(),set=new Set(ids);let p=ord.indexOf(presetIdx);if(p<0)p=d>0?-1:0;
   for(let s=1;s<=ord.length;s++){const i=ord[((p+d*s)%ord.length+ord.length)%ord.length];if(set.has(i))return i}return ids[0]}
-const AUTO={sec:20,order:'in order',morph:2.2,part:'all'};
+const AUTO={sec:20,order:'in order',morph:2.2,part:'all',unit:'sec',n:20,rand:false};
 const AUTO_RENAMED={'looks only':'built-in'};   // 21 Oct: Looks only became Built-in (scenes, patterns, styles); saved settings follow
 const morphFor=p=>{const m=p&&lookCfg(p).morph;return m==null?AUTO.morph:m};
 if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=+store.auto.morph}
+/* EVERY (Dimitry, 21 Oct): a row of beads with the count inside, counted in seconds, beats or bars, or at random.
+   Beats follow the beat that plays (or the tapped tempo, or 120). AUTO.sec stays the interval now running, in seconds. */
+const AUTO_UNITS={sec:{name:'seconds',one:'second',vals:[10,20,45,90,180]},beat:{name:'beats',one:'beat',vals:[1,2,4,8,16]},bar:{name:'bars',one:'bar',vals:[1,2,4,8,16]}};
+const beadLabel=(u,v)=>u==='sec'&&v>=120&&v%60===0?(v/60)+'m':String(v);
+if(store.auto&&typeof store.auto==='object'){if(AUTO_UNITS[store.auto.unit])AUTO.unit=store.auto.unit;AUTO.n=+store.auto.n>0?+store.auto.n:(AUTO.unit==='sec'?AUTO.sec:4);AUTO.rand=!!store.auto.rand}   // after AUTO_UNITS: read before it, it stopped the page (TDZ)
+function autoBeatSec(){try{if(AUD.dur)return AUD.dur*4}catch(_){}try{if(TAP.bpm)return 60/TAP.bpm}catch(_){}return .5}
+function autoMs(){const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,v=AUTO.rand?U.vals[(Math.random()*U.vals.length)|0]:AUTO.n,b=autoBeatSec();
+  AUTO.sec=Math.max(.25,AUTO.unit==='beat'?v*b:AUTO.unit==='bar'?v*4*b:v);return AUTO.sec*1000}
+function autoEveryWords(){const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;if(AUTO.rand)return 'every few '+U.name+', at random';
+  return AUTO.unit==='sec'?'every '+fmtSec(AUTO.n):'every '+(AUTO.n===1?U.one:AUTO.n+' '+U.name)}
 const AUTO_EVERY=[['10s',10],['20s',20],['45s',45],['90s',90],['3 min',180]],AUTO_ORDER=['in order','shuffle','built-in','yours only','starred only'],AUTO_MORPH=[['snap',0],['glide',2.2],['slow',6]];
 let booted=false;
 const mixHex=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)||0);const A=p(a),B=p(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
@@ -3364,8 +3391,9 @@ function autoNext(){const all=allPresets(),base=playIds();let ids=base;
   let n;if(AUTO.order==='shuffle'&&ids.length>1){do n=ids[(Math.random()*ids.length)|0];while(n===presetIdx)}
   else n=walk(ids,1);
   autoAt=performance.now();loadPreset(n,false,AUTO.part);flashName(all[n].name);syncAutoUI()}
-function setAuto(v,quiet){if(v&&RAND.tempo)setRandTempo(0);clearInterval(autoT);autoT=v?setInterval(autoNext,AUTO.sec*1000):null;autoAt=performance.now();const b=$('pAuto');b.classList.toggle('on',v);b.setAttribute('aria-pressed',String(v));
-  if(v&&!quiet)toast('a new scene every '+fmtSec(AUTO.sec)+(AUTO.order==='in order'?'':', '+AUTO.order));syncPlist()}
+function setAuto(v,quiet){if(v&&RAND.tempo)setRandTempo(0);clearInterval(autoT);autoT=null;
+  if(v){const arm=()=>{autoT=setTimeout(()=>{autoNext();if(autoT)arm()},autoMs())};arm()}autoAt=performance.now();const b=$('pAuto');b.classList.toggle('on',v);b.setAttribute('aria-pressed',String(v));
+  if(v&&!quiet)toast('a new scene '+autoEveryWords()+(AUTO.order==='in order'?'':', '+AUTO.order));syncPlist()}
 let plSegs=[];
 /* TWO TABS (Dimitry, 20 Oct: "two tabs, one for the presets and one for the autoplay settings ... more visual ... the
    controls really reflect what is happening with the main three-button section below"). Scenes: show, sort, star,
@@ -3400,21 +3428,37 @@ function buildPlist(){plTabsMount();
     for(const it of list){const b=document.createElement('button');b.type='button';b.className='apT';b.setAttribute('role','radio');b.dataset.v=String(it.v);b.innerHTML=it.html;b.setAttribute('aria-label',it.aria);if(it.title)b.title=it.title;
       b.onclick=()=>{set(it.v);store.auto={...AUTO};persist();syncPlist();try{syncMorphSeg()}catch(_){}};g.appendChild(b)}
     box.appendChild(g);g._get=get;return g};
+  /* the beads: a heading with the unit switch at its right, then the counts on a string, and a random bead */
+  const beads=()=>{const hd=document.createElement('div');hd.className='apEveryH';const h=document.createElement('p');h.className='apH';h.textContent='Every';
+    const us=document.createElement('div');us.className='apUnit';us.setAttribute('role','radiogroup');us.setAttribute('aria-label','Count in');
+    for(const u of Object.keys(AUTO_UNITS)){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.dataset.u=u;b.textContent=AUTO_UNITS[u].name;
+      b.onclick=()=>{const old=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,i=Math.max(0,old.vals.indexOf(AUTO.n));AUTO.unit=u;AUTO.n=AUTO_UNITS[u].vals[i]||AUTO_UNITS[u].vals[1];store.auto={...AUTO};persist();drawBeads();if(autoT)setAuto(true,true);syncPlist()};us.appendChild(b)}
+    hd.append(h,us);box.appendChild(hd);
+    const g=document.createElement('div');g.className='apBeads';g.setAttribute('role','radiogroup');g.setAttribute('aria-label','Auto play: every');box.appendChild(g);
+    const drawBeads=()=>{const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;g.innerHTML='';
+      for(const v of U.vals){const b=document.createElement('button');b.type='button';b.className='apBead';b.setAttribute('role','radio');b.dataset.v=String(v);b.textContent=beadLabel(AUTO.unit,v);
+        b.setAttribute('aria-label','A new scene every '+(AUTO.unit==='sec'?fmtSec(v):v===1?U.one:v+' '+U.name));
+        b.onclick=()=>{AUTO.n=v;AUTO.rand=false;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(b)}
+      const r=document.createElement('button');r.type='button';r.className='apBead rnd';r.setAttribute('role','radio');r.dataset.v='rand';r.title='at random';
+      r.setAttribute('aria-label','A new scene at random, every few '+U.name);r.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3.2"/><circle cx="9" cy="9" r="1" class="dt"/><circle cx="15" cy="15" r="1" class="dt"/><circle cx="15" cy="9" r="1" class="dt"/><circle cx="9" cy="15" r="1" class="dt"/><circle cx="12" cy="12" r="1" class="dt"/>');
+      r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
+      for(const b of us.children)b.setAttribute('aria-checked',String(b.dataset.u===AUTO.unit))};
+    drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
   plSegs=[
     tiles('Changes','part',[
-      {v:'all',html:PLI('<rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 15.5l4.5-4 3.5 3 3-2.5 5 4"/><circle cx="15.5" cy="9.5" r="1.4"/>')+'<span>Whole scene</span><small>pattern + style</small>',aria:'Changes: the whole scene, its pattern and its style',title:'the whole scene: its pattern, its style, its sound'},
-      {v:'style',html:PLI('<path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10z"/>')+'<span>Style only</span><small>keeps your pattern</small>',aria:'Changes: the style only; your pattern (your word, your G-code) stays',title:'only the style: colors, particles, motion, lens; your word or G-code stays'},
-      {v:'pattern',html:PLI('<path d="M4 18c3-9 6-9 8-4s5 5 8-6"/><circle cx="4" cy="18" r="1.3"/><circle cx="20" cy="8" r="1.3"/>')+'<span>Pattern only</span><small>keeps your style</small>',aria:'Changes: the pattern only; your style stays',title:'only the pattern: the G-code; your style stays'}],
+      {v:'all',html:PLI('<rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 15.5l4.5-4 3.5 3 3-2.5 5 4"/><circle cx="15.5" cy="9.5" r="1.4"/>')+'<span>Whole scene</span>',aria:'Changes: the whole scene, its pattern and its style',title:'the whole scene: its pattern, its style, its sound'},
+      {v:'pattern',html:PLI('<path d="M4 18c3-9 6-9 8-4s5 5 8-6"/><circle cx="4" cy="18" r="1.3"/><circle cx="20" cy="8" r="1.3"/>')+'<span>Pattern only</span>',aria:'Changes: the pattern only; your style stays',title:'only the pattern: the G-code; your style stays'},
+      {v:'style',html:PLI('<path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10z"/>')+'<span>Style only</span>',aria:'Changes: the style only; your pattern (your word, your G-code) stays',title:'only the style: colors, particles, motion, lens; your word or G-code stays'}],
       ()=>AUTO.part,v=>{AUTO.part=v;toast(v==='all'?'changes: the whole scene':v==='style'?'changes: the style only · your pattern stays':'changes: the pattern only · your style stays')}),
-    tiles('Every','every',AUTO_EVERY.map(([t,v])=>{const m=/^(\d+)\s*(\w+)$/.exec(t)||[0,t,''];return {v,html:'<b>'+m[1]+'</b><small>'+(m[2]==='s'?'sec':m[2])+'</small>',aria:'A new scene every '+t}}),()=>AUTO.sec,v=>{AUTO.sec=v;setAuto(true)}),
+    beads(),
     tiles('Order','order',AUTO_ORDER.map(o=>{const L=AUTO_LOOK[o]||[o,'',''];return {v:o,html:PLI(L[1]==='PL_STAR'?PL_STAR:L[1])+'<span>'+L[0]+'</span><small class="n" data-o="'+o+'"></small>',aria:L[0]+': '+L[2],title:L[2]}}),()=>AUTO.order,v=>{AUTO.order=v;if(autoT)setAuto(true,true)}),
-    tiles('Morph','morph',AUTO_MORPH.map(([t,v])=>({v,html:PLI(MORPH_LOOK[v]||'')+'<span>'+t+'</span><small>'+(v?v+' s':'cut')+'</small>',aria:'Morph: '+t+(v?', '+v+' seconds':', a cut')})),()=>AUTO.morph,v=>{AUTO.morph=v;toast(v?'morph: '+fmtSec(v):'morph: snap')})];
+    tiles('Morph','morph',AUTO_MORPH.map(([t,v])=>({v,html:PLI(MORPH_LOOK[v]||'')+'<span>'+t+'</span><small class="n">'+(v?v+' s':'cut')+'</small>',aria:'Morph: '+t+(v?', '+v+' seconds':', a cut')})),()=>AUTO.morph,v=>{AUTO.morph=v;toast(v?'morph: '+fmtSec(v):'morph: snap')})];
   /* SCRUB (Dimitry, 20 Oct; Pro, not built yet): a modifier, not an order. Your touch on the stage moves through the scenes
      as well as through the field, in the order lit beside it: scrub in order, scrub shuffled, scrub your starred ones.
      On its own it scrubs in order. Shown, disabled, marked Pro; a tap says what it will do. */
   {const og=plSegs[2],sc=document.createElement('button');sc.type='button';sc.className='apT pro';sc.id='apScrub';sc.setAttribute('aria-pressed','false');sc.setAttribute('aria-disabled','true');
    sc.setAttribute('aria-label','Scrub, a Pro feature: your touch moves through the scenes, in the order you pick beside it');sc.title='Scrub (Pro): your touch moves through the scenes';
-   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg>Pro</em>';
+   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg></em>';
    sc.onclick=()=>{let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
      n.innerHTML='<p><b>Scrub</b> comes with Pro: drag across the stage and the scenes follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
      n.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
@@ -3424,8 +3468,8 @@ function buildPlist(){plTabsMount();
 function syncAutoUI(){const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop auto play':'Start auto play');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
-  $('apNext').textContent=on?'':'Tap play: a new scene every '+fmtSec(AUTO.sec);
-  for(const n of $('plAuto').querySelectorAll('small.n'))n.textContent=autoPool(n.dataset.o);
+  $('apNext').textContent=on?'':'Tap play: a new scene '+autoEveryWords();
+  for(const n of $('plAuto').querySelectorAll('small.n[data-o]'))n.textContent=autoPool(n.dataset.o);
   const inP=playIds().length,tot=all.length;$('apNote').innerHTML=(inP<tot?'<b>'+inP+'</b> of '+tot+' scenes are in play':'All '+tot+' scenes are in play')+'. Tick or untick them in <button type="button" class="apLink">Scenes</button>.';
   $('apNote').querySelector('.apLink').onclick=()=>plTabs&&plTabs.show('looks');
   cancelAnimationFrame(apRaf);
@@ -3519,6 +3563,7 @@ function wireDrag(hd,row){
     hd.focus();saveOrder()})}
 function syncPlist(){
   for(const g of plSegs)for(const b of g.children)if(b.getAttribute('role')==='radio')b.setAttribute('aria-checked',b.dataset.v===String(g._get())?'true':'false');
+  if(plSegs[0])plSegs[0].classList.toggle('whole',AUTO.part==='all');   // the whole scene is both halves: they light with it
   syncAutoUI();
   $('plItems').querySelectorAll('button.nm').forEach(b=>{const on=+b.dataset.i===presetIdx;b.setAttribute('aria-current',on?'true':'false');const r=b.closest('.lk');if(r)r.classList.toggle('cur',on)})}
 function openPlist(tab){closeRlist();buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
@@ -6729,10 +6774,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the scene list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021111734"></script>
-<script src="surface/links.js?v=20261021111734"></script>
-<script src="surface/tips.js?v=20261021111734"></script>
-<script src="surface/sections.js?v=20261021111734"></script>
+<script src="surface/install.js?v=20261021130550"></script>
+<script src="surface/links.js?v=20261021130550"></script>
+<script src="surface/tips.js?v=20261021130550"></script>
+<script src="surface/sections.js?v=20261021130550"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7301,7 +7346,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.27.0';
+const APP_VERSION='0.27.1';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
