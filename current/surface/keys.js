@@ -55,6 +55,7 @@
   var TAKEN = { "mod+c": 1, "mod+v": 1, "mod+x": 1, "mod+z": 1, "shift+mod+z": 1, "mod+a": 1, "mod+w": 1, "mod+q": 1, "mod+t": 1, "mod+n": 1, "mod+r": 1, "mod+l": 1, "mod+f": 1, "mod+p": 1, "mod+h": 1, "mod+m": 1, "mod+tab": 1 };
   function isChar(n) { return typeof n === "string" && n.length === 1; }
   function typing(t) { return t && t.closest && t.closest("input,select,textarea,[contenteditable=''],[contenteditable=true]"); }
+  function ownsArrows(t) { return t && t.closest && t.closest("[role=slider],[role=spinbutton]"); }
   function keysOf(a) { return map[a.id] !== undefined ? (map[a.id] ? [map[a.id]] : []) : (a.keys || []); }
   function boundTo(n) { for (var i = 0; i < ACTS.length; i++) if (keysOf(ACTS[i]).indexOf(n) >= 0) return ACTS[i]; return null; }
   function fire() { document.dispatchEvent(new CustomEvent("surface:keys", { detail: { enabled: on, hold: hold, holdMs: HOLDS[hold] } })); }
@@ -71,6 +72,7 @@
       return;
     }
     if (e.altKey || typing(e.target)) return;
+    if (ownsArrows(e.target) && /^(Arrow|Home$|End$|Page)/.test(e.key)) return;   // a custom slider moves with its own arrows
     /* inside the toolbar, the arrows move along it */
     for (var b = 0; b < BARS.length; b++) if (BARS[b].contains(e.target) && barKey(BARS[b], e)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
     if (!on && isChar(n) && n !== " ") { e.stopImmediatePropagation(); return; }
