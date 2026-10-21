@@ -37,6 +37,8 @@
        below: '#playbar',                       // badges on controls in here sit under them, as buttons
        nagAbove: '#playbar',                    // the suggestion card sits above this
        title: 'Paths', lead: '…',
+       icon: 'hat',                             // beside the word Paths: 'hat' (default: it is about learning),
+                                                //   'ribbon' (what you win), 'earn' (the hat, and the ribbon once every path is walked), or false
        paths: [{ id: '01', title: 'First current', color: '#55b8c9', note: '…', advanced: false,
                  steps: [{ id: 'look', label: 'Change the look with ‹ or ›', go: '#pNext' }, …],
                  badges: ['#pPrev', '#pNext'],  // where the number sits
@@ -104,6 +106,9 @@
     ".sp-foot button:hover,.sp-foot button:focus-visible,.sp-where:hover{color:var(--fg,inherit)}",
     ".sp-fin{margin:12px 0 0;padding:10px 12px;border:1px solid var(--accent,#1f7a8c);font-size:12.5px;line-height:1.45}",
     ".sp-fin button{margin-top:8px;font:600 12px var(--sans,inherit);padding:8px 12px;border:1px solid var(--fg,#000);background:var(--fg,#000);color:var(--bg,#fff);cursor:pointer}",
+    ".sp-ic{display:inline-block;width:1.35em;height:1.35em;margin:-.3em .45em -.3em 0;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}",
+    ".sp-icw{display:contents;font-style:normal}",
+    ".sp-cover .sp-ic{width:14px;height:14px;margin:-3px 6px -3px 0}",
     /* the meter: one segment per path, filled in its color */
     ".sp-meter{display:flex;gap:3px;height:4px}.sp-meter>i{position:relative;flex:var(--n) 1 0;border-radius:2px;overflow:hidden;background:rgb(var(--ui-hi,255 255 255) / .16)}",
     ".sp-meter>i>b{position:absolute;inset:0 auto 0 0;width:var(--f);background:var(--c);border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}",
@@ -150,6 +155,11 @@
     "@media (prefers-reduced-motion:reduce){.sp-b,.sp-flash .sp-b,.sp-b.flash,.sp-step.fresh .sp-box,.sp-ring,.sp-row.sp-hl{animation:none;transition:none}}"
   ].join("\n");
   var LINK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>';
+  /* THE MARK BESIDE "PATHS" (Dimitry, 21 Oct: "a little scholar's hat next to that word, so people understand the
+     paths are about learning"; then "or a little trophy ribbon, what you win"). Both are drawn; the tool picks. */
+  var HAT = '<svg class="sp-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9.5 12 5l10 4.5-10 4.5z"/><path d="M6 11.3v4.4c0 1.5 2.7 2.8 6 2.8s6-1.3 6-2.8v-4.4"/><path d="M22 9.5v5"/></svg>';
+  var RIBBON = '<svg class="sp-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="9" r="5.5"/><circle cx="12" cy="9" r="2.2"/><path d="M8.6 13.3 7 21l5-2.6 5 2.6-1.6-7.7"/></svg>';
+  function ic() { var k = O && O.icon != null ? O.icon : "hat"; if (!k) return ""; if (k === "earn") k = allFull() ? "ribbon" : "hat"; return k === "ribbon" ? RIBBON : HAT; }
   var X = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   function css() { if (document.getElementById("sp-css")) return; var s = document.createElement("style"); s.id = "sp-css"; s.textContent = CSS; document.head.appendChild(s); }
   function q(s, r) { return typeof s === "string" ? (r || document).querySelector(s) : s; }
@@ -368,12 +378,13 @@
         : "Walk every path: <b>" + O.finale.label + "</b>.";
       var fb = fin.querySelector(".sp-finbtn"); if (fb) fb.onclick = function () { try { O.finale.give(); } catch (e) { console.warn("paths finale", e); } };
     }
+    var hw = sec.querySelector(".cx-grpbtn .sp-icw"); if (hw) hw.innerHTML = ic();
     meters.forEach(function (m) { m(); });
   }
   function build() {
     var after = q(O.after); if (!after) return;
     sec = document.createElement("section"); sec.className = "cx-grp sp-sec"; sec.id = O.id || "paths";
-    sec.innerHTML = '<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="' + sec.id + 'L"><span>' + esc(O.title || "Paths") +
+    sec.innerHTML = '<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="' + sec.id + 'L"><i class="sp-icw">' + ic() + '</i><span>' + esc(O.title || "Paths") +
       '</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="' + sec.id + 'L">' +
       (O.lead ? '<p class="cx-lead">' + O.lead + "</p>" : "") + '<ol class="cx-list sp-ol"></ol><div class="sp-fin" hidden></div>' +
       '<div class="sp-foot"><span class="sp-tot"></span><button type="button" data-a="save">save progress</button><button type="button" data-a="load">load progress</button><button type="button" data-a="reset">start over</button></div></div>';
@@ -439,7 +450,7 @@
       document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !el.hidden) el.hidden = true; }, true);
     }
     var tt = total();
-    el.innerHTML = '<div class="sp-hd"><span>Paths · <b>' + tt[0] + " of " + tt[1] + '</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
+    el.innerHTML = '<div class="sp-hd"><span>' + ic() + 'Paths · <b>' + tt[0] + " of " + tt[1] + '</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
       '<div class="sp-bd">' + meterHTML() + '<ul class="sp-nl">' + next.map(function (x) {
         return '<li><button type="button" class="sp-ln" data-go="' + esc(x[1].id) + '" style="--c:' + col(x[0]) + '"><i class="sp-pip">' + esc(x[0].id) + "</i><span>" + x[1].label + "</span>" + LINK + "</button></li>"; }).join("") +
       '</ul><div class="sp-nf"><button type="button" data-a="all">all paths</button><button type="button" data-a="off">no suggestions</button></div></div>';
@@ -493,7 +504,7 @@
     var draw = function () {
       var tt = total(), ok = S.on === "on" && S.nag === "on" && (tt[0] > 0 || S.visits > 1);
       b.hidden = !ok; if (!ok) return;
-      b.innerHTML = meterHTML() + "<span>" + esc(O.title || "Paths") + " · " + tt[0] + " / " + tt[1] + "</span>";
+      b.innerHTML = meterHTML() + "<span>" + ic() + esc(O.title || "Paths") + " · " + tt[0] + " / " + tt[1] + "</span>";
       b.setAttribute("aria-label", (O.title || "Paths") + ": " + tt[0] + " of " + tt[1] + " steps done. Open them");
     };
     b.onclick = function (e) { e.stopPropagation(); var p = O.paths.filter(function (x) { return !full(x); })[0] || O.paths[0]; if (opt.go) opt.go("path-" + p.id); else open(p.id); };
