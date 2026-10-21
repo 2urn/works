@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021180237";window.__VERSION__="0.27.3";window.__NOTES__=[{"v":"0.27.3","date":"21 Oct 2026","items":[{"kind":"change","text":"at the foot of Auto play, a Scenes in play button with the count beside it (12 of 35); the button opens Scenes, where you tick them in or out"}]}]</script>
+<script>window.__BUILD__="20261021182514";window.__VERSION__="0.27.4";window.__NOTES__=[{"v":"0.27.4","date":"21 Oct 2026","items":[{"kind":"fix","text":"with a mouse, the caret now shows over ▶ too, saying the scenes and Auto play open above it; a click on the caret opens them, as on the other buttons"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021180237"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021180237">
+<script src="claude-web.js?v=20261021182514"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021182514">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,29 +119,29 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021180237"></script>
-<script src="surface/selftest.js?v=20261021180237"></script>
-<script src="surface/report.js?v=20261021180237"></script>
-<script src="surface/auto.js?v=20261021180237"></script>
-<script src="surface/toolpath.js?v=20261021180237"></script>
-<script src="surface/capture.js?v=20261021180237"></script>
-<script src="surface/pop.js?v=20261021180237"></script>
-<script src="surface/hints.js?v=20261021180237"></script>
-<script src="surface/paths.js?v=20261021180237"></script>
-<script src="surface/keys.js?v=20261021180237"></script>
-<script src="surface/reset.js?v=20261021180237"></script>
-<script src="surface/files.js?v=20261021180237"></script>
-<script src="surface/tabs.js?v=20261021180237"></script>
-<script src="surface/running.js?v=20261021180237"></script>
-<script src="surface/trim.js?v=20261021180237"></script>
-<script src="surface/audiowake.js?v=20261021180237"></script>
-<script src="surface/listview.js?v=20261021180237"></script>
-<script src="surface/sheetnav.js?v=20261021180237"></script>
-<script src="surface/pack.js?v=20261021180237"></script>
-<script src="surface/rail.js?v=20261021180237"></script>
-<script src="surface/touchsound.js?v=20261021180237"></script>
-<script src="surface/float.js?v=20261021180237"></script>
-<script src="surface/manual.js?v=20261021180237"></script>
+<script src="vendor/opentype.min.js?v=20261021182514"></script>
+<script src="surface/selftest.js?v=20261021182514"></script>
+<script src="surface/report.js?v=20261021182514"></script>
+<script src="surface/auto.js?v=20261021182514"></script>
+<script src="surface/toolpath.js?v=20261021182514"></script>
+<script src="surface/capture.js?v=20261021182514"></script>
+<script src="surface/pop.js?v=20261021182514"></script>
+<script src="surface/hints.js?v=20261021182514"></script>
+<script src="surface/paths.js?v=20261021182514"></script>
+<script src="surface/keys.js?v=20261021182514"></script>
+<script src="surface/reset.js?v=20261021182514"></script>
+<script src="surface/files.js?v=20261021182514"></script>
+<script src="surface/tabs.js?v=20261021182514"></script>
+<script src="surface/running.js?v=20261021182514"></script>
+<script src="surface/trim.js?v=20261021182514"></script>
+<script src="surface/audiowake.js?v=20261021182514"></script>
+<script src="surface/listview.js?v=20261021182514"></script>
+<script src="surface/sheetnav.js?v=20261021182514"></script>
+<script src="surface/pack.js?v=20261021182514"></script>
+<script src="surface/rail.js?v=20261021182514"></script>
+<script src="surface/touchsound.js?v=20261021182514"></script>
+<script src="surface/float.js?v=20261021182514"></script>
+<script src="surface/manual.js?v=20261021182514"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -678,13 +678,15 @@ body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(s
 /* THE DRAWER CARET (Dimitry, 19 Oct): the sound shelf's caret, generalised. A small chevron over a bar button says a
    drawer lives behind it: shown while that drawer is open, and on hover where there is a mouse. Presets show it on ▶
    only, since ‹ ▶ › share one list. */
-body #playbar>button[data-drawer]{position:relative}
-body #playbar>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
+/* 0.27.4 (Dimitry, 21 Oct: "no caret appears above the auto scene player"): ▶ sits inside the ‹ ▶ › group, not straight
+   in the bar, so the bar's child selector never reached it. Every caret rule names the group's buttons too. */
+body #playbar>button[data-drawer],body #pTrans>button[data-drawer]{position:relative}
+body #playbar>button[data-drawer]::after,body #pTrans>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
 /* 20 Oct: the caret is the hint on hover only. Once the strip is open, the strip itself points down to the button (the
    notch below), so the caret goes: it sat behind the strip and peeked out under it */
-body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after{opacity:0!important}
-@media (hover:hover) and (pointer:fine){body #playbar>button[data-drawer]:hover::after,body #playbar>button[data-drawer].caretHot::after{opacity:.85;transform:translateY(0) rotate(45deg)}
-  body #playbar>button[data-drawer].caretHot::after{opacity:1;border-color:var(--acc,#55b8c9)}}
+body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after,body #pTrans>button[data-drawer][aria-expanded="true"]::after{opacity:0!important}
+@media (hover:hover) and (pointer:fine){body #playbar>button[data-drawer]:hover::after,body #playbar>button[data-drawer].caretHot::after,body #pTrans>button[data-drawer]:hover::after,body #pTrans>button[data-drawer].caretHot::after{opacity:.85;transform:translateY(0) rotate(45deg)}
+  body #playbar>button[data-drawer].caretHot::after,body #pTrans>button[data-drawer].caretHot::after{opacity:1;border-color:var(--acc,#55b8c9)}}
 /* THE NOTCH (Dimitry, 20 Oct): an open strip grows a point on its lower edge, centred over the button it came from, part
    of the strip's own outline: the strip's edge is cut where the point joins it, and the point carries the same glass and
    the same hairline on its two sides. One element, placed by script, since the strips are centred on the screen and the
@@ -6234,7 +6236,8 @@ resize();
     pSnd:{open:()=>{sndOpen=true;srcOpen=false;pickOpen=false;buildSndShelf();syncSteer()},close:()=>{sndOpen=false;syncSteer()},is:()=>sndOpen},
     pSteer:{open:()=>{if(ACTIVE)toolShown=true;else{pickOpen=true;srcOpen=false;sndOpen=false}syncSteer()},close:()=>{if(ACTIVE)toolShown=false;pickOpen=false;syncSteer()},is:()=>$('pSteer').classList.contains('drawerOpen')},
     pShot:{open:openShotPop,close:closeShotPop,is:()=>$('pShot').getAttribute('aria-expanded')==='true'},
-    pRand:{open:openRlist,close:closeRlist,is:()=>!$('rlist').hidden}};
+    pRand:{open:openRlist,close:closeRlist,is:()=>!$('rlist').hidden},
+    pAuto:{open:()=>openPlist('auto'),close:closePlist,is:()=>!$('plist').hidden}};
   const btns=()=>Object.keys(DR).map(id=>$(id)).filter(b=>b&&b.offsetParent!==null);
   const inZone=(b,x,y)=>{const r=b.getBoundingClientRect(),cx=r.left+r.width/2;return x>=cx-16&&x<=cx+16&&y>=r.top-30&&y<=r.top+1};
   const awake=b=>b.matches(':hover')||performance.now()-(b._hov||0)<700||DR[b.id].is();
@@ -6788,10 +6791,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the scene list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021180237"></script>
-<script src="surface/links.js?v=20261021180237"></script>
-<script src="surface/tips.js?v=20261021180237"></script>
-<script src="surface/sections.js?v=20261021180237"></script>
+<script src="surface/install.js?v=20261021182514"></script>
+<script src="surface/links.js?v=20261021182514"></script>
+<script src="surface/tips.js?v=20261021182514"></script>
+<script src="surface/sections.js?v=20261021182514"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7360,7 +7363,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.27.3';
+const APP_VERSION='0.27.4';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
