@@ -2,7 +2,7 @@
    every tool's panels carry tabs the same way).
 
      var T = SurfaceTabs.mount(listEl, [{ id, name, icon, title, pane, onShow }, …], storageKey);
-     T.show(id) · T.last() · T.current()
+     T.show(id) · T.last() · T.current() · T.step(±1) → false at an end · T.ids()
    Builds a button per tab (the WAI-ARIA tabs pattern: arrows, Home, End; aria-selected, aria-controls), shows one pane,
    remembers the last tab, and fires 'sftab' on the list ({detail:{id, pane}}).
 
@@ -38,5 +38,7 @@
     if(t.title)b.title=t.title;b.onclick=()=>show(t.id);
     b.onkeydown=e=>{const k=e.key;let j=-1;if(k==='ArrowRight')j=(i+1)%tabs.length;else if(k==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;else if(k==='Home')j=0;else if(k==='End')j=tabs.length-1;
       if(j<0)return;e.preventDefault();show(tabs[j].id);btns[tabs[j].id].focus()};btns[t.id]=b;list.appendChild(b)});
-  return {show,last:get,current:()=>cur}};
+  /* step(±1): the next or previous tab, false at either end (no wrap), so a swipe can bounce there (sheetnav.js) */
+  const step=d=>{const i=tabs.findIndex(t=>t.id===cur),j=i+d;if(i<0||j<0||j>=tabs.length)return false;show(tabs[j].id);return true};
+  return {show,last:get,current:()=>cur,step,ids:()=>tabs.map(t=>t.id),list}};
 })();
