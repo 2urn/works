@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021011643";window.__VERSION__="0.26.48";window.__NOTES__=[{"v":"0.26.48","date":"20 Oct 2026","items":[{"kind":"change","text":"while anything in the tools is animating (a word sequence, a steer loop, a magnet loop) a ring keeps rippling out of the tools button; inside, the running chain marks which one, now also under the text shelf's sequence clock"}]}]</script>
+<script>window.__BUILD__="20261021011950";window.__VERSION__="0.26.49";window.__NOTES__=[{"v":"0.26.49","date":"20 Oct 2026","items":[{"kind":"change","text":"the running chain and the wave come from the shared kit now (canon for every CHAMY·XYZ tool); they look and behave the same"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021011643"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021011643">
+<script src="claude-web.js?v=20261021011950"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021011950">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -112,24 +112,25 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021011643"></script>
-<script src="surface/selftest.js?v=20261021011643"></script>
-<script src="surface/report.js?v=20261021011643"></script>
-<script src="surface/auto.js?v=20261021011643"></script>
-<script src="surface/toolpath.js?v=20261021011643"></script>
-<script src="surface/capture.js?v=20261021011643"></script>
-<script src="surface/pop.js?v=20261021011643"></script>
-<script src="surface/hints.js?v=20261021011643"></script>
-<script src="surface/paths.js?v=20261021011643"></script>
-<script src="surface/keys.js?v=20261021011643"></script>
-<script src="surface/reset.js?v=20261021011643"></script>
-<script src="surface/files.js?v=20261021011643"></script>
-<script src="surface/tabs.js?v=20261021011643"></script>
-<script src="surface/pack.js?v=20261021011643"></script>
-<script src="surface/rail.js?v=20261021011643"></script>
-<script src="surface/touchsound.js?v=20261021011643"></script>
-<script src="surface/float.js?v=20261021011643"></script>
-<script src="surface/manual.js?v=20261021011643"></script>
+<script src="vendor/opentype.min.js?v=20261021011950"></script>
+<script src="surface/selftest.js?v=20261021011950"></script>
+<script src="surface/report.js?v=20261021011950"></script>
+<script src="surface/auto.js?v=20261021011950"></script>
+<script src="surface/toolpath.js?v=20261021011950"></script>
+<script src="surface/capture.js?v=20261021011950"></script>
+<script src="surface/pop.js?v=20261021011950"></script>
+<script src="surface/hints.js?v=20261021011950"></script>
+<script src="surface/paths.js?v=20261021011950"></script>
+<script src="surface/keys.js?v=20261021011950"></script>
+<script src="surface/reset.js?v=20261021011950"></script>
+<script src="surface/files.js?v=20261021011950"></script>
+<script src="surface/tabs.js?v=20261021011950"></script>
+<script src="surface/running.js?v=20261021011950"></script>
+<script src="surface/pack.js?v=20261021011950"></script>
+<script src="surface/rail.js?v=20261021011950"></script>
+<script src="surface/touchsound.js?v=20261021011950"></script>
+<script src="surface/float.js?v=20261021011950"></script>
+<script src="surface/manual.js?v=20261021011950"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1214,23 +1215,10 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rg
 .fl.dragging{background:rgb(var(--ui-hi,255 255 255) / .06);border-radius:8px}.fl.dragging>button.drag{cursor:grabbing;color:var(--acc,#55b8c9)}
 .wlHint{margin:4px 14px 0;font:400 13px/1.45 var(--sans);color:var(--ui-mid)}
 /* a word sequence is playing: a small loop badge on the text tool, and on the dots when another tool is open */
-/* THE CHAIN (Dimitry, 20 Oct): in the tools drawer, the tool that is driving the animation right now (a word sequence,
-   a steer loop, a magnet loop; any number at once) carries a row of dots under it with a light running along it, left
-   to right. It replaced a pill at the tool's corner that the path numbers covered. Reduced motion: the dots, still. */
-#pickTrack .si.running,.shhist.seq{position:relative}
-#pickTrack .si.running::after,.shhist.seq::after{content:"";position:absolute;left:50%;bottom:1px;width:29px;height:4px;translate:-50% 0;pointer-events:none;
-  background:radial-gradient(circle at 2px 2px,var(--acc,#55b8c9) 1.45px,transparent 1.95px) 0 0/6px 4px repeat-x;
-  -webkit-mask:linear-gradient(90deg,rgba(0,0,0,.38) 0 35%,#000 47% 53%,rgba(0,0,0,.38) 65% 100%) 0 0/300% 100% no-repeat;mask:linear-gradient(90deg,rgba(0,0,0,.38) 0 35%,#000 47% 53%,rgba(0,0,0,.38) 65% 100%) 0 0/300% 100% no-repeat;
-  animation:chainRun 1.15s linear infinite}
-@keyframes chainRun{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
-.shhist.seq::after{bottom:3px;width:23px}
-@media (prefers-reduced-motion:reduce){#pickTrack .si.running::after,.shhist.seq::after{animation:none;-webkit-mask:none;mask:none}}
-/* THE WAVE (Dimitry, 20 Oct): the tools button sends out a ring, over and over, whenever anything in its shelves is
-   animating; the chain inside the shelf says which. Replaces the pill (seqon) and the orange dot (busy), which meant
-   the same and didn't say what. A box-shadow, so it never fights the button's drawer caret (::after). */
-body #playbar>#pSteer.animating{animation:steerWave 1.8s ease-out infinite}
-@keyframes steerWave{0%{box-shadow:0 0 0 0 rgb(var(--acc-rgb,85 184 201) / .6)}70%{box-shadow:0 0 0 13px rgb(var(--acc-rgb,85 184 201) / 0)}100%{box-shadow:0 0 0 13px rgb(var(--acc-rgb,85 184 201) / 0)}}
-@media (prefers-reduced-motion:reduce){body #playbar>#pSteer.animating{animation:none;box-shadow:0 0 0 3px rgb(var(--acc-rgb,85 184 201) / .55)}}
+/* THE CHAIN and THE WAVE are canon now (Dimitry, 20 Oct): Surface · Running (surface/running.js) draws them. Current marks
+   the tools drawer's animating tools and the text shelf's sequence clock (s-running), and waves the tools button
+   (s-wave). Here only where the clock's chain sits. */
+.shhist.s-running::after{bottom:3px;width:23px}
 #pSteer.seqon::before,#pSteer.busy:not(.lit)::after{content:none!important}
 #pSteer.seqon::before{content:"";position:absolute;top:6px;right:8px;width:12px;height:7px;border-radius:4px;border:1.6px solid var(--acc,#55b8c9);box-sizing:border-box;animation:seqblink 1.4s ease-in-out infinite}
 #pSteer.seqon::before{top:4px;right:2px}
@@ -4373,7 +4361,7 @@ const TOOLS=[
 let ACTIVE=null,pickOpen=false,toolShown=true;
 const svgI=k=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+IC[k]+'</svg>';
 function chainMark(){const T=$('pickTrack');if(!T)return;const run={text:!!SEQ.on,steer:!!STEER.loop,magnet:!!MGR.loop};
-  T.querySelectorAll('.si[data-tool]').forEach(b=>{b.classList.toggle('running',!!run[b.dataset.tool]);b.classList.remove('seqon')})}
+  T.querySelectorAll('.si[data-tool]').forEach(b=>{SurfaceRunning.mark(b,!!run[b.dataset.tool]);b.classList.remove('seqon','running')})}
 try{new MutationObserver(()=>chainMark()).observe($('pickTrack'),{childList:true})}catch(_){}   // the drawer rebuilds its buttons: mark them again
 function syncSlot(){const el=$('pSteer'),multi=TOOLS.length>1,act=multi?ACTIVE:'steer';
   el.classList.toggle('multi',multi);el.classList.toggle('lit',!!act&&(act!=='steer'||STEER.on||railOpen));
@@ -4382,7 +4370,7 @@ function syncSlot(){const el=$('pSteer'),multi=TOOLS.length>1,act=multi?ACTIVE:'
   el.classList.toggle('shelfopen',!!(pickOpen||srcOpen||sndOpen||(act&&act!=='steer'&&toolShown)));   // any shelf up: the dots light, and tapping them closes it
   el.classList.toggle('seqon',!!SEQ.on);
   chainMark();   // the chain: what is driving the animation now
-  el.classList.toggle('animating',!!(SEQ.on||STEER.loop||MGR.loop));   // the wave
+  SurfaceRunning.wave(el,!!(SEQ.on||STEER.loop||MGR.loop));   // the wave (kit)
   const t=TOOLS.find(x=>x.id===act);
   el.setAttribute('aria-label',multi&&!act?'Tools: tap for steer, color, text, magnet and view':(t?t.aria:'Steer')+'. Tap to close it, hold to hide or show its shelf');
   el.setAttribute('aria-pressed',String(!!act));el.setAttribute('aria-expanded',String(pickOpen||!!act));
@@ -4570,7 +4558,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();inp.blur();go()}});
     ok.addEventListener('pointerdown',e=>e.preventDefault());   // keep focus/keyboard steady on tap
     // the backward clock: recent words, and the sequencer that plays them in turn (lit while it plays)
-    const hb=document.createElement('button');hb.type='button';hb.className='shhist'+(SEQ.on?' seq':'');hb.setAttribute('aria-haspopup','dialog');hb.setAttribute('aria-expanded',String(!$('wordList').hidden));
+    const hb=document.createElement('button');hb.type='button';hb.className='shhist'+(SEQ.on?' seq s-running':'');hb.setAttribute('aria-haspopup','dialog');hb.setAttribute('aria-expanded',String(!$('wordList').hidden));
     hb.setAttribute('aria-label','Texts and the sequencer'+(SEQ.on?', playing':''));
     hb.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.6 13A7.5 7.5 0 1 0 6.8 6.6"/><path d="M4.3 3.8v3.6h3.6"/><path d="M12 8.2v4.1l2.7 1.7"/></svg>';
     hb.addEventListener('pointerdown',e=>e.preventDefault());hb.onclick=()=>{$('wordList').hidden?openWordList():closeWordList()};
@@ -6553,10 +6541,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021011643"></script>
-<script src="surface/links.js?v=20261021011643"></script>
-<script src="surface/tips.js?v=20261021011643"></script>
-<script src="surface/sections.js?v=20261021011643"></script>
+<script src="surface/install.js?v=20261021011950"></script>
+<script src="surface/links.js?v=20261021011950"></script>
+<script src="surface/tips.js?v=20261021011950"></script>
+<script src="surface/sections.js?v=20261021011950"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7110,7 +7098,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.48';
+const APP_VERSION='0.26.49';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
