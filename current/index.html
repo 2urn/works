@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021021853";window.__VERSION__="0.26.52";window.__NOTES__=[{"v":"0.26.52","date":"20 Oct 2026","items":[{"kind":"fix","text":"when the phone takes the sound away (another app, a call, leaving the app) and does not give it back, the next tap brings it back: Current rebuilds its sound and starts again what was playing, instead of showing playing in silence until a restart"}]}]</script>
+<script>window.__BUILD__="20261021022638";window.__VERSION__="0.26.53";window.__NOTES__=[{"v":"0.26.53","date":"20 Oct 2026","items":[{"kind":"change","text":"Save this look is a big button at the foot of the preset list, always in reach"},{"kind":"new","text":"the preset list shows all, starred or yours, and sorts by your own order, a–z, most picked or newest; star a look to keep it at the top"},{"kind":"new","text":"auto play can go through your starred looks only"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021021853"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021021853">
+<script src="claude-web.js?v=20261021022638"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021022638">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -112,27 +112,28 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021021853"></script>
-<script src="surface/selftest.js?v=20261021021853"></script>
-<script src="surface/report.js?v=20261021021853"></script>
-<script src="surface/auto.js?v=20261021021853"></script>
-<script src="surface/toolpath.js?v=20261021021853"></script>
-<script src="surface/capture.js?v=20261021021853"></script>
-<script src="surface/pop.js?v=20261021021853"></script>
-<script src="surface/hints.js?v=20261021021853"></script>
-<script src="surface/paths.js?v=20261021021853"></script>
-<script src="surface/keys.js?v=20261021021853"></script>
-<script src="surface/reset.js?v=20261021021853"></script>
-<script src="surface/files.js?v=20261021021853"></script>
-<script src="surface/tabs.js?v=20261021021853"></script>
-<script src="surface/running.js?v=20261021021853"></script>
-<script src="surface/trim.js?v=20261021021853"></script>
-<script src="surface/audiowake.js?v=20261021021853"></script>
-<script src="surface/pack.js?v=20261021021853"></script>
-<script src="surface/rail.js?v=20261021021853"></script>
-<script src="surface/touchsound.js?v=20261021021853"></script>
-<script src="surface/float.js?v=20261021021853"></script>
-<script src="surface/manual.js?v=20261021021853"></script>
+<script src="vendor/opentype.min.js?v=20261021022638"></script>
+<script src="surface/selftest.js?v=20261021022638"></script>
+<script src="surface/report.js?v=20261021022638"></script>
+<script src="surface/auto.js?v=20261021022638"></script>
+<script src="surface/toolpath.js?v=20261021022638"></script>
+<script src="surface/capture.js?v=20261021022638"></script>
+<script src="surface/pop.js?v=20261021022638"></script>
+<script src="surface/hints.js?v=20261021022638"></script>
+<script src="surface/paths.js?v=20261021022638"></script>
+<script src="surface/keys.js?v=20261021022638"></script>
+<script src="surface/reset.js?v=20261021022638"></script>
+<script src="surface/files.js?v=20261021022638"></script>
+<script src="surface/tabs.js?v=20261021022638"></script>
+<script src="surface/running.js?v=20261021022638"></script>
+<script src="surface/trim.js?v=20261021022638"></script>
+<script src="surface/audiowake.js?v=20261021022638"></script>
+<script src="surface/listview.js?v=20261021022638"></script>
+<script src="surface/pack.js?v=20261021022638"></script>
+<script src="surface/rail.js?v=20261021022638"></script>
+<script src="surface/touchsound.js?v=20261021022638"></script>
+<script src="surface/float.js?v=20261021022638"></script>
+<script src="surface/manual.js?v=20261021022638"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -718,6 +719,20 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .sg:hover{color:var(--ui-ink)}
 .sg[aria-pressed="true"]{color:var(--acc,#55b8c9);font-weight:700}
 #plItems{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 8px}
+#plItems .plBar{padding:0 0 4px}#plItems .plBar .segs{padding:2px 14px}
+#plItems .plBar button.sg{display:inline-flex;width:auto;min-height:30px;padding:0;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
+#plItems .plBar button.sg:hover{background:none;color:var(--ui-ink)}
+#plItems .plBar button.sg[aria-checked=true]{color:var(--acc,#55b8c9)}
+#plItems .lk{grid-template-columns:30px 24px minmax(0,1fr) 36px!important}
+#plItems:not(.hand) .lk>.hd{visibility:hidden}
+#plItems .lk>button.s-star{width:36px;padding:0;justify-content:center;color:#5a6366}
+#plItems .lk>button.s-star[aria-pressed=true]{color:var(--acc,#55b8c9)}
+#plFoot{flex:none;padding:10px 12px 12px;border-top:1px solid var(--ui-line)}
+#plSave{width:100%;min-height:48px;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:24px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 14px rgb(var(--acc-rgb,85 184 201) / .28)}
+#plSave svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+#plSave kbd{font:500 10px/1 var(--mono);letter-spacing:.06em;opacity:.6;text-transform:none}
+@media (pointer:coarse){#plSave kbd{display:none}}
+#plSave:active{transform:translateY(1px)}#plSave:focus-visible{outline:2px solid #fff;outline-offset:2px}
 /* the glass pop-ups' scrollbars: thin, the glass's own ink, no white OS track (presets, random matrix, order, words, fonts) */
 #plItems,#rlBody,#edOrdList,#wlItems,#flItems{scrollbar-width:thin;scrollbar-color:rgb(var(--ui-hi,255 255 255) / .24) transparent}
 #plItems:hover,#rlBody:hover,#edOrdList:hover,#wlItems:hover,#flItems:hover{scrollbar-color:rgb(var(--ui-hi,255 255 255) / .4) transparent}
@@ -1820,6 +1835,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div class="mxh"><span>Presets</span><button class="tb" id="plClose" type="button" aria-label="Close the preset list">Close</button></div>
   <div id="plAuto"></div>
   <div id="plItems"></div>
+  <div id="plFoot"><button id="plSave" type="button" aria-label="Save the current look as a preset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Save this look</span><kbd aria-hidden="true"></kbd></button></div>
 </div>
 <div id="fontList" role="dialog" aria-label="Typeface" hidden>
   <div class="mxh"><span>Typeface</span><button class="tb" id="flClose" type="button" aria-label="Close the typeface list">Close</button></div>
@@ -2829,6 +2845,14 @@ const allPresets=()=>PRESETS.concat(store.user.map(u=>({...u,user:true,gen:()=>u
 const lookKey=p=>(p.user?'u:':'p:')+p.name;
 if(!store.looks||typeof store.looks!=='object')store.looks={};
 if(!Array.isArray(store.lookOrder))store.lookOrder=[];
+/* SHOW, SORT, STARS (Dimitry, 20 Oct: "ways to sort the list in different ways and maybe to select favorites the same
+   way that we do with other controls"): the kit's list view, the rule the Randomize list follows. Starred looks come
+   first in every sort but your own order; auto play can go through the starred ones only. */
+if(!store.lookFav||typeof store.lookFav!=='object')store.lookFav={};
+if(!store.lookUsed||typeof store.lookUsed!=='object')store.lookUsed={};
+if(!store.lookView||typeof store.lookView!=='object')store.lookView={show:'all',sort:'hand'};
+const lookFav=p=>!!store.lookFav[lookKey(p)];
+function bumpLook(i){const p=allPresets()[i];if(!p)return;const k=lookKey(p);store.lookUsed[k]=(store.lookUsed[k]||0)+1;persist()}
 const lookCfg=p=>store.looks[lookKey(p)]||{};
 const inPlay=p=>!lookCfg(p).off;
 function setLookCfg(p,patch){const k=lookKey(p),c={...(store.looks[k]||{}),...patch};if(!c.off&&c.morph==null)delete store.looks[k];else store.looks[k]=c;persist()}
@@ -2841,7 +2865,7 @@ function walk(ids,d){const ord=orderedIds(),set=new Set(ids);let p=ord.indexOf(p
 const AUTO={sec:20,order:'in order',morph:2.2};
 const morphFor=p=>{const m=p&&lookCfg(p).morph;return m==null?AUTO.morph:m};
 if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=store.auto.order;if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=+store.auto.morph}
-const AUTO_EVERY=[['10s',10],['20s',20],['45s',45],['90s',90],['3 min',180]],AUTO_ORDER=['in order','shuffle','looks only','yours only'],AUTO_MORPH=[['snap',0],['glide',2.2],['slow',6]];
+const AUTO_EVERY=[['10s',10],['20s',20],['45s',45],['90s',90],['3 min',180]],AUTO_ORDER=['in order','shuffle','looks only','yours only','starred only'],AUTO_MORPH=[['snap',0],['glide',2.2],['slow',6]];
 let booted=false;
 const mixHex=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)||0);const A=p(a),B=p(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
 function stepMorph(dt){if(!MORPH)return;MORPH.t=Math.min(1,MORPH.t+dt/MORPH.dur);const t=MORPH.t,e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
@@ -3034,11 +3058,11 @@ function buildRlist(){
   const ul=document.createElement('div');ul.className='rmList';ul.setAttribute('role','list');b.appendChild(ul);
   const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg>';
   const GRIP='<svg viewBox="0 0 10 16" aria-hidden="true"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg>';
-  function view(){let ks=RM.order.slice();
+  function view(){if(window.SurfaceListView)return SurfaceListView.order(RM.order,{show:RM.filter,sort:RM.sort,fav:RM.fav,label:k=>lab[k],used:k=>RM.used[k]||0,filters:{on:inMatrix}});   // the kit's rule (listview.js), shared with the preset list
+    let ks=RM.order.slice();
     if(RM.sort==='az')ks.sort((x,y)=>lab[x].localeCompare(lab[y]));
     else if(RM.sort==='used')ks.sort((x,y)=>(RM.used[y]||0)-(RM.used[x]||0));
     if(RM.filter==='fav')ks=ks.filter(k=>RM.fav[k]);else if(RM.filter==='on')ks=ks.filter(inMatrix);
-    // starred first in every sort but your own order, where the order is yours
     if(RM.sort!=='hand')ks.sort((x,y)=>(RM.fav[y]?1:0)-(RM.fav[x]?1:0));
     return ks}
   function drawList(){ul.innerHTML='';ul.classList.toggle('hand',RM.sort==='hand');const ks=view();
@@ -3112,9 +3136,12 @@ function autoName(){const pick=a=>a[(Math.random()*a.length)|0],cn=h=>{const c=L
 function prefillName(inp){inp.value=autoName();inp.dataset.auto='1';requestAnimationFrame(()=>{try{inp.select()}catch(_){}})}
 function savePreset(name){name=(name||'').trim().slice(0,32)||autoName();
   if(PRESETS.some(p=>p.name===name))name+=' (yours)';
-  const snap=snapshot(name),j=store.user.findIndex(u=>u.name===name);if(j>=0)store.user[j]=snap;else store.user.push(snap);persist();
+  const snap=snapshot(name),j=store.user.findIndex(u=>u.name===name);snap.t=j>=0&&store.user[j].t||Date.now();if(j>=0)store.user[j]=snap;else store.user.push(snap);persist();
   presetIdx=PRESETS.length+store.user.findIndex(u=>u.name===name);curName=name;baseline={...snap.p};renderPresets();syncVals();syncPlist();toast('saved “'+name+'”')}
 $('randBtn').onclick=()=>randomLook(true);
+{const k=$('plSave').querySelector('kbd');k.textContent=(window.SurfaceKeys&&SurfaceKeys.show)?SurfaceKeys.show('mod+s'):/Mac|iPhone|iPad/.test(navigator.platform||'')?'\u2318S':'Ctrl+S';
+ $('plSave').onclick=()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:'');buildLooks();syncPlist();
+   const r=$('plItems').querySelector('.lk.cur');if(r)r.scrollIntoView({block:'nearest'})}}
 $('randMx').onclick=()=>$('rlist').hidden?openRlist():closeRlist();
 $('rlClose').onclick=closeRlist;
 $('saveBtn').onclick=()=>{const r=$('saveRow');r.hidden=!r.hidden;if(!r.hidden){const i=$('saveName');if(curName&&curName!=='Random'&&!curName.startsWith('Traced')&&!PRESETS.some(p=>p.name===curName))i.value=curName;else prefillName(i);i.focus();i.select()}};
@@ -3270,7 +3297,7 @@ function flashBtn(b,txt,ms){if(!b)return;let n=null;for(const c of b.childNodes)
   if(b._flash)clearTimeout(b._flash);else b._label=n.textContent;n.textContent=txt;b.classList.add('done');
   b._flash=setTimeout(()=>{n.textContent=b._label;b.classList.remove('done');b._flash=null},ms||1800)}
 let nmT=0;function flashName(n){const el=$('playname');if(typeof placeName==='function')placeName();el.textContent=n;el.classList.add('show');clearTimeout(nmT);nmT=setTimeout(()=>el.classList.remove('show'),1600)}
-function stepPreset(d){if(!allPresets().length)return;const i=walk(playIds(),d);loadPreset(i);flashName(allPresets()[i].name)}
+function stepPreset(d){if(!allPresets().length)return;const i=walk(playIds(),d);bumpLook(i);loadPreset(i);flashName(allPresets()[i].name)}
 let labT=0;
 function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=document.scrollingElement||document.documentElement;if(d.scrollTop||d.scrollLeft){d.scrollTop=0;d.scrollLeft=0}}   /* the stage is the page: never leave it scrolled (iPhone, #install, 18 Oct) */
   {const l=$('duckLab');if(l&&!quiet){l.textContent=v?'Index':'Close';if(!v){l.classList.remove('tucked');clearTimeout(labT);labT=setTimeout(()=>l.classList.add('tucked'),2600)}else{clearTimeout(labT);l.classList.add('tucked')}}}const d=$('duckBtn');d.setAttribute('aria-expanded',String(!v));d.setAttribute('aria-label',v?'Settings (Index). Opens the drawer on the left (p)':'Close the settings drawer (p)');
@@ -3286,7 +3313,7 @@ function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=
 let autoT=null;
 const fmtSec=s=>s<60?Math.round(s)+'s':(s/60).toFixed(s%60?1:0)+'m';
 function autoNext(){const all=allPresets(),base=playIds();let ids=base;
-  if(AUTO.order==='looks only')ids=ids.filter(i=>!all[i].user);else if(AUTO.order==='yours only')ids=ids.filter(i=>all[i].user);
+  if(AUTO.order==='looks only')ids=ids.filter(i=>!all[i].user);else if(AUTO.order==='yours only')ids=ids.filter(i=>all[i].user);else if(AUTO.order==='starred only')ids=ids.filter(i=>lookFav(all[i]));
   if(!ids.length)ids=base;
   let n;if(AUTO.order==='shuffle'&&ids.length>1){do n=ids[(Math.random()*ids.length)|0];while(n===presetIdx)}
   else n=walk(ids,1);
@@ -3306,19 +3333,28 @@ function buildPlist(){
     seg('morph',AUTO_MORPH,()=>AUTO.morph,v=>{AUTO.morph=v;toast(v?'morph: '+fmtSec(v):'morph: snap')})];
   const row=document.createElement('div');row.className='segs';
   const ab=document.createElement('button');ab.type='button';ab.className='tb';ab.id='plGo';ab.onclick=()=>setAuto(!autoT);row.appendChild(ab);
-  const sv=document.createElement('button');sv.type='button';sv.className='tb';sv.textContent='save this look';sv.setAttribute('aria-label','Save the current look as a preset');sv.onclick=()=>{savePreset('');buildPlist()};row.appendChild(sv);
   box.appendChild(row);
   buildLooks();syncPlist()}
 const MORPH_CYCLE=[[null,'auto'],[0,'snap'],[2.2,'glide'],[6,'slow']];
 function buildLooks(){
   const it=$('plItems');it.innerHTML='';const all=allPresets();
-  const s=document.createElement('div');s.className='sub';s.innerHTML='<span>looks · drag to reorder</span>';
+  const V=store.lookView,hand=V.sort==='hand';
+  const s=document.createElement('div');s.className='sub';s.innerHTML='<span>looks'+(hand?' · drag to reorder':'')+'</span>';
   const tg=document.createElement('span');
   [['all',false],['none',true]].forEach(([t,off])=>{const x=document.createElement('button');x.type='button';x.className='tb';x.textContent=t;
     x.setAttribute('aria-label',off?'Take every look out of play':'Put every look in play');
     x.onclick=()=>{all.forEach(p=>setLookCfg(p,{off}));buildLooks();syncPlist()};tg.appendChild(x)});
   s.appendChild(tg);it.appendChild(s);
-  for(const i of orderedIds()){const p=all[i],c=lookCfg(p),r=document.createElement('div');r.className='lk'+(c.off?' off':'');r.dataset.key=lookKey(p);
+  if(window.SurfaceListView){const vb=SurfaceListView.bar({label:'Looks',
+      show:[['all','all','Show every look'],['fav','&#9733;','Show only starred looks'],['yours','yours','Show only the looks you saved']],
+      sort:[['hand','hand','In your own order: drag the handles'],['az','a&ndash;z','Alphabetical'],['used','used','Most often picked first'],['new','new','Newest saved first']],
+      get:()=>store.lookView,set:v=>{Object.assign(store.lookView,v);persist();buildLooks();syncPlist()}});vb.classList.add('plBar');it.appendChild(vb)}
+  it.classList.toggle('hand',hand);
+  const ukey=new Map(store.user.map((u,j)=>['u:'+u.name,u.t||j+1])),fav={};orderedIds().forEach(i=>{if(lookFav(all[i]))fav[i]=1});
+  const ids=window.SurfaceListView?SurfaceListView.order(orderedIds(),{show:V.show,sort:V.sort,fav,label:i=>all[i].name,used:i=>store.lookUsed[lookKey(all[i])]||0,
+    time:i=>all[i].user?ukey.get(lookKey(all[i]))||0:-1,filters:{yours:i=>!!all[i].user}}):orderedIds();
+  if(!ids.length){const e=document.createElement('p');e.className='rlHint';e.textContent=V.show==='fav'?'Nothing starred yet: tap a look’s star to keep it here.':'You have not saved a look yet: Save this look, below.';it.appendChild(e)}
+  for(const i of ids){const p=all[i],c=lookCfg(p),r=document.createElement('div');r.className='lk'+(c.off?' off':'')+(lookFav(p)?' fav':'');r.dataset.key=lookKey(p);
     const hd=document.createElement('button');hd.type='button';hd.className='hd';hd.setAttribute('aria-label','Move '+p.name+': drag, or arrow keys');
     hd.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><g fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></g></svg>';
     const cb=document.createElement('input');cb.type='checkbox';cb.checked=!c.off;cb.setAttribute('aria-label',p.name+' plays in prev, next and auto play');
@@ -3335,7 +3371,7 @@ function buildLooks(){
       el.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>8)clearTimeout(ht)});
       ['pointerup','pointercancel','pointerleave'].forEach(t=>el.addEventListener(t,()=>clearTimeout(ht)));
       el.addEventListener('contextmenu',e=>e.preventDefault());
-      el.onclick=()=>{if(held){held=false;return}loadPreset(i);flashName(p.name)}};
+      el.onclick=()=>{if(held){held=false;return}bumpLook(i);loadPreset(i);flashName(p.name)}};
     const tb=document.createElement('button');tb.type='button';tb.className='thb';tb.tabIndex=-1;tb.setAttribute('aria-hidden','true');
     const th=document.createElement('span');th.className='th';th.dataset.i=i;tb.appendChild(th);hold(tb);
     if(thumbIO)thumbIO.observe(th);else drawThumb(th,p);
@@ -3351,10 +3387,14 @@ function buildLooks(){
     if(p.user){const d=act('del','Delete '+p.name+'. Tap twice',()=>{if(!d.classList.contains('arm')){d.classList.add('arm');d.setAttribute('aria-label','Tap again to delete '+p.name);toast('tap again to delete');setTimeout(()=>d.classList.remove('arm'),2500);return}
       const ui=i-PRESETS.length;store.user.splice(ui,1);persist();if(presetIdx===i)presetIdx=-1;else if(presetIdx>i)presetIdx--;renderPresets();buildLooks();syncPlist();toast('deleted “'+p.name+'”')},'del')}
     bd.append(tb,nm,acts);
-    wireDrag(hd,r);r.append(hd,cb,bd);it.appendChild(r)}}
-function saveOrder(){store.lookOrder=[...$('plItems').querySelectorAll('.lk')].map(r=>r.dataset.key);persist();renderPresets()}
+    if(V.sort==='used'&&store.lookUsed[lookKey(p)]){const u=document.createElement('small');u.className='rmN';u.textContent=store.lookUsed[lookKey(p)];u.setAttribute('aria-label','picked '+u.textContent+' times');nm.append(' ',u)}
+    const st=window.SurfaceListView?SurfaceListView.star(lookFav(p),p.name,on=>{const k=lookKey(p);if(on)store.lookFav[k]=1;else delete store.lookFav[k];persist();buildLooks();syncPlist();
+      const n=$('plItems').querySelector('.lk[data-key="'+CSS.escape(k)+'"] .s-star');if(n)n.focus()}):document.createElement('span');
+    wireDrag(hd,r);r.append(hd,cb,bd,st);it.appendChild(r)}}
+function saveOrder(){const all=allPresets(),cur=orderedIds().map(i=>lookKey(all[i])),shown=[...$('plItems').querySelectorAll('.lk')].map(r=>r.dataset.key),set=new Set(shown);let j=0;
+  store.lookOrder=cur.map(k=>set.has(k)?shown[j++]:k);persist();renderPresets()}   // a filtered list moves its rows among the slots they held
 function wireDrag(hd,row){
-  hd.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();try{hd.setPointerCapture(e.pointerId)}catch(_){}row.classList.add('dragging');
+  hd.addEventListener('pointerdown',e=>{if(e.button>0||store.lookView.sort!=='hand')return;e.preventDefault();try{hd.setPointerCapture(e.pointerId)}catch(_){}row.classList.add('dragging');
     const box=$('plItems');let moved=false;
     const mv=ev=>{const y=ev.clientY,rows=[...box.querySelectorAll('.lk')];
       for(const o of rows){if(o===row)continue;const b=o.getBoundingClientRect();
@@ -3362,7 +3402,7 @@ function wireDrag(hd,row){
       const bb=box.getBoundingClientRect();if(y<bb.top+24)box.scrollTop-=8;else if(y>bb.bottom-24)box.scrollTop+=8};
     const up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);row.classList.remove('dragging');if(moved)saveOrder()};
     addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up)});   // on window: moving the row in the DOM drops pointer capture
-  hd.addEventListener('keydown',e=>{if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;e.preventDefault();const box=$('plItems');
+  hd.addEventListener('keydown',e=>{if((e.key!=='ArrowUp'&&e.key!=='ArrowDown')||store.lookView.sort!=='hand')return;e.preventDefault();const box=$('plItems');
     if(e.key==='ArrowUp'){const p=row.previousElementSibling;if(p&&p.classList.contains('lk'))box.insertBefore(row,p)}else{const n=row.nextElementSibling;if(n)box.insertBefore(row,n.nextSibling)}
     hd.focus();saveOrder()})}
 function syncPlist(){
@@ -6577,10 +6617,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021021853"></script>
-<script src="surface/links.js?v=20261021021853"></script>
-<script src="surface/tips.js?v=20261021021853"></script>
-<script src="surface/sections.js?v=20261021021853"></script>
+<script src="surface/install.js?v=20261021022638"></script>
+<script src="surface/links.js?v=20261021022638"></script>
+<script src="surface/tips.js?v=20261021022638"></script>
+<script src="surface/sections.js?v=20261021022638"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7134,7 +7174,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.52';
+const APP_VERSION='0.26.53';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
