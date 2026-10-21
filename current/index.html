@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021024220";window.__VERSION__="0.26.54";window.__NOTES__=[{"v":"0.26.54","date":"20 Oct 2026","items":[{"kind":"change","text":"the preset list has two tabs. Looks holds the list (show, sort, star, save); Auto play has a big play button and big tiles for how often, in what order and how it morphs"},{"kind":"fix","text":"the Auto play tab always shows what the bar's play button is doing: on, off, the look playing and the time to the next one"},{"kind":"change","text":"hold ‹ or › to open Looks, hold ▶ to open Auto play"}]}]</script>
+<script>window.__BUILD__="20261021025814";window.__VERSION__="0.26.55";window.__NOTES__=[{"v":"0.26.55","date":"20 Oct 2026","items":[{"kind":"change","text":"in every list the star is on the left and the handle you drag is on the right (looks and the random settings alike)"},{"kind":"new","text":"Scrub in Auto play's order, marked Pro: your touch will move through the looks as well as the field, in the order picked with it"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021024220"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021024220">
+<script src="claude-web.js?v=20261021025814"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021025814">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -112,28 +112,28 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021024220"></script>
-<script src="surface/selftest.js?v=20261021024220"></script>
-<script src="surface/report.js?v=20261021024220"></script>
-<script src="surface/auto.js?v=20261021024220"></script>
-<script src="surface/toolpath.js?v=20261021024220"></script>
-<script src="surface/capture.js?v=20261021024220"></script>
-<script src="surface/pop.js?v=20261021024220"></script>
-<script src="surface/hints.js?v=20261021024220"></script>
-<script src="surface/paths.js?v=20261021024220"></script>
-<script src="surface/keys.js?v=20261021024220"></script>
-<script src="surface/reset.js?v=20261021024220"></script>
-<script src="surface/files.js?v=20261021024220"></script>
-<script src="surface/tabs.js?v=20261021024220"></script>
-<script src="surface/running.js?v=20261021024220"></script>
-<script src="surface/trim.js?v=20261021024220"></script>
-<script src="surface/audiowake.js?v=20261021024220"></script>
-<script src="surface/listview.js?v=20261021024220"></script>
-<script src="surface/pack.js?v=20261021024220"></script>
-<script src="surface/rail.js?v=20261021024220"></script>
-<script src="surface/touchsound.js?v=20261021024220"></script>
-<script src="surface/float.js?v=20261021024220"></script>
-<script src="surface/manual.js?v=20261021024220"></script>
+<script src="vendor/opentype.min.js?v=20261021025814"></script>
+<script src="surface/selftest.js?v=20261021025814"></script>
+<script src="surface/report.js?v=20261021025814"></script>
+<script src="surface/auto.js?v=20261021025814"></script>
+<script src="surface/toolpath.js?v=20261021025814"></script>
+<script src="surface/capture.js?v=20261021025814"></script>
+<script src="surface/pop.js?v=20261021025814"></script>
+<script src="surface/hints.js?v=20261021025814"></script>
+<script src="surface/paths.js?v=20261021025814"></script>
+<script src="surface/keys.js?v=20261021025814"></script>
+<script src="surface/reset.js?v=20261021025814"></script>
+<script src="surface/files.js?v=20261021025814"></script>
+<script src="surface/tabs.js?v=20261021025814"></script>
+<script src="surface/running.js?v=20261021025814"></script>
+<script src="surface/trim.js?v=20261021025814"></script>
+<script src="surface/audiowake.js?v=20261021025814"></script>
+<script src="surface/listview.js?v=20261021025814"></script>
+<script src="surface/pack.js?v=20261021025814"></script>
+<script src="surface/rail.js?v=20261021025814"></script>
+<script src="surface/touchsound.js?v=20261021025814"></script>
+<script src="surface/float.js?v=20261021025814"></script>
+<script src="surface/manual.js?v=20261021025814"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -739,6 +739,10 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apT[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apT[aria-checked=true] small{color:var(--acc-ink,#04181c);opacity:.7}
 .apT:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+.apT.pro{border-style:dashed;color:var(--ui-dim)}.apT.pro>svg{opacity:.8}
+.apT .proB{position:absolute;top:5px;right:6px;display:inline-flex;align-items:center;gap:3px;font:700 8px/1 var(--mono);font-style:normal;letter-spacing:.12em;text-transform:uppercase;padding:3px 5px;border-radius:6px;background:rgb(var(--acc-rgb,85 184 201) / .18);color:var(--acc,#55b8c9)}
+#plAuto #apPro{margin:8px 0 0}
+.apT .proB svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;opacity:1}
 .apNote{margin:16px 0 0;font:400 12px/1.4 var(--sans);color:var(--ui-dim)}.apNote b{color:var(--ui-ink);font-weight:600}
 .apLink{background:none;border:0;padding:0;color:var(--acc,#55b8c9);font:inherit;text-decoration:underline;cursor:pointer}
 #plAuto>.sub{padding:0;align-self:start;line-height:30px}
@@ -754,7 +758,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #plItems .plBar button.sg{display:inline-flex;width:auto;min-height:30px;padding:0;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
 #plItems .plBar button.sg:hover{background:none;color:var(--ui-ink)}
 #plItems .plBar button.sg[aria-checked=true]{color:var(--acc,#55b8c9)}
-#plItems .lk{grid-template-columns:30px 24px minmax(0,1fr) 36px!important}
+#plItems .lk{grid-template-columns:36px 24px minmax(0,1fr) 30px!important}
 #plItems:not(.hand) .lk>.hd{visibility:hidden}
 #plItems .lk>button.s-star{width:36px;padding:0;justify-content:center;color:#5a6366}
 #plItems .lk>button.s-star[aria-pressed=true]{color:var(--acc,#55b8c9)}
@@ -1029,7 +1033,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .rmBar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 10px;padding:0 0 4px}.rmBar .segs{padding:2px 14px}
 .rmBar .sg svg{width:12px;height:12px}
 .rmList{display:grid}
-.rmRow{display:grid;grid-template-columns:30px minmax(0,1fr) auto 36px;align-items:center;border-top:1px solid rgb(var(--ui-hi) / .05)}
+.rmRow{display:grid;grid-template-columns:36px minmax(0,1fr) auto 30px;align-items:center;border-top:1px solid rgb(var(--ui-hi) / .05)}
 .rmRow .ck{padding:7px 4px 7px 0}
 .rmGrip{width:30px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:#5a6366;cursor:grab;touch-action:none}
 .rmGrip svg{width:10px;height:16px;fill:currentColor}.rmList:not(.hand) .rmGrip{visibility:hidden}
@@ -3099,10 +3103,10 @@ function buildRlist(){
   function drawList(){ul.innerHTML='';ul.classList.toggle('hand',RM.sort==='hand');const ks=view();
     if(!ks.length){const e=document.createElement('p');e.className='rlHint';e.textContent=RM.filter==='fav'?'Nothing starred yet: tap a star to keep a setting here.':'Nothing is in the matrix.';ul.appendChild(e)}
     ks.forEach(k=>{const r=document.createElement('div');r.className='rmRow'+(RM.fav[k]?' fav':'');r.setAttribute('role','listitem');r.dataset.k=k;
-      r.innerHTML='<button type="button" class="rmGrip" aria-label="Move '+lab[k]+'. Drag, or use the arrow keys">'+GRIP+'</button>'+
+      r.innerHTML='<button type="button" class="rmStar" aria-pressed="'+!!RM.fav[k]+'" aria-label="Star '+lab[k]+'">'+STAR+'</button>'+
         '<label class="ck"><input type="checkbox" data-k="'+k+'" aria-label="'+lab[k]+' rolls"><span>'+lab[k]+'</span></label>'+
         (RM.sort==='used'&&RM.used[k]?'<small class="rmN" aria-label="changed '+RM.used[k]+' times">'+RM.used[k]+'</small>':'')+
-        '<button type="button" class="rmStar" aria-pressed="'+!!RM.fav[k]+'" aria-label="Star '+lab[k]+'">'+STAR+'</button>';
+        '<button type="button" class="rmGrip" aria-label="Move '+lab[k]+'. Drag, or use the arrow keys">'+GRIP+'</button>';   // the star leads, the grip ends (Dimitry, 20 Oct: one layout for every list)
       const cb=r.querySelector('input');cb.checked=inMatrix(k);cb.onchange=e=>{RAND.keys[k]=e.target.checked;persistRand();if(RM.filter==='on')drawList()};
       r.querySelector('.rmStar').onclick=()=>{RM.fav[k]=!RM.fav[k];if(!RM.fav[k])delete RM.fav[k];persistRM();drawList();const n=ul.querySelector('[data-k="'+k+'"] .rmStar');if(n)n.focus()};
       const g=r.querySelector('.rmGrip');
@@ -3388,6 +3392,16 @@ function buildPlist(){plTabsMount();
     tiles('Every','every',AUTO_EVERY.map(([t,v])=>{const m=/^(\d+)\s*(\w+)$/.exec(t)||[0,t,''];return {v,html:'<b>'+m[1]+'</b><small>'+(m[2]==='s'?'sec':m[2])+'</small>',aria:'A new look every '+t}}),()=>AUTO.sec,v=>{AUTO.sec=v;setAuto(true)}),
     tiles('Order','order',AUTO_ORDER.map(o=>{const L=AUTO_LOOK[o]||[o,'',''];return {v:o,html:PLI(L[1]==='PL_STAR'?PL_STAR:L[1])+'<span>'+L[0]+'</span><small class="n" data-o="'+o+'"></small>',aria:L[0]+': '+L[2],title:L[2]}}),()=>AUTO.order,v=>{AUTO.order=v;if(autoT)setAuto(true,true)}),
     tiles('Morph','morph',AUTO_MORPH.map(([t,v])=>({v,html:PLI(MORPH_LOOK[v]||'')+'<span>'+t+'</span><small>'+(v?v+' s':'cut')+'</small>',aria:'Morph: '+t+(v?', '+v+' seconds':', a cut')})),()=>AUTO.morph,v=>{AUTO.morph=v;toast(v?'morph: '+fmtSec(v):'morph: snap')})];
+  /* SCRUB (Dimitry, 20 Oct; Pro, not built yet): a modifier, not an order. Your touch on the stage moves through the looks
+     as well as through the field, in the order lit beside it: scrub in order, scrub shuffled, scrub your starred ones.
+     On its own it scrubs in order. Shown, disabled, marked Pro; a tap says what it will do. */
+  {const og=plSegs[1],sc=document.createElement('button');sc.type='button';sc.className='apT pro';sc.id='apScrub';sc.setAttribute('aria-pressed','false');sc.setAttribute('aria-disabled','true');
+   sc.setAttribute('aria-label','Scrub, a Pro feature: your touch moves through the looks, in the order you pick beside it');sc.title='Scrub (Pro): your touch moves through the looks';
+   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>Pro</em>';
+   sc.onclick=()=>{let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
+     n.innerHTML='<p><b>Scrub</b> comes with Pro: drag across the stage and the looks follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
+     n.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
+   og.appendChild(sc)}
   const nt=document.createElement('p');nt.className='apNote';nt.id='apNote';box.appendChild(nt);
   buildLooks();syncPlist()}
 function syncAutoUI(){const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
@@ -3456,7 +3470,7 @@ function buildLooks(){
     if(V.sort==='used'&&store.lookUsed[lookKey(p)]){const u=document.createElement('small');u.className='rmN';u.textContent=store.lookUsed[lookKey(p)];u.setAttribute('aria-label','picked '+u.textContent+' times');nm.append(' ',u)}
     const st=window.SurfaceListView?SurfaceListView.star(lookFav(p),p.name,on=>{const k=lookKey(p);if(on)store.lookFav[k]=1;else delete store.lookFav[k];persist();buildLooks();syncPlist();
       const n=$('plItems').querySelector('.lk[data-key="'+CSS.escape(k)+'"] .s-star');if(n)n.focus()}):document.createElement('span');
-    wireDrag(hd,r);r.append(hd,cb,bd,st);it.appendChild(r)}}
+    wireDrag(hd,r);r.append(st,cb,bd,hd);it.appendChild(r)}}   // the star leads, the grip ends, as in every list
 function saveOrder(){const all=allPresets(),cur=orderedIds().map(i=>lookKey(all[i])),shown=[...$('plItems').querySelectorAll('.lk')].map(r=>r.dataset.key),set=new Set(shown);let j=0;
   store.lookOrder=cur.map(k=>set.has(k)?shown[j++]:k);persist();renderPresets()}   // a filtered list moves its rows among the slots they held
 function wireDrag(hd,row){
@@ -6683,10 +6697,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021024220"></script>
-<script src="surface/links.js?v=20261021024220"></script>
-<script src="surface/tips.js?v=20261021024220"></script>
-<script src="surface/sections.js?v=20261021024220"></script>
+<script src="surface/install.js?v=20261021025814"></script>
+<script src="surface/links.js?v=20261021025814"></script>
+<script src="surface/tips.js?v=20261021025814"></script>
+<script src="surface/sections.js?v=20261021025814"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7240,7 +7254,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.54';
+const APP_VERSION='0.26.55';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

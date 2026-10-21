@@ -5,6 +5,7 @@
    - SHOW: all, starred (★), and whatever subsets the list has (yours, in the matrix …).
    - SORT: hand (your own order, the only one you can drag), a–z, used (most used first), new (newest first) …
    - STARS: a star on each row. Starred rows come first in every sort but your own order, where the order is yours.
+   - ROW: the star leads on the left, the drag handle ends on the right (Dimitry, 20 Oct), in every list.
    - The choice is remembered by the tool (it owns the storage); the kit only says what it means.
 
      SurfaceListView.bar({show:[[v, html, aria]...], sort:[[v, html, aria]...], get:()=>({show, sort}),
