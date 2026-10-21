@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021130550";window.__VERSION__="0.27.1";window.__NOTES__=[{"v":"0.27.1","date":"21 Oct 2026","items":[{"kind":"change","text":"Auto play's Every is a row of beads with the count inside; count in seconds, beats or bars, or pick the dice bead for a random length each time. Beats and bars follow the beat that plays"},{"kind":"change","text":"Changes shows the whole scene across the top and its two halves, pattern and style, under it; the whole scene lights both"},{"kind":"change","text":"counts sit at each tile's top right, morph times too; a Pro feature shows a lock, a dotted edge and a faint tint"}]}]</script>
+<script>window.__BUILD__="20261021173804";window.__VERSION__="0.27.2";window.__NOTES__=[{"v":"0.27.2","date":"21 Oct 2026","items":[{"kind":"fix","text":"on a slow connection the duck-rabbit could load twice: it landed, then filled up with colour again. It now arrives once, already in colour"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021130550"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021130550">
+<script src="claude-web.js?v=20261021173804"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021173804">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -92,14 +92,21 @@ html,body{background:#000}
      It used to measure the cover's duck once, at take-off, and land there; when fonts arrived mid-flight the cover
      shifted and the real duck sat elsewhere, so the landing read as a second descent. Now it waits for the fonts
      (0.7 s at most) and steers to wherever the cover's duck is, every frame, until it has faded away on top of it. */
-  window.__bootVeil=function(to){if(gone||!v)return;gone=true;var d=v.querySelector(".bv-duck");
+  /* THE DUCK LOADS ONCE (0.27.2, Dimitry, 21 Oct: "loaded the rabbit duck twice again"). The cover's colour fill (bottom
+     to top, 1.6 s) waits for the page's load event, which a phone can reach seconds after the veil has handed over: the
+     white duck landed, then the same duck filled up again. The veil is the loading sign now, so when it hands over the
+     duck is already full, without the fill; and the 8 s fallback flies to the cover's duck when there is one, instead
+     of fading in the middle of the screen above it. */
+  var full=function(){var L=document.getElementById("launch"),c=L&&L.querySelector(".lc-duck-c");if(!L||L.classList.contains("ready"))return;
+    if(c)c.style.transition="none";L.classList.add("ready");if(c){void c.offsetWidth;c.style.transition=""}};
+  window.__bootVeil=function(to){if(gone||!v)return;gone=true;var d=v.querySelector(".bv-duck");try{full()}catch(e){}
     var fade=function(){v.classList.add("off");setTimeout(function(){v.remove()},950)};
     var ok=to&&to.getBoundingClientRect&&d&&!matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(!ok){fade();return}
     var fly=function(){var s=d.getBoundingClientRect();if(!s.width){fade();return}
       d.style.transition="none";d.style.left=s.left+"px";d.style.top=s.top+"px";d.style.transform="none";
       var t0=performance.now(),D=800,faded=false,ease=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
-      var step=function(now){var r=to.getBoundingClientRect();if(!r.width||!document.body.contains(d))return;
+      var step=function(now){var r=to.getBoundingClientRect();if(!r.width||!document.body.contains(d)){if(!faded){faded=true;fade()}return}
         var k=Math.min(1,(now-t0)/D),e=ease(k);
         d.style.transform="translate("+((r.left-s.left)*e)+"px,"+((r.top-s.top)*e)+"px) scale("+(1+(r.width/s.width-1)*e)+")";
         if(k>=1&&!faded){faded=true;fade()}
@@ -107,34 +114,34 @@ html,body{background:#000}
       requestAnimationFrame(step)};
     var w=document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,new Promise(function(r){setTimeout(r,700)})]):Promise.resolve();
     w.then(function(){requestAnimationFrame(fly)},function(){requestAnimationFrame(fly)})};
-  setTimeout(function(){window.__bootVeil()},8000)})();
+  setTimeout(function(){var c=document.querySelector("#launch:not([hidden]) .lc-duck");window.__bootVeil(c&&c.getBoundingClientRect().width?c:null)},8000)})();
 </script>
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021130550"></script>
-<script src="surface/selftest.js?v=20261021130550"></script>
-<script src="surface/report.js?v=20261021130550"></script>
-<script src="surface/auto.js?v=20261021130550"></script>
-<script src="surface/toolpath.js?v=20261021130550"></script>
-<script src="surface/capture.js?v=20261021130550"></script>
-<script src="surface/pop.js?v=20261021130550"></script>
-<script src="surface/hints.js?v=20261021130550"></script>
-<script src="surface/paths.js?v=20261021130550"></script>
-<script src="surface/keys.js?v=20261021130550"></script>
-<script src="surface/reset.js?v=20261021130550"></script>
-<script src="surface/files.js?v=20261021130550"></script>
-<script src="surface/tabs.js?v=20261021130550"></script>
-<script src="surface/running.js?v=20261021130550"></script>
-<script src="surface/trim.js?v=20261021130550"></script>
-<script src="surface/audiowake.js?v=20261021130550"></script>
-<script src="surface/listview.js?v=20261021130550"></script>
-<script src="surface/sheetnav.js?v=20261021130550"></script>
-<script src="surface/pack.js?v=20261021130550"></script>
-<script src="surface/rail.js?v=20261021130550"></script>
-<script src="surface/touchsound.js?v=20261021130550"></script>
-<script src="surface/float.js?v=20261021130550"></script>
-<script src="surface/manual.js?v=20261021130550"></script>
+<script src="vendor/opentype.min.js?v=20261021173804"></script>
+<script src="surface/selftest.js?v=20261021173804"></script>
+<script src="surface/report.js?v=20261021173804"></script>
+<script src="surface/auto.js?v=20261021173804"></script>
+<script src="surface/toolpath.js?v=20261021173804"></script>
+<script src="surface/capture.js?v=20261021173804"></script>
+<script src="surface/pop.js?v=20261021173804"></script>
+<script src="surface/hints.js?v=20261021173804"></script>
+<script src="surface/paths.js?v=20261021173804"></script>
+<script src="surface/keys.js?v=20261021173804"></script>
+<script src="surface/reset.js?v=20261021173804"></script>
+<script src="surface/files.js?v=20261021173804"></script>
+<script src="surface/tabs.js?v=20261021173804"></script>
+<script src="surface/running.js?v=20261021173804"></script>
+<script src="surface/trim.js?v=20261021173804"></script>
+<script src="surface/audiowake.js?v=20261021173804"></script>
+<script src="surface/listview.js?v=20261021173804"></script>
+<script src="surface/sheetnav.js?v=20261021173804"></script>
+<script src="surface/pack.js?v=20261021173804"></script>
+<script src="surface/rail.js?v=20261021173804"></script>
+<script src="surface/touchsound.js?v=20261021173804"></script>
+<script src="surface/float.js?v=20261021173804"></script>
+<script src="surface/manual.js?v=20261021173804"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -6774,10 +6781,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the scene list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021130550"></script>
-<script src="surface/links.js?v=20261021130550"></script>
-<script src="surface/tips.js?v=20261021130550"></script>
-<script src="surface/sections.js?v=20261021130550"></script>
+<script src="surface/install.js?v=20261021173804"></script>
+<script src="surface/links.js?v=20261021173804"></script>
+<script src="surface/tips.js?v=20261021173804"></script>
+<script src="surface/sections.js?v=20261021173804"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7346,7 +7353,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.27.1';
+const APP_VERSION='0.27.2';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
