@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261020221542";window.__VERSION__="0.26.44";window.__NOTES__=[{"v":"0.26.44","date":"20 Oct 2026","items":[{"kind":"change","text":"report a bug names a person to write to, hi@chamy.xyz, for anyone who would rather send an email"}]}]</script>
+<script>window.__BUILD__="20261021004716";window.__VERSION__="0.26.45";window.__NOTES__=[{"v":"0.26.45","date":"20 Oct 2026","items":[{"kind":"change","text":"Founders Club is written as a name everywhere: the cover, the sheet, the index and the messages"},{"kind":"change","text":"the sound and color panels' tabs come from the shared kit now, with the same icon-only threshold everywhere"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261020221542"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261020221542">
+<script src="claude-web.js?v=20261021004716"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021004716">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -97,23 +97,24 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261020221542"></script>
-<script src="surface/selftest.js?v=20261020221542"></script>
-<script src="surface/report.js?v=20261020221542"></script>
-<script src="surface/auto.js?v=20261020221542"></script>
-<script src="surface/toolpath.js?v=20261020221542"></script>
-<script src="surface/capture.js?v=20261020221542"></script>
-<script src="surface/pop.js?v=20261020221542"></script>
-<script src="surface/hints.js?v=20261020221542"></script>
-<script src="surface/paths.js?v=20261020221542"></script>
-<script src="surface/keys.js?v=20261020221542"></script>
-<script src="surface/reset.js?v=20261020221542"></script>
-<script src="surface/files.js?v=20261020221542"></script>
-<script src="surface/pack.js?v=20261020221542"></script>
-<script src="surface/rail.js?v=20261020221542"></script>
-<script src="surface/touchsound.js?v=20261020221542"></script>
-<script src="surface/float.js?v=20261020221542"></script>
-<script src="surface/manual.js?v=20261020221542"></script>
+<script src="vendor/opentype.min.js?v=20261021004716"></script>
+<script src="surface/selftest.js?v=20261021004716"></script>
+<script src="surface/report.js?v=20261021004716"></script>
+<script src="surface/auto.js?v=20261021004716"></script>
+<script src="surface/toolpath.js?v=20261021004716"></script>
+<script src="surface/capture.js?v=20261021004716"></script>
+<script src="surface/pop.js?v=20261021004716"></script>
+<script src="surface/hints.js?v=20261021004716"></script>
+<script src="surface/paths.js?v=20261021004716"></script>
+<script src="surface/keys.js?v=20261021004716"></script>
+<script src="surface/reset.js?v=20261021004716"></script>
+<script src="surface/files.js?v=20261021004716"></script>
+<script src="surface/tabs.js?v=20261021004716"></script>
+<script src="surface/pack.js?v=20261021004716"></script>
+<script src="surface/rail.js?v=20261021004716"></script>
+<script src="surface/touchsound.js?v=20261021004716"></script>
+<script src="surface/float.js?v=20261021004716"></script>
+<script src="surface/manual.js?v=20261021004716"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -270,7 +271,7 @@ html.bare #hideHint .dn,#hideHint .up{display:none}html.bare #hideHint .up{displ
 .lc-beta{margin-top:clamp(14px,2.6vh,22px);display:flex;flex-direction:column;align-items:center;width:min(300px,calc(100vw - 32px));transition:opacity .4s}
 #launch.going .lc-beta{opacity:0}
 .lc-betaBtn{padding:6px 10px;border:0;background:none;color:rgba(255,255,255,.82);font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}
-.lc-betaBtn:has(.lc-bbH){text-decoration:none}.lc-betaBtn .lc-bbH,.lc-betaBtn .lc-bbS{display:block}.lc-betaBtn .lc-bbH{text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}.lc-betaBtn .lc-bbS{margin-top:7px;text-decoration:none;text-transform:none;letter-spacing:.02em;font:400 11px/1.3 var(--sans);color:rgba(255,255,255,.6)}/* the cover's sign-up line (Dimitry, 20 Oct comment): Play the field, then Join the Current founders club. */
+.lc-betaBtn:has(.lc-bbH){text-decoration:none}.lc-betaBtn .lc-bbH,.lc-betaBtn .lc-bbS{display:block}.lc-betaBtn .lc-bbH{text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:4px}.lc-betaBtn .lc-bbS{margin-top:7px;text-decoration:none;text-transform:none;letter-spacing:.02em;font:400 11px/1.3 var(--sans);color:rgba(255,255,255,.6)}/* the cover's sign-up line (Dimitry, 20 Oct comment): Play the field, then Join the Current Founders Club. */
 .lc-betaBtn.joined .lc-bbH{color:var(--acc,#55b8c9);text-decoration:none}.lc-betaBtn.joined .lc-bbS{text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}.lc-betaBtn.joined:hover .lc-bbS{color:#fff}
 .lc-betaBtn:hover{color:#fff}.lc-betaBtn:disabled{text-decoration:none;cursor:default;color:var(--acc,#55b8c9)}
 .lc-betaBtn:focus-visible,.lc-betaF :focus-visible{outline:2px solid #fff;outline-offset:2px}
@@ -1450,7 +1451,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
     <div class="idx" id="idx">
       <div class="idx-head"><h2 class="idx-name">CURRENT</h2></div>
       <!-- under the name: the beta pill, then the founding tester and share links in the same accent (Dimitry, 19 Oct) -->
-      <div class="idx-sub"><span class="beta" title="Beta: still changing, and some things may not work yet">Beta</span><button type="button" class="idx-link" id="idxBeta">founders club</button><button type="button" class="idx-link" id="idxShare" aria-label="Share Current with a friend">share</button></div>
+      <div class="idx-sub"><span class="beta" title="Beta: still changing, and some things may not work yet">Beta</span><button type="button" class="idx-link" id="idxBeta">Founders Club</button><button type="button" class="idx-link" id="idxShare" aria-label="Share Current with a friend">share</button></div>
       <p class="idx-say">I am Dimitry Sa&iuml;d Chamy. Current is one of the tools I am building for audiovisual interactivity and performance. Learn with me as I develop digital instruments for experiences that range from the phone in your hand to participatory immersive environments.</p>
       <section class="cx-grp" id="guide"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="guideL"><span>Guide</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="cx-gbody" id="guideL"><p class="cx-lead">G-code is the path a machine follows to cut, carve or plot. Here every cut becomes a current, and thousands of particles follow it. Load your own G-code, type a word, or let a picture, a video or the camera steer it. Many buttons do more when you hold them (a long press; a right-click on a computer). Each one is marked <b style="color:var(--accent)">Hold</b> below.</p><ol class="cx-list"><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>01</i><span>The bar</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>Source</dt><dd>A picture, a video or the camera under the field. The camera brings its microphone: the field moves to what it hears. On a phone or tablet, <b>camera</b> is a cycle: tap to open it, again for the other camera (front or back; the label says which), and once more to turn it off. With one camera, the second tap turns it off. With the source drawer open, the gestures place the source: pinch zooms it, two fingers move and turn it (on a computer, scroll and shift-scroll); close the drawer and they spread the field's reach again. <b>drive</b> lets the picture steer the current: tap it on, drag left or right for how much. Its neighbours pick how, <b>along</b> the edges, <b>downhill</b> into the dark or <b>across</b> toward the light, and the <b>detail</b>: <b>fine</b> follows small shapes, <b>medium</b>, <b>soft</b>, or <b>broad</b> for only the big masses. The arrows show the result. <b>trace</b> lays the picture's dark shapes (or light, with <b>dark ink</b> switched) over the G-code as extra toolpaths, so the current wraps their outlines as well as the word; they follow the picture when you place it, and drive still blends. Tap it again to take them off. <b>remove</b>, which slides in at the start of the source drawer while a source is on, takes it away and gives the stage back to the field, and to the look you had before a trace</dd><dt>&lsaquo; &#9654; &rsaquo;</dt><dd>The presets: previous, next, or Auto, which morphs through them by itself.<span class="lp"><b>Hold</b> <span>any of the three: the list of looks. In the list, hold a look to edit its toolpath.</span></span></dd><dt>Random</dt><dd>A new look. Drag up or down for how much changes, left or right for how often it rolls by itself.<span class="lp"><b>Hold</b> <span>the random matrix: which values roll.</span></span></dd><dt>Capture</dt><dd>Tap to take a still, a GIF or a video.<span class="lp"><b>Hold</b> <span>the mode, the shape of the frame, and sharing.</span></span></dd><dt>Sound</dt><dd>On or off: beats, a sound file of your own, or the microphone, that the field moves to. Drag up or down on it for the volume.<span class="lp"><b>Hold</b> <span>the sound shelf: stop or play, the beats and bytebeats, your own file, the microphone, then <b>mix</b> (tap to put a beat under the sound, drag left or right to blend the two), <b>wet</b> (tap for dry or wet, drag for how much room is around the sound), when new looks land on the beat, and whether the sound moves every look.</span></span></dd><dt>Tools</dt><dd>The last button holds the tools below. Each opens a shelf above the bar.<span class="lp"><b>Hold</b> <span>hides or shows the open tool&rsquo;s shelf.</span></span></dd><dt>Full screen</dt><dd>Full screen on a computer or tablet (not on iPhone, where the browser cannot). The space bar, or a three-finger tap on the stage, hides every control (the bar slides down off the screen; the duck-rabbit and the namemark slide up off the top; both fade as they go); the same brings them back. On a computer, while they are away, move the pointer to the bottom of the screen and the bar comes back up until you move away. On a computer the looks play by themselves from the start.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>02</i><span>Tools</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>steer</dt><dd>Paint direction into the field with one finger; two fingers size the brush. Record your gesture as a loop and play it back.</dd><dt>color</dt><dd>The lines, a second color, the ground and the arrows.<span class="lp"><b>Hold</b> <span>a color still for your own (a hex value or the color field); hold and drag up or down for its opacity.</span></span></dd><dt>text</dt><dd>Type a word and it is traced into a toolpath. The clock in the word field opens your words: add a few, press the loop, and they take turns on the field (a small loop on the text icon while they play). The F switch picks the typeface.</dd><dt>magnet</dt><dd>Pull the current toward your finger, or push it away. Record a magnet loop.</dd><dt>view</dt><dd>What shows: arrows, the toolpath, the lens glow, the trails.</dd><dt>frame</dt><dd>Move, scale and rotate the drawing in the window.</dd><dt>path</dt><dd>Edit this toolpath, draw a new one (lines, circles, boxes, spirals, stars or the word), or duplicate the look.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>03</i><span>On the stage</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl><dt>drag</dt><dd>Push the particles.</dd><dt>hold</dt><dd>Keep pushing.</dd><dt>spread</dt><dd>The field spreads out from the lines, so the current reaches further around the word or the drawing; pinch to draw it back in close.</dd><dt>twist</dt><dd>The strength of your touch.</dd><dt>picture</dt><dd>With the source shelf open and a picture, video or camera on, the gestures place the source instead: pinch zooms it, two fingers move and turn it.</dd><dt>wheel</dt><dd>Reach on a computer, or the source's zoom with its shelf open; with shift, strength (or the source's turn).</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>04</i><span>Your own G-code</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>Any G-code a plotter, laser, CNC router or 3D printer would run can become a current. Open a file from <b>path</b> (in the tools) with <b>open file</b>, or drop it on the stage. It is read on this device and never uploaded. Plain moves and arcs are read; files that use subroutines, loops or variables run only their plain moves, for now.</p><dl class="stack"><dt>Free files</dt><dd><a href="https://github.com/LinuxCNC/linuxcnc/tree/master/nc_files" target="_blank" rel="noopener">LinuxCNC&rsquo;s sample programs</a> (GPL), from the long-running free machine-control project. <b>arcspiral</b>, <b>tort</b> and <b>lathe_pawn</b> make strong currents; many of the others are machine tests.</dd><dt>Make your own</dt><dd><a href="https://sameer.github.io/svg2gcode" target="_blank" rel="noopener">svg2gcode</a> (MIT) turns any SVG drawing into G-code in the browser: draw in any vector app, export SVG, convert, open here. <a href="https://github.com/abey79/vpype-gcode" target="_blank" rel="noopener">vpype-gcode</a> (MIT) does the same from the command line, for plotter people.</dd><dt>Or skip the file</dt><dd>Type a word with <b>text</b>, or draw one with <b>path</b>: both are traced into G-code for you.</dd><dt>From a picture</dt><dd>Any picture, video or the camera can become G-code too: open it under <b>Source</b> and tap <b>trace</b>. Its dark shapes (or light, with <b>dark ink</b> switched) are drawn as toolpaths, so a photo you just took, or what the camera sees right now, becomes a current.</dd></dl></div></li><li class="cx-row"><button type="button" class="cx-go" aria-expanded="true"><i>05</i><span>Keys</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><dl id="keysDl"></dl><p class="cx-acts"><button type="button" class="cx-play" id="keysOpen">show the keys, big</button></p></div></li></ol></div></section>
@@ -1826,7 +1827,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div class="sfInfoSrc" id="info-micBody" hidden><p>The microphone moves the field: its sound is split into bass, mid, high, level and beat like any other. Nothing is sent anywhere.</p><ul><li><b>voice</b> cleans the sound up for speech and cancels echo; <b>raw</b> keeps every sound as it is.</li><li><b>gain</b> lifts a quiet mic. <b>gate</b> lets only sound above its line through (the mark on the meter), so room hum stays still.</li><li><b>heard</b> sends the mic to the speakers too. With speakers and raw sound it feeds back: that howl is yours to play. Distance, gain and wetness shape it; a limiter keeps it from getting dangerous. Headphones keep it clean.</li><li><b>loop</b> records a phrase from the mic and plays it as its own channel in the mixer. <b>free</b> is tap to start, tap to stop (8 seconds at most); <b>1, 2 or 4 bars</b> start on the next bar line of the beat playing and stay in time. <b>reverse</b> plays it backwards.</li><li>A video holds the mic as the capture panel's sound row says; when heard, it is in the music side as well.</li></ul></div>
   <div class="sfInfoSrc" id="info-touchBody" hidden><p>Touchable sound lets the hand that steers the particles play the sound too. Each preset is a finished recipe: Fader brings the music up the faster you drag and lets it settle when you stop; Sweep opens a filter as your finger rises; Pan follows your finger left to right; Wash builds reverb while you hold still; Tide plays the bytebeat with your drag. Pick up to two at once. Videos you capture record it. With Pro, Touch Mapping will let any gesture shape any part of the sound, several at once, saved as your own touch rigs.</p></div>
   <div class="sfInfoSrc" id="info-mixBody" hidden><p>The field follows the mix as set here: level, mute (M) and solo (S) for each sound. The mic's level is how much it moves the field and how much of it a video holds; whether you hear it is set in the Mic tab. The loop is the phrase recorded there.</p></div>
-  <div class="sfInfoSrc" id="info-beatBody" hidden><p>Tap or drag across the steps. Sixteen steps make a bar; each lighter block of four is one beat.</p><p>Edits are heard on the next step while it plays. <b>Save</b> puts the beat on the sound shelf and in the mixer’s beat channel; tap tempo still sets its speed.</p><p>Three saved beats are free. More saves, export and MIDI will come with Pro; founders club members can get Pro free.</p></div>
+  <div class="sfInfoSrc" id="info-beatBody" hidden><p>Tap or drag across the steps. Sixteen steps make a bar; each lighter block of four is one beat.</p><p>Edits are heard on the next step while it plays. <b>Save</b> puts the beat on the sound shelf and in the mixer’s beat channel; tap tempo still sets its speed.</p><p>Three saved beats are free. More saves, export and MIDI will come with Pro; Founders Club members can get Pro free.</p></div>
   <div class="sfInfoSrc" id="info-bytesBody" hidden><p>One expression in <b>t</b>. <b>Play formula</b> or Ctrl/⌘+Enter.</p><ul><li><b>t</b> counts at the <b>clock</b>, 8000 times a second unless you pick another.</li><li><b>byte</b> reads the result as 0 to 255, <b>signed</b> as −128 to 127, <b>float</b> as −1 to 1.</li><li>Strings and lists are lookup tables: <b>t*("36364689"[t>>13&amp;7]&amp;15)</b> plays a melody. A pair [left, right] is stereo.</li><li><b>n l o p</b> are the sliders below; each can take Auto or a mapping. <b>a b c</b> are 4.</li><li>Away from the box it shows the numbers the sliders send; <b>View</b> pins the letters.</li><li>While it plays, the button stops it, or reads <b>Play changes</b> after an edit and swaps them in. <b>Undo edits</b> puts back what is playing.</li></ul><p>Lessons for each built-in bytebeat are in the index, under Sound.</p></div>
 </div>
 <div id="rlist" role="dialog" aria-label="Random matrix" hidden>
@@ -3956,8 +3957,8 @@ function cardField(g,img,x,y,w,h,f){const iw=img.width,ih=img.height,k=Math.max(
 const CARD_PARTNER={ink:'rose',cobalt:'ochre',violet:'lime'};   // dark grounds get a bright duck; bright grounds an ink one
 const cardLum=h=>{const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
 /* the card's words (Dimitry, 20 Oct): the tagline, then the old blurb cut so it does not say "field" twice, then the
-   founders club's call. A message of their own replaces the sentence; the tagline stays on branded cards. */
-const CARD_TAG='Play the field',CARD_LINE='G-code in. Beats and dancing particles out. Join the founders club.';
+   Founders Club's call. A message of their own replaces the sentence; the tagline stays on branded cards. */
+const CARD_TAG='Play the field',CARD_LINE='G-code in. Beats and dancing particles out. Join the Founders Club.';
 async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=style||CARD.style;
   /* NO BRANDING (Dimitry, 20 Oct: so people can share cards of their own work that do not promote the app): the look
      alone, full bleed, with its texture; no CURRENT, no marks, no duck-rabbit, no sentence of ours; their own
@@ -4133,7 +4134,7 @@ let msgT=0;$('cdMsg').addEventListener('input',()=>{clearTimeout(msgT);msgT=setT
 $('owCard').onclick=()=>{const box=$('owCardBox'),on=box.hidden;box.hidden=!on;$('owCard').setAttribute('aria-expanded',String(on));if(on){(CARD_WARM||Promise.resolve()).then(()=>cardRail()).then(()=>cardBlob()).then(b=>{$('cdShare').hidden=!(b&&canShareFile(new File([b],'current-card.png',{type:'image/png'})))});if(window.cxCount)cxCount('card: open',1);try{box.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}}};
 $('cdRoll').onclick=()=>{randomLook(false);$('cdNote').textContent='a new look is settling…';setTimeout(cardRail,1400)};
 $('cdSave').onclick=async()=>{const b=await cardBlob();if(b&&await saveBlob(appFile('jpg'),b)){toast('card saved');if(window.cxCount)cxCount('card: save '+CARD.size+(CARD.brand===false?' · no branding':''))}};
-$('cdShare').onclick=async()=>{const b0=await cardBlob();if(!b0)return;const m=cardMsg(),fn=appFile('jpg'),b=await stampFile(b0,fn);try{await navigator.share({files:[new File([b],fn,{type:'image/jpeg'})],title:CARD.brand===false?undefined:'Current',text:CARD.brand===false?(m||undefined):(m?m+' · ':'')+'Current: '+CARD_TAG+'. Join the founders club. '+(CARD.link||SHARE_URL)});if(window.cxCount)cxCount('card: share'+(CARD.brand===false?' · no branding':''))}catch(e){if(e&&e.name!=='AbortError')toast('Sharing is blocked here. Save the card instead.')}};
+$('cdShare').onclick=async()=>{const b0=await cardBlob();if(!b0)return;const m=cardMsg(),fn=appFile('jpg'),b=await stampFile(b0,fn);try{await navigator.share({files:[new File([b],fn,{type:'image/jpeg'})],title:CARD.brand===false?undefined:'Current',text:CARD.brand===false?(m||undefined):(m?m+' · ':'')+'Current: '+CARD_TAG+'. Join the Founders Club. '+(CARD.link||SHARE_URL)});if(window.cxCount)cxCount('card: share'+(CARD.brand===false?' · no branding':''))}catch(e){if(e&&e.name!=='AbortError')toast('Sharing is blocked here. Save the card instead.')}};
 /* a shared look's link opens that look */
 function openSharedLook(){let id=null;try{id=new URLSearchParams(location.search).get('l')}catch(_){}if(!id||!/^[A-Za-z0-9]{10}$/.test(id))return;
   fetch(LOOKS_DB.url+'?id=eq.'+id+'&select=look',{headers:{apikey:LOOKS_DB.key}}).then(r=>r.ok?r.json():[]).then(rows=>{const L=rows&&rows[0]&&rows[0].look;if(!L||typeof L.gcode!=='string'){toast('that shared look could not be found');return}
@@ -5398,26 +5399,8 @@ function mixDraw(){MXRAF=0;const pop=$('mixPop');if(!pop||pop.hidden)return;
 function openMix(tab){try{closeWordList();closeFontList()}catch(_){}if(window.MIX_TABS)MIX_TABS.show(typeof tab==='string'?tab:MIX_TABS.last());else renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
 function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;cancelAnimationFrame(MCRAF);try{MIX_INFO.close()}catch(_){}p.hidden=true;try{BG.stopHead()}catch(_){}const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
 $('mixClose').onclick=closeMix;
-/* ===== SURFACE · TABS: a popover with tabs across its head (Dimitry, 19 Oct). Generic: give it the tab list element, the
-   tabs (id, name, icon, pane, onShow) and a storage key; it builds the buttons, follows the WAI-ARIA tabs pattern and
-   remembers the last tab. Candidate for Surface (sys) so every tool's panels can carry tabs. ===== */
-/* THE THRESHOLD (Dimitry, 20 Oct: "maybe we don't need the titles... a threshold... the icon stays white, and the title
-   is in the second line, or in the container"): when the open tab's name doesn't fit in the head (TOU), every tab
-   shows its icon only, the open one lit, and the name moves to a line at the top of the panel. Measured, not set by
-   width, so it holds for any number of tabs and any language. */
-window.SurfaceTabs=window.SurfaceTabs||{mount(list,tabs,key){const btns={};let cur=null;
-  const cap=document.createElement('p');cap.className='sfTabCap';cap.setAttribute('aria-hidden','true');cap.hidden=true;(list.parentElement||list).after(cap);
-  const fit=()=>{list.classList.remove('icons');const tight=list.scrollWidth>list.clientWidth+1;list.classList.toggle('icons',tight);const t=tabs.find(t=>t.id===cur);cap.textContent=t?t.name:'';cap.hidden=!tight};
-  try{new ResizeObserver(()=>fit()).observe(list)}catch(_){addEventListener('resize',fit)}
-  const get=()=>{try{const v=localStorage.getItem(key);return tabs.some(t=>t.id===v)?v:tabs[0].id}catch(_){return tabs[0].id}};
-  const show=id=>{if(!tabs.some(t=>t.id===id))id=tabs[0].id;cur=id;for(const t of tabs){const on=t.id===id,b=btns[t.id];b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;t.pane.hidden=!on}
-    try{localStorage.setItem(key,id)}catch(_){}fit();const t=tabs.find(t=>t.id===id);if(t.onShow)t.onShow();list.dispatchEvent(new CustomEvent('sftab',{detail:{id,pane:t.pane}}))};
-  tabs.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='sfTab';b.setAttribute('role','tab');b.id=list.id+'-'+t.id;
-    b.setAttribute('aria-controls',t.pane.id);t.pane.setAttribute('aria-labelledby',b.id);b.innerHTML=(t.icon||'')+'<span></span>';b.querySelector('span').textContent=t.name;
-    if(t.title)b.title=t.title;b.onclick=()=>show(t.id);
-    b.onkeydown=e=>{const k=e.key;let j=-1;if(k==='ArrowRight')j=(i+1)%tabs.length;else if(k==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;else if(k==='Home')j=0;else if(k==='End')j=tabs.length-1;
-      if(j<0)return;e.preventDefault();show(tabs[j].id);btns[tabs[j].id].focus()};btns[t.id]=b;list.appendChild(b)});
-  return {show,last:get,current:()=>cur}}};
+/* SURFACE · TABS lives in the kit now (surface/tabs.js, 20 Oct), with its threshold and its default look; Current's own
+   .sfTab rules above still dress it. */
 
 /* ===== BEAT: a sixteen-step grid for your own beats, the Roland TR-808's way of writing a bar (Dimitry, 19 Oct). Four
    voices, the same synthesized kick, snare, hat and bass as the built-in beats. The grid is a draft that plays as
@@ -5433,7 +5416,7 @@ const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DR
      will be Pro. Beats saved before the limit stay; only a new name past three waits for Pro. Updating a saved beat is free. */
   const FREE_BEATS=3,nUser=()=>Object.keys(BEAT_USER).length;
   const proNote=(b,what)=>{let n=b.querySelector('.bgPro');if(!n){n=document.createElement('div');n.className='bgPro';n.setAttribute('role','status');b.appendChild(n)}
-    n.innerHTML='<p><b>'+what+'</b> come with Pro. Free keeps '+FREE_BEATS+' beats. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the founders club</button>';
+    n.innerHTML='<p><b>'+what+'</b> come with Pro. Free keeps '+FREE_BEATS+' beats. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
     n.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}};
   const shelf=()=>{try{if($('sndTrack')&&$('sndTrack').children.length)buildSndShelf()}catch(_){}try{syncAud()}catch(_){}};
   const playing=()=>AUD.play&&AUD.play.beat===DRAFT;
@@ -5637,7 +5620,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   r.oninput=()=>{if(A[g])A[g].sp=+r.value};sp.appendChild(r);
   /* FREE AND PRO (Dimitry, 19 Oct): colors and their basic animation are free; blend modes and mappings will be Pro */
   const lock='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  const pro=el('div','cmPro');pro.innerHTML='<p>'+lock+' <b>With Pro:</b> blend modes, one group following another, and colors driven by the paths, the sound, the magnet or your finger. The first 100 founders get Pro free.</p><button type="button" class="bgGo ghost">join the founders club</button>';
+  const pro=el('div','cmPro');pro.innerHTML='<p>'+lock+' <b>With Pro:</b> blend modes, one group following another, and colors driven by the paths, the sound, the magnet or your finger. The first 100 founders get Pro free.</p><button type="button" class="bgGo ghost">join the Founders Club</button>';
   pro.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};
   pane.scrollTop=keep}
 $('cmClose').onclick=closeColorMix;
@@ -6361,7 +6344,7 @@ const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for
    (chamy-studio, table beta_signups): the browser may only add a row, never read one back; the list is read in the
    Supabase dashboard. Sent: name (required), email, roles picked, a phone only with its own yes to texts, how many Paths steps they've walked, the version. */
 /* the same form anywhere in the tool (a Pro note points here): over the cover while it is up, otherwise its own sheet */
-function syncIdxBeta(){const b=$('idxBeta');if(!b)return;let d=false;try{d=localStorage.getItem('current.beta')==='1'}catch(_){}b.textContent=d?'✓ founders club':'founders club';b.setAttribute('aria-label',d?'You are in the founders club':'Join the founders club');b.disabled=d}
+function syncIdxBeta(){const b=$('idxBeta');if(!b)return;let d=false;try{d=localStorage.getItem('current.beta')==='1'}catch(_){}b.textContent=d?'✓ Founders Club':'Founders Club';b.setAttribute('aria-label',d?'You are in the Founders Club':'Join the Founders Club');b.disabled=d}
 $('idxBeta').onclick=()=>{try{openBetaSheet()}catch(_){}};$('idxShare').onclick=()=>openShare('index');syncIdxBeta();
 /* FIT THE COVER (0.26.19). Dimitry, 20 Oct, on an iPhone in Safari: the founders line sat on the Share button. Safari lays the
    bottom out its own way (toolbars over the page, the safe area), so nothing fixed is right everywhere. Instead, measure: if the
@@ -6384,19 +6367,19 @@ window.fitCover=fitCover;
 {let t=0;const again=()=>{clearTimeout(t);t=setTimeout(()=>{try{fitCover()}catch(_){}},60)};addEventListener('resize',again);addEventListener('orientationchange',again);
   try{visualViewport&&visualViewport.addEventListener('resize',again)}catch(_){}try{document.fonts&&document.fonts.ready.then(again)}catch(_){}
   [300,1200,3000].forEach(ms=>setTimeout(again,ms))}
-function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.dataset.joined&&bb.getAttribute('aria-expanded')!=='true')bb.click();else if(bb.dataset.joined)toast('you’re already in the founders club');return}
+function openBetaSheet(){const L=document.getElementById('launch'),bb=L&&L.querySelector('.lc-betaBtn');if(bb){if(!bb.dataset.joined&&bb.getAttribute('aria-expanded')!=='true')bb.click();else if(bb.dataset.joined)toast('you’re already in the Founders Club');return}
   if($('betaHost'))return;const h=document.createElement('div');h.id='betaHost';
   /* the drawer steps aside so only the field shows; it comes back if they close without joining */
   if(!document.body.classList.contains('player')){h.dataset.drawer='1';try{setPlayer(true)}catch(_){}}
   document.body.appendChild(h);betaSignup(h,window.__BETA_P||window.SurfacePaths);
-  const b=h.querySelector('.lc-betaBtn');if(b.dataset.joined){h.remove();toast('you’re already in the founders club');return}b.click();
+  const b=h.querySelector('.lc-betaBtn');if(b.dataset.joined){h.remove();toast('you’re already in the Founders Club');return}b.click();
   h.addEventListener('pointerdown',e=>{if(e.target===h){document.body.classList.remove('betaFocus');h.remove()}})}
 /* THE THANK-YOU (Dimitry, 19 Oct: hide the form, keep the sheet, confetti, then close): the fields fold away, the
    duck-rabbit grows and hops, a line thanks them by name, and confetti in the app's colours falls inside the sheet.
    Hand-rolled (a few dozen lines) rather than a library, so the player stays offline-ready; reduced motion skips it. */
 function betaCelebrate(f,name,already){f.classList.add('done');let ty=f.querySelector('.lc-betaTy');if(!ty){ty=document.createElement('div');ty.className='lc-betaTy';f.querySelector('.lc-betaHd').after(ty)}
   const first=String(name||'').split(' ')[0];const d=f.querySelector('.lc-betaDuck');if(d){const big=d.cloneNode(true);big.classList.add('big');ty.appendChild(big)}
-  const t=document.createElement('p');t.textContent=(already?'Welcome back':'Welcome')+(first?', '+first:'')+'.';const u=document.createElement('p');u.className='sm';u.textContent=already?'You’re already on the list. Missions are on their way.':'You’re in the founders club. Your first missions are on their way.';
+  const t=document.createElement('p');t.textContent=(already?'Welcome back':'Welcome')+(first?', '+first:'')+'.';const u=document.createElement('p');u.className='sm';u.textContent=already?'You’re already on the list. Missions are on their way.':'You’re in the Founders Club. Your first missions are on their way.';
   const sb=document.createElement('button');sb.type='button';sb.className='lc-betaGo lc-betaShare';sb.textContent='share Current with a friend';sb.onclick=()=>{const x=f.querySelector('.lc-betaX');if(x)x.click();setTimeout(()=>openShare('thank-you'),120)};
   ty.append(t,u,sb);f.addEventListener('pointerdown',()=>{f.dataset.stay='1'},{once:true});
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -6429,7 +6412,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   w.innerHTML='<button type="button" class="lc-betaBtn" aria-expanded="false" aria-controls="lcBetaF"></button>'+
     '<div class="lc-betaFrost" aria-hidden="true"></div><div class="lc-betaVeil" aria-hidden="true"></div>'+
     '<form id="lcBetaF" class="lc-betaF" novalidate hidden aria-labelledby="lcBetaH">'+
-      '<div class="lc-betaHd"><p class="lc-betaH" id="lcBetaH">'+duck+'<span>Founders club</span></p><button type="button" class="lc-betaX" aria-label="Close the sign-up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+      '<div class="lc-betaHd"><p class="lc-betaH" id="lcBetaH">'+duck+'<span>Founders Club</span></p><button type="button" class="lc-betaX" aria-label="Close the sign-up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
       '<p class="lc-betaLead"><b>The challenge:</b> at 100 founders, the Pro pre-release opens to the club. The first 100 keep Pro free and get the <b>founding pack</b>: 10 beats, 10 looks, 10 bytebeats. Plus <b>missions</b> and a say in what Current does next.</p>'+
       '<p class="lc-betaLead lc-betaGoal"></p>'+
       '<label class="sr-only" for="lcBetaN">Name</label><input type="text" id="lcBetaN" required maxlength="80" autocomplete="name" placeholder="your name">'+
@@ -6455,7 +6438,7 @@ function betaSignup(host,P){if(!host)return;window.__BETA_P=P;
   const ready=()=>$('lcBetaN').value.trim()&&/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test($('lcBetaE').value.trim());
   ['lcBetaN','lcBetaE'].forEach(id=>$(id).addEventListener('input',()=>{if(ready())reveal()}));
   /* joined (0.26.19): the same two-line shape as the invite, the tick in the accent, and a way to the pack (Dimitry, 20 Oct) */
-  const label=()=>{b.innerHTML=done?'<span class="lc-bbH">✓ Founders club</span><span class="lc-bbS">Your founding pack</span>':'<span class="lc-bbH">Play the field</span><span class="lc-bbS">Join the Current founders club.</span>';b.classList.toggle('joined',done);if(done)b.dataset.joined='1';else delete b.dataset.joined;b.setAttribute('aria-label',done?'You are in the Current founders club: open your founding pack':'Play the field: join the Current founders club');b.disabled=false;b.removeAttribute(done?'aria-controls':'x');try{window.fitCover&&fitCover()}catch(_){}};label();
+  const label=()=>{b.innerHTML=done?'<span class="lc-bbH">✓ Founders Club</span><span class="lc-bbS">Your founding pack</span>':'<span class="lc-bbH">Play the field</span><span class="lc-bbS">Join the Current Founders Club.</span>';b.classList.toggle('joined',done);if(done)b.dataset.joined='1';else delete b.dataset.joined;b.setAttribute('aria-label',done?'You are in the Current Founders Club: open your founding pack':'Play the field: join the Current Founders Club');b.disabled=false;b.removeAttribute(done?'aria-controls':'x');try{window.fitCover&&fitCover()}catch(_){}};label();
   /* it opens as a sheet from the top of the screen, over a dimmed cover (Dimitry, 19 Oct: unfolding under the meter ran off the
      bottom on a phone); top-anchored, so a phone's keyboard comes up under it, not over it */
   const L=document.getElementById('launch');
@@ -6534,10 +6517,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the preset list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261020221542"></script>
-<script src="surface/links.js?v=20261020221542"></script>
-<script src="surface/tips.js?v=20261020221542"></script>
-<script src="surface/sections.js?v=20261020221542"></script>
+<script src="surface/install.js?v=20261021004716"></script>
+<script src="surface/links.js?v=20261021004716"></script>
+<script src="surface/tips.js?v=20261021004716"></script>
+<script src="surface/sections.js?v=20261021004716"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -6895,7 +6878,7 @@ try{(function(){
         if(g==='looks'){try{setPlayer(true);if(ACTIVE)collapseTool();pickOpen=true;srcOpen=false;sndOpen=false;syncSteer()}catch(_){}}else{try{setPlayer(true);openMix(g)}catch(_){}}});
       b.querySelector('.fpDl').onclick=()=>{saveBlob(FILE_PREFIX+'founding-pack.zip',fpZip());if(window.cxCount)cxCount('pack: download',1)}}
     else{b.innerHTML='<p class="cx-lead">For the first '+FP_MAX+' founders: <b>10 beats</b>, <b>10 looks</b> on 10 new G-code paths, and <b>10 bytebeats</b>, added to Current the moment you join. They keep Pro free, and at '+FP_MAX+' founders the Pro pre-release opens to the club.</p>'+
-      '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">join the founders club</button></div>';
+      '<p class="cx-lead fpLeft"></p><div class="actions"><button type="button" class="btn">join the Founders Club</button></div>';
       b.querySelector('.btn').onclick=()=>{try{openBetaSheet()}catch(_){}}}
     if(!on)fpCount().then(n=>{const el=b.querySelector('.fpLeft');if(el)el.textContent=fpGoal(n)||'Be one of the first '+FP_MAX+'.'}).catch(()=>{})}
   /* on sign-up: count, and give the pack if they are within the first 100. If the count can't be read, give it: a
@@ -7091,7 +7074,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.26.44';
+const APP_VERSION='0.26.45';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
