@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261021173804";window.__VERSION__="0.27.2";window.__NOTES__=[{"v":"0.27.2","date":"21 Oct 2026","items":[{"kind":"fix","text":"on a slow connection the duck-rabbit could load twice: it landed, then filled up with colour again. It now arrives once, already in colour"}]}]</script>
+<script>window.__BUILD__="20261021180237";window.__VERSION__="0.27.3";window.__NOTES__=[{"v":"0.27.3","date":"21 Oct 2026","items":[{"kind":"change","text":"at the foot of Auto play, a Scenes in play button with the count beside it (12 of 35); the button opens Scenes, where you tick them in or out"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261021173804"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261021173804">
+<script src="claude-web.js?v=20261021180237"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261021180237">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,29 +119,29 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261021173804"></script>
-<script src="surface/selftest.js?v=20261021173804"></script>
-<script src="surface/report.js?v=20261021173804"></script>
-<script src="surface/auto.js?v=20261021173804"></script>
-<script src="surface/toolpath.js?v=20261021173804"></script>
-<script src="surface/capture.js?v=20261021173804"></script>
-<script src="surface/pop.js?v=20261021173804"></script>
-<script src="surface/hints.js?v=20261021173804"></script>
-<script src="surface/paths.js?v=20261021173804"></script>
-<script src="surface/keys.js?v=20261021173804"></script>
-<script src="surface/reset.js?v=20261021173804"></script>
-<script src="surface/files.js?v=20261021173804"></script>
-<script src="surface/tabs.js?v=20261021173804"></script>
-<script src="surface/running.js?v=20261021173804"></script>
-<script src="surface/trim.js?v=20261021173804"></script>
-<script src="surface/audiowake.js?v=20261021173804"></script>
-<script src="surface/listview.js?v=20261021173804"></script>
-<script src="surface/sheetnav.js?v=20261021173804"></script>
-<script src="surface/pack.js?v=20261021173804"></script>
-<script src="surface/rail.js?v=20261021173804"></script>
-<script src="surface/touchsound.js?v=20261021173804"></script>
-<script src="surface/float.js?v=20261021173804"></script>
-<script src="surface/manual.js?v=20261021173804"></script>
+<script src="vendor/opentype.min.js?v=20261021180237"></script>
+<script src="surface/selftest.js?v=20261021180237"></script>
+<script src="surface/report.js?v=20261021180237"></script>
+<script src="surface/auto.js?v=20261021180237"></script>
+<script src="surface/toolpath.js?v=20261021180237"></script>
+<script src="surface/capture.js?v=20261021180237"></script>
+<script src="surface/pop.js?v=20261021180237"></script>
+<script src="surface/hints.js?v=20261021180237"></script>
+<script src="surface/paths.js?v=20261021180237"></script>
+<script src="surface/keys.js?v=20261021180237"></script>
+<script src="surface/reset.js?v=20261021180237"></script>
+<script src="surface/files.js?v=20261021180237"></script>
+<script src="surface/tabs.js?v=20261021180237"></script>
+<script src="surface/running.js?v=20261021180237"></script>
+<script src="surface/trim.js?v=20261021180237"></script>
+<script src="surface/audiowake.js?v=20261021180237"></script>
+<script src="surface/listview.js?v=20261021180237"></script>
+<script src="surface/sheetnav.js?v=20261021180237"></script>
+<script src="surface/pack.js?v=20261021180237"></script>
+<script src="surface/rail.js?v=20261021180237"></script>
+<script src="surface/touchsound.js?v=20261021180237"></script>
+<script src="surface/float.js?v=20261021180237"></script>
+<script src="surface/manual.js?v=20261021180237"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -772,7 +772,9 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apT .proB{position:absolute;top:6px;right:7px;display:inline-flex;align-items:center;padding:0;font-style:normal;color:var(--acc,#55b8c9)}
 #plAuto #apPro{margin:8px 0 0}
 .apT .proB svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:1}.apT .proB svg .bolt{fill:currentColor;stroke:none}
-.apNote{margin:16px 0 0;font:400 12px/1.4 var(--sans);color:var(--ui-dim)}.apNote b{color:var(--ui-ink);font-weight:600}
+.apNote{margin:16px 0 0;display:flex;align-items:center;gap:14px;font:400 12px/1.4 var(--sans);color:var(--ui-dim)}.apNote b{color:var(--ui-ink);font-weight:600}
+.apNote .apInPlay{flex-direction:row;gap:10px;min-height:48px;padding:8px 16px}
+.apNote .apCount{font:500 13px/1 var(--mono);letter-spacing:.04em;color:var(--ui-dim);white-space:nowrap}.apNote .apCount b{font:600 20px/1 var(--sans);letter-spacing:0;margin-right:2px}
 .apLink{background:none;border:0;padding:0;color:var(--acc,#55b8c9);font:inherit;text-decoration:underline;cursor:pointer}
 #plAuto>.sub{padding:0;align-self:start;line-height:30px}
 #plAuto>.segs:last-child{grid-column:1/-1;gap:0 4px;margin:2px -10px 0}
@@ -3470,15 +3472,20 @@ function buildPlist(){plTabsMount();
      n.innerHTML='<p><b>Scrub</b> comes with Pro: drag across the stage and the scenes follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
      n.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
    og.appendChild(sc)}
-  const nt=document.createElement('p');nt.className='apNote';nt.id='apNote';box.appendChild(nt);
+  const nt=document.createElement('div');nt.className='apNote';nt.id='apNote';box.appendChild(nt);
   buildLooks();syncPlist()}
 function syncAutoUI(){const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop auto play':'Start auto play');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
   $('apNext').textContent=on?'':'Tap play: a new scene '+autoEveryWords();
   for(const n of $('plAuto').querySelectorAll('small.n[data-o]'))n.textContent=autoPool(n.dataset.o);
-  const inP=playIds().length,tot=all.length;$('apNote').innerHTML=(inP<tot?'<b>'+inP+'</b> of '+tot+' scenes are in play':'All '+tot+' scenes are in play')+'. Tick or untick them in <button type="button" class="apLink">Scenes</button>.';
-  $('apNote').querySelector('.apLink').onclick=()=>plTabs&&plTabs.show('looks');
+  /* SCENES IN PLAY (0.27.3, Dimitry, 21 Oct: "[Scenes in Play(btn)] ## of ##"): a button that opens Scenes, where they
+     are ticked in or out of play, and the count beside it. It was a sentence with a link at its end. */
+  {const inP=playIds().length,tot=all.length,nt=$('apNote');
+   if(!nt.querySelector('.apInPlay')){nt.innerHTML='<button type="button" class="apT apInPlay">'+PLI('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')+'<span>Scenes in play</span></button><span class="apCount"></span>';
+     nt.querySelector('.apInPlay').onclick=()=>plTabs&&plTabs.show('looks')}
+   nt.querySelector('.apCount').innerHTML='<b>'+inP+'</b> of '+tot;
+   nt.querySelector('.apInPlay').setAttribute('aria-label','Scenes in play: '+inP+' of '+tot+'. Opens Scenes, to tick them in or out')}
   cancelAnimationFrame(apRaf);
   if(on){const tick=()=>{if($('plist').hidden||$('plAutoPane').hidden||!autoT)return;const f=Math.min(1,(performance.now()-autoAt)/(AUTO.sec*1000));
       $('apProg').style.width=(f*100).toFixed(1)+'%';$('apNext').textContent='next scene in '+Math.max(1,Math.ceil(AUTO.sec-(performance.now()-autoAt)/1000))+' s';apRaf=requestAnimationFrame(tick)};tick()}
@@ -6781,10 +6788,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the scene list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261021173804"></script>
-<script src="surface/links.js?v=20261021173804"></script>
-<script src="surface/tips.js?v=20261021173804"></script>
-<script src="surface/sections.js?v=20261021173804"></script>
+<script src="surface/install.js?v=20261021180237"></script>
+<script src="surface/links.js?v=20261021180237"></script>
+<script src="surface/tips.js?v=20261021180237"></script>
+<script src="surface/sections.js?v=20261021180237"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7353,7 +7360,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.27.2';
+const APP_VERSION='0.27.3';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
