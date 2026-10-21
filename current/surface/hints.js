@@ -6,7 +6,7 @@
       sound on, or a tap anywhere, ends it early. Skipped when the sound is already on or hints are off.
    2. THE HINT LEVEL, one setting shared by every tool on the same site:
         all     every hint (the default)
-        titles  preset names still show as the looks change; no start-here or other coach marks
+        titles  scene names still show as the scenes change; no start-here or other coach marks
         none    a clean stage: no titles either
       Hover and long-press tooltips (tips.js) stay at every level: they only show when asked for.
       The level is written on <html data-hints="…">. A tool marks its preset-name caption with the class
@@ -143,7 +143,7 @@
 
   /* the Settings controls */
   var RESET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 12a6.5 6.5 0 1 0 2-4.7"/><path d="M5 3.8v4.4h4.4"/></svg>';
-  var NOTES = "<li><b>Titles</b> keeps the preset names as the looks change.</li><li><b>None</b> is a clean stage for performing.</li>" +
+  var NOTES = "<li><b>Titles</b> keeps each scene’s name on screen as the scenes change.</li><li><b>None</b> is a clean stage for performing.</li>" +
     "<li><b>Hover and hold</b> labels stay either way.</li><li><b>\u21BA</b> shows the first-visit hints again.</li>";
   function controls(host, o) {
     css(); o = o || {};
