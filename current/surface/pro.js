@@ -67,10 +67,28 @@
       : stored ? check(stored).then(function (r) { if (!r.ok) { try { localStorage.removeItem(LS); } catch (e) {} } return apply(r); }) : Promise.resolve({ ok: false }));
     return ready;
   }
+  /* PRO IN BETA (Dimitry, 22 Oct 2026: Pro features "currently unlocked for beta testers"; the mark is an open padlock).
+     A tool names the Pro features it is testing; they work for everyone until the tool stops listing them, and they wear
+     the open lock instead of the closed one. A key still covers everything else.
+       SurfacePro.beta({ session: { name: "Session", note: "laptops in one room in time" }, ... })
+       SurfacePro.state(f)   → "key" (a key covers it) | "beta" (open for testing) | "locked"
+       SurfacePro.mark(f)    → the mark's SVG: closed lock + bolt, open lock + bolt, or "" when a key covers it
+       SurfacePro.testing()  → [{ id, name, note }] for a version line's disclosure */
+  var BETA = {};
+  var SHUT = '<path class="shC" d="M8 10V7.5a4 4 0 0 1 8 0V10"/>', OPEN = '<path class="shO" d="M8 10V7a4 4 0 0 1 7.6-1.7"/>';
+  var BODY = '<rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/>';
+  function keyed(f) { return st.on && (st.feats === "*" || (Array.isArray(st.feats) && st.feats.indexOf(f) >= 0)); }
+  function stateOf(f) { return keyed(f || "*") ? "key" : (f && BETA[f]) ? "beta" : "locked"; }
   window.SurfacePro = {
+    beta: function (map) { BETA = map || {}; fire(); },
+    state: stateOf,
+    mark: function (f, cls) { var s2 = stateOf(f); if (s2 === "key") return "";
+      return '<svg class="proMk' + (s2 === "beta" ? " beta" : "") + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (s2 === "beta" ? OPEN : SHUT) + BODY + "</svg>"; },
+    testing: function () { return Object.keys(BETA).filter(function (k) { return !keyed(k); }).map(function (k) { var b = BETA[k] || {}; return { id: k, name: b.name || k, note: b.note || "" }; }); },
+    SHUT: SHUT, OPEN: OPEN, BODY: BODY,
     init: init,
     ready: function () { return ready || Promise.resolve({ ok: false }); },
-    is: function (feature) { if (!st.on) return false; return st.feats === "*" || (Array.isArray(st.feats) && st.feats.indexOf(feature) >= 0); },
+    is: function (feature) { if (feature && feature !== "*" && BETA[feature]) return true; if (!st.on) return false; return st.feats === "*" || (Array.isArray(st.feats) && st.feats.indexOf(feature) >= 0); },
     info: function () { return st.on ? st.info : null; },
     enter: function (key) { return check(key).then(function (r) { if (r.ok) apply(r); return { ok: r.ok, who: r.who, until: r.until, error: r.error }; }); },
     clear: function () { try { localStorage.removeItem(LS); } catch (e) {} st.on = false; st.info = null; fire(); }
