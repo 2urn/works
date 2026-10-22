@@ -6,6 +6,15 @@
      SurfaceVoice.play(ctx, dest, recipe, opts) → { release(at), stop(at), done, out }   (see the notes below)
      SurfaceVoice.shape(recipe) → { start, hold, end, held }
      SurfaceVoice.limit(n) · SurfaceVoice.live() · SurfaceVoice.rng(seed)
+     SurfaceVoice.sample(key[, AudioBuffer | null]) · SurfaceVoice.samples()   (the samples a recipe may name, below)
+
+   SAMPLES (22 Oct 2026, for the Frost ensemble: students bring their own sounds). A layer or a grain may be
+   "source": "sample" with "sample": "<key>", a recording the tool has decoded and registered with
+   SurfaceVoice.sample(key, buffer) (instruments.js does it for packs and dropped files). Optional "rate" (playback
+   speed, 1 = as recorded; a grain may give [lo, hi]), "offset" (seconds into the file) and, on a layer, "loop"
+   (default: the recipe's own "hold"). A sample layer's gain defaults to 1, not 0.3, and a one-shot layer with no
+   hold time lasts as long as the recording; a grain with no "len" plays the whole file (its "glide" bends the speed).
+   A key nobody registered plays silence, never an error. Everything else in a recipe works on a sample as on a tone.
    Plain script, window.SurfaceVoice, no dependencies. */
 (function () {
   "use strict";
@@ -78,6 +87,23 @@ function voiceKept(ctx, kind, rnd, make) {
   m.set(key, made); return made.b;
 }
 const voiceDb = db => Math.pow(10, (db || 0) / 20);
+/* the recordings recipes can name (key -> AudioBuffer); an AudioBuffer belongs to no one context, so one decode serves all */
+const VOICE_SAMPLES = new Map();
+function voiceSample(key, buf) {
+  if (buf === undefined) return VOICE_SAMPLES.get(key) || null;
+  if (buf) VOICE_SAMPLES.set(key, buf); else VOICE_SAMPLES.delete(key);
+  return buf || null;
+}
+const voiceRateMin = r => Math.max(0.05, Math.abs(Array.isArray(r) ? Math.min(r[0], r[1]) : (+r || 1)));
+/* a layer's hold as written; a one-shot sample layer without one holds for the rest of its recording */
+function voiceHoldOf(R, l) {
+  if (l && l.hold && l.hold.time) return l.hold.time;
+  if (l && l.source === 'sample' && !(l.loop != null ? l.loop : R && R.hold)) {
+    const b = VOICE_SAMPLES.get(l.sample);
+    if (b) return Math.max(0, b.duration / voiceRateMin(l.rate) - (l.offset || 0) - ((l.start && l.start.time) || 0));
+  }
+  return 0;
+}
 function voiceNoise(ctx, rnd) {
   return voiceKept(ctx, 'noise', rnd, () => {
     const n = Math.floor(ctx.sampleRate * 2), b = ctx.createBuffer(1, n, ctx.sampleRate);
@@ -108,10 +134,19 @@ function voiceFreeze(p, t) {
 }
 
 function voiceGrain(ctx, out, g, t, rnd, noise, scale, cents) {
-  const len = Math.max(0.002, voicePick(g.len || 0.02, rnd));
-  const peak = voicePick(g.gain == null ? 0.3 : g.gain, rnd) * (scale == null ? 1 : scale);
+  const smp = g.source === 'sample';
+  let len = Math.max(0.002, voicePick(g.len || 0.02, rnd));
+  const peak = voicePick(g.gain == null ? (smp ? 1 : 0.3) : g.gain, rnd) * (scale == null ? 1 : scale);
   let src;
-  if ((g.source || 'noise') === 'noise') {
+  if (smp) {
+    const buf = VOICE_SAMPLES.get(g.sample); if (!buf) return;
+    const rate = Math.max(0.05, voicePick(g.rate || 1, rnd)), off = g.offset || 0;
+    if (g.len == null) len = Math.max(0.002, (buf.duration - off) / rate);
+    src = ctx.createBufferSource(); src.buffer = buf; src.playbackRate.setValueAtTime(rate, t);
+    if (g.glide) src.playbackRate.exponentialRampToValueAtTime(Math.max(0.05, rate * g.glide), t + len);
+    if (cents && src.detune) src.detune.value = cents;
+    src.start(t, off); src.stop(t + len + 0.01);
+  } else if ((g.source || 'noise') === 'noise') {
     src = ctx.createBufferSource(); src.buffer = noise;
     src.start(t, rnd() * 1.5, len + 0.01);
   } else {
@@ -135,7 +170,8 @@ function voiceGrain(ctx, out, g, t, rnd, noise, scale, cents) {
   const e = ctx.createGain();
   e.gain.setValueAtTime(0.0001, t);
   e.gain.exponentialRampToValueAtTime(Math.max(0.0002, peak), t + Math.min(0.002, len / 3));
-  e.gain.exponentialRampToValueAtTime(0.0001, t + len);
+  if (smp) { e.gain.setValueAtTime(Math.max(0.0002, peak), t + len * 0.85); e.gain.linearRampToValueAtTime(0, t + len); }   // a recording keeps its own shape; only its last moment fades
+  else e.gain.exponentialRampToValueAtTime(0.0001, t + len);
   node.connect(e);
   if (g.pan != null && ctx.createStereoPanner) {
     const p = ctx.createStereoPanner(); p.pan.value = voicePick(g.pan, rnd);
@@ -149,7 +185,7 @@ function voiceShape(R) {
   return {
     start: most([...L.map(l => (l.start && l.start.time) || 0),
                  ...E.filter(e => e.during === 'start').map(voiceEventSpan)]),
-    hold: most(L.map(l => (l.hold && l.hold.time) || 0)),
+    hold: most(L.map(l => voiceHoldOf(R, l))),
     end: most([...L.map(l => (l.end && l.end.time) || 0),
                ...E.filter(e => e.during === 'end').map(voiceEventSpan)]),
     held: !!(R && R.hold)
@@ -204,7 +240,7 @@ function voicePlay(ctx, dest, recipe, opts) {
   /* when each phase begins: start, then hold; the end begins at release */
   const startLen = skip ? 0.001 : Math.max(0, ...(R.layers || []).map(l => (l.start && l.start.time) || 0), 0.001);
   const holdLen = R.hold ? (opts.holdFor != null ? opts.holdFor : Infinity)
-                         : Math.max(0, ...(R.layers || []).map(l => (l.hold && l.hold.time) || 0));
+                         : Math.max(0, ...(R.layers || []).map(l => voiceHoldOf(R, l)));
   const endLen = Math.max(0, ...(R.layers || []).map(l => (l.end && l.end.time) || 0),
                           ...(R.events || []).filter(e => e.during === 'end')
                             .map(e => voiceEventSpan(e)));
@@ -213,6 +249,7 @@ function voicePlay(ctx, dest, recipe, opts) {
   /* ── the layers ── */
   for (const L of R.layers || []) {
     const S = L.start || {}, H = L.hold || {}, E = L.end || {};
+    const g0 = L.source === 'sample' ? 1 : 0.3;   // a recording comes in at its own level
     const srcs = [];
     let into;
     const env = ctx.createGain(), wob = ctx.createGain();
@@ -223,6 +260,14 @@ function voicePlay(ctx, dest, recipe, opts) {
       const shared = into;
       srcs.push({ stop(at) { const go = () => { try { shared.disconnect(L.filter ? filt : env); } catch (e) {} };
         if (typeof setTimeout === 'function' && !offline) setTimeout(go, Math.max(0, (at - ctx.currentTime) * 1000)); } });
+    } else if (L.source === 'sample') {
+      /* A RECORDING (see SAMPLES above): unregistered, the source has no buffer and plays silence */
+      const s = ctx.createBufferSource(), b = VOICE_SAMPLES.get(L.sample);
+      if (b) s.buffer = b;
+      s.loop = L.loop != null ? !!L.loop : !!R.hold;
+      s.playbackRate.value = Math.max(0.05, voicePick(L.rate || 1, rnd));
+      if (s.detune) { s.detune.value = cents; tuned.push(s); }
+      s.start(t0, L.offset || 0); srcs.push(s); into = s;
     } else if ((L.source || 'noise') === 'noise') {
       const s = ctx.createBufferSource(); s.buffer = noise; s.loop = true;
       s.start(t0, rnd() * 1.5); srcs.push(s); into = s;
@@ -251,7 +296,7 @@ function voicePlay(ctx, dest, recipe, opts) {
     const tH = t0 + startLen, hT = Math.max(0.001, H.time || 0.001);
     if (skip) {
       // already held: at the hold values from the first sample (a 5 ms fade in)
-      const g = H.gain != null ? H.gain : (S.gain == null ? 0.3 : S.gain);
+      const g = H.gain != null ? H.gain : (S.gain == null ? g0 : S.gain);
       env.gain.setValueAtTime(0, t0); env.gain.linearRampToValueAtTime(g, t0 + 0.005);
       if (filt) filt.frequency.setValueAtTime(H.freq || S.freq || L.filter.freq || 1000, t0);
       for (const o of srcs) if (o.frequency && o._ratio)
@@ -259,9 +304,9 @@ function voicePlay(ctx, dest, recipe, opts) {
     } else {
     // start: from silence to the start values
     env.gain.setValueAtTime(0, t0);
-    env.gain.linearRampToValueAtTime(S.gain == null ? 0.3 : S.gain, t0 + (S.time || 0.005));
+    env.gain.linearRampToValueAtTime(S.gain == null ? g0 : S.gain, t0 + (S.time || 0.005));
     // hold: glide to the hold values, then stay there
-    if (H.gain != null) { env.gain.setValueAtTime(S.gain == null ? 0.3 : S.gain, tH); voiceFade(env.gain, H.gain, tH + hT, H.curve); }
+    if (H.gain != null) { env.gain.setValueAtTime(S.gain == null ? g0 : S.gain, tH); voiceFade(env.gain, H.gain, tH + hT, H.curve); }
     if (filt && H.freq != null) { filt.frequency.setValueAtTime(S.freq || L.filter.freq || 1000, tH); voiceRamp(filt.frequency, H.freq, tH + hT); }
     if (H.pitch != null) for (const o of srcs) if (o.frequency) {
       o.frequency.setValueAtTime((S.pitch || L.pitch || 440) * o._ratio, tH);
@@ -405,5 +450,6 @@ function voiceEnd(v, t) {
   if (E.pitch != null) for (const o of v.srcs) if (o.frequency && o._ratio) {
     voiceFreeze(o.frequency, t); voiceRamp(o.frequency, E.pitch * o._ratio, t + T); }
 }
-  window.SurfaceVoice = { play: voicePlay, shape: voiceShape, limit: voiceLimit, live: voiceLive, rng: voiceRng };
+  window.SurfaceVoice = { play: voicePlay, shape: voiceShape, limit: voiceLimit, live: voiceLive, rng: voiceRng,
+    sample: voiceSample, samples: () => [...VOICE_SAMPLES.keys()] };
 })();

@@ -29,7 +29,17 @@
      I.open()            the sheet: the sounds, each one's role, import
      I.import(file)      a file the tool was handed (drop, open)
      I.list()            [{ id, name, role, every, on }]
-   Needs SurfaceVoice (voice.js); reads zips with SurfacePack (pack.js) when it is there. */
+   Needs SurfaceVoice (voice.js); reads zips with SurfacePack (pack.js) when it is there.
+
+   SAMPLES (22 Oct 2026, for the Frost ensemble: "students bring their own sounds"). Besides recipes, it takes
+   recordings: a pack zip or a folder whose recipes name files in it ("source": "sample", "sample": "samples/drip.wav",
+   relative to the recipe's own file), and bare audio files (wav, mp3, ogg, m4a, aac, flac, webm), each of which becomes
+   a sound of its own (shorter than 3 s a one-shot, longer a loop that holds). Recordings are decoded by the browser
+   (whatever it can decode plays), registered with SurfaceVoice.sample, and kept on this device in IndexedDB
+   ("surface-samples"), so they come back next visit; the list in localStorage names them by key. Caps: 12 MB and 45 s
+   a file, 60 MB an import, 200 MB kept; what passes a cap is left out and the sheet says why. "Save as a set" with any
+   recording in it saves a pack zip (pack.json, instrument.json, samples/…) that opens whole in any tool with this
+   module: the way a set is shared. */
 (function () {
   "use strict";
   if (window.SurfaceInstruments) return;
@@ -41,6 +51,54 @@
   function uid() { return "i" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   function usesInput(r) { return !!(r && r.layers && r.layers.some(function (l) { return l && l.source === "input"; })); }
   function isRecipe(r) { return !!(r && typeof r === "object" && r.format === "voice/0" && (Array.isArray(r.layers) || Array.isArray(r.events))); }
+
+  /* ---------- samples: the recordings a recipe names ---------- */
+  var AUDIO = /\.(wav|wave|mp3|ogg|oga|opus|m4a|mp4|aac|flac|webm|aif|aiff|caf)$/i;
+  var CAP = { file: 12e6, secs: 45, batch: 60e6, store: 200e6 };
+  function eachSample(r, fn) {   // every place a recipe names a recording: its layers and its grains
+    (r.layers || []).forEach(function (l) { if (l && l.source === "sample") fn(l); });
+    (r.events || []).forEach(function (e) { [].concat(e && e.grain || []).forEach(function (g) { if (g && g.source === "sample") fn(g); }); });
+  }
+  function samplesOf(r) { var k = []; eachSample(r, function (o) { if (o.sample && k.indexOf(o.sample) < 0) k.push(o.sample); }); return k; }
+  var BYTES = new Map();   // key -> Uint8Array as it came (to keep, and to save in a pack)
+  var DB = null;
+  function db() {
+    if (DB) return DB;
+    DB = new Promise(function (ok, no) {
+      try { var q = indexedDB.open("surface-samples", 1); q.onupgradeneeded = function () { q.result.createObjectStore("s"); };
+        q.onsuccess = function () { ok(q.result); }; q.onerror = function () { no(q.error); }; } catch (e) { no(e); }
+    });
+    return DB;
+  }
+  function idb(mode, fn) { return db().then(function (d) { return new Promise(function (ok, no) { var t = d.transaction("s", mode), st = t.objectStore("s"), r = fn(st); t.oncomplete = function () { ok(r && r.result); }; t.onerror = function () { no(t.error); }; }); }); }
+  function keepBytes(key, u8) { return idb("readwrite", function (st) { return st.put({ bytes: u8, size: u8.length, at: Date.now() }, key); }); }
+  function getBytes(key) { return idb("readonly", function (st) { return st.get(key); }).then(function (v) { return v && v.bytes ? new Uint8Array(v.bytes) : null; }); }
+  function dropBytes(key) { BYTES.delete(key); try { SurfaceVoice.sample(key, null); } catch (e) {} return idb("readwrite", function (st) { return st.delete(key); }).catch(function () {}); }
+  function keptSize() { return idb("readonly", function (st) { return st.getAll(); }).then(function (a) { return (a || []).reduce(function (n, v) { return n + (v && v.size || 0); }, 0); }, function () { return 0; }); }
+  var DEC = null;
+  function decoder(live) {
+    if (live) return live;
+    if (!DEC) { var O = window.OfflineAudioContext || window.webkitOfflineAudioContext; DEC = O ? new O(2, 1, 48000) : null; }
+    return DEC;
+  }
+  function decode(u8, live) {
+    var c = decoder(live); if (!c) return Promise.reject(new Error("this browser cannot decode audio"));
+    var ab = u8.buffer.slice(u8.byteOffset, u8.byteOffset + u8.byteLength);
+    return new Promise(function (ok, no) { var p = c.decodeAudioData(ab, ok, function (e) { no(e || new Error("not audio this browser can play")); }); if (p && p.then) p.then(ok, no); });
+  }
+  function slugOf(s) { return String(s || "pack").toLowerCase().replace(/\.zip$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "pack"; }
+  function baseName(p) { return String(p).split("/").pop(); }
+  function norm(dir, ref) {   // a path in the pack, from a recipe's folder
+    var parts = (ref.charAt(0) === "/" ? ref.slice(1) : (dir ? dir + "/" : "") + ref).split("/"), out = [];
+    parts.forEach(function (x) { if (x === "..") out.pop(); else if (x && x !== ".") out.push(x); });
+    return out.join("/");
+  }
+  function soundFor(name, key, secs) {   // a bare recording becomes a sound: a one-shot, or (3 s and longer) a loop that holds
+    var long = secs >= 3;
+    return { format: "voice/0", name: name.slice(0, 40), about: (long ? "A loop" : "A one-shot") + " from the recording " + name + ".",
+      made: { by: "you", from: name }, hold: long, trim: 0,
+      layers: [{ source: "sample", sample: key, loop: long, start: { time: long ? 0.25 : 0.003, gain: 1 }, end: { time: long ? 0.8 : 0.06, gain: 0 } }] };
+  }
   /* every recipe in whatever was opened. An instrument/1 set (Fracture's set format, now every tool's) gives its own
      recipes, and its voices that the studio's library has a recipe for (Fracture's glass, SurfaceVoiceLib.fracture);
      a voice Fracture keeps off unless asked (crystal, scan) counts only when the set switches it on. */
@@ -162,12 +220,61 @@
     /* ---------- import ---------- */
     var lastSet = null;
     function noteSet(o) { if (o && o.format === "instrument/1") lastSet = o; }
-    function readFile(f) {
+    /* READ WHAT WAS HANDED IN: a zip (SurfacePack), a folder (its files with their paths), loose files, or one json.
+       Every json gives its recipes; every recipe's recordings are found beside it; recordings no recipe names become
+       sounds of their own. Resolves { recipes, samples: {key: {bytes, buf}}, notes: [], roles }. */
+    function gather(input) {
       lastSet = null;
-      if (window.SurfacePack && SurfacePack.isZip(f)) return SurfacePack.read(f).then(function (p) {
-        var all = []; p.files.forEach(function (u, path) { if (/\.json$/i.test(path)) { var o = p.json(path); if (o) { noteSet(o); recipesIn(o, all); } } }); return all;
+      var one = input && !input.length && input.name != null ? input : null, files = one ? [input] : [].slice.call(input || []);
+      var zips = files.filter(function (f) { return window.SurfacePack && SurfacePack.isZip(f); });
+      var name = files.length === 1 ? files[0].name : (files[0] && files[0].webkitRelativePath ? files[0].webkitRelativePath.split("/")[0] : files.length + " files");
+      var map = new Map();   // path -> Uint8Array | File
+      var jobs = zips.map(function (z) { return SurfacePack.read(z).then(function (p) { p.files.forEach(function (u, k) { map.set(zips.length > 1 ? slugOf(z.name) + "/" + k : k, u); }); return p.manifest; }); });
+      var rest = files.filter(function (f) { return zips.indexOf(f) < 0; });
+      var rel = rest.map(function (f) { return f.webkitRelativePath || f.name; });
+      var tops = new Set(rel.map(function (r) { return r.split("/")[0]; })), strip = tops.size === 1 && rel.every(function (r) { return r.indexOf("/") > 0; });
+      rest.forEach(function (f, i) { map.set(strip ? rel[i].replace(/^[^/]+\//, "") : rel[i], f); });
+      return Promise.all(jobs).then(function (mans) {
+        var man = mans.filter(Boolean)[0] || null, ns = "pack:" + slugOf(man && man.id || name) + "/";
+        var u8 = function (v) { return v instanceof Uint8Array ? Promise.resolve(v) : v.arrayBuffer().then(function (b) { return new Uint8Array(b); }); };
+        var paths = []; map.forEach(function (v, k) { paths.push(k); });
+        var jsons = paths.filter(function (k) { return /\.json$/i.test(k); }), audio = paths.filter(function (k) { return AUDIO.test(k); });
+        var out = { name: (man && man.name) || name, recipes: [], samples: {}, notes: [], roles: null, live: 0 };
+        return Promise.all(jsons.map(function (k) { return u8(map.get(k)).then(function (b) { var o = null; try { o = JSON.parse(new TextDecoder().decode(b)); } catch (e) {} return [k, o]; }); })).then(function (js) {
+          var used = {}, total = 0;
+          js.forEach(function (x) {
+            var o = x[1]; if (!o || typeof o !== "object") return; noteSet(o);
+            if (o.format === "instrument/1" && o.roles) out.roles = Object.assign(out.roles || {}, o.roles);
+            var dir = x[0].indexOf("/") >= 0 ? x[0].replace(/\/[^/]*$/, "") : "";
+            recipesIn(o).forEach(function (r) {
+              r = JSON.parse(JSON.stringify(r));
+              eachSample(r, function (g) {
+                var ref = String(g.sample || ""), p = [norm(dir, ref), norm("", ref)].filter(function (q) { return map.has(q); })[0];
+                if (!p) { var b = baseName(ref); p = audio.filter(function (q) { return baseName(q) === b; })[0]; }
+                if (p) { used[p] = 1; g.sample = ns + p; } else if (ref.indexOf("pack:") !== 0 && ref.indexOf("file:") !== 0) out.notes.push(r.name + ": " + ref + " is not in it");
+              });
+              out.recipes.push(r);
+            });
+          });
+          var loose = audio.filter(function (p) { return !used[p]; });
+          return Promise.all(audio.map(function (p) {
+            var v = map.get(p), size = v.size != null ? v.size : v.length;
+            if (size > CAP.file) { out.notes.push(baseName(p) + " is over " + CAP.file / 1e6 + " MB"); return null; }
+            if (total + size > CAP.batch) { out.notes.push(baseName(p) + ": past " + CAP.batch / 1e6 + " MB in one go"); return null; }
+            total += size;
+            return u8(v).then(function (b) { return decode(b, ctx()).then(function (buf) {
+              if (buf.duration > CAP.secs + 0.05) { out.notes.push(baseName(p) + " is " + Math.round(buf.duration) + " s (" + CAP.secs + " s at most: loop a shorter piece)"); return null; }
+              var key = used[p] ? ns + p : "file:" + slugOf(baseName(p).replace(AUDIO, "")) + "-" + size;
+              out.samples[key] = { bytes: b, buf: buf };
+              if (!used[p]) out.recipes.push(soundFor(baseName(p).replace(AUDIO, ""), key, buf.duration));
+            }); }, function () { out.notes.push(baseName(p) + " could not be decoded here (try wav or mp3)"); });
+          })).then(function () {
+            /* a recipe whose recording was left out stays out */
+            out.recipes = out.recipes.filter(function (r) { var miss = samplesOf(r).filter(function (k) { return !out.samples[k] && !SurfaceVoice.sample(k); }); return !miss.length; });
+            void loose; return out;
+          });
+        });
       });
-      return f.text().then(function (t) { var o; try { o = JSON.parse(t); } catch (e) { throw new Error("not a recipe, a mix, a set or a pack"); } noteSet(o); return recipesIn(o); });
     }
     /* SAVE AS A SET (instrument/1, Fracture's rule: an engine preserves what it does not understand). Every section of
        the last set opened that this tool does not use goes back out unchanged; the recipes and each one's role here are
@@ -179,11 +286,28 @@
       base.roles = {}; list.forEach(function (x) { base.roles[x.name] = { role: x.role, every: x.every, on: x.on, level: x.level }; });
       return base;
     }
-    function saveSet() {
-      if (!list.length) return;
-      var doc = exportSet(), blob = new Blob([JSON.stringify(doc, null, 1)], { type: "application/json" }), fn = String(doc.name).replace(/[\\/:*?"<>|]+/g, " ").trim() + ".json";
+    function deliver(blob, fn) {
       if (O.save) { try { O.save(blob, fn); return; } catch (e) {} }
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    /* with recordings in it, the set goes out as a pack: the recipes name samples/<file>, and the files ride along */
+    function saveSet() {
+      if (!list.length) return;
+      var doc = exportSet(), fn = String(doc.name).replace(/[\\/:*?"<>|]+/g, " ").trim();
+      var keys = []; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (k) { if (keys.indexOf(k) < 0) keys.push(k); }); });
+      if (!keys.length || !window.SurfacePack) { deliver(new Blob([JSON.stringify(doc, null, 1)], { type: "application/json" }), fn + ".json"); return; }
+      Promise.all(keys.map(function (k) { return BYTES.has(k) ? BYTES.get(k) : getBytes(k).catch(function () { return null; }); })).then(function (bs) {
+        var names = {}, files = [], taken = {};
+        keys.forEach(function (k, i) { if (!bs[i]) return; var b = /^file:/.test(k) ? k.slice(5).replace(/-\d+$/, "") : baseName(k.slice(5)), n = b, j = 2;
+          if (!AUDIO.test(n)) { var u = bs[i]; n += u[0] === 0x52 && u[1] === 0x49 ? ".wav" : u[0] === 0x4f && u[1] === 0x67 ? ".ogg" : u[0] === 0x66 && u[1] === 0x4c ? ".flac" : u[4] === 0x66 && u[5] === 0x74 ? ".m4a" : ".mp3"; }
+          while (taken[n]) n = n.replace(/(\.[^.]+)$/, "-" + (j++) + "$1"); taken[n] = 1; names[k] = "samples/" + n; files.push([names[k], bs[i]]); });
+        doc.recipes = doc.recipes.map(function (r) { r = JSON.parse(JSON.stringify(r)); eachSample(r, function (g) { if (names[g.sample]) g.sample = names[g.sample]; }); return r; });
+        var id = slugOf(doc.name);
+        files.unshift(["instrument.json", JSON.stringify(doc, null, 1)]);
+        files.unshift(["pack.json", JSON.stringify({ kind: "surface.pack", v: 1, tool: O.key || "tool", id: id, name: doc.name, made: new Date().toISOString(),
+          files: { "instrument.json": "the set (instrument/1): its sounds and how each plays", "samples/": "the recordings the sounds name" } }, null, 1)]);
+        deliver(SurfacePack.zip(files), fn + ".zip");
+      });
     }
     function add(recipes, role, roles) {
       var have = {}; list.forEach(function (x) { have[x.name + "|" + JSON.stringify(x.recipe).length] = 1; });
@@ -199,15 +323,43 @@
     }
     var pending = null;
     function importFile(f) {
-      return readFile(f).then(function (rs) {
-        var ok = rs.filter(function (r) { return !usesInput(r); });
-        pending = { name: f.name, recipes: ok, live: rs.length - ok.length, role: "touch", set: lastSet };
+      var nm = f && f.name != null ? f.name : (f && f.length ? (f[0].webkitRelativePath || "").split("/")[0] || f.length + " files" : "import");
+      if (!f || (f.length === 0)) return Promise.resolve(0);
+      return gather(f).then(function (g) {
+        var rs = g.recipes, ok = rs.filter(function (r) { return !usesInput(r); });
+        Object.keys(g.samples).forEach(function (k) { try { SurfaceVoice.sample(k, g.samples[k].buf); } catch (e) {} });
+        var allSmp = ok.length && ok.every(function (r) { return samplesOf(r).length; }), allLong = allSmp && ok.every(function (r) { return r.hold; });
+        pending = { name: g.name || nm, recipes: ok, live: rs.length - ok.length, role: allLong ? "bed" : "touch", set: lastSet, roles: g.roles, samples: g.samples, notes: g.notes };
         open(); return ok.length;
-      }, function (e) { pending = { name: f.name, error: e && e.message || "could not be read" }; open(); return 0; });
+      }, function (e) { pending = { name: nm, error: e && e.message || "could not be read" }; open(); return 0; });
     }
+    /* keep the recordings the list uses, on this device; let go of the rest */
+    function keepSamples(smp) {
+      var keys = Object.keys(smp || {}).filter(function (k) { return list.some(function (x) { return samplesOf(x.recipe).indexOf(k) >= 0; }); });
+      if (!keys.length) return Promise.resolve(true);
+      keys.forEach(function (k) { BYTES.set(k, smp[k].bytes); });
+      /* written at once (a page closed straight after Add keeps them), then measured: past the cap, these go again */
+      return Promise.all(keys.map(function (k) { return keepBytes(k, smp[k].bytes); })).then(keptSize).then(function (have) {
+        if (have <= CAP.store) return true;
+        return Promise.all(keys.map(function (k) { return idb("readwrite", function (st) { return st.delete(k); }); })).then(function () { return false; });
+      }).catch(function () { return false; });
+    }
+    function gcSamples() {
+      var want = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (k) { want[k] = 1; }); });
+      idb("readonly", function (st) { return st.getAllKeys(); }).then(function (ks) { (ks || []).forEach(function (k) { if (!want[k]) dropBytes(k); }); }).catch(function () {});
+    }
+    /* next visit: the recordings come back from this device before anything asks for them */
+    (function restore() {
+      var keys = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (k) { keys[k] = 1; }); });
+      Object.keys(keys).forEach(function (k) {
+        if (SurfaceVoice.sample(k)) return;
+        getBytes(k).then(function (b) { if (!b) return; BYTES.set(k, b); return decode(b, ctx()).then(function (buf) { SurfaceVoice.sample(k, buf); }); }).catch(function () {});
+      });
+    })();
 
     /* ---------- the sheet ---------- */
-    var box = null, veil = null, fileIn = null;
+    var box = null, veil = null, fileIn = null, dirIn = null;
+    var canDir = (function () { try { var i = document.createElement("input"); return "webkitdirectory" in i && !(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) && !(navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform)); } catch (e) { return false; } })();
     var CSS =
       ".sin-veil{position:fixed;inset:0;z-index:80;background:rgba(5,7,9,.55);opacity:0;transition:opacity .3s}.sin-veil.on{opacity:1}" +
       ".sin{position:fixed;z-index:81;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);translate:-50% 0;width:min(400px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;scrollbar-gutter:stable;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgba(10,13,16,.95);color:#fff;border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;font:400 13px/1.4 var(--sans,system-ui)}" +
@@ -235,10 +387,14 @@
       if (!document.getElementById("sin-css")) { var st = el("style"); st.id = "sin-css"; st.textContent = CSS; document.head.appendChild(st); }
       veil = el("div", "sin-veil"); box = el("div", "sin"); veil.hidden = box.hidden = true;
       box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Instruments");
-      fileIn = el("input"); fileIn.type = "file"; fileIn.accept = ".json,.zip,application/json,application/zip"; fileIn.hidden = true;
-      fileIn.onchange = function () { var f = fileIn.files && fileIn.files[0]; fileIn.value = ""; if (f) importFile(f); };
+      fileIn = el("input"); fileIn.type = "file"; fileIn.multiple = true; fileIn.accept = ".json,.zip,application/json,application/zip,audio/*,.wav,.mp3,.ogg,.m4a,.aac,.flac,.webm"; fileIn.hidden = true;
+      fileIn.onchange = function () { var f = [].slice.call(fileIn.files || []); fileIn.value = ""; if (f.length) importFile(f.length === 1 ? f[0] : f); };
+      dirIn = el("input"); dirIn.type = "file"; dirIn.hidden = true; dirIn.setAttribute("webkitdirectory", ""); dirIn.multiple = true;
+      dirIn.onchange = function () { var f = [].slice.call(dirIn.files || []); dirIn.value = ""; if (f.length) importFile(f); };
       veil.onclick = close; box.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
-      document.body.append(veil, box, fileIn);
+      /* a drop on the open sheet: a pack, a folder's files, recordings */
+      box.addEventListener("dragover", function (e) { e.preventDefault(); }); box.addEventListener("drop", function (e) { e.preventDefault(); e.stopPropagation(); var f = [].slice.call(e.dataTransfer && e.dataTransfer.files || []); if (f.length) importFile(f.length === 1 ? f[0] : f); });
+      document.body.append(veil, box, fileIn, dirIn);
     }
     var PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.2.7l10.3-6.4a.8.8 0 0 0 0-1.4L9.2 4.9A.8.8 0 0 0 8 5.6z" fill="currentColor" stroke="none"/></svg>';
     var BIN = '<svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg>';
@@ -249,44 +405,55 @@
       if (pending) {
         if (pending.error) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>: " + esc(pending.error) + '</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
         else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " Pullula’s microphone)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
-        else h += '<div class="new"><p><b>' + pending.recipes.length + " sound" + (pending.recipes.length > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + '</p><p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p><p>How should " + (pending.recipes.length > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds") +
+        else h += '<div class="new"><p><b>' + pending.recipes.length + " sound" + (pending.recipes.length > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + '</p><p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p>" +
+          (pending.notes && pending.notes.length ? '<p class="st">Left out: ' + pending.notes.map(esc).join(" · ") + "</p>" : "") +
+          (pending.roles && pending.asSet !== false ? '<p>Each plays as the set says (touch, beat, bed or pattern); change any of them after.</p><div class="row"><button type="button" class="b own">Choose one role for all</button></div>'
+            : "<p>How should " + (pending.recipes.length > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds")) +
           '<div class="row"><button type="button" class="b go pa">Add</button><button type="button" class="b pd">Cancel</button></div></div>';
       }
-      if (!list.length && !pending) h += "<p>Bring in sounds made in Pullula: a recipe, a mix, saved mixes or a pack (.json or .zip). Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p>";
+      if (!list.length && !pending) h += "<p>Bring in sounds: your own recordings (wav, mp3, ogg, m4a), or a recipe, a mix or a pack made in Pullula or by hand (.json or .zip). Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p>";
       list.forEach(function (x) {
         h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="On or off">' + ON + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
           (x.role === "beat" || x.role === "pattern" ? '<button type="button" class="ev" title="How often">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button>" : "") + "</div>";
       });
       var L = window.SurfaceVoiceLib;
       if (L) h += '<p class="st">The studio’s library</p><div class="row"><button type="button" class="b lib" data-k="sounds">Glass and textures</button><button type="button" class="b lib" data-k="drums">Drums</button></div>';
-      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (list.length ? '<button type="button" class="b sv">Save as a set</button>' : "") + '</div><p class="st">A sound, a Pullula mix, a Fracture set or a pack. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
+      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">Save as a set</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a Pullula mix or a Fracture set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
       box.innerHTML = h;
       var q = function (s) { return box.querySelector(s); };
       q(".x").onclick = close;
       q(".imp").onclick = function () { fileIn.click(); };
+      var dr = q(".dir"); if (dr) dr.onclick = function () { dirIn.click(); };
       var sv = q(".sv"); if (sv) sv.onclick = saveSet;
       box.querySelectorAll(".lib").forEach(function (b) { b.onclick = function () { var L = window.SurfaceVoiceLib, k = b.dataset.k;
         pending = { name: k === "drums" ? "the studio’s drums" : "the studio’s glass and textures", recipes: JSON.parse(JSON.stringify(L[k])), live: 0, role: k === "drums" ? "beat" : "touch", groove: k === "drums" }; render(); }; });
       var pd = q(".pd"); if (pd) pd.onclick = function () { pending = null; render(); };
+      var own = q(".own"); if (own) own.onclick = function () { pending.asSet = false; render(); };
       var pa = q(".pa"); if (pa) pa.onclick = function () {
-        var st = pending.set, gr = null;
+        var st = pending.set, gr = null, smp = pending.samples;
         if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
-        var n = add(pending.recipes, pending.role, st && st.roles || gr);
-        if (st) { kept = st; try { localStorage.setItem(LS + ".set", JSON.stringify(st)); } catch (e) {} }
-        pending = null; render(); try { O.say && O.say(n ? n + " sound" + (n > 1 ? "s" : "") + " added" : "already here"); } catch (e) {} };
+        var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr));
+        if (st) { var lean = JSON.parse(JSON.stringify(st)); delete lean.recipes; kept = lean; try { localStorage.setItem(LS + ".set", JSON.stringify(lean)); } catch (e) {} }
+        pending = null; render();
+        var said = n ? n + " sound" + (n > 1 ? "s" : "") + " added" : "already here";
+        keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
       box.querySelectorAll(".snd").forEach(function (row) {
         var x = list.filter(function (y) { return y.id === row.dataset.id; })[0]; if (!x) return;
         row.querySelectorAll(".seg button").forEach(function (b) { b.onclick = function () { x.role = b.dataset.r; if (x.role === "pattern" && x.every === "beat") x.every = "eighth"; resetBed(); save(); render(); }; });
         row.querySelector(".tg").onclick = function () { x.on = !x.on; resetBed(); save(); render(); };
-        row.querySelector(".rm").onclick = function () { list = list.filter(function (y) { return y !== x; }); resetBed(); save(); render(); };
+        row.querySelector(".rm").onclick = function () { list = list.filter(function (y) { return y !== x; }); resetBed(); save(); render(); gcSamples(); };
         row.querySelector(".pv").onclick = function () { strike(x, undefined, null, oneShot(x) || 0.6); };
         var ev = row.querySelector(".ev"); if (ev) ev.onclick = function () { var i = EVERY.findIndex(function (e) { return e[0] === x.every; }); x.every = EVERY[(i + 1) % EVERY.length][0]; next[x.id] = null; save(); render(); };
       });
     }
     function open() { ensure(); box.hidden = veil.hidden = false; render(); requestAnimationFrame(function () { box.classList.add("on"); veil.classList.add("on"); }); }
     function close() { if (!box) return; box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 300); }
-    return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet };
+    return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet,
+      playing: function () { return LIVE.length > 0 || bed.h.length > 0; },
+      samples: function () { var k = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (s) { k[s] = !!SurfaceVoice.sample(s); }); }); return k; } };
   }
-  window.SurfaceInstruments = { mount: mount, recipesIn: recipesIn };
+  window.SurfaceInstruments = { mount: mount, recipesIn: recipesIn, AUDIO: AUDIO, CAP: CAP,
+    /* does this pack hold anything for instruments? (a tool's own pack opener asks, then hands the file over) */
+    inPack: function (P) { var any = false; P.files.forEach(function (u, k) { if (any) return; if (AUDIO.test(k)) any = true; else if (/\.json$/i.test(k)) { var o = P.json(k); if (o && recipesIn(o).length) any = true; } }); return any; } };
 })();

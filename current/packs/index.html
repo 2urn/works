@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Current Sound Packs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="How to make, add and share your own sounds in Current: a study guide for the Frost Electronic Music Ensemble, with a starter pack of water sounds and a template.">
+<link rel="stylesheet" href="../vendor/fonts.css">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}img{max-width:100%}
+/* Layout: a Codex document. A text-only cover, then numbered chapters separated by thick rules, one reading column,
+   the cheat sheet last on a page of its own when printed. Colors after Current's stage: ink on paper by day, the
+   field's teal on near-black by night. */
+:root{
+  --paper:#f3f6f7; --ink:#0d1517; --muted:#52666b; --line:#c9d6d9; --rule:#0d1517;
+  --acc:#127585; --acc-ink:#ffffff; --code:#e4ecee; --tint:#e8f1f3;
+  --display:'Anton','Minnerva Title',Impact,'Arial Narrow',sans-serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#080b0c; --ink:#e9f1f2; --muted:#93a7ab; --line:#233033; --rule:#e9f1f2;
+  --acc:#55b8c9; --acc-ink:#04181c; --code:#121a1c; --tint:#0f1a1d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#080b0c; --ink:#e9f1f2; --muted:#93a7ab; --line:#233033; --rule:#e9f1f2;
+  --acc:#55b8c9; --acc-ink:#04181c; --code:#121a1c; --tint:#0f1a1d; color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-text-size-adjust:100%}
+.page{max-width:44rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 4rem}
+a{color:var(--acc);text-underline-offset:.18em}
+a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;line-height:1.15}
+p,li,dd{text-wrap:pretty}
+code,pre,kbd{font-family:var(--mono);font-size:.86em}
+code{background:var(--code);padding:.08em .32em;border-radius:4px}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 .3em;background:var(--paper)}
+b,strong{font-weight:600}
+
+/* the cover: text only */
+.cover{min-height:min(88vh,46rem);display:grid;grid-template-columns:minmax(0,1fr);align-content:center;gap:1.4rem;padding-block:3rem 2.5rem;border-bottom:6px solid var(--rule)}
+.eyebrow{font:600 11px/1.4 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0}
+.cover h1{margin:0;font:400 clamp(3.2rem,15vw,7.5rem)/.88 var(--display);letter-spacing:.06em;text-transform:uppercase}
+.cover .sub{margin:0;font:500 clamp(1.25rem,4.2vw,1.7rem)/1.25 var(--sans);max-width:30ch}
+.cover .for{margin:0;color:var(--muted);max-width:44ch}
+.cover .by{margin:0;font:500 12px/1.5 var(--mono);letter-spacing:.08em}
+.dl{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.4rem}
+.dl a{display:inline-flex;flex-direction:column;gap:.1rem;padding:.65rem 1rem;border:1.5px solid var(--ink);border-radius:10px;color:var(--ink);text-decoration:none;min-width:0}
+.dl a:first-child{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.dl a b{font:600 13px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.dl a span{font-size:12.5px;opacity:.8}
+
+/* contents */
+.toc{padding-block:1.6rem;border-bottom:1px solid var(--line)}
+.toc ol{list-style:none;margin:.6rem 0 0;padding:0;columns:2 15rem;column-gap:2rem}
+.toc li{break-inside:avoid;padding:.18rem 0;font-size:15px}
+.toc a{color:var(--ink);text-decoration:none}.toc a:hover{color:var(--acc)}
+.toc i{font:500 11px/1 var(--mono);font-style:normal;color:var(--muted);display:inline-block;width:2.2em}
+
+/* chapters, Codex-style: a thick rule above each */
+section.ch{border-top:6px solid var(--rule);margin-top:3.2rem;padding-top:1.1rem}
+.ch>header{display:flex;align-items:baseline;gap:.9rem;margin-bottom:1.6rem}
+.ch>header i{font:500 12px/1 var(--mono);font-style:normal;color:var(--muted)}
+.ch h2{margin:0;font:700 clamp(1.5rem,4.6vw,2rem)/1.1 var(--sans);letter-spacing:-.01em}
+.ch h3{margin:2rem 0 .5rem;font:600 11.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.1rem;line-height:1.55}
+.ch p{margin:0 0 1rem}
+
+/* the four roles */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1rem 0 1.4rem}
+.roles>div{background:var(--paper);padding:1rem 1.1rem;min-width:0}
+.roles h4{margin:0 0 .35rem;font:600 13px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.roles p{margin:0 0 .5rem;font-size:15px}
+.roles .eg{font-size:13.5px;color:var(--muted);margin:0}
+
+/* steps */
+ol.steps{counter-reset:s;list-style:none;margin:0 0 1rem;padding:0;display:grid;gap:.9rem}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:.2rem .6rem}
+ol.steps>li::before{content:counter(s,decimal-leading-zero);font:500 12px/1.9 var(--mono);color:var(--acc)}
+ol.steps>li>*{grid-column:2}
+ol.steps>li>:first-child{grid-row:1}
+
+/* tables */
+.tw{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:.55rem .75rem;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--tint)}
+td:first-child{white-space:nowrap;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+
+/* code */
+pre{background:var(--code);border-radius:10px;padding:1rem 1.1rem;overflow-x:auto;line-height:1.5;margin:0 0 1.2rem;font-size:13px;tab-size:2}
+pre .c{color:var(--muted)}
+pre .k{color:var(--acc)}
+.tree{font-size:13.5px}
+
+.note{border-left:3px solid var(--acc);background:var(--tint);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin:0 0 1.2rem;font-size:15px}
+.note p:last-child{margin:0}
+ul.plain{margin:0 0 1rem;padding-left:1.1rem}
+ul.plain li{margin:.25rem 0}
+
+/* cheat sheet */
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.2rem 2rem;font-size:14px;line-height:1.45}
+.cheat h4{margin:0 0 .35rem;font:600 11px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+.cheat dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem}
+.cheat dt{font-family:var(--mono);font-size:12.5px;font-weight:500}
+.cheat dd{margin:0;color:var(--ink)}
+.cheat ul{margin:0;padding-left:1rem}
+.cheat>div{min-width:0}
+
+.colo{font-size:14px;color:var(--muted)}
+.colo dl{display:grid;grid-template-columns:minmax(0,9rem) 1fr;gap:.35rem 1rem;margin:0 0 1rem}
+.colo dt{font:600 11px/1.6 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.colo dd{margin:0}
+.word{display:block;height:22px;width:auto;margin-top:2rem;opacity:.85}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .word{filter:invert(1)}}
+:root[data-theme="dark"] .word{filter:invert(1)}
+
+@media (max-width:520px){ol.steps>li{grid-template-columns:1.8rem 1fr}.colo dl{grid-template-columns:1fr}.colo dt{margin-top:.4rem}}
+@media print{
+  :root{--paper:#fff;--ink:#000;--muted:#444;--line:#bbb;--rule:#000;--acc:#0b5c69;--code:#f1f1f1;--tint:#f4f4f4;color-scheme:light}
+  body{font-size:11pt}
+  .page{max-width:none;padding:0}
+  .cover{min-height:auto;padding-block:0 1.5rem;break-after:page}
+  .dl a{border-color:#000}.dl a:first-child{background:none;color:#000}
+  .dl a::after{content:attr(href);font:9pt var(--mono);word-break:break-all}
+  .toc{break-after:page}
+  section.ch{break-before:auto;margin-top:2rem}
+  #cheat{break-before:page}
+  pre,.roles,.tw,table,.note,ol.steps>li{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  pre,.tw{overflow:visible;white-space:pre-wrap}
+  .word{filter:none!important}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<div class="page">
+
+<header class="cover">
+  <p class="eyebrow">CHAMY·XYZ · Pullula · a study guide</p>
+  <h1>Current</h1>
+  <p class="sub">Sound packs: make your own sounds, add them, share them.</p>
+  <p class="for">For the Frost Electronic Music Ensemble, Frost School of Music, University of Miami. Performance theme: <b>water</b>, 8 November 2026.</p>
+  <p class="by">Dimitry Saïd Chamy · Artist, Designer, Cultural Producer</p>
+  <div class="dl" role="list">
+    <a role="listitem" href="https://works.chamy.xyz/current/packs/frost-water-starter.zip"><b>Frost Water — starter</b><span>example pack · 8 sounds · 1.3 MB zip</span></a>
+    <a role="listitem" href="https://works.chamy.xyz/current/packs/current-pack-template.zip"><b>Template pack</b><span>empty skeleton · README · 0.5 MB zip</span></a>
+    <a role="listitem" href="https://works.chamy.xyz/current/" target="_blank" rel="noopener"><b>Open Current</b><span>works.chamy.xyz/current</span></a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <p class="eyebrow">Contents</p>
+  <ol>
+    <li><a href="#what"><i>01</i>What Current is</a></li>
+    <li><a href="#roles"><i>02</i>The four roles</a></li>
+    <li><a href="#first"><i>03</i>Your first instrument</a></li>
+    <li><a href="#samples"><i>04</i>Add your own samples</a></li>
+    <li><a href="#export"><i>05</i>Export from Ableton and Max</a></li>
+    <li><a href="#json"><i>06</i>Write a pack by hand</a></li>
+    <li><a href="#share"><i>07</i>Share with the ensemble</a></li>
+    <li><a href="#perform"><i>08</i>Performing together</a></li>
+    <li><a href="#cheat"><i>09</i>Cheat sheet</a></li>
+    <li><a href="#colophon"><i>10</i>Colophon</a></li>
+  </ol>
+</nav>
+
+<section class="ch" id="what">
+  <header><i>01</i><h2>What Current is</h2></header>
+  <p class="lead">Current turns G-code, the language that tells plotters, lasers and routers where to move, into a vector field, and thousands of particles follow it. Then it listens. Whatever plays (a beat, a bytebeat, your track, the microphone, or the sounds in your pack) is split into five signals, and the field answers them. It runs in a browser on a phone, a tablet or a laptop, with nothing to install.</p>
+  <h3>How the field hears</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Signal</th><th>What it is</th><th>What it does by default</th></tr></thead>
+    <tbody>
+      <tr><td>bass</td><td class="num">30 to 150 Hz</td><td>pushes the field</td></tr>
+      <tr><td>mid</td><td class="num">150 to 2,000 Hz</td><td>colors and line work, in scenes that link it</td></tr>
+      <tr><td>high</td><td class="num">2,000 to 12,000 Hz</td><td>sparkle and detail, in scenes that link it</td></tr>
+      <tr><td>level</td><td>all three together</td><td>louder makes the particles faster</td></tr>
+      <tr><td>beat</td><td>a sudden jump in the bass</td><td>the field surges for a moment</td></tr>
+    </tbody>
+  </table></div>
+  <p>Each signal rests at zero and rises with the sound, with a slow automatic gain so quiet material still reads. The field always hears the <b>dry</b> sound: the reverb you add with <b>wet</b> changes what the audience hears, not how the particles move. Practical upshot: if you want the field to jump, give it bass transients; if you want it to drift, give it a steady bed.</p>
+</section>
+
+<section class="ch" id="roles">
+  <header><i>02</i><h2>The four roles</h2></header>
+  <p>Every sound you bring in has a role. You choose it when it comes in and can change it at any time in the <b>kit</b> sheet. A pack can set a role for each of its sounds.</p>
+  <div class="roles">
+    <div><h4>Touch</h4><p>Your finger on the stage plays it. A tap strikes it; a hold sustains a sound that holds. Left to right pans it.</p><p class="eg">Drips, plucks, bowed glass you can rub.</p></div>
+    <div><h4>On the beat</h4><p>It strikes on the beat grid: every beat, 2 and 4, the off-beats, once a bar, or eighths. The grid follows Current's beat or your tap tempo (100 bpm if nothing sets one).</p><p class="eg">A low pulse, rain ticks, a clock.</p></div>
+    <div><h4>Bed</h4><p>It plays under everything while the sound is on. A sound that holds keeps holding (loop it); a short one repeats at its own length.</p><p class="eg">A seamless loop of water, a drone, room tone.</p></div>
+    <div><h4>Pattern</h4><p>The drawing is the sequencer. On the grid it walks the G-code's cuts in order, and each strike is panned to where its cut sits. Change the pattern and the phrase changes.</p><p class="eg">Pitched drops, a melody that wanders with the drawing.</p></div>
+  </div>
+  <div class="note"><p>Every touch sound that is switched on plays together on each tap, so keep one or two touch sounds on at a time and switch the rest off with their check mark.</p></div>
+</section>
+
+<section class="ch" id="first">
+  <header><i>03</i><h2>Your first instrument</h2></header>
+  <ol class="steps">
+    <li><p>Open <a href="https://works.chamy.xyz/current/" target="_blank" rel="noopener">works.chamy.xyz/current</a> and tap <b>Launch</b>. On a phone, add it to the home screen for a full screen.</p></li>
+    <li><p>Tap the <b>speaker</b> on the bar to turn the sound on. A beat starts and the field moves to it.</p></li>
+    <li><p><b>Hold</b> the speaker to open the sound shelf, then tap <b>kit</b>. The Instruments sheet opens.</p></li>
+    <li><p>Tap <b>Import…</b> and pick one of your recordings (wav, mp3, ogg or m4a). Pick several at once if you like. On a laptop, <b>Folder…</b> takes a whole folder, and you can also drop files on the open sheet.</p></li>
+    <li><p>Choose how it plays: <b>Touch</b>, <b>On the beat</b>, <b>Bed</b> or <b>Pattern</b>, then <b>Add</b>. A file shorter than 3 seconds comes in as a one-shot; 3 seconds or longer comes in as a loop that holds.</p></li>
+    <li><p>Press the <b>play</b> triangle beside its name to hear it alone.</p></li>
+    <li><p>Close the sheet and play: tap and hold on the stage for touch sounds; the others play by themselves.</p></li>
+    <li><p>To hear only your sounds, tap the beat off in the sound shelf. The field keeps listening to your kit.</p></li>
+    <li><p>Open <b>kit</b> again to change roles, timing (<b>every beat</b>, <b>2 and 4</b>, <b>off-beats</b>, <b>once a bar</b>, <b>eighths</b>), or switch sounds on and off.</p></li>
+    <li><p>When it feels right, tap <b>Save as a set</b>. With recordings in it you get a pack <code>.zip</code>, ready to share.</p></li>
+  </ol>
+  <p>Want a head start? Import the <a href="https://works.chamy.xyz/current/packs/frost-water-starter.zip">Frost Water starter pack</a>: eight water sounds, two for each role, half recorded and half synthesized, with their roles already set.</p>
+</section>
+
+<section class="ch" id="samples">
+  <header><i>04</i><h2>Add your own samples</h2></header>
+  <p>Bring your own sounds and the sounds of the people you play for: field recordings, voices, instruments, your Ableton and Max patches. Current decodes them in the browser and keeps them on that device, so they are there the next time you open it.</p>
+  <h3>What works</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Choice</th><th>Use</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Format</td><td><b>wav</b> or <b>mp3</b> (also ogg, m4a/aac, flac)</td><td>wav and mp3 open in every browser; ogg does not open on older iPhones</td></tr>
+      <tr><td>Channels</td><td>mono or stereo</td><td>mono halves the size; touch and pattern pan it anyway</td></tr>
+      <tr><td>Sample rate</td><td class="num">48 kHz or 44.1 kHz, 16 or 24 bit</td><td>the browser converts to the device's rate</td></tr>
+      <tr><td>Length</td><td class="num">up to 45 s and 12 MB a file, 60 MB per import</td><td>longer files are left out and the sheet says why</td></tr>
+      <tr><td>One-shots</td><td>peak at <span class="num">−1 dBFS</span>, start on the sound, no silence before it</td><td>a late start feels like lag under a finger</td></tr>
+      <tr><td>Loops and beds</td><td>about <span class="num">−18 to −16 LUFS</span>, never above <span class="num">−14 LUFS</span></td><td>a bed sits under the touch sounds and the beat</td></tr>
+      <tr><td>Names</td><td><code>rain-on-tin.wav</code></td><td>lowercase, dashes, no spaces; the name shows in the kit</td></tr>
+    </tbody>
+  </table></div>
+  <h3>One-shots and loops</h3>
+  <p>A <b>one-shot</b> is a single event: a drip, a hit, a word. Trim it tight at the front and let its tail ring out naturally to silence. It suits touch, beat and pattern.</p>
+  <p>A <b>loop</b> repeats. Make the end flow into the start: cut at zero crossings, keep the level steady across the seam, and if it carries reverb, render the tail back into the start (Ableton's <b>Render as Loop</b> does this). Loops suit bed, and a held touch sound.</p>
+  <div class="note"><p>Recordings are kept per device and per browser. Importing on your phone does not put them on your laptop: bring the pack zip to each device you play on.</p></div>
+</section>
+
+<section class="ch" id="export">
+  <header><i>05</i><h2>Export from Ableton and Max</h2></header>
+  <h3>Ableton Live</h3>
+  <ol class="steps">
+    <li><p><b>One-shots:</b> in the clip's Sample box, switch <b>Warp</b> off so the audio plays at its own speed and pitch. Trim the clip to the sound.</p></li>
+    <li><p>Select the clip and choose <b>Consolidate</b> (<kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>J</kbd>). Live writes a new file into the project's <code>Samples/Processed/Consolidate</code> folder; with effects or an instrument on the track, use <b>Freeze and Flatten</b> first so they are printed in.</p></li>
+    <li><p>Or render: set the loop brace over the region, then <b>File › Export Audio/Video</b> (<kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>).</p></li>
+    <li><p>In the export dialog: <b>Rendered Track</b> = the one track you want (or Selected Tracks Only), <b>File Type</b> WAV, <b>Sample Rate</b> 48000, <b>Bit Depth</b> 16 or 24, <b>Normalize</b> off.</p></li>
+    <li><p><b>Loops:</b> turn on <b>Render as Loop</b>, so reverb and delay tails wrap back into the start and the loop joins without a seam.</p></li>
+    <li><p>Check the level on the master with a loudness meter (Youlean Loudness Meter is free): one-shots peak near −1 dBFS, loops near −18 LUFS. Adjust with a Utility device before you export.</p></li>
+  </ol>
+  <h3>Max</h3>
+  <ol class="steps">
+    <li><p>Set the sample rate in <b>Options › Audio Status</b> (48000 is a good choice).</p></li>
+    <li><p><b>From a buffer:</b> record into <code>[buffer~ drip 2000 2]</code> with <code>[record~ drip 2]</code>, then send the buffer the message <code>writewave</code> (a save dialog opens) or <code>writewave drip.wav</code> to name it directly. <code>crop</code> trims the buffer to the part you want first.</p></li>
+    <li><p><b>From a running patch:</b> connect your signal to <code>[sfrecord~ 2]</code>. Send <code>open</code> and choose a name ending in <code>.wav</code>, then <code>1</code> to start and <code>0</code> to stop.</p></li>
+    <li><p>For a loop, record a whole number of cycles of your patch, or crossfade the ends in an editor before export.</p></li>
+  </ol>
+  <p>Any editor works for the last trim and fade: Audacity, Ocenaudio, Logic, Reaper. Then Import into Current, or put the files in a pack.</p>
+</section>
+
+<section class="ch" id="json">
+  <header><i>06</i><h2>Write a pack by hand</h2></header>
+  <p>You only need this to set roles in advance, combine recordings with synthesized sounds, or tune a sound beyond what the kit sheet offers. A pack is an ordinary zip:</p>
+<pre class="tree">my-pack.zip
+├── pack.json          <span class="c">what the zip is</span>
+├── instrument.json    <span class="c">the set: the sounds, and how each one plays</span>
+├── README.txt         <span class="c">optional: credits, notes</span>
+└── samples/
+    ├── drip.wav
+    └── harbor-loop.wav</pre>
+  <h3>pack.json</h3>
+<pre>{
+  "kind": "surface.pack",       <span class="c">// always this: it marks the zip as a studio pack</span>
+  "v": 1,
+  "tool": "current",
+  "id": "my-pack",              <span class="c">// lowercase and dashes; keeps your recordings apart from other packs</span>
+  "name": "My pack",            <span class="c">// what Current shows</span>
+  "by": "your name"
+}</pre>
+  <h3>instrument.json, commented</h3>
+  <p>The comments here are for reading. JSON itself has no comments, so delete them in your file, or copy the template's <code>instrument.json</code>, which uses <code>"_how"</code> fields as notes instead (anything starting with <code>_</code> is ignored).</p>
+<pre>{
+  "format": "instrument/1",     <span class="c">// a set of sounds (the studio's set format)</span>
+  "name": "My pack",
+  "recipes": [                  <span class="c">// one entry per sound, each in the voice/0 format</span>
+
+    {                           <span class="c">// 1 · A ONE-SHOT RECORDING</span>
+      "format": "voice/0",
+      "name": "drip",           <span class="c">// must match its key in "roles" below</span>
+      "hold": false,            <span class="c">// false: plays once, to the end of the file</span>
+      "trim": -3,               <span class="c">// level in dB, added to everything</span>
+      "layers": [{
+        "source": "sample",
+        "sample": "samples/drip.wav",   <span class="c">// the path inside the zip</span>
+        "rate": [0.8, 1.3]      <span class="c">// playback speed; [low, high] picks a new one each time</span>
+      }]
+    },
+
+    {                           <span class="c">// 2 · A LOOP THAT HOLDS</span>
+      "format": "voice/0",
+      "name": "harbor",
+      "hold": true,             <span class="c">// true: keeps going while held (a bed, or a finger down)</span>
+      "layers": [{
+        "source": "sample",
+        "sample": "samples/harbor-loop.wav",
+        "loop": true,
+        "start": { "time": 1.5, "gain": 1 },  <span class="c">// fade in over 1.5 s</span>
+        "end":   { "time": 2.5, "gain": 0 }   <span class="c">// fade out over 2.5 s when it stops</span>
+      }]
+    },
+
+    {                           <span class="c">// 3 · A SYNTHESIZED SOUND (no file at all)</span>
+      "format": "voice/0",
+      "name": "glass bowl",
+      "hold": true,
+      "layers": [{
+        "source": "sine",       <span class="c">// sine, triangle, square, sawtooth or noise</span>
+        "pitch": 660,           <span class="c">// Hz</span>
+        "partials": [[1, 1], [2.32, 0.2], [4.25, 0.07]],  <span class="c">// [ratio, level]: glass modes</span>
+        "start": { "time": 0.5, "gain": 0.18 },
+        "hold":  { "time": 2, "gain": 0.22, "wobble": { "rate": 2.4, "depth": 0.25 } },
+        "end":   { "time": 2.2, "gain": 0, "curve": "exp" }   <span class="c">// rings off, like struck glass</span>
+      }]
+    },
+
+    {                           <span class="c">// 4 · GRAINS: a recording fired as events</span>
+      "format": "voice/0",
+      "name": "drip echo",
+      "hold": false,
+      "events": [{
+        "during": "start",
+        "count": 2,             <span class="c">// two drips…</span>
+        "gap": 0.16,            <span class="c">// …0.16 s apart…</span>
+        "fade": 0.4,            <span class="c">// …the second at 40 %</span>
+        "grain": { "source": "sample", "sample": "samples/drip.wav", "rate": [0.7, 1.6] }
+      }]
+    }
+  ],
+
+  "roles": {                    <span class="c">// how each sound plays when the pack is opened</span>
+    "drip":       { "role": "touch",   "on": true,  "level": 1 },
+    "harbor":     { "role": "bed",     "on": true,  "level": 0.8 },
+    "glass bowl": { "role": "touch",   "on": false },
+    "drip echo":  { "role": "pattern", "every": "eighth", "on": true }
+  }                             <span class="c">// every: beat · back (2 and 4) · off · bar · eighth</span>
+}</pre>
+  <h3>The fields, in short</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Field</th><th>Where</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>source</td><td>layer, grain</td><td><code>sample</code>, <code>sine</code>, <code>triangle</code>, <code>square</code>, <code>sawtooth</code>, <code>noise</code></td></tr>
+      <tr><td>sample</td><td>layer, grain</td><td>path of a recording in the zip</td></tr>
+      <tr><td>rate · offset · loop</td><td>sample</td><td>speed (1 = as recorded), seconds into the file, repeat while held</td></tr>
+      <tr><td>start · hold · end</td><td>layer</td><td>the three phases: <code>time</code> (s), <code>gain</code>, <code>freq</code> (filter), <code>pitch</code>, <code>curve: "exp"</code>, and on hold <code>wobble</code></td></tr>
+      <tr><td>filter</td><td>layer, grain</td><td><code>{"type": "lowpass" | "highpass" | "bandpass", "freq": Hz, "q": 0.7}</code></td></tr>
+      <tr><td>events</td><td>recipe</td><td>grains fired <code>during</code> start, hold or end: a <code>count</code> with <code>gap</code>, <code>shrink</code>, <code>fade</code>; or a stream <code>every</code> [min, max] s</td></tr>
+      <tr><td>[a, b]</td><td>most numbers</td><td>a random value between a and b, new each time</td></tr>
+      <tr><td>trim · level</td><td>recipe · roles</td><td>dB on the recipe; 0 to 2 in roles</td></tr>
+    </tbody>
+  </table></div>
+  <p>The starter pack's <code>instrument.json</code> has eight working examples of all of this. Sounds made in Pullula (the studio's sound tool) use the same format and open here too.</p>
+</section>
+
+<section class="ch" id="share">
+  <header><i>07</i><h2>Share with the ensemble</h2></header>
+  <ol class="steps">
+    <li><p>In Current, open <b>kit</b> and tap <b>Save as a set</b>. With recordings in your kit, it saves a pack <code>.zip</code> holding your sounds, their roles and the recordings. (Without recordings it saves a single <code>.json</code>.)</p></li>
+    <li><p>Or build the folder by hand from the template and zip it. Put <code>pack.json</code> at the top of the zip; one folder around everything is fine too. On a Mac, right-click the folder › Compress.</p></li>
+    <li><p>Send the zip any way you like: AirDrop, the ensemble's shared drive, a message.</p></li>
+    <li><p>To open one, in Current: <b>kit › Import…</b> and choose the zip, or drop it anywhere on Current. Nobody unzips it. The sheet lists the sounds and anything left out, then <b>Add</b>.</p></li>
+  </ol>
+  <div class="note"><p>Credit the people whose sounds you carry. Put their names in your <code>README.txt</code> and in each recipe's <code>"about"</code>, and only share recordings you have permission to share.</p></div>
+</section>
+
+<section class="ch" id="perform">
+  <header><i>08</i><h2>Performing together</h2></header>
+  <ul class="plain">
+    <li><b>One device, one voice.</b> Each performer plays Current on their own device, with their own sound out to the house mix: headphone out or an audio interface into the desk, one channel or stereo pair each.</li>
+    <li><b>Leave room.</b> Five beds at once is a wall. Agree who holds the bed in each section, and keep beds near −18 LUFS.</li>
+    <li><b>Share a tempo.</b> Until the room sync arrives (it is being built now), agree a bpm and set it with tap tempo; beat and pattern sounds follow Current's grid.</li>
+    <li><b>Visual-only passages.</b> The field moves only while your sound plays. To be seen and not heard, keep the sound on and have your channel turned down at the desk.</li>
+    <li><b>Before the show:</b> charge everything, turn on Do Not Disturb, set the device volume, and open your pack on the device you will play. On iPhone, Guided Access keeps the screen in Current.</li>
+    <li><b>Projection:</b> on a laptop, <b>Clean output</b> opens the stage alone in its own window for a projector, while the controls stay on your screen.</li>
+    <li><b>Water:</b> Current also has its own water sounds (Shallows, Deep, Open sea, Rain on the roof, Stream, Hydrophone, Harbor, Pod) and a ripple surface over the stage. Try them under your pack.</li>
+  </ul>
+</section>
+
+<section class="ch" id="cheat">
+  <header><i>09</i><h2>Cheat sheet</h2></header>
+  <div class="cheat">
+    <div><h4>Get to the kit</h4><dl>
+      <dt>tap speaker</dt><dd>sound on or off</dd>
+      <dt>hold speaker</dt><dd>sound shelf</dd>
+      <dt>kit</dt><dd>your instruments</dd>
+      <dt>Import…</dt><dd>files, a folder, a pack zip</dd>
+      <dt>▶ · ✓ · bin</dt><dd>hear · on/off · remove</dd>
+    </dl></div>
+    <div><h4>Roles</h4><dl>
+      <dt>Touch</dt><dd>tap strikes, hold sustains, x pans</dd>
+      <dt>On the beat</dt><dd>beat · 2 and 4 · off · bar · eighths</dd>
+      <dt>Bed</dt><dd>under everything, while sound is on</dd>
+      <dt>Pattern</dt><dd>the drawing's cuts, panned in place</dd>
+    </dl></div>
+    <div><h4>Files</h4><dl>
+      <dt>formats</dt><dd>wav, mp3 (ogg, m4a, flac)</dd>
+      <dt>caps</dt><dd>45 s · 12 MB a file · 60 MB an import</dd>
+      <dt>one-shot</dt><dd>&lt; 3 s, peak −1 dBFS, tight start</dd>
+      <dt>loop</dt><dd>≥ 3 s, −18 LUFS, seamless</dd>
+      <dt>names</dt><dd>rain-on-tin.wav</dd>
+    </dl></div>
+    <div><h4>The field hears</h4><dl>
+      <dt>bass</dt><dd>30–150 Hz, pushes</dd>
+      <dt>mid · high</dt><dd>150–2k · 2k–12k Hz</dd>
+      <dt>level</dt><dd>louder = faster</dd>
+      <dt>beat</dt><dd>bass jump = surge</dd>
+      <dt>wet</dt><dd>heard, not seen</dd>
+    </dl></div>
+    <div><h4>Ableton</h4><ul>
+      <li>Warp off for one-shots</li>
+      <li>Consolidate <kbd>⌘J</kbd> or Export <kbd>⌘⇧R</kbd></li>
+      <li>WAV · 48 kHz · 16/24 bit · Normalize off</li>
+      <li>Render as Loop for loops</li>
+    </ul></div>
+    <div><h4>Max</h4><ul>
+      <li><code>buffer~</code> + <code>record~</code>, then <code>writewave</code></li>
+      <li><code>sfrecord~ 2</code>: <code>open</code>, <code>1</code>, <code>0</code></li>
+    </ul></div>
+    <div><h4>A pack</h4><ul>
+      <li><code>pack.json</code> · <code>instrument.json</code> · <code>samples/</code></li>
+      <li>layer: <code>"source": "sample", "sample": "samples/x.wav"</code></li>
+      <li><code>"hold": true</code> + <code>"loop": true</code> = a bed</li>
+      <li>roles: <code>{"x": {"role": "beat", "every": "back"}}</code></li>
+    </ul></div>
+    <div><h4>Share</h4><ul>
+      <li>kit › Save as a set → a zip</li>
+      <li>open: kit › Import…, or drop it on Current</li>
+      <li>never unzip; recordings stay per device</li>
+      <li>works.chamy.xyz/current/packs</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="ch colo" id="colophon">
+  <header><i>10</i><h2>Colophon</h2></header>
+  <dl>
+    <dt>Made by</dt><dd>Dimitry Saïd Chamy, CHAMY·XYZ, for the Frost Electronic Music Ensemble, Frost School of Music, University of Miami. Written with Claude.</dd>
+    <dt>Foundations</dt><dd>The Web Audio API (W3C), which plays every sound here; the browser's own audio decoders (WAV, MP3, Ogg Vorbis and Opus, AAC, FLAC); IndexedDB, which keeps your recordings on the device; ZIP (PKWARE APPNOTE), the pack's container; JSON. The voice/0 recipe format comes from Pullula, the studio's sound tool; the instrument/1 set format from Fracture. G-code (RS-274) is the field's source.</dd>
+    <dt>Your tools</dt><dd>Ableton Live and Max (Cycling '74) are named as the ensemble's own tools, with their menus as they stand in Live 12 and Max 9. Youlean Loudness Meter for metering; EBU R 128 and ITU-R BS.1770 define LUFS.</dd>
+    <dt>The starter pack</dt><dd>Its recordings were synthesized offline in Python with NumPy and SciPy: the drip after Kees van den Doel's bubble model of liquid sound (2004), glass modes at 1 : 2.32 : 4.25, a sub pulse. Nothing in it was recorded from anyone or licensed. Pack and template: CC BY 4.0, naming CHAMY·XYZ.</dd>
+    <dt>Contact</dt><dd>hi@chamy.xyz</dd>
+  </dl>
+  <img class="word" src="/c/word.svg" alt="CHAMY·XYZ" onerror="this.remove()">
+</section>
+
+</div>
+
+</body>
+</html>
