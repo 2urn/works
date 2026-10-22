@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022191105";window.__VERSION__="0.29.58";window.__NOTES__=[{"v":"0.29.58","date":"22 Oct 2026","items":[{"kind":"new","text":"Settings has a Performing switch. On, nothing reloads by itself mid-show, the update notice waits until you turn it off, and the screen stays awake. It is also on by itself while you are in a room, or while auto play runs in fullscreen"},{"kind":"new","text":"auto play keeps the screen awake while it runs"},{"kind":"fix","text":"a shared scene, a pack or a room can only bring colors, settings and words, never anything that runs on the page"},{"kind":"fix","text":"bytebeat formulas from packs, links and files are read by Current's own formula reader and never run as code; a formula it cannot read is refused with a note"},{"kind":"fix","text":"opening Current no longer keeps a copy of the scene online; a scene link is made only when you open the cards or ask for a link"},{"kind":"fix","text":"on a slow or stuck connection Current opens from what it kept within a few seconds, instead of waiting"},{"kind":"fix","text":"the visitor count no longer sees a shared scene's link or a room's code"}]}]</script>
+<script>window.__BUILD__="20261022191540";window.__VERSION__="0.29.58";window.__NOTES__=[{"v":"0.29.58","date":"22 Oct 2026","items":[{"kind":"new","text":"Settings has a Performing switch. On, nothing reloads by itself mid-show, the update notice waits until you turn it off, and the screen stays awake. It is also on by itself while you are in a room, or while auto play runs in fullscreen"},{"kind":"new","text":"auto play keeps the screen awake while it runs"},{"kind":"fix","text":"a shared scene, a pack or a room can only bring colors, settings and words, never anything that runs on the page"},{"kind":"fix","text":"bytebeat formulas from packs, links and files are read by Current's own formula reader and never run as code; a formula it cannot read is refused with a note"},{"kind":"fix","text":"opening Current no longer keeps a copy of the scene online; a scene link is made only when you open the cards or ask for a link"},{"kind":"fix","text":"on a slow or stuck connection Current opens from what it kept within a few seconds, instead of waiting"},{"kind":"fix","text":"the visitor count no longer sees a shared scene's link or a room's code"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022191105"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022191105">
+<script src="claude-web.js?v=20261022191540"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022191540">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -123,38 +123,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022191105"></script>
-<script src="surface/selftest.js?v=20261022191105"></script>
-<script src="surface/report.js?v=20261022191105"></script>
-<script src="surface/auto.js?v=20261022191105"></script>
-<script src="surface/toolpath.js?v=20261022191105"></script>
-<script src="surface/capture.js?v=20261022191105"></script>
-<script src="surface/pop.js?v=20261022191105"></script>
-<script src="surface/hints.js?v=20261022191105"></script>
-<script src="surface/paths.js?v=20261022191105"></script>
-<script src="surface/keys.js?v=20261022191105"></script>
-<script src="surface/reset.js?v=20261022191105"></script>
-<script src="surface/files.js?v=20261022191105"></script>
-<script src="surface/tabs.js?v=20261022191105"></script>
-<script src="surface/running.js?v=20261022191105"></script>
-<script src="surface/trim.js?v=20261022191105"></script>
-<script src="surface/audiowake.js?v=20261022191105"></script>
-<script src="surface/session.js?v=20261022191105"></script>
-<script src="surface/output.js?v=20261022191105"></script>
-<script src="surface/voice.js?v=20261022191105"></script>
-<script src="surface/voicelib.js?v=20261022191105"></script>
-<script src="surface/instruments.js?v=20261022191105"></script>
-<script src="surface/listview.js?v=20261022191105"></script>
-<script src="surface/beads.js?v=20261022191105"></script>
-<script src="surface/strip.js?v=20261022191105"></script>
-<script src="surface/sheetnav.js?v=20261022191105"></script>
-<script src="surface/twofinger.js?v=20261022191105"></script>
-<script src="surface/shortlink.js?v=20261022191105"></script>
-<script src="surface/undo.js?v=20261022191105"></script>
-<script src="surface/pro.js?v=20261022191105"></script>
-<script src="surface/fresh.js?v=20261022191105"></script>
-<script src="surface/notice.js?v=20261022191105"></script>
-<script src="surface/perform.js?v=20261022191105"></script>
+<script src="vendor/opentype.min.js?v=20261022191540"></script>
+<script src="surface/selftest.js?v=20261022191540"></script>
+<script src="surface/report.js?v=20261022191540"></script>
+<script src="surface/auto.js?v=20261022191540"></script>
+<script src="surface/toolpath.js?v=20261022191540"></script>
+<script src="surface/capture.js?v=20261022191540"></script>
+<script src="surface/pop.js?v=20261022191540"></script>
+<script src="surface/hints.js?v=20261022191540"></script>
+<script src="surface/paths.js?v=20261022191540"></script>
+<script src="surface/keys.js?v=20261022191540"></script>
+<script src="surface/reset.js?v=20261022191540"></script>
+<script src="surface/files.js?v=20261022191540"></script>
+<script src="surface/tabs.js?v=20261022191540"></script>
+<script src="surface/running.js?v=20261022191540"></script>
+<script src="surface/trim.js?v=20261022191540"></script>
+<script src="surface/audiowake.js?v=20261022191540"></script>
+<script src="surface/session.js?v=20261022191540"></script>
+<script src="surface/output.js?v=20261022191540"></script>
+<script src="surface/voice.js?v=20261022191540"></script>
+<script src="surface/voicelib.js?v=20261022191540"></script>
+<script src="surface/instruments.js?v=20261022191540"></script>
+<script src="surface/listview.js?v=20261022191540"></script>
+<script src="surface/beads.js?v=20261022191540"></script>
+<script src="surface/strip.js?v=20261022191540"></script>
+<script src="surface/sheetnav.js?v=20261022191540"></script>
+<script src="surface/twofinger.js?v=20261022191540"></script>
+<script src="surface/shortlink.js?v=20261022191540"></script>
+<script src="surface/undo.js?v=20261022191540"></script>
+<script src="surface/pro.js?v=20261022191540"></script>
+<script src="surface/fresh.js?v=20261022191540"></script>
+<script src="surface/notice.js?v=20261022191540"></script>
+<script src="surface/perform.js?v=20261022191540"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -171,13 +171,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022191105"></script>
-<script src="surface/rail.js?v=20261022191105"></script>
-<script src="surface/touchsound.js?v=20261022191105"></script>
-<script src="surface/water.js?v=20261022191105"></script>
-<script src="surface/ripple.js?v=20261022191105"></script>
-<script src="surface/float.js?v=20261022191105"></script>
-<script src="surface/manual.js?v=20261022191105"></script>
+<script src="surface/pack.js?v=20261022191540"></script>
+<script src="surface/rail.js?v=20261022191540"></script>
+<script src="surface/touchsound.js?v=20261022191540"></script>
+<script src="surface/water.js?v=20261022191540"></script>
+<script src="surface/ripple.js?v=20261022191540"></script>
+<script src="surface/float.js?v=20261022191540"></script>
+<script src="surface/manual.js?v=20261022191540"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -8761,10 +8761,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022191105"></script>
-<script src="surface/links.js?v=20261022191105"></script>
-<script src="surface/tips.js?v=20261022191105"></script>
-<script src="surface/sections.js?v=20261022191105"></script>
+<script src="surface/install.js?v=20261022191540"></script>
+<script src="surface/links.js?v=20261022191540"></script>
+<script src="surface/tips.js?v=20261022191540"></script>
+<script src="surface/sections.js?v=20261022191540"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
