@@ -242,7 +242,11 @@
       /* off the control's lower right: the first dot's centre 3 px in from its right edge, its top 2 px below it;
          a second path on the same control sits further right */
       /* a control wider than tall (a group: back · Auto · next) takes the square at its centre */
-      var half = Math.min(er.width, er.height) / 2, at = er.left + er.width / 2 + half - cr.left - c.clientLeft - 3, top = er.bottom - cr.top - c.clientTop + 2;
+      /* measured without the control's own transform (Dimitry, 22 Oct: pressing a bar button made its dots jiggle toward
+         it and back): a press scales the button about its centre, so the centre holds and the size comes from the
+         untransformed box */
+      var w = el.offsetWidth || er.width, h = el.offsetHeight || er.height, mx = er.left + er.width / 2, my = er.top + er.height / 2;
+      var half = Math.min(w, h) / 2, at = mx + half - cr.left - c.clientLeft - 3, top = my + h / 2 - cr.top - c.clientTop + 2;
       g.forEach(function (x) { x.b.style.left = Math.round(at) + "px"; x.b.style.top = Math.round(top) + "px"; at += x.b.offsetWidth + 3; });
     });
   }

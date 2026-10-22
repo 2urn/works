@@ -66,8 +66,8 @@
     if (e.__surface) return;
     /* a keyboard has spoken: show the way to the sheet. Not while typing in a field: a phone's on-screen keyboard fires
        keydown too, and the Keys button turned up on an iPhone after writing a bug report (Dimitry, 22 Oct) */
-    var tg = e.target, typing = tg && (tg.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName || ""));
-    if (btn && btn.hidden && !e.metaKey && !e.ctrlKey && !typing) btn.hidden = false;
+    var tg = e.target, inField = tg && (tg.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName || ""));
+    if (btn && btn.hidden && !e.metaKey && !e.ctrlKey && !inField) btn.hidden = false;
     if (listening) { e.preventDefault(); e.stopImmediatePropagation(); assign(e); return; }
     var n = nameOf(e);
     if ((e.metaKey || e.ctrlKey) && !e.altKey) {   // combinations: only those an action claims; the rest belong to the browser

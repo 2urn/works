@@ -65,7 +65,7 @@
       if (!o.rescue) return;
       if (!chip) {
         if (!document.getElementById("saw-css")) { var st = document.createElement("style"); st.id = "saw-css"; st.textContent =
-          ".saw{position:fixed;z-index:70;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(max(12px,env(safe-area-inset-right,0px)));display:flex;gap:6px;padding:5px;border-radius:24px;background:rgba(10,13,16,.9);border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 30px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;translate:0 -8px;transition:opacity .3s ease,translate .4s cubic-bezier(.16,1,.3,1)}" +
+          ".saw{position:fixed;z-index:70;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(max(12px,env(safe-area-inset-right,0px)));display:flex;gap:6px;padding:5px;border-radius:24px;background:rgba(14,14,16,.92);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 30px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;translate:0 -8px;transition:opacity .3s ease,translate .4s cubic-bezier(.16,1,.3,1)}" +
           ".saw.on{opacity:1;translate:0 0}.saw[hidden]{display:none}" +
           ".saw .back{display:none;align-items:center;gap:6px;height:36px;padding:0 14px;color:#fff;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
           ".saw.is-back button{display:none}.saw.is-back .back{display:flex}" +
