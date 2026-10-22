@@ -10,7 +10,16 @@
          the × (.spop-x), keeping its id, its handler and an aria-label (the one given, or "Close").
      SurfacePop.css   the stylesheet, for a tool that builds its panel by hand: class="spop", "spop-head", "spop-x".
 
-   A panel's own body keeps its own layout; only the card, the head and the × are shared. */
+   A panel's own body keeps its own layout; only the card, the head and the × are shared.
+
+   FOOT (Dimitry, 21 Oct 2026, Current 0.28.3: "tabs at the bottom ... nearest the thumb and the bar"):
+     SurfacePop.dress('#plist', { head: '.mxh', close: '#plClose', foot: true, toward: '#pAuto' })
+   - the head becomes a band along the panel's lower edge (.spop-foot): tabs, title and close sit by the thumb;
+   - the close is the bottom shelf's tall tab, CLOSE turned 90 degrees (vertical-rl turned 180, reading bottom to top)
+     with a ⌄, the whole band's height its target; Esc stays the tool's;
+   - the panel opens rising from its button and closes sliding down toward it (translate and opacity, 240 ms,
+     ease-out in, ease-in out; a fade only under reduced motion). 'toward' is the bar button it belongs to;
+   - a downward swipe on the band closes it (a click on the close, so the tool's own close runs). */
 (function () {
   "use strict";
   if (window.SurfacePop) return;
@@ -30,8 +39,23 @@
        transition-behavior it simply shows and hides as before */
     "@media (prefers-reduced-motion:no-preference){.spop,.scap{transition:opacity .55s ease,translate .6s cubic-bezier(.2,.8,.2,1),display .6s allow-discrete,overlay .6s allow-discrete}",
     ".spop[hidden],.scap[hidden]{opacity:0;translate:0 16px}",
-    "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 16px}}}"
+    "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 16px}}}",
+    /* FOOT: the band at the bottom, the tall close, the slide to and from the button */
+    ".spop.spop-foot{display:flex;flex-direction:column}",
+    ".spop-foot>.spop-head{order:99;border-bottom:0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08);min-height:44px;padding-right:0}",
+    ".spop-foot>.sfTabCap{order:98}",
+    ".spop-foot .sfTab{border-bottom:0;border-top:2px solid transparent;margin:-1px 0 0;min-height:44px}.spop-foot .sfTab[aria-selected=true]{border-top-color:var(--acc,#55b8c9)}",
+    ".spop-head .spop-vx,.spop-vx{align-self:stretch;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;min-width:34px;min-height:44px;height:44px;padding:0 6px;margin:0;border:0;",
+    "  border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);border-radius:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer}",
+    ".spop-vx:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
+    ".spop-head .spop-vx span,.spop-vx span{writing-mode:vertical-rl;transform:rotate(180deg);font:600 8.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}",
+    ".spop-vx svg{flex:none;width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}",
+    "@media (prefers-reduced-motion:no-preference){.spop.spop-foot{transition:opacity .24s ease-out,translate .24s cubic-bezier(.2,.7,.2,1),display .24s allow-discrete,overlay .24s allow-discrete}",
+    ".spop.spop-foot[hidden]{opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px);transition-timing-function:ease-in,cubic-bezier(.4,0,.8,.4)}",
+    "@starting-style{.spop.spop-foot:not([hidden]){opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px)}}}",
+    "@media (prefers-reduced-motion:reduce){.spop.spop-foot{transition:opacity .15s,display .15s allow-discrete}.spop.spop-foot[hidden]{opacity:0}}"
   ].join("\n");
+  var V = '<span>Close</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>';
   function inject() {
     if (document.getElementById("spop-css")) return;
     var st = document.createElement("style"); st.id = "spop-css"; st.textContent = CSS;
@@ -48,9 +72,30 @@
       x.classList.add("spop-x");
       if (!x.getAttribute("aria-label")) x.setAttribute("aria-label", o.label || "Close");
       x.title = x.title || "Close";
-      x.innerHTML = X;
+      x.innerHTML = o.foot ? V : X;
+      if (o.foot) { x.classList.remove("spop-x"); x.classList.add("spop-vx"); }
     }
+    if (o.foot) foot(el, head, x, o);
     return el;
+  }
+  function foot(el, head, x, o) {
+    el.classList.add("spop-foot");
+    /* where to slide: from the panel's bottom middle to its button's middle, measured each time it opens */
+    var aim = function () {
+      var b = o.toward ? q(document, o.toward) : null; if (!b || !b.offsetWidth) { el.style.removeProperty("--spop-dx"); el.style.removeProperty("--spop-dy"); return; }
+      var r = el.getBoundingClientRect(), t = b.getBoundingClientRect();
+      var dy = Math.max(16, Math.min(160, t.top + t.height / 2 - r.bottom)), dx = Math.max(-120, Math.min(120, (t.left + t.width / 2) - (r.left + r.width / 2)));
+      el.style.setProperty("--spop-dx", Math.round(dx * .5) + "px"); el.style.setProperty("--spop-dy", Math.round(dy) + "px");
+    };
+    try { new MutationObserver(function () { if (!el.hidden) requestAnimationFrame(aim); }).observe(el, { attributes: true, attributeFilter: ["hidden"] }); } catch (e) {}
+    addEventListener("resize", function () { if (!el.hidden) aim(); });
+    /* swipe down on the band: close */
+    if (head && x) {
+      var s0 = null;
+      head.addEventListener("touchstart", function (e) { if (e.touches.length !== 1) { s0 = null; return; } var t = e.touches[0]; s0 = { x: t.clientX, y: t.clientY, t: performance.now() }; }, { passive: true });
+      head.addEventListener("touchend", function (e) { if (!s0) return; var t = e.changedTouches[0], dx = t.clientX - s0.x, dy = t.clientY - s0.y; var ok = dy > 40 && Math.abs(dx) < dy * .7 && performance.now() - s0.t < 700; s0 = null; if (ok) x.click(); }, { passive: true });
+      head.addEventListener("touchcancel", function () { s0 = null; }, { passive: true });
+    }
   }
   /* GLIDE: folded sections fade and settle as they open and close, and the page's own scrolling panes scroll
      smoothly. SurfacePop.glide({ shut: 'cx-shut', bodies: '.cx-gbody,.cx-body', scrollers: '#panel,.track' }).
@@ -67,5 +112,5 @@
       b + "{opacity:0;translate:0 -10px}" + "@starting-style{" + open + "{opacity:0;translate:0 -10px}}}";
     var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = css; document.head.appendChild(st);
   }
-  window.SurfacePop = { dress: dress, css: CSS, X: X, glide: glide };
+  window.SurfacePop = { dress: dress, css: CSS, X: X, V: V, glide: glide };
 })();
