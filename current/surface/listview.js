@@ -23,16 +23,43 @@
   var CSS = ":where(.s-lvbar){display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 10px}" +
     ":where(.s-star){width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:color-mix(in srgb,currentColor 45%,transparent);cursor:pointer}" +
     ":where(.s-star) svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}" +
-    ":where(.s-star[aria-pressed=true]){color:var(--acc,#55b8c9)}:where(.s-star[aria-pressed=true]) svg{fill:currentColor}";
+    ":where(.s-star[aria-pressed=true]){color:var(--acc,#55b8c9)}:where(.s-star[aria-pressed=true]) svg{fill:currentColor}" +
+    /* every segment the same target (Dimitry, 22 Oct 23:58: the ★ was a sliver): the segment token tall, at least 44 px
+       wide, the star glyph as big as the words look (15 px) */
+    ".s-lvbar .segs{gap:0}.s-lvbar .sg,.s-seg-even .sg{min-width:44px;min-height:var(--s-seg-h,36px);display:inline-grid;place-items:center;padding:0 6px;box-sizing:border-box}" +
+    ".s-sgstar{font-size:15px;line-height:1;letter-spacing:0}" +
+    /* COLUMN-MAJOR TWO COLUMNS (23:58): a list laid in two columns reads down the first, then down the second. flow() sets
+       --lv-rows and pins the list's own heads across both columns; a list wearing .s-lvcols goes to two columns, column
+       by column, once its container (a panel spanning the bar, pop.js span) is 560 px or wider. DOM order stays the
+       reading order, so drag and ↑ ↓ follow it unchanged. */
+    "@container (min-width:560px){.s-lvcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start;grid-auto-flow:column;" +
+    "grid-template-rows:var(--lv-tpl,auto)}.s-lvcols>.s-lvhead{grid-column:1/-1}}";
   function css() { if (document.getElementById("slv-css")) return; var s = document.createElement("style"); s.id = "slv-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
   function group(name, opts, get, set) {
     var g = document.createElement("div"); g.className = "segs"; g.setAttribute("role", "radiogroup"); g.setAttribute("aria-label", name);
     var sync = function () { [].forEach.call(g.children, function (y, i) { y.setAttribute("aria-checked", String(opts[i][0] === get())); }); };
     opts.forEach(function (o) {
-      var x = document.createElement("button"); x.type = "button"; x.className = "sg"; x.innerHTML = o[1]; x.setAttribute("role", "radio"); x.setAttribute("aria-label", o[2] || o[0]);
+      var x = document.createElement("button"); x.type = "button"; x.className = "sg"; x.innerHTML = starLabel(o[1]); x.setAttribute("role", "radio"); x.setAttribute("aria-label", o[2] || o[0]);
       x.onclick = function () { set(o[0]); sync(); }; g.appendChild(x);
     });
     sync(); return g;
+  }
+  /* a lone star as a label is drawn at the words' visual size */
+  function starLabel(t) { return /^(&#9733;|\u2605|★)$/.test(String(t)) ? '<span class="s-sgstar" aria-hidden="true">\u2605</span>' : t; }
+  /* lay a list in column-major order: items are el's children matching item; anything else is a head, pinned to its own
+     row across the columns (in DOM order). Call after every build; a MutationObserver keeps it right after reorders. */
+  function flow(el, o) {
+    o = o || {}; var item = o.item || ".lk", cols = o.cols || 2; css(); el.classList.add("s-lvcols");
+    function set() {
+      var heads = 0, n = 0;
+      [].forEach.call(el.children, function (c) { if (c.matches(item)) { n++; c.style.gridRow = ""; } else { heads++; c.classList.add("s-lvhead"); c.style.gridRow = String(heads); } });
+      var rows = Math.max(1, Math.ceil(n / cols));   /* repeat(0, …) is invalid CSS, so the template is written whole */
+      el.style.setProperty("--lv-head", String(heads)); el.style.setProperty("--lv-rows", String(rows));
+      el.style.setProperty("--lv-tpl", (heads ? "repeat(" + heads + ",auto) " : "") + "repeat(" + rows + ",auto)");
+    }
+    set();
+    if (!el.__lvflow) { el.__lvflow = true; try { new MutationObserver(function (m) { if (m.some(function (x) { return x.type === "childList"; })) set(); }).observe(el, { childList: true }); } catch (e) {} }
+    return set;
   }
   function bar(o) {
     css(); var b = document.createElement("div"); b.className = "s-lvbar";
@@ -57,5 +84,5 @@
     x.onclick = function (e) { e.stopPropagation(); onToggle(x.getAttribute("aria-pressed") !== "true"); };
     return x;
   }
-  window.SurfaceListView = { bar: bar, order: order, star: star, STAR: STAR, GRIP: GRIP };
+  window.SurfaceListView = { bar: bar, order: order, star: star, flow: flow, starLabel: starLabel, STAR: STAR, GRIP: GRIP };
 })();

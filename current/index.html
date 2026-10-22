@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022035806";window.__VERSION__="0.29.10";window.__NOTES__=[{"v":"0.29.10","date":"22 Oct 2026","items":[{"kind":"change","text":"Color, the right way up. The drawer shows only your current colors, one swatch per group, and a mixer button at the end; tap a group to select it and the shelf below slides to its colors, the current one lit; tap a color to set it. Hold a group for the Color mixer; the mixer button opens it at the selected group"},{"kind":"change","text":"the Color mixer is as wide as the bar and lays its controls in two columns on a wide screen"},{"kind":"change","text":"the (i) in a panel's band sits at the right, beside ‹ › ⌄"}]}]</script>
+<script>window.__BUILD__="20261022040303";window.__VERSION__="0.29.11";window.__NOTES__=[{"v":"0.29.11","date":"22 Oct 2026","items":[{"kind":"change","text":"in two columns, lists read down the first column and then down the second; dragging and the arrow keys follow the same order"},{"kind":"change","text":"the list filters (all ★ on, hand a–z used) are even, larger targets, and the star is as big as the words"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022035806"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022035806">
+<script src="claude-web.js?v=20261022040303"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022040303">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,42 +119,42 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022035806"></script>
-<script src="surface/selftest.js?v=20261022035806"></script>
-<script src="surface/report.js?v=20261022035806"></script>
-<script src="surface/auto.js?v=20261022035806"></script>
-<script src="surface/toolpath.js?v=20261022035806"></script>
-<script src="surface/capture.js?v=20261022035806"></script>
-<script src="surface/pop.js?v=20261022035806"></script>
-<script src="surface/hints.js?v=20261022035806"></script>
-<script src="surface/paths.js?v=20261022035806"></script>
-<script src="surface/keys.js?v=20261022035806"></script>
-<script src="surface/reset.js?v=20261022035806"></script>
-<script src="surface/files.js?v=20261022035806"></script>
-<script src="surface/tabs.js?v=20261022035806"></script>
-<script src="surface/running.js?v=20261022035806"></script>
-<script src="surface/trim.js?v=20261022035806"></script>
-<script src="surface/audiowake.js?v=20261022035806"></script>
-<script src="surface/listview.js?v=20261022035806"></script>
-<script src="surface/beads.js?v=20261022035806"></script>
-<script src="surface/strip.js?v=20261022035806"></script>
-<script src="surface/sheetnav.js?v=20261022035806"></script>
-<script src="surface/twofinger.js?v=20261022035806"></script>
-<script src="surface/shortlink.js?v=20261022035806"></script>
-<script src="surface/pro.js?v=20261022035806"></script>
+<script src="vendor/opentype.min.js?v=20261022040303"></script>
+<script src="surface/selftest.js?v=20261022040303"></script>
+<script src="surface/report.js?v=20261022040303"></script>
+<script src="surface/auto.js?v=20261022040303"></script>
+<script src="surface/toolpath.js?v=20261022040303"></script>
+<script src="surface/capture.js?v=20261022040303"></script>
+<script src="surface/pop.js?v=20261022040303"></script>
+<script src="surface/hints.js?v=20261022040303"></script>
+<script src="surface/paths.js?v=20261022040303"></script>
+<script src="surface/keys.js?v=20261022040303"></script>
+<script src="surface/reset.js?v=20261022040303"></script>
+<script src="surface/files.js?v=20261022040303"></script>
+<script src="surface/tabs.js?v=20261022040303"></script>
+<script src="surface/running.js?v=20261022040303"></script>
+<script src="surface/trim.js?v=20261022040303"></script>
+<script src="surface/audiowake.js?v=20261022040303"></script>
+<script src="surface/listview.js?v=20261022040303"></script>
+<script src="surface/beads.js?v=20261022040303"></script>
+<script src="surface/strip.js?v=20261022040303"></script>
+<script src="surface/sheetnav.js?v=20261022040303"></script>
+<script src="surface/twofinger.js?v=20261022040303"></script>
+<script src="surface/shortlink.js?v=20261022040303"></script>
+<script src="surface/pro.js?v=20261022040303"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022035806"></script>
-<script src="surface/rail.js?v=20261022035806"></script>
-<script src="surface/touchsound.js?v=20261022035806"></script>
-<script src="surface/water.js?v=20261022035806"></script>
-<script src="surface/ripple.js?v=20261022035806"></script>
-<script src="surface/float.js?v=20261022035806"></script>
-<script src="surface/manual.js?v=20261022035806"></script>
+<script src="surface/pack.js?v=20261022040303"></script>
+<script src="surface/rail.js?v=20261022040303"></script>
+<script src="surface/touchsound.js?v=20261022040303"></script>
+<script src="surface/water.js?v=20261022040303"></script>
+<script src="surface/ripple.js?v=20261022040303"></script>
+<script src="surface/float.js?v=20261022040303"></script>
+<script src="surface/manual.js?v=20261022040303"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -855,7 +855,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .sg[aria-pressed="true"]{color:var(--acc,#55b8c9);font-weight:700}
 #plItems{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 8px}
 #plItems .plBar{padding:0 0 4px}#plItems .plBar .segs{padding:2px 14px}
-#plItems .plBar button.sg{display:inline-flex;width:auto;min-height:30px;padding:0;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
+#plItems .plBar button.sg{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
 #plItems .plBar button.sg:hover{background:none;color:var(--ui-ink)}
 #plItems .plBar button.sg[aria-checked=true]{color:var(--acc,#55b8c9)}
 #plItems .lk{grid-template-columns:36px 24px minmax(0,1fr) 36px!important;padding-right:4px!important}
@@ -863,11 +863,9 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
    controls keep their phone sizes (a slider never runs the whole width) */
 @container (min-width:560px){
   #colorPop .cmPane{columns:2;column-gap:28px}#colorPop .cmPane>*{break-inside:avoid}#colorPop .cmPane>.cmL{break-after:avoid}#colorPop .cmPane>.cmHead{column-span:all}
-  #plItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start}#plItems>:not(.lk){grid-column:1/-1}
-  .rmList{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:12px}
+  /* the lists' two columns read column by column (kit listview.js flow, .s-lvcols) */
   .rlAmt{max-width:400px}
-  #mixBody{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px;align-content:start}#mixBody>:not(.mxCh){grid-column:1/-1}
-  #wlItems,#flItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start}
+  #mixBody.s-lvcols{column-gap:18px}
   #btList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px}
 }
 #plItems:not(.hand) .lk>.hd{visibility:hidden}
@@ -3424,14 +3422,14 @@ function buildRlist(){
   // the list: a view bar (show all / starred / on, sort by hand / A-Z / used), then one row per setting
   const items=[];SLIDERS.forEach(([k,lab])=>{if(RAND_SPAN[k])items.push([k,lab])});RAND_CHOICES.forEach(([k,lab])=>items.push([k,lab]));
   const lab=Object.fromEntries(items);RM.order=RM.order.filter(k=>lab[k]).concat(items.map(x=>x[0]).filter(k=>!RM.order.includes(k)));
-  const vb=document.createElement('div');vb.className='rmBar';
+  const vb=document.createElement('div');vb.className='rmBar s-seg-even';
   const seg=(name,opts,get,set)=>{const g=document.createElement('div');g.className='segs';g.setAttribute('role','radiogroup');g.setAttribute('aria-label',name);
-    opts.forEach(([v,t,al])=>{const x=document.createElement('button');x.type='button';x.className='sg';x.innerHTML=t;x.setAttribute('role','radio');x.setAttribute('aria-label',al);
+    opts.forEach(([v,t,al])=>{const x=document.createElement('button');x.type='button';x.className='sg';x.innerHTML=window.SurfaceListView?SurfaceListView.starLabel(t):t;x.setAttribute('role','radio');x.setAttribute('aria-label',al);
       x.setAttribute('aria-checked',String(get()===v));x.onclick=()=>{set(v);persistRM();drawList();g.querySelectorAll('button').forEach((y,i)=>y.setAttribute('aria-checked',String(opts[i][0]===get())))};g.appendChild(x)});return g};
   vb.appendChild(seg('Show',[['all','all','Show every setting'],['fav','&#9733;','Show only starred settings'],['on','on','Show only the settings in the matrix']],()=>RM.filter,v=>RM.filter=v));
   vb.appendChild(seg('Sort',[['hand','hand','In your own order: drag the handles'],['az','a&ndash;z','Alphabetical'],['used','used','Most changed by hand first']],()=>RM.sort,v=>RM.sort=v));
   b.appendChild(vb);
-  const ul=document.createElement('div');ul.className='rmList';ul.setAttribute('role','list');b.appendChild(ul);
+  const ul=document.createElement('div');ul.className='rmList';ul.setAttribute('role','list');b.appendChild(ul);if(window.SurfaceListView&&SurfaceListView.flow)SurfaceListView.flow(ul,{item:'.rmRow'});
   const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg>';
   const GRIP='<svg viewBox="0 0 10 16" aria-hidden="true"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg>';
   function view(){if(window.SurfaceListView)return SurfaceListView.order(RM.order,{show:RM.filter,sort:RM.sort,fav:RM.fav,label:k=>lab[k],used:k=>RM.used[k]||0,filters:{on:inMatrix}});   // the kit's rule (listview.js), shared with the preset list
@@ -3456,9 +3454,9 @@ function buildRlist(){
       g.onpointerdown=e=>{if(RM.sort!=='hand')return;e.preventDefault();g.setPointerCapture(e.pointerId);r.classList.add('dragging');
         const mv=ev=>{const rows=[...ul.querySelectorAll('.rmRow')],over=rows.find(x=>{const b2=x.getBoundingClientRect();return ev.clientY>=b2.top&&ev.clientY<b2.bottom&&ev.clientX>=b2.left&&ev.clientX<b2.right});   // x too: the list may be two columns (panels span the bar)
           if(over&&over!==r){const b2=over.getBoundingClientRect();ul.insertBefore(r,ev.clientY<b2.top+b2.height/2?over:over.nextSibling)}};
-        const up=()=>{g.removeEventListener('pointermove',mv);g.removeEventListener('pointerup',up);g.removeEventListener('pointercancel',up);r.classList.remove('dragging');
+        const up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);r.classList.remove('dragging');
           const shown=[...ul.querySelectorAll('.rmRow')].map(x=>x.dataset.k),rest=RM.order.filter(x=>!shown.includes(x));RM.order=shown.concat(rest);persistRM()};
-        g.addEventListener('pointermove',mv);g.addEventListener('pointerup',up);g.addEventListener('pointercancel',up)};
+        addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up)};   // on window: moving the row in the DOM drops the grip's pointer capture
       ul.appendChild(r)})}
   drawList();
   sub('Auto rolls from');
@@ -4860,6 +4858,8 @@ function nudgeBase(k,v){MORPH=null;S[k]=clampK(k,v);$('s-'+k).value=S[k];syncVal
 /* TWO FINGERS (kit twofinger.js): sliding up or down together is the master flow; anything else keeps its meaning (reach and
    strength on the open stage, the brush in steer, the magnet's reach). Placing a source or the frame keeps two fingers for
    moving it. A quick two-finger double tap puts the flow back to x1. */
+/* two-column lists read down each column (kit listview.js flow; Dimitry, 22 Oct 23:58) */
+try{if(window.SurfaceListView&&SurfaceListView.flow){SurfaceListView.flow($('plItems'),{item:'.lk'});SurfaceListView.flow($('mixBody'),{item:'.mxCh'});SurfaceListView.flow($('wlItems'),{item:'*'});SurfaceListView.flow($('flItems'),{item:'*'})}}catch(e){console.warn('flow',e)}
 const TFT=window.SurfaceTwoFinger?SurfaceTwoFinger.taps():null;
 const tfStart=(pr,a,b)=>{if(window.SurfaceTwoFinger){pr.tf=SurfaceTwoFinger.start(a,b);pr.fm0=FLOW.mul}return pr};
 function tfSlide(pr){if(!pr||!pr.tf)return 0;const [a,b]=[...ptrs.values()],k=pr.tf.update(a,b);if(!k)return 1;
@@ -7645,10 +7645,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022035806"></script>
-<script src="surface/links.js?v=20261022035806"></script>
-<script src="surface/tips.js?v=20261022035806"></script>
-<script src="surface/sections.js?v=20261022035806"></script>
+<script src="surface/install.js?v=20261022040303"></script>
+<script src="surface/links.js?v=20261022040303"></script>
+<script src="surface/tips.js?v=20261022040303"></script>
+<script src="surface/sections.js?v=20261022040303"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8283,7 +8283,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.10';
+const APP_VERSION='0.29.11';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
