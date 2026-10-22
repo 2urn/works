@@ -61,7 +61,15 @@
     "@media (prefers-reduced-motion:no-preference){.spop.spop-foot{transition:opacity .24s ease-out,translate .24s cubic-bezier(.2,.7,.2,1),display .24s allow-discrete,overlay .24s allow-discrete}",
     ".spop.spop-foot[hidden]{opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px);transition-timing-function:ease-in,cubic-bezier(.4,0,.8,.4)}",
     "@starting-style{.spop.spop-foot:not([hidden]){opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px)}}}",
-    "@media (prefers-reduced-motion:reduce){.spop.spop-foot{transition:opacity .15s,display .15s allow-discrete}.spop.spop-foot[hidden]{opacity:0}}"
+    "@media (prefers-reduced-motion:reduce){.spop.spop-foot{transition:opacity .15s,display .15s allow-discrete}.spop.spop-foot[hidden]{opacity:0}}",
+    /* THE BAND'S END (Dimitry, 22 Oct 22:52): ‹ | › | ⌄ are one fixed group pinned to the lower right, the same size and
+       place in every panel; whatever sits before them (tabs, a title) takes the rest of the band and gives way first */
+    ".spop-foot>.spop-head{justify-content:flex-start}",
+    ".spop-foot>.spop-head>.spop-end{display:flex;flex:none;align-self:stretch;margin-left:auto;gap:0;padding:0}",
+    ".spop-foot>.spop-head>:not(.spop-end){min-width:0;flex:0 1 auto}",
+    ".spop-foot>.spop-head>.spop-end>.s-snav-band,.spop-foot>.spop-head>.spop-end>.spop-vx{margin:0;flex:none}",
+    /* SPAN (22 Oct): a panel is exactly the bar's width, from its first button's left edge to its last one's right */
+    ".spop.spop-span{left:var(--span-l,12px)!important;right:auto!important;width:var(--span-w,calc(100vw - 24px))!important;max-width:none!important;min-width:0!important;transform:none!important;box-sizing:border-box;container-type:inline-size}"
   ].join("\n");
   var V = '<span>Close</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>';
   function inject() {
@@ -88,6 +96,10 @@
   }
   function foot(el, head, x, o) {
     el.classList.add("spop-foot");
+    /* the close sits in the band's end group (.spop-end); sheetnav.js puts ‹ › in front of it, in the same group */
+    if (head && x && head.contains(x) && !(x.parentNode && x.parentNode.classList && x.parentNode.classList.contains("spop-end"))) {
+      var end = document.createElement("div"); end.className = "spop-end"; head.appendChild(end); end.appendChild(x);
+    }
     /* where to slide: from the panel's bottom middle to its button's middle, measured each time it opens */
     var aim = function () {
       var b = o.toward ? q(document, o.toward) : null; if (!b || !b.offsetWidth) { el.style.removeProperty("--spop-dx"); el.style.removeProperty("--spop-dy"); return; }
@@ -120,5 +132,33 @@
       b + "{opacity:0;translate:0 -10px}" + "@starting-style{" + open + "{opacity:0;translate:0 -10px}}}";
     var st = document.createElement("style"); st.id = "spop-glide"; st.textContent = css; document.head.appendChild(st);
   }
-  window.SurfacePop = { dress: dress, css: CSS, X: X, V: V, glide: glide };
+  /* SPAN (Dimitry, 22 Oct 22:52: "panels span the bar"): every panel above the bar is exactly the bar's width, its left
+     edge at the bar's first button, its right at the last (buttons placed absolutely in a corner, like full screen, are
+     not the row). Measured live and followed through resize, a hand swap or full screen (ResizeObserver on the bar and
+     its buttons). Never wider than the window less 8 px each side.
+       SurfacePop.span({ bar: '#playbar', panels: ['#plist', '#mixPop', …] })   → { measure() }
+     Sets --span-l, --span-w (and --span-r) on the root; panels get .spop-span. Top drawers are not panels: they keep
+     hugging their content. Inside, a panel lays out by container queries (.spop-span is an inline-size container). */
+  function span(o) {
+    o = o || {}; inject();
+    var bar = q(document, o.bar || "#playbar"), root = document.documentElement, last = "";
+    (o.panels || []).forEach(function (p) { var el = q(document, p); if (el) el.classList.add("spop-span"); });
+    function measure() {
+      if (!bar) return;
+      var kids = [].slice.call(bar.children).filter(function (c) { if (!c.offsetWidth || c.hidden) return false; var ps = getComputedStyle(c).position; return ps !== "absolute" && ps !== "fixed"; });
+      if (!kids.length) return;
+      var l = Infinity, r = -Infinity;
+      kids.forEach(function (c) { var b = c.getBoundingClientRect(); if (b.left < l) l = b.left; if (b.right > r) r = b.right; });
+      l = Math.max(8, Math.round(l)); r = Math.min(innerWidth - 8, Math.round(r));
+      var key = l + "," + r; if (key === last) return; last = key;
+      root.style.setProperty("--span-l", l + "px"); root.style.setProperty("--span-w", (r - l) + "px"); root.style.setProperty("--span-r", (innerWidth - r) + "px");
+    }
+    measure();
+    try { var ro = new ResizeObserver(function () { measure(); }); ro.observe(bar); [].slice.call(bar.children).forEach(function (c) { ro.observe(c); }); } catch (e) {}
+    try { new MutationObserver(function () { requestAnimationFrame(measure); }).observe(bar, { attributes: true, subtree: true, childList: true, attributeFilter: ["hidden", "class", "style"] }); } catch (e) {}
+    addEventListener("resize", function () { last = ""; measure(); });
+    document.addEventListener("fullscreenchange", function () { last = ""; setTimeout(measure, 120); });
+    return { measure: function () { last = ""; measure(); } };
+  }
+  window.SurfacePop = { dress: dress, css: CSS, X: X, V: V, glide: glide, span: span };
 })();
