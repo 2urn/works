@@ -43,7 +43,7 @@
   "use strict";
   var O = null, ERR = [], last = 0, first = 0, t0 = Date.now(), el = null, shown = false, dismissed = false, results = [];
   var CSS = [
-    ".st-card{position:fixed;z-index:9000;left:50%;top:50%;transform:translate(-50%,-50%);box-sizing:border-box;width:min(380px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;",
+    ".st-card{position:fixed;z-index:9000;left:50%;top:50%;transform:translate(-50%,-50%);box-sizing:border-box;width:min(380px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;scrollbar-gutter:stable;",
     "  border-radius:18px;background:rgb(var(--ui-g,14 14 16) / .94);border:1px solid #ff6a3d;box-shadow:0 0 0 1px #ff6a3d,0 18px 60px rgba(0,0,0,.6);",
     "  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ui-ink,#eef1f2);font:14px/1.45 var(--sans,system-ui,sans-serif)}",
     ".st-card.ok{border-color:rgb(var(--ui-hi,255 255 255) / .2);box-shadow:0 18px 60px rgba(0,0,0,.6)}",

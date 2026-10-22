@@ -18,6 +18,8 @@
      })
      SurfaceFresh.seen(id)              // mark one used by hand (a shortcut or a menu reached it)
      SurfaceFresh.list()                // [{ id, name }] showing now, for a version line
+     SurfaceFresh.kind('new'|'fix'|'change', {label})   // the icon of a kind of change, HTML, a 16 px slot + "New:" for readers
+     SurfaceFresh.KINDS                 // { new|fix|change: { name, color, svg } }
    Plain script, window.SurfaceFresh, no dependencies. Default looks at zero specificity: the tool's rules win. */
 (function () {
   "use strict";
@@ -85,8 +87,27 @@
     save(); css(); paint();
     if (window.MutationObserver) { var due = 0; new MutationObserver(function () { if (!due) due = requestAnimationFrame(function () { due = 0; paint(); }); }).observe(document.body, { childList: true, subtree: true }); }
   }
+  /* KINDS OF CHANGE (Dimitry, 22 Oct 13:39): the update pill and every list of versions mark an item by its kind, with an
+     icon in a fixed 16 px slot so the text lines up: new = this sparkle, in the accent; fix = a squashed bug; change = two
+     turning arrows. 14 px line icons (the sparkle 12 px, it is solid). A screen reader hears the kind as a word ("New:").
+     kind(k, {label:false}) leaves the word out (the pill's own leading sparkle). Plain strings, so export/v1/build.mjs
+     reads them from this file at build time: one drawing for the pill and the Version section alike. */
+  var LINE = 'viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="display:block;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"';
+  var KINDS = {
+    "new": { name: "New", color: "var(--acc,var(--accent,#55b8c9))", svg: '<span style="display:block;width:12px;height:12px">' + STAR + "</span>" },
+    /* a bug flattened: a wide low body, legs splayed flat, a small burst where it was hit */
+    fix: { name: "Fix", color: "#e8b04a", svg: "<svg " + LINE + '><ellipse cx="8" cy="11.4" rx="4.3" ry="2.1"/><path d="M6.5 9.4a1.6 1.1 0 0 1 3 0M3.9 10.6 1.5 9.8M3.9 12.2 1.4 13M12.1 10.6l2.4-.8M12.1 12.2l2.5.8M8 2v2.4M4.6 3.3l1.2 1.7M11.4 3.3l-1.2 1.7"/></svg>' },
+    /* two arrows turning round each other: something that was there works differently now */
+    change: { name: "Change", color: "#9aa5a8", svg: "<svg " + LINE + '><path d="M12.8 6.4A5 5 0 0 0 3.5 5.2M3.2 9.6a5 5 0 0 0 9.3 1.2M3.3 2.6v2.8h2.8M12.7 13.4v-2.8H9.9"/></svg>' }
+  };
+  function kind(k, o) {
+    var K = KINDS[k]; if (!K) return '<span style="display:inline-block;flex:none;width:16px;height:16px"></span>';
+    var lab = !(o && o.label === false);
+    return '<span class="sf-kind" data-kind="' + k + '" aria-hidden="true" style="display:inline-flex;flex:none;width:16px;height:16px;align-items:center;justify-content:center;vertical-align:-3px;color:' + K.color + '">' + K.svg + "</span>" +
+      (lab ? '<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">' + K.name + ": </span>" : "");
+  }
   window.SurfaceFresh = {
-    init: init, seen: mark, paint: paint, STAR: STAR,
+    init: init, seen: mark, paint: paint, STAR: STAR, KINDS: KINDS, kind: kind,
     list: function () { return O ? Object.keys(O.feats).filter(showing).map(function (id) { return { id: id, name: O.feats[id].name || id }; }) : []; }
   };
 })();

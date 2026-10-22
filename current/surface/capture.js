@@ -40,7 +40,7 @@
     ".scap-dims{color:var(--ca);letter-spacing:.06em;text-transform:none;font-size:11px}",
     ".scap-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer}.scap-x:hover{color:var(--ui-ink,#fff)}",
     ".scap-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
-    ".scap-body{overflow-y:auto;overscroll-behavior:contain;padding:10px 12px 12px;display:grid;gap:8px}",
+    ".scap-body{overflow-y:auto;scrollbar-gutter:stable;overscroll-behavior:contain;padding:10px 12px 12px;display:grid;gap:8px}",
     ".scap-row{display:flex;flex-wrap:wrap;gap:6px}.scap-row[hidden]{display:none}",
     ".scap-c{flex:1 1 auto;min-height:44px;padding:5px 8px;border-radius:11px;background:rgb(var(--ui-hi,255 255 255) / .05);border:1px solid rgb(var(--ui-hi,255 255 255) / .12);color:var(--ui-ink,#fff);cursor:pointer;",
     "  font:500 11px/1.1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase;display:grid;place-items:center;gap:3px;-webkit-tap-highlight-color:transparent}",

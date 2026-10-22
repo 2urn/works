@@ -155,7 +155,7 @@
 .sk-btn[hidden]{display:none!important}\
 .sk-ov{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));background:rgb(var(--ui-g,14 14 16) / .78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--ui-ink,#eef1f2);opacity:0;transition:opacity .2s ease}\
 .sk-ov.on{opacity:1}.sk-ov[hidden]{display:none}\
-.sk-box{width:min(960px,100%);max-height:100%;overflow:auto;padding:22px 24px 18px;border:1px solid var(--ui-line,#23292b);background:var(--ui-solid,#0f1213);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45);box-sizing:border-box}\
+.sk-box{width:min(960px,100%);max-height:100%;overflow:auto;scrollbar-gutter:stable;padding:22px 24px 18px;border:1px solid var(--ui-line,#23292b);background:var(--ui-solid,#0f1213);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45);box-sizing:border-box}\
 .sk-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 4px}\
 .sk-hd h2{margin:0;font:600 13px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}\
 .sk-sub{margin:0 0 6px;font:400 12.5px/1.5 var(--sans,system-ui);color:var(--ui-dim,#8a9396)}\

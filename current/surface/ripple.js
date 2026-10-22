@@ -40,6 +40,27 @@
      SurfaceRipple.cost(w, n)     the GPU time of one frame in ms when the browser can time it (else CPU ms), over n
                                   frames: {ms, how}
 
+   WEATHER (Dimitry, 22 Oct 13:36: "it's like a procedural material, and it does end if you stop the signal. It just sort
+   of peters out ... signal off. And then when the new scene ... has settled, it becomes signal on ... like the weather").
+   Additive; nothing changes unless a host calls these.
+     w.signal(on)                 the surface's sources on or off: rain and the path's drops thin out over ~1.2 s (and
+                                  thicken over ~1.6 s), drop() and stir() are let through less and less; waves already
+                                  there are left alone to calm by the simulation's own damping. Returns the target
+     w.energy()                   how much the surface is moving now: the mean of 4·|height − last height| + 4·|curvature|
+                                  over a 16 × 16 × 64 sample of the field (ripples: what is seen; a level offset or a
+                                  slow tilt is not), read back from a 16 × 16 target (cached 80 ms; 0 when off). Rain or a
+                                  stirred wake reads ≈ .01–.1; a flat surface 0
+     w.handover({swap, ready, thr, rel, max, delay})   a change of material like weather: signal off, wait until
+                                  the energy falls under thr (.004) or to rel (.15) of its peak since the signal went
+                                  off, or max seconds pass (6, of the surface's own time), then swap() (the host
+                                  puts in the new preset, colors, drive, or switches the surface off); then wait until
+                                  ready() is true (the scene has settled) plus a random delay ([.5, 2] s), then signal
+                                  on. Called while the surface is off, swap() runs at once (it switches the surface on,
+                                  flat) and the new sources wait for ready() + delay. A second handover mid-way takes
+                                  over (its swap and ready replace the first's). enabled(false) ends it. A swap that
+                                  switches the surface off lets what is left fade out over the picture (.9 s)
+     w.weather()                  null, or {phase: 'calm' | 'gap', t, energy}
+
    Cost: one small simulation (half the CSS pixels, at most 512 on a side) and one full-screen pass that samples the
    source canvas. Plain script, window.SurfaceRipple, no dependencies, loads nothing. */
 (function () {
@@ -101,6 +122,18 @@
     "  sp *= smoothstep(0.004, 0.04, length(grad));\n" +
     "  o = vec4(c.rgb + uGlint*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
+  /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
+     ranges (b fine, g middle, r coarse) so a byte target keeps the small values. It reads motion and curvature, never the
+     height or a plain tilt: the wave conserves its mean, so drops leave a level offset and slow tilts that are not
+     waves; ripples and the caustics are curvature */
+  var FS_EN = HEAD +
+    "uniform sampler2D uState; out vec4 o;\n" +
+    "void main(){ ivec2 n = textureSize(uState,0); vec2 cell = vec2(n)/16.0; vec2 q = floor(gl_FragCoord.xy); float s = 0.0;\n" +
+    "  for (int j=0;j<8;j++) for (int i=0;i<8;i++) { ivec2 p = clamp(ivec2((q + (vec2(i,j)+0.5)/8.0)*cell), ivec2(0), n-1);\n" +
+    "    vec2 v = texelFetch(uState,p,0).rg; float lap = texelFetch(uState,clamp(p+ivec2(1,0),ivec2(0),n-1),0).r + texelFetch(uState,clamp(p-ivec2(1,0),ivec2(0),n-1),0).r\n" +
+    "      + texelFetch(uState,clamp(p+ivec2(0,1),ivec2(0),n-1),0).r + texelFetch(uState,clamp(p-ivec2(0,1),ivec2(0),n-1),0).r - 4.0*v.r;\n" +
+    "    s += abs(v.r - v.g)*4.0 + abs(lap)*4.0; }\n" +
+    "  s /= 64.0; o = vec4(clamp(s*4.0,0.0,1.0), clamp(s*64.0,0.0,1.0), clamp(s*1024.0,0.0,1.0), 1.0); }";
 
   function attach(src, o) {
     o = o || {};
@@ -115,6 +148,7 @@
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.5;
     var SW = 0, SH = 0, lastMove = null;
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
+    var offFade = 0, fadeT = 0, sig = 1, sigT = 1, HO = null, enTex = null, enFbo = null, enBuf = new Uint8Array(16 * 16 * 4), enAt = -1e9, enVal = 0;
 
     function sh(type, s) { var x = gl.createShader(type); gl.shaderSource(x, s); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x)); return x; }
     function program(fs) {
@@ -140,7 +174,7 @@
         if ((cbf || cbh) && testFmt(gl.RGBA16F, gl.HALF_FLOAT)) fmt = [gl.RGBA16F, gl.HALF_FLOAT];
         else if (cbf && gl.getExtension("OES_texture_float_linear") && testFmt(gl.RGBA32F, gl.FLOAT)) fmt = [gl.RGBA32F, gl.FLOAT];
         else return;
-        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW);
+        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW); try { prog.en = program(FS_EN); } catch (_) { prog.en = null; } enTex = enFbo = null;
         buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
         srcTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, srcTex);
@@ -208,9 +242,50 @@
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
+    function energy() {
+      if (!ok || !on || !fbo.length || !prog.en) return 0;
+      var now = performance.now(); if (now - enAt < 80) return enVal; enAt = now;
+      if (!enFbo) { enTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, enTex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 16, 16, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        enFbo = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, enFbo); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, enTex, 0); }
+      var pe = prog.en; gl.useProgram(pe.p); gl.bindFramebuffer(gl.FRAMEBUFFER, enFbo); gl.viewport(0, 0, 16, 16);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[cur]); gl.uniform1i(pe.u.uState, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      try { gl.readPixels(0, 0, 16, 16, gl.RGBA, gl.UNSIGNED_BYTE, enBuf); } catch (_) {}
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      var s = 0; for (var i = 0; i < 256; i++) { var r = enBuf[i * 4], g = enBuf[i * 4 + 1], b = enBuf[i * 4 + 2]; s += b < 255 ? b / 255 / 1024 : g < 255 ? g / 255 / 64 : r / 255 / 4; }
+      enVal = s / 256; return enVal;
+    }
+    function rnd(d) { d = d || [0.5, 2]; return d[0] + Math.random() * (d[1] - d[0]); }
+    function handover(h) {
+      h = h || {};
+      if (!ok) { try { h.swap && h.swap(); } catch (_) {} return; }
+      if (!on) { HO = null; try { h.swap && h.swap(); } catch (_) {} if (!on) return;
+        sig = sigT = 0; HO = { phase: "gap", t: 0, ready: h.ready, delay: rnd(h.delay), at: null, e: 0 }; return; }
+      sigT = 0; var t0 = HO && HO.phase === "calm" ? HO.t : 0;   // a new handover mid-calm keeps the clock: max is from the first
+      var e0 = HO && HO.phase === "calm" && HO.e0 != null ? HO.e0 : null;
+      HO = { phase: "calm", t: t0, m: -1, e: null, e0: e0, thr: h.thr || 0.004, rel: h.rel || 0.15, max: h.max || 6, swap: h.swap, ready: h.ready, delay: rnd(h.delay), at: null };
+    }
+    function weatherTick(dt) {
+      var g = dt / (sigT > sig ? 1.6 : 1.2); sig = sigT > sig ? Math.min(sigT, sig + g) : Math.max(sigT, sig - g);
+      if (!HO) return;
+      HO.t += dt;
+      if (HO.phase === "calm") {
+        if (HO.t - HO.m >= 0.1) { HO.m = HO.t; HO.e = energy(); if (HO.e0 == null || HO.e > HO.e0) HO.e0 = HO.e; }
+        if ((sig <= 0.02 && HO.e != null && (HO.e < HO.thr || HO.e < HO.e0 * HO.rel)) || HO.t >= HO.max) {
+          var h = HO; HO = { phase: "gap", t: 0, ready: h.ready, delay: h.delay, at: null, e: h.e }; sig = 0;
+          offFade = 900; try { h.swap && h.swap(); } catch (e) { try { console.warn("[ripple] swap " + (e && e.message)); } catch (_) {} } offFade = 0;
+        }
+      } else {
+        var rd = true; try { rd = !HO.ready || !!HO.ready(); } catch (_) {}
+        if (rd && HO.at == null) HO.at = HO.t; else if (!rd) HO.at = null;
+        if (HO.at != null && HO.t - HO.at >= HO.delay) { HO = null; sigT = 1; }
+      }
+    }
     function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; }
-    function addDrop(x, y, size, strength) {
+    function addDrop(x, y, size, strength, own) {
       if (!ok || !on) return;
+      if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
       var shortPx = Math.min(N[0], N[1]), r = Math.max(1.2, (size == null ? P.size : size) * shortPx);
       if (drops.length >= 48) drops.shift();
       /* field y runs up; the caller's y runs down */
@@ -219,8 +294,9 @@
     function tick(dt) {
       if (!ok || !on || destroyed) return;
       dt = Math.min(0.1, Math.max(0, +dt || 0));
-      if (P.rain > 0) { rainAcc += P.rain * dt; while (rainAcc >= 1) { rainAcc -= 1; addDrop(Math.random(), Math.random(), P.size * (0.6 + Math.random() * 0.8), 0.6 + Math.random() * 0.6); } if (Math.random() < rainAcc) { rainAcc = 0; addDrop(Math.random(), Math.random(), P.size, 0.8); } }
-      if (DRV.path > 0 && PTOT > 0) { pathAcc += DRV.path * (0.25 + FLOW) * dt; var k = 0; while (pathAcc >= 1 && k < 2) { pathAcc -= 1; k++; var pt = along(Math.random() * PTOT); addDrop(pt[0], pt[1], P.size * 0.6, 0.45 + Math.random() * 0.3); } if (pathAcc > 2) pathAcc = 2; }
+      weatherTick(dt); if (!on) return;
+      if (P.rain > 0 && sig > 0) { rainAcc += P.rain * sig * dt; while (rainAcc >= 1) { rainAcc -= 1; addDrop(Math.random(), Math.random(), P.size * (0.6 + Math.random() * 0.8), 0.6 + Math.random() * 0.6, true); } if (Math.random() < rainAcc) { rainAcc = 0; addDrop(Math.random(), Math.random(), P.size, 0.8, true); } }
+      if (DRV.path > 0 && PTOT > 0 && sig > 0) { pathAcc += DRV.path * sig * (0.25 + FLOW) * dt; var k = 0; while (pathAcc >= 1 && k < 2) { pathAcc -= 1; k++; var pt = along(Math.random() * PTOT); addDrop(pt[0], pt[1], P.size * 0.6, 0.45 + Math.random() * 0.3, true); } if (pathAcc > 2) pathAcc = 2; }
       if (DRV.current > 0 && curOk) quiet = Math.min(quiet, 19);   // a current keeps the surface moving
       acc += dt; quiet += dt; var n = 0;
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
@@ -228,12 +304,17 @@
       if (n === 4) acc = 0;
       draw();
     }
+    /* a handover that ends in off lets what is left of the surface fade (.9 s) over the picture, instead of vanishing */
     function enabled(v) {
       if (v === undefined) return on;
+      clearTimeout(fadeT); cv.style.transition = ""; cv.style.opacity = "";
+      if (!v && on && offFade > 0) { var ms = offFade; HO = null; sig = sigT = 0; if (o.hideSource !== false) src.style.opacity = "";
+        cv.style.transition = "opacity " + ms + "ms ease"; cv.style.opacity = "0";
+        fadeT = setTimeout(function () { cv.style.transition = ""; cv.style.opacity = ""; enabled(false); }, ms); return true; }
       var was = on; on = !!v && ok;
       cv.style.visibility = on ? "visible" : "hidden";
       if (o.hideSource !== false) src.style.opacity = on ? "0" : "";
-      if (on) { resize(); if (!was) calm(); quiet = 0; } else drops.length = 0;
+      if (on) { resize(); if (!was) { calm(); sig = sigT = 1; } quiet = 0; } else { drops.length = 0; HO = null; sig = sigT = 1; }
       return on;
     }
     function stir(x, y, vx, vy) {
@@ -268,6 +349,8 @@
       path: setPath, flow: function (v) { FLOW = Math.max(0, Math.min(1, +v || 0)); },
       drive: function (d) { if (d) { if (d.path != null) DRV.path = Math.max(0, +d.path || 0); if (d.current != null) DRV.current = Math.max(0, +d.current || 0); } return Object.assign({}, DRV); },
       current: setCurrent,
+      signal: function (v) { if (v !== undefined) sigT = v ? 1 : 0; return !!sigT; }, energy: energy, handover: handover,
+      weather: function () { return HO ? { phase: HO.phase, t: HO.t, energy: HO.e, signal: sig } : null; },
       destroy: function () { destroyed = true; enabled(false); try { cv.remove(); } catch (_) {} try { var l = gl && gl.getExtension("WEBGL_lose_context"); l && l.loseContext(); } catch (_) {} }
     };
   }
