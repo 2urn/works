@@ -10,8 +10,10 @@
    This module watches for that and mends it on the next touch, because iOS only lets sound start inside one:
    1. A touch while the context is not running: resume() inside the touch. Still not running a moment later, and
       the next touch rebuilds.
-   2. On iOS, coming back after the app was away while sound played: the first touch rebuilds outright. A context
-      that only looks alive can't be told from a live one, and a rebuild costs a bar's restart.
+   2. On iOS, coming back after the app was away while sound played: the sound is checked a second later, and marked
+      lost only if the context is not running, its clock stood still, or (with `level`) the output is not measurably
+      playing. (22 Oct, Dimitry's iPhone, 0.29.26: sound that kept playing in the background "died on return": the old
+      rule marked every return and the first touch, a drag on the stage included, closed the live context.)
    3. While visible and playing: a context whose clock stops, or that leaves 'running', or an audio session
       (navigator.audioSession) that reports 'interrupted', is marked, and a line asks for a touch.
    Rebuild means: the tool closes its context, makes a new one and starts again what was playing. Only the tool
@@ -37,6 +39,10 @@
       `rescue`, a lost sound shows a chip top right: Sound (rebuild the sound now), Reset (rescue.reload: the tool saves
       where it is and reloads straight back, no cover) and, with rescue.report, the bug (report it from where it
       happened). Taps on the chip never count as the "tap anywhere" of rules 1–3. It goes when the sound is back.
+   A rebuild runs only on a click or a key (or the chip's Sound), never on pointerup/touchend alone: a drag ends in a
+   touchend that iOS does not count as a gesture, and a context made there starts suspended (22 Oct, same report).
+   6. A marked sound that is running, ticking and measurably playing for 2 s clears itself (with `level`).
+   When the sound comes back, by a rebuild or by itself, the chip says "Sound back" for a moment and goes (no toast).
    Plain script, window.SurfaceAudioWake, no dependencies. */
 (function () {
   "use strict";
@@ -45,7 +51,7 @@
   function watch(o) {
     o = o || {};
     var suspect = false, why = "", hiddenAt = 0, wasPlaying = false, bound = null, lastT = -1, still = 0, busy = 0, rebuilds = 0, resumes = 0, said = 0;
-    var away = o.away == null ? 2000 : o.away, quiet = 0, chip = null;
+    var away = o.away == null ? 2000 : o.away, quiet = 0, chip = null, alive = 0, backT = 0;
     function setS(v, w) { var was = suspect; suspect = v; if (v) why = w || why; if (was !== v) { try { o.change && o.change(v, why); } catch (e) {} show(v); } }
     function ctx() { try { return o.ctx && o.ctx(); } catch (e) { return null; } }
     function playing() { try { return !!(o.playing && o.playing()); } catch (e) { return false; } }
@@ -59,6 +65,8 @@
         if (!document.getElementById("saw-css")) { var st = document.createElement("style"); st.id = "saw-css"; st.textContent =
           ".saw{position:fixed;z-index:70;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(max(12px,env(safe-area-inset-right,0px)));display:flex;gap:6px;padding:5px;border-radius:24px;background:rgba(10,13,16,.9);border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 30px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;translate:0 -8px;transition:opacity .3s ease,translate .4s cubic-bezier(.16,1,.3,1)}" +
           ".saw.on{opacity:1;translate:0 0}.saw[hidden]{display:none}" +
+          ".saw .back{display:none;align-items:center;gap:6px;height:36px;padding:0 14px;color:#fff;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
+          ".saw.is-back button{display:none}.saw.is-back .back{display:flex}" +
           ".saw button{display:flex;align-items:center;gap:6px;height:36px;min-width:36px;padding:0 12px;border:0;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;touch-action:manipulation}" +
           ".saw button.go{background:#fff;color:#0b0f10}.saw button.bug{padding:0;justify-content:center}" +
           ".saw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}" +
@@ -76,10 +84,16 @@
           b3.innerHTML = (window.SurfaceReport && SurfaceReport.ICON) || '<svg ' + SVG + '><path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/></svg>';
           b3.onclick = function () { try { o.rescue.report("the sound stopped (" + why + ")"); } catch (e) {} };
           chip.appendChild(b3); }
+        var bk = document.createElement("span"); bk.className = "back"; bk.setAttribute("role", "status");
+        bk.innerHTML = '<svg ' + SVG + '><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sound back'; chip.appendChild(bk);
         document.body.appendChild(chip);
       }
-      if (v) { chip.hidden = false; requestAnimationFrame(function () { requestAnimationFrame(function () { chip.classList.add("on"); }); }); }
-      else { chip.classList.remove("on"); setTimeout(function () { if (!suspect) chip.hidden = true; }, 350); }
+      clearTimeout(backT);
+      if (v) { chip.classList.remove("is-back"); chip.hidden = false; requestAnimationFrame(function () { requestAnimationFrame(function () { chip.classList.add("on"); }); }); }
+      /* (Dimitry, 22 Oct) the chip says "sound back" itself, then goes, instead of a caption under it that can clash */
+      else if (chip.classList.contains("on")) { chip.classList.add("is-back");
+        backT = setTimeout(function () { chip.classList.remove("on"); backT = setTimeout(function () { if (!suspect) { chip.hidden = true; chip.classList.remove("is-back"); } }, 350); }, 1400); }
+      else chip.hidden = true;
     }
     function bind() {
       var c = ctx(); if (c === bound) return; bound = c; lastT = -1; still = 0;
@@ -92,7 +106,7 @@
                        Reset still works when a rebuild can't */
         try { console.warn("[audiowake] rebuild failed: " + (e && e.message)); } catch (_) {}
         bind(); suspect = false; setS(true, "rebuild failed"); return; }
-      setS(false); bind(); say("sound back"); try { console.info("[audiowake] rebuilt (" + w + ")"); } catch (_) {}
+      setS(false); bind(); if (!o.rescue) say("sound back"); try { console.info("[audiowake] rebuilt (" + w + ")"); } catch (_) {}
     }
     function unlock(c) {
       try { c.resume(); } catch (e) {}
@@ -104,8 +118,10 @@
       if (chip && e && e.target && chip.contains(e.target)) return;   // the chip's own buttons decide
       if (e && e.isTrusted === false) return;   // a tool's own .click() (Auto play) is not a touch: iOS won't start sound from it
       bind(); var c = ctx(); if (!c || !playing()) { setS(false); return; }
+      if (suspect) {   // only a real tap (click) or key rebuilds: a drag's touchend is no gesture on iOS
+        if (e && (e.type === "click" || (e.type === "keydown" && !(e.target && (e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || "")))))) { busy = Date.now(); rebuild(why); }
+        return; }
       var n = Date.now(); if (n - busy < 350) { if (c.state !== "running") unlock(c); return; } busy = n;
-      if (suspect) { rebuild(why); return; }
       if (c.state !== "running") {
         resumes++; unlock(c);
         setTimeout(function () { if (ctx() === c && c.state !== "running" && playing()) { setS(true, "resume refused"); say(o.rescue ? "the sound stopped · tap Sound, or Reset" : "tap again to restart the sound"); } }, 600);
@@ -117,7 +133,16 @@
       var gone = hiddenAt ? Date.now() - hiddenAt : 0; hiddenAt = 0; bind(); var c = ctx();
       if (!wasPlaying || !c || !playing()) return;
       try { if (c.state !== "running") c.resume(); } catch (e) {}   // a desktop browser takes this without a touch
-      if (IOS && gone >= away) { setS(true, "back after " + Math.round(gone / 1000) + " s away"); setTimeout(function () { if (suspect) say("tap anywhere to bring the sound back"); }, 400); return; }
+      if (IOS && gone >= away) {   /* rule 2: check, then mark only a sound that is not playing */
+        var w = "back after " + Math.round(gone / 1000) + " s away", t0 = c.currentTime;
+        setTimeout(function () {
+          if (document.hidden || ctx() !== c || !playing() || suspect) return;
+          var l = null; if (o.level) { try { l = o.level(); } catch (e) {} }
+          var alive = c.state === "running" && c.currentTime > t0 + 0.5 && (o.level ? l > 0 : true);
+          if (alive) { try { console.info("[audiowake] " + w + ": still playing"); } catch (_) {} return; }
+          setS(true, w); say(o.rescue ? "the sound stopped · tap Sound, or Reset" : "tap anywhere to bring the sound back");
+        }, 1200);
+        return; }
       setTimeout(function () { if (ctx() === c && c.state !== "running") mark("not running after return"); }, 700);
     });
     try {
@@ -130,7 +155,11 @@
       if (!c || !playing()) { still = 0; lastT = -1; quiet = 0; if (suspect && !playing()) setS(false); return; }
       if (c.state !== "running") { mark("context " + c.state); return; }
       var t = c.currentTime; if (lastT >= 0 && t === lastT) { if (++still >= 2) mark("clock stopped"); } else still = 0; lastT = t;
-      if (o.level) { var l = null; try { l = o.level(); } catch (e) {} if (l === 0) { quiet += 1000; if (quiet >= (o.silence || 6000)) mark("silent output"); } else quiet = 0; }
+      var l = null; if (o.level) { try { l = o.level(); } catch (e) {} if (l === 0) { quiet += 1000; if (quiet >= (o.silence || 6000)) mark("silent output"); } else quiet = 0; }
+      /* 6. it came back by itself (22 Oct, Dimitry: dictating in another app ducked the sound, it came back, the chip
+         stayed, and tapping anything to clear it restarted the sound). Marked, but running, ticking and measurably
+         playing for 2 s: the chip goes. Without `level` the page can't tell, so the chip stays. */
+      if (suspect && o.level && why !== "rebuild failed" && still === 0 && l > 0) { if (++alive >= 2) { alive = 0; setS(false); try { console.info("[audiowake] came back by itself"); } catch (_) {} } } else alive = 0;
     }, 1000);
     return {
       state: function () { var c = ctx(); return { ctx: c ? c.state : "none", suspect: suspect, why: why, rebuilds: rebuilds, resumes: resumes, ios: IOS }; },

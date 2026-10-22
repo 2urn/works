@@ -8,8 +8,8 @@
       The link is a real deep link (#go-step), so it can be copied and sent; #path-01 opens a path in the index.
    2. BADGES ON THE INTERFACE. The same numbers, in the same colors, sit on the controls each path teaches, so the
       checklist points at the interface and the interface points back. A finished path's badge turns to a tick.
-      Controls inside o.below (Current: the bar) carry theirs UNDER the control, centred, every badge on the bar's
-      bottom line, so they align with each other; those badges are buttons: a tap opens a hint (the path, its
+      Controls inside o.below (Current: the bar) carry theirs as a small dot off the control's lower right (22 Oct; it was a pill
+      centred on the bar's bottom line); those badges are buttons: a tap opens a hint (the path, its
       steps as circles, the next step) with "take me there" (the path in the index) and "show me" (the next step's
       control). Everywhere else the badge sits on the control's corner, a mark only.
       Badges hide with the controls (the tool's bare mode) and whenever the marks are off.
@@ -65,11 +65,14 @@
     ".sp-b.done{background:rgba(14,14,16,.72);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.5px var(--sp-c,#55b8c9),0 0 0 1.5px rgba(0,0,0,.55);font-size:10px}",
     /* under-badge: a button centred under its control, on the row's bottom line */
     /* two :not(#…) give these the weight of two ids, so a row's own button rule (#playbar>button) cannot size them */
-    ".sp-b.sp-bb:not(#sp-0):not(#sp-1){top:0;right:auto;left:0;width:auto;height:15px;min-width:22px;padding:0 5px;margin:0;border:0;border-radius:8px;translate:-50% 0;transform:none;flex:none;",
-    "  display:grid;place-items:center;background:var(--sp-c,#55b8c9);color:#0b0f10;box-shadow:0 0 0 1.5px rgba(0,0,0,.55);backdrop-filter:none;-webkit-backdrop-filter:none;",
-    "  pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;font:700 8.5px/1 " + MONO + ";letter-spacing:.04em}",
-    ".sp-b.sp-bb.done:not(#sp-0):not(#sp-1){background:rgba(14,14,16,.78);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.5px var(--sp-c,#55b8c9),0 0 0 1.5px rgba(0,0,0,.55);font-size:10px}",
-    ".sp-bb::before{content:\"\";position:absolute;inset:-3px -7px -12px}",
+    /* (Dimitry, 22 Oct: the pills under the bar were obtrusive) a small dot: filled with one digit while the path is open,
+       a ring with a tiny tick once it is walked, in the path's color; off the control's lower right, never touching it */
+    ".sp-b.sp-bb:not(#sp-0):not(#sp-1){top:0;right:auto;left:0;width:13px;height:13px;min-width:0;padding:0;margin:0;border:0;border-radius:50%;translate:-50% 0;transform:none;flex:none;",
+    "  display:grid;place-items:center;background:var(--sp-c,#55b8c9);color:#0b0f10;box-shadow:0 0 0 1px rgba(0,0,0,.5);backdrop-filter:none;-webkit-backdrop-filter:none;",
+    "  pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;font:700 8px/1 " + MONO + ";letter-spacing:0}",
+    ".sp-b.sp-bb.done:not(#sp-0):not(#sp-1){background:rgba(14,14,16,.7);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.25px var(--sp-c,#55b8c9),0 0 0 1px rgba(0,0,0,.5)}",
+    ".sp-b.sp-bb:not(#sp-0):not(#sp-1) svg{width:8px;height:8px;min-width:0;margin:0;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}",
+    ".sp-bb::before{content:\"\";position:absolute;inset:-8px}",
     ".sp-bb:not(#sp-0):not(#sp-1):hover{filter:brightness(1.12)}.sp-bb:focus-visible{outline:2px solid #fff;outline-offset:2px}",
     ".sp-bb[hidden]:not(#sp-0){display:none}",
     "html:not([data-paths=on]) .sp-b,html.bare .sp-b{display:none!important}",
@@ -214,7 +217,10 @@
               el.appendChild(b);
             }
           }
-          if (b.textContent !== txt) b.textContent = txt;
+          if (row && row !== el) {   // the dot: one digit, no leading zero; walked, a tiny tick
+            var k = f ? "tick" : String(/^\d+$/.test(p.id) ? parseInt(p.id, 10) : p.id).slice(0, 2);
+            if (b.dataset.k !== k) { b.dataset.k = k; if (f) b.innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.4 5.3l1.8 1.8 3.6-3.9"/></svg>'; else b.textContent = k; }
+          } else if (b.textContent !== txt) b.textContent = txt;
           b.classList.toggle("done", f); b.dataset.path = p.id; b.style.setProperty("--sp-c", c);
         });
       });
@@ -233,10 +239,11 @@
       g.forEach(function (x) { x.b.hidden = !vis; });
       if (!vis) return;
       var c = g[0].c, cr = c.getBoundingClientRect(), er = el.getBoundingClientRect();
-      var cx = er.left + er.width / 2 - cr.left - c.clientLeft, top = c.clientHeight - 7;
-      var w = 0; g.forEach(function (x) { w += x.b.offsetWidth + 3; }); w -= 3;
-      var at = cx - w / 2;
-      g.forEach(function (x) { var bw = x.b.offsetWidth; x.b.style.left = Math.round(at + bw / 2) + "px"; x.b.style.top = Math.round(top) + "px"; at += bw + 3; });
+      /* off the control's lower right: the first dot's centre 3 px in from its right edge, its top 2 px below it;
+         a second path on the same control sits further right */
+      /* a control wider than tall (a group: back · Auto · next) takes the square at its centre */
+      var half = Math.min(er.width, er.height) / 2, at = er.left + er.width / 2 + half - cr.left - c.clientLeft - 3, top = er.bottom - cr.top - c.clientTop + 2;
+      g.forEach(function (x) { x.b.style.left = Math.round(at) + "px"; x.b.style.top = Math.round(top) + "px"; at += x.b.offsetWidth + 3; });
     });
   }
   var RO = window.ResizeObserver ? new ResizeObserver(layout) : null, seen = new WeakSet();
