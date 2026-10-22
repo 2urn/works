@@ -38,7 +38,10 @@
     ".srp-go{height:34px;border:0;border-radius:17px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}.srp-go:disabled{opacity:.5;cursor:default}" +
     ".srp-alt a{color:inherit;text-decoration:underline;text-underline-offset:3px}.srp-alt{font-size:11px!important;color:rgba(255,255,255,.6)!important}" +
     ".srp-fb{display:flex;align-items:center;gap:9px;margin:-2px 0 0;font:400 12px/1.3 var(--sans,system-ui);color:rgba(255,255,255,.82);cursor:pointer;-webkit-tap-highlight-color:transparent}" +
-    ".srp-fb input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--acc,#55b8c9);cursor:pointer}.srp-fb small{color:rgba(255,255,255,.5);font-size:11px}" +
+    ".srp .srp-fb input{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin:0;padding:0;flex:none;border-radius:6px;border:1.5px solid rgba(255,255,255,.45);background:transparent no-repeat center / 14px 14px;cursor:pointer;transition:background-color .15s,border-color .15s}" +
+    ".srp .srp-fb input:checked{background-color:#fff;border-color:#fff;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b0f10' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E\")}" +
+    ".srp .srp-fb input:focus-visible{outline:2px solid #fff;outline-offset:2px}" +
+    ".srp-fb small{color:rgba(255,255,255,.5);font-size:11px}" +
     ".srp-msg{min-height:1em;color:var(--acc,#55b8c9)!important}.srp-msg.bad{color:#ff8a80!important}" +
     ".srp :focus-visible{outline:2px solid #fff;outline-offset:2px}" +
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
