@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022023714";window.__VERSION__="0.28.9";window.__NOTES__=[{"v":"0.28.9","date":"21 Oct 2026","items":[{"kind":"change","text":"the shelf follows the panel you open: open Source and the shelf shows Source's controls"},{"kind":"change","text":"the capture panel works like the others: its tabs, ‹ › and CLOSE along the bottom, sliding down to its button. Still · Video · GIF live in the shelf only"},{"kind":"new","text":"each shape in the capture panel shows its proportion, a small frame drawn at the true ratio"},{"kind":"fix","text":"closing the shelf no longer closes an open panel, and a press in the shelf leaves the panel open"},{"kind":"change","text":"one set of sizes for tiles, beads and segments across the shelf and panels"}]}]</script>
+<script>window.__BUILD__="20261022023939";window.__VERSION__="0.28.10";window.__NOTES__=[{"v":"0.28.10","date":"21 Oct 2026","items":[{"kind":"new","text":"a water surface over the stage. In Sound's shelf, under Water, pick a surface (Still pond, Drip, Rain, Wake, Glass): the picture is seen through moving water. Every water voice drops a ripple where it sounds, a tap always ripples, your finger stirs it, and the rain bed rains on it. Stills and videos show it too"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022023714"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022023714">
+<script src="claude-web.js?v=20261022023939"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022023939">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,39 +119,40 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022023714"></script>
-<script src="surface/selftest.js?v=20261022023714"></script>
-<script src="surface/report.js?v=20261022023714"></script>
-<script src="surface/auto.js?v=20261022023714"></script>
-<script src="surface/toolpath.js?v=20261022023714"></script>
-<script src="surface/capture.js?v=20261022023714"></script>
-<script src="surface/pop.js?v=20261022023714"></script>
-<script src="surface/hints.js?v=20261022023714"></script>
-<script src="surface/paths.js?v=20261022023714"></script>
-<script src="surface/keys.js?v=20261022023714"></script>
-<script src="surface/reset.js?v=20261022023714"></script>
-<script src="surface/files.js?v=20261022023714"></script>
-<script src="surface/tabs.js?v=20261022023714"></script>
-<script src="surface/running.js?v=20261022023714"></script>
-<script src="surface/trim.js?v=20261022023714"></script>
-<script src="surface/audiowake.js?v=20261022023714"></script>
-<script src="surface/listview.js?v=20261022023714"></script>
-<script src="surface/beads.js?v=20261022023714"></script>
-<script src="surface/strip.js?v=20261022023714"></script>
-<script src="surface/sheetnav.js?v=20261022023714"></script>
-<script src="surface/pro.js?v=20261022023714"></script>
+<script src="vendor/opentype.min.js?v=20261022023939"></script>
+<script src="surface/selftest.js?v=20261022023939"></script>
+<script src="surface/report.js?v=20261022023939"></script>
+<script src="surface/auto.js?v=20261022023939"></script>
+<script src="surface/toolpath.js?v=20261022023939"></script>
+<script src="surface/capture.js?v=20261022023939"></script>
+<script src="surface/pop.js?v=20261022023939"></script>
+<script src="surface/hints.js?v=20261022023939"></script>
+<script src="surface/paths.js?v=20261022023939"></script>
+<script src="surface/keys.js?v=20261022023939"></script>
+<script src="surface/reset.js?v=20261022023939"></script>
+<script src="surface/files.js?v=20261022023939"></script>
+<script src="surface/tabs.js?v=20261022023939"></script>
+<script src="surface/running.js?v=20261022023939"></script>
+<script src="surface/trim.js?v=20261022023939"></script>
+<script src="surface/audiowake.js?v=20261022023939"></script>
+<script src="surface/listview.js?v=20261022023939"></script>
+<script src="surface/beads.js?v=20261022023939"></script>
+<script src="surface/strip.js?v=20261022023939"></script>
+<script src="surface/sheetnav.js?v=20261022023939"></script>
+<script src="surface/pro.js?v=20261022023939"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022023714"></script>
-<script src="surface/rail.js?v=20261022023714"></script>
-<script src="surface/touchsound.js?v=20261022023714"></script>
-<script src="surface/water.js?v=20261022023714"></script>
-<script src="surface/float.js?v=20261022023714"></script>
-<script src="surface/manual.js?v=20261022023714"></script>
+<script src="surface/pack.js?v=20261022023939"></script>
+<script src="surface/rail.js?v=20261022023939"></script>
+<script src="surface/touchsound.js?v=20261022023939"></script>
+<script src="surface/water.js?v=20261022023939"></script>
+<script src="surface/ripple.js?v=20261022023939"></script>
+<script src="surface/float.js?v=20261022023939"></script>
+<script src="surface/manual.js?v=20261022023939"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -2925,6 +2926,8 @@ function frame(now){
     if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
   steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
+  if(!RIP&&WATER&&WATER.on&&WATER.surfOn)try{rippleSync()}catch(_){}
+  if(RIP&&RIP.enabled())try{RIP.tick(dt)}catch(_){}
   try{SurfaceSelfTest.beat()}catch(_){}
 }
 function hud(){
@@ -3908,8 +3911,10 @@ wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'
   el.addEventListener('click',e=>{if(e.detail===0)randomLook(true)});
   el.addEventListener('keydown',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();RAND.amt=Math.max(.05,Math.min(1,RAND.amt+(e.key==='ArrowUp'?.05:-.05)));persistRand();syncRand();show()}});
 })($('pRand'));
+/* the stage as seen: through the water surface when it is on (a sharp still redraws it at the new size first) */
+function stageSrc(){if(!RIP||!RIP.enabled())return cv;if(RIP.canvas.width!==cv.width||RIP.canvas.height!==cv.height)RIP.draw();return RIP.canvas}
 function stillCanvas(c){c=c||document.createElement('canvas');if(c.width!==cv.width||c.height!==cv.height){c.width=cv.width;c.height=cv.height}const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);
-  if(!TRANSP||!srcEl()){g.drawImage(cv,0,0);g.drawImage(ov,0,0);return c}
+  if(!TRANSP||!srcEl()){g.drawImage(stageSrc(),0,0);g.drawImage(ov,0,0);return c}
   g.fillStyle=stageBg();g.fillRect(0,0,c.width,c.height);
   const el=srcEl(),r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect(),iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;
   if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG==='overlay')g.globalCompositeOperation='overlay';let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
@@ -3917,7 +3922,7 @@ function stillCanvas(c){c=c||document.createElement('canvas');if(c.width!==cv.wi
     if(el.style.objectFit==='cover'){const k=Math.max(w/iw,h/ih);const dw=iw*k,dh=ih*k;x+=(w-dw)/2;y+=(h-dh)/2;w=dw;h=dh}
     if(bgL.classList.contains('mirror')&&el===bgVid){g.translate(2*x+w,0);g.scale(-1,1)}
     try{g.drawImage(el,x,y,w,h)}catch(_){}g.restore()}
-  g.drawImage(cv,0,0);g.drawImage(ov,0,0);return c}
+  g.drawImage(stageSrc(),0,0);g.drawImage(ov,0,0);return c}
 /* ---- QR encoder (byte mode, level M, versions 1–6), from _____ American _____ ---- */
 var QR_EXP=[], QR_LOG=[];
 (function(){ var x=1,i;
@@ -5593,12 +5598,26 @@ const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><
      voice. The field does not hear them (they are its answer, not its cue). Higher on screen is higher.
    Everything is made again on the new context when the phone took the sound (audiowake). var, not const: the frame loop
    may ask before this line has run (the TDZ rule, CLAUDE.md). */
-var WATER=(()=>{const d={on:false,preset:'shallows',depth:.3,bed:'',bedLvl:.5,voices:'touch',view:'mix',hear:false};
+var WATER=(()=>{const d={on:false,preset:'shallows',depth:.3,bed:'',bedLvl:.5,voices:'touch',view:'mix',hear:false,surf:'drip',surfOn:false};
   try{const o=JSON.parse(localStorage.getItem('current.water')||'{}');if(typeof o.on==='boolean')d.on=o.on;if(window.SurfaceWater&&SurfaceWater.preset(o.preset))d.preset=o.preset;
     if(typeof o.depth==='number'&&isFinite(o.depth))d.depth=Math.max(0,Math.min(1,o.depth));if(typeof o.bedLvl==='number'&&isFinite(o.bedLvl))d.bedLvl=Math.max(0,Math.min(1,o.bedLvl));
-    if(['','surf','stream','hydrophone','rain'].includes(o.bed))d.bed=o.bed;if(['off','touch','music','both'].includes(o.voices))d.voices=o.voices;if(o.view==='water')d.view='water';d.hear=o.hear===true}catch(_){}
+    if(['','surf','stream','hydrophone','rain'].includes(o.bed))d.bed=o.bed;if(['off','touch','music','both'].includes(o.voices))d.voices=o.voices;if(o.view==='water')d.view='water';d.hear=o.hear===true;if(typeof o.surfOn==='boolean')d.surfOn=o.surfOn;if(['still','drip','rain','wake','glass'].includes(o.surf))d.surf=o.surf}catch(_){}
   return d})();
 var WT={was:false,dist:0,t0:0,lastV:0,whale:0,beat:0,drift:0,vAt:0};
+/* THE SURFACE (Dimitry, 21 Oct: "a water surface feature, like a water distortion ... that goes with the water sounds,
+   like the dripping"): the kit's ripple layer (Water Kit's height field) over the stage. Only with water on; every
+   water voice drops a ripple where it sounded (wVoice, whichever strip carries it), a tap always ripples, a finger
+   stirs, the rain bed rains. Off in plain Mix. */
+var RIP=null;
+function ripple(){if(RIP||!window.SurfaceRipple)return RIP;try{RIP=SurfaceRipple.attach(cv,{preset:WATER.surf,onLost:()=>toast('the water surface was lost: switch it on again')})}catch(_){RIP=null}return RIP}
+function rippleSync(){const want=!!(WATER&&WATER.on&&WATER.surfOn);if(!want&&!RIP)return;const r=ripple();if(!r)return;
+  if(want&&!r.ok){WATER.surfOn=false;waterSave();toast('this browser cannot draw the water surface');return}
+  r.preset(WATER.surf);const P=SurfaceRipple.PRESETS.find(x=>x.id===WATER.surf)||{rain:0};r.rain((P.rain||0)+(WATER.bed==='rain'?14*WATER.bedLvl:0));r.enabled(want)}
+/* a voice's ripple, where it sounded: x from its pan, height from its pitch (higher on screen is higher) */
+function rippleVoice(kind,o){if(!RIP||!RIP.enabled()||!o)return;const x=o.pan==null?.5:(o.pan+1)/2,ty=1-(o.pitch==null?.5:o.pitch),z=o.size==null?.4:o.size;
+  if(kind==='drop')RIP.drop(x,ty,.012+.012*z,1.1);
+  else if(kind==='bubbles'){for(let i=0;i<3;i++)RIP.drop(x+(Math.random()-.5)*.06,ty+(Math.random()-.5)*.04,.006+.006*Math.random(),.45)}
+  else if(kind==='whale')RIP.drop(x,ty,.05+.03*z,.7)}
 function waterSave(){try{localStorage.setItem('current.water',JSON.stringify(WATER))}catch(_){}}
 function waterRoute(){const c=AUD.ctx,W=window.SurfaceWater;if(!c||!AUD.wIn)return;
   const g=AUD.wIn.gain,t=c.currentTime;g.cancelScheduledValues(t);g.setTargetAtTime(0,t,.01);   // a short dip, so the switch does not click
@@ -5613,15 +5632,17 @@ function waterBed(){const c=AUD.ctx,W=window.SurfaceWater;if(!c||!W||!AUD.mainIn
   else if(AUD.bed)AUD.bed.level(WATER.bedLvl)}
 /* the shelf's choices: each starts the sound, since a choice is a touch */
 function waterPreset(id){const P=window.SurfaceWater&&SurfaceWater.preset(id);if(!P)return;WATER.on=true;WATER.preset=id;WATER.depth=P.depth;WATER.bed=P.bed||'';waterSave();
-  if(!ensureCtx())return;if(AUD.water&&AUD.water.c===AUD.ctx)AUD.water.preset(id);waterRoute();if(window.cxCount)cxCount('sound: water '+id,1);toast(P.name+' · '+P.note,2600)}
-function waterOff(){WATER.on=false;waterSave();waterRoute();toast('water off: the sound is dry again')}
-function waterSetBed(b){WATER.bed=b;waterSave();if(!ensureCtx())return;waterBed();if(window.cxCount&&b)cxCount('sound: bed '+b,1)}
+  rippleSync();if(!ensureCtx())return;if(AUD.water&&AUD.water.c===AUD.ctx)AUD.water.preset(id);waterRoute();if(window.cxCount)cxCount('sound: water '+id,1);toast(P.name+' · '+P.note,2600)}
+function waterOff(){WATER.on=false;waterSave();rippleSync();waterRoute();toast('water off: the sound is dry again')}
+function waterSetBed(b){WATER.bed=b;waterSave();rippleSync();if(!ensureCtx())return;waterBed();if(window.cxCount&&b)cxCount('sound: bed '+b,1)}
 /* THE WATER STRIP (Dimitry, 21 Oct 22:10): the bed and the voices share one mixer strip, Water (level, mute, solo, its
    wave). The bed goes on to the field, as before. The voices go to your ears only, unless "the field hears the water"
    is on: then they reach the field too, and a drop pulses it. A voice the field heard cannot set off another for 250 ms. */
-function wVoice(kind,o){const c=AUD.ctx;if(!c)return;WT.vAt=performance.now()/1000;SurfaceWater.voice(c,AUD.preV||AUD.wIn,kind,o)}
+function wVoice(kind,o){const c=AUD.ctx;if(!c)return;WT.vAt=performance.now()/1000;SurfaceWater.voice(c,AUD.preV||AUD.wIn,kind,o);try{rippleVoice(kind,o)}catch(_){}}
 function waterHear(){if(!AUD.chV)return;try{AUD.chV.disconnect()}catch(_){}AUD.chV.connect(WATER.hear?AUD.mainIn:AUD.wIn)}
-function waterTick(dt,x,y,sp){if(!WATER||!WATER.on||!AUD.water||!AUD.ctx||AUD.ctx.state!=='running'){WT.was=!!(TOUCH&&TOUCH.on);return}
+function waterTick(dt,x,y,sp){if(RIP&&RIP.enabled()&&TOUCH.on){RIP.stir(x,1-y,TOUCH.vx,TOUCH.vy);
+    const voiced=WATER.on&&AUD.water&&AUD.ctx&&AUD.ctx.state==='running'&&(WATER.voices==='touch'||WATER.voices==='both');if(!WT.was&&!voiced)RIP.drop(x,1-y)}   // a tap always ripples
+  if(!WATER||!WATER.on||!AUD.water||!AUD.ctx||AUD.ctx.state!=='running'){WT.was=!!(TOUCH&&TOUCH.on);return}
   const W=window.SurfaceWater,c=AUD.ctx,now=performance.now()/1000,tv=WATER.voices==='touch'||WATER.voices==='both',pan=x*2-1;
   /* the field moves the depth: a calm field sinks, a fast one rises toward the surface (a quarter at most) */
   WT.drift+=dt;if(WT.drift>.3){WT.drift=0;const f=Math.max(0,Math.min(1,SIGNALS.flow||0));AUD.water.depth(Math.max(0,Math.min(1,WATER.depth+.25*(.45-f))),true)}
@@ -6650,7 +6671,9 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         const hr=mk('button','bsPill','field hears');hr.type='button';hr.setAttribute('role','switch');hr.title='The field hears the water voices too: a drop pulses it';
         hr.onclick=()=>{WATER.hear=!WATER.hear;waterSave();waterHear();bsSync();toast(WATER.hear?'the field hears the water':'the water voices are for your ears only')};box.appendChild(hr);
         const vc=pills('What plays the water voices',[['off','no voices','No water voices'],['touch','touch','Your touch: a tap is a drop, a drag bubbles, a long gesture a whale'],['music','music',"The music's beats play the preset's voice"],['both','both','Touch and the music']],v=>{WATER.voices=v;waterSave()});
-        return ()=>{check(mode,WATER.view);check(ps,WATER.on?WATER.preset:'');check(bed,WATER.bed||'');check(vc,WATER.voices);
+        rule(box);
+        const sf=window.SurfaceRipple?pills('The water surface over the stage',[['','no surface','No water surface']].concat(SurfaceRipple.PRESETS.map(P=>[P.id,P.name,'Surface: '+P.name+': '+P.note])),v=>{WATER.surfOn=!!v;if(v)WATER.surf=v;waterSave();if(v&&!WATER.on)waterPreset(WATER.preset);else rippleSync()}):null;
+        return ()=>{check(mode,WATER.view);check(ps,WATER.on?WATER.preset:'');check(bed,WATER.bed||'');check(vc,WATER.voices);if(sf)check(sf,WATER.on&&WATER.surfOn?WATER.surf:'');
           dp.value=WATER.depth;dp.disabled=!WATER.on;hr.setAttribute('aria-checked',String(!!WATER.hear));hr.setAttribute('aria-label','The field hears the water voices: '+(WATER.hear?'on':'off'))}}
       const hush=k=>{stopCh(k);syncAud();syncSndShelf()};
       const si=(label,svg,aria,src,fn,cls)=>{const b=mk('button','si'+(cls?' '+cls:''),svg+'<span class="lab"></span>');b.type='button';b.querySelector('.lab').textContent=label;b.setAttribute('aria-label',aria);if(src)b.dataset.src=src;b.onclick=fn;box.appendChild(b);return b};
@@ -7350,10 +7373,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
      the bar; it closes sliding down toward its button, or with a swipe down on the band (kit pop.js, foot) */
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l,foot:true,toward:{'#plist':'#pAuto','#rlist':'#pRand','#mixPop':'#pSnd','#colorPop':'#pSteer','#batchPop':'#pShot','#fontList':'#pSteer','#wordList':'#pSteer'}[p]||null}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022023714"></script>
-<script src="surface/links.js?v=20261022023714"></script>
-<script src="surface/tips.js?v=20261022023714"></script>
-<script src="surface/sections.js?v=20261022023714"></script>
+<script src="surface/install.js?v=20261022023939"></script>
+<script src="surface/links.js?v=20261022023939"></script>
+<script src="surface/tips.js?v=20261022023939"></script>
+<script src="surface/sections.js?v=20261022023939"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7941,7 +7964,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.28.9';
+const APP_VERSION='0.28.10';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
