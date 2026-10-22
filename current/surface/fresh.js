@@ -106,7 +106,7 @@
     return '<span class="sf-kind" data-kind="' + k + '" aria-hidden="true" style="display:inline-flex;flex:none;width:16px;height:16px;align-items:center;justify-content:center;vertical-align:-3px;color:' + K.color + '">' + K.svg + "</span>" +
       /* the word is shown too (Dimitry, 22 Oct 14:23: "we should still have those labels"): small capitals in the kind's
          colour, in its own column after the icon, so notes read NEW / FIX / CHANGE at a glance as well as by icon */
-      (lab ? '<span class="sf-kindw" style="flex:none;font:600 9px/16px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:' + K.color + '">' + K.name + '<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)">:</span></span>' : "");
+      (lab ? '<span class="sf-kindw" style="flex:none;align-self:baseline;font:600 9px/16px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:' + K.color + '">' + K.name + '<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)">:</span></span>' : "");
   }
   window.SurfaceFresh = {
     init: init, seen: mark, paint: paint, STAR: STAR, KINDS: KINDS, kind: kind,

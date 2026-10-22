@@ -209,7 +209,7 @@ function mount(o){
     const notesHere=()=>{const n=(window.__NOTES__||[])[0];if(!n||!n.items||!n.items.length)return'';const K={new:'New',fix:'Fixed',change:'Changed'};
       return `<details class="sfi-new" style="margin-top:6px"><summary style="cursor:pointer;color:var(--sfi-acc)">What\u2019s new in ${esc(n.v)}</summary><ul style="margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px">`+
         n.items.map(it=>window.SurfaceFresh&&SurfaceFresh.kind   /* the kind's icon (kit fresh.js: sparkle, squashed bug, turning arrows), a 16 px slot */
-          ?`<li style="display:grid;grid-template-columns:16px 50px 1fr;gap:8px;align-items:start;position:relative">${SurfaceFresh.kind(it.kind)}<span>${esc(it.text)}</span></li>`
+          ?`<li style="display:grid;grid-template-columns:16px 50px 1fr;gap:8px;align-items:start;position:relative">${SurfaceFresh.kind(it.kind)}<span style="align-self:baseline">${esc(it.text)}</span></li>`
           :`<li style="display:grid;grid-template-columns:58px 1fr;gap:8px;align-items:baseline"><span style="font:600 9px/1 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase;opacity:.7">${K[it.kind]||''}</span><span>${esc(it.text)}</span></li>`).join('')+'</ul></details>'};
     /* the button is wired whether or not the update checker has loaded yet: the guide is built before the end of the page,
        where the checker lives, so testing for it here left the button dead (Dimitry, 18 Oct 2026). It looks at click time. */
