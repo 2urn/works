@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022045645";window.__VERSION__="0.29.17";window.__NOTES__=[{"v":"0.29.17","date":"23 Oct 2026","items":[{"kind":"fix","text":"your own scenes always show a picture in Scenes: a frame of the stage is kept the moment you save, and until there is one, the pattern is drawn in the scene's own colors on its own ground. An empty frame kept by an older version is thrown away"},{"kind":"new","text":"your own scenes show when they were saved, small, beside the name, so an accidental save is easy to spot"},{"kind":"fix","text":"every scene row has the same action places, and nothing runs under the drag grip; rename and delete for your own scenes are under ⋯ (a delete can be undone)"},{"kind":"fix","text":"a scene on a light ground keeps its ground in its thumbnail"}]}]</script>
+<script>window.__BUILD__="20261022050216";window.__VERSION__="0.29.18";window.__NOTES__=[{"v":"0.29.18","date":"23 Oct 2026","items":[{"kind":"fix","text":"the Color mixer no longer jumps when a color changes, a color animates or the scene moves on: it stays where it is and only its values change"},{"kind":"change","text":"the Color mixer as wide as the bar: the picker on the left (always open), the swatches on the right with Related and Recent each in a row, and the animation in one row along the bottom"},{"kind":"new","text":"Blend, how the lines lay onto what is drawn (normal, add, screen, multiply, overlay, difference). It comes with Pro: everyone can see it; with a key it works, and a scene keeps its blend"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022045645"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022045645">
+<script src="claude-web.js?v=20261022050216"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022050216">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022045645"></script>
-<script src="surface/selftest.js?v=20261022045645"></script>
-<script src="surface/report.js?v=20261022045645"></script>
-<script src="surface/auto.js?v=20261022045645"></script>
-<script src="surface/toolpath.js?v=20261022045645"></script>
-<script src="surface/capture.js?v=20261022045645"></script>
-<script src="surface/pop.js?v=20261022045645"></script>
-<script src="surface/hints.js?v=20261022045645"></script>
-<script src="surface/paths.js?v=20261022045645"></script>
-<script src="surface/keys.js?v=20261022045645"></script>
-<script src="surface/reset.js?v=20261022045645"></script>
-<script src="surface/files.js?v=20261022045645"></script>
-<script src="surface/tabs.js?v=20261022045645"></script>
-<script src="surface/running.js?v=20261022045645"></script>
-<script src="surface/trim.js?v=20261022045645"></script>
-<script src="surface/audiowake.js?v=20261022045645"></script>
-<script src="surface/listview.js?v=20261022045645"></script>
-<script src="surface/beads.js?v=20261022045645"></script>
-<script src="surface/strip.js?v=20261022045645"></script>
-<script src="surface/sheetnav.js?v=20261022045645"></script>
-<script src="surface/twofinger.js?v=20261022045645"></script>
-<script src="surface/shortlink.js?v=20261022045645"></script>
-<script src="surface/undo.js?v=20261022045645"></script>
-<script src="surface/pro.js?v=20261022045645"></script>
+<script src="vendor/opentype.min.js?v=20261022050216"></script>
+<script src="surface/selftest.js?v=20261022050216"></script>
+<script src="surface/report.js?v=20261022050216"></script>
+<script src="surface/auto.js?v=20261022050216"></script>
+<script src="surface/toolpath.js?v=20261022050216"></script>
+<script src="surface/capture.js?v=20261022050216"></script>
+<script src="surface/pop.js?v=20261022050216"></script>
+<script src="surface/hints.js?v=20261022050216"></script>
+<script src="surface/paths.js?v=20261022050216"></script>
+<script src="surface/keys.js?v=20261022050216"></script>
+<script src="surface/reset.js?v=20261022050216"></script>
+<script src="surface/files.js?v=20261022050216"></script>
+<script src="surface/tabs.js?v=20261022050216"></script>
+<script src="surface/running.js?v=20261022050216"></script>
+<script src="surface/trim.js?v=20261022050216"></script>
+<script src="surface/audiowake.js?v=20261022050216"></script>
+<script src="surface/listview.js?v=20261022050216"></script>
+<script src="surface/beads.js?v=20261022050216"></script>
+<script src="surface/strip.js?v=20261022050216"></script>
+<script src="surface/sheetnav.js?v=20261022050216"></script>
+<script src="surface/twofinger.js?v=20261022050216"></script>
+<script src="surface/shortlink.js?v=20261022050216"></script>
+<script src="surface/undo.js?v=20261022050216"></script>
+<script src="surface/pro.js?v=20261022050216"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022045645"></script>
-<script src="surface/rail.js?v=20261022045645"></script>
-<script src="surface/touchsound.js?v=20261022045645"></script>
-<script src="surface/water.js?v=20261022045645"></script>
-<script src="surface/ripple.js?v=20261022045645"></script>
-<script src="surface/float.js?v=20261022045645"></script>
-<script src="surface/manual.js?v=20261022045645"></script>
+<script src="surface/pack.js?v=20261022050216"></script>
+<script src="surface/rail.js?v=20261022050216"></script>
+<script src="surface/touchsound.js?v=20261022050216"></script>
+<script src="surface/water.js?v=20261022050216"></script>
+<script src="surface/ripple.js?v=20261022050216"></script>
+<script src="surface/float.js?v=20261022050216"></script>
+<script src="surface/manual.js?v=20261022050216"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1155,6 +1155,19 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .cmAlt{display:flex;align-items:flex-start;gap:12px;width:100%;margin:6px 0;padding:10px 12px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05);color:var(--ui-ink);text-align:left;cursor:pointer;font:400 12.5px/1.4 var(--sans)}
 .cmAlt svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}.cmAlt b{display:block;font:600 10px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase}
 .cmAlt[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--acc,#55b8c9)}.cmNote{margin:8px 0;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmSp output{font:600 11px/1 var(--mono);color:var(--ui-ink);min-width:3.5em;text-align:right}
+/* the mixer at bar width (23 Oct): picker left, swatch rows right, animation in one row, Blend as a Pro preview */
+.cmGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 28px}.cmGrid>.cmAnim,.cmGrid>.cmBlend{grid-column:1/-1}
+@container (min-width:560px){.cmGrid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}#colorPop .cmPane{columns:auto!important}.cmSide .cmRow:first-child .cmL{margin-top:2px}}
+.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
+.cmPick input[type=color]{width:34px;height:30px;padding:0;border:0;background:none;cursor:pointer}
+.cmRow[hidden]{display:none}.cmRow.across .cmSw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 2px;margin:-4px -2px}.cmRow.across .cmSw::-webkit-scrollbar{display:none}.cmRow.across .cmSw button{flex:none}
+.cmAnim{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--ui-line);min-width:0}.cmAnim>.cmL{margin:0;flex:none}.cmAnim .cmSeg{flex-wrap:nowrap;flex:none}.cmAnim .cmSp{flex:1;min-width:90px;margin:0}
+@container (max-width:420px){.cmAnim>.cmL{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.cmAnim .cmSeg button{padding:0 8px}.cmAnim .cmSp>span{display:none}}
+.cmBlend{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:12px;padding:10px 12px;border-radius:12px;border:1.5px solid transparent}
+.cmBlend>.cmL{margin:0}.cmBlend .cmSeg{flex:1 1 100%}.cmBlend .proMk{display:none}
+.cmBlend.pro{border:1.5px dotted rgb(var(--acc-rgb,85 184 201) / .55);background:rgb(var(--acc-rgb,85 184 201) / .08)}
+.cmBlend.pro .proMk{display:block;position:absolute;top:8px;right:9px;width:13px;height:13px;fill:none;stroke:var(--acc,#55b8c9);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmBlend.pro .proMk .bolt{fill:var(--acc,#55b8c9);stroke:none}
+.cmBlend.pro .cmSeg button{opacity:.55;cursor:default}.cmBlend .cmJoin{padding:0;min-height:28px;color:var(--acc,#55b8c9);text-transform:none;letter-spacing:0;font:500 12.5px/1.2 var(--sans)}.cmBlend .cmJoin[hidden]{display:none}
 .cmPro{margin-top:14px;padding:10px 12px 12px;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .05)}
 .cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
 .cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
@@ -3016,6 +3029,7 @@ function frame(now){
   const GH=!TOUCH.on&&UN.ghost,tcol=S.touchColor&&(LC.touch||S.touchColor),pC=tcol?new Path2D():null,tdk=Math.exp(-dt/.9),tfin=tcol&&((TOUCH.on&&!STEER.on)||!!GH);
   const dotN=Math.round(E.dots||0),dS=1;
   if(two&&S.alt==='time'){if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!beatHi){beatFlip++;beatHi=true}else if(SIGNALS.beat<.5)beatHi=false}else beatFlip=Math.floor(simT/Math.max(.5,S.altTime))}
+  ctx.globalCompositeOperation=S.blend&&S.blend!=='source-over'&&isPro()?S.blend:'source-over';   // Blend (Pro, 23 Oct): how the lines lay onto the trails
   ctx.strokeStyle=LC.line||S.line;ctx.lineWidth=1;ctx.globalAlpha=S.lineOff?0:S.lineAlpha;ctx.beginPath();
   const sp=E.speed*FLOW.mul*CELL*0.35*(reduce?0.4:1),st=E.strength;
   const lensK=(S.lensMode!=='off'&&LENS)?E.lens:0;
@@ -3044,7 +3058,7 @@ function frame(now){
   if(dotN){if(!S.lineOff){ctx.globalAlpha=Math.min(1,S.lineAlpha*1.5);if(two){ctx.fillStyle=LC.line||S.line;ctx.fill(pA);ctx.fillStyle=LC.second||S.line2;ctx.fill(pB)}else{ctx.fillStyle=LC.line||S.line;ctx.fill()}}
     if(tcol){ctx.fillStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha*1.5,.75);ctx.fill(pC)}}
   else{if(!S.lineOff){if(two){ctx.strokeStyle=LC.line||S.line;ctx.stroke(pA);ctx.strokeStyle=LC.second||S.line2;ctx.stroke(pB)}else ctx.stroke()}
-    if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;
+    if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
   steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
   if(!RIP&&WATER&&WATER.on&&WATER.surfOn)try{rippleSync()}catch(_){}
@@ -3337,7 +3351,7 @@ function applyLookNow(p,idx,instant,part){
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;applyGround()}syncLine();
   S.canim=JSON.parse(JSON.stringify(p.canim||{}));S.pathColor=p.pathColor||null;try{if(!$('colorPop').hidden)renderCM()}catch(_){}
-  S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);sceneSound(p,part);
+  S.blend=p.blend||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;if(p.rand)applyRandCfg(p.rand);sceneSound(p,part);
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
   Object.assign(S.mods,keepMods);S.maps.push(...keepMaps);   // the picture's automation stays when the scene changes
@@ -3530,7 +3544,7 @@ function randRing(){cancelAnimationFrame(randRaf);const g=$('rlTempo');if(!g)ret
 function openRlist(){bsFollow('dice');closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return {name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
-  flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
+  blend:S.blend&&S.blend!=='source-over'?S.blend:undefined,flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
 // AUTO NAMES: a scene names itself from what it is (its pattern, motion, colors, modulation); the name is prefilled
 // and selected, so typing replaces it.
 const NAME_MOTION={along:['Drift','Current','Tide','Run'],across:['Crosscut','Shear','Weft','Grain'],attract:['Pool','Gather','Well','Settle'],
@@ -6458,67 +6472,94 @@ function openColorEdit(g){CM_ED=g;openColorMix(g)}
 const pickColor=(pk,c)=>{if(pk&&pk.g){pk.set(c);openColorEdit(pk.g)}else openColorPick(pk,c)};
 /* THE EDITOR: lightness, chroma and hue (OKLCH), a hex code, the device's own color field, and save to My colors.
    Changes land live; done (or closing) keeps them and adds the color to Recent. */
-function cmEditor(g,pane){const G=CG[g];let cur=G.get();const d=document.createElement('div');d.className='cmEd';d.setAttribute('role','region');d.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');pane.appendChild(d);
-  let [L,C,H]=OKC.lch(cur);if(C<.002)H=0;
-  d.innerHTML='<div class="cmEdTop"><span class="cmEdSw"></span><label class="cmEdHex"><span>#</span><input type="text" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex code"></label><input type="color" aria-label="The device\'s color field"><button type="button" class="tb cmEdDone">done</button></div>'+
-    [['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" aria-label="'+n+'"><output></output></label>').join('')+
-    '<div class="cmEdRow"><button type="button" class="tb cmEdSave"></button></div>';
-  const sw=d.querySelector('.cmEdSw'),hex=d.querySelector('.cmEdHex input'),nat=d.querySelector('input[type=color]'),rs=[...d.querySelectorAll('.cmEdR input')],save=d.querySelector('.cmEdSave');
-  const paintTracks=()=>{const st=(f)=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>f(i/8)).join(',')+')';
-    rs[0].style.background=st(t=>OKC.hex([t,C,H]));rs[1].style.background=st(t=>OKC.hex([L,t*.37,H]));rs[2].style.background=st(t=>OKC.hex([L,Math.max(C,.08),t*360]))};
-  const show=(fromHex)=>{sw.style.background=cur;if(document.activeElement!==hex)hex.value=cur.slice(1).toUpperCase();nat.value=cur;
-    rs[0].value=L;rs[1].value=C;rs[2].value=H;rs.forEach((r,i)=>r.nextElementSibling.textContent=i===2?Math.round(H)+'°':i===0?Math.round(L*100)+'%':C.toFixed(2));paintTracks();
-    const mine=cmMine().includes(cur.toLowerCase());save.textContent=mine?'saved · remove':'save to my colors';save.setAttribute('aria-pressed',String(mine));
-    const p=pane.querySelector('.cmBig');if(p)p.style.background=cur;const hx=pane.querySelector('.cmEdit');if(hx&&hx.firstChild)hx.firstChild.textContent=cur.toUpperCase()};
-  const apply=v=>{cur=v;G.set(v);show()};
-  rs.forEach(r=>r.addEventListener('input',()=>{const k=r.dataset.k;if(k==='L')L=+r.value;else if(k==='C')C=+r.value;else H=+r.value;apply(OKC.hex([L,C,H]))}));
-  hex.addEventListener('input',()=>{const v=hex.value.trim().replace(/^#/,'');const m=/^[0-9a-f]{6}$/i.test(v)?'#'+v.toLowerCase():/^[0-9a-f]{3}$/i.test(v)?'#'+v.split('').map(x=>x+x).join('').toLowerCase():null;hex.classList.toggle('bad',!m);if(m){[L,C,H]=OKC.lch(m);apply(m)}});
-  nat.addEventListener('input',()=>{[L,C,H]=OKC.lch(nat.value);apply(nat.value.toLowerCase())});
-  save.onclick=()=>{const a=cmMine(),c=cur.toLowerCase();if(a.includes(c))cmMineSet(a.filter(x=>x!==c));else{cmMineSet([c,...a]);toast(c+' saved to my colors')}CM_ED=g;renderCM(g)};
-  d.querySelector('.cmEdDone').onclick=()=>{try{rememberColor(cur)}catch(_){}colorDid('own');CM_ED=null;renderCM(g);try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
-  show()}
-function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE[g]);if(!G||!pane)return;const keep=pane.scrollTop;pane.innerHTML='';
-  const cur=G.get(),on=G.on(),A=(S.canim=S.canim||{}),an=A[g]||{m:'off',sp:.5};
-  const refresh=()=>{renderCM(g);try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
-  const use=(c,ev)=>{G.set(c);if(ev)colorDid(ev);try{rememberColor(c)}catch(_){}refresh()};
-  const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
-  if(CM_ED===g)cmEditor(g,pane);
-  const head=el('div','cmHead');const big=document.createElement('span');big.className='cmBig';big.style.background=cur;if(!on)big.style.opacity=.35;head.appendChild(big);
-  const hx=document.createElement('span');hx.className='cmHex';hx.textContent=cur.toUpperCase()+(on?'':' · off');head.appendChild(hx);
-  /* EDIT (Dimitry, 19 Oct: "your own" was easy to miss): the big swatch, its edit label, or a long press on any swatch
-     opens the editor, a drawer that slides down inside the panel */
-  big.setAttribute('role','button');big.tabIndex=0;big.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');big.title='Tap or hold to edit this color';
-  big.onclick=()=>{CM_ED=g;renderCM(g)};big.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();big.onclick()}};
-  hx.classList.add('cmEdit');hx.innerHTML='';hx.append(cur.toUpperCase()+(on?'':' · off'));const ed=document.createElement('button');ed.type='button';ed.className='tb cmEdBtn';ed.textContent='edit';ed.setAttribute('aria-label','Edit the '+G.name.toLowerCase()+' color');ed.onclick=big.onclick;hx.appendChild(ed);
-  if(G.auto){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent='auto';o.setAttribute('aria-pressed',String(S.ground==='auto'));o.setAttribute('aria-label','Ground auto: always contrasts with the lines');
-    o.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();refresh()};head.appendChild(o);if(S.ground==='auto')hx.firstChild.textContent='AUTO · '+cur.toUpperCase()}
-  if(G.off){const o=document.createElement('button');o.type='button';o.className='tb';o.textContent=on?'off':'on';o.setAttribute('aria-pressed',String(!on));o.setAttribute('aria-label',(on?'Turn '+G.name.toLowerCase()+' off':'Turn '+G.name.toLowerCase()+' on'));
-    o.onclick=()=>{if(on)G.off();else G.set(cur);refresh()};head.appendChild(o)}
-  const row=(label,list,ev)=>{el('p','cmL',label);const box=el('div','cmSw');box.setAttribute('role','group');box.setAttribute('aria-label',G.name+': '+label);
-    {const seen=new Set();list=list.filter(([,c])=>{const k=String(c).toLowerCase();if(seen.has(k))return false;seen.add(k);return true})}   // one dot per color
-    if(!list.length){box.innerHTML='<em>none yet</em>';return}
-    for(const [n,c] of list){const b=document.createElement('button');b.type='button';b.style.background=c;b.title=n+' '+c;b.setAttribute('aria-label',G.name+' '+n+' '+c);
-      b.setAttribute('aria-pressed',String(on&&sameC(c,cur)));b.onclick=()=>{if(b._held){b._held=false;return}use(c,ev)};cmHold(b,()=>{G.set(c);if(ev)colorDid(ev);CM_ED=g;refresh()});box.appendChild(b)}};
-  row('Swatches',g==='ground'?G.sw():[...G.sw(),['Black','#000000'],['White','#ffffff']]);   // the ground has its own dark and paper
-  const [L,C,H]=OKC.lch(cur);
-  row('Related',[['Opposite',colorOpp(cur)],['Complement',colorComp(cur)],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]],'opposite');
-  let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}
-  {const my=cmMine();if(my.length)row('My colors',my.map(c=>['Mine',c]))}
-  if(g==='second'&&on){const n=el('p','cmNote');n.innerHTML='Alternating now by <b>'+({grain:'grain',time:'in time',motion:'motion'}[S.alt])+'</b>. ';const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');n.appendChild(a)}
-  row('Recent',rec.slice(0,10).map(c=>['Recent',c]));
-  if(g==='ground'){el('p','cmL','With a camera, video or picture');const sg=el('div','cmSeg');sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
-    for(const [k,t,al] of SRC_GROUND){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String(SRCG===k));b.onclick=()=>setSrcGround(k);sg.appendChild(b)}}
-  el('p','cmL','Animation');const seg=el('div','cmSeg');seg.setAttribute('role','group');seg.setAttribute('aria-label',G.name+' animation');
-  for(const [k,t,al] of CANIM_MODES){const b=document.createElement('button');b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.setAttribute('aria-pressed',String((an.m||'off')===k));
-    b.onclick=()=>{if(k==='off')delete A[g];else{A[g]={m:k,sp:an.sp==null?.5:an.sp};colorDid('anim')}refresh()};seg.appendChild(b)}
-  /* the speed row is always there (Dimitry, 22 Oct 23:33: Pulse grew the panel and every button moved): off, it greys in place */
-  const off=!an.m||an.m==='off',sp=el('label','cmSp');sp.classList.toggle('off',off);sp.innerHTML='<span>speed</span>';const r=document.createElement('input');r.type='range';r.min=0;r.max=1;r.step=.01;r.value=an.sp==null?.5:an.sp;r.setAttribute('aria-label',G.name+' animation speed');r.disabled=off;r.setAttribute('aria-disabled',String(off));
-  r.oninput=()=>{if(A[g])A[g].sp=+r.value};sp.appendChild(r);
-  /* FREE AND PRO (Dimitry, 19 Oct): colors and their basic animation are free; blend modes and mappings will be Pro */
-  const lock='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  const pro=el('div','cmPro');pro.innerHTML='<p>'+lock+' <b>With Pro:</b> blend modes, one group following another, and colors driven by the paths, the sound, the magnet or your finger. The first 100 founders get Pro free.</p><button type="button" class="bgGo ghost">join the Founders Club</button>';
-  pro.querySelector('button').onclick=()=>{try{openBetaSheet()}catch(_){}};
-  pane.scrollTop=keep}
+/* THE COLOR MIXER, BUILT ONCE (Dimitry, 23 Oct 00:08: "every time a color changes the picker drops back down"). Each
+   group's pane is built the first time it shows and then only UPDATED IN PLACE (values, pressed states, the rows'
+   dots): no innerHTML rebuild, no open animation replayed, the scroll never reset. A scene change, auto play, a color
+   animation or another group updating calls renderCM(), which now just refreshes what is shown.
+   Layout at bar width (a container query on the panel): the picker on the left (the swatch, hex, the device's color
+   field, lightness / chroma / hue, save to my colors); on the right the swatches, Related (harmonies of the current
+   color), My colors and Recent, each a row running across; then the animation in ONE row (mode, speed: greyed when off,
+   never hidden); then BLEND as a Pro preview. On a phone the same parts stack. */
+const CM_BLENDS=[['source-over','normal'],['lighter','add'],['screen','screen'],['multiply','multiply'],['overlay','overlay'],['difference','difference']];
+const PRO_MARK='<svg class="proMk" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg>';
+function cmEditor(g){CM_ED=g;renderCM(g)}   // kept for callers: the picker is always open now
+function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE[g]);if(!G||!pane)return;
+  if(pane._cm){pane._cm.update();return}
+  const A=()=>(S.canim=S.canim||{});
+  const mk=(tag,cls,html,parent)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(parent||pane).appendChild(e);return e};
+  const grid=mk('div','cmGrid'),pick=mk('div','cmPick',null,grid),side=mk('div','cmSide',null,grid),anim=mk('div','cmAnim',null,grid),blend=mk('div','cmBlend',null,grid);
+  /* the picker */
+  const top=mk('div','cmEdTop',null,pick);
+  const big=mk('span','cmBig',null,top);big.setAttribute('aria-hidden','true');
+  const hexL=mk('label','cmEdHex','<span>#</span><input type="text" maxlength="7" spellcheck="false" autocomplete="off">',top),hex=hexL.querySelector('input');hex.setAttribute('aria-label',G.name+' color, hex code');
+  const nat=mk('input',null,null,top);nat.type='color';nat.setAttribute('aria-label',G.name+': the device’s color field');
+  const tg=mk('span','cmTg',null,top);
+  let autoB=null,offB=null;
+  if(G.auto){autoB=mk('button','tb',null,tg);autoB.type='button';autoB.textContent='auto';autoB.setAttribute('aria-label','Ground auto: always contrasts with the lines');
+    autoB.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();done()}}
+  if(G.off){offB=mk('button','tb',null,tg);offB.type='button';offB.onclick=()=>{if(G.on())G.off();else G.set(G.get());done()}}
+  const rs=[['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>{const l=mk('label','cmEdR','<span>'+n+'</span><input type="range" min="'+a+'" max="'+b+'" step="'+st+'"><output></output>',pick),r=l.querySelector('input');r.dataset.k=k;r.setAttribute('aria-label',G.name+' '+n);return r});
+  const saveRow=mk('div','cmEdRow',null,pick),save=mk('button','tb cmEdSave',null,saveRow);save.type='button';
+  let st=null;   // the picker's own L C H, so a grey keeps its hue while you drag
+  const lch=c=>{const v=OKC.lch(c);v[2]=((v[2]%360)+360)%360;if(v[1]<.002&&st)v[2]=st[2];return v};
+  const setC=(c,ev)=>{G.set(c);if(ev)colorDid(ev);CM_ED=g;update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
+  rs.forEach((r,i)=>r.addEventListener('input',()=>{if(!st)st=lch(G.get());st[i]=+r.value;setC(OKC.hex(st))}));
+  hex.addEventListener('input',()=>{const v=hex.value.trim().replace(/^#/,'');const m=/^[0-9a-f]{6}$/i.test(v)?'#'+v.toLowerCase():/^[0-9a-f]{3}$/i.test(v)?'#'+v.split('').map(x=>x+x).join('').toLowerCase():null;hex.classList.toggle('bad',!m);if(m){st=lch(m);setC(m)}});
+  hex.addEventListener('change',()=>{try{rememberColor(G.get())}catch(_){}colorDid('own')});
+  nat.addEventListener('input',()=>{st=lch(nat.value);setC(nat.value.toLowerCase())});nat.addEventListener('change',()=>{try{rememberColor(G.get())}catch(_){}colorDid('own')});
+  rs.forEach(r=>r.addEventListener('change',()=>{try{rememberColor(G.get())}catch(_){}colorDid('own')}));
+  save.onclick=()=>{const a=cmMine(),c=G.get().toLowerCase();if(a.includes(c))cmMineSet(a.filter(x=>x!==c));else{cmMineSet([c,...a]);toast(c+' saved to my colors')}update()};
+  /* the rows: each built once, its dots redrawn only when what it holds changes */
+  const rows=[];
+  const row=(label,list,ev,cls)=>{const w=mk('div','cmRow'+(cls?' '+cls:''),null,side);mk('p','cmL',label,w);const box=mk('div','cmSw',null,w);box.setAttribute('role','group');box.setAttribute('aria-label',G.name+': '+label);
+    const R={w,box,key:null,list,ev};rows.push(R);return R};
+  const use=(c,ev)=>{try{rememberColor(c)}catch(_){}st=lch(c);setC(c,ev)};
+  const drawRow=(R,cur,on)=>{let L=R.list();{const seen=new Set();L=L.filter(([,c])=>{const k=String(c).toLowerCase();if(seen.has(k))return false;seen.add(k);return true})}
+    R.w.hidden=!!R.hideEmpty&&!L.length;const key=L.map(x=>x[1]).join(',');
+    if(key!==R.key){R.key=key;R.box.textContent='';if(!L.length)R.box.innerHTML='<em>none yet</em>';
+      for(const [n,c] of L){const b=document.createElement('button');b.type='button';b.style.background=c;b.title=n+' '+c;b.dataset.c=c;b.setAttribute('aria-label',G.name+' '+n+' '+c);b.onclick=()=>use(c,R.ev);R.box.appendChild(b)}}
+    for(const b of R.box.children)if(b.dataset&&b.dataset.c)b.setAttribute('aria-pressed',String(on&&sameC(b.dataset.c,cur)))};
+  row('Swatches',()=>g==='ground'?G.sw():[...G.sw(),['Black','#000000'],['White','#ffffff']]);
+  row('Related',()=>{const [L,C,H]=OKC.lch(G.get());return [['Opposite',colorOpp(G.get())],['Complement',colorComp(G.get())],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]]},'opposite','across');
+  row('Recent',()=>{let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}return rec.slice(0,10).map(c=>['Recent',c])},null,'across');
+  {const R=row('My colors',()=>cmMine().map(c=>['Mine',c]),null,'across');R.hideEmpty=true}
+  let note=null,noteT=null;if(g==='second'){note=mk('p','cmNote',null,side);noteT=document.createElement('span');note.appendChild(noteT);const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');note.appendChild(a)}
+  let sgB=[];if(g==='ground'){const w=mk('div','cmRow',null,side);mk('p','cmL','With a camera, video or picture',w);const sg=mk('div','cmSeg',null,w);sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
+    sgB=SRC_GROUND.map(([k,t,al])=>{const b=mk('button',null,null,sg);b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.dataset.k=k;b.onclick=()=>setSrcGround(k);return b})}
+  /* the animation, one row: mode, then speed (greyed in place when off, Dimitry 22 Oct 23:33) */
+  mk('span','cmL',null,anim).textContent='Animation';
+  const seg=mk('div','cmSeg',null,anim);seg.setAttribute('role','group');seg.setAttribute('aria-label',G.name+' animation');
+  const modeB=CANIM_MODES.map(([k,t,al])=>{const b=mk('button',null,null,seg);b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.dataset.k=k;
+    b.onclick=()=>{const a=A(),an=a[g]||{};if(k==='off')delete a[g];else{a[g]={m:k,sp:an.sp==null?.5:an.sp};colorDid('anim')}update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};return b});
+  const sp=mk('label','cmSp','<span>speed</span>',anim),spR=document.createElement('input');spR.type='range';spR.min=0;spR.max=1;spR.step=.01;spR.setAttribute('aria-label',G.name+' animation speed');sp.appendChild(spR);
+  spR.oninput=()=>{const a=A();if(a[g])a[g].sp=+spR.value};
+  /* BLEND, a Pro preview (Dimitry 00:08): the real controls, inert without a key; ONE lock-and-bolt framing the whole
+     section, and one line to join. With a key they work: how the lines lay onto what is already drawn
+     (canvas globalCompositeOperation, kept with the scene). */
+  mk('span','cmL',null,blend).textContent='Blend';blend.insertAdjacentHTML('beforeend',PRO_MARK);
+  const bseg=mk('div','cmSeg',null,blend);bseg.setAttribute('role','group');bseg.setAttribute('aria-label','Blend: how the lines lay onto what is drawn');
+  const blendB=CM_BLENDS.map(([k,t])=>{const b=mk('button',null,null,bseg);b.type='button';b.textContent=t;b.dataset.k=k;b.onclick=()=>{if(!isPro()){try{openBetaSheet()}catch(_){}return}S.blend=k;clearTrails();update()};return b});
+  const join=mk('button','tb cmJoin',null,blend);join.type='button';join.textContent='Join the Founders Club';join.onclick=()=>{try{openBetaSheet()}catch(_){}};
+  function done(){update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}}
+  function update(){const cur=G.get(),on=G.on();
+    big.style.background=cur;big.style.opacity=on?'':.35;
+    if(document.activeElement!==hex){hex.value=cur.slice(1).toUpperCase();hex.classList.remove('bad')}if(nat.value!==cur)nat.value=cur;
+    if(!st||!sameC(OKC.hex(st),cur))st=lch(cur);
+    rs.forEach((r,i)=>{if(document.activeElement!==r||!r.matches(':active'))r.value=st[i];r.nextElementSibling.textContent=i===2?Math.round(st[2])+'°':i===0?Math.round(st[0]*100)+'%':st[1].toFixed(2)});
+    {const f=fn=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>fn(i/8)).join(',')+')',[L,C,H]=st;rs[0].style.background=f(t=>OKC.hex([t,C,H]));rs[1].style.background=f(t=>OKC.hex([L,t*.37,H]));rs[2].style.background=f(t=>OKC.hex([L,Math.max(C,.08),t*360]))}
+    if(offB){offB.textContent=on?'off':'on';offB.setAttribute('aria-pressed',String(!on));offB.setAttribute('aria-label',(on?'Turn ':'Turn ')+G.name.toLowerCase()+(on?' off':' on'))}
+    if(autoB)autoB.setAttribute('aria-pressed',String(S.ground==='auto'));
+    {const mine=cmMine().includes(cur.toLowerCase());save.textContent=mine?'saved · remove':'save to my colors';save.setAttribute('aria-pressed',String(mine))}
+    for(const R of rows)drawRow(R,cur,on);
+    if(noteT){noteT.innerHTML='Alternating now by <b>'+({grain:'grain',time:'in time',motion:'motion'}[S.alt]||S.alt)+'</b>. ';note.classList.toggle('off',!on)}
+    for(const b of sgB)b.setAttribute('aria-pressed',String(SRCG===b.dataset.k));
+    const an=(S.canim||{})[g]||{m:'off',sp:.5},off=!an.m||an.m==='off';
+    for(const b of modeB)b.setAttribute('aria-pressed',String((an.m||'off')===b.dataset.k));
+    sp.classList.toggle('off',off);spR.disabled=off;spR.setAttribute('aria-disabled',String(off));if(document.activeElement!==spR)spR.value=an.sp==null?.5:an.sp;
+    const pro=isPro();blend.classList.toggle('pro',!pro);join.hidden=pro;const bm=S.blend||'source-over';
+    for(const b of blendB){b.setAttribute('aria-pressed',String(pro&&bm===b.dataset.k));if(pro)b.removeAttribute('aria-disabled');else b.setAttribute('aria-disabled','true');b.title=pro?'':'Blend comes with Pro'}}
+  pane._cm={g,update};update()}
+document.addEventListener('surface:pro',()=>{try{for(const g of CG_ORDER){const p=$(CM_PANE[g]);if(p&&p._cm)p._cm.update()}}catch(_){}});
 $('cmClose').onclick=closeColorMix;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('colorPop').hidden&&$('colorPick').hidden){closeColorMix()}});
 document.addEventListener('pointerdown',e=>{const p=$('colorPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#colorPick,#toolTrack,.cmPin,.lc-beta,#betaHost'))return;closeColorMix()},true);
@@ -7773,10 +7814,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022045645"></script>
-<script src="surface/links.js?v=20261022045645"></script>
-<script src="surface/tips.js?v=20261022045645"></script>
-<script src="surface/sections.js?v=20261022045645"></script>
+<script src="surface/install.js?v=20261022050216"></script>
+<script src="surface/links.js?v=20261022050216"></script>
+<script src="surface/tips.js?v=20261022050216"></script>
+<script src="surface/sections.js?v=20261022050216"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8415,7 +8456,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.17';
+const APP_VERSION='0.29.18';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
