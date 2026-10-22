@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022035433";window.__VERSION__="0.29.9";window.__NOTES__=[{"v":"0.29.9","date":"22 Oct 2026","items":[{"kind":"new","text":"Tools' shelf (drag down on ⋯) is a strip of things to tap for the tool in use. No tool: the tools themselves. Color: every group's choices (the drawer above shows your current colors: tap one to jump to its choices, hold it for the Color mixer). Text: your words, the ones in the sequence dancing. View: Clean, Arrows, Blueprint, Glow, Grain. Pattern: the patterns, which change only the pattern and keep your colors and sound. Steer and magnet: your recorded loops (tap to play or stop, hold to remove). Frame: Fit, Fill, Center, Turn 90°"}]}]</script>
+<script>window.__BUILD__="20261022035806";window.__VERSION__="0.29.10";window.__NOTES__=[{"v":"0.29.10","date":"22 Oct 2026","items":[{"kind":"change","text":"Color, the right way up. The drawer shows only your current colors, one swatch per group, and a mixer button at the end; tap a group to select it and the shelf below slides to its colors, the current one lit; tap a color to set it. Hold a group for the Color mixer; the mixer button opens it at the selected group"},{"kind":"change","text":"the Color mixer is as wide as the bar and lays its controls in two columns on a wide screen"},{"kind":"change","text":"the (i) in a panel's band sits at the right, beside ‹ › ⌄"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022035433"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022035433">
+<script src="claude-web.js?v=20261022035806"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022035806">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,42 +119,42 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022035433"></script>
-<script src="surface/selftest.js?v=20261022035433"></script>
-<script src="surface/report.js?v=20261022035433"></script>
-<script src="surface/auto.js?v=20261022035433"></script>
-<script src="surface/toolpath.js?v=20261022035433"></script>
-<script src="surface/capture.js?v=20261022035433"></script>
-<script src="surface/pop.js?v=20261022035433"></script>
-<script src="surface/hints.js?v=20261022035433"></script>
-<script src="surface/paths.js?v=20261022035433"></script>
-<script src="surface/keys.js?v=20261022035433"></script>
-<script src="surface/reset.js?v=20261022035433"></script>
-<script src="surface/files.js?v=20261022035433"></script>
-<script src="surface/tabs.js?v=20261022035433"></script>
-<script src="surface/running.js?v=20261022035433"></script>
-<script src="surface/trim.js?v=20261022035433"></script>
-<script src="surface/audiowake.js?v=20261022035433"></script>
-<script src="surface/listview.js?v=20261022035433"></script>
-<script src="surface/beads.js?v=20261022035433"></script>
-<script src="surface/strip.js?v=20261022035433"></script>
-<script src="surface/sheetnav.js?v=20261022035433"></script>
-<script src="surface/twofinger.js?v=20261022035433"></script>
-<script src="surface/shortlink.js?v=20261022035433"></script>
-<script src="surface/pro.js?v=20261022035433"></script>
+<script src="vendor/opentype.min.js?v=20261022035806"></script>
+<script src="surface/selftest.js?v=20261022035806"></script>
+<script src="surface/report.js?v=20261022035806"></script>
+<script src="surface/auto.js?v=20261022035806"></script>
+<script src="surface/toolpath.js?v=20261022035806"></script>
+<script src="surface/capture.js?v=20261022035806"></script>
+<script src="surface/pop.js?v=20261022035806"></script>
+<script src="surface/hints.js?v=20261022035806"></script>
+<script src="surface/paths.js?v=20261022035806"></script>
+<script src="surface/keys.js?v=20261022035806"></script>
+<script src="surface/reset.js?v=20261022035806"></script>
+<script src="surface/files.js?v=20261022035806"></script>
+<script src="surface/tabs.js?v=20261022035806"></script>
+<script src="surface/running.js?v=20261022035806"></script>
+<script src="surface/trim.js?v=20261022035806"></script>
+<script src="surface/audiowake.js?v=20261022035806"></script>
+<script src="surface/listview.js?v=20261022035806"></script>
+<script src="surface/beads.js?v=20261022035806"></script>
+<script src="surface/strip.js?v=20261022035806"></script>
+<script src="surface/sheetnav.js?v=20261022035806"></script>
+<script src="surface/twofinger.js?v=20261022035806"></script>
+<script src="surface/shortlink.js?v=20261022035806"></script>
+<script src="surface/pro.js?v=20261022035806"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022035433"></script>
-<script src="surface/rail.js?v=20261022035433"></script>
-<script src="surface/touchsound.js?v=20261022035433"></script>
-<script src="surface/water.js?v=20261022035433"></script>
-<script src="surface/ripple.js?v=20261022035433"></script>
-<script src="surface/float.js?v=20261022035433"></script>
-<script src="surface/manual.js?v=20261022035433"></script>
+<script src="surface/pack.js?v=20261022035806"></script>
+<script src="surface/rail.js?v=20261022035806"></script>
+<script src="surface/touchsound.js?v=20261022035806"></script>
+<script src="surface/water.js?v=20261022035806"></script>
+<script src="surface/ripple.js?v=20261022035806"></script>
+<script src="surface/float.js?v=20261022035806"></script>
+<script src="surface/manual.js?v=20261022035806"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -862,6 +862,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* PANELS SPAN THE BAR (22 Oct): a panel as wide as the bar lays its lists in two columns once it is 560 px or wider;
    controls keep their phone sizes (a slider never runs the whole width) */
 @container (min-width:560px){
+  #colorPop .cmPane{columns:2;column-gap:28px}#colorPop .cmPane>*{break-inside:avoid}#colorPop .cmPane>.cmL{break-after:avoid}#colorPop .cmPane>.cmHead{column-span:all}
   #plItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start}#plItems>:not(.lk){grid-column:1/-1}
   .rmList{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:12px}
   .rlAmt{max-width:400px}
@@ -1057,6 +1058,7 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 #bshelf .bsSw button{flex:none;width:30px;height:30px;padding:0;border-radius:50%;border:2px solid rgb(var(--ui-hi) / .2)}
 #bshelf .bsSw button[aria-checked=true]{border-color:var(--acc,#55b8c9);box-shadow:0 0 0 2px rgb(var(--ui-g)) inset}
 #bshelf .bsSw button.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi) / .25) 5px 6px)}
+#bshelf .bsSw.sel>.lab{color:var(--acc,#55b8c9)}#toolTrack .si.dot.cur.sel{color:var(--acc,#55b8c9)}#toolTrack .si.dot.cur.sel i{box-shadow:0 0 0 2px rgb(var(--ui-g)),0 0 0 4px var(--acc,#55b8c9)}
 #bshelf .bsSw.flash{animation:bsFlash .7s ease}@keyframes bsFlash{30%{background:rgb(var(--acc-rgb,85 184 201) / .22)}}
 #bshelf .bsSw .bsPill{margin-left:4px}
 #bshelf .s-strip-i.bsToolI{display:grid;place-items:center;color:var(--ui-ink);background:rgb(var(--ui-hi) / .06)}#bshelf .s-strip-i.bsToolI svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -1134,7 +1136,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .cmPro li{display:flex;align-items:center;gap:8px;font:400 12.5px/1.4 var(--sans);color:var(--ui-dim);padding:3px 0}.cmPro ul{list-style:none;margin:0 0 8px;padding:0}
 .cmPro svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmPro p{margin:0 0 8px;font:400 12px/1.45 var(--sans);color:var(--ui-dim)}.cmPro p svg{vertical-align:-2px}.cmPro b{color:var(--ui-ink);font-weight:600}.cmPro .bgGo{min-height:28px;font-size:9.5px}
 /* the pinned color-mix icon stays at the shelf's left edge while the swatches slide under it */
-#toolTrack .si.cmPin{position:sticky;left:0;z-index:3;background:rgb(var(--ui-g) / .55);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:12px;box-shadow:10px 0 10px -8px rgb(0 0 0 / .5);min-width:48px}
+#toolTrack .si.cmPin{position:sticky;right:0;left:auto;margin-left:auto;z-index:3;background:rgb(var(--ui-g) / .55);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-radius:12px;box-shadow:-10px 0 10px -8px rgb(0 0 0 / .5);min-width:48px}
 #toolTrack .si.dot.anim i{animation:cmSpin 6s linear infinite;background-image:conic-gradient(from 0deg,transparent 0 70%,rgb(255 255 255 / .55) 85%,transparent 100%)}
 @keyframes cmSpin{to{filter:hue-rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){#toolTrack .si.dot.anim i{animation:none}}
@@ -2183,7 +2185,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div>
 </div>
 <div id="mixPop" role="dialog" aria-label="Sound" hidden>
-  <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
+  <div class="mxh"><div class="sfTabs" id="mixTabs" role="tablist" aria-label="Sound panels"></div><button class="sfInfoBtn spop-right" id="mixInfoBtn" type="button" aria-expanded="false" aria-controls="mixInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="mixClose" type="button" aria-label="Close the sound panel">Close</button></div>
   <div id="micBody" class="sfPane" role="tabpanel" hidden></div>
   <div id="mixBody" class="sfPane" role="tabpanel"></div>
   <div id="beatBody" class="sfPane" role="tabpanel" hidden></div>
@@ -4996,6 +4998,14 @@ function steerRec(){
     else toast('nothing recorded: paint while rec is on')}
   else{STEER.rec={t0:performance.now(),ev:[]};if(!STEER.on)STEER.on=true;toast('recording: steer, then tap stop')}
   syncSteer()}
+/* THE SELECTED COLOR GROUP (22 Oct 23:54): the drawer shows each group's current color, one is selected (lit); the shelf
+   below holds every group's choices and is brought to the selected one, its current color in view */
+function CM_SEL(g){if(g){store.cmSel=g;persist();return g}return CG_ORDER.includes(store.cmSel)?store.cmSel:'line'}
+function cmShelfTo(g,smooth){try{if(!BS.open||BS.sec!=='tools')BS.show('tools');else BS.sync()}catch(_){return}
+  requestAnimationFrame(()=>{const row=document.querySelector('#bsBody [data-cg="'+g+'"]'),bd=$('bsBody');if(!row||!bd)return;
+    const lit=row.querySelector('[aria-checked=true]')||row,q=bd.getBoundingClientRect(),r=row.getBoundingClientRect(),l=lit.getBoundingClientRect();
+    let x=bd.scrollLeft+r.left-q.left-8;if(l.right-r.left>q.width-24)x=bd.scrollLeft+l.left-q.left-q.width/2+l.width/2;
+    bd.scrollTo({left:Math.max(0,x),behavior:smooth===false?'auto':'smooth'});row.classList.add('flash');setTimeout(()=>row.classList.remove('flash'),700)})}
 function toolWords(){const o=[],seen=new Set();for(const w of [...(store.seq||[]),...(store.words||[])]){const k=String(w);if(!k||seen.has(k))continue;seen.add(k);o.push(k)}return o.slice(0,40)}
 /* a loop's thumbnail: its path drawn small, in the accent, over the strip's dark screen */
 function loopThumb(el,t,mag){const c=document.createElement('canvas');c.width=136;c.height=80;const g=c.getContext('2d');g.strokeStyle='#55b8c9';g.lineWidth=2;g.lineCap='round';g.lineJoin='round';g.beginPath();let pen=false;
@@ -5181,9 +5191,6 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
        for your own color; hold and drag the lit one for its opacity. */
     /* the color-mix icon, pinned to the shelf's left edge while the swatches slide under it (Dimitry, 19 Oct): opens the
        Color mixer at the group in view */
-    {const m=btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg>','The Color mixer: every group’s colors and animation',()=>{},null,'cmPin');
-     m.setAttribute('aria-haspopup','dialog');m.onclick=()=>{const x=t.scrollLeft+m.offsetWidth+8;let gg='line';for(const h of t.querySelectorAll('.shg[data-g]')){if(h.offsetLeft+h.offsetWidth*.5<=x+40)gg=h.dataset.g;else break}
-       if(t.scrollLeft<4)gg='line';openColorMix(gg)}}
     const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
     /* THE CURRENT COLORS, one swatch per group (Dimitry, 22 Oct 22:59): a tap brings that group's choices into view in the
        shelf below (and opens it); press and hold (or right-click) opens the Color mixer at that group. The choices
@@ -5191,14 +5198,17 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     for(const g of CG_ORDER){const G=CG[g],cur=G.get(),on=G.on();
       const b=document.createElement('button');b.type='button';b.className='si dot cur'+(on?'':' none')+(S.canim&&S.canim[g]&&S.canim[g].m&&S.canim[g].m!=='off'?' anim':'');
       b.innerHTML='<i'+(on?' style="background:'+cur+'"':'')+'></i><span class="lab">'+G.name.toLowerCase()+'</span>';b.dataset.g=g;
-      b.setAttribute('aria-label',G.name+' color, '+(on?cur:'off')+'. Tap for its choices below; hold for the Color mixer');b.setAttribute('aria-pressed',String(on));
+      const sel=CM_SEL()===g;if(sel)b.classList.add('sel');
+      b.setAttribute('aria-label',G.name+' color, '+(on?cur:'off')+(sel?', selected':'')+'. Tap for its choices below; hold for the Color mixer');b.setAttribute('aria-pressed',String(sel));
       let ht=0,held=false;
       b.addEventListener('pointerdown',e=>{if(e.button>0)return;held=false;clearTimeout(ht);ht=setTimeout(()=>{held=true;if(navigator.vibrate)navigator.vibrate(10);openColorMix(g)},(window.SurfaceKeys?SurfaceKeys.holdMs:520))});
       ['pointerup','pointercancel','pointerleave'].forEach(k=>b.addEventListener(k,()=>clearTimeout(ht)));
       b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(ht);held=true;openColorMix(g)});
-      b.onclick=()=>{if(held){held=false;return}try{if(!BS.open||BS.sec!=='tools')BS.show('tools');else BS.sync();
-        requestAnimationFrame(()=>{const row=document.querySelector('#bsBody [data-cg="'+g+'"]'),bd=$('bsBody');if(row&&bd){const r=row.getBoundingClientRect(),q=bd.getBoundingClientRect();bd.scrollTo({left:bd.scrollLeft+r.left-q.left-8,behavior:'smooth'});row.classList.add('flash');setTimeout(()=>row.classList.remove('flash'),700)}})}catch(_){}};
-      b.style.touchAction='pan-x';t.appendChild(b)}}
+      b.onclick=()=>{if(held){held=false;return}CM_SEL(g);buildToolShelf();cmShelfTo(g)};
+      b.style.touchAction='pan-x';t.appendChild(b)}
+    /* the mixer button ends the row (Dimitry, 22 Oct 23:54): the Color mixer alone, at the selected group */
+    {const m=btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg><span class="lab">mixer</span>','The Color mixer, at the selected group',()=>{},null,'cmPin');
+     m.setAttribute('aria-haspopup','dialog');m.onclick=()=>openColorMix(CM_SEL())}}
   if(ACTIVE==='text'){
     // the flip: text cursor (type the word, the default) | F outline (choose the typeface)
     const flip=document.createElement('button');flip.type='button';flip.className='shflip';flip.setAttribute('role','switch');flip.setAttribute('aria-checked',String(TEXT_FLIP));
@@ -6896,7 +6906,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
        like the robot's scenes). View: presets of what shows. Pattern: the patterns, which swap only the pattern. Steer
        and magnet: the recorded loops. Frame: Fit, Fill, Center, Turn 90. */
     tools:{title:()=>{const t=ACTIVE&&TOOLS.find(x=>x.id===ACTIVE);return t?t.label[0].toUpperCase()+t.label.slice(1):'Tools'},
-      key:()=>(ACTIVE||'')+'|'+(ACTIVE==='steer'?steerTakes().map(t=>t.id).join(','):ACTIVE==='magnet'?gBank().map(g=>g.id).join(','):ACTIVE==='text'?toolWords().join('\u0001'):ACTIVE==='path'?String(allPresets().length):ACTIVE==='color'?CG_ORDER.map(g=>CG[g].on()?1:0).join(''):''),
+      key:()=>(ACTIVE||'')+'|'+(ACTIVE==='color'?CM_SEL()+'|':'')+(ACTIVE==='steer'?steerTakes().map(t=>t.id).join(','):ACTIVE==='magnet'?gBank().map(g=>g.id).join(','):ACTIVE==='text'?toolWords().join('\u0001'):ACTIVE==='path'?String(allPresets().length):ACTIVE==='color'?CG_ORDER.map(g=>CG[g].on()?1:0).join(''):''),
       build(box){
       const strip=o=>{const st=SurfaceStrip.make(o);box.appendChild(st.el);return st};
       const pills=(label,opts,pick)=>{const g=radios(label,'bsG');for(const [v,n,aria] of opts){const b=radio(g,n,aria,v,()=>{pick(v);bsSync()});b.className='bsPill'}box.appendChild(g);return g};
@@ -6905,7 +6915,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         return ()=>st.sync()}
       if(ACTIVE==='color'){const groups=[];
         const recent=()=>{try{return JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){return[]}};
-        CG_ORDER.forEach((g,i)=>{const G=CG[g];if(i)rule(box);const row=mk('div','bsSw');row.dataset.cg=g;row.appendChild(mk('span','lab',G.name.toLowerCase()));
+        CG_ORDER.forEach((g,i)=>{const G=CG[g];if(i)rule(box);const row=mk('div','bsSw'+(CM_SEL()===g?' sel':''));row.dataset.cg=g;row.appendChild(mk('span','lab',G.name.toLowerCase()));
           const rg=mk('div','bsSw');rg.setAttribute('role','radiogroup');rg.setAttribute('aria-label',G.name+' color');const seen=[];
           const add=(c,n)=>{if(!c||seen.includes(c.toLowerCase()))return;seen.push(c.toLowerCase());const b=mk('button');b.type='button';b.setAttribute('role','radio');b.style.background=c;b.dataset.c=c;b.setAttribute('aria-label',G.name+' '+n);b.title=n;
             b.onclick=()=>{G.set(c);try{rememberColor(c)}catch(_){}bsSync();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};rg.appendChild(b)};
@@ -7635,10 +7645,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022035433"></script>
-<script src="surface/links.js?v=20261022035433"></script>
-<script src="surface/tips.js?v=20261022035433"></script>
-<script src="surface/sections.js?v=20261022035433"></script>
+<script src="surface/install.js?v=20261022035806"></script>
+<script src="surface/links.js?v=20261022035806"></script>
+<script src="surface/tips.js?v=20261022035806"></script>
+<script src="surface/sections.js?v=20261022035806"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8273,7 +8283,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.9';
+const APP_VERSION='0.29.10';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

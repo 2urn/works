@@ -67,6 +67,9 @@
     ".spop-foot>.spop-head{justify-content:flex-start}",
     ".spop-foot>.spop-head>.spop-end{display:flex;flex:none;align-self:stretch;margin-left:auto;gap:0;padding:0}",
     ".spop-foot>.spop-head>:not(.spop-end){min-width:0;flex:0 1 auto}",
+    /* a button that belongs at the right end of the band (an (i), Dimitry 22 Oct 23:54) wears .spop-right: it sits just
+       left of ‹ › ⌄, so titles and tabs never push it */
+    ".spop-foot>.spop-head>.spop-right{margin-left:auto;flex:none}.spop-foot>.spop-head>.spop-right~.spop-end{margin-left:0}",
     ".spop-foot>.spop-head>.spop-end>.s-snav-band,.spop-foot>.spop-head>.spop-end>.spop-vx{margin:0;flex:none}",
     /* SPAN (22 Oct): a panel is exactly the bar's width, from its first button's left edge to its last one's right */
     ".spop.spop-span{left:var(--span-l,12px)!important;right:auto!important;width:var(--span-w,calc(100vw - 24px))!important;max-width:none!important;min-width:0!important;transform:none!important;box-sizing:border-box;container-type:inline-size}"
