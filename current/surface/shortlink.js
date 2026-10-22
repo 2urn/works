@@ -17,6 +17,7 @@
   "use strict";
   if (window.SurfaceShort) return;
   var A = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  var LEN = 10;   /* 7 when shared_looks_id_check allows {7,10}; today it asks for 10 (22 Oct 2026). One line. */
   var O = {
     db: { url: "https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_looks", key: "sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp" },
     base: "https://works.chamy.xyz/c/"
@@ -36,7 +37,7 @@
     o = o || {};
     var tries = 0;
     function go() {
-      var id = rnd(7);
+      var id = rnd(LEN);
       return fetch(O.db.url, {
         method: "POST",
         headers: { apikey: O.db.key, "Content-Type": "application/json", Prefer: "return=minimal" },
@@ -44,6 +45,9 @@
       }).then(function (r) {
         if (r.ok) return O.base + id;
         if (r.status === 409 && ++tries < 4) return go();   // the code was taken: draw again
+        /* the table's check constraint still asks for 10 characters (22 Oct 2026: 400, code 23514, shared_looks_id_check):
+           draw a 10-character code, and keep doing so this visit. Relax the constraint to {7,10} and 7 comes back. */
+        if (r.status === 400 && LEN < 10 && ++tries < 4) return r.text().then(function (t) { if (/23514|check constraint/.test(t)) { LEN = 10; return go(); } return null; });
         return null;
       }, function () { return null; });
     }
