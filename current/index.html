@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022212617";window.__VERSION__="0.29.68";window.__NOTES__=[{"v":"0.29.68","date":"22 Oct 2026","items":[{"kind":"fix","text":"the sticker card glides when a panel pushes it up and glides back down when the panel closes, instead of jumping"},{"kind":"fix","text":"choosing a beat or a bytebeat in the shelf under the bar keeps the mixer open; it closes when you switch to another panel or close it"},{"kind":"change","text":"a bug report now says exactly what the sound is doing (each source, the bed, your pack, the speaker, the mixer, the level coming out), to find a speaker that disagrees with what you hear"}]}]</script>
+<script>window.__BUILD__="20261022213006";window.__VERSION__="0.29.69";window.__NOTES__=[{"v":"0.29.69","date":"22 Oct 2026","items":[{"kind":"change","text":"Current keeps a short diary of the sound (what started, stopped, muted or rebuilt it, and when the speaker turned on or off), and a bug report includes it, to find sound that stops by itself"},{"kind":"fix","text":"a tap on a bar button counts once: on some touch screens one tap on the speaker turned the sound on and at once started the fade that turns it off"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022212617"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022212617">
+<script src="claude-web.js?v=20261022213006"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022213006">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -123,37 +123,37 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022212617"></script>
-<script src="surface/selftest.js?v=20261022212617"></script>
-<script src="surface/report.js?v=20261022212617"></script>
-<script src="surface/auto.js?v=20261022212617"></script>
-<script src="surface/toolpath.js?v=20261022212617"></script>
-<script src="surface/capture.js?v=20261022212617"></script>
-<script src="surface/pop.js?v=20261022212617"></script>
-<script src="surface/hints.js?v=20261022212617"></script>
-<script src="surface/paths.js?v=20261022212617"></script>
-<script src="surface/keys.js?v=20261022212617"></script>
-<script src="surface/reset.js?v=20261022212617"></script>
-<script src="surface/files.js?v=20261022212617"></script>
-<script src="surface/tabs.js?v=20261022212617"></script>
-<script src="surface/running.js?v=20261022212617"></script>
-<script src="surface/trim.js?v=20261022212617"></script>
-<script src="surface/audiowake.js?v=20261022212617"></script>
-<script src="surface/output.js?v=20261022212617"></script>
-<script src="surface/voice.js?v=20261022212617"></script>
-<script src="surface/voicelib.js?v=20261022212617"></script>
-<script src="surface/instruments.js?v=20261022212617"></script>
-<script src="surface/listview.js?v=20261022212617"></script>
-<script src="surface/beads.js?v=20261022212617"></script>
-<script src="surface/strip.js?v=20261022212617"></script>
-<script src="surface/sheetnav.js?v=20261022212617"></script>
-<script src="surface/twofinger.js?v=20261022212617"></script>
-<script src="surface/shortlink.js?v=20261022212617"></script>
-<script src="surface/undo.js?v=20261022212617"></script>
-<script src="surface/pro.js?v=20261022212617"></script>
-<script src="surface/fresh.js?v=20261022212617"></script>
-<script src="surface/notice.js?v=20261022212617"></script>
-<script src="surface/perform.js?v=20261022212617"></script>
+<script src="vendor/opentype.min.js?v=20261022213006"></script>
+<script src="surface/selftest.js?v=20261022213006"></script>
+<script src="surface/report.js?v=20261022213006"></script>
+<script src="surface/auto.js?v=20261022213006"></script>
+<script src="surface/toolpath.js?v=20261022213006"></script>
+<script src="surface/capture.js?v=20261022213006"></script>
+<script src="surface/pop.js?v=20261022213006"></script>
+<script src="surface/hints.js?v=20261022213006"></script>
+<script src="surface/paths.js?v=20261022213006"></script>
+<script src="surface/keys.js?v=20261022213006"></script>
+<script src="surface/reset.js?v=20261022213006"></script>
+<script src="surface/files.js?v=20261022213006"></script>
+<script src="surface/tabs.js?v=20261022213006"></script>
+<script src="surface/running.js?v=20261022213006"></script>
+<script src="surface/trim.js?v=20261022213006"></script>
+<script src="surface/audiowake.js?v=20261022213006"></script>
+<script src="surface/output.js?v=20261022213006"></script>
+<script src="surface/voice.js?v=20261022213006"></script>
+<script src="surface/voicelib.js?v=20261022213006"></script>
+<script src="surface/instruments.js?v=20261022213006"></script>
+<script src="surface/listview.js?v=20261022213006"></script>
+<script src="surface/beads.js?v=20261022213006"></script>
+<script src="surface/strip.js?v=20261022213006"></script>
+<script src="surface/sheetnav.js?v=20261022213006"></script>
+<script src="surface/twofinger.js?v=20261022213006"></script>
+<script src="surface/shortlink.js?v=20261022213006"></script>
+<script src="surface/undo.js?v=20261022213006"></script>
+<script src="surface/pro.js?v=20261022213006"></script>
+<script src="surface/fresh.js?v=20261022213006"></script>
+<script src="surface/notice.js?v=20261022213006"></script>
+<script src="surface/perform.js?v=20261022213006"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -170,13 +170,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022212617"></script>
-<script src="surface/rail.js?v=20261022212617"></script>
-<script src="surface/touchsound.js?v=20261022212617"></script>
-<script src="surface/water.js?v=20261022212617"></script>
-<script src="surface/ripple.js?v=20261022212617"></script>
-<script src="surface/float.js?v=20261022212617"></script>
-<script src="surface/manual.js?v=20261022212617"></script>
+<script src="surface/pack.js?v=20261022213006"></script>
+<script src="surface/rail.js?v=20261022213006"></script>
+<script src="surface/touchsound.js?v=20261022213006"></script>
+<script src="surface/water.js?v=20261022213006"></script>
+<script src="surface/ripple.js?v=20261022213006"></script>
+<script src="surface/float.js?v=20261022213006"></script>
+<script src="surface/manual.js?v=20261022213006"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4599,7 +4599,7 @@ document.addEventListener('pointerdown',e=>{const m=$('plist');if(!m.hidden&&!m.
   const r=$('rlist');if(!r.hidden&&!r.contains(e.target)&&!e.target.closest('#pRand,#randMx,#bshelf'))closeRlist()},true);
 // one gesture reader for a playbar button: tap, hold (520ms), right-click = hold
 function wireTapHold(el,h){
-  let g=null,lastHold=0;
+  let g=null,lastHold=0,lastTap=0;
   const hold=()=>{lastHold=performance.now();h.hold()};
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();
     g={id:e.pointerId,x:e.clientX,y:e.clientY,held:false,t:setTimeout(()=>{if(g){g.held=true;hold();if(navigator.vibrate)navigator.vibrate(12)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
@@ -4608,11 +4608,13 @@ function wireTapHold(el,h){
     if(Math.hypot(e.clientX-g.x,e.clientY-g.y)>14){clearTimeout(g.t);
       if(h.drag&&!g.held){g.drag=true;try{el.setPointerCapture(e.pointerId)}catch(_){}h.drag('start',0,0)}else g=null}});
   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const held=g.held,drag=g.drag;g=null;
-    if(drag){h.drag('end',0,0);return}if(!held&&e.type==='pointerup')h.tap()};
+    if(drag){h.drag('end',0,0);return}if(!held&&e.type==='pointerup'){lastTap=performance.now();h.tap()}};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
   el.addEventListener('contextmenu',e=>{e.preventDefault();   // a phone's long press fires this as well as the timer; one press is one hold, or the shelf opens and shuts at once
     if(g){clearTimeout(g.t);if(g.held)return;g.held=true}else if(performance.now()-lastHold<900)return;hold()});
-  el.addEventListener('click',e=>{if(e.detail===0)h.tap()})}
+  /* a keyboard or screen-reader click (detail 0) is a tap; one that follows a pointer tap within 700 ms is the same tap
+     again (22 Oct: a touch tap on the speaker turned the sound on and at once began turning it off) */
+  el.addEventListener('click',e=>{if(e.detail===0&&performance.now()-lastTap>700)h.tap()})}
 const togList=tab=>$('plist').hidden?openPlist(typeof tab==='string'?tab:undefined):closePlist();
 wireTapHold($('pPrev'),{tap:()=>stepPreset(-1),hold:()=>togList('looks')});
 wireTapHold($('pNext'),{tap:()=>stepPreset(1),hold:()=>togList('looks')});
@@ -7172,7 +7174,7 @@ const AUDWAKE=window.SurfaceAudioWake?SurfaceAudioWake.watch({ctx:()=>AUD.ctx,pl
   level:()=>{const p=AUD.play||{};if(!AUD.an||!(p.beat||p.byte||p.loop))return null;const n=AUD.an.fftSize;if(!AWBUF||AWBUF.length!==n)AWBUF=new Uint8Array(n);AUD.an.getByteTimeDomainData(AWBUF);let m=0;for(let i=0;i<n;i++){const d=Math.abs(AWBUF[i]-128);if(d>m)m=d}return m/128},
   alive:()=>!AUD.silent||!AUD.silent.paused,   // on a phone the silent loop must be playing too, or iOS has not given the sound back
   rescue:{reload:resumeNow,report:()=>{try{window.REPORT&&REPORT.open('button')}catch(_){}}},
-  change:(on,why)=>{if(on&&window.cxCount)cxCount('sound: lost ('+why+')',1)}}):null;
+  change:(on,why)=>{try{window.sndLog&&sndLog(on?'lost':'back',why)}catch(_){}if(on&&window.cxCount)cxCount('sound: lost ('+why+')',1)}}):null;
 /* THE BLEND (Dimitry, 18 Oct): a second sound under the one that plays. In the sound drawer, tap "mix" to pick it (one of
    the beats, or none), drag left or right on it to blend the two (equal-power crossfade; 0% only the first, 100% only the
    second). Both feed the field. Stop stops both; play brings both back. */
@@ -7669,6 +7671,17 @@ document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden){if(window.MIX_INFO&&MIX_INFO.isOpen()){MIX_INFO.close();$('mixInfoBtn').focus();return}closeMix()}});
 function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
   try{syncAud()}catch(_){}syncSndShelf();try{if(!$('mixPop').hidden)renderMix()}catch(_){}toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
+/* THE SOUND'S DIARY (Dimitry, 22 Oct 17:27: "sound IS not ON but should be … NOT part of scene change … nothing, it
+   stopped"): the last 60 things that started, stopped, muted or rebuilt the sound, each with when, what played, the
+   context's state and who called it, plus every time the speaker changed between on and off. A bug report carries it
+   (state.soundLog), so the moment it went quiet can be read afterwards. */
+window.SNDLOG=[];
+(function(){const who=()=>{try{return (new Error().stack||'').split('\n').slice(3,6).map(l=>(l.match(/at (\S+)/)||[])[1]||'?').join('<')}catch(_){return ''}};
+  const log=(ev,x)=>{try{SNDLOG.push([+(performance.now()/1000).toFixed(1),ev,x==null?'':String(x).slice(0,40),AUD.src,AUD.ctx?AUD.ctx.state:'-',who()]);if(SNDLOG.length>60)SNDLOG.shift()}catch(_){}};
+  window.sndLog=log;
+  for(const n of ['stopAudio','startBeat','startByte','stopCh','setMute','audRebuild','sndOffStart','sndOffDone','soundOn','toggleSound','startFile']){const f=window[n];if(typeof f!=='function')continue;
+    window[n]=function(...a){log(n,a[0]);return f.apply(this,a)}}
+  let was=null;const sy=window.syncAud;if(typeof sy==='function')window.syncAud=function(...a){const r=sy.apply(this,a);try{const on=$('pSnd').classList.contains('on');if(on!==was){log(on?'speaker on':'speaker off',AUD.muted?'muted':'');was=on}}catch(_){}return r}})();
 function syncSndShelf(){bsSync();const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
   {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(isOn(b.dataset.src))));
@@ -8895,9 +8908,10 @@ window.REPORT=null;try{REPORT=SurfaceReport.mount({tool:'current',name:'Current'
     try{o.sound={src:AUD.src,react:!!AUD.react,muted:!!AUD.muted,ctx:AUD.ctx?AUD.ctx.state:null}}catch(_){}
     /* what is actually playing, for reports like 22 Oct 17:20-17:22 (the speaker said off and a bed played; Fibo was
        meant to play and did not): the sources, the off switch, the bed, the pack, the button, the mixer, the level out */
+    try{o.soundLog=(window.SNDLOG||[]).slice(-40)}catch(_){}
     try{const out=(()=>{if(!AUD.outAn)return null;const d=new Float32Array(AUD.outAn.fftSize);AUD.outAn.getFloatTimeDomainData(d);let q=0;for(const v of d)q+=v*v;return +Math.sqrt(q/d.length).toFixed(4)})();
       o.sound2={play:AUD.play,want:AUD.wantBeat||null,beatNode:!!AUD.beatNode,userOff:!!AUD.userOff,bed:AUD.bed?AUD.bed.name||true:null,water:{on:WATER.on,preset:WATER.preset,bed:WATER.bed},
-        kit:window.INSTR?INSTR.playing():null,button:$('pSnd').className,sounding:sounding(),out,offing:document.body.classList.contains('sndOffing'),mix:(()=>{try{return MIX}catch(_){return null}})()}}catch(_){}
+        kit:window.INSTR?INSTR.playing():null,button:$('pSnd').className,wake:(()=>{try{return AUDWAKE&&AUDWAKE.state()}catch(_){return null}})(),sounding:sounding(),out,offing:document.body.classList.contains('sndOffing'),mix:(()=>{try{return MIX}catch(_){return null}})()}}catch(_){}
     try{o.touch={on:SurfaceTouchSound.active(),state:SurfaceTouchSound.state()}}catch(_){}
     try{o.paused=!!S.paused;o.drawer=!document.body.classList.contains('player');o.founder=fpOn()}catch(_){}return o}});
   for(const bug of [$('pBug'),$('pBugM')])if(bug){bug.innerHTML=SurfaceReport.ICON;bug.onclick=()=>REPORT.open('button')}
@@ -9023,10 +9037,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022212617"></script>
-<script src="surface/links.js?v=20261022212617"></script>
-<script src="surface/tips.js?v=20261022212617"></script>
-<script src="surface/sections.js?v=20261022212617"></script>
+<script src="surface/install.js?v=20261022213006"></script>
+<script src="surface/links.js?v=20261022213006"></script>
+<script src="surface/tips.js?v=20261022213006"></script>
+<script src="surface/sections.js?v=20261022213006"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9203,7 +9217,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261022212617"></script>
+<script src="surface/room.js?v=20261022213006"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -9958,7 +9972,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.68';
+const APP_VERSION='0.29.69';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
