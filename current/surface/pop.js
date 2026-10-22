@@ -43,7 +43,10 @@
     ".spop[hidden],.scap[hidden]{opacity:0;translate:0 16px}",
     "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 16px}}}",
     /* FOOT: the band at the bottom, the tall close, the slide to and from the button */
-    ".spop.spop-foot{display:flex;flex-direction:column}",
+    /* the band is the frame's last row, pinned to its bottom, always (Dimitry, 23 Oct 00:26: Random's band sat mid-frame
+       with ~290 px of nothing under it). overflow:hidden still lets focus() and scrollIntoView() scroll the frame itself
+       when anything inside reaches past it; clip cannot be scrolled at all. Only the panel's own body scrolls. */
+    ".spop.spop-foot{display:flex;flex-direction:column;overflow:clip}",
     ".spop-foot>.spop-head{order:99;border-bottom:0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08);min-height:44px;padding-right:0;align-items:stretch}.spop-foot>.spop-head>*:not(.spop-vx):not(.s-snav-band){align-self:center}",
     ".spop-foot>.sfTabCap{order:98}.spop-foot>.sfTabCap:not([hidden]){display:none}",   /* in a band the icons stay icons; the name is the tab's label and title */
     ".spop-foot .sfTab{border-bottom:0;border-top:2px solid transparent;margin:-1px 0 0;min-height:44px}.spop-foot .sfTab[aria-selected=true]{border-top-color:var(--acc,#55b8c9)}",
@@ -99,6 +102,8 @@
   }
   function foot(el, head, x, o) {
     el.classList.add("spop-foot");
+    /* where overflow:clip is missing (older engines), a frame that was scrolled anyway goes straight back */
+    el.addEventListener("scroll", function () { if (el.scrollTop || el.scrollLeft) { el.scrollTop = 0; el.scrollLeft = 0; } });
     /* the close sits in the band's end group (.spop-end); sheetnav.js puts ‹ › in front of it, in the same group */
     if (head && x && head.contains(x) && !(x.parentNode && x.parentNode.classList && x.parentNode.classList.contains("spop-end"))) {
       var end = document.createElement("div"); end.className = "spop-end"; head.appendChild(end); end.appendChild(x);

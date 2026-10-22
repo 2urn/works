@@ -9,7 +9,9 @@
    - The choice is remembered by the tool (it owns the storage); the kit only says what it means.
 
      SurfaceListView.bar({show:[[v, html, aria]...], sort:[[v, html, aria]...], get:()=>({show, sort}),
-                          set:(patch)=>{}, label:'Presets'})  → element: two radio groups (.segs / .sg)
+                          set:(patch)=>{}, label:'Presets', sortNames:{v:'Menu name'}})  → element: ONE row, the show
+                          filter as equal segments (.segs / .sg) and the sort as one "Sort: Hand ▾" button with a menu
+                          (role=menu, ↑ ↓ Home End, Esc; sortAs:'segs' keeps the old radio row)
      SurfaceListView.order(keys, {show, sort, fav:{k:true}, label:k=>text, used:k=>n, time:k=>ms,
                                   filters:{name: k=>bool}})  → keys to draw, in order
      SurfaceListView.star(on, name, onToggle)  → a star button (class s-star, aria-pressed)
@@ -20,7 +22,23 @@
   if (window.SurfaceListView) return;
   var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg>';
   var GRIP = '<svg viewBox="0 0 10 16" aria-hidden="true"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg>';
-  var CSS = ":where(.s-lvbar){display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 10px}" +
+  /* THE HEAD (Dimitry, 23 Oct 00:21: at desktop width the filter and the sort stood one segment per row, ~220 px, because
+     a host's "#list button{width:100%}" beat the kit's low-specificity segments). One row, always: the show filter as
+     equal segments on the left, the sort as ONE compact button on the right ("Sort: Hand ▾") that opens a small real
+     menu. The few properties that make it a row are !important, so no host rule for its own rows can stack it again. */
+  var CSS = ":where(.s-lvbar){display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:0 10px;position:relative;min-width:0}" +
+    ".s-lvbar>.segs{display:inline-flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:auto!important;flex:0 1 auto;min-width:0}" +
+    ".s-lvbar>.segs>.sg{width:auto!important;flex:1 1 0!important;display:inline-grid!important;margin:0!important}" +
+    ".s-lvsort{position:relative;flex:0 0 auto;margin-left:auto}" +
+    ".s-lvbar .s-lvsortb{width:auto!important;display:inline-flex!important;align-items:center;gap:6px;min-height:var(--s-seg-h,36px);padding:0 10px!important;border:0;background:none;color:inherit;font:inherit;cursor:pointer;white-space:nowrap}" +
+    ".s-lvsortb .v{color:var(--s-fg,currentColor)}.s-lvsortb svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .15s}" +
+    ".s-lvsortb[aria-expanded=true] svg{transform:rotate(180deg)}" +
+    ".s-lvmenu{position:absolute;right:0;top:100%;z-index:30;min-width:150px;margin:2px 0 0;padding:4px;box-sizing:border-box;border-radius:var(--s-radius,10px);" +
+    "background:var(--s-surface,#16191b);color:var(--s-text,inherit);border:1px solid var(--s-line,rgba(127,127,127,.3));box-shadow:0 8px 28px rgba(0,0,0,.35)}" +
+    ".s-lvmenu[hidden]{display:none!important}" +
+    ".s-lvbar .s-lvmenu button{width:100%!important;display:flex!important;align-items:center;justify-content:space-between;gap:12px;min-height:var(--s-hit,40px);padding:0 10px!important;border:0;border-radius:calc(var(--s-radius,10px) - 4px);background:none;color:inherit;font:inherit;text-transform:none;letter-spacing:0;text-align:left;cursor:pointer}" +
+    ".s-lvmenu button:hover,.s-lvmenu button:focus-visible{background:var(--s-sunk,rgba(127,127,127,.14));outline:none}" +
+    ".s-lvmenu button[aria-checked=true]{color:var(--s-accent,var(--acc,#55b8c9))}.s-lvmenu button[aria-checked=true]::after{content:'\\2713'}" +
     ":where(.s-star){width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:color-mix(in srgb,currentColor 45%,transparent);cursor:pointer}" +
     ":where(.s-star) svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}" +
     ":where(.s-star[aria-pressed=true]){color:var(--acc,#55b8c9)}:where(.s-star[aria-pressed=true]) svg{fill:currentColor}" +
@@ -67,10 +85,45 @@
     if (!el.__lvflow) { el.__lvflow = true; try { new MutationObserver(function (m) { if (m.some(function (x) { return x.type === "childList"; })) set(); }).observe(el, { childList: true }); } catch (e) {} }
     return set;
   }
+  /* the sort's names in its menu: o.sortNames, else the studio's usual four, else the option's own label */
+  var SORTN = { hand: "Hand", az: "A\u2013Z", used: "Most used", new: "Newest" }, SORTS = { used: "Used", new: "New" };
+  function txt(h) { var d = document.createElement("div"); d.innerHTML = h; return d.textContent; }
+  function sortMenu(o) {
+    var name = (o.label ? o.label + ": " : "") + "sort", names = o.sortNames || {};
+    var full = function (x) { return names[x[0]] || SORTN[x[0]] || txt(x[1]); }, short = function (x) { return (o.sortShort || {})[x[0]] || SORTS[x[0]] || full(x); };
+    var w = document.createElement("div"); w.className = "s-lvsort";
+    var b = document.createElement("button"); b.type = "button"; b.className = "s-lvsortb"; b.setAttribute("aria-haspopup", "menu"); b.setAttribute("aria-expanded", "false");
+    var m = document.createElement("div"); m.className = "s-lvmenu"; m.setAttribute("role", "menu"); m.setAttribute("aria-label", name); m.hidden = true;
+    var id = "slvm" + Math.random().toString(36).slice(2, 8); m.id = id; b.setAttribute("aria-controls", id);
+    var items = o.sort.map(function (x) {
+      var it = document.createElement("button"); it.type = "button"; it.setAttribute("role", "menuitemradio"); it.tabIndex = -1; it.textContent = full(x);
+      if (x[2]) it.title = x[2];
+      it.onclick = function () { close(true); o.set({ sort: x[0] }); sync(); }; m.appendChild(it); return it; });
+    function cur() { var v = o.get().sort; for (var i = 0; i < o.sort.length; i++) if (o.sort[i][0] === v) return i; return 0; }
+    function sync() { var i = cur(); b.innerHTML = '<span>Sort:</span> <span class="v">' + short(o.sort[i]).replace(/</g, "&lt;") + '</span><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5L5 7l3.5-3.5"/></svg>';
+      b.setAttribute("aria-label", name + ": " + full(o.sort[i]) + ". Opens a menu");
+      items.forEach(function (it, j) { it.setAttribute("aria-checked", String(j === i)); }); }
+    function out(e) { if (!w.contains(e.target)) close(false); }
+    function open() { m.hidden = false; b.setAttribute("aria-expanded", "true"); var i = cur(); items[i].focus({ preventScroll: true });
+      document.addEventListener("pointerdown", out, true); }
+    function close(focus) { if (m.hidden) return; m.hidden = true; b.setAttribute("aria-expanded", "false"); document.removeEventListener("pointerdown", out, true); if (focus) b.focus({ preventScroll: true }); }
+    b.onclick = function () { if (m.hidden) open(); else close(true); };
+    b.onkeydown = function (e) { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(); } };
+    m.onkeydown = function (e) {
+      var i = items.indexOf(document.activeElement), n = items.length;
+      if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % n].focus(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + n) % n].focus(); }
+      else if (e.key === "Home") { e.preventDefault(); items[0].focus(); }
+      else if (e.key === "End") { e.preventDefault(); items[n - 1].focus(); }
+      else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(true); }
+      else if (e.key === "Tab") close(false);
+    };
+    w.appendChild(b); w.appendChild(m); sync(); w.sync = sync; return w;
+  }
   function bar(o) {
     css(); var b = document.createElement("div"); b.className = "s-lvbar";
     if (o.show && o.show.length) b.appendChild(group((o.label ? o.label + ": " : "") + "show", o.show, function () { return o.get().show; }, function (v) { o.set({ show: v }); }));
-    if (o.sort && o.sort.length) b.appendChild(group((o.label ? o.label + ": " : "") + "sort", o.sort, function () { return o.get().sort; }, function (v) { o.set({ sort: v }); }));
+    if (o.sort && o.sort.length) b.appendChild(o.sortAs === "segs" ? group((o.label ? o.label + ": " : "") + "sort", o.sort, function () { return o.get().sort; }, function (v) { o.set({ sort: v }); }) : sortMenu(o));
     return b;
   }
   function order(keys, o) {

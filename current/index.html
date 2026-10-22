@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022042605";window.__VERSION__="0.29.14";window.__NOTES__=[{"v":"0.29.14","date":"23 Oct 2026","items":[{"kind":"fix","text":"a shared scene's link opens on that scene and stays there. Auto play, which starts by itself on a computer, used to move on to the next scene within a second; it now waits until you start it"},{"kind":"change","text":"new scene links are shorter, d.chamy.xyz/ and seven characters. Older links keep working"}]}]</script>
+<script>window.__BUILD__="20261022044136";window.__VERSION__="0.29.15";window.__NOTES__=[{"v":"0.29.15","date":"23 Oct 2026","items":[{"kind":"fix","text":"the Scenes list's head is one row again: All, ★ and Yours on the left, and one Sort button on the right that names the order and opens a short menu (Hand, A–Z, Most used, Newest)"},{"kind":"change","text":"Auto play is shorter. How many scenes are in play sits at the right of the top block, with its button; the panel ends with Morph. Seconds, beats and bars sit on the same row as the beads"},{"kind":"fix","text":"a panel's band always sits at its bottom edge; Random no longer leaves empty space under it. Roll now is a button you can see is a button"},{"kind":"fix","text":"four scene thumbnails showed another scene; all thirty-five are taken again, each checked against its name"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022042605"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022042605">
+<script src="claude-web.js?v=20261022044136"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022044136">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022042605"></script>
-<script src="surface/selftest.js?v=20261022042605"></script>
-<script src="surface/report.js?v=20261022042605"></script>
-<script src="surface/auto.js?v=20261022042605"></script>
-<script src="surface/toolpath.js?v=20261022042605"></script>
-<script src="surface/capture.js?v=20261022042605"></script>
-<script src="surface/pop.js?v=20261022042605"></script>
-<script src="surface/hints.js?v=20261022042605"></script>
-<script src="surface/paths.js?v=20261022042605"></script>
-<script src="surface/keys.js?v=20261022042605"></script>
-<script src="surface/reset.js?v=20261022042605"></script>
-<script src="surface/files.js?v=20261022042605"></script>
-<script src="surface/tabs.js?v=20261022042605"></script>
-<script src="surface/running.js?v=20261022042605"></script>
-<script src="surface/trim.js?v=20261022042605"></script>
-<script src="surface/audiowake.js?v=20261022042605"></script>
-<script src="surface/listview.js?v=20261022042605"></script>
-<script src="surface/beads.js?v=20261022042605"></script>
-<script src="surface/strip.js?v=20261022042605"></script>
-<script src="surface/sheetnav.js?v=20261022042605"></script>
-<script src="surface/twofinger.js?v=20261022042605"></script>
-<script src="surface/shortlink.js?v=20261022042605"></script>
-<script src="surface/undo.js?v=20261022042605"></script>
-<script src="surface/pro.js?v=20261022042605"></script>
+<script src="vendor/opentype.min.js?v=20261022044136"></script>
+<script src="surface/selftest.js?v=20261022044136"></script>
+<script src="surface/report.js?v=20261022044136"></script>
+<script src="surface/auto.js?v=20261022044136"></script>
+<script src="surface/toolpath.js?v=20261022044136"></script>
+<script src="surface/capture.js?v=20261022044136"></script>
+<script src="surface/pop.js?v=20261022044136"></script>
+<script src="surface/hints.js?v=20261022044136"></script>
+<script src="surface/paths.js?v=20261022044136"></script>
+<script src="surface/keys.js?v=20261022044136"></script>
+<script src="surface/reset.js?v=20261022044136"></script>
+<script src="surface/files.js?v=20261022044136"></script>
+<script src="surface/tabs.js?v=20261022044136"></script>
+<script src="surface/running.js?v=20261022044136"></script>
+<script src="surface/trim.js?v=20261022044136"></script>
+<script src="surface/audiowake.js?v=20261022044136"></script>
+<script src="surface/listview.js?v=20261022044136"></script>
+<script src="surface/beads.js?v=20261022044136"></script>
+<script src="surface/strip.js?v=20261022044136"></script>
+<script src="surface/sheetnav.js?v=20261022044136"></script>
+<script src="surface/twofinger.js?v=20261022044136"></script>
+<script src="surface/shortlink.js?v=20261022044136"></script>
+<script src="surface/undo.js?v=20261022044136"></script>
+<script src="surface/pro.js?v=20261022044136"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022042605"></script>
-<script src="surface/rail.js?v=20261022042605"></script>
-<script src="surface/touchsound.js?v=20261022042605"></script>
-<script src="surface/water.js?v=20261022042605"></script>
-<script src="surface/ripple.js?v=20261022042605"></script>
-<script src="surface/float.js?v=20261022042605"></script>
-<script src="surface/manual.js?v=20261022042605"></script>
+<script src="surface/pack.js?v=20261022044136"></script>
+<script src="surface/rail.js?v=20261022044136"></script>
+<script src="surface/touchsound.js?v=20261022044136"></script>
+<script src="surface/water.js?v=20261022044136"></script>
+<script src="surface/ripple.js?v=20261022044136"></script>
+<script src="surface/float.js?v=20261022044136"></script>
+<script src="surface/manual.js?v=20261022044136"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -760,7 +760,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #plAutoPane{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 #plAuto{padding:14px 14px 12px}
 #plist .mxh{padding-left:4px}#plist .sfTabs{flex:1}
-.apHero{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center;padding:2px 0 6px}
+.apHero{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:2px 0 6px}
 .apGo{width:64px;height:64px;border-radius:50%;border:1.5px solid rgb(var(--ui-hi) / .28);background:rgb(var(--ui-hi) / .06);color:var(--ui-ink);display:grid;place-items:center;cursor:pointer;padding:0}
 .apGo svg{width:28px;height:28px;fill:currentColor}.apGo .s{display:none}.apGo.on .g{display:none}.apGo.on .s{display:inline}
 .apGo.on{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);box-shadow:0 4px 16px rgb(var(--acc-rgb,85 184 201) / .35)}
@@ -820,7 +820,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
    and 375 x 667. Tighter heads and tiles everywhere; Changes in one row; on short screens the Order tiles become one row
    of icons (their names stay in their labels and titles) and every tile lays its icon beside its word. */
 #plAuto{padding:10px 12px 8px}
-#plAuto .apHero{grid-template-columns:48px minmax(0,1fr);gap:12px;padding:0 0 2px}
+#plAuto .apHero{grid-template-columns:48px minmax(0,1fr) auto;gap:12px;padding:0 0 2px}
 #plAuto .apGo{width:48px;height:48px}#plAuto .apGo svg{width:22px;height:22px}
 #plAuto .apH{margin:10px 0 6px}#plAuto .apEveryH{margin:10px 0 6px}
 #plAuto .apT{min-height:44px;padding:5px 4px;gap:3px}#plAuto .apT svg{width:18px;height:18px}
@@ -830,12 +830,12 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* 0.28.7: the bar sits 13 px higher (0.28.5) and the band holds ‹ › now: 15 px less room, taken back here at every size */
 #plAuto .apH,#plAuto .apEveryH{margin-top:7px!important;margin-bottom:4px!important}#plAuto .apT{min-height:40px}#plAuto .apBead{width:36px;height:36px}#plAuto .apNote{margin-top:6px}#plAuto .apNote .apInPlay{min-height:36px;padding:4px 12px}#plAuto{padding-bottom:6px}
 @media (max-height:740px){#plAuto .apT{min-height:30px!important}#plAuto .apBead{width:32px!important;height:32px!important}#plAuto .apH,#plAuto .apEveryH{margin-top:5px!important;margin-bottom:3px!important}}
-@media (max-height:620px){#apLook{display:none!important}#plAuto .apNow{gap:2px!important}#plist #plAuto .apT{min-height:26px!important}#plist #plAuto .apBead{width:28px!important;height:28px!important;font-size:11px}#plist #plAuto .apTiles{margin-top:3px}#plist #plAuto .apEveryH{margin:3px 0 2px!important}#plAuto .apGo{width:30px!important;height:30px!important}#plAuto .apHero{grid-template-columns:30px minmax(0,1fr)!important}}
-@media (max-height:620px){#plAuto{padding:4px 12px 2px!important}#plAuto .apBead{width:30px!important;height:30px!important}#plAuto .apT{min-height:28px!important}#plAuto .apNote{display:none}#plAuto p.apH{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0!important}#plAuto .apTiles{margin-top:6px}#plAuto .apEveryH{justify-content:flex-end}#plAuto .apT{min-height:30px!important}#plAuto .apH,#plAuto .apEveryH{margin:5px 0 3px!important}#plAuto .apGo{width:34px!important;height:34px!important}#plAuto .apHero{grid-template-columns:34px minmax(0,1fr)!important;gap:10px}#plAuto .apNow b{display:none}}
+@media (max-height:620px){#apLook{display:none!important}#plAuto .apNow{gap:2px!important}#plist #plAuto .apT{min-height:26px!important}#plist #plAuto .apBead{width:28px!important;height:28px!important;font-size:11px}#plist #plAuto .apTiles{margin-top:3px}#plist #plAuto .apEveryH{margin:3px 0 2px!important}#plAuto .apGo{width:30px!important;height:30px!important}#plAuto .apHero{grid-template-columns:30px minmax(0,1fr) auto!important}}
+@media (max-height:620px){#plAuto{padding:4px 12px 2px!important}#plAuto .apBead{width:30px!important;height:30px!important}#plAuto .apT{min-height:28px!important}#plAuto .apNote{display:none}#plAuto p.apH{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0!important}#plAuto .apTiles{margin-top:6px}#plAuto .apEveryH{justify-content:flex-end}#plAuto .apT{min-height:30px!important}#plAuto .apH,#plAuto .apEveryH{margin:5px 0 3px!important}#plAuto .apGo{width:34px!important;height:34px!important}#plAuto .apHero{grid-template-columns:34px minmax(0,1fr) auto!important;gap:10px}#plAuto .apNow b{display:none}}
 @media (max-height:820px) and (min-height:741px){#plAuto .apH,#plAuto .apEveryH{margin:7px 0 5px}#plAuto .apNote{margin:7px 0 0}#plAuto{padding-top:8px}}
 @media (max-height:740px){
   #plAuto{padding:6px 12px 4px}#plAuto .apHero{padding:0}
-  #plAuto .apGo{width:40px;height:40px}#plAuto .apHero{grid-template-columns:40px minmax(0,1fr)}#plAuto .apNow{gap:3px}#apLook{font-size:13px;height:16px}
+  #plAuto .apGo{width:40px;height:40px}#plAuto .apHero{grid-template-columns:40px minmax(0,1fr) auto}#plAuto .apNow{gap:3px}#apLook{font-size:13px;height:16px}
   #plAuto .apH{margin:7px 0 4px;font-size:9px}#plAuto .apEveryH{margin:6px 0 4px}
   #plAuto .apT{min-height:34px;flex-direction:row;gap:5px;padding:3px 5px;font-size:8.5px}#plAuto .apT svg{width:15px;height:15px}
   #plAuto .apTiles.part .apScene{flex-direction:row;min-height:34px;gap:5px}
@@ -845,6 +845,21 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
   #plAuto .apBead{width:34px;height:34px;font-size:12px}
   #plAuto .apNote{margin:7px 0 0}#plAuto .apNote .apInPlay{min-height:32px;padding:4px 12px}#plAuto .apNote .apCount b{font-size:16px}
 }
+.apIn{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px;width:92px;font:500 11px/1 var(--mono);letter-spacing:.04em;color:var(--ui-dim);white-space:nowrap}
+.apIn .apCount b{font:600 15px/1 var(--sans);letter-spacing:0;color:var(--ui-ink);margin-right:2px}
+.apInBtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:92px;min-height:32px;padding:0 8px;box-sizing:border-box;border-radius:99px;border:1px solid rgb(var(--ui-hi) / .18);background:rgb(var(--ui-hi) / .04);color:var(--ui-mid,var(--ui-ink));font:500 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.apInBtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+.apInBtn:hover{border-color:rgb(var(--ui-hi) / .34)}.apInBtn:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+@media (max-height:620px){.apIn{flex-direction:row;align-items:center;width:auto;gap:8px}.apInBtn{width:auto;min-height:28px}}
+/* EVERY, ONE ROW (Dimitry, 23 Oct 00:24): the beads on a short string, then the unit switch at the row's right end */
+#plAuto{container-type:inline-size}
+.apEveryRow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.apEveryRow .apBeads{flex:0 1 auto;justify-content:flex-start;gap:10px;min-width:0}
+#plAuto .apEveryRow .apBead{width:var(--s-bead,40px);height:var(--s-bead,40px)}
+.apEveryRow .apUnit{flex:none}.apUnit .s{display:none}
+@container (max-width:420px){.apEveryRow{gap:6px}.apEveryRow .apBeads{gap:3px}#plAuto .apEveryRow .apBead{width:34px;height:34px;font-size:13px}.apEveryRow .apBead svg{width:17px;height:17px}
+  .apUnit .l{display:none}.apUnit .s{display:inline}.apUnit button{padding:6px 4px}}
+@container (max-width:340px){.apEveryRow{flex-wrap:wrap;row-gap:6px}}
 .apLink{background:none;border:0;padding:0;color:var(--acc,#55b8c9);font:inherit;text-decoration:underline;cursor:pointer}
 #plAuto>.sub{padding:0;align-self:start;line-height:30px}
 #plAuto>.segs:last-child{grid-column:1/-1;gap:0 4px;margin:2px -10px 0}
@@ -859,6 +874,10 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #plItems .plBar button.sg{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
 #plItems .plBar button.sg:hover{background:none;color:var(--ui-ink)}
 #plItems .plBar button.sg[aria-checked=true]{color:var(--acc,#55b8c9)}
+#plItems .plBar{padding-right:6px}#plItems .plBar .s-lvsortb{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}
+#plItems .plBar .s-lvsortb .v{color:var(--ui-ink)}#plItems .plBar .s-lvsortb:hover{background:none;color:var(--ui-ink)}
+#plItems .plBar .s-lvmenu{background:var(--ui-solid,#111);border-color:var(--ui-line,rgba(127,127,127,.3))}
+#plItems .plBar .s-lvmenu button{font:400 13px/1.2 var(--sans);color:var(--ui-mid)}#plItems .plBar .s-lvmenu button[aria-checked=true]{color:var(--acc,#55b8c9)}
 #plItems .lk{grid-template-columns:36px 24px minmax(0,1fr) 36px!important;padding-right:4px!important}
 /* PANELS SPAN THE BAR (22 Oct): a panel as wide as the bar lays its lists in two columns once it is 560 px or wider;
    controls keep their phone sizes (a slider never runs the whole width) */
@@ -1361,6 +1380,10 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 #plItems .lk.dragging{background:rgb(var(--acc-rgb,85 184 201) / .12);outline:1px solid #1f4f58}
 #plItems .sub{display:flex;justify-content:space-between;align-items:center}#plItems .sub .tb{padding:0 0 0 10px}
 .rlRow{display:flex;flex-wrap:wrap;gap:0 4px;padding:8px 4px 0;border-top:1px solid var(--ui-line);margin-top:6px}
+/* ROLL NOW is a button, not a heading (Dimitry, 23 Oct 00:26: it read as a title with nothing under it) */
+#rlBody .rlRow{padding:10px 14px 2px}#rlBody .rlRow .rlRoll{display:inline-flex;align-items:center;gap:8px;width:auto;min-height:40px;padding:0 18px;border-radius:99px;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+#rlBody .rlRow .rlRoll:hover{border-color:rgb(var(--ui-hi) / .4)}#rlBody .rlRow .rlRoll:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+#rlBody .rlRow .rlRoll svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}#rlBody .rlRow .rlRoll svg .dt{fill:currentColor;stroke:none}
 .meters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .meter{display:flex;flex-direction:column;gap:4px;font:500 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .meter b{display:block;height:34px;background:var(--bg);border:1px solid var(--line);position:relative;overflow:hidden}
@@ -3487,7 +3510,7 @@ function buildRlist(){
   /* a matrix as a text code (copy / paste to someone) is built and waiting: held back until the free / pro ladder is
      decided (Dimitry, 18 Oct: "not yet, we need to think of the free / pro ladder"). Parked in Modules/parked/matrix-code.js. */
   [['roll now',()=>randomLook(true),'Roll a random style now']].forEach(([t,f,al])=>{
-    const x=document.createElement('button');x.type='button';x.className='tb';x.textContent=t;x.setAttribute('aria-label',al);x.onclick=f;row.appendChild(x)});
+    const x=document.createElement('button');x.type='button';x.className='rlRoll';x.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>')+'<span>'+t+'</span>';x.setAttribute('aria-label',al);x.onclick=f;row.appendChild(x)});
   b.appendChild(row);syncRand()}
 /* the ring on the bead that is timing the next roll, while the panel is open */
 function randRing(){cancelAnimationFrame(randRaf);const g=$('rlTempo');if(!g)return;
@@ -3777,9 +3800,12 @@ function buildPlist(){plTabsMount();
   const box=$('plAuto');box.innerHTML='';
   const hero=document.createElement('div');hero.className='apHero';
   hero.innerHTML='<button type="button" id="plGo" class="apGo robo" aria-pressed="false">'+ROBOT_SVG+'</button>'+
-    '<div class="apNow"><b id="apState"></b><span id="apLook"></span><i class="apBar" aria-hidden="true"><i id="apProg"></i></i><span id="apNext"></span></div>';
+    '<div class="apNow"><b id="apState"></b><span id="apLook"></span><i class="apBar" aria-hidden="true"><i id="apProg"></i></i><span id="apNext"></span></div>'+
+    /* SCENES IN PLAY sits at the right of the top block (Dimitry, 23 Oct 00:23), a fixed slot so the bar never changes width */
+    '<div class="apIn" id="apNote"><span class="apCount"></span><button type="button" class="apInBtn">'+PLI('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')+'<span>In play</span></button></div>';
   box.appendChild(hero);
   $('plGo').onclick=()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'&&!AUD.userOff)soundOn()};   // exactly the bar's ▶
+  hero.querySelector('.apInBtn').onclick=()=>plTabs&&plTabs.show('looks');
   const tiles=(label,cls,list,get,set)=>{const h=document.createElement('p');h.className='apH';h.textContent=label;box.appendChild(h);
     const g=document.createElement('div');g.className='apTiles '+cls;g.setAttribute('role','radiogroup');g.setAttribute('aria-label','Auto play: '+label);
     for(const it of list){const b=document.createElement('button');b.type='button';b.className='apT';b.setAttribute('role','radio');b.dataset.v=String(it.v);b.innerHTML=it.html;b.setAttribute('aria-label',it.aria);if(it.title)b.title=it.title;
@@ -3788,10 +3814,11 @@ function buildPlist(){plTabsMount();
   /* the beads: a heading with the unit switch at its right, then the counts on a string, and a random bead */
   const beads=()=>{const hd=document.createElement('div');hd.className='apEveryH';const h=document.createElement('p');h.className='apH';h.textContent='Every';
     const us=document.createElement('div');us.className='apUnit';us.setAttribute('role','radiogroup');us.setAttribute('aria-label','Count in');
-    for(const u of Object.keys(AUTO_UNITS)){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.dataset.u=u;b.textContent=AUTO_UNITS[u].name;
+    for(const u of Object.keys(AUTO_UNITS)){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.dataset.u=u;b.innerHTML='<span class="l">'+AUTO_UNITS[u].name+'</span><span class="s">'+({sec:'sec',beat:'beat',bar:'bar'}[u]||u)+'</span>';b.setAttribute('aria-label',AUTO_UNITS[u].name);
       b.onclick=()=>{const old=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,i=Math.max(0,old.vals.indexOf(AUTO.n));AUTO.unit=u;AUTO.n=AUTO_UNITS[u].vals[i]||AUTO_UNITS[u].vals[1];store.auto={...AUTO};persist();drawBeads();if(autoT)setAuto(true,true);syncPlist()};us.appendChild(b)}
-    hd.append(h,us);box.appendChild(hd);
-    const g=document.createElement('div');g.className='apBeads';g.setAttribute('role','radiogroup');g.setAttribute('aria-label','Auto play: every');box.appendChild(g);
+    hd.append(h);box.appendChild(hd);
+    const row=document.createElement('div');row.className='apEveryRow';box.appendChild(row);
+    const g=document.createElement('div');g.className='apBeads';g.setAttribute('role','radiogroup');g.setAttribute('aria-label','Auto play: every');row.append(g,us);
     const drawBeads=()=>{const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;g.innerHTML='';
       for(const v of U.vals){const b=document.createElement('button');b.type='button';b.className='apBead';b.setAttribute('role','radio');b.dataset.v=String(v);b.textContent=beadLabel(AUTO.unit,v);
         b.setAttribute('aria-label','A new scene every '+(AUTO.unit==='sec'?fmtSec(v):v===1?U.one:v+' '+U.name));
@@ -3837,7 +3864,6 @@ function buildPlist(){plTabsMount();
      n.innerHTML=isPro()?'<p><b>Scrub</b> is coming to Pro: drag across the stage and the scenes follow your finger, in the order you pick with it. Your Pro key will switch it on here when it is built.</p>':'<p><b>Scrub</b> comes with Pro: drag across the stage and the scenes follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
      const fb=n.querySelector('button');if(fb)fb.onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
    og.appendChild(sc)}
-  const nt=document.createElement('div');nt.className='apNote';nt.id='apNote';box.appendChild(nt);
   buildLooks();syncPlist()}
 function syncAutoUI(){bsSync();const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop auto play':'Start auto play');
@@ -3848,10 +3874,8 @@ function syncAutoUI(){bsSync();const go=$('plGo');if(!go)return;const on=!!autoT
   /* SCENES IN PLAY (0.27.3, Dimitry, 21 Oct: "[Scenes in Play(btn)] ## of ##"): a button that opens Scenes, where they
      are ticked in or out of play, and the count beside it. It was a sentence with a link at its end. */
   {const inP=playIds().length,tot=all.length,nt=$('apNote');
-   if(!nt.querySelector('.apInPlay')){nt.innerHTML='<button type="button" class="apT apInPlay">'+PLI('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')+'<span>Scenes in play</span></button><span class="apCount"></span>';
-     nt.querySelector('.apInPlay').onclick=()=>plTabs&&plTabs.show('looks')}
    nt.querySelector('.apCount').innerHTML='<b>'+inP+'</b> of '+tot;
-   nt.querySelector('.apInPlay').setAttribute('aria-label','Scenes in play: '+inP+' of '+tot+'. Opens Scenes, to tick them in or out')}
+   nt.querySelector('.apInBtn').setAttribute('aria-label','Scenes in play: '+inP+' of '+tot+'. Opens Scenes, to tick them in or out')}
   cancelAnimationFrame(apRaf);
   /* THE TIMING RING (0.27.8, Dimitry, 21 Oct): the bead that is timing the change wears a ring that fills to the next
      scene; bright when you picked it, dim when the dice drew it. Beats and bars fill a step per beat. */
@@ -7703,10 +7727,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022042605"></script>
-<script src="surface/links.js?v=20261022042605"></script>
-<script src="surface/tips.js?v=20261022042605"></script>
-<script src="surface/sections.js?v=20261022042605"></script>
+<script src="surface/install.js?v=20261022044136"></script>
+<script src="surface/links.js?v=20261022044136"></script>
+<script src="surface/tips.js?v=20261022044136"></script>
+<script src="surface/sections.js?v=20261022044136"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8345,7 +8369,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.14';
+const APP_VERSION='0.29.15';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
