@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022023245";window.__VERSION__="0.28.8";window.__NOTES__=[{"v":"0.28.8","date":"21 Oct 2026","items":[{"kind":"fix","text":"the shelf keeps clear of the corner buttons (report a bug, full screen); they stay in their corners"}]}]</script>
+<script>window.__BUILD__="20261022023714";window.__VERSION__="0.28.9";window.__NOTES__=[{"v":"0.28.9","date":"21 Oct 2026","items":[{"kind":"change","text":"the shelf follows the panel you open: open Source and the shelf shows Source's controls"},{"kind":"change","text":"the capture panel works like the others: its tabs, ‹ › and CLOSE along the bottom, sliding down to its button. Still · Video · GIF live in the shelf only"},{"kind":"new","text":"each shape in the capture panel shows its proportion, a small frame drawn at the true ratio"},{"kind":"fix","text":"closing the shelf no longer closes an open panel, and a press in the shelf leaves the panel open"},{"kind":"change","text":"one set of sizes for tiles, beads and segments across the shelf and panels"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022023245"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022023245">
+<script src="claude-web.js?v=20261022023714"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022023714">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,39 +119,39 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022023245"></script>
-<script src="surface/selftest.js?v=20261022023245"></script>
-<script src="surface/report.js?v=20261022023245"></script>
-<script src="surface/auto.js?v=20261022023245"></script>
-<script src="surface/toolpath.js?v=20261022023245"></script>
-<script src="surface/capture.js?v=20261022023245"></script>
-<script src="surface/pop.js?v=20261022023245"></script>
-<script src="surface/hints.js?v=20261022023245"></script>
-<script src="surface/paths.js?v=20261022023245"></script>
-<script src="surface/keys.js?v=20261022023245"></script>
-<script src="surface/reset.js?v=20261022023245"></script>
-<script src="surface/files.js?v=20261022023245"></script>
-<script src="surface/tabs.js?v=20261022023245"></script>
-<script src="surface/running.js?v=20261022023245"></script>
-<script src="surface/trim.js?v=20261022023245"></script>
-<script src="surface/audiowake.js?v=20261022023245"></script>
-<script src="surface/listview.js?v=20261022023245"></script>
-<script src="surface/beads.js?v=20261022023245"></script>
-<script src="surface/strip.js?v=20261022023245"></script>
-<script src="surface/sheetnav.js?v=20261022023245"></script>
-<script src="surface/pro.js?v=20261022023245"></script>
+<script src="vendor/opentype.min.js?v=20261022023714"></script>
+<script src="surface/selftest.js?v=20261022023714"></script>
+<script src="surface/report.js?v=20261022023714"></script>
+<script src="surface/auto.js?v=20261022023714"></script>
+<script src="surface/toolpath.js?v=20261022023714"></script>
+<script src="surface/capture.js?v=20261022023714"></script>
+<script src="surface/pop.js?v=20261022023714"></script>
+<script src="surface/hints.js?v=20261022023714"></script>
+<script src="surface/paths.js?v=20261022023714"></script>
+<script src="surface/keys.js?v=20261022023714"></script>
+<script src="surface/reset.js?v=20261022023714"></script>
+<script src="surface/files.js?v=20261022023714"></script>
+<script src="surface/tabs.js?v=20261022023714"></script>
+<script src="surface/running.js?v=20261022023714"></script>
+<script src="surface/trim.js?v=20261022023714"></script>
+<script src="surface/audiowake.js?v=20261022023714"></script>
+<script src="surface/listview.js?v=20261022023714"></script>
+<script src="surface/beads.js?v=20261022023714"></script>
+<script src="surface/strip.js?v=20261022023714"></script>
+<script src="surface/sheetnav.js?v=20261022023714"></script>
+<script src="surface/pro.js?v=20261022023714"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022023245"></script>
-<script src="surface/rail.js?v=20261022023245"></script>
-<script src="surface/touchsound.js?v=20261022023245"></script>
-<script src="surface/water.js?v=20261022023245"></script>
-<script src="surface/float.js?v=20261022023245"></script>
-<script src="surface/manual.js?v=20261022023245"></script>
+<script src="surface/pack.js?v=20261022023714"></script>
+<script src="surface/rail.js?v=20261022023714"></script>
+<script src="surface/touchsound.js?v=20261022023714"></script>
+<script src="surface/water.js?v=20261022023714"></script>
+<script src="surface/float.js?v=20261022023714"></script>
+<script src="surface/manual.js?v=20261022023714"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1008,11 +1008,11 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 #bsBody .bsG{display:flex;align-items:center;gap:6px;flex:none}
 #bsBody .bsRule{flex:none;width:1px;height:30px;background:rgb(var(--ui-hi) / .14)}
 #bshelf .bsUnits{display:flex;flex:none;border:1px solid rgb(var(--ui-hi) / .16);border-radius:999px;overflow:hidden}
-#bshelf .bsUnits button{flex:none;height:30px;padding:0 11px;border:0;background:transparent;color:var(--ui-dim);font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+#bshelf .bsUnits button{flex:none;height:calc(var(--s-seg-h,36px) - 2px);padding:0 11px;border:0;background:transparent;color:var(--ui-dim);font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 #bshelf .bsUnits button[aria-checked=true]{background:var(--ui-ink);color:rgb(var(--ui-g))}
 #bshelf .bsBeads{position:relative;display:flex;flex:none;align-items:center;gap:6px}
 #bshelf .bsBeads::before{content:'';position:absolute;left:20px;right:20px;top:50%;height:2px;margin-top:-1px;background:rgb(var(--ui-hi) / .18);pointer-events:none}
-#bshelf .bsBeads button{position:relative;flex:none;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .24);background:rgb(var(--ui-g));color:var(--ui-ink);display:grid;place-items:center;font:600 13px/1 var(--mono)}
+#bshelf .bsBeads button{position:relative;flex:none;width:var(--s-bead,40px);height:var(--s-bead,40px);padding:0;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .24);background:rgb(var(--ui-g));color:var(--ui-ink);display:grid;place-items:center;font:600 13px/1 var(--mono)}
 #bshelf .bsBeads button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}#bshelf .bsBeads .dt{fill:currentColor;stroke:none}
 #bshelf .bsBeads button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* a slider is a fixed 150 px, its name on top, so a row of them reads like the mixer's strips laid sideways */
@@ -1021,10 +1021,10 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 #bshelf .bsSl input{width:150px;margin:0;accent-color:var(--acc,#55b8c9)}#bshelf .bsSl input:disabled{opacity:.35}
 #bshelf .bsV{font:500 9px/1 var(--mono);color:var(--ui-dim);font-variant-numeric:tabular-nums}
 #bshelf .bsNote{flex:none;margin:0;font:400 12px/1 var(--sans);color:var(--ui-dim);white-space:nowrap}
-#bshelf .bsTog,#bshelf .bsPill{flex:none;height:32px;padding:0 12px;border-radius:16px;border:1px solid rgb(var(--ui-hi) / .24);background:transparent;font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+#bshelf .bsTog,#bshelf .bsPill{flex:none;height:var(--s-seg-h,36px);padding:0 12px;border-radius:calc(var(--s-seg-h,36px) / 2);border:1px solid rgb(var(--ui-hi) / .24);background:transparent;font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 #bshelf .bsTog[aria-pressed=true],#bshelf .bsPill[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #bshelf .bsCap{display:flex;flex:none;gap:8px}
-#bshelf .bsCap button{flex:none;width:84px;height:40px;border-radius:12px;border:1px solid rgb(var(--ui-hi) / .24);background:transparent;font:600 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+#bshelf .bsCap button{flex:none;min-width:var(--s-tile-w,64px);padding:0 12px;height:var(--s-seg-h,36px);border-radius:12px;border:1px solid rgb(var(--ui-hi) / .24);background:transparent;font:600 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
 #bshelf .bsCap button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#bshelf .bsCap button:disabled{opacity:.4}
 #bshelf .bsScene{flex:none;width:56px;padding:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ui-dim);scroll-snap-align:start}
 #bshelf .bsScene .th{width:52px;height:34px;border-radius:8px;border:1.5px solid rgb(var(--ui-hi) / .14);background:#0c0e11 center/contain no-repeat}
@@ -3403,7 +3403,7 @@ function randRing(){cancelAnimationFrame(randRaf);const g=$('rlTempo');if(!g)ret
   const tick=()=>{if($('rlist').hidden)return;const T=RAND.tempo;
     for(const b of g.querySelectorAll('.apBead')){const is=!!T&&+b.dataset.v===T;b.classList.toggle('ring',is);if(is)b.style.setProperty('--p',Math.min(1,(performance.now()-randAt)/(T*1000)).toFixed(4))}
     if(T)randRaf=requestAnimationFrame(tick)};tick()}
-function openRlist(){closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
+function openRlist(){bsFollow('dice');closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return {name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
   flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))}}
@@ -3861,12 +3861,12 @@ function syncPlist(){
   if(plSegs[0]&&plSegs[0]._sync)plSegs[0]._sync();
   syncAutoUI();
   $('plItems').querySelectorAll('button.nm').forEach(b=>{const on=+b.dataset.i===presetIdx;b.setAttribute('aria-current',on?'true':'false');const r=b.closest('.lk');if(r)r.classList.toggle('cur',on)})}
-function openPlist(tab){closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
+function openPlist(tab){bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
   const on=$('plItems').querySelector('[aria-current="true"]');if(on)on.scrollIntoView({block:'center'});$('plClose').focus({preventScroll:true})}
 function closePlist(){if($('plist').hidden)return;$('plist').hidden=true;['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','false'))}
 $('plClose').onclick=closePlist;
-document.addEventListener('pointerdown',e=>{const m=$('plist');if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('#pTrans'))closePlist();
-  const r=$('rlist');if(!r.hidden&&!r.contains(e.target)&&!e.target.closest('#pRand,#randMx'))closeRlist()},true);
+document.addEventListener('pointerdown',e=>{const m=$('plist');if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('#pTrans,#bshelf'))closePlist();
+  const r=$('rlist');if(!r.hidden&&!r.contains(e.target)&&!e.target.closest('#pRand,#randMx,#bshelf'))closeRlist()},true);
 // one gesture reader for a playbar button: tap, hold (520ms), right-click = hold
 function wireTapHold(el,h){
   let g=null,lastHold=0;
@@ -4236,8 +4236,10 @@ function shutter(){if(ENC)return;if(REC){recFinish();return}
   if(CAP.mode==='video')startVideo();else if(CAP.mode==='gif')startGif();else capStill()}
 /* the hold-panel */
 /* the panel: Surface's capture card (Fracture's layout); the engine above stays Current's own */
-const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: mode, shape and sharing',
-  modes:[['still','still'],['video','video'],['gif','gif']],
+/* the capture panel joins the other panels (Dimitry, 21 Oct night): its band at the foot, ‹ › and the vertical close; the
+   shape tiles show their proportion; Still · Video · GIF live in the bottom shelf only (drag down on Capture) */
+const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: shape and sharing',foot:true,toward:'#pShot',ratioIcons:true,
+  modes:false,
   shapes:SurfaceCapture.SHAPES.filter(x=>CAP_SHAPES.some(c=>c[0]===x[0])),
   extras:[{key:'gif',label:'GIF length',show:s=>s.mode==='gif',items:[[3,'3s','GIF length 3 seconds'],[5,'5s','GIF length 5 seconds'],[8,'8s','GIF length 8 seconds']]},
     // with the camera's mic and music both live: what the video's sound holds (the field always hears both)
@@ -4256,9 +4258,9 @@ const batchOpen=()=>{try{return window.top!==window.self||/(^|\.)claude(usercont
 function batchBtn(){const acts=$('shotPop').querySelector('.scap-acts');if(acts&&!acts.querySelector('.btOpen')){const x=document.createElement('button');x.type='button';x.className='scap-go ghost btOpen';
   if(!batchOpen()){x.disabled=true;x.classList.add('soon');x.title='Batch export comes with Pro'}
   x.innerHTML='batch <b class="tier">pro</b>';x.setAttribute('aria-label',x.disabled?'Batch export: coming with Pro':'Batch export: capture many scenes or texts in this mode, saved as one zip (Pro)');if(!x.disabled)x.onclick=openBatch;acts.appendChild(x)}}
-function openShotPop(){if(typeof closePlist==='function')closePlist();try{closeDrawers()}catch(_){}if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();$('pShot').setAttribute('aria-expanded','true')}
+function openShotPop(){bsFollow('capture');if(typeof closePlist==='function')closePlist();try{closeDrawers()}catch(_){}if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();$('pShot').setAttribute('aria-expanded','true')}
 function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
-document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot'))closeShotPop()},true);
+document.addEventListener('pointerdown',e=>{if(!$('shotPop').hidden&&!e.target.closest('#shotPop,#pShot,#bshelf'))closeShotPop()},true);   // the shelf is its own: a press there never shuts the panel
 (el=>{let g=null;
   el.addEventListener('pointerdown',e=>{if(e.button)return;g={id:e.pointerId,held:false,t:setTimeout(()=>{if(g){g.held=true;openShotPop()}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const st=g;g=null;if(e.type==='pointerup'&&!st.held){closeShotPop();shutter()}};
@@ -4833,8 +4835,11 @@ function syncShelves(){
   placeName();requestAnimationFrame(()=>{placeShelves();shelfOverflow()})}
 /* ONE PANEL ABOVE THE BAR AT A TIME (Dimitry, 21 Oct night: Auto play and Source's drawer were open together, the
    scene's name squeezed between them): a drawer that opens shuts the panels, and a panel that opens shuts the drawers */
+/* THE SHELF FOLLOWS THE OPEN PANEL (Dimitry, 21 Oct night: Source opened while the shelf said Capture): when a button's
+   drawer or panel opens and the shelf is out, the shelf turns to that button's controls, and its peak slides there */
+function bsFollow(sec){try{if(BS&&BS.ready&&BS.open&&BS.sec!==sec)BS.show(sec)}catch(_){}}
 function closeDrawers(){if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){srcOpen=sndOpen=pickOpen=false;if(ACTIVE)toolShown=false;syncSteer()}}
-function syncSteer(){bsSync();if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){try{closePlist();closeRlist();if($('pShot').getAttribute('aria-expanded')==='true')closeShotPop()}catch(_){}}try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
+function syncSteer(){bsSync();if(srcOpen)bsFollow('source');else if(sndOpen)bsFollow('sound');else if(pickOpen||(ACTIVE&&toolShown&&$('pSteer').classList.contains('drawerOpen')))bsFollow('tools');if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){try{closePlist();closeRlist();if($('pShot').getAttribute('aria-expanded')==='true')closeShotPop()}catch(_){}}try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
   const main=$('pSteer');
   main.setAttribute('aria-pressed',String(STEER.on));main.classList.toggle('looping',!!STEER.loop);
   const rec=$('stRec');rec.setAttribute('aria-pressed',String(!!STEER.rec));
@@ -6004,7 +6009,7 @@ function mixDraw(){MXRAF=0;const pop=$('mixPop');if(!pop||pop.hidden)return;
     else{g.moveTo(0,h/2);g.lineTo(w,h/2)}
     g.stroke()});
   MXRAF=requestAnimationFrame(mixDraw)}
-function openMix(tab){try{closeWordList();closeFontList()}catch(_){}if(window.MIX_TABS)MIX_TABS.show(typeof tab==='string'?tab:MIX_TABS.last());else renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
+function openMix(tab){bsFollow('sound');try{closeWordList();closeFontList()}catch(_){}if(window.MIX_TABS)MIX_TABS.show(typeof tab==='string'?tab:MIX_TABS.last());else renderMix();$('mixPop').hidden=false;const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
 function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;cancelAnimationFrame(MCRAF);try{MIX_INFO.close()}catch(_){}p.hidden=true;try{BG.stopHead()}catch(_){}const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
 $('mixClose').onclick=closeMix;
 /* SURFACE · TABS lives in the kit now (surface/tabs.js, 20 Oct), with its threshold and its default scene; Current's own
@@ -6705,7 +6710,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
   $('playbar').addEventListener('keydown',e=>{const el=e.target.closest('button');if(!el||!SEC[el.id])return;
     if(e.key==='ArrowDown'&&e.altKey){e.preventDefault();e.stopPropagation();BS.show(SEC[el.id],true)}},true);
   document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!BS.open)return;
-    if(sh.contains(document.activeElement)){e.preventDefault();$('bsX').click();return}
+    if(sh.contains(document.activeElement)){e.preventDefault();e.stopImmediatePropagation();$('bsX').click();return}   // the shelf's Esc is the shelf's alone
     if(e.target.closest&&e.target.closest('input,select,textarea'))return;
     const busy=!$('plist').hidden||!$('rlist').hidden||!$('shotPop').hidden||document.querySelector('.shelf.open')||($('colorPop')&&!$('colorPop').hidden)||!document.body.classList.contains('player');
     if(!busy)BS.hide()});
@@ -7345,10 +7350,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
      the bar; it closes sliding down toward its button, or with a swipe down on the band (kit pop.js, foot) */
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l,foot:true,toward:{'#plist':'#pAuto','#rlist':'#pRand','#mixPop':'#pSnd','#colorPop':'#pSteer','#batchPop':'#pShot','#fontList':'#pSteer','#wordList':'#pSteer'}[p]||null}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022023245"></script>
-<script src="surface/links.js?v=20261022023245"></script>
-<script src="surface/tips.js?v=20261022023245"></script>
-<script src="surface/sections.js?v=20261022023245"></script>
+<script src="surface/install.js?v=20261022023714"></script>
+<script src="surface/links.js?v=20261022023714"></script>
+<script src="surface/tips.js?v=20261022023714"></script>
+<script src="surface/sections.js?v=20261022023714"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7936,7 +7941,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.28.8';
+const APP_VERSION='0.28.9';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

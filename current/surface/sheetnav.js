@@ -99,7 +99,7 @@
         b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + (d < 0 ? "M14.5 6.5 9 12l5.5 5.5" : "M9.5 6.5 15 12l-5.5 5.5") + '"/></svg>';
         b.addEventListener("pointerdown", function (e) { held = openIdx(); heldAt = performance.now(); e.stopPropagation(); }, true);
         b.addEventListener("click", function (e) { e.stopPropagation(); go(d); });
-        head.insertBefore(b, x || null); b.__it = it; b.__d = d; bandBtns.push(b);
+        (x ? x.parentNode : head).insertBefore(b, x || null); b.__it = it; b.__d = d; bandBtns.push(b);
       });
       it.__band = true;
     });

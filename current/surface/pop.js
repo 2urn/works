@@ -26,7 +26,7 @@
   var X = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   var CSS = [
     /* one corner for every pane over the stage: drawers, the bottom shelf, panels (Dimitry, 21 Oct night) */
-    ":where(:root){--s-pane-radius:20px}",
+    ":where(:root){--s-pane-radius:20px;--s-tile-w:64px;--s-tile-h:56px;--s-bead:40px;--s-seg-h:36px}",   /* the kit's sizes (CONVENTIONS › Sizes) */
     ".spop{border-radius:var(--s-pane-radius,20px);overflow:hidden;background:rgb(var(--ui-g,14 14 16) / .9);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);",
     "  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ui-ink,#fff)}",
     ".spop-head{display:flex;justify-content:space-between;align-items:center;min-height:40px;padding:0 6px 0 16px;border-bottom:1px solid rgb(var(--ui-hi,255 255 255) / .08);",

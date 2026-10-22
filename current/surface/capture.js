@@ -20,7 +20,11 @@
        primary:   { label: s => 'save', run: () => {} },   // the accent button
        secondary: { label: 'share', run: () => {} },       // optional
        busy: () => false,                                  // true while recording/encoding: choices lock
-       onClose: () => {}
+       onClose: () => {},
+       foot: true, toward: '#pShot',                      // optional (21 Oct 2026): the head is pop.js's foot band (tabs,
+                                                          //   steps and the vertical close at the bottom; slides to its button)
+       modes: false,                                      // optional: no mode row (the tool keeps the modes elsewhere)
+       ratioIcons: true                                   // optional: each shape a fixed tile with its proportion drawn
      })  → { el, build(), open(), close(), isOpen() }
    Colours: --cap-acc (the accent; falls back to --sc-acc) and --cap-on (text on the accent). */
 (function () {
@@ -46,6 +50,11 @@
     ".scap-shapes .scap-c i{font-size:9.5px;line-height:1.15;font-style:normal;color:var(--ui-dim,#7d8590);letter-spacing:.04em}",
     ".scap-shapes .scap-c.wide{flex-basis:100%}",
     ".scap-c[aria-checked=true]{background:var(--ca);border-color:var(--ca);color:var(--co);font-weight:700}",
+    /* RATIO TILES (Dimitry, 21 Oct night): each shape shows its proportion, an outlined rectangle at the true ratio, its name
+       under it; every tile the kit's tile size */
+    ".scap-shapes.ratios{justify-content:center}.scap-shapes.ratios .scap-c{flex:0 0 auto;width:var(--s-tile-w,64px);min-width:0;height:var(--s-tile-h,56px);min-height:0;padding:4px 2px;gap:4px;align-content:center}",
+    ".scap-shapes.ratios .scap-c svg{width:30px;height:24px;overflow:visible}.scap-shapes.ratios .scap-c rect{fill:none;stroke:currentColor;stroke-width:1.6}",
+    ".scap-shapes.ratios .scap-c b{font-size:10px;letter-spacing:.06em}",
     ".scap-c[aria-checked=true] i{color:var(--co);opacity:.72}",
     ".scap-c:disabled{opacity:.4;cursor:default}",
     ".scap-c:focus-visible,.scap-go:focus-visible,.scap-x:focus-visible{outline:2px solid var(--ca);outline-offset:2px}",
@@ -66,6 +75,8 @@
   function el(t, c, txt) { var e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; }
   var X = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>';
 
+  /* a shape's proportion, width over height: "16:9" -> 1.78; "screen" is the window's */
+  function ratio(k) { var m = /^(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)$/.exec(String(k)); return m ? +m[1] / +m[2] : Math.max(.3, Math.min(3, innerWidth / Math.max(1, innerHeight))); }
   function panel(o) {
     css();
     var root = typeof o.host === "string" ? document.querySelector(o.host) : o.host;
@@ -83,6 +94,7 @@
     var acts = el("div", "scap-acts"), go = el("button", "scap-go"); go.type = "button"; acts.append(go);
     var sec = null; if (o.secondary) { sec = el("button", "scap-go ghost"); sec.type = "button"; acts.append(sec); }
     var hint = el("p", "scap-hint");
+    if (o.ratioIcons) shapes.classList.add("ratios");
     body.append(modes, shapes); extras.forEach(function (e) { body.append(e.el); }); body.append(acts, hint);
     root.append(head, body);
 
@@ -91,7 +103,10 @@
       items.forEach(function (it, i) {
         var v = it[0], b = el("button", "scap-c"); b.type = "button"; b.dataset.k = v;
         b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(v === cur));
-        if (two) { b.innerHTML = "<b></b><i></i>"; b.querySelector("b").textContent = it[2] || v; b.querySelector("i").textContent = it[1]; b.setAttribute("aria-label", (it[2] || v) + ": " + it[1]); if (i === last && items.length % 2 === 1) b.classList.add("wide"); }
+        if (two && o.ratioIcons) { var rr = ratio(v), W = 30, H = 24, sc = Math.min((W - 1.6) / rr, H - 1.6), w = sc * rr + 1.6, h = sc + 1.6;
+          b.innerHTML = '<svg viewBox="0 0 30 24" aria-hidden="true"><rect x="' + ((W - w) / 2 + .8).toFixed(1) + '" y="' + ((H - h) / 2 + .8).toFixed(1) + '" width="' + (w - 1.6).toFixed(1) + '" height="' + (h - 1.6).toFixed(1) + '" rx="1.5"/></svg><b></b>';
+          b.querySelector("b").textContent = it[2] || v; b.title = it[1]; b.setAttribute("aria-label", (it[2] || v) + ": " + it[1]); }
+        else if (two) { b.innerHTML = "<b></b><i></i>"; b.querySelector("b").textContent = it[2] || v; b.querySelector("i").textContent = it[1]; b.setAttribute("aria-label", (it[2] || v) + ": " + it[1]); if (i === last && items.length % 2 === 1) b.classList.add("wide"); }
         else { b.textContent = it[1]; if (it[2]) b.setAttribute("aria-label", it[2]); }
         b.disabled = lock;
         b.onclick = function () { o.set(key, v); build(); };
@@ -116,7 +131,7 @@
       box.querySelector("input").setAttribute("aria-valuetext", t.join(", ")); }
     function build() {
       var s = o.get();
-      radios(modes, o.modes || [["still", "still"], ["video", "video"]], s.mode, "mode");
+      if (o.modes === false) modes.hidden = true; else radios(modes, o.modes || [["still", "still"], ["video", "video"]], s.mode, "mode");
       radios(shapes, o.shapes || SHAPES, s.shape, "shape", true);
       extras.forEach(function (e) { var show = !e.def.show || e.def.show(s); e.el.hidden = !show; if (!show) return;
         if (e.def.type === "range") range(e.el, e.def, s[e.def.key]); else radios(e.el, e.def.items, s[e.def.key], e.def.key); });
@@ -134,6 +149,8 @@
     if (sec) sec.onclick = function () { o.secondary.run(); };
     root.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); close(); } });
     build();
+    /* FOOT: the head goes to the bottom as pop.js's band, the × becomes the vertical close */
+    if (o.foot && window.SurfacePop) { x.innerHTML = ""; head.appendChild(x); SurfacePop.dress(root, { head: head, close: x, label: "Close the capture options", foot: true, toward: o.toward || null }); }
     return { el: root, build: build, open: open, close: close, isOpen: isOpen, go: go };
   }
   window.SurfaceCapture = { panel: panel, SHAPES: SHAPES };
