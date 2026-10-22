@@ -16,6 +16,7 @@
      });
      R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'; R.open(how, {feedback:true}) opens it ticked
      R.offer('the sound had to be restarted')   // a quiet line with "report it", for when the tool caught something
+     R.corner(button)      // phones: puts the tool's bug button exactly where the sheet's close appears (returns its frame)
    Plain script, window.SurfaceReport, no dependencies; reads SurfaceSelfTest when it is there. */
 (function () {
   "use strict";
@@ -44,6 +45,12 @@
     ".srp-fb small{color:rgba(255,255,255,.5);font-size:11px}" +
     ".srp-msg{min-height:1em;color:var(--acc,#55b8c9)!important}.srp-msg.bad{color:#ff8a80!important}" +
     ".srp :focus-visible{outline:2px solid #fff;outline-offset:2px}" +
+    /* THE CORNER (Dimitry, 22 Oct: "make it a part of the sheet itself for iPhone so it can't misalign"): an empty copy
+       of the sheet's own frame and header, made with the same classes, so the button sits exactly where the sheet's
+       close appears, at every width and after any change to the sheet. Phones only; a computer has its own button. */
+    ".srp.srp-frame{z-index:24;background:none;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;opacity:1;overflow:visible;max-height:none;pointer-events:none;transition:opacity .4s ease,visibility 0s}" +
+    ".srp-frame .srp-h{visibility:hidden}.srp-frame .srp-x{pointer-events:auto;background:rgba(0,0,0,.28);color:rgba(255,255,255,.6)}.srp-frame .srp-x svg{fill:none;stroke:currentColor;stroke-width:1.7}" +
+    "@media (min-width:900px) and (hover:hover){.srp.srp-frame{display:none}}" +
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
     ".srp-offer.on{opacity:1;translate:-50% 0}.srp-offer button{border:0;border-radius:999px;padding:7px 12px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;white-space:nowrap}" +
     ".srp-offer .srp-ox{background:none;color:rgba(255,255,255,.6);padding:7px 6px}" +
@@ -120,7 +127,13 @@
       requestAnimationFrame(function () { ofr.classList.add("on"); }); clearTimeout(ofT); ofT = setTimeout(hideOffer, 9000);
     }
     function hideOffer() { if (!ofr) return; ofr.classList.remove("on"); clearTimeout(ofT); setTimeout(function () { if (ofr && !ofr.classList.contains("on")) ofr.hidden = true; }, 320); }
-    return { open: open, close: close, offer: offer, gather: gather };
+    function corner(btn) {
+      var f = el("div", "srp srp-frame"); f.setAttribute("role", "presentation");
+      var hd = el("div", "srp-hd", '<p class="srp-h" aria-hidden="true">' + ICON + "<span>Report a bug</span></p>");
+      btn.classList.add("srp-x"); if (!btn.innerHTML.trim()) btn.innerHTML = ICON; hd.appendChild(btn); f.appendChild(hd); document.body.appendChild(f);
+      return f;
+    }
+    return { open: open, close: close, offer: offer, gather: gather, corner: corner };
   }
   window.SurfaceReport = { mount: mount, ICON: ICON };
 })();
