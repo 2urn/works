@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022202357";window.__VERSION__="0.29.62";window.__NOTES__=[{"v":"0.29.62","date":"22 Oct 2026","items":[{"kind":"change","text":"one word for your sounds: pack. The sound shelf's button says pack, the sheet is the Pack, and Save as a pack saves one to share"},{"kind":"new","text":"the four ways a sound plays (Touch, On the beat, Bed, Pattern) have icons in the Pack sheet"},{"kind":"change","text":"the sound pack guide opens Current from a card with its icon, gives the two packs their own icons, and starts with what makes Current a pleasure to play"}]}]</script>
+<script>window.__BUILD__="20261022205051";window.__VERSION__="0.29.63";window.__NOTES__=[{"v":"0.29.63","date":"22 Oct 2026","items":[{"kind":"change","text":"the Pack is a tab of the Sound panel, at the panel's size and place with its tabs and ⌄, instead of a box in the middle of the screen"},{"kind":"fix","text":"the little carets over and under the bar sit just above and just below their buttons again, an even gap each side"},{"kind":"fix","text":"every label in a shelf shows whole (PATTERN, not PATTE…), with more room between a color chip and its name"},{"kind":"fix","text":"a shelf above the bar grows until its point reaches its own button"},{"kind":"change","text":"the dice's ring when it is playing is a soft dark teal on white, with smooth edges"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022202357"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022202357">
+<script src="claude-web.js?v=20261022205051"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022205051">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -123,37 +123,37 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022202357"></script>
-<script src="surface/selftest.js?v=20261022202357"></script>
-<script src="surface/report.js?v=20261022202357"></script>
-<script src="surface/auto.js?v=20261022202357"></script>
-<script src="surface/toolpath.js?v=20261022202357"></script>
-<script src="surface/capture.js?v=20261022202357"></script>
-<script src="surface/pop.js?v=20261022202357"></script>
-<script src="surface/hints.js?v=20261022202357"></script>
-<script src="surface/paths.js?v=20261022202357"></script>
-<script src="surface/keys.js?v=20261022202357"></script>
-<script src="surface/reset.js?v=20261022202357"></script>
-<script src="surface/files.js?v=20261022202357"></script>
-<script src="surface/tabs.js?v=20261022202357"></script>
-<script src="surface/running.js?v=20261022202357"></script>
-<script src="surface/trim.js?v=20261022202357"></script>
-<script src="surface/audiowake.js?v=20261022202357"></script>
-<script src="surface/output.js?v=20261022202357"></script>
-<script src="surface/voice.js?v=20261022202357"></script>
-<script src="surface/voicelib.js?v=20261022202357"></script>
-<script src="surface/instruments.js?v=20261022202357"></script>
-<script src="surface/listview.js?v=20261022202357"></script>
-<script src="surface/beads.js?v=20261022202357"></script>
-<script src="surface/strip.js?v=20261022202357"></script>
-<script src="surface/sheetnav.js?v=20261022202357"></script>
-<script src="surface/twofinger.js?v=20261022202357"></script>
-<script src="surface/shortlink.js?v=20261022202357"></script>
-<script src="surface/undo.js?v=20261022202357"></script>
-<script src="surface/pro.js?v=20261022202357"></script>
-<script src="surface/fresh.js?v=20261022202357"></script>
-<script src="surface/notice.js?v=20261022202357"></script>
-<script src="surface/perform.js?v=20261022202357"></script>
+<script src="vendor/opentype.min.js?v=20261022205051"></script>
+<script src="surface/selftest.js?v=20261022205051"></script>
+<script src="surface/report.js?v=20261022205051"></script>
+<script src="surface/auto.js?v=20261022205051"></script>
+<script src="surface/toolpath.js?v=20261022205051"></script>
+<script src="surface/capture.js?v=20261022205051"></script>
+<script src="surface/pop.js?v=20261022205051"></script>
+<script src="surface/hints.js?v=20261022205051"></script>
+<script src="surface/paths.js?v=20261022205051"></script>
+<script src="surface/keys.js?v=20261022205051"></script>
+<script src="surface/reset.js?v=20261022205051"></script>
+<script src="surface/files.js?v=20261022205051"></script>
+<script src="surface/tabs.js?v=20261022205051"></script>
+<script src="surface/running.js?v=20261022205051"></script>
+<script src="surface/trim.js?v=20261022205051"></script>
+<script src="surface/audiowake.js?v=20261022205051"></script>
+<script src="surface/output.js?v=20261022205051"></script>
+<script src="surface/voice.js?v=20261022205051"></script>
+<script src="surface/voicelib.js?v=20261022205051"></script>
+<script src="surface/instruments.js?v=20261022205051"></script>
+<script src="surface/listview.js?v=20261022205051"></script>
+<script src="surface/beads.js?v=20261022205051"></script>
+<script src="surface/strip.js?v=20261022205051"></script>
+<script src="surface/sheetnav.js?v=20261022205051"></script>
+<script src="surface/twofinger.js?v=20261022205051"></script>
+<script src="surface/shortlink.js?v=20261022205051"></script>
+<script src="surface/undo.js?v=20261022205051"></script>
+<script src="surface/pro.js?v=20261022205051"></script>
+<script src="surface/fresh.js?v=20261022205051"></script>
+<script src="surface/notice.js?v=20261022205051"></script>
+<script src="surface/perform.js?v=20261022205051"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -170,13 +170,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022202357"></script>
-<script src="surface/rail.js?v=20261022202357"></script>
-<script src="surface/touchsound.js?v=20261022202357"></script>
-<script src="surface/water.js?v=20261022202357"></script>
-<script src="surface/ripple.js?v=20261022202357"></script>
-<script src="surface/float.js?v=20261022202357"></script>
-<script src="surface/manual.js?v=20261022202357"></script>
+<script src="surface/pack.js?v=20261022205051"></script>
+<script src="surface/rail.js?v=20261022205051"></script>
+<script src="surface/touchsound.js?v=20261022205051"></script>
+<script src="surface/water.js?v=20261022205051"></script>
+<script src="surface/ripple.js?v=20261022205051"></script>
+<script src="surface/float.js?v=20261022205051"></script>
+<script src="surface/manual.js?v=20261022205051"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -753,7 +753,7 @@ body #playbar{position:fixed;left:0;right:0;z-index:8;bottom:calc(max(14px,env(s
 /* 0.27.4 (Dimitry, 21 Oct: "no caret appears above the auto scene player"): ▶ sits inside the ‹ ▶ › group, not straight
    in the bar, so the bar's child selector never reached it. Every caret rule names the group's buttons too. */
 body #playbar>button[data-drawer],body #pTrans>button[data-drawer]{position:relative}
-body #playbar>button[data-drawer]::after,body #pTrans>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-17px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
+body #playbar>button[data-drawer]::after,body #pTrans>button[data-drawer]::after{content:'';position:absolute;left:50%;top:-13px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:translateY(4px) rotate(45deg);opacity:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.7));transition:opacity .18s ease,transform .18s ease;pointer-events:none}
 /* 20 Oct: the caret is the hint on hover only. Once the strip is open, the strip itself points down to the button (the
    notch below), so the caret goes: it sat behind the strip and peeked out under it */
 body #playbar>button[data-drawer][aria-expanded="true"]::after,body #playbar>button[data-drawer].drawerOpen::after,body #pTrans>button[data-drawer][aria-expanded="true"]::after{opacity:0!important}
@@ -992,7 +992,7 @@ body #playbar>button>svg *,body #pTrans>button>svg *{stroke-width:1.9}#srAuto sv
 #plSave:active,.saveScene:active{transform:translateY(1px)}#plSave:focus-visible,.saveScene:focus-visible{outline:2px solid #fff;outline-offset:2px}
 /* the glass pop-ups' scrollbars: thin, the glass's own ink, no white OS track (presets, random matrix, order, words, fonts) */
 /* scrollbars never move content (Dimitry, 22 Oct 13:37): every scroller keeps its gutter */
-.panel,.lc-betaF,#plAutoPane,#plItems,#imgwrap,.cmPane,#beatBody,#bytesBody,#batchBody,.btList,#mixBody,#micBody,#fpBody,#rlBody,#edOrdList,#wlItems,#flItems{scrollbar-gutter:stable}
+.panel,.lc-betaF,#plAutoPane,#plItems,#imgwrap,.cmPane,#beatBody,#bytesBody,#packBody,#batchBody,.btList,#mixBody,#micBody,#fpBody,#rlBody,#edOrdList,#wlItems,#flItems{scrollbar-gutter:stable}
 #plItems,#rlBody,#edOrdList,#wlItems,#flItems{scrollbar-width:thin;scrollbar-color:rgb(var(--ui-hi,255 255 255) / .24) transparent}
 #plItems:hover,#rlBody:hover,#edOrdList:hover,#wlItems:hover,#flItems:hover{scrollbar-color:rgb(var(--ui-hi,255 255 255) / .4) transparent}
 #plItems::-webkit-scrollbar,#rlBody::-webkit-scrollbar,#edOrdList::-webkit-scrollbar,#wlItems::-webkit-scrollbar,#flItems::-webkit-scrollbar{width:8px;background:transparent}
@@ -1243,17 +1243,22 @@ html.bare #bsCarets{opacity:0;visibility:hidden}
 /* PLAYING HAND (Dimitry, 21 Oct): left mirrors the bar around Capture; the pill keeps its own order (‹ › mean back, on) */
 html[data-hand="left"] body #playbar{flex-direction:row-reverse}
 #pRand::before{content:"";position:absolute;inset:-4px;border-radius:50%;pointer-events:none;
-  background:conic-gradient(var(--acc,#55b8c9) calc(var(--amt,.6)*360deg),rgb(var(--ui-hi) / .08) 0);
-  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+  background:conic-gradient(var(--acc,#55b8c9) calc(var(--amt,.6)*360deg),rgb(var(--ui-hi) / .08) calc(var(--amt,.6)*360deg + .8deg));
+  /* SOFT, NOT CRUNCHY (Dimitry, 22 Oct 16:44, on an iMac): hard stops in the mask and the arc alias; each edge now fades
+     over about a pixel, the inner and outer rims and the arc's end alike */
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.9px),#000 calc(100% - 2.9px),#000 calc(100% - 1px),transparent 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 3.9px),#000 calc(100% - 2.9px),#000 calc(100% - 1px),transparent 100%)}
 body #playbar>#pRand.on,body #pTrans>#pRand.on,body #playbar>#pSnd.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* the amount ring on a lit dice (Dimitry, 21 Oct night: accent on accent, unreadable): drawn in the ink colour on the
    fill, the empty part a faint ink. #04181c on #55b8c9 is about 8:1 (WCAG 1.4.11 asks 3:1), dark and light alike */
-body #pTrans>#pRand.on::before,body #playbar>#pRand.on::before{background:conic-gradient(var(--acc-ink,#04181c) calc(var(--amt,.6)*360deg),rgb(4 24 28 / .22) 0)}
+body #pTrans>#pRand.on::before,body #playbar>#pRand.on::before{background:conic-gradient(var(--acc-ink,#04181c) calc(var(--amt,.6)*360deg),rgb(4 24 28 / .22) calc(var(--amt,.6)*360deg + .8deg))}
+/* the lit dice (playing, auto) (Dimitry, 22 Oct 16:44: "the black line is too harsh … the softer dark teal … the circle that
+   isn't selected could be white"): the arc is the dark teal, the rest of the ring white */
+body #pTrans>#pRand.on::before,body #playbar>#pRand.on::before{background:conic-gradient(color-mix(in oklab,var(--acc,#55b8c9) 55%,#000) calc(var(--amt,.6)*360deg),#fff calc(var(--amt,.6)*360deg + .8deg))}
 /* THE DICE RING ON A LIGHT GROUND (Dimitry, 22 Oct 14:27: on the white bar "very little contrast between the ring around
    the dice ... and the background of the ring ... a darker teal and the background can be white"): in the light theme the
    amount arc is a dark teal (accent toward black, about 4.6:1 on white) over a white track */
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #pRand:not(.on)::before{background:conic-gradient(color-mix(in oklab,var(--acc,#55b8c9) 55%,#000) calc(var(--amt,.6)*360deg),#fff 0)}}
-:root[data-theme="light"] #pRand:not(.on)::before{background:conic-gradient(color-mix(in oklab,var(--acc,#55b8c9) 55%,#000) calc(var(--amt,.6)*360deg),#fff 0)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #pRand:not(.on)::before{background:conic-gradient(color-mix(in oklab,var(--acc,#55b8c9) 55%,#000) calc(var(--amt,.6)*360deg),#fff calc(var(--amt,.6)*360deg + .8deg))}}
+:root[data-theme="light"] #pRand:not(.on)::before{background:conic-gradient(color-mix(in oklab,var(--acc,#55b8c9) 55%,#000) calc(var(--amt,.6)*360deg),#fff calc(var(--amt,.6)*360deg + .8deg))}
 #pRand .pips{transform-box:fill-box;transform-origin:center}
 #pRand.dieBeat .pips{animation:diePulse var(--die-beat,1s) ease-in-out infinite}
 @keyframes diePulse{0%,100%{opacity:1}50%{opacity:.55}}
@@ -1351,6 +1356,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .sfInfo p{margin:0 0 8px}.sfInfo ul{margin:0 0 8px;padding-left:16px;display:flex;flex-direction:column;gap:4px}.sfInfo b{color:var(--ui-ink);font-weight:600}
 @media (prefers-reduced-motion:reduce){.sfInfo{transition:none}}
 #beatBody,#bytesBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px}
+#packBody{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:10px 16px 12px;color:var(--ui-ink)}   /* the Pack tab: the kit sheet inside, scrolled like Bytes */
 #beatBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 16px 6px}
 /* the bytebeat writer, at home in the glass: the drawer's colours swapped for the panel's */
 #bytesBody{padding:10px 16px 12px;--fg:var(--ui-ink);--muted:var(--ui-dim);--line:rgb(var(--ui-hi,255 255 255) / .14);--bg:rgb(var(--ui-hi,255 255 255) / .05);--panel:transparent;color:var(--ui-ink)}
@@ -1583,6 +1589,12 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .si:active{transform:scale(.94)}.si:hover{color:#fff}.si:hover .lab{color:#fff}
 .si svg{width:24px;height:24px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .si .lab{font:600 9px/1.1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--ui-hi) / .78);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* EVERY LABEL WHOLE (Dimitry, 22 Oct 16:46: "no reason for all the labels not to be visible, and not enough room between
+   the chips of color and their labels"): a button grows to its label instead of clipping it (PATTE… → PATTERN), with
+   room either side so a long word never runs into its neighbour, and the chip sits 7 px above its label */
+.si{width:auto;min-width:60px;padding-left:5px;padding-right:5px;gap:7px}
+.si .lab{max-width:none;overflow:visible;text-overflow:clip}
+#bshelf .si{width:auto;min-width:54px;padding-left:4px;padding-right:4px;gap:6px}
 /* a label never runs past its button (Dimitry's iPhone, 20 Oct: SWEEP+FADER ran into OWN LINKS): clipped with an ellipsis */
 /* chosen = colour only, no box around it (Dimitry, 18 Oct): the icon and its label take the accent */
 .si[aria-pressed="true"]{background:none;color:var(--acc,#55b8c9)}.si[aria-pressed="true"] .lab{color:var(--acc,#55b8c9)}
@@ -2479,6 +2491,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
   <div id="micBody" class="sfPane" role="tabpanel" hidden></div>
   <div id="mixBody" class="sfPane" role="tabpanel"></div>
   <div id="beatBody" class="sfPane" role="tabpanel" hidden></div>
+  <div id="packBody" class="sfPane" role="tabpanel" hidden></div>
   <div id="bytesBody" class="sfPane" role="tabpanel" hidden></div>
   <div id="touchBody" class="sfPane" role="tabpanel" hidden></div>
   <div class="sfInfo" id="mixInfo" role="region" aria-labelledby="mixInfoH" hidden><p class="sfInfoH" id="mixInfoH">How it works</p><div class="sfInfoTx"></div></div>
@@ -7455,6 +7468,10 @@ const ICO=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+
 const MIX_TABS=SurfaceTabs.mount($('mixTabs'),[
   {id:'mic',name:'Mic',title:'The microphone: input, gain, gate, heard, and a phrase looper',pane:$('micBody'),icon:ICO('<rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.stopHead();renderMic()}},
   {id:'mix',name:'Mixer',title:'Levels, mute and solo for each sound',pane:$('mixBody'),icon:ICO('<path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/>'),onShow:()=>{$('mixPop').classList.remove('wide');renderMix();BG.stopHead();cancelAnimationFrame(MCRAF)}},
+  /* THE PACK IS A PANEL (Dimitry, 22 Oct 16:44: "why is the pack panel centering on screen and not acting like the size
+     and width of the other panels?"): the kit's Pack sheet renders into this tab (instruments.js host), at the Sound
+     panel's width and place, with its tabs and its ⌄ */
+  {id:'pack',name:'Pack',title:'Your sounds: recordings and packs, each played by touch, on the beat, as a bed or from the pattern',pane:$('packBody'),icon:ICO('<path d="M5 8.5 12 5l7 3.5v8L12 20l-7-3.5z"/><path d="M5 8.5 12 12l7-3.5M12 12v8"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.stopHead();try{INSTR&&INSTR.open()}catch(_){}}},
   {id:'beat',name:'Beat',title:'Make your own beat on a sixteen-step grid',pane:$('beatBody'),icon:ICO('<rect x="4" y="4" width="4" height="4" rx="1"/><rect x="10" y="4" width="4" height="4" rx="1"/><rect x="16" y="10" width="4" height="4" rx="1"/><rect x="4" y="16" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="16" y="16" width="4" height="4" rx="1"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.render()}},
   {id:'bytes',name:'Bytes',title:'Write a bytebeat: music from one line of arithmetic',pane:$('bytesBody'),icon:ICO('<path d="M8 5c-2 0-2 2-2 4s-1 3-2 3c1 0 2 1 2 3s0 4 2 4M16 5c2 0 2 2 2 4s1 3 2 3c-1 0-2 1-2 3s0 4-2 4"/><path d="M10.5 15l3-6"/>'),onShow:()=>{$('mixPop').classList.add('wide');BG.stopHead();try{bbBtns();bbView()}catch(_){}}}
   ,{id:'touch',name:'Touch',title:'Touchable sound: your touch plays the sound as it moves the field',pane:$('touchBody'),icon:ICO('<path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a5 5 0 0 1-5 5h-1a5 5 0 0 1-4.3-2.5L5.4 13a1.5 1.5 0 0 1 2.6-1.5L9 13"/>'),onShow:()=>{$('mixPop').classList.remove('wide');BG.stopHead()}}
@@ -8311,8 +8328,8 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     const L=Math.round(Math.max(gl,Math.min(gr-w,cx-w/2)));if(sh._L!==L){sh._L=L;root.style.setProperty('--bsLeft',L+'px')}
     body.classList.toggle('ovf',body.scrollWidth>body.clientWidth+1)}
   function carets(){hug();const B=marks();for(const c of cr.children){const id=c.dataset.for,el=id==='pill'?$('pTrans'):$(id);if(!el||!el.offsetWidth){c.hidden=true;continue}c.hidden=false;
-    const r=el.getBoundingClientRect();c.style.left=Math.round(r.left+r.width/2-16)+'px';c.style.top=Math.round(r.bottom-17)+'px';
-    {const cx=r.left+r.width/2,cb={left:cx-7,right:cx+7,top:r.bottom-15,bottom:r.bottom};c.classList.toggle('clash',B.some(b=>hit(cb,b)))}
+    const r=el.getBoundingClientRect();c.style.left=Math.round(r.left+r.width/2-16)+'px';c.style.top=Math.round(r.bottom-3)+'px';   /* the chevron 2 to 9 px below the button (Dimitry, 22 Oct 16:44: it overlapped the buttons) */
+    {const cx=r.left+r.width/2,cb={left:cx-7,right:cx+7,top:r.bottom,bottom:r.bottom+12};c.classList.toggle('clash',B.some(b=>hit(cb,b)))}
     const own=BS.open&&(id==='pill'?['robot','dice','scenes'].includes(BS.sec):SEC[id]===BS.sec);c.classList.toggle('own',own)}
     /* the shelf's own caret, on its top edge, under the button it belongs to */
     {const o=$(OWNER[BS.sec]==='pNext'?'pTrans':OWNER[BS.sec]);if(o&&o.offsetWidth){const r=o.getBoundingClientRect(),L=sh._L!=null?sh._L:sh.getBoundingClientRect().left;edge(r.left+r.width/2-L)}}}   // the target left, not the one sliding there
@@ -8369,6 +8386,13 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     if(pick)cur=pick;if(!cur){N.style.opacity='0';return}
     const [b,e]=cur,f=face(e),op=e.id==='shotPop'?(e.hidden?0:1):+getComputedStyle(e).opacity;
     if(!pick&&op<.01){f.classList.remove('notched');cur=null;N.style.opacity='0';return}
+    /* THE SHELF REACHES ITS BUTTON (Dimitry, 22 Oct 16:47: "the caret doesn't even point to the button … it should be at
+       least that wide. There's plenty of space"): a centred shelf narrower than the distance to its owner grows, evenly
+       both sides, until the owner's middle sits 34 px inside its edge, so the notch lands over the button, not clamped */
+    if(pick&&e.classList.contains('shelf')){const er=e.getBoundingClientRect(),cb=b.getBoundingClientRect(),mid=(er.left+er.right)/2,
+        need=Math.ceil(2*(Math.abs(cb.left+cb.width/2-mid)+34)),cap=innerWidth-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--dw'))||0)-16;
+      const want=Math.min(cap,need)+'px';   // below the content's own width a min-width does nothing, so it is always safe to set
+      if(e.style.minWidth!==want)e.style.minWidth=want}
     const r=f.getBoundingClientRect(),c=b.getBoundingClientRect(),x=Math.max(r.left+22,Math.min(r.right-22,c.left+c.width/2));
     document.querySelectorAll('.notched').forEach(o=>{if(o!==f)o.classList.remove('notched')});
     f.classList.add('notched');f.style.setProperty('--nx',(x-r.left).toFixed(1)+'px');
@@ -8814,7 +8838,8 @@ const BETA={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/beta_signups',
 /* SESSION became ROOM (0.29.60): one system, the kit's room.js; window.SESSION is now an adapter over ROOMC (below,
    before the index's sections), so the bar's tool shelf keeps the same buttons. */
 window.SESSION=null;
-window.INSTR=null;try{if(window.SurfaceInstruments&&window.SurfaceVoice)INSTR=SurfaceInstruments.mount({key:'current',words:{title:'Pack',save:'Save as a pack'},
+window.INSTR=null;try{if(window.SurfaceInstruments&&window.SurfaceVoice)INSTR=SurfaceInstruments.mount({key:'current',words:{title:'Pack',save:'Save as a pack'},host:()=>$('packBody'),
+  show:()=>{const p=$('mixPop');if(p.hidden||!$('packBody')||$('packBody').hidden)openMix('pack')},hide:()=>closeMix(),
   ctx:()=>AUD.ctx,dest:()=>AUD.mainIn,on:()=>!!AUD.ctx&&!AUD.userOff,stage:$('cv').parentElement,say:t=>toast(t),name:'Current',save:(blob,fn)=>saveBlob(fn,blob),
   grid:()=>{const c=AUD.ctx;if(!c)return null;if(TAP.bpm)return{bpm:TAP.bpm,zero:c.currentTime+(TAP.s0-tapNow())};
     const pat=AUD.play&&AUD.play.beat&&BEATS[AUD.play.beat];if(pat&&AUD.t0!=null&&AUD.dur)return{bpm:60/(AUD.dur*4),zero:AUD.t0};return null},
@@ -8950,10 +8975,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022202357"></script>
-<script src="surface/links.js?v=20261022202357"></script>
-<script src="surface/tips.js?v=20261022202357"></script>
-<script src="surface/sections.js?v=20261022202357"></script>
+<script src="surface/install.js?v=20261022205051"></script>
+<script src="surface/links.js?v=20261022205051"></script>
+<script src="surface/tips.js?v=20261022205051"></script>
+<script src="surface/sections.js?v=20261022205051"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9130,7 +9155,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261022202357"></script>
+<script src="surface/room.js?v=20261022205051"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -9885,7 +9910,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.62';
+const APP_VERSION='0.29.63';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

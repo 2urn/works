@@ -378,7 +378,10 @@
     var CSS =
       ".sin-veil{position:fixed;inset:0;z-index:80;background:rgba(5,7,9,.55);opacity:0;transition:opacity .3s}.sin-veil.on{opacity:1}" +
       ".sin{position:fixed;z-index:81;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);translate:-50% 0;width:min(400px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;scrollbar-gutter:stable;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgba(10,13,16,.95);color:#fff;border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;font:400 13px/1.4 var(--sans,system-ui)}" +
-      "@media (min-width:900px) and (hover:hover){.sin{top:50%;translate:-50% -50%}}.sin.on{opacity:1}.sin[hidden],.sin-veil[hidden]{display:none}" +
+      /* O.host: the sheet lives inside the tool's own panel (Current: a tab of the Sound panel), at that panel's width and
+         place, with no veil and no close of its own (the panel has one) */
+      ".sin.sin-in{position:static;left:auto;top:auto;translate:none;width:auto;max-height:none;overflow:visible;padding:0;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;opacity:1}.sin.sin-in>h2{display:none}" +
+      "@media (min-width:900px) and (hover:hover){.sin:not(.sin-in){top:50%;translate:-50% -50%}}.sin.on{opacity:1}.sin[hidden],.sin-veil[hidden]{display:none}" +
       ".sin h2{display:flex;align-items:center;justify-content:space-between;margin:0;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase}" +
       ".sin .x{width:32px;height:32px;margin:-6px -6px -6px 0;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font:16px/1 system-ui;cursor:pointer}" +
       ".sin p{margin:0;color:rgba(255,255,255,.72);font-size:12px}.sin .st{font:500 10px/1.3 var(--mono,monospace);letter-spacing:.06em;color:rgba(255,255,255,.55)}" +
@@ -401,8 +404,10 @@
     function ensure() {
       if (box) return;
       if (!document.getElementById("sin-css")) { var st = el("style"); st.id = "sin-css"; st.textContent = CSS; document.head.appendChild(st); }
-      veil = el("div", "sin-veil"); box = el("div", "sin"); veil.hidden = box.hidden = true;
-      box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", WD.title);
+      var host = typeof O.host === "function" ? O.host() : O.host;
+      veil = el("div", "sin-veil"); box = el("div", host ? "sin sin-in" : "sin"); veil.hidden = box.hidden = true;
+      if (!host) { box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); }
+      box.setAttribute("aria-label", WD.title);
       fileIn = el("input"); fileIn.type = "file"; fileIn.multiple = true; fileIn.accept = ".json,.zip,application/json,application/zip,audio/*,.wav,.mp3,.ogg,.m4a,.aac,.flac,.webm"; fileIn.hidden = true;
       fileIn.onchange = function () { var f = [].slice.call(fileIn.files || []); fileIn.value = ""; if (f.length) importFile(f.length === 1 ? f[0] : f); };
       dirIn = el("input"); dirIn.type = "file"; dirIn.hidden = true; dirIn.setAttribute("webkitdirectory", ""); dirIn.multiple = true;
@@ -410,7 +415,7 @@
       veil.onclick = close; box.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
       /* a drop on the open sheet: a pack, a folder's files, recordings */
       box.addEventListener("dragover", function (e) { e.preventDefault(); }); box.addEventListener("drop", function (e) { e.preventDefault(); e.stopPropagation(); var f = [].slice.call(e.dataTransfer && e.dataTransfer.files || []); if (f.length) importFile(f.length === 1 ? f[0] : f); });
-      document.body.append(veil, box, fileIn, dirIn);
+      if (host) { host.append(box); document.body.append(fileIn, dirIn); } else document.body.append(veil, box, fileIn, dirIn);
     }
     var PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.2.7l10.3-6.4a.8.8 0 0 0 0-1.4L9.2 4.9A.8.8 0 0 0 8 5.6z" fill="currentColor" stroke="none"/></svg>';
     var BIN = '<svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg>';
@@ -437,7 +442,7 @@
       h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">' + esc(WD.save) + '</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a Pullula mix or a Fracture set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
       box.innerHTML = h;
       var q = function (s) { return box.querySelector(s); };
-      q(".x").onclick = close;
+      var xb = q(".x"); if (xb) xb.onclick = close;
       q(".imp").onclick = function () { fileIn.click(); };
       var dr = q(".dir"); if (dr) dr.onclick = function () { dirIn.click(); };
       var sv = q(".sv"); if (sv) sv.onclick = saveSet;
@@ -463,8 +468,10 @@
         var ev = row.querySelector(".ev"); if (ev) ev.onclick = function () { var i = EVERY.findIndex(function (e) { return e[0] === x.every; }); x.every = EVERY[(i + 1) % EVERY.length][0]; next[x.id] = null; save(); render(); };
       });
     }
-    function open() { ensure(); box.hidden = veil.hidden = false; render(); requestAnimationFrame(function () { box.classList.add("on"); veil.classList.add("on"); }); }
-    function close() { if (!box) return; box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 300); }
+    /* hosted, open() shows the tool's panel first (O.show), and close() asks the tool to close it (O.hide) */
+    function open() { if (O.host && O.show && !open.busy) { open.busy = true; try { O.show(); } finally { open.busy = false; } }
+      ensure(); box.hidden = false; if (!O.host) veil.hidden = false; render(); requestAnimationFrame(function () { box.classList.add("on"); if (!O.host) veil.classList.add("on"); }); }
+    function close() { if (!box) return; if (O.host) { box.hidden = true; if (O.hide) O.hide(); return; } box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 300); }
     return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet,
       playing: function () { return LIVE.length > 0 || bed.h.length > 0; },
       samples: function () { var k = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (s) { k[s] = !!SurfaceVoice.sample(s); }); }); return k; } };
