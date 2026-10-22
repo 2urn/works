@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022044727";window.__VERSION__="0.29.16";window.__NOTES__=[{"v":"0.29.16","date":"23 Oct 2026","items":[{"kind":"change","text":"stepping between panels with ‹ › (or [ ]) keeps the panel where it is: the band stays put, the inside slides across (from the left for ‹, from the right for ›) and the panel grows or shrinks upward to fit. Only a real close slides down to its button"},{"kind":"new","text":"while a steer loop records or plays, its ∞ loops: a short dash runs round it, on the Tools button, on its tile and on the playing loop in the shelf"}]}]</script>
+<script>window.__BUILD__="20261022045645";window.__VERSION__="0.29.17";window.__NOTES__=[{"v":"0.29.17","date":"23 Oct 2026","items":[{"kind":"fix","text":"your own scenes always show a picture in Scenes: a frame of the stage is kept the moment you save, and until there is one, the pattern is drawn in the scene's own colors on its own ground. An empty frame kept by an older version is thrown away"},{"kind":"new","text":"your own scenes show when they were saved, small, beside the name, so an accidental save is easy to spot"},{"kind":"fix","text":"every scene row has the same action places, and nothing runs under the drag grip; rename and delete for your own scenes are under ⋯ (a delete can be undone)"},{"kind":"fix","text":"a scene on a light ground keeps its ground in its thumbnail"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022044727"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022044727">
+<script src="claude-web.js?v=20261022045645"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022045645">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022044727"></script>
-<script src="surface/selftest.js?v=20261022044727"></script>
-<script src="surface/report.js?v=20261022044727"></script>
-<script src="surface/auto.js?v=20261022044727"></script>
-<script src="surface/toolpath.js?v=20261022044727"></script>
-<script src="surface/capture.js?v=20261022044727"></script>
-<script src="surface/pop.js?v=20261022044727"></script>
-<script src="surface/hints.js?v=20261022044727"></script>
-<script src="surface/paths.js?v=20261022044727"></script>
-<script src="surface/keys.js?v=20261022044727"></script>
-<script src="surface/reset.js?v=20261022044727"></script>
-<script src="surface/files.js?v=20261022044727"></script>
-<script src="surface/tabs.js?v=20261022044727"></script>
-<script src="surface/running.js?v=20261022044727"></script>
-<script src="surface/trim.js?v=20261022044727"></script>
-<script src="surface/audiowake.js?v=20261022044727"></script>
-<script src="surface/listview.js?v=20261022044727"></script>
-<script src="surface/beads.js?v=20261022044727"></script>
-<script src="surface/strip.js?v=20261022044727"></script>
-<script src="surface/sheetnav.js?v=20261022044727"></script>
-<script src="surface/twofinger.js?v=20261022044727"></script>
-<script src="surface/shortlink.js?v=20261022044727"></script>
-<script src="surface/undo.js?v=20261022044727"></script>
-<script src="surface/pro.js?v=20261022044727"></script>
+<script src="vendor/opentype.min.js?v=20261022045645"></script>
+<script src="surface/selftest.js?v=20261022045645"></script>
+<script src="surface/report.js?v=20261022045645"></script>
+<script src="surface/auto.js?v=20261022045645"></script>
+<script src="surface/toolpath.js?v=20261022045645"></script>
+<script src="surface/capture.js?v=20261022045645"></script>
+<script src="surface/pop.js?v=20261022045645"></script>
+<script src="surface/hints.js?v=20261022045645"></script>
+<script src="surface/paths.js?v=20261022045645"></script>
+<script src="surface/keys.js?v=20261022045645"></script>
+<script src="surface/reset.js?v=20261022045645"></script>
+<script src="surface/files.js?v=20261022045645"></script>
+<script src="surface/tabs.js?v=20261022045645"></script>
+<script src="surface/running.js?v=20261022045645"></script>
+<script src="surface/trim.js?v=20261022045645"></script>
+<script src="surface/audiowake.js?v=20261022045645"></script>
+<script src="surface/listview.js?v=20261022045645"></script>
+<script src="surface/beads.js?v=20261022045645"></script>
+<script src="surface/strip.js?v=20261022045645"></script>
+<script src="surface/sheetnav.js?v=20261022045645"></script>
+<script src="surface/twofinger.js?v=20261022045645"></script>
+<script src="surface/shortlink.js?v=20261022045645"></script>
+<script src="surface/undo.js?v=20261022045645"></script>
+<script src="surface/pro.js?v=20261022045645"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022044727"></script>
-<script src="surface/rail.js?v=20261022044727"></script>
-<script src="surface/touchsound.js?v=20261022044727"></script>
-<script src="surface/water.js?v=20261022044727"></script>
-<script src="surface/ripple.js?v=20261022044727"></script>
-<script src="surface/float.js?v=20261022044727"></script>
-<script src="surface/manual.js?v=20261022044727"></script>
+<script src="surface/pack.js?v=20261022045645"></script>
+<script src="surface/rail.js?v=20261022045645"></script>
+<script src="surface/touchsound.js?v=20261022045645"></script>
+<script src="surface/water.js?v=20261022045645"></script>
+<script src="surface/ripple.js?v=20261022045645"></script>
+<script src="surface/float.js?v=20261022045645"></script>
+<script src="surface/manual.js?v=20261022045645"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -1366,7 +1366,14 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 #plItems .sub>span:last-child{white-space:nowrap}#plItems .sub button.tb{width:auto;display:inline-block;padding:4px 0 4px 10px;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--ui-dim);min-height:30px}#plItems .sub button.tb:hover{color:var(--ui-ink);background:none}
 #plItems .lk .bd>button.nm{padding:2px 0 0;min-height:0}
 #plItems .lk .bd>input.nmEdit{min-width:0;width:100%;margin:0;padding:2px 0 3px;border:0;border-bottom:1.5px solid var(--acc,#55b8c9);border-radius:0;background:transparent;color:var(--ui-ink);font:italic 400 16px/1.2 var(--sans);outline:0}
-#plItems .lk .acts{display:flex;gap:2px;align-items:center;margin-left:-6px}
+#plItems .lk .acts{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(4,minmax(0,1fr));gap:2px;align-items:center;margin-left:-6px;min-width:0;overflow:hidden;container-type:inline-size}
+#plItems .lk .acts>button{width:100%!important;min-width:0}#plItems .lk .acts>.slot{display:block}
+@container (max-width:150px){#plItems .lk .acts button.mo span{display:none}}
+.rowMenu{position:fixed;z-index:80;min-width:150px;padding:4px;border-radius:12px;background:var(--ui-solid,#111);border:1px solid var(--ui-line,#333);box-shadow:0 8px 28px rgb(0 0 0 / .4);color:var(--ui-ink)}
+.rowMenu button{display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:0 10px;border:0;border-radius:8px;background:none;color:inherit;font:400 13px/1.2 var(--sans);text-align:left;cursor:pointer}
+.rowMenu button:hover,.rowMenu button:focus-visible{background:rgb(var(--ui-hi) / .08);outline:none}.rowMenu svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#plItems .lk .bd.dated{grid-template-columns:62px minmax(0,1fr) 44px}#plItems .lk .bd.dated>.acts{grid-column:2/4}
+#plItems .lk .bd>.svd{grid-column:3;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font:500 9px/1 var(--mono);letter-spacing:.02em;color:var(--ui-dim);white-space:nowrap}#plItems .lk .bd>.svd b{font-weight:500;color:var(--ui-mid)}
 #plItems .lk .acts button{width:30px;height:28px;padding:0;display:grid;place-items:center;color:#6b7578;border-radius:7px}
 #plItems .lk .acts button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #plItems .lk .acts button:hover{color:var(--ui-ink);background:rgb(var(--ui-hi) / .06)}
@@ -3553,7 +3560,8 @@ function prefillName(inp){inp.value=autoName();inp.dataset.auto='1';requestAnima
 function savePreset(name){name=(name||'').trim().slice(0,32)||autoName();
   if(PRESETS.some(p=>p.name===name))name+=' (yours)';
   const snap=snapshot(name),j=store.user.findIndex(u=>u.name===name);snap.t=j>=0&&store.user[j].t||Date.now();if(j>=0)store.user[j]=snap;else store.user.push(snap);persist();
-  presetIdx=PRESETS.length+store.user.findIndex(u=>u.name===name);curName=name;baseline={...snap.p};renderPresets();syncVals();syncPlist();toast('saved “'+name+'”')}
+  presetIdx=PRESETS.length+store.user.findIndex(u=>u.name===name);curName=name;baseline={...snap.p};renderPresets();syncVals();syncPlist();toast('saved “'+name+'”');
+  {const at=presetIdx;requestAnimationFrame(()=>{try{keepFrame(allPresets()[at],at)}catch(_){}})}}   // the stage is showing it now: its frame is its thumbnail (23 Oct)
 $('randBtn').onclick=()=>randomLook(true);
 {const k2=$('rlSaveScene').querySelector('kbd');k2.textContent=(window.SurfaceKeys&&SurfaceKeys.show)?SurfaceKeys.show('mod+s'):/Mac|iPhone|iPad/.test(navigator.platform||'')?'\u2318S':'Ctrl+S';
  $('rlSaveScene').onclick=()=>{savePreset('');toast('saved “'+curName+'” · rename it in Scenes',2600)}}   // named for what it is, renamed in Scenes (Dimitry, 20 Oct: "automatically named and editable")
@@ -3890,6 +3898,14 @@ function syncAutoUI(){bsSync();const go=$('plGo');if(!go)return;const on=!!autoT
       $('apProg').style.width=(f*100).toFixed(1)+'%';apRaf=requestAnimationFrame(tick)};tick()}
   else $('apProg').style.width='0%'}
 const MORPH_CYCLE=[[null,'auto'],[0,'snap'],[2.2,'glide'],[6,'slow']];
+/* a row's ⋯: a small real menu beside the button (role=menu, arrow keys, Esc back to the button) */
+function rowMenu(btn,items){document.querySelectorAll('.rowMenu').forEach(m=>m.remove());const m=document.createElement('div');m.className='rowMenu';m.setAttribute('role','menu');
+  const IA={ren:'<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>',del:'<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>'};
+  const close=f=>{m.remove();removeEventListener('pointerdown',out,true);btn.setAttribute('aria-expanded','false');if(f)btn.focus({preventScroll:true})},out=e=>{if(!m.contains(e.target)&&e.target!==btn)close(false)};
+  const bs=items.map(([k,t,f])=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','menuitem');b.tabIndex=-1;b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+(IA[k]||'')+'</svg><span>'+t+'</span>';b.onclick=()=>{close(false);f()};m.appendChild(b);return b});
+  m.onkeydown=e=>{const i=bs.indexOf(document.activeElement);if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();bs[(i+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length].focus()}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close(true)}else if(e.key==='Tab')close(false)};
+  document.body.appendChild(m);const r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+'px';m.style.top=(r.bottom+h+8>innerHeight?r.top-h-4:r.bottom+4)+'px';
+  btn.setAttribute('aria-expanded','true');addEventListener('pointerdown',out,true);bs[0].focus({preventScroll:true})}
 function buildLooks(){
   const it=$('plItems');it.innerHTML='';const all=allPresets();
   const V=store.lookView,hand=V.sort==='hand';
@@ -3918,7 +3934,8 @@ function buildLooks(){
       ren:'<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>',
       del:'<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
       morph:'<path d="M3 15c3 0 4-6 7-6s3 6 7 6 2-3 4-3"/>',
-      link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'};
+      link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+      more:'<circle cx="6" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="12" r="1.4" fill="currentColor" stroke="none"/>'};
     const ico=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+IA[k]+'</svg>';
     const bd=document.createElement('div');bd.className='bd';
     // hold the thumbnail or the name to edit; tap to morph to the scene
@@ -3938,13 +3955,17 @@ function buildLooks(){
     const mc=act('morph','',()=>{const m=lookCfg(p).morph,j=MORPH_CYCLE.findIndex(x=>x[0]===(m==null?null:m)),n=MORPH_CYCLE[(j+1)%MORPH_CYCLE.length][0];setLookCfg(p,{morph:n});syncMc()},'mo');
     const syncMc=()=>{const m=lookCfg(p).morph,e=MORPH_CYCLE.find(x=>x[0]===(m==null?null:m))||MORPH_CYCLE[0];mc.innerHTML=ico('morph')+'<span>'+e[1]+'</span>';mc.classList.toggle('set',m!=null);
       const t='Morph into '+p.name+': '+(m==null?'the global morph':e[1])+'. Tap to change';mc.setAttribute('aria-label',t);mc.title=t};syncMc();
-    if(p.user)act('ren','Rename '+p.name,()=>renameScene(i,nm));
+    /* THE SAME FIVE SLOTS ON EVERY ROW (Dimitry, 23 Oct 00:52: a user row's extra icons ran under the grip): morph,
+       pattern, duplicate, link, and ⋯ (rename, delete) on your own scenes; a built-in leaves the ⋯ slot empty. The
+       slots share the column, the grip owns its own. Delete stays undoable. */
     act('edit','Edit the pattern of '+p.name,()=>{loadPreset(i,true);openEditor(i,false)});
     act('copy','Duplicate '+p.name+' as one of your scenes',()=>{dupPreset(i);buildLooks();syncPlist()});
     act('link','Copy a link to '+p.name,()=>shareScene(p,null));
-    if(p.user){const d=act('del','Delete '+p.name+'. Tap twice',()=>{if(!d.classList.contains('arm')){d.classList.add('arm');d.setAttribute('aria-label','Tap again to delete '+p.name);toast('tap again to delete');setTimeout(()=>d.classList.remove('arm'),2500);return}
-      delUserScene(i)},'del')}
-    bd.append(tb,nm,acts);
+    if(p.user){const mo=act('more','More for '+p.name+': rename, delete',()=>rowMenu(mo,[['ren','Rename',()=>renameScene(i,nm)],['del','Delete',()=>delUserScene(i)]]),'more');mo.setAttribute('aria-haspopup','menu')}
+    else{const e=document.createElement('span');e.className='slot';e.setAttribute('aria-hidden','true');acts.appendChild(e)}
+    /* WHEN IT WAS SAVED (Dimitry, 23 Oct 00:46: some of "Yours" may be accidental saves): small, in a fixed slot */
+    if(p.user){const t=+p.t||0,dt=document.createElement('span');dt.className='svd';if(t){const D=new Date(t);dt.innerHTML='<b>'+D.toLocaleDateString(undefined,{day:'numeric',month:'short'})+'</b>'+D.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit',hour12:false});dt.title='saved '+D.toLocaleString();dt.setAttribute('aria-label','saved '+D.toLocaleString())}bd.classList.add('dated');bd.append(tb,nm,dt,acts)}
+    else bd.append(tb,nm,acts);
     if(V.sort==='used'&&store.lookUsed[lookKey(p)]){const u=document.createElement('small');u.className='rmN';u.textContent=store.lookUsed[lookKey(p)];u.setAttribute('aria-label','picked '+u.textContent+' times');nm.append(' ',u)}
     const st=window.SurfaceListView?SurfaceListView.star(lookFav(p),p.name,on=>{const k=lookKey(p);if(on)store.lookFav[k]=1;else delete store.lookFav[k];persist();buildLooks();syncPlist();
       const n=$('plItems').querySelector('.lk[data-key="'+CSS.escape(k)+'"] .s-star');if(n)n.focus()}):document.createElement('span');
@@ -7431,29 +7452,47 @@ function thumbKey(p){return lookKey(p)+(p.gen===textGen?'|'+$('word').value+'|'+
    one. Until there is a frame, the pattern's drawing stands in. */
 function sceneHash(p){let s=(p.user?'u|':'p|')+p.name+'|';try{s+=JSON.stringify(p,(k,v)=>k&&k[0]==='_'?undefined:v)}catch(_){}
   let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
-function sceneFrame(w,h,type,q){const o=document.createElement('canvas');o.width=w;o.height=h;const g=o.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,w,h);
+/* a frame sits on the stage's own ground (23 Oct: on a light ground the stage's color is the page's, behind a clear
+   canvas, so dark ink on paper came out as dark ink on black: a blank thumbnail) */
+function sceneFrame(w,h,type,q){const o=document.createElement('canvas');o.width=w;o.height=h;const g=o.getContext('2d');g.fillStyle=groundHex()||'#050708';g.fillRect(0,0,w,h);
   for(const id of ['cv','fg']){const c=$(id);if(!c||!c.width)continue;const sc=Math.max(w/c.width,h/c.height),dw=c.width*sc,dh=c.height*sc;try{g.drawImage(c,(w-dw)/2,(h-dh)/2,dw,dh)}catch(_){}}
   return o.toDataURL(type||'image/jpeg',q||.7)}
 const FRAMES={url:new Map(),miss:new Set(),db:null};
 function framesDB(){if(FRAMES.db)return FRAMES.db;FRAMES.db=new Promise(r=>{try{const q=indexedDB.open('current.thumbs',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(_){r(null)}});return FRAMES.db}
 function frameFor(p,done){const h=sceneHash(p);if(FRAMES.url.has(h))return done(FRAMES.url.get(h));if(FRAMES.miss.has(h))return done(null);
   if(!p.user){const im=new Image();im.onload=()=>{const u='thumbs/'+h+'.webp';FRAMES.url.set(h,u);done(u)};im.onerror=()=>{FRAMES.miss.add(h);done(null)};im.src='thumbs/'+h+'.webp';return}
-  framesDB().then(db=>{if(!db){FRAMES.miss.add(h);return done(null)}try{const q=db.transaction('f').objectStore('f').get(h);q.onsuccess=()=>{const b=q.result;if(b){const u=URL.createObjectURL(b);FRAMES.url.set(h,u);done(u)}else{FRAMES.miss.add(h);done(null)}};q.onerror=()=>{FRAMES.miss.add(h);done(null)}}catch(_){FRAMES.miss.add(h);done(null)}})}
+  framesDB().then(db=>{if(!db){FRAMES.miss.add(h);return done(null)}try{const q=db.transaction('f').objectStore('f').get(h);q.onsuccess=()=>{const b=q.result;if(!b){FRAMES.miss.add(h);return done(null)}const u=URL.createObjectURL(b),im=new Image();
+      im.onload=()=>{const c=document.createElement('canvas');c.width=im.naturalWidth||136;c.height=im.naturalHeight||80;c.getContext('2d').drawImage(im,0,0);
+        if(frameBlank(c)){URL.revokeObjectURL(u);FRAMES.miss.add(h);try{db.transaction('f','readwrite').objectStore('f').delete(h)}catch(_){}return done(null)}   // an empty frame kept by an older version: dropped, made again on play
+        FRAMES.url.set(h,u);done(u)};im.onerror=()=>{FRAMES.miss.add(h);done(null)};im.src=u};q.onerror=()=>{FRAMES.miss.add(h);done(null)}}catch(_){FRAMES.miss.add(h);done(null)}})}
+/* a frame with nothing in it (one flat color) is never kept or shown: the drawing stands in instead */
+function frameBlank(c){try{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let n=0,s=0,s2=0;for(let i=0;i<d.length;i+=16){const v=(d[i]*2+d[i+1]*5+d[i+2])/8;s+=v;s2+=v*v;n++}const m=s/n;return Math.sqrt(Math.max(0,s2/n-m*m))<3}catch(_){return false}}
+/* keep the stage's frame now as scene p's thumbnail (at: its index, to repaint its rows) */
+function keepFrame(p,at){if(!p||!p.user||document.hidden)return;const h=sceneHash(p),o=document.createElement('canvas');o.width=136;o.height=80;
+  const im=new Image();im.onload=()=>{o.getContext('2d').drawImage(im,0,0);if(frameBlank(o))return;o.toBlob(b=>{if(!b)return;framesDB().then(db=>{try{if(db)db.transaction('f','readwrite').objectStore('f').put(b,h)}catch(_){}});
+    FRAMES.miss.delete(h);FRAMES.url.set(h,URL.createObjectURL(b));document.querySelectorAll('.th[data-i="'+at+'"],.s-strip-i[data-id="'+at+'"]').forEach(el=>{if(el.style){el.style.backgroundImage='url('+FRAMES.url.get(h)+')';el.style.backgroundSize='cover'}})},'image/jpeg',.72)};
+  im.src=sceneFrame(136,80,'image/png')}
 /* a scene you made, playing for 3.5 s on a visible stage: keep its frame */
 let frameT=0;function frameWatch(){clearTimeout(frameT);const p=allPresets()[presetIdx];if(!p||!p.user)return;const h=sceneHash(p);if(FRAMES.url.has(h))return;const at=presetIdx;
-  frameT=setTimeout(()=>{if(presetIdx!==at||document.hidden||S.paused)return;const o=document.createElement('canvas');o.width=136;o.height=80;
-    const im=new Image();im.onload=()=>{o.getContext('2d').drawImage(im,0,0);o.toBlob(b=>{if(!b)return;framesDB().then(db=>{try{if(db)db.transaction('f','readwrite').objectStore('f').put(b,h)}catch(_){}});
-      FRAMES.miss.delete(h);FRAMES.url.set(h,URL.createObjectURL(b));document.querySelectorAll('[data-i="'+at+'"],.s-strip-i[data-id="'+at+'"]').forEach(el=>{if(el.style&&el.style.backgroundImage)el.style.backgroundImage='url('+FRAMES.url.get(h)+')'})},'image/jpeg',.72)};
-    im.src=sceneFrame(136,80,'image/png')},3500)}
+  frameT=setTimeout(()=>{if(presetIdx!==at||document.hidden||S.paused)return;keepFrame(allPresets()[at],at)},3500)}
 function drawThumb(cv,p){frameFor(p,u=>{if(u){cv.style.backgroundImage='url('+u+')';cv.style.backgroundSize='cover';return}cv.style.backgroundSize='';drawThumbLines(cv,p)})}
-function drawThumbLines(cv,p){const k=thumbKey(p);let url=thumbCache.get(k);
-  if(!url){let P;try{P=parseGcode(p.gen())}catch(_){return}const cut=P.segs.filter(s=>!s.travel),use=cut.length?cut:P.segs;if(!use.length)return;
-    let a=1e9,b=1e9,A=-1e9,B=-1e9;for(const s of use){a=Math.min(a,s.x0,s.x1);A=Math.max(A,s.x0,s.x1);b=Math.min(b,s.y0,s.y1);B=Math.max(B,s.y0,s.y1)}
-    const w=88,h=60,o=document.createElement('canvas');o.width=w;o.height=h;const g=o.getContext('2d'),sc=Math.min((w-10)/Math.max(A-a,1e-6),(h-10)/Math.max(B-b,1e-6)),ox=(w-(A-a)*sc)/2,oy=(h-(B-b)*sc)/2;
-    g.strokeStyle=p.line&&p.line!=='#000000'?p.line:'#c9d2d5';g.lineWidth=1.2;g.lineCap='round';g.beginPath();
-    for(const s of use){g.moveTo(ox+(s.x0-a)*sc,h-(oy+(s.y0-b)*sc));g.lineTo(ox+(s.x1-a)*sc,h-(oy+(s.y1-b)*sc))}g.stroke();
-    url=o.toDataURL();thumbCache.set(k,url)}
-  cv.style.backgroundImage='url('+url+')'}
+/* THE STAND-IN ALWAYS DRAWS (Dimitry, 23 Oct 00:46: five of his scenes showed nothing): the pattern in the scene's own
+   line color on its own ground; a pattern that cannot be read, or has no moves, draws a plain wave instead, so a row
+   is never empty. Before, an unreadable pattern returned with nothing drawn, and the line color was drawn on the
+   panel's dark cell whatever the scene's ground. */
+function sceneGround(p){const g=String(p&&p.ground||'dark');if(g==='auto')return '#050708';const k=GROUND_COLORS.find(x=>String(x[1]).toLowerCase()===g.toLowerCase());return k?k[2]:/^#[0-9a-f]{6}$/i.test(g)?g:'#050708'}
+function drawThumbLines(cv,p){const k=thumbKey(p)+'|'+(p.ground||'')+'|'+(p.line||'');let url=thumbCache.get(k);
+  if(!url){let use=[];try{const P=parseGcode(p.gen());const cut=P.segs.filter(s=>!s.travel);use=(cut.length?cut:P.segs).filter(s=>isFinite(s.x0+s.y0+s.x1+s.y1))}catch(_){use=[]}
+    const w=88,h=60,o=document.createElement('canvas');o.width=w;o.height=h;const g=o.getContext('2d'),bg=sceneGround(p);g.fillStyle=bg;g.fillRect(0,0,w,h);
+    let ink=p.line&&/^#[0-9a-f]{6}$/i.test(p.line)?p.line:'#c9d2d5';if(sameC&&sameC(ink,bg))ink=lumOf(bg)>.5?'#1a1d1e':'#e8f1f2';   // ink the ground would swallow: the other end of the scale
+    g.strokeStyle=ink;g.lineWidth=1.2;g.lineCap='round';g.beginPath();
+    if(use.length){let a=1e9,b=1e9,A=-1e9,B=-1e9;for(const s of use){a=Math.min(a,s.x0,s.x1);A=Math.max(A,s.x0,s.x1);b=Math.min(b,s.y0,s.y1);B=Math.max(B,s.y0,s.y1)}
+      const sc=Math.min((w-10)/Math.max(A-a,1e-6),(h-10)/Math.max(B-b,1e-6)),ox=(w-(A-a)*sc)/2,oy=(h-(B-b)*sc)/2;
+      for(const s of use){g.moveTo(ox+(s.x0-a)*sc,h-(oy+(s.y0-b)*sc));g.lineTo(ox+(s.x1-a)*sc,h-(oy+(s.y1-b)*sc))}}
+    else for(let x=8;x<=w-8;x+=2){const y=h/2+Math.sin((x-8)/(w-16)*Math.PI*3)*h*.22;x===8?g.moveTo(x,y):g.lineTo(x,y)}
+    g.stroke();url=o.toDataURL();thumbCache.set(k,url)}
+  cv.style.backgroundImage='url('+url+')';cv.style.backgroundSize='cover'}
+function lumOf(hex){const m=/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex||'');if(!m)return 0;return (parseInt(m[1],16)*.299+parseInt(m[2],16)*.587+parseInt(m[3],16)*.114)/255}
 const thumbIO='IntersectionObserver' in window?new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){thumbIO.unobserve(e.target);const p=allPresets()[+e.target.dataset.i];if(p)drawThumb(e.target,p)}},{root:null,rootMargin:'120px'}):null;
 
 /* THE STUDIO'S CHROME (see the CSS of the same name). */
@@ -7734,10 +7773,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022044727"></script>
-<script src="surface/links.js?v=20261022044727"></script>
-<script src="surface/tips.js?v=20261022044727"></script>
-<script src="surface/sections.js?v=20261022044727"></script>
+<script src="surface/install.js?v=20261022045645"></script>
+<script src="surface/links.js?v=20261022045645"></script>
+<script src="surface/tips.js?v=20261022045645"></script>
+<script src="surface/sections.js?v=20261022045645"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8376,7 +8415,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.16';
+const APP_VERSION='0.29.17';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
