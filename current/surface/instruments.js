@@ -2,7 +2,10 @@
    (Dimitry, 22 Oct 2026: import into Current; "selectable on import and after, with touch as default").
 
    What it opens: a recipe (voice/0), a Pullula mix (mix/0, each sound carries its recipe), saved mixes (mixes/0), a
-   list of recipes, or a pack zip holding any of those (SurfacePack). Recipes that need a live input (Pullula's vocal
+   list of recipes, an instrument/1 set (Fracture's set format: its own recipes, and the glass voices it has on, through
+   the studio's library), or a pack zip holding any of those (SurfacePack). The library (voicelib.js) is offered in the
+   sheet. "Save as a set" writes instrument/1 with the recipes and each one's role, carrying every section of the last
+   set opened that this tool does not use (Fracture's rule: an engine preserves what it does not understand). Recipes that need a live input (Pullula's vocal
    sounds) are left out: they need Pullula's microphone chain.
 
    What a sound does is its ROLE, chosen when it comes in and changed any time after:
@@ -31,16 +34,34 @@
   "use strict";
   if (window.SurfaceInstruments) return;
   var ROLES = [["touch", "Touch", "your finger plays it"], ["beat", "On the beat", "it strikes on the grid"], ["bed", "Bed", "it plays under everything"], ["pattern", "Pattern", "the drawing sequences it"]];
-  var EVERY = [["beat", "every beat", 4], ["off", "off-beats", 4], ["bar", "once a bar", 16], ["eighth", "eighths", 2]];
+  var EVERY = [["beat", "every beat", 4], ["back", "2 and 4", 16], ["off", "off-beats", 4], ["bar", "once a bar", 16], ["eighth", "eighths", 2]];
+  /* the library's drums arrive as a groove, not all on every beat: kick, backbeat, eighth hats; the rest wait */
+  var GROOVE = { kick: { every: "beat" }, snare: { every: "back" }, "closed hat": { every: "eighth", level: .6 }, "open hat": { every: "off", on: false },
+    "low tom": { every: "bar", on: false }, "high tom": { every: "bar", on: false }, clap: { every: "back", on: false }, rim: { every: "off", on: false } };
   function uid() { return "i" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   function usesInput(r) { return !!(r && r.layers && r.layers.some(function (l) { return l && l.source === "input"; })); }
   function isRecipe(r) { return !!(r && typeof r === "object" && r.format === "voice/0" && (Array.isArray(r.layers) || Array.isArray(r.events))); }
-  /* every recipe in whatever was opened */
+  /* every recipe in whatever was opened. An instrument/1 set (Fracture's set format, now every tool's) gives its own
+     recipes, and its voices that the studio's library has a recipe for (Fracture's glass, SurfaceVoiceLib.fracture);
+     a voice Fracture keeps off unless asked (crystal, scan) counts only when the set switches it on. */
+  var VOICE_OFF = ["crystal", "scan"];
+  function fromSet(o, out) {
+    if (Array.isArray(o.recipes)) recipesIn(o.recipes, out);
+    var L = window.SurfaceVoiceLib, V = o.voices;
+    if (L && V && typeof V === "object") Object.keys(V).forEach(function (id) {
+      var v = V[id] || {}, on = v.on == null ? VOICE_OFF.indexOf(id) < 0 : !!+v.on, nm = L.fracture[id];
+      if (!on || !nm) return;
+      var r = L.sounds.filter(function (x) { return x.name === nm; })[0]; if (!r) return;
+      r = JSON.parse(JSON.stringify(r)); r._level = Math.max(0, Math.min(2, typeof v.level === "number" ? v.level : 1)); out.push(r);
+    });
+    return out;
+  }
   function recipesIn(o, out) {
     out = out || [];
     if (!o || typeof o !== "object") return out;
     if (Array.isArray(o)) { o.forEach(function (x) { recipesIn(x, out); }); return out; }
     if (isRecipe(o)) { out.push(o); return out; }
+    if (o.format === "instrument/1") return fromSet(o, out);
     if (o.format === "mix/0" && Array.isArray(o.sounds)) o.sounds.forEach(function (s) { if (s && isRecipe(s.recipe)) out.push(s.recipe); });
     else if (o.format === "mixes/0" && Array.isArray(o.mixes)) o.mixes.forEach(function (m) { recipesIn(m, out); });
     else if (Array.isArray(o.recipes)) recipesIn(o.recipes, out);
@@ -48,7 +69,8 @@
   }
   function mount(O) {
     O = O || {};
-    var LS = "surface.instruments." + (O.key || "tool"), list = [];
+    var LS = "surface.instruments." + (O.key || "tool"), list = [], kept = null;
+    try { kept = JSON.parse(localStorage.getItem(LS + ".set") || "null"); } catch (e) { kept = null; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
     function save() { try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
     function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, every: x.every, on: x.on }; }); }
@@ -102,11 +124,12 @@
       list.forEach(function (x) {
         if (!x.on || (x.role !== "beat" && x.role !== "pattern")) return;
         var E = EVERY.filter(function (e) { return e[0] === x.every; })[0] || (x.role === "pattern" ? EVERY[3] : EVERY[0]);
-        var every = E[2], off = x.every === "off" ? 2 : 0;
+        var every = E[2], off = x.every === "off" ? 2 : x.every === "back" ? 4 : 0;
         var k = next[x.id]; if (k == null) k = Math.ceil((now + 0.03 - g.zero) / step);
         for (; ; k++) {
           var t = g.zero + k * step; if (t > ahead) break; if (t < now) continue;
-          if (((k - off) % every + every) % every) continue;
+          var m = ((k - off) % every + every) % every;
+          if (x.every === "back" ? (m !== 0 && m !== 8) : m) continue;
           if (x.role === "beat") strike(x, t, null, oneShot(x));
           else {
             var C = []; try { C = (O.cuts && O.cuts()) || []; } catch (e) {}
@@ -137,19 +160,40 @@
     function resetBed() { list.forEach(function (x) { x._bedOn = false; x._bedNext = 0; }); bedStop(); }
 
     /* ---------- import ---------- */
+    var lastSet = null;
+    function noteSet(o) { if (o && o.format === "instrument/1") lastSet = o; }
     function readFile(f) {
+      lastSet = null;
       if (window.SurfacePack && SurfacePack.isZip(f)) return SurfacePack.read(f).then(function (p) {
-        var all = []; p.files.forEach(function (u, path) { if (/\.json$/i.test(path)) { var o = p.json(path); if (o) recipesIn(o, all); } }); return all;
+        var all = []; p.files.forEach(function (u, path) { if (/\.json$/i.test(path)) { var o = p.json(path); if (o) { noteSet(o); recipesIn(o, all); } } }); return all;
       });
-      return f.text().then(function (t) { var o; try { o = JSON.parse(t); } catch (e) { throw new Error("not a recipe, a mix or a pack"); } return recipesIn(o); });
+      return f.text().then(function (t) { var o; try { o = JSON.parse(t); } catch (e) { throw new Error("not a recipe, a mix, a set or a pack"); } noteSet(o); return recipesIn(o); });
     }
-    function add(recipes, role) {
+    /* SAVE AS A SET (instrument/1, Fracture's rule: an engine preserves what it does not understand). Every section of
+       the last set opened that this tool does not use goes back out unchanged; the recipes and each one's role here are
+       written in sections of their own, which Fracture and Pullula keep in turn. */
+    function exportSet(name) {
+      var base = kept ? JSON.parse(JSON.stringify(kept)) : {};
+      base.format = "instrument/1"; base.engine = O.key || "tool"; base.name = name || base.name || ((O.name || "My") + " instruments");
+      base.recipes = list.map(function (x) { return x.recipe; });
+      base.roles = {}; list.forEach(function (x) { base.roles[x.name] = { role: x.role, every: x.every, on: x.on, level: x.level }; });
+      return base;
+    }
+    function saveSet() {
+      if (!list.length) return;
+      var doc = exportSet(), blob = new Blob([JSON.stringify(doc, null, 1)], { type: "application/json" }), fn = String(doc.name).replace(/[\\/:*?"<>|]+/g, " ").trim() + ".json";
+      if (O.save) { try { O.save(blob, fn); return; } catch (e) {} }
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    function add(recipes, role, roles) {
       var have = {}; list.forEach(function (x) { have[x.name + "|" + JSON.stringify(x.recipe).length] = 1; });
       var n = 0;
       recipes.forEach(function (r) {
         if (usesInput(r)) return;
         var k = (r.name || "sound") + "|" + JSON.stringify(r).length; if (have[k]) return; have[k] = 1;
-        list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: role || "touch", every: role === "pattern" ? "eighth" : "beat", on: true, level: 1 }); n++;
+        var R = roles && roles[r.name] || {}, rl = R.role || role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
+        if (r._level != null) { r = JSON.parse(JSON.stringify(r)); delete r._level; }
+        list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv }); n++;
       });
       resetBed(); save(); return n;
     }
@@ -157,7 +201,7 @@
     function importFile(f) {
       return readFile(f).then(function (rs) {
         var ok = rs.filter(function (r) { return !usesInput(r); });
-        pending = { name: f.name, recipes: ok, live: rs.length - ok.length, role: "touch" };
+        pending = { name: f.name, recipes: ok, live: rs.length - ok.length, role: "touch", set: lastSet };
         open(); return ok.length;
       }, function (e) { pending = { name: f.name, error: e && e.message || "could not be read" }; open(); return 0; });
     }
@@ -213,13 +257,23 @@
         h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="On or off">' + ON + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
           (x.role === "beat" || x.role === "pattern" ? '<button type="button" class="ev" title="How often">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button>" : "") + "</div>";
       });
-      h += '<div class="row"><button type="button" class="b imp">Import…</button></div><p class="st">Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
+      var L = window.SurfaceVoiceLib;
+      if (L) h += '<p class="st">The studio’s library</p><div class="row"><button type="button" class="b lib" data-k="sounds">Glass and textures</button><button type="button" class="b lib" data-k="drums">Drums</button></div>';
+      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (list.length ? '<button type="button" class="b sv">Save as a set</button>' : "") + '</div><p class="st">A sound, a Pullula mix, a Fracture set or a pack. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
       box.innerHTML = h;
       var q = function (s) { return box.querySelector(s); };
       q(".x").onclick = close;
       q(".imp").onclick = function () { fileIn.click(); };
+      var sv = q(".sv"); if (sv) sv.onclick = saveSet;
+      box.querySelectorAll(".lib").forEach(function (b) { b.onclick = function () { var L = window.SurfaceVoiceLib, k = b.dataset.k;
+        pending = { name: k === "drums" ? "the studio’s drums" : "the studio’s glass and textures", recipes: JSON.parse(JSON.stringify(L[k])), live: 0, role: k === "drums" ? "beat" : "touch", groove: k === "drums" }; render(); }; });
       var pd = q(".pd"); if (pd) pd.onclick = function () { pending = null; render(); };
-      var pa = q(".pa"); if (pa) pa.onclick = function () { var n = add(pending.recipes, pending.role); pending = null; render(); try { O.say && O.say(n ? n + " sound" + (n > 1 ? "s" : "") + " added" : "already here"); } catch (e) {} };
+      var pa = q(".pa"); if (pa) pa.onclick = function () {
+        var st = pending.set, gr = null;
+        if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
+        var n = add(pending.recipes, pending.role, st && st.roles || gr);
+        if (st) { kept = st; try { localStorage.setItem(LS + ".set", JSON.stringify(st)); } catch (e) {} }
+        pending = null; render(); try { O.say && O.say(n ? n + " sound" + (n > 1 ? "s" : "") + " added" : "already here"); } catch (e) {} };
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
       box.querySelectorAll(".snd").forEach(function (row) {
         var x = list.filter(function (y) { return y.id === row.dataset.id; })[0]; if (!x) return;
@@ -232,7 +286,7 @@
     }
     function open() { ensure(); box.hidden = veil.hidden = false; render(); requestAnimationFrame(function () { box.classList.add("on"); veil.classList.add("on"); }); }
     function close() { if (!box) return; box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 300); }
-    return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn };
+    return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet };
   }
   window.SurfaceInstruments = { mount: mount, recipesIn: recipesIn };
 })();
