@@ -296,7 +296,9 @@
     function linkLine() {
       if (!S.link) return "";
       var L = S.linkSt;
-      if (!L || !L.up) return '<span class="bad">no Link helper on this laptop</span> · <a href="https://sys.chamy.xyz/tools/linkbridge/" target="_blank" rel="noopener">how to start it</a>';
+      /* the helper, from here (Dimitry, 22 Oct: "exportable from session control center?"): our bridge file downloads
+         directly; Carabiner (Deep Symmetry, GPL) comes from its own releases page, the current build for each system */
+      if (!L || !L.up) return '<span class="bad">no Link helper on this laptop</span><br>Get it: <a href="https://sys.chamy.xyz/tools/linkbridge/linkbridge.mjs" download>the Link bridge</a> · <a href="https://github.com/Deep-Symmetry/carabiner/releases" target="_blank" rel="noopener">Carabiner</a> · <a href="https://sys.chamy.xyz/tools/linkbridge/" target="_blank" rel="noopener">how to start it</a>';
       return '<span class="ok">Link · ' + L.peers + " app" + (L.peers === 1 ? "" : "s") + " · " + L.bpm.toFixed(1) + " bpm</span>";
     }
     function render() {
