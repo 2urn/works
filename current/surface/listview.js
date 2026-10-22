@@ -33,7 +33,7 @@
        by column, once its container (a panel spanning the bar, pop.js span) is 560 px or wider. DOM order stays the
        reading order, so drag and ↑ ↓ follow it unchanged. */
     "@container (min-width:560px){.s-lvcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start;grid-auto-flow:column;" +
-    "grid-template-rows:var(--lv-tpl,auto)}.s-lvcols>.s-lvhead{grid-column:1/-1}}";
+    "grid-template-rows:var(--lv-tpl,auto)}.s-lvcols>.s-lvhead,.s-lvcols>.s-lvfoot{grid-column:1/-1}}";
   function css() { if (document.getElementById("slv-css")) return; var s = document.createElement("style"); s.id = "slv-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
   function group(name, opts, get, set) {
     var g = document.createElement("div"); g.className = "segs"; g.setAttribute("role", "radiogroup"); g.setAttribute("aria-label", name);
@@ -49,13 +49,19 @@
   /* lay a list in column-major order: items are el's children matching item; anything else is a head, pinned to its own
      row across the columns (in DOM order). Call after every build; a MutationObserver keeps it right after reorders. */
   function flow(el, o) {
-    o = o || {}; var item = o.item || ".lk", cols = o.cols || 2; css(); el.classList.add("s-lvcols");
+    o = o || {}; var item = o.item || ".lk", foot = o.foot || null, cols = o.cols || 2; css(); el.classList.add("s-lvcols");
+    /* FEET (Dimitry, 22 Oct 00:15: "the master mixer level needs to be across the bottom, full width of the panel"): a
+       child matching o.foot sits under both columns, across the whole width, so a master or a total reads as one */
     function set() {
-      var heads = 0, n = 0;
-      [].forEach.call(el.children, function (c) { if (c.matches(item)) { n++; c.style.gridRow = ""; } else { heads++; c.classList.add("s-lvhead"); c.style.gridRow = String(heads); } });
+      var heads = 0, n = 0, feet = [];
+      [].forEach.call(el.children, function (c) {
+        if (foot && c.matches(foot)) { feet.push(c); c.classList.add("s-lvfoot"); }
+        else if (c.matches(item)) { n++; c.style.gridRow = ""; }
+        else { heads++; c.classList.add("s-lvhead"); c.style.gridRow = String(heads); } });
       var rows = Math.max(1, Math.ceil(n / cols));   /* repeat(0, …) is invalid CSS, so the template is written whole */
+      feet.forEach(function (c, i) { c.style.gridRow = String(heads + rows + i + 1); });
       el.style.setProperty("--lv-head", String(heads)); el.style.setProperty("--lv-rows", String(rows));
-      el.style.setProperty("--lv-tpl", (heads ? "repeat(" + heads + ",auto) " : "") + "repeat(" + rows + ",auto)");
+      el.style.setProperty("--lv-tpl", (heads ? "repeat(" + heads + ",auto) " : "") + "repeat(" + rows + ",auto)" + (feet.length ? " repeat(" + feet.length + ",auto)" : ""));
     }
     set();
     if (!el.__lvflow) { el.__lvflow = true; try { new MutationObserver(function (m) { if (m.some(function (x) { return x.type === "childList"; })) set(); }).observe(el, { childList: true }); } catch (e) {} }
