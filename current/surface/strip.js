@@ -17,6 +17,7 @@
        current:() => id,                   // the one playing
        next:   () => id | null,            // the one that plays next, or null
        pick:   id => {},                   // a tap
+       remove: id => {},                   // optional: a long press or right-click on an item (Delete when it has focus)
        name:   'Scenes'                    // the list's accessible name
      }) -> { el, sync(), rebuild() }
 
@@ -46,7 +47,14 @@
       (o.ids() || []).forEach(function (id) {
         var b = document.createElement("button"); b.type = "button"; b.className = "s-strip-i"; b.setAttribute("role", "listitem"); b._id = id; b.dataset.id = String(id);
         var n = String(o.label(id) || ""); b.title = n; b.setAttribute("aria-label", "Play " + n);
-        b.onclick = function () { o.pick(id); sync(); };
+        b.onclick = function () { if (b.__held) { b.__held = false; return; } o.pick(id); sync(); };
+        if (o.remove) {
+          var t = 0; b.addEventListener("pointerdown", function (e) { if (e.button > 0) return; b.__held = false; t = setTimeout(function () { b.__held = true; if (navigator.vibrate) navigator.vibrate(10); o.remove(id); }, (window.SurfaceKeys && SurfaceKeys.holdMs) || 520); });
+          ["pointerup", "pointercancel", "pointerleave"].forEach(function (k) { b.addEventListener(k, function () { clearTimeout(t); }); });
+          b.addEventListener("contextmenu", function (e) { e.preventDefault(); clearTimeout(t); o.remove(id); });
+          b.addEventListener("keydown", function (e) { if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); o.remove(id); } });
+          b.title = n + " (hold to remove)";
+        }
         el.appendChild(b); if (io) io.observe(b); else { try { o.draw(b, id); } catch (_) {} }
       });
       sync();

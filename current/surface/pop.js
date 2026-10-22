@@ -55,6 +55,9 @@
     ".spop-vx:hover,.s-vclose:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible,.s-vclose:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
     ".spop-head .spop-vx span,.spop-vx span,.s-vclose span{writing-mode:vertical-rl;transform:none;font:600 7.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase}",
     ".spop-vx svg,.s-vclose svg{flex:none;width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}",
+    /* in a panel's band the word goes (Dimitry, 21 Oct 22:42: "CLOSE is unnecessary"): the ⌄ alone, centred, the word kept
+       for screen readers; the bottom shelf's .s-vclose keeps its word */
+    ".spop-head .spop-vx{justify-content:center;padding:0}.spop-head .spop-vx span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.spop-head .spop-vx svg{width:16px;height:16px}",
     "@media (prefers-reduced-motion:no-preference){.spop.spop-foot{transition:opacity .24s ease-out,translate .24s cubic-bezier(.2,.7,.2,1),display .24s allow-discrete,overlay .24s allow-discrete}",
     ".spop.spop-foot[hidden]{opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px);transition-timing-function:ease-in,cubic-bezier(.4,0,.8,.4)}",
     "@starting-style{.spop.spop-foot:not([hidden]){opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px)}}}",
