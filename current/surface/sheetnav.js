@@ -46,7 +46,8 @@
     "@keyframes sSnavBump{0%,100%{translate:0 0}35%{translate:var(--snav-bump,10px) 0}}" +
     ":where(.s-snav-in){animation:sSnavIn .22s cubic-bezier(.2,.8,.2,1)}:where(.s-snav-bump){animation:sSnavBump .26s ease-out}" +
     "@media (prefers-reduced-motion:reduce){:where(.s-snav-in),:where(.s-snav-bump){animation:none}:where(.s-snav) .s-snav-peek{transition:opacity .14s}}";
-  var BAND_CSS = ":where(.s-snav-band){align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center}" +
+  var BAND_CSS = ".spop.spop-now{transition:none!important}" +   /* a step between panels: no rise, no slide down (go) */
+    ":where(.s-snav-band){align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center}" +
     ":where(.s-snav-band):hover{color:var(--ui-ink,#fff)}:where(.s-snav-band):focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}" +
     ":where(.s-snav-band) svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}";
   function css() { if (!document.getElementById("snav-band-css")) { var t = document.createElement("style"); t.id = "snav-band-css"; t.textContent = BAND_CSS; (document.head || document.documentElement).prepend(t); }
@@ -139,11 +140,30 @@
       var b = e.target && e.target.closest && e.target.closest(".s-snav"); if (!b) return;
       held = openIdx(); heldAt = performance.now(); b.classList.add("s-snav-on"); e.stopPropagation();
     }, true);
+    /* STEPPING KEEPS THE FRAME (Dimitry, 23 Oct 00:20): between two band panels (pop.js foot, spanning the bar, anchored
+       above it) the frame stays where it is, same left, same width, same bottom; the band never moves. The old panel goes
+       at once (no slide down to its button: that is only for a real close), the new one comes at once (no rise), its
+       frame's height glides from the old height to its own (growing or shrinking upward, the bottom fixed), and only its
+       interior slides in: from the left for ‹, from the right for ›, 220 ms, transform and opacity. Reduced motion: the
+       interior crossfades and the height is set at once. */
+    function stepIn(el, h0, d) {
+      var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+      var h1 = el.getBoundingClientRect().height, E = "cubic-bezier(.2,.8,.2,1)", T = 220;
+      if (!el.animate) return;
+      if (!reduce && Math.abs(h1 - h0) > 1) el.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: T, easing: E });
+      [].forEach.call(el.children, function (c) {
+        if (c.classList.contains("spop-head") || !c.offsetHeight) return;
+        c.animate(reduce ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: "translateX(" + (d < 0 ? -36 : 36) + "px)" }, { opacity: 1, transform: "none" }], { duration: reduce ? 160 : T, easing: E });
+      });
+    }
     function go(d) {
       var i = openIdx(); if (i < 0 && held >= 0 && performance.now() - heldAt < 1500) i = held; held = -1; if (i < 0) return false; var n = items.length, j = (i + d + n) % n;
+      var A = items[i].el, B = items[j].el, keep = !!(o.band && A.classList.contains("spop-foot") && B.classList.contains("spop-foot")), h0 = A.getBoundingClientRect().height;
+      if (keep) { A.classList.add("spop-now"); B.classList.add("spop-now"); }
       try { items[i].close(); } catch (e) { try { console.warn("[sheetnav] close " + items[i].id + ": " + (e && e.message)); } catch (_) {} }
       try { items[j].open(); } catch (e) { try { console.warn("[sheetnav] open " + items[j].id + ": " + (e && e.message)); } catch (_) {} }
-      setTimeout(function () { play(items[j].el, "s-snav-in", (d > 0 ? 28 : -28) + "px", "--snav-from"); }, 0);
+      if (keep) { if (!B.hidden && h0) stepIn(B, h0, d); setTimeout(function () { A.classList.remove("spop-now"); B.classList.remove("spop-now"); }, 260); }
+      else setTimeout(function () { play(items[j].el, "s-snav-in", (d > 0 ? 28 : -28) + "px", "--snav-from"); }, 0);
       return true;
     }
     [prev, next].forEach(function (b, k) {

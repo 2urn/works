@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022044136";window.__VERSION__="0.29.15";window.__NOTES__=[{"v":"0.29.15","date":"23 Oct 2026","items":[{"kind":"fix","text":"the Scenes list's head is one row again: All, ★ and Yours on the left, and one Sort button on the right that names the order and opens a short menu (Hand, A–Z, Most used, Newest)"},{"kind":"change","text":"Auto play is shorter. How many scenes are in play sits at the right of the top block, with its button; the panel ends with Morph. Seconds, beats and bars sit on the same row as the beads"},{"kind":"fix","text":"a panel's band always sits at its bottom edge; Random no longer leaves empty space under it. Roll now is a button you can see is a button"},{"kind":"fix","text":"four scene thumbnails showed another scene; all thirty-five are taken again, each checked against its name"}]}]</script>
+<script>window.__BUILD__="20261022044727";window.__VERSION__="0.29.16";window.__NOTES__=[{"v":"0.29.16","date":"23 Oct 2026","items":[{"kind":"change","text":"stepping between panels with ‹ › (or [ ]) keeps the panel where it is: the band stays put, the inside slides across (from the left for ‹, from the right for ›) and the panel grows or shrinks upward to fit. Only a real close slides down to its button"},{"kind":"new","text":"while a steer loop records or plays, its ∞ loops: a short dash runs round it, on the Tools button, on its tile and on the playing loop in the shelf"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022044136"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022044136">
+<script src="claude-web.js?v=20261022044727"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022044727">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022044136"></script>
-<script src="surface/selftest.js?v=20261022044136"></script>
-<script src="surface/report.js?v=20261022044136"></script>
-<script src="surface/auto.js?v=20261022044136"></script>
-<script src="surface/toolpath.js?v=20261022044136"></script>
-<script src="surface/capture.js?v=20261022044136"></script>
-<script src="surface/pop.js?v=20261022044136"></script>
-<script src="surface/hints.js?v=20261022044136"></script>
-<script src="surface/paths.js?v=20261022044136"></script>
-<script src="surface/keys.js?v=20261022044136"></script>
-<script src="surface/reset.js?v=20261022044136"></script>
-<script src="surface/files.js?v=20261022044136"></script>
-<script src="surface/tabs.js?v=20261022044136"></script>
-<script src="surface/running.js?v=20261022044136"></script>
-<script src="surface/trim.js?v=20261022044136"></script>
-<script src="surface/audiowake.js?v=20261022044136"></script>
-<script src="surface/listview.js?v=20261022044136"></script>
-<script src="surface/beads.js?v=20261022044136"></script>
-<script src="surface/strip.js?v=20261022044136"></script>
-<script src="surface/sheetnav.js?v=20261022044136"></script>
-<script src="surface/twofinger.js?v=20261022044136"></script>
-<script src="surface/shortlink.js?v=20261022044136"></script>
-<script src="surface/undo.js?v=20261022044136"></script>
-<script src="surface/pro.js?v=20261022044136"></script>
+<script src="vendor/opentype.min.js?v=20261022044727"></script>
+<script src="surface/selftest.js?v=20261022044727"></script>
+<script src="surface/report.js?v=20261022044727"></script>
+<script src="surface/auto.js?v=20261022044727"></script>
+<script src="surface/toolpath.js?v=20261022044727"></script>
+<script src="surface/capture.js?v=20261022044727"></script>
+<script src="surface/pop.js?v=20261022044727"></script>
+<script src="surface/hints.js?v=20261022044727"></script>
+<script src="surface/paths.js?v=20261022044727"></script>
+<script src="surface/keys.js?v=20261022044727"></script>
+<script src="surface/reset.js?v=20261022044727"></script>
+<script src="surface/files.js?v=20261022044727"></script>
+<script src="surface/tabs.js?v=20261022044727"></script>
+<script src="surface/running.js?v=20261022044727"></script>
+<script src="surface/trim.js?v=20261022044727"></script>
+<script src="surface/audiowake.js?v=20261022044727"></script>
+<script src="surface/listview.js?v=20261022044727"></script>
+<script src="surface/beads.js?v=20261022044727"></script>
+<script src="surface/strip.js?v=20261022044727"></script>
+<script src="surface/sheetnav.js?v=20261022044727"></script>
+<script src="surface/twofinger.js?v=20261022044727"></script>
+<script src="surface/shortlink.js?v=20261022044727"></script>
+<script src="surface/undo.js?v=20261022044727"></script>
+<script src="surface/pro.js?v=20261022044727"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022044136"></script>
-<script src="surface/rail.js?v=20261022044136"></script>
-<script src="surface/touchsound.js?v=20261022044136"></script>
-<script src="surface/water.js?v=20261022044136"></script>
-<script src="surface/ripple.js?v=20261022044136"></script>
-<script src="surface/float.js?v=20261022044136"></script>
-<script src="surface/manual.js?v=20261022044136"></script>
+<script src="surface/pack.js?v=20261022044727"></script>
+<script src="surface/rail.js?v=20261022044727"></script>
+<script src="surface/touchsound.js?v=20261022044727"></script>
+<script src="surface/water.js?v=20261022044727"></script>
+<script src="surface/ripple.js?v=20261022044727"></script>
+<script src="surface/float.js?v=20261022044727"></script>
+<script src="surface/manual.js?v=20261022044727"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -860,6 +860,9 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 @container (max-width:420px){.apEveryRow{gap:6px}.apEveryRow .apBeads{gap:3px}#plAuto .apEveryRow .apBead{width:34px;height:34px;font-size:13px}.apEveryRow .apBead svg{width:17px;height:17px}
   .apUnit .l{display:none}.apUnit .s{display:inline}.apUnit button{padding:6px 4px}}
 @container (max-width:340px){.apEveryRow{flex-wrap:wrap;row-gap:6px}}
+/* the playing loop in the shelf wears a small ∞ whose dash runs round it (23 Oct) */
+.s-strip-i{position:relative}.lpInf{position:absolute;right:3px;bottom:2px;width:18px;height:18px;display:none;color:var(--acc,#55b8c9);filter:drop-shadow(0 0 2px rgb(0 0 0 / .7))}
+.s-strip-i[aria-current=true] .lpInf{display:block}.lpInf svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .apLink{background:none;border:0;padding:0;color:var(--acc,#55b8c9);font:inherit;text-decoration:underline;cursor:pointer}
 #plAuto>.sub{padding:0;align-self:start;line-height:30px}
 #plAuto>.segs:last-child{grid-column:1/-1;gap:0 4px;margin:2px -10px 0}
@@ -5105,7 +5108,11 @@ const TOOLS=[
 let ACTIVE=null,pickOpen=false,toolShown=true;
 const svgI=k=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+IC[k]+'</svg>';
 function chainMark(){const T=$('pickTrack');if(!T)return;const run={text:!!SEQ.on,steer:!!STEER.loop,magnet:!!MGR.loop};
-  T.querySelectorAll('.si[data-tool]').forEach(b=>{SurfaceRunning.mark(b,!!run[b.dataset.tool]);b.classList.remove('seqon','running')})}
+  T.querySelectorAll('.si[data-tool]').forEach(b=>{SurfaceRunning.mark(b,!!run[b.dataset.tool]);b.classList.remove('seqon','running')});
+  /* THE ∞ LOOPS (Dimitry, 23 Oct 00:34: running things move): while a steer loop records or plays, a dash runs round the
+     ∞ itself, on its tile and on the Tools button when that shows it (kit SurfaceRunning.lap; still under reduced motion) */
+  if(SurfaceRunning.lap){const on=!!(STEER.loop||STEER.rec);const st=T.querySelector('.si[data-tool=steer]');if(st)SurfaceRunning.lap(st,on,{path:'g>path:not(.ghost)'});
+    const slot=$('pSteer'),ico=slot&&slot.querySelector('.ico');if(ico)SurfaceRunning.lap(ico.closest('svg')||ico,on&&!!ico.querySelector('path.ghost'),{path:'g>path:not(.ghost)'})}}
 try{new MutationObserver(()=>chainMark()).observe($('pickTrack'),{childList:true})}catch(_){}   // the drawer rebuilds its buttons: mark them again
 function syncSlot(){const el=$('pSteer'),multi=TOOLS.length>1,act=multi?ACTIVE:'steer';
   el.classList.toggle('multi',multi);el.classList.toggle('lit',!!act&&(act!=='steer'||STEER.on||railOpen));
@@ -7027,7 +7034,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       if(ACTIVE==='steer'||ACTIVE==='magnet'){const mag=ACTIVE==='magnet',L=()=>mag?gBank():steerTakes();
         if(!L().length){box.appendChild(mk('p','bsNote',mag?'Your magnet loops gather here: rec, then bank one.':'Your steer loops gather here: tap rec in the drawer, paint, stop.'));return ()=>{}}
         const st=strip({name:mag?'Magnet loops':'Steer loops',ids:()=>L().map(x=>x.id),label:id=>{const t=L().find(x=>x.id===id);return t?(t.name||'loop')+' · '+(t.len/1000).toFixed(1)+' s':''},
-          draw:(el,id)=>{const t=L().find(x=>x.id===id);if(t)loopThumb(el,t,mag)},current:()=>{const tk=mag?MGR.take:STEER.take,lp=mag?MGR.loop:STEER.loop;return tk&&lp?(mag?tk.bid:tk.id):null},next:()=>null,
+          draw:(el,id)=>{const t=L().find(x=>x.id===id);if(t){loopThumb(el,t,mag);if(window.SurfaceRunning&&SurfaceRunning.lap){const i=document.createElement('span');i.className='lpInf';i.setAttribute('aria-hidden','true');i.innerHTML='<svg viewBox="0 0 24 24">'+IC.steer+'</svg>';el.appendChild(i);SurfaceRunning.lap(i,true,{path:'g>path:not(.ghost)'})}}},current:()=>{const tk=mag?MGR.take:STEER.take,lp=mag?MGR.loop:STEER.loop;return tk&&lp?(mag?tk.bid:tk.id):null},next:()=>null,
           pick:id=>{const t=L().find(x=>x.id===id);if(!t)return;const tk=mag?MGR.take:STEER.take,lp=mag?MGR.loop:STEER.loop;
             if(lp&&tk&&(mag?tk.bid:tk.id)===id){if(mag)MGR.loop=null;else{STEER.loop=null;STEER.ghost=null}toast('loop stopped');try{mag?syncSlot():syncSteer()}catch(_){}bsSync();return}
             if(mag)playBanked(t);else playSteerTake(t);bsSync()},
@@ -7727,10 +7734,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022044136"></script>
-<script src="surface/links.js?v=20261022044136"></script>
-<script src="surface/tips.js?v=20261022044136"></script>
-<script src="surface/sections.js?v=20261022044136"></script>
+<script src="surface/install.js?v=20261022044727"></script>
+<script src="surface/links.js?v=20261022044727"></script>
+<script src="surface/tips.js?v=20261022044727"></script>
+<script src="surface/sections.js?v=20261022044727"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8369,7 +8376,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.15';
+const APP_VERSION='0.29.16';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
