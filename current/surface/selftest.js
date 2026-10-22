@@ -77,9 +77,16 @@
      to run yet, so the clock starts again rather than calling a stall (20 Oct: a false alarm on iPhone) */
   var wake = function () { if (document.hidden) return; var n = Date.now(); if (!first) t0 = n; else last = n; };
   addEventListener("visibilitychange", wake); addEventListener("pageshow", wake); addEventListener("focus", wake);
+  /* the browser's own frame clock (Dimitry, 21 Oct: the claude.ai preview "stalled" and reloaded itself). A frame from
+     another site that is scrolled off screen, a collapsed pane or a covered window gets no frames at all while
+     document.hidden stays false. The kit keeps one tiny frame of its own: while it doesn't run either, the browser is
+     not drawing, which is not the tool's stall. When frames come back the clocks start again, like a return. */
+  var drawn = Date.now();
+  (function tick() { var n = Date.now(); if (n - drawn > 1000) { if (!first) t0 = n; else last = n; } drawn = n; requestAnimationFrame(tick); })();
+  function asleep() { return document.hidden || Date.now() - drawn > 1000; }
   function heart() {
     var now = Date.now();
-    if (!first && document.hidden) return null;
+    if (asleep()) return first ? true : null;
     if (!first) return now - t0 > (O.within || 9000) ? "no frame has played since the page loaded" : null;
     if (!document.hidden && now - last > (O.stall || 4000)) return "the frames stopped " + Math.round((now - last) / 1000) + " s ago";
     return true;
@@ -216,6 +223,7 @@
           try { if (O.recover) O.recover(); } catch (e) { keep("recover", e && e.message || e); }
           setTimeout(function () {
             if (last > before && Date.now() - last < 1500) { log("recovered by itself"); return setTimeout(watch, 2000); }
+            if (asleep()) return setTimeout(watch, 2000);   // the browser stopped drawing meanwhile: never reload a page nobody sees
             var k = "surface.selftest.resumed." + (O.tool || "tool"), prev = 0; try { prev = +sessionStorage.getItem(k) || 0; } catch (e) {}
             if (O.resume && Date.now() - prev > 60000) {
               log("resumed: reloaded back to where it was");

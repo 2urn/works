@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022003536";window.__VERSION__="0.27.13";window.__NOTES__=[{"v":"0.27.13","date":"21 Oct 2026","items":[{"kind":"change","text":"the text sequencer's timing is a row of beads, like Auto play's: 2, 4, 8, 16 seconds or a bar; a Stay | Morph switch above them sets how long a word stays or how long the morph takes, and both show under the row"},{"kind":"change","text":"In order and Shuffle are tiles, the way Auto play shows its order"},{"kind":"change","text":"case (as typed, ALL CAPS) and size (same size, each fills) are drawn icons"},{"kind":"change","text":"word rows read like Scenes: add to the sequence on the left, remove and the drag handle on the right, hairlines between; in sequence order the handle reorders the sequence"}]}]</script>
+<script>window.__BUILD__="20261022005210";window.__VERSION__="0.27.14";window.__NOTES__=[{"v":"0.27.14","date":"21 Oct 2026","items":[{"kind":"new","text":"every bar button reads four gestures. Tap does what it always did; drag up opens what holding opened; drag down opens its controls in a new shelf at the bottom; press and hold opens both"},{"kind":"new","text":"the bottom shelf follows the button: the robot's beads, the dice's how much and how often, a strip of scenes, still · video · GIF, the source's drive, show, zoom and turn, the sound's volume, beat, bytebeat, wet and react, and the line and ground colors"},{"kind":"change","text":"the bar sits above the shelf. ⌄ or Esc puts the shelf away; drag down on any button brings it back"},{"kind":"change","text":"the dice's up-and-down drag (how much) and the speaker's (volume) moved into the shelf; the dice's sideways drag still sets how often"},{"kind":"fix","text":"no more reloads when the player is off screen"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022003536"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022003536">
+<script src="claude-web.js?v=20261022005210"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022005210">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,37 +119,37 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022003536"></script>
-<script src="surface/selftest.js?v=20261022003536"></script>
-<script src="surface/report.js?v=20261022003536"></script>
-<script src="surface/auto.js?v=20261022003536"></script>
-<script src="surface/toolpath.js?v=20261022003536"></script>
-<script src="surface/capture.js?v=20261022003536"></script>
-<script src="surface/pop.js?v=20261022003536"></script>
-<script src="surface/hints.js?v=20261022003536"></script>
-<script src="surface/paths.js?v=20261022003536"></script>
-<script src="surface/keys.js?v=20261022003536"></script>
-<script src="surface/reset.js?v=20261022003536"></script>
-<script src="surface/files.js?v=20261022003536"></script>
-<script src="surface/tabs.js?v=20261022003536"></script>
-<script src="surface/running.js?v=20261022003536"></script>
-<script src="surface/trim.js?v=20261022003536"></script>
-<script src="surface/audiowake.js?v=20261022003536"></script>
-<script src="surface/listview.js?v=20261022003536"></script>
-<script src="surface/beads.js?v=20261022003536"></script>
-<script src="surface/sheetnav.js?v=20261022003536"></script>
-<script src="surface/pro.js?v=20261022003536"></script>
+<script src="vendor/opentype.min.js?v=20261022005210"></script>
+<script src="surface/selftest.js?v=20261022005210"></script>
+<script src="surface/report.js?v=20261022005210"></script>
+<script src="surface/auto.js?v=20261022005210"></script>
+<script src="surface/toolpath.js?v=20261022005210"></script>
+<script src="surface/capture.js?v=20261022005210"></script>
+<script src="surface/pop.js?v=20261022005210"></script>
+<script src="surface/hints.js?v=20261022005210"></script>
+<script src="surface/paths.js?v=20261022005210"></script>
+<script src="surface/keys.js?v=20261022005210"></script>
+<script src="surface/reset.js?v=20261022005210"></script>
+<script src="surface/files.js?v=20261022005210"></script>
+<script src="surface/tabs.js?v=20261022005210"></script>
+<script src="surface/running.js?v=20261022005210"></script>
+<script src="surface/trim.js?v=20261022005210"></script>
+<script src="surface/audiowake.js?v=20261022005210"></script>
+<script src="surface/listview.js?v=20261022005210"></script>
+<script src="surface/beads.js?v=20261022005210"></script>
+<script src="surface/sheetnav.js?v=20261022005210"></script>
+<script src="surface/pro.js?v=20261022005210"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022003536"></script>
-<script src="surface/rail.js?v=20261022003536"></script>
-<script src="surface/touchsound.js?v=20261022003536"></script>
-<script src="surface/float.js?v=20261022003536"></script>
-<script src="surface/manual.js?v=20261022003536"></script>
+<script src="surface/pack.js?v=20261022005210"></script>
+<script src="surface/rail.js?v=20261022005210"></script>
+<script src="surface/touchsound.js?v=20261022005210"></script>
+<script src="surface/float.js?v=20261022005210"></script>
+<script src="surface/manual.js?v=20261022005210"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -915,6 +915,67 @@ body #playbar>#pShot.busy{opacity:.55}
    since its options (and later the robot's rules) cover the dice too. The dice keeps its own caret for the random matrix. */
 body #pTrans>#pRand::before{inset:4px}
 body #pTrans>#pAuto::after{left:100%}
+/* THE BOTTOM SHELF (Dimitry, 21 Oct; see the script of the same name): a full-width frosted pane fixed to the bottom,
+   a hairline on top and no box. The bar rides above it while it is out (--bsh is its measured height). */
+#bshelf{position:fixed;left:var(--dw,0px);right:0;bottom:0;z-index:7;box-sizing:border-box;color:#e7eaef;
+  padding:9px max(14px,env(safe-area-inset-right,0px)) max(12px,calc(env(safe-area-inset-bottom,0px) - 4px)) max(14px,env(safe-area-inset-left,0px));
+  border-top:1px solid rgba(255,255,255,.1);background:rgba(10,10,12,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  transition:transform .35s cubic-bezier(.65,0,.35,1),opacity .3s ease,left .32s cubic-bezier(.2,.7,.2,1)}
+#bshelf[hidden]{display:block;transform:translateY(calc(100% + 2px));opacity:0;visibility:hidden;pointer-events:none;transition:transform .35s cubic-bezier(.65,0,.35,1),opacity .3s ease,visibility 0s .35s}
+html.bare #bshelf{transform:translateY(calc(100% + 2px));opacity:0;visibility:hidden;pointer-events:none}
+html.bsOn body #playbar{bottom:calc(var(--bsh,100px) + 28px)}
+#bshelf>.bsHead,#bsBody{max-width:720px;margin-left:auto;margin-right:auto}
+body #playbar{transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .5s ease,bottom .35s cubic-bezier(.65,0,.35,1)}
+#bshelf .bsHead{display:flex;align-items:center;gap:10px;min-height:22px;margin-bottom:7px}
+#bshelf .bsT{font:600 9.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#aab0b8;white-space:nowrap;flex:none}
+#bshelf .bsHint{flex:1;min-width:0;text-align:right;font:500 9.5px/1 var(--mono);letter-spacing:.04em;color:#7d838b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bshelf .bsX{flex:none;width:32px;height:24px;margin:-4px -8px -4px 0;padding:0;border:0;background:none;color:#aab0b8;display:grid;place-items:center;cursor:pointer;border-radius:8px}
+#bshelf .bsX svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html[data-hand="left"] #bshelf .bsHead{flex-direction:row-reverse}html[data-hand="left"] #bshelf .bsHint{text-align:left}html[data-hand="left"] #bshelf .bsX{margin:-4px 0 -4px -8px}
+#bshelf button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#bshelf button:focus-visible,#bshelf input:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+#bsBody{display:flex;flex-direction:column;gap:8px;min-height:76px}
+#bshelf .bsUnits{display:flex;align-self:flex-start;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden}
+#bshelf .bsUnits button{min-height:28px;padding:0 11px;border:0;background:transparent;color:#8b9199;font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+#bshelf .bsUnits button[aria-checked=true]{background:#e7eaef;color:#0a0b0d}
+#bshelf .bsBeads{position:relative;display:flex;justify-content:space-between;align-items:center;gap:4px}
+#bshelf .bsBeads::before{content:'';position:absolute;left:20px;right:20px;top:50%;height:2px;margin-top:-1px;background:rgba(255,255,255,.18);pointer-events:none}
+#bshelf .bsBeads button{position:relative;flex:none;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:#15171c;color:#e7eaef;display:grid;place-items:center;font:600 13px/1 var(--mono)}
+#bshelf .bsBeads button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}#bshelf .bsBeads .dt{fill:currentColor;stroke:none}
+#bshelf .bsBeads button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+#bshelf .bsSl{display:grid;grid-template-columns:minmax(52px,auto) minmax(0,1fr) auto;align-items:center;gap:8px;min-height:30px;font:400 12.5px/1.2 inherit}
+#bshelf .bsSl>span:first-child{font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#aab0b8;white-space:nowrap}
+#bshelf .bsSl input{width:100%;margin:0;accent-color:var(--acc,#55b8c9)}#bshelf .bsSl input:disabled{opacity:.35}
+#bshelf .bsV{font:500 11px/1 var(--mono);color:#aab0b8;min-width:34px;text-align:right}
+#bshelf .bsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;row-gap:2px}
+@media (min-width:760px){#bshelf .bsGrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+#bshelf .bsNote{margin:0;font:400 12.5px/1.35 inherit;color:#aab0b8}
+#bshelf .bsTog{align-self:flex-start;min-height:30px;padding:0 13px;border-radius:15px;border:1px solid rgba(255,255,255,.22);background:transparent;font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+#bshelf .bsTog[aria-pressed=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+#bshelf .bsCap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#bshelf .bsCap button{min-height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:transparent;font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+#bshelf .bsCap button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#bshelf .bsCap button:disabled{opacity:.4}
+#bshelf .bsStrip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 2px;margin:0 -2px;scroll-padding-inline:8px}
+#bshelf .bsStrip::-webkit-scrollbar{display:none}
+#bshelf .bsScene{flex:none;width:64px;padding:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;color:#8b9199}
+#bshelf .bsScene .th{width:60px;height:42px;border-radius:9px;border:1.5px solid rgba(255,255,255,.12);background:#0c0e11 center/contain no-repeat}
+#bshelf .bsScene .nm{width:64px;font:600 8px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+#bshelf .bsScene[aria-current=true]{color:#e7eaef}#bshelf .bsScene[aria-current=true] .th{border-color:var(--acc,#55b8c9)}
+#bshelf .bsSw{display:flex;align-items:center;gap:8px}
+#bshelf .bsSw .lab{width:56px;flex:none;font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#aab0b8}
+#bshelf .bsSw .sw{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:3px}
+#bshelf .bsSw .sw::-webkit-scrollbar{display:none}
+#bshelf .bsSw button{flex:none;width:30px;height:30px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.18)}
+#bshelf .bsSw button[aria-checked=true]{border-color:var(--acc,#55b8c9);box-shadow:0 0 0 2px #0a0b0d inset}
+/* the carets below the bar: the same drawing as the ones above, pointing down; on hover, and lit under the owner */
+#bsCarets{position:fixed;inset:0;pointer-events:none;z-index:8}
+#bsCarets .bsCar{position:absolute;width:32px;height:22px;padding:0;border:0;background:none;pointer-events:none;opacity:0;transition:opacity .18s ease}
+#bsCarets .bsCar::after{content:'';position:absolute;left:50%;top:5px;width:7px;height:7px;margin-left:-4.5px;border:solid #eef1f2;border-width:2px 0 0 2px;border-radius:1px;transform:rotate(225deg);filter:drop-shadow(0 0 3px rgba(0,0,0,.7))}
+#bsCarets .bsCar.own{opacity:.9}#bsCarets .bsCar.own::after{border-color:var(--acc,#55b8c9)}
+@media (hover:hover) and (pointer:fine){#bsCarets .bsCar{pointer-events:auto;cursor:pointer}#bsCarets .bsCar.hov,#bsCarets .bsCar:hover{opacity:.85}}
+html.bare #bsCarets{opacity:0;visibility:hidden}
+#playbar button{touch-action:none}
+@media (prefers-reduced-motion:reduce){#bshelf,#bshelf[hidden],body #playbar{transition:opacity .2s}}
 /* PLAYING HAND (Dimitry, 21 Oct): left mirrors the bar around Capture; the pill keeps its own order (‹ › mean back, on) */
 html[data-hand="left"] body #playbar{flex-direction:row-reverse}
 #pRand::before{content:"";position:absolute;inset:-4px;border-radius:50%;pointer-events:none;
@@ -1925,7 +1986,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
     <button id="pPrev" type="button" aria-label="Previous scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button id="pAuto" type="button" data-drawer aria-pressed="false" aria-label="The robot: it plays the scenes by itself (auto play). Hold for its options" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g id="pAutoGo" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle cx="12" cy="4.2" r="1.15"/><circle cx="9.3" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><path d="M10 16.6h4"/></g><g id="pAutoStop"><rect x="7.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="13.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/></g></svg></button>
     <button id="pNext" type="button" aria-label="Next scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button id="pRand" type="button" data-drawer aria-label="Random style. Drag up or down to set how much changes, left or right to set how often it rolls by itself. Hold for the random matrix" aria-haspopup="dialog" aria-controls="rlist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/></svg></button>
+    <button id="pRand" type="button" data-drawer aria-label="Random style. Drag left or right to set how often it rolls by itself; drag down for how much and how often; drag up or hold for the random matrix" aria-haspopup="dialog" aria-controls="rlist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/></svg></button>
   </div>
   <button id="pShot" type="button" data-drawer data-mode="still" aria-label="Capture. Press and hold for mode, shape and sharing" aria-haspopup="dialog" aria-controls="shotPop" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle id="pShotDot" cx="12" cy="12" r="5.4" fill="currentColor"/><rect id="pShotSq" x="8" y="8" width="8" height="8" rx="1.5" fill="#ff5a52"/></svg><span id="pRecTime" aria-hidden="true"></span></button>
   <button id="pSrc" type="button" data-drawer aria-haspopup="true" aria-expanded="false" aria-controls="shelfSrc" aria-label="Source: a picture, video or camera under the field, to steer the current"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg></button>
@@ -1934,6 +1995,8 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
   <button id="pKeys" type="button" hidden aria-label="Keys: every keyboard shortcut (?)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2.5" y="6" width="19" height="12" rx="2.2"/><path d="M6 9.5h.01M9.3 9.5h.01M12.6 9.5h.01M15.9 9.5h.01M18 9.5h.01M6 12.2h.01M18 12.2h.01M8.5 15h7"/><path d="M9.3 12.2h5.4" stroke-width="1.4"/></svg></button><button id="pBug" type="button" aria-label="Report a bug" title="Report a bug"></button>
 <button id="pFull" type="button" hidden aria-pressed="false" aria-label="Full screen (f). The space bar, or three fingers on the stage, hides and brings back every control"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><g class="fsIn"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></g><g class="fsOut"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></g></svg></button>
 </div>
+<div id="bshelf" role="region" aria-label="Controls of the bar button last dragged down"><div class="bsHead"><span class="bsT" id="bsTitle"></span><span class="bsHint" aria-hidden="true">↓ controls · ↑ panel · hold both</span><button type="button" class="bsX" id="bsX" aria-label="Put the controls away (Esc). Drag down on any bar button to bring them back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div><div id="bsBody"></div></div>
+<div id="bsCarets" aria-hidden="true"></div>
 <div class="shelf" id="shelfSteer" role="toolbar" aria-label="Steer and loop tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="stRec" type="button" aria-pressed="false" aria-label="Record a loop of your steering gesture"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle class="dot" cx="12" cy="12" r="6" fill="currentColor" stroke="none"/><rect class="sq" x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">rec</span></button><button class="si" id="stLoop" type="button" aria-pressed="false" disabled aria-label="Play or stop the recorded loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M17.8 2.8 17.6 6.4 14 6.2"/></svg><span class="lab" id="stLoopV">loop</span></button><button class="si" id="stSize" type="button" aria-label="Brush size. Tap to change, or pinch with two fingers while steering"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" stroke-dasharray="2.2 2.6"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span class="lab" id="stSizeV">brush M</span></button><button class="si" id="stRes" type="button" aria-pressed="false" aria-label="Restore brush: painting wipes your steering under the brush, bringing back the G-code field there"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.2 3.8v3.5h3.5"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg><span class="lab">restore</span></button><button class="si" id="stHold" type="button" aria-label="How long painted direction lasts. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3.5h10M7 20.5h10"/><path d="M8 3.5c0 4.5 8 4.6 8 8.5s-8 4-8 8.5M16 3.5c0 4.5-8 4.6-8 8.5s8 4 8 8.5"/></svg><span class="lab" id="stHoldV">hold 14s</span></button><button class="si" id="stClr" type="button" aria-label="Clear the painted direction and the loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 19.5h11"/><path d="M4.3 14.9 13.6 5.6a1.8 1.8 0 0 1 2.5 0l3.3 3.3a1.8 1.8 0 0 1 0 2.5l-7.6 7.6a1.8 1.8 0 0 1-1.3.5H8.4a1.8 1.8 0 0 1-1.3-.5l-2.8-2.8a.9.9 0 0 1 0-1.3z"/><path d="m9.4 9.8 5.3 5.3"/></svg><span class="lab">clear</span></button></div></div>
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
 <div class="shelf" id="shelfTool" role="toolbar" aria-label="Tool settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="toolTrack"></div></div>
@@ -2859,7 +2922,7 @@ SLIDERS.forEach(([k,lab,mn,mx,st,aria])=>{
   ab.addEventListener('click',()=>{ed.hidden=!ed.hidden;if(!ed.hidden)renderModEd(k);syncMods()});
 });
 let ft=null;function scheduleField(){clearTimeout(ft);ft=setTimeout(()=>{buildField()},120)}
-function syncVals(){try{syncDrive()}catch(_){};SLIDERS.forEach(([k,,mn,mx,st])=>{const v=$('v-'+k);
+function syncVals(){bsSync();try{syncDrive()}catch(_){};SLIDERS.forEach(([k,,mn,mx,st])=>{const v=$('v-'+k);
   const d=st<0.01?3:st<1?2:0;v.textContent=(+S[k]).toFixed(d);v.classList.toggle('mod',Math.abs(S[k]-baseline[k])>1e-9);
   const tk=$('rw-'+k).querySelector('.tick');if(tk&&baseline[k]!=null)tk.style.left=`calc(7px + (100% - 14px) * ${Math.max(0,Math.min(1,(baseline[k]-mn)/(mx-mn))).toFixed(4)})`})}
 function renderModEd(k){
@@ -2935,7 +2998,7 @@ const groundSeg=$('groundSeg');[...GROUND_COLORS,['Auto','auto']].forEach(([n,k]
 $('altTime').addEventListener('input',e=>{S.altTime=+e.target.value;syncLine()});
 function applyGround(){const g=groundHex();if(g)document.documentElement.style.setProperty('--stage',g);else document.documentElement.style.removeProperty('--stage');
   document.documentElement.classList.toggle('paper',groundLight());clearTrails();try{uiGuard()}catch(_){}}   // 'paper' now means any light ground: the marks on the stage turn dark
-function syncLine(){for(const id of ['lineSw','line2Sw']){const box=$(id),v=(box._get()||'').toLowerCase();[...box.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===v)))}
+function syncLine(){bsSync();for(const id of ['lineSw','line2Sw']){const box=$(id),v=(box._get()||'').toLowerCase();[...box.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c.toLowerCase()===v)))}
   const two=!!S.line2;altSeg.hidden=!two;$('altNote').hidden=!two;$('altNote').textContent=ALTS[S.alt];
   [...altSeg.children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.k===S.alt)));
   $('altRow').hidden=!two||S.alt!=='time';$('altTime').value=S.altTime;$('altTimeV').textContent=(+S.altTime).toFixed(1)+'s';
@@ -3077,7 +3140,7 @@ function applyLookNow(p,idx,instant,part){
   syncPresetBtns();syncVals();syncModes();syncArrow();renderMaps();refreshModEds();syncMods();syncPlist();
   build(doMorph);
 }
-function loadPreset(i,instant,part){const all=allPresets();if(all[i])applyLook(all[i],i,instant,part)}
+function loadPreset(i,instant,part){bsSync();const all=allPresets();if(all[i])applyLook(all[i],i,instant,part)}
 const pr=$('presets');
 function renderPresets(){pr.innerHTML='';
   allPresets().forEach((p,i)=>{const w=document.createElement('div');w.className='pw';
@@ -3156,7 +3219,7 @@ let randAt=0,randRaf=0;
 function setRandTempo(sec){RAND.tempo=sec;clearInterval(randT);randAt=performance.now();randT=sec?setInterval(()=>{randAt=performance.now();randomLook(false)},sec*1000):null;
   if(sec&&autoT)setAuto(false,true);const b=$('pRand');b.classList.toggle('on',!!sec);syncRand()}
 const tempoTxt=t=>t?'every '+fmtSec(t):'by hand';
-function syncRand(){const b=$('pRand');b.style.setProperty('--amt',RAND.amt);
+function syncRand(){bsSync();const b=$('pRand');b.style.setProperty('--amt',RAND.amt);
   const r=$('rlAmt');if(r){r.value=RAND.amt;$('rlAmtV').textContent=Math.round(RAND.amt*100)+'%'}
   document.querySelectorAll('#rlTempo .apBead').forEach(x=>x.setAttribute('aria-checked',String(+x.dataset.v===RAND.tempo)));randRing();
   document.querySelectorAll('#rlBody input[data-k]').forEach(x=>x.checked=inMatrix(x.dataset.k));
@@ -3584,7 +3647,7 @@ function buildPlist(){plTabsMount();
    og.appendChild(sc)}
   const nt=document.createElement('div');nt.className='apNote';nt.id='apNote';box.appendChild(nt);
   buildLooks();syncPlist()}
-function syncAutoUI(){const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
+function syncAutoUI(){bsSync();const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop auto play':'Start auto play');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
   $('apNext').textContent=on?'':'Tap play: a new scene '+autoEveryWords();
@@ -3730,9 +3793,9 @@ wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'
     g={id:e.pointerId,x:e.clientX,y:e.clientY,drag:false,held:false,a0:RAND.amt,t0:Math.max(0,RAND_TEMPOS.indexOf(RAND.tempo)),
       t:setTimeout(()=>{if(g&&!g.drag){g.held=true;openRlist();if(navigator.vibrate)navigator.vibrate(12)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520))}});
   el.addEventListener('pointermove',e=>{if(!g||e.pointerId!==g.id||g.held)return;const dx=e.clientX-g.x,dy=e.clientY-g.y;
-    if(!g.drag&&Math.hypot(dx,dy)>12){g.drag=true;clearTimeout(g.t);el.classList.add('dragging')}
+    if(!g.drag&&Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)){g.drag=true;clearTimeout(g.t);el.classList.add('dragging')}
     if(!g.drag)return;
-    RAND.amt=Math.max(.05,Math.min(1,g.a0-dy/180));
+    // how much is the shelf's now (drag down on the dice); up and down belong to the bar's gestures (0.27.14)
     const ti=Math.max(0,Math.min(RAND_TEMPOS.length-1,g.t0+Math.round(dx/42)));if(RAND_TEMPOS[ti]!==RAND.tempo)setRandTempo(RAND_TEMPOS[ti]);
     syncRand();show()});
   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.t);const st=g;g=null;el.classList.remove('dragging');
@@ -4064,7 +4127,7 @@ async function stopGif(){const st=REC;if(!st||st.kind!=='gif')return;cancelAnima
   catch(e){ENC=false;syncShot();toast('The GIF could not be made.')}}
 function tickTime(){clearInterval(recTick);const el=$('pRecTime');const f=()=>{if(!REC){clearInterval(recTick);syncShot();return}
   const s=(performance.now()-REC.t0)/1000;el.textContent=REC.kind==='gif'?Math.max(0,CAP.gif-s).toFixed(1)+'s':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')};f();recTick=setInterval(f,100)}
-function syncShot(){const b=$('pShot');b.dataset.mode=CAP.mode;b.classList.toggle('rec',!!REC);b.classList.toggle('busy',ENC);
+function syncShot(){bsSync();const b=$('pShot');b.dataset.mode=CAP.mode;b.classList.toggle('rec',!!REC);b.classList.toggle('busy',ENC);
   b.setAttribute('aria-label',REC?'Stop recording':ENC?'Making the GIF':(CAP.mode==='still'?'Capture a still':'Record '+(CAP.mode==='gif'?'a GIF':'video'))+'. Press and hold for mode, shape and sharing');
   if(!REC&&!ENC)$('pRecTime').textContent=CAP.mode==='still'?'':CAP.mode;if(!$('shotPop').hidden)buildShotPop()}
 function shutter(){if(ENC)return;if(REC){recFinish();return}
@@ -4666,7 +4729,7 @@ function syncShelves(){
   document.querySelectorAll('.shelf.open').forEach(sh=>{if(was.has(sh))return;const t=sh.querySelector('.track');if(!t)return;
     t.style.scrollBehavior='auto';t.scrollLeft=0;requestAnimationFrame(()=>{t.scrollLeft=0;t.style.scrollBehavior=''})});
   placeName();requestAnimationFrame(()=>{placeShelves();shelfOverflow()})}
-function syncSteer(){try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
+function syncSteer(){bsSync();try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
   const main=$('pSteer');
   main.setAttribute('aria-pressed',String(STEER.on));main.classList.toggle('looping',!!STEER.loop);
   const rec=$('stRec');rec.setAttribute('aria-pressed',String(!!STEER.rec));
@@ -5608,7 +5671,7 @@ $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.file
 $('audVol').addEventListener('input',e=>{$('audVolV').textContent=(+e.target.value).toFixed(2);if(AUD.vol)AUD.vol.gain.value=+e.target.value});
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
-function syncAud(){try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
+function syncAud(){bsSync();try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
     b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
@@ -6024,7 +6087,7 @@ document.addEventListener('pointerdown',e=>{const p=$('mixPop');if(!p||p.hidden)
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mixPop').hidden){if(window.MIX_INFO&&MIX_INFO.isOpen()){MIX_INFO.close();$('mixInfoBtn').focus();return}closeMix()}});
 function setMute(v){AUD.muted=!!v;try{if(AUD.mg)AUD.mg.gain.setTargetAtTime(AUD.muted?0:1,AUD.ctx.currentTime,.02)}catch(_){}
   try{syncAud()}catch(_){}syncSndShelf();try{if(!$('mixPop').hidden)renderMix()}catch(_){}toast(AUD.muted?'muted: the field still moves to the sound':'sound back')}
-function syncSndShelf(){const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
+function syncSndShelf(){bsSync();const t=$('sndTrack');if(!t||!t.children.length)return;try{mixSync()}catch(_){}
   {const m=$('sdMute');if(m){m.setAttribute('aria-pressed',String(!!AUD.muted));m.querySelector('.lab').textContent=AUD.muted?'muted':'mute'}}
   t.querySelectorAll('[data-src]').forEach(b=>b.setAttribute('aria-pressed',String(isOn(b.dataset.src))));
   {const m=$('sdMix');if(m){const n=['beat','byte','file','mic','loop'].filter(k=>isOn(k==='beat'?AUD.play.beat:k==='byte'?AUD.play.byte:k)).length;m.querySelector('.lab').textContent=n>1?'mix · '+n:'mix';m.setAttribute('aria-pressed',String(!$('mixPop').hidden))}}
@@ -6108,7 +6171,7 @@ function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=
   if(AUD&&AUD.mic&&AUD.mic.cam){const alone=AUD.src==='mic';stopMic(true);if(alone)stopAudio();else syncAud()}if(SRC.stream){SRC.stream.getTracks().forEach(t=>t.stop());SRC.stream=null}
   try{bgVid.pause()}catch(_){}bgVid.removeAttribute('src');bgVid.srcObject=null;
   if(SRC.url){URL.revokeObjectURL(SRC.url);SRC.url=null}bgImg.removeAttribute('src')}
-function syncSrc(){{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle('flip',on);const l=$('srCamV');if(l)l.textContent=on?(SRC.facing==='user'?'front':'back'):'camera'}
+function syncSrc(){bsSync();{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle('flip',on);const l=$('srCamV');if(l)l.textContent=on?(SRC.facing==='user'?'front':'back'):'camera'}
   ['picture','video','camera'].forEach(k=>$({picture:'srPic',video:'srVid',camera:'srCam'}[k]).setAttribute('aria-pressed',String(SRC.kind===k)));
   $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';
   $('srMir').setAttribute('aria-pressed',String(SRC.mirror));$('srMir').hidden=SRC.kind!=='camera';
@@ -6225,7 +6288,7 @@ function traceSource(again){if(TRACE.on&&!again){traceOff();return}
 let DRIVE_LAST=.6;
 function setDrive(v){S.drive=Math.max(0,Math.min(1,v));MORPH=null;if(S.drive>.005)DRIVE_LAST=S.drive;const r=$('s-drive');if(r)r.value=S.drive;syncVals();syncDrive();
   if(S.drive>.005&&!DRIVE.g)buildDrive()}
-function syncDrive(){const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.005;
+function syncDrive(){bsSync();const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.005;
   b.setAttribute('aria-pressed',String(on));b.querySelector('.lab').textContent=on?'drive '+Math.round(v*100)+'%':'drive';
   b.setAttribute('aria-label','Picture drive '+Math.round(v*100)+'%: tap to turn it '+(on?'off':'on')+', drag left or right for how much the picture steers the current');
   $('srDriveModeV').textContent=DRIVE.mode;{const tb=$('srTrace');if(tb&&typeof TRACE!=='undefined'){tb.setAttribute('aria-pressed',String(TRACE.on));tb.querySelector('.lab').textContent=TRACE.on?'traced':'trace'}}{const iv=$('srInvV');if(iv)iv.textContent=SRC.invert?'light ink':'dark ink'}const dv=$('srDetailV');if(dv){const M=Object.keys(DRIVE_DETAIL);dv.textContent=M.reduce((a,b)=>Math.abs(DRIVE_DETAIL[b]-S.ddet)<Math.abs(DRIVE_DETAIL[a]-S.ddet)?b:a)}}
@@ -6342,6 +6405,159 @@ new ResizeObserver(()=>{clearTimeout(window._rz);window._rz=setTimeout(resize,80
 // phones open in the player, as Fracture does; a saved choice wins
 setPlayer(true,true);   // the drawer never opens by itself on launch (Dimitry, 17 Oct); the duck-rabbit opens it
 resize();
+/* THE BOTTOM SHELF AND THE BAR'S FOUR GESTURES (Dimitry, 21 Oct, from his mockup; TOMORROW: the robot, stage 2).
+   Every bar button reads four gestures:
+     tap           what it always did (the robot plays, the dice rolls, ‹ › step, Capture captures, Sound mutes …)
+     drag up       what its press-and-hold opened before (more than 22 px, mostly vertical)
+     drag down     its controls in the bottom shelf
+     press & hold  both
+   The buttons' own readers keep the tap and the hold; this layer watches from the document, before them, and takes a
+   press over once it travels 14 px (the distance at which every reader here already gave a press up as "not a tap").
+   It cancels the button's reader with a pointercancel of its own, so nothing taps, then decides up or down at 22 px.
+   The dice keeps its sideways drag (how often it rolls); its old up-and-down drag (how much) is in its shelf now, as
+   is the speaker's old drag (the volume).
+   The shelf follows the button: it shows the controls of the button last dragged down or held, built from the real
+   controls and their state, never a copy of the state. Esc or its ⌄ puts it away; a drag down on any button brings
+   it back. It is remembered on this device. */
+var BS={sec:'robot',open:true,ready:false,built:''};
+function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimationFrame(()=>{BS._q=0;try{BS.sync()}catch(e){console.warn('[bshelf]',e)}})}
+(()=>{
+  const SEC={pPrev:'scenes',pNext:'scenes',pAuto:'robot',pRand:'dice',pShot:'capture',pSrc:'source',pSnd:'sound',pSteer:'tools'};
+  const OWNER={robot:'pAuto',dice:'pRand',scenes:'pNext',capture:'pShot',source:'pSrc',sound:'pSnd',tools:'pSteer'};
+  const NAMES={robot:'Robot',dice:'Dice',scenes:'Scenes',capture:'Capture',source:'Source',sound:'Sound',tools:'Tools'};
+  try{const o=store.bshelf;if(o&&typeof o==='object'){if(OWNER[o.sec])BS.sec=o.sec;if(o.open===false)BS.open=false}}catch(_){}
+  const save=()=>{store.bshelf={sec:BS.sec,open:BS.open};persist()};
+  const sh=$('bshelf'),body=$('bsBody'),ttl=$('bsTitle'),root=document.documentElement;
+  const mk=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+  const HAND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15.5"/></svg>';
+  const DICE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" class="dt"/><circle cx="15" cy="15" r="1.3" class="dt"/><circle cx="15" cy="9" r="1.3" class="dt"/><circle cx="9" cy="15" r="1.3" class="dt"/></svg>';
+  const radios=(label,cls)=>{const g=mk('div',cls);g.setAttribute('role','radiogroup');g.setAttribute('aria-label',label);return g};
+  const radio=(g,html,aria,v,pick)=>{const b=mk('button','',html);b.type='button';b.setAttribute('role','radio');b.dataset.v=String(v);b.setAttribute('aria-label',aria);b.onclick=pick;g.appendChild(b);return b};
+  const check=(g,v)=>{for(const b of g.children)b.setAttribute('aria-checked',String(b.dataset.v===String(v)))};
+  /* a slider row that drives a real control: a range input of the drawer (s-*), or a getter and setter */
+  const slider=(box,name,o)=>{const l=mk('label','bsSl');const s=mk('span','',name);const r=document.createElement('input');r.type='range';r.min=o.min;r.max=o.max;r.step=o.step;
+    r.setAttribute('aria-label',o.aria||name);r.oninput=()=>o.set(+r.value,false);r.onchange=()=>o.set(+r.value,true);l.append(s,r);box.appendChild(l);r._get=o.get;return r};
+  const sKey=(k,over)=>{const d=SLIDERS.find(x=>x[0]===k)||[k,k,0,1,.01];const el=()=>$('s-'+k);
+    return Object.assign({min:d[2],max:d[3],step:d[4],aria:d[1],get:()=>{const e=el();return e?+e.value:0},
+      set:(v,end)=>{const e=el();if(!e)return;e.value=v;e.dispatchEvent(new Event(end?'change':'input',{bubbles:true}))}},over||{})};
+  const SECT={
+    robot:{title:()=>'Robot · how often',build(box){
+      const us=radios('Count in','bsUnits');
+      for(const u of Object.keys(AUTO_UNITS))radio(us,AUTO_UNITS[u].name,'Count in '+AUTO_UNITS[u].name,u,()=>{const old=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,i=Math.max(0,old.vals.indexOf(AUTO.n));
+        AUTO.unit=u;AUTO.n=AUTO_UNITS[u].vals[i]||AUTO_UNITS[u].vals[1];store.auto={...AUTO};persist();if(autoT)setAuto(true,true);try{syncPlist()}catch(_){}BS.built='';bsSync()});
+      const bd=radios('How often the robot plays a new scene','bsBeads');
+      radio(bd,HAND,'Only by hand: the robot stops','hand',()=>{if(autoT)setAuto(false);bsSync()});
+      const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;
+      for(const v of U.vals)radio(bd,beadLabel(AUTO.unit,v),'A new scene every '+(AUTO.unit==='sec'?fmtSec(v):v===1?U.one:v+' '+U.name),v,()=>{AUTO.n=v;AUTO.rand=false;store.auto={...AUTO};persist();setAuto(true);try{syncPlist()}catch(_){}bsSync()});
+      radio(bd,DICE,'A new scene at random, every few '+U.name,'rand',()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);try{syncPlist()}catch(_){}bsSync()}).title='at random';
+      box.append(us,bd);
+      return ()=>{check(us,AUTO.unit);check(bd,!autoT?'hand':AUTO.rand?'rand':AUTO.n)}},key:()=>AUTO.unit},
+    dice:{title:()=>'Dice · how much, how often',build(box){
+      const r=slider(box,'How much',{min:.05,max:1,step:.01,aria:'How much each roll changes',get:()=>RAND.amt,set:(v,end)=>{RAND.amt=v;if(end)persistRand();syncRand()}});
+      const lv=mk('span','bsV');r.parentNode.appendChild(lv);
+      const bd=radios('How often it rolls by itself','bsBeads');
+      RAND_TEMPOS.forEach(t=>radio(bd,t?fmtSec(t).replace(/s$/,''):HAND,'Roll '+tempoTxt(t),t,()=>{setRandTempo(t);bsSync()}));
+      box.appendChild(bd);
+      return ()=>{r.value=RAND.amt;lv.textContent=Math.round(RAND.amt*100)+'%';check(bd,RAND.tempo)}}},
+    scenes:{title:()=>'Scenes · tap one to play it',build(box){
+      const all=allPresets(),ids=playIds(),st=mk('div','bsStrip');st.setAttribute('role','list');st.setAttribute('aria-label','Scenes');
+      for(const i of ids){const p=all[i];if(!p)continue;const b=mk('button','bsScene');b.type='button';b.setAttribute('role','listitem');b.dataset.i=i;b.setAttribute('aria-label','Play the scene '+p.name);
+        const th=mk('span','th');th.dataset.i=i;const n=mk('span','nm');n.textContent=p.name;b.append(th,n);
+        b.onclick=()=>{bumpLook(i);loadPreset(i,false,autoPart());flashName(p.name);bsSync()};st.appendChild(b);
+        if(thumbIO)thumbIO.observe(th);else drawThumb(th,p)}
+      box.appendChild(st);let last=null;
+      return ()=>{for(const b of st.children){const on=+b.dataset.i===presetIdx;b.setAttribute('aria-current',on?'true':'false');if(on&&last!==presetIdx){last=presetIdx;try{b.scrollIntoView({block:'nearest',inline:'center'})}catch(_){}}}}},
+      key:()=>playIds().join(',')+'|'+allPresets().length},
+    capture:{title:()=>'Capture · makes',build(box){
+      const g=radios('What a capture makes','bsCap');
+      [['still','Still'],['video','Video'],['gif','GIF']].forEach(([k,n])=>radio(g,n,'Capture makes '+(k==='gif'?'a GIF':k==='still'?'a still':'video'),k,()=>{if(REC||ENC)return;CAP.mode=k;capSave();syncShot();bsSync()}));
+      box.appendChild(g);return ()=>{check(g,CAP.mode);for(const b of g.children)b.disabled=!!(REC||ENC)}}},
+    source:{title:()=>'Source · '+(SRC.kind==='none'?'none':SRC.kind),build(box){
+      const note=mk('p','bsNote','Drag up on Source for a picture, a video or the camera.');box.appendChild(note);
+      const grid=mk('div','bsGrid');box.appendChild(grid);
+      const rs=[slider(grid,'drive',sKey('drive',{set:v=>setDrive(v)})),slider(grid,'show',sKey('pshow')),slider(grid,'zoom',sKey('pzoom')),slider(grid,'turn',sKey('pturn'))];
+      return ()=>{note.hidden=SRC.kind!=='none';for(const r of rs){r.value=r._get();r.disabled=SRC.kind==='none'}}},key:()=>SRC.kind==='none'?'0':'1'},
+    sound:{title:()=>'Sound · '+(AUD.src==='off'?'off':'on'),build(box){
+      const grid=mk('div','bsGrid');box.appendChild(grid);
+      const vol=$('audVol');
+      const ch=k=>({min:0,max:1,step:.01,get:()=>MIX[k].v,set:(v,end)=>{MIX[k].v=v;MIX[k].m=0;applyMix();if(end)mixSave();try{syncSndShelf()}catch(_){}}});
+      const rs=[slider(grid,'volume',{min:0,max:1,step:.01,aria:'Volume',get:()=>+vol.value,set:(v,end)=>{vol.value=v;vol.dispatchEvent(new Event(end?'change':'input',{bubbles:true}))}}),
+        slider(grid,'beat',Object.assign(ch('beat'),{aria:'Beat level'})),slider(grid,'bytes',Object.assign(ch('byte'),{aria:'Bytebeat level'})),
+        slider(grid,'wet',{min:0,max:1,step:.05,aria:'Wet: the room around every sound',get:()=>WET,set:(v,end)=>{WET=v;if(v)WET_LAST=v;applyWet();if(end)try{localStorage.setItem('current.wet',String(WET))}catch(_){}try{syncSndShelf()}catch(_){}}})];
+      const rc=mk('button','bsTog');rc.type='button';rc.onclick=()=>{AUD.react=!AUD.react;try{localStorage.setItem('current.react',AUD.react?'on':'off')}catch(_){}try{syncSndShelf()}catch(_){}toast(AUD.react?'the sound moves every scene':'only scenes with their own sound links move');bsSync()};
+      box.appendChild(rc);
+      return ()=>{for(const r of rs)r.value=r._get();rc.setAttribute('aria-pressed',String(!!AUD.react));rc.textContent='react '+(AUD.react?'on':'off');
+        rc.setAttribute('aria-label','React: the sound moves every scene, not only those with their own sound links. '+(AUD.react?'On':'Off'))}}},
+    tools:{title:()=>'Tools · '+(ACTIVE||'color'),build(box){
+      if(ACTIVE&&ACTIVE!=='color'){const t=TOOLS.find(x=>x.id===ACTIVE);box.appendChild(mk('p','bsNote',(t?t.label[0].toUpperCase()+t.label.slice(1):'This tool')+': drag up on Tools for its controls.'));return ()=>{}}
+      const rows=[];
+      for(const [k,lab] of [['line','Lines'],['ground','Ground']]){const G=CG[k],row=mk('div','bsSw');row.appendChild(mk('span','lab',lab));const g=mk('div','sw');g.setAttribute('role','radiogroup');g.setAttribute('aria-label',lab+' color');
+        for(const [n,c] of G.sw()){const b=mk('button');b.type='button';b.setAttribute('role','radio');b.style.background=c;b.dataset.c=c;b.setAttribute('aria-label',lab+' '+n);b.title=n;b.onclick=()=>{G.set(c);bsSync()};g.appendChild(b)}
+        row.appendChild(g);box.appendChild(row);rows.push([G,g])}
+      return ()=>{for(const [G,g] of rows){const v=G.get();for(const b of g.children)b.setAttribute('aria-checked',String(sameC(b.dataset.c,v)))}}},key:()=>ACTIVE||''}};
+  let upd=()=>{};
+  BS.sync=()=>{const S=SECT[BS.sec]||SECT.robot,k=BS.sec+':'+(S.key?S.key():'');
+    if(BS.built!==k){body.innerHTML='';upd=S.build(body)||(()=>{});BS.built=k;body.dataset.sec=BS.sec}
+    ttl.textContent=S.title();upd();
+    carets()};
+  /* where the bar sits: above the shelf when it is out, as before when it is away */
+  let pt=0;
+  const place=()=>{const on=BS.open&&!sh.hidden;root.classList.toggle('bsOn',on);if(on)root.style.setProperty('--bsh',sh.offsetHeight+'px');
+    clearTimeout(pt);try{placeShelves()}catch(_){}pt=setTimeout(()=>{try{placeShelves()}catch(_){}carets()},420)};
+  BS.show=(sec,focus)=>{if(sec&&OWNER[sec])BS.sec=sec;BS.open=true;sh.hidden=false;save();BS.sync();place();
+    if(focus){const f=body.querySelector('[aria-checked=true],button,input');if(f)f.focus({preventScroll:true})}};
+  BS.hide=()=>{if(!BS.open)return;BS.open=false;sh.hidden=true;save();BS.sync();place()};
+  $('bsX').onclick=()=>{const o=$(OWNER[BS.sec]);BS.hide();if(o&&sh.contains(document.activeElement))o.focus({preventScroll:true})};
+  /* the panel above: what each button's press-and-hold opens (Source has no hold of its own: its shelf of tools) */
+  const up=el=>{if(el.id==='pSrc'){if(!srcOpen){srcOpen=true;sndOpen=false;pickOpen=false;syncSteer()}return}
+    el.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true}))};
+  /* the gesture layer */
+  const HOLD=()=>window.SurfaceKeys&&SurfaceKeys.holdMs||520;
+  let G=null,sw=null;
+  const swallow=el=>{sw={el,until:performance.now()+800}};
+  window.addEventListener('click',e=>{if(sw&&e.detail>0&&performance.now()<sw.until&&(e.target===sw.el||sw.el.contains(e.target))){sw=null;e.preventDefault();e.stopImmediatePropagation()}},true);
+  document.addEventListener('pointerdown',e=>{if(e.button>0||!e.isTrusted)return;const el=e.target.closest&&e.target.closest('#playbar button');if(!el||!SEC[el.id])return;
+    if(G)clearTimeout(G.t);
+    G={el,id:e.pointerId,x:e.clientX,y:e.clientY,own:false,held:false,done:false,t:setTimeout(()=>{if(!G||G.own)return;G.held=true;BS.show(SEC[el.id]);if(el.id==='pSrc')up(el)},HOLD())}},true);
+  document.addEventListener('pointermove',e=>{if(!G||e.pointerId!==G.id||!e.isTrusted)return;const dx=e.clientX-G.x,dy=e.clientY-G.y;
+    if(!G.own){if(G.held||Math.hypot(dx,dy)<=14)return;
+      if(G.el.id==='pRand'&&(G.el.classList.contains('dragging')||Math.abs(dx)>Math.abs(dy))){clearTimeout(G.t);G=null;return}   // the dice's sideways drag: how often
+      G.own=true;clearTimeout(G.t);
+      try{G.el.dispatchEvent(new PointerEvent('pointercancel',{pointerId:e.pointerId,pointerType:e.pointerType,bubbles:true}))}catch(_){}}
+    e.stopPropagation();
+    if(G.done||Math.abs(dy)<=22||Math.abs(dy)<Math.abs(dx))return;G.done=true;
+    if(navigator.vibrate)navigator.vibrate(8);
+    if(dy>0)BS.show(SEC[G.el.id]);else up(G.el)},true);
+  const fin=e=>{if(!G||e.pointerId!==G.id||!e.isTrusted)return;clearTimeout(G.t);if(G.own){e.stopPropagation();swallow(G.el)}else if(G.held)swallow(G.el);G=null};
+  document.addEventListener('pointerup',fin,true);document.addEventListener('pointercancel',fin,true);
+  /* right-click and the menu key are a hold on every bar button: both */
+  document.addEventListener('contextmenu',e=>{if(!e.isTrusted)return;const el=e.target.closest&&e.target.closest('#playbar button');if(!el||!SEC[el.id])return;
+    if(G&&G.held)return;BS.show(SEC[el.id]);if(el.id==='pSrc')up(el)},true);
+  /* keyboard: Alt+↓ on a bar button opens its controls and goes into them; Esc puts the shelf away */
+  $('playbar').addEventListener('keydown',e=>{const el=e.target.closest('button');if(!el||!SEC[el.id])return;
+    if(e.key==='ArrowDown'&&e.altKey){e.preventDefault();e.stopPropagation();BS.show(SEC[el.id],true)}},true);
+  document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!BS.open)return;
+    if(sh.contains(document.activeElement)){e.preventDefault();$('bsX').click();return}
+    if(e.target.closest&&e.target.closest('input,select,textarea'))return;
+    const busy=!$('plist').hidden||!$('rlist').hidden||!$('shotPop').hidden||document.querySelector('.shelf.open')||($('colorPop')&&!$('colorPop').hidden)||!document.body.classList.contains('player');
+    if(!busy)BS.hide()});
+  /* the carets below: one under each round button, one in the pill's middle; the owner's is lit */
+  const cr=$('bsCarets');const CAR=[['pill','robot'],['pShot','capture'],['pSrc','source'],['pSnd','sound'],['pSteer','tools']];
+  CAR.forEach(([id,sec])=>{const c=mk('button','bsCar');c.type='button';c.tabIndex=-1;c.setAttribute('aria-hidden','true');c.dataset.for=id;c.dataset.sec=sec;
+    c.onclick=()=>{if(BS.open&&BS.sec===sec&&id!=='pill')BS.hide();else BS.show(id==='pill'&&['robot','dice','scenes'].includes(BS.sec)?BS.sec:sec)};cr.appendChild(c)});
+  function carets(){for(const c of cr.children){const id=c.dataset.for,el=id==='pill'?$('pTrans'):$(id);if(!el||!el.offsetWidth){c.hidden=true;continue}c.hidden=false;
+    const r=el.getBoundingClientRect();c.style.left=Math.round(r.left+r.width/2-16)+'px';c.style.top=Math.round(r.bottom+6)+'px';
+    const own=BS.open&&(id==='pill'?['robot','dice','scenes'].includes(BS.sec):SEC[id]===BS.sec);c.classList.toggle('own',own)}}
+  BS.carets=carets;
+  const hov=(el,on)=>{const id=el.closest('#pTrans')?'pill':el.id;const c=cr.querySelector('[data-for="'+id+'"]');if(c)c.classList.toggle('hov',on)};
+  for(const id in SEC){const el=$(id);el.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hov(el,true)});el.addEventListener('pointerleave',()=>hov(el,false))}
+  addEventListener('resize',()=>requestAnimationFrame(()=>{place();carets()}));
+  try{new ResizeObserver(()=>{if(BS.open)root.style.setProperty('--bsh',sh.offsetHeight+'px');carets()}).observe(sh)}catch(_){}
+  try{new ResizeObserver(()=>carets()).observe($('playbar'))}catch(_){}
+  document.addEventListener('transitionend',e=>{if(e.target===$('playbar')||e.target===sh)carets()});
+  setInterval(()=>{if(!document.hidden)carets()},700);   // the bar moves for reasons of its own (the drawer beside, the hand, full screen): the carets follow
+  sh.hidden=!BS.open;BS.ready=true;BS.sync();place();
+})();
 /* THE DRAWER CARET (Dimitry, 19 Oct): the small upward caret from the sound shelf's band also sits over the bar's
    buttons that open a drawer (source, sound, tools, capture): shown while their drawer is open, and on hover where
    there is a mouse, so it says "there is more above this". Watching the drawers, not the code that opens them. */
@@ -6910,10 +7126,10 @@ setInterval(()=>{if(!document.hidden&&$('panel')&&$('panel').offsetParent!==null
 try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Close the mixer'],['#colorPop','#cmClose','Close the Color mixer'],['#plist','#plClose','Close the scene list'],['#rlist','#rlClose','Close the random matrix'],['#fontList','#flClose','Close the typeface list'],['#wordList','#wlClose','Close the texts'],['#colorPick','#cpClose','Close your color']]
   .forEach(([p,x,l])=>SurfacePop.dress(p,{head:'.mxh',close:x,label:l}));
   SurfacePop.glide({shut:'cx-shut',bodies:'.cx-gbody,.cx-body,.bbBox',scrollers:'#panel,.track,#wlItems,#mixBody,#batchBody,#plItems'})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022003536"></script>
-<script src="surface/links.js?v=20261022003536"></script>
-<script src="surface/tips.js?v=20261022003536"></script>
-<script src="surface/sections.js?v=20261022003536"></script>
+<script src="surface/install.js?v=20261022005210"></script>
+<script src="surface/links.js?v=20261022005210"></script>
+<script src="surface/tips.js?v=20261022005210"></script>
+<script src="surface/sections.js?v=20261022005210"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7501,7 +7717,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.27.13';
+const APP_VERSION='0.27.14';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
