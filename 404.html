@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#000000">
 <!-- works.chamy.xyz's 404 page, which also opens the studio's short links, works.chamy.xyz/c/<code> (Dimitry, 22 Oct 2026).
      GitHub Pages serves this file (status 404) for any address it does not have; the page still runs. The resolving is the
-     kit's (surface/v1/shortlink.js, SurfaceShort.resolve), loaded from sys, shared with c/index.html and d.chamy.xyz.
+     kit's (surface/v1/shortlink.js, SurfaceShort.resolve), served beside it as /c/shortlink.js (sys.chamy.xyz did not resolve, 22 Oct), shared with c/index.html and d.chamy.xyz.
      Source: 2urn/sys works/; copied to the works root by each tool's release. -->
 <style>
 :root{--bg:#000;--fg:#f2f4f5;--dim:#8a9396;--acc:#55b8c9}
@@ -15,7 +15,7 @@ body{display:flex;align-items:center;justify-content:center;font:15px/1.5 "JetBr
 main{max-width:30rem;text-align:center;opacity:0;transition:opacity .4s ease}
 main.on{opacity:1}
 .word{display:block;margin:0 auto 34px;width:min(220px,60vw);aspect-ratio:996/132;background:var(--fg);
-  -webkit-mask:url(https://sys.chamy.xyz/brands/chamy-xyz/word.svg) center/contain no-repeat;mask:url(https://sys.chamy.xyz/brands/chamy-xyz/word.svg) center/contain no-repeat}
+  -webkit-mask:url(/c/word.svg) center/contain no-repeat;mask:url(/c/word.svg) center/contain no-repeat}
 h1{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin:0 0 10px}
 p{margin:0 0 22px;color:var(--dim)}
 a{color:var(--acc);text-decoration:none;font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px;display:inline-block;padding:12px 4px}
@@ -24,7 +24,7 @@ a:hover,a:focus-visible{text-decoration:underline}
 <body>
 <main id="m" aria-live="polite"><span class="word" role="img" aria-label="CHAMY·XYZ"></span>
 <h1 id="h">Nothing here</h1><p id="t">This address does not lead to a work.</p><a id="go" href="https://works.chamy.xyz/">see the works</a></main>
-<script src="https://sys.chamy.xyz/surface/v1/shortlink.js"></script>
+<script src="/c/shortlink.js"></script>
 <script>
 (function(){
   var m=document.getElementById("m"),H="https://works.chamy.xyz/";
