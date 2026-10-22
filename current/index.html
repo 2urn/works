@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022040303";window.__VERSION__="0.29.11";window.__NOTES__=[{"v":"0.29.11","date":"22 Oct 2026","items":[{"kind":"change","text":"in two columns, lists read down the first column and then down the second; dragging and the arrow keys follow the same order"},{"kind":"change","text":"the list filters (all ★ on, hand a–z used) are even, larger targets, and the star is as big as the words"}]}]</script>
+<script>window.__BUILD__="20261022040908";window.__VERSION__="0.29.12";window.__NOTES__=[{"v":"0.29.12","date":"22 Oct 2026","items":[{"kind":"new","text":"every delete can be undone. Deleting a beat, a formula, a scene, a word, a loop, a gesture, a typeface or a picture or video from your library shows \"deleted … · Undo\" at the top for 8 seconds (Cmd/Ctrl+Z works too), and it comes back exactly where it was. Missed it? Settings › Recently deleted keeps the last ten for a week"},{"kind":"change","text":"in Bytes, on a wide screen, the formula sits beside its mode, clock and view rows"},{"kind":"fix","text":"the field tile's lock sits in its corner; the Tools row keeps its height"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022040303"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022040303">
+<script src="claude-web.js?v=20261022040908"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022040908">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,42 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022040303"></script>
-<script src="surface/selftest.js?v=20261022040303"></script>
-<script src="surface/report.js?v=20261022040303"></script>
-<script src="surface/auto.js?v=20261022040303"></script>
-<script src="surface/toolpath.js?v=20261022040303"></script>
-<script src="surface/capture.js?v=20261022040303"></script>
-<script src="surface/pop.js?v=20261022040303"></script>
-<script src="surface/hints.js?v=20261022040303"></script>
-<script src="surface/paths.js?v=20261022040303"></script>
-<script src="surface/keys.js?v=20261022040303"></script>
-<script src="surface/reset.js?v=20261022040303"></script>
-<script src="surface/files.js?v=20261022040303"></script>
-<script src="surface/tabs.js?v=20261022040303"></script>
-<script src="surface/running.js?v=20261022040303"></script>
-<script src="surface/trim.js?v=20261022040303"></script>
-<script src="surface/audiowake.js?v=20261022040303"></script>
-<script src="surface/listview.js?v=20261022040303"></script>
-<script src="surface/beads.js?v=20261022040303"></script>
-<script src="surface/strip.js?v=20261022040303"></script>
-<script src="surface/sheetnav.js?v=20261022040303"></script>
-<script src="surface/twofinger.js?v=20261022040303"></script>
-<script src="surface/shortlink.js?v=20261022040303"></script>
-<script src="surface/pro.js?v=20261022040303"></script>
+<script src="vendor/opentype.min.js?v=20261022040908"></script>
+<script src="surface/selftest.js?v=20261022040908"></script>
+<script src="surface/report.js?v=20261022040908"></script>
+<script src="surface/auto.js?v=20261022040908"></script>
+<script src="surface/toolpath.js?v=20261022040908"></script>
+<script src="surface/capture.js?v=20261022040908"></script>
+<script src="surface/pop.js?v=20261022040908"></script>
+<script src="surface/hints.js?v=20261022040908"></script>
+<script src="surface/paths.js?v=20261022040908"></script>
+<script src="surface/keys.js?v=20261022040908"></script>
+<script src="surface/reset.js?v=20261022040908"></script>
+<script src="surface/files.js?v=20261022040908"></script>
+<script src="surface/tabs.js?v=20261022040908"></script>
+<script src="surface/running.js?v=20261022040908"></script>
+<script src="surface/trim.js?v=20261022040908"></script>
+<script src="surface/audiowake.js?v=20261022040908"></script>
+<script src="surface/listview.js?v=20261022040908"></script>
+<script src="surface/beads.js?v=20261022040908"></script>
+<script src="surface/strip.js?v=20261022040908"></script>
+<script src="surface/sheetnav.js?v=20261022040908"></script>
+<script src="surface/twofinger.js?v=20261022040908"></script>
+<script src="surface/shortlink.js?v=20261022040908"></script>
+<script src="surface/undo.js?v=20261022040908"></script>
+<script src="surface/pro.js?v=20261022040908"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022040303"></script>
-<script src="surface/rail.js?v=20261022040303"></script>
-<script src="surface/touchsound.js?v=20261022040303"></script>
-<script src="surface/water.js?v=20261022040303"></script>
-<script src="surface/ripple.js?v=20261022040303"></script>
-<script src="surface/float.js?v=20261022040303"></script>
-<script src="surface/manual.js?v=20261022040303"></script>
+<script src="surface/pack.js?v=20261022040908"></script>
+<script src="surface/rail.js?v=20261022040908"></script>
+<script src="surface/touchsound.js?v=20261022040908"></script>
+<script src="surface/water.js?v=20261022040908"></script>
+<script src="surface/ripple.js?v=20261022040908"></script>
+<script src="surface/float.js?v=20261022040908"></script>
+<script src="surface/manual.js?v=20261022040908"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -866,6 +867,8 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
   /* the lists' two columns read column by column (kit listview.js flow, .s-lvcols) */
   .rlAmt{max-width:400px}
   #mixBody.s-lvcols{column-gap:18px}
+  /* the bytebeat's options and its formula side by side in a wide panel (Dimitry, 22 Oct 00:01) */
+  #bbL.inPop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:16px;align-items:stretch}#bbL.inPop>*{grid-column:1/-1}#bbL.inPop>.bbOpts{grid-column:1;grid-row:1;align-self:start}#bbL.inPop>.bbWrap{grid-column:2;grid-row:1;display:flex}#bbL.inPop>.bbWrap>textarea{flex:1;min-height:0;height:auto}
   #btList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px}
 }
 #plItems:not(.hand) .lk>.hd{visibility:hidden}
@@ -1254,6 +1257,10 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .mxNote{margin:8px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
 #rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #rlist[hidden]{display:none}
+.trashRow #trashList{grid-column:1/-1}
+/* a Pro mark is a corner badge inside the tile's own box (Dimitry, 22 Oct 00:05: the field tile grew the row): never a line below */
+.shelf .si{position:relative}.shelf .si .proB{position:absolute;top:3px;right:4px;display:block;line-height:0;margin:0;padding:0;font-style:normal;color:var(--acc,#55b8c9);pointer-events:none}
+.shelf .si .proB svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.shelf .si .proB svg .bolt{fill:currentColor;stroke:none}
 /* THE FIELD PANEL (22 Oct), a Pro preview: reach, strength, particles, trail fade, lifespan, wobble and five presets.
    Shown to everyone, marked the Pro way (the lock with its bolt at the top right, a dotted edge, a faint accent tint);
    it works with a key, and until then its controls are inert and one line says what it is and how to get it. */
@@ -3310,7 +3317,7 @@ function renderPresets(){pr.innerHTML='';
     const b=document.createElement('button');b.type='button';b.textContent=p.name;b.dataset.i=i;if(p.user)b.className='user';
     b.setAttribute('aria-label','Load scene '+p.name);b.addEventListener('click',()=>loadPreset(i));w.appendChild(b);
     if(p.user){const x=document.createElement('button');x.type='button';x.className='x';x.textContent='×';x.setAttribute('aria-label','Delete your scene '+p.name);
-      x.onclick=()=>{const ui=i-PRESETS.length;store.user.splice(ui,1);persist();if(presetIdx===i)presetIdx=-1;else if(presetIdx>i)presetIdx--;renderPresets();toast('deleted “'+p.name+'”')};w.appendChild(x)}
+      x.onclick=()=>delUserScene(i);w.appendChild(x)}
     pr.appendChild(w)});
   syncPresetBtns()}
 function syncPresetBtns(){pr.querySelectorAll('button[data-i]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.i===presetIdx)))}
@@ -3614,7 +3621,7 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
     b.onclick=()=>{$('word').value=w;$('traceBtn').click();renderWordList();if(ACTIVE==='text')buildToolShelf()};
     const x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Remove '+w+' from the list');
     x.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
-    x.onclick=()=>{store.words=store.words.filter(v=>v!==w);const k=store.seq.indexOf(w);if(k>=0)store.seq.splice(k,1);if(!store.seq.length&&SEQ.on)seqStop();persist();renderRecent();renderWordList();if(ACTIVE==='text')buildToolShelf()};
+    x.onclick=()=>delWord(w);
     /* one row (kit): the choice on the left, the handle at the right (Dimitry, 21 Oct). In sequence order the handle
        reorders the sequence; in manual, the list; a-z has no hand order, so its column stays empty */
     const canDrag=sort==='own'||(sort==='seq'&&q>=0),hd=document.createElement('button');hd.type='button';hd.className='drag';
@@ -3905,7 +3912,7 @@ function buildLooks(){
     act('copy','Duplicate '+p.name+' as one of your scenes',()=>{dupPreset(i);buildLooks();syncPlist()});
     act('link','Copy a link to '+p.name,()=>shareScene(p,null));
     if(p.user){const d=act('del','Delete '+p.name+'. Tap twice',()=>{if(!d.classList.contains('arm')){d.classList.add('arm');d.setAttribute('aria-label','Tap again to delete '+p.name);toast('tap again to delete');setTimeout(()=>d.classList.remove('arm'),2500);return}
-      const ui=i-PRESETS.length;store.user.splice(ui,1);persist();if(presetIdx===i)presetIdx=-1;else if(presetIdx>i)presetIdx--;renderPresets();buildLooks();syncPlist();toast('deleted “'+p.name+'”')},'del')}
+      delUserScene(i)},'del')}
     bd.append(tb,nm,acts);
     if(V.sort==='used'&&store.lookUsed[lookKey(p)]){const u=document.createElement('small');u.className='rmN';u.textContent=store.lookUsed[lookKey(p)];u.setAttribute('aria-label','picked '+u.textContent+' times');nm.append(' ',u)}
     const st=window.SurfaceListView?SurfaceListView.star(lookFav(p),p.name,on=>{const k=lookKey(p);if(on)store.lookFav[k]=1;else delete store.lookFav[k];persist();buildLooks();syncPlist();
@@ -5006,6 +5013,28 @@ function cmShelfTo(g,smooth){try{if(!BS.open||BS.sec!=='tools')BS.show('tools');
     const lit=row.querySelector('[aria-checked=true]')||row,q=bd.getBoundingClientRect(),r=row.getBoundingClientRect(),l=lit.getBoundingClientRect();
     let x=bd.scrollLeft+r.left-q.left-8;if(l.right-r.left>q.width-24)x=bd.scrollLeft+l.left-q.left-q.width/2+l.width/2;
     bd.scrollTo({left:Math.max(0,x),behavior:smooth===false?'auto':'smooth'});row.classList.add('flash');setTimeout(()=>row.classList.remove('flash'),700)})}
+/* EVERY DELETE CAN BE UNDONE (Dimitry, 22 Oct 00:01: a deleted beat grid could not come back). Kit undo.js: a line with
+   Undo for 8 s (Cmd/Ctrl+Z too), and Settings > Recently deleted for the last ten, a week. Each kind says how it comes
+   back from Recently deleted; the line's Undo puts it back exactly where it was. */
+function undoDel(kind,label,data,restore){if(window.SurfaceUndo)SurfaceUndo.deleted({kind,label,data,restore});else toast('deleted “'+label+'”')}
+function putAt(o,k,v,at){const ks=Object.keys(o);if(at==null||at<0||at>=ks.length){o[k]=v;return}const tail=ks.slice(at).map(x=>[x,o[x]]);for(const [x] of tail)delete o[x];o[k]=v;for(const [x,y] of tail)if(x!==k)o[x]=y}
+function delUserScene(i){const ui=i-PRESETS.length,u=store.user[ui];if(!u)return;const wasCur=presetIdx===i;store.user.splice(ui,1);persist();if(wasCur)presetIdx=-1;else if(presetIdx>i)presetIdx--;
+  renderPresets();try{buildLooks();syncPlist()}catch(_){}undoDel('scene',u.name,{u:JSON.parse(JSON.stringify(u)),ui},()=>restoreScene(u,ui,wasCur))}
+function restoreScene(u,ui,sel){if(store.user.some(x=>x.name===u.name))u={...u,name:u.name+' (restored)'};ui=Math.min(ui==null?store.user.length:ui,store.user.length);store.user.splice(ui,0,u);persist();
+  const i=PRESETS.length+ui;if(presetIdx>=i)presetIdx++;if(sel){presetIdx=i;curName=u.name}renderPresets();try{buildLooks();syncPlist()}catch(_){}toast('“'+u.name+'” is back')}
+function delWord(w){const wi=(store.words||[]).indexOf(w),si=(store.seq||[]).indexOf(w);store.words=(store.words||[]).filter(v=>v!==w);if(si>=0)store.seq.splice(si,1);if(!store.seq.length&&SEQ.on)seqStop();persist();
+  try{renderRecent();renderWordList()}catch(_){}if(ACTIVE==='text')buildToolShelf();undoDel('word',w,{w,wi,si},()=>restoreWord(w,wi,si))}
+function restoreWord(w,wi,si){if(!store.words.includes(w))store.words.splice(wi<0?store.words.length:Math.min(wi,store.words.length),0,w);if(si>=0&&!store.seq.includes(w))store.seq.splice(Math.min(si,store.seq.length),0,w);persist();
+  try{renderRecent();renderWordList()}catch(_){}if(ACTIVE==='text')buildToolShelf();try{bsSync()}catch(_){}}
+if(window.SurfaceUndo){SurfaceUndo.init({tool:'current'});
+  SurfaceUndo.kind('scene',{name:'Scene',restore:d=>restoreScene(d.u,d.ui,false)});
+  SurfaceUndo.kind('word',{name:'Word',restore:d=>restoreWord(d.w,d.wi,d.si)});
+  SurfaceUndo.kind('steer',{name:'Steer loop',restore:d=>{const L=steerTakes();if(!L.some(x=>x.id===d.t.id)){L.splice(Math.min(d.i,L.length),0,d.t);persist()}try{bsSync()}catch(_){}}});
+  SurfaceUndo.kind('gesture',{name:'Gesture',restore:d=>{const B=gBank();if(!B.some(x=>x.id===d.g.id)){B.splice(Math.min(d.i,B.length),0,d.g);persist()}try{bsSync();buildToolShelf()}catch(_){}}});
+  SurfaceUndo.kind('formula',{name:'Formula',restore:d=>{const L=store.formulas;L.splice(Math.min(d.i,L.length),0,d.x);persist();try{bbList()}catch(_){}}});
+  SurfaceUndo.kind('beat',{name:'Beat',restore:d=>BG.restoreUser(d.n,d.data,d.at,null)});
+  SurfaceUndo.kind('media',{name:'Library',restore:d=>mediaUndel(d.id,null,false)});
+  SurfaceUndo.kind('font',{name:'Typeface',restore:d=>fontUndel(d.r,d.i,false)})}
 function toolWords(){const o=[],seen=new Set();for(const w of [...(store.seq||[]),...(store.words||[])]){const k=String(w);if(!k||seen.has(k))continue;seen.add(k);o.push(k)}return o.slice(0,40)}
 /* a loop's thumbnail: its path drawn small, in the accent, over the strip's dark screen */
 function loopThumb(el,t,mag){const c=document.createElement('canvas');c.width=136;c.height=80;const g=c.getContext('2d');g.strokeStyle='#55b8c9';g.lineWidth=2;g.lineCap='round';g.lineJoin='round';g.beginPath();let pen=false;
@@ -5013,7 +5042,8 @@ function loopThumb(el,t,mag){const c=document.createElement('canvas');c.width=13
   g.fillStyle='rgba(255,255,255,.75)';g.font='600 16px ui-monospace,Menlo,monospace';g.fillText((t.len/1000).toFixed(1)+'s',6,74);el.style.backgroundImage='url('+c.toDataURL()+')';el.style.backgroundSize='cover'}
 const steerTakes=()=>Array.isArray(store.steerLoops)?store.steerLoops:(store.steerLoops=[]);
 function playSteerTake(t){STEER.rec=null;STEER.take={ev:t.ev,len:t.len,id:t.id};STEER.loop={...STEER.take,start:performance.now(),ph:0};toast('steer loop · '+(t.len/1000).toFixed(1)+'s, playing');syncSteer()}
-function removeSteerTake(id){const L=steerTakes(),i=L.findIndex(x=>x.id===id);if(i<0)return;L.splice(i,1);persist();if(STEER.take&&STEER.take.id===id){STEER.loop=null;STEER.take=null;STEER.ghost=null}toast('steer loop removed');syncSteer()}
+function removeSteerTake(id){const L=steerTakes(),i=L.findIndex(x=>x.id===id);if(i<0)return;const t=L.splice(i,1)[0];persist();const was=!!(STEER.take&&STEER.take.id===id),pl=was&&!!STEER.loop;if(was){STEER.loop=null;STEER.take=null;STEER.ghost=null}syncSteer();try{bsSync()}catch(_){}
+  undoDel('steer','steer loop '+(t.len/1000).toFixed(1)+' s',{t,i},()=>{const L2=steerTakes();L2.splice(Math.min(i,L2.length),0,t);persist();if(pl)playSteerTake(t);else syncSteer();try{bsSync()}catch(_){}})}
 function toggleLoop(){if(!STEER.take)return;if(STEER.loop){STEER.loop=null;STEER.ghost=null;toast('loop stopped')}
   else{STEER.loop={...STEER.take,start:performance.now(),ph:0};toast('loop playing')}syncSteer()}
 // THE TOOL SLOT (bottom right): one tool shows its own icon; several collapse into ≡, which opens a row of tools.
@@ -5138,7 +5168,7 @@ function bankTake(){if(!MGR.take)return;const B=gBank();if(MGR.take.bid&&B.some(
 function playBanked(g){MGR.rec=null;MGR.take={ev:g.ev,len:g.len,bid:g.id};if(Math.abs(S.magnet||0)<=.004)setMagnet(window._magKeep||.85);
   MGR.loop={...MGR.take,start:performance.now()};toast(g.name+' · '+(g.len/1000).toFixed(1)+'s, playing');syncSlot()}
 function unbank(){const B=gBank(),i=MGR.take&&MGR.take.bid?B.findIndex(g=>g.id===MGR.take.bid):-1;if(i<0)return;
-  const g=B.splice(i,1)[0];persist();delete MGR.take.bid;toast(g.name+' removed from the bank (the loop stays loaded)')}
+  const g=B.splice(i,1)[0];persist();delete MGR.take.bid;undoDel('gesture',g.name,{g,i},()=>{const B2=gBank();B2.splice(Math.min(i,B2.length),0,g);persist();if(MGR.take)MGR.take.bid=g.id;try{buildToolShelf();bsSync()}catch(_){}})}
 function exportTake(){if(!MGR.take)return;const B=gBank(),g=MGR.take.bid&&B.find(x=>x.id===MGR.take.bid),name=g?g.name:'gesture';
   const doc={kind:'toolpath-field/gesture',v:1,name,...gPack(MGR.take)};
   saveBlob(FILE_PREFIX+'gesture_'+slug(name)+'_'+stamp()+'.json',new Blob([JSON.stringify(doc)],{type:'application/json'})).then(ok=>ok&&toast('gesture file saved'))}
@@ -5721,7 +5751,7 @@ function bbList(){const el=$('bbList');if(!el)return;el.innerHTML='';const F=sto
     nm.onclick=()=>{if(nm.isContentEditable)return;bbUse(x);bbView();toast('“'+x.name+'” is in the box')};nm.onkeydown=e=>{if(!nm.isContentEditable&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nm.onclick()}};
     const tg=document.createElement('span');tg.className='tg';tg.textContent=((x.mode|0)?BB_MODES[x.mode|0]+' ':'')+((+x.hz||8000)!==8000?((+x.hz)/1000)+'k':'');tg.setAttribute('aria-hidden','true');
     r.append(pl,nm,tg,b('',BBI.ren,'Rename '+x.name,()=>bbRename(r,x)),
-      b('',BBI.del,'Delete '+x.name,()=>{F.splice(i,1);persist();bbList();toast('deleted “'+x.name+'”')}));el.appendChild(r)})}
+      b('',BBI.del,'Delete '+x.name,()=>{F.splice(i,1);persist();bbList();undoDel('formula',x.name,{x,i},()=>{const L=store.formulas;L.splice(Math.min(i,L.length),0,x);persist();bbList()})}));el.appendChild(r)})}
 $('bbSave').addEventListener('click',()=>{const f=$('bbFx').value.trim();if(!f){bbMsg('Type a formula first, then save it.');return}
   if(!bbCompile(f)){bbMsg('That formula does not run yet, so it was not saved.');return}bbMsg();
   const had=store.formulas.find(x=>bbSame(x,f,BB_MODE,BB_HZ));if(had){toast('already saved as “'+had.name+'”');return}
@@ -6276,7 +6306,8 @@ const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DR
       toast((had?'updated ':'saved ')+n+' · on the sound shelf');if(window.cxCount)cxCount('beat grid: save',1)};
     sv.append(nm,go);
     if(src&&BEAT_USER[src]){const del=document.createElement('button');del.type='button';del.className='bgGo ghost';del.textContent='delete';del.setAttribute('aria-label','Delete '+src+' from My beats');
-      del.onclick=()=>{const n=src;delete BEAT_USER[n];if(AUD.play.beat===n){stopCh('beat')}delete BEATS[n];delete BEAT_BUF[n];src='';saveUser();saveDraft();shelf();render();toast('deleted '+n)};sv.appendChild(del)}
+      del.onclick=()=>{const n=src,data={...BEAT_USER[n]},at=Object.keys(BEAT_USER).indexOf(n),wasD={...D};delete BEAT_USER[n];if(AUD.play.beat===n){stopCh('beat')}delete BEATS[n];delete BEAT_BUF[n];src='';saveUser();saveDraft();shelf();render();
+        undoDel('beat',n,{n,data,at},()=>restoreUser(n,data,at,wasD))};sv.appendChild(del)}
     b.appendChild(sv);
     const io=document.createElement('div');io.className='bgTop';io.style.marginTop='8px';
     const sub=document.createElement('span');sub.style.cssText='flex:1;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)';sub.textContent='My beats · '+nUser()+(isPro('beats.more')?' · Pro':' of '+FREE_BEATS);
@@ -6290,7 +6321,10 @@ const BG=(()=>{const VO=[['k','kick'],['s','snare'],['h','hat'],['b','bass']],DR
     io.append(sub,im,ex);b.appendChild(io);
     /* the explanation lives in the panel's How it works drawer (Surface · Info) */
     head()}
-  return {render,head,stopHead:clear,swap,DRAFT}})();
+  /* undo a deleted beat (Dimitry, 22 Oct 00:01): back in its place among My beats, in the grid again when it came from there */
+  function restoreUser(n,data,at,wasD){let k=n;if(BEAT_USER[k]||BEAT_BUILTIN.includes(k))k=n+' (restored)';putAt(BEAT_USER,k,{...data},at);BEATS[k]={...data};delete BEAT_BUF[k];
+    if(wasD){D={...wasD};src=k}saveUser();saveDraft();try{shelf();render()}catch(_){}try{syncSndShelf();bsSync()}catch(_){}toast('“'+k+'” is back')}
+  return {render,head,stopHead:clear,swap,DRAFT,restoreUser}})();
 if(BG&&localStorage)try{const o=JSON.parse(localStorage.getItem('current.beatDraft')||'null');if(o&&BEAT_OK(o.p))BEATS[BG.DRAFT]={...o.p}}catch(_){}
 
 /* ===== BYTES: the bytebeat writer moves from the index into the sound panel (Dimitry, 19 Oct). The same box, moved
@@ -6554,7 +6588,8 @@ $('srVid').onclick=()=>{pickKind='video';const f=$('srFile');f.accept='video/*';
    the one in use lit; a tap makes one the source again, a long press removes it. */
 const MEDIA={items:[],db:null,max:80*1024*1024,total:400*1024*1024,cur:null};
 function mediaDB(){if(MEDIA.db)return MEDIA.db;MEDIA.db=new Promise(r=>{try{const q=indexedDB.open('current.media',1);q.onupgradeneeded=()=>q.result.createObjectStore('m',{keyPath:'id'});q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(_){r(null)}});return MEDIA.db}
-async function mediaLoad(){const db=await mediaDB();if(!db)return;await new Promise(r=>{try{const q=db.transaction('m').objectStore('m').getAll();q.onsuccess=()=>{MEDIA.items=(q.result||[]).map(x=>({id:x.id,kind:x.kind,name:x.name,t:x.t,size:x.size,thumb:x.thumb})).sort((a,b)=>a.t-b.t);r()};q.onerror=r}catch(_){r()}});bsSync()}
+async function mediaLoad(){const db=await mediaDB();if(!db)return;await new Promise(r=>{try{const q=db.transaction('m').objectStore('m').getAll();q.onsuccess=()=>{const all=q.result||[],cut=Date.now()-7*864e5;for(const x of all)if(x.gone&&x.gone<cut)try{db.transaction('m','readwrite').objectStore('m').delete(x.id)}catch(_){}
+      MEDIA.items=all.filter(x=>!x.gone).map(x=>({id:x.id,kind:x.kind,name:x.name,t:x.t,size:x.size,thumb:x.thumb})).sort((a,b)=>a.t-b.t);r()};q.onerror=r}catch(_){r()}});bsSync()}
 function mediaThumb(el,kind){return new Promise(r=>{const c=document.createElement('canvas');c.width=136;c.height=80;const g=c.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,136,80);
   const draw=()=>{const w=el.naturalWidth||el.videoWidth,h=el.naturalHeight||el.videoHeight;if(w&&h){const sc=Math.max(136/w,80/h);try{g.drawImage(el,(136-w*sc)/2,(80-h*sc)/2,w*sc,h*sc)}catch(_){}}r(c.toDataURL('image/jpeg',.7))};
   if(kind==='picture')draw();else{const go=()=>{el.removeEventListener('seeked',go);draw()};el.addEventListener('seeked',go);try{el.currentTime=Math.min(.5,(el.duration||1)/2)}catch(_){draw()}setTimeout(draw,1500)}})}
@@ -6570,7 +6605,13 @@ async function mediaAdd(blob,kind,name){try{
   MEDIA.items.push(it);MEDIA.cur=id;bsSync();return id}catch(e){console.warn('[media]',e);return null}}
 async function mediaUse(id){const db=await mediaDB();if(!db)return;const x=await new Promise(r=>{try{const q=db.transaction('m').objectStore('m').get(id);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(_){r(null)}});
   if(!x||!x.blob){toast('that one is no longer here');return}useMedia(x.blob,x.kind,x.name,id)}
-async function mediaRemove(id){const db=await mediaDB();try{db.transaction('m','readwrite').objectStore('m').delete(id)}catch(_){}const it=MEDIA.items.find(x=>x.id===id);MEDIA.items=MEDIA.items.filter(x=>x.id!==id);if(MEDIA.cur===id)MEDIA.cur=null;bsSync();toast((it?it.name:'it')+' removed from the library')}
+/* removing is a soft delete (Dimitry, 22 Oct 00:01: every delete can be undone): the record is marked gone and kept 7 days,
+   so the line's Undo and Settings > Recently deleted can bring it back; mediaLoad purges what has been gone longer */
+function mediaMark(id,gone){return mediaDB().then(db=>new Promise(r=>{if(!db){r(null);return}try{const os=db.transaction('m','readwrite').objectStore('m'),q=os.get(id);q.onsuccess=()=>{const x=q.result;if(!x){r(null);return}if(gone)x.gone=Date.now();else delete x.gone;os.put(x);r(x)};q.onerror=()=>r(null)}catch(_){r(null)}}))}
+async function mediaRemove(id){const at=MEDIA.items.findIndex(x=>x.id===id),it=MEDIA.items[at];if(!it)return;await mediaMark(id,true);MEDIA.items=MEDIA.items.filter(x=>x.id!==id);const wasCur=MEDIA.cur===id;if(wasCur)MEDIA.cur=null;bsSync();
+  undoDel('media',it.name,{id},()=>mediaUndel(id,at,wasCur))}
+async function mediaUndel(id,at,wasCur){const x=await mediaMark(id,false);if(!x){toast('that one is no longer here');return}if(MEDIA.items.some(y=>y.id===id))return;
+  const it={id:x.id,kind:x.kind,name:x.name,t:x.t,size:x.size,thumb:x.thumb};MEDIA.items.splice(at==null?MEDIA.items.length:Math.min(at,MEDIA.items.length),0,it);if(wasCur)MEDIA.cur=id;bsSync();toast('“'+x.name+'” is back in the library')}
 setTimeout(()=>{mediaLoad()},0);
 /* one way in for a picture or a video, from the file picker or the library */
 function useMedia(f,kind,name,libId){
@@ -6771,9 +6812,12 @@ async function addFontFile(file){if(!file)return;
   store.fonts.push(rec);persist();setFace(rec.key);toast(rec.name+' added');
   try{await Promise.race([FDB.put(id,{name:rec.name,buf}),new Promise((_,rej)=>setTimeout(()=>rej(0),4000))])}catch(e){toast(rec.name+' is here for this visit only: browser storage is off')}}
 function removeFont(key){const i=(store.fonts||[]).findIndex(r=>r.key===key);if(i<0)return;const r=store.fonts[i];store.fonts.splice(i,1);persist();
-  if(r.kind==='file')FDB.del(r.id).catch(()=>{});
+  /* the font file stays in its store so an undo can bring it back (Dimitry, 22 Oct 00:01) */
+  undoDel('font',r.name,{r,i},()=>fontUndel(r,i,$('font').value===key));
   const o=[...$('font').options].find(x=>x.value===key),was=$('font').value===key;if(o)o.remove();delete FONTS[key];delete OT.fonts[key];delete OT.bufs[key];
-  if(was){$('font').value='sans';$('font').dispatchEvent(new Event('change'))}renderFontList();if(ACTIVE==='text')buildToolShelf();toast(r.name+' removed')}
+  if(was){$('font').value='sans';$('font').dispatchEvent(new Event('change'))}renderFontList();if(ACTIVE==='text')buildToolShelf()}
+async function fontUndel(r,i,sel){if((store.fonts||[]).some(x=>x.key===r.key))return;try{if(r.kind==='google')await registerGoogleFont(r);else{const v=await FDB.get(r.id);if(!v)throw 0;await registerFileFont(r,v.buf)}}catch(_){toast('that font file is gone from this browser');return}
+  store.fonts.splice(Math.min(i,store.fonts.length),0,r);persist();if(sel)setFace(r.key);renderFontList();if(ACTIVE==='text')buildToolShelf();toast(r.name+' is back')}
 function renderFontList(){const box=$('flItems');box.innerHTML='';const cur=$('font').value;
   for(const f of faceList()){const row=document.createElement('div');row.className='fl';
     const b=document.createElement('button');b.type='button';b.className='pick';b.setAttribute('aria-current',String(f.key===cur));b.setAttribute('aria-label',f.name+(f.key===cur?', in use':'. Retrace the word in it'));
@@ -6929,7 +6973,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         const st=strip({name:'Your words',ids:()=>toolWords(),label:w=>w,draw:(el,w)=>{el.textContent=w;el.classList.add('bsWordI')},
           current:()=>($('word')||{}).value||null,next:()=>SEQ.on&&store.seq.length?(SEQ.order==='mix'?null:store.seq[(SEQ.i+1)%store.seq.length]):null,
           pick:w=>{$('word').value=w;try{$('traceBtn').click()}catch(_){}flashName(w);bsSync()},
-          remove:w=>{store.words=(store.words||[]).filter(x=>x!==w);persist();bsSync()}});
+          remove:w=>{delWord(w);bsSync()}});
         return ()=>{st.sync();for(const i of st.el.children){const on=!!(SEQ.on&&store.seq.includes(i.dataset.id));if(window.SurfaceRunning)SurfaceRunning.mark(i,on);else i.classList.toggle('s-running',on)}}}
       if(ACTIVE==='view'){const V=[['clean','Clean','Clean: particles only',{arrows:0,path:0,lens:0,dots:0}],['arrows','Arrows','Arrows: the field drawn as arrows',{arrows:1,path:0,lens:0,dots:0}],
           ['blueprint','Blueprint','Blueprint: the pattern and the arrows',{arrows:1,path:1,lens:0,dots:0}],['glow','Glow','Glow: the lens shows faintly',{arrows:0,path:0,lens:1,dots:0}],['grain','Grain','Grain: trails as dots',{arrows:0,path:0,lens:0,dots:2}]];
@@ -6950,7 +6994,8 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
           pick:id=>{const t=L().find(x=>x.id===id);if(!t)return;const tk=mag?MGR.take:STEER.take,lp=mag?MGR.loop:STEER.loop;
             if(lp&&tk&&(mag?tk.bid:tk.id)===id){if(mag)MGR.loop=null;else{STEER.loop=null;STEER.ghost=null}toast('loop stopped');try{mag?syncSlot():syncSteer()}catch(_){}bsSync();return}
             if(mag)playBanked(t);else playSteerTake(t);bsSync()},
-          remove:id=>{if(mag){const B=gBank(),i=B.findIndex(g=>g.id===id);if(i>=0){B.splice(i,1);persist();if(MGR.take&&MGR.take.bid===id)delete MGR.take.bid;toast('removed from the bank')}}else removeSteerTake(id);bsSync()}});
+          remove:id=>{if(mag){const B=gBank(),i=B.findIndex(g=>g.id===id);if(i>=0){const g=B.splice(i,1)[0];persist();const had=!!(MGR.take&&MGR.take.bid===id);if(had)delete MGR.take.bid;
+            undoDel('gesture',g.name,{g,i},()=>{const B2=gBank();B2.splice(Math.min(i,B2.length),0,g);persist();if(had&&MGR.take)MGR.take.bid=g.id;bsSync()})}}else removeSteerTake(id);bsSync()}});
         return ()=>st.sync()}
       if(ACTIVE==='frame'){const set=f=>{f();frameChanged(true);try{buildToolShelf()}catch(_){}};
         const g=pills('Frame',[['fit','Fit','Fit: the whole drawing in the window'],['fill','Fill','Fill: the drawing fills the window'],['center','Center','Center the drawing'],['turn','Turn 90°','Turn the drawing 90 degrees']],v=>{
@@ -7645,10 +7690,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022040303"></script>
-<script src="surface/links.js?v=20261022040303"></script>
-<script src="surface/tips.js?v=20261022040303"></script>
-<script src="surface/sections.js?v=20261022040303"></script>
+<script src="surface/install.js?v=20261022040908"></script>
+<script src="surface/links.js?v=20261022040908"></script>
+<script src="surface/tips.js?v=20261022040908"></script>
+<script src="surface/sections.js?v=20261022040908"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -7737,6 +7782,10 @@ try{SurfaceLinks.mount({hold:!!document.getElementById('launch'),base:SHARE_URL,
 addEventListener('load',()=>{setTimeout(()=>{const d=document.getElementById('displayL');if(d&&window.REPORT&&!document.getElementById('rpRow')){
     const r=document.createElement('div');r.className='dsp-row';r.id='rpRow';r.innerHTML='<span class="dsp-lab">Bugs</span><button type="button" class="btn">report a bug</button>';
     r.querySelector('button').onclick=()=>REPORT.open('button');d.appendChild(r)}
+    /* RECENTLY DELETED in Settings (Dimitry, 22 Oct 00:01): the last ten deletes of the week, each with restore (kit undo.js) */
+    if(d&&window.SurfaceUndo&&!document.getElementById('trashRow')){const r=document.createElement('div');r.className='dsp-row trashRow';r.id='trashRow';
+      r.innerHTML='<span class="dsp-lab">Recently deleted</span><button type="button" class="btn" aria-expanded="false" aria-controls="trashList">show</button><div id="trashList" hidden></div>';d.appendChild(r);
+      const bt=r.querySelector('button'),L=r.querySelector('#trashList');bt.onclick=()=>{const on=L.hidden;L.hidden=!on;bt.setAttribute('aria-expanded',String(on));bt.textContent=on?'hide':'show';if(on)SurfaceUndo.panel(L)}}
     /* PRO KEY in Settings: an input and Enter; once on, who it is for and until when, and remove */
     if(d&&window.SurfacePro&&!document.getElementById('proRow')){const r=document.createElement('div');r.className='dsp-row proRow';r.id='proRow';d.appendChild(r);
       const draw=(err)=>{const i=SurfacePro.info();
@@ -8283,7 +8332,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.11';
+const APP_VERSION='0.29.12';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
