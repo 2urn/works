@@ -11,6 +11,8 @@
    2. BEDS, sound with no beat for the field to listen to: surf, stream, hydrophone, rain.
    3. VOICES the field or a finger fires: drop (a short rising sine chirp: a real drop rings as its bubble shrinks),
       bubbles (a scatter of small rising chirps), whale (a slow slide on a long gesture). Pitch from height.
+      22 Oct, with animals: porpoise (an echolocation click train, slow, a buzz, slow again, sometimes a whistle) and
+      seagull (a nasal "kee-ow", sometimes a laughing series; it is in the air, so it can skip the water: {air}).
 
    PRESETS (named, finished, tuned to just work)
      Shallows         ankle deep: a little muffle, a little shimmer
@@ -19,13 +21,18 @@
      Rain on the roof rain bed, a light touch of water on the music
      Stream           a brook under the music, drops on touch
      Hydrophone       a listening mic in the harbor: rumble, whale slides on long gestures
+     Harbor           surf on the wall, drops, gulls overhead (a tap above the waterline is a gull)
+     Pod              open sea, porpoises clicking past (a tap is a click train)
 
-     SurfaceWater.treat(ctx, input, {preset, depth}) → {input, output, depth(v?, still), stir(x, y, amount), bypass(bool?),
+     SurfaceWater.treat(ctx, input, {preset, depth}) → {input, output, air, depth(v?, still), stir(x, y, amount), bypass(bool?),
                                                          set({breath, wobble, wet, dark}), preset(id), stop()}
          put it between your sound and your speakers; input may be null (connect to t.input yourself)
      SurfaceWater.bed(ctx, name, {level}) → {output, level(v), stop()}        name: surf | stream | hydrophone | rain
      SurfaceWater.voice(ctx, out, kind, {pitch, pan, size, when, gain}) → end time
-         kind: drop | bubbles | whale; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer, lower)
+         kind: drop | bubbles | whale | porpoise | seagull; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer,
+         lower; a longer click train, more gull calls). porpoise takes {whistle: bool}; seagull takes {air: t.air}
+     SurfaceWater.pick(presetId, ctx) → the voice the music plays (the preset's mix weights; gulls and porpoises keep a gap)
+     SurfaceWater.tap(presetId, y) → the voice a tap plays (y 1 at the top; above the waterline a preset's sky voice)
      SurfaceWater.PRESETS, .BEDS, .VOICES   [{id, name, note, ...}] for pickers
      SurfaceWater.rebuild()   forget the cached buffers (after an AudioContext is closed and replaced)
 
@@ -42,7 +49,11 @@
     { id: "opensea", name: "Open sea", note: "surf under everything, a slow swell in the filter", depth: 0.5, breath: 0.8, wobble: 0.4, wet: 0.4, dark: 0.5, bed: "surf", voice: "whale" },
     { id: "rain", name: "Rain on the roof", note: "rain, and a light touch of water on the music", depth: 0.2, breath: 0.25, wobble: 0.25, wet: 0.3, dark: 0.35, bed: "rain", voice: "drop" },
     { id: "stream", name: "Stream", note: "a brook under the music, drops on touch", depth: 0.35, breath: 0.4, wobble: 0.45, wet: 0.28, dark: 0.4, bed: "stream", voice: "drop" },
-    { id: "hydrophone", name: "Hydrophone", note: "a listening mic in the harbor: rumble, whale slides", depth: 0.7, breath: 0.5, wobble: 0.3, wet: 0.5, dark: 0.7, bed: "hydrophone", voice: "whale" }
+    { id: "hydrophone", name: "Hydrophone", note: "a listening mic in the harbor: rumble, whale slides", depth: 0.7, breath: 0.5, wobble: 0.3, wet: 0.5, dark: 0.7, bed: "hydrophone", voice: "whale" },
+    /* 22 Oct: the two with animals. mix: what the music's beats play, by weight (pick); tap: what a tap plays;
+       sky: what a tap above the waterline (the top third) plays instead */
+    { id: "harbor", name: "Harbor", note: "surf on the wall, drops, and gulls overhead", depth: 0.25, breath: 0.3, wobble: 0.3, wet: 0.3, dark: 0.35, bed: "surf", voice: "seagull", mix: { drop: 0.72, seagull: 0.28 }, tap: "drop", sky: "seagull" },
+    { id: "pod", name: "Pod", note: "open sea, and porpoises clicking past", depth: 0.6, breath: 0.65, wobble: 0.4, wet: 0.45, dark: 0.55, bed: "surf", voice: "porpoise", mix: { porpoise: 0.6, bubbles: 0.4 }, tap: "porpoise" }
   ];
   var BEDS = [
     { id: "surf", name: "Surf", note: "waves arriving, slow and wide" },
@@ -53,7 +64,9 @@
   var VOICES = [
     { id: "drop", name: "Drop", note: "one drop; higher on screen, higher drop" },
     { id: "bubbles", name: "Bubbles", note: "a small scatter of bubbles" },
-    { id: "whale", name: "Whale", note: "a slow slide, for long gestures" }
+    { id: "whale", name: "Whale", note: "a slow slide, for long gestures" },
+    { id: "porpoise", name: "Porpoise", note: "a click train that speeds up and slows, sometimes a whistle", gap: 0.5 },
+    { id: "seagull", name: "Seagull", note: "a gull's cry, sometimes laughing; above the water, so dry", gap: 1.6, air: true }
   ];
   function byId(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -142,6 +155,9 @@
     var verb = ctx.createConvolver(); verb.normalize = true;
     var rv = ctx.createGain(), rvLp = ctx.createBiquadFilter(); rvLp.type = "lowpass";
     var bypassG = ctx.createGain(), procG = ctx.createGain();
+    /* AIR: for sounds above the water (a gull). Straight to the output, past the muffle and the wobble; a little of
+       it reaches the reverb, so the gull is in the same harbor */
+    var air = ctx.createGain(), airV = ctx.createGain(); airV.gain.value = 0.18; air.connect(out); air.connect(airV); airV.connect(rvLp);
 
     /* input → [bypass] → out ; input → lp → shelf → (direct + wobble) → dry/out and → reverb → out */
     inp.connect(bypassG); bypassG.connect(out);
@@ -177,7 +193,7 @@
     var lastIR = st.depth, stirT = 0;
 
     var api = {
-      input: inp, output: out,
+      input: inp, output: out, air: air,
       /* still: a depth that moves all the time (the field driving it) keeps its tail; only a chosen depth renews it */
       depth: function (v, still) {
         if (v == null) return st.depth; st.depth = clamp(+v || 0, 0, 1); apply(still ? 0.6 : 0.25);
@@ -201,7 +217,7 @@
       set: function (p) { p = p || {}; ["breath", "wobble", "wet", "dark"].forEach(function (k) { if (p[k] != null) st[k] = clamp(+p[k], 0, 1); }); if (p.dark != null) setIR(); apply(0.2); },
       preset: function (id) { var q = byId(PRESETS, id); if (!q) return null; st.depth = q.depth; st.breath = q.breath; st.wobble = q.wobble; st.wet = q.wet; st.dark = q.dark; lastIR = st.depth; setIR(); apply(0.6); return q; },
       state: function () { return { depth: st.depth, breath: st.breath, wobble: st.wobble, wet: st.wet, dark: st.dark, on: st.on }; },
-      stop: function () { [breath.osc, w1.osc, w2.osc, wsrc].forEach(function (n) { try { n.stop(); } catch (e) {} }); try { inp.disconnect(); out.disconnect(); } catch (e) {} }
+      stop: function () { [breath.osc, w1.osc, w2.osc, wsrc].forEach(function (n) { try { n.stop(); } catch (e) {} }); try { inp.disconnect(); air.disconnect(); out.disconnect(); } catch (e) {} }
     };
     return api;
   }
@@ -277,10 +293,101 @@
     o.onended = function () { try { g.disconnect(); if (p) p.disconnect(); } catch (e) {} };
     o.start(t); o.stop(t + dur + 0.02); return t + dur;
   }
+  function panTo(ctx, node, pan, out) {
+    var p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    if (p) { p.pan.value = clamp(pan, -1, 1); node.connect(p); p.connect(out); } else node.connect(out);
+    return p;
+  }
+  /* PORPOISE: a click train rendered into one buffer (one node, however many clicks), band-passed high, plus sometimes
+     a whistle. The clicks come slowly, crowd into a buzz, then thin out, as a porpoise closes on something. */
+  function porpoise(ctx, out, t, h, pan, size, amp, o) {
+    var L = 0.35 + size * 1.4, wh = o.whistle != null ? !!o.whistle : Math.random() < 0.45, wd = 0.35 + size * 0.45;
+    var end = t + Math.max(L, wh ? 0.1 + wd : 0) + 0.02;
+    if (!room(ctx, t, end)) return t;
+    var sr = ctx.sampleRate, n = Math.floor(sr * (L + 0.01)), b = ctx.createBuffer(1, n, sr), d = b.getChannelData(0);
+    var at = 0.004, fc = 5200 + h * 3800, buzz = 0.45 + Math.random() * 0.25, count = 0;
+    while (at < L && count < 160) {
+      var u = at / L, x = (u - buzz) / 0.22;                                  // the interval dips to a buzz near u = buzz
+      var ici = 0.006 + 0.07 * (1 - Math.exp(-x * x)) * (u > buzz ? 0.55 : 1);
+      var len = Math.floor(sr * (0.0012 + Math.random() * 0.0016)), f = fc * (0.85 + Math.random() * 0.3), a = Math.sin(Math.PI * Math.min(1, u * 1.15)) * (0.6 + Math.random() * 0.4);
+      var s0 = Math.floor(at * sr);
+      for (var i = 0; i < len && s0 + i < n; i++) {
+        var e = Math.exp(-i / (len * 0.22)) * Math.min(1, i / 6);            // a click: a damped ring with a little hiss
+        d[s0 + i] += (Math.sin(2 * Math.PI * f * i / sr) * 0.8 + (Math.random() * 2 - 1) * 0.35) * e * a;
+      }
+      at += ici * (0.85 + Math.random() * 0.3); count++;
+    }
+    var src = ctx.createBufferSource(); src.buffer = b;
+    var bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 7000; bp.Q.value = 0.6;
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 9500; lp.Q.value = 0.5;   // a touch of water
+    var g = ctx.createGain(); g.gain.value = amp * 3.2;
+    src.connect(bp); bp.connect(lp); lp.connect(g); var p = panTo(ctx, g, pan, out);
+    var nodes = [src, bp, lp, g, p];
+    if (wh) {                                                                  // the whistle: a sine swept up and down, fast FM on top
+      var w0 = t + 0.05 + Math.random() * Math.max(0.05, L - wd), base = 2400 + h * 2600, ow = ctx.createOscillator(), wg = ctx.createGain();
+      var curve = new Float32Array(24), up = 0.5 + Math.random() * 0.5;
+      for (var k = 0; k < 24; k++) { var v = k / 23; curve[k] = base * (1 + up * Math.sin(Math.PI * v) - 0.25 * v); }
+      ow.frequency.setValueCurveAtTime(curve, w0, wd);
+      var fm = lfo(ctx, 9 + Math.random() * 6, 45, ow.detune);
+      wg.gain.setValueAtTime(0.0001, w0); wg.gain.exponentialRampToValueAtTime(amp * 0.16, w0 + 0.04);
+      wg.gain.setValueAtTime(amp * 0.16, w0 + wd * 0.7); wg.gain.exponentialRampToValueAtTime(0.0001, w0 + wd);
+      ow.connect(wg); wg.connect(lp); ow.start(w0); ow.stop(w0 + wd + 0.02); fm.osc.stop(w0 + wd + 0.02);
+      nodes.push(ow, wg, fm.osc, fm.gain);
+    }
+    src.onended = function () { setTimeout(function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); }, Math.max(0, (end - ctx.currentTime) * 1000) + 50); };
+    src.start(t); src.stop(t + L + 0.01);
+    return end;
+  }
+  /* SEAGULL: a nasal "kee-ow": sawtooth and a pulse, gliding up fast and falling, through three formants, with a rasp
+     (a fast flutter in the level) and a breath of noise. Bigger is more calls: 1 to 4, the later ones short ("laughing").
+     It is in the air: give it {air} (the treatment's .air) and it skips the water. One graph plays the whole series. */
+  function seagull(ctx, out, t, h, pan, size, amp, o) {
+    var calls = 1 + Math.round(size * 3 * (0.6 + Math.random() * 0.4)), fb = 820 + h * 760, plan = [], at = t;
+    for (var i = 0; i < calls; i++) {
+      var long = i === 0, dur = long ? 0.36 + size * 0.18 + Math.random() * 0.08 : 0.17 + Math.random() * 0.09;
+      plan.push([at, dur, long ? 1.65 : 1.3 + Math.random() * 0.15]); at += dur + (long ? 0.12 : 0.06 + Math.random() * 0.05);
+    }
+    var end = at + 0.05; if (!room(ctx, t, end)) return t;
+    var dest = o.air || out;
+    var o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), m = ctx.createGain(); o1.type = "sawtooth"; o2.type = "square";
+    var g2 = ctx.createGain(); g2.gain.value = 0.35; o1.connect(m); o2.connect(g2); g2.connect(m);
+    var vib = lfo(ctx, 6 + Math.random() * 2, 28, null); vib.gain.connect(o1.detune); vib.gain.connect(o2.detune);
+    var rasp = ctx.createGain(); rasp.gain.value = 0.7; var ra = lfo(ctx, 48 + Math.random() * 18, 0.3, rasp.gain); m.connect(rasp);
+    var env = ctx.createGain(); env.gain.value = 0;
+    var nz = ctx.createBufferSource(); nz.buffer = noiseBuf(ctx, "white", 2, 61); nz.loop = true;
+    var nb = ctx.createBiquadFilter(); nb.type = "bandpass"; nb.frequency.value = 3000; nb.Q.value = 1.4; var ng = ctx.createGain(); ng.gain.value = 0.22;
+    nz.connect(nb); nb.connect(ng); ng.connect(env);
+    var mix = ctx.createGain(); mix.gain.value = 1;
+    var nodes = [o1, o2, m, g2, vib.osc, vib.gain, rasp, ra.osc, ra.gain, env, nz, nb, ng, mix];
+    [[1250, 5, 1], [2500, 7, 0.75], [3650, 9, 0.4]].forEach(function (F) {     // the nasal throat
+      var f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = F[0] * (0.9 + h * 0.2); f.Q.value = F[1];
+      var fg = ctx.createGain(); fg.gain.value = F[2] * 2.2; rasp.connect(f); f.connect(fg); fg.connect(env); nodes.push(f, fg);
+    });
+    var hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 700; var hg = ctx.createGain(); hg.gain.value = 0.12;
+    var top = ctx.createBiquadFilter(); top.type = "lowpass"; top.frequency.value = 5200; top.Q.value = 0.6;   // the rasp, not the fizz
+    rasp.connect(hp); hp.connect(hg); hg.connect(env); env.connect(top); top.connect(mix); nodes.push(hp, hg, top);
+    mix.gain.value = amp * 0.32; var p = panTo(ctx, mix, pan, dest); nodes.push(p);
+    o1.frequency.setValueAtTime(fb * 0.75, t); o2.frequency.setValueAtTime(fb * 0.75 * 1.006, t);
+    plan.forEach(function (c) {
+      var s = c[0], du = c[1], peak = c[2], N = 20, cv = new Float32Array(N), cv2 = new Float32Array(N);
+      for (var k = 0; k < N; k++) {                                            // up fast to the "kee", then the long fall of the "ow"
+        var v = k / (N - 1), y = v < 0.2 ? 0.72 + (peak - 0.72) * Math.sin(v / 0.2 * Math.PI / 2) : peak - (peak - 0.95) * Math.pow((v - 0.2) / 0.8, 0.8);
+        cv[k] = fb * y; cv2[k] = fb * y * 1.006;
+      }
+      o1.frequency.setValueCurveAtTime(cv, s, du); o2.frequency.setValueCurveAtTime(cv2, s, du);
+      env.gain.setValueAtTime(0, s); env.gain.linearRampToValueAtTime(1, s + 0.025);
+      env.gain.setValueAtTime(1, s + du * 0.65); env.gain.linearRampToValueAtTime(0, s + du);
+    });
+    [o1, o2, nz].forEach(function (x) { x.start(t); x.stop(end); }); vib.osc.stop(end); ra.osc.stop(end);   // lfo() has started its own
+    o1.onended = function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); };
+    return end;
+  }
   function voice(ctx, out, kind, o) {
     o = o || {};
     var t = o.when != null ? o.when : ctx.currentTime + 0.005, h = clamp(o.pitch != null ? o.pitch : 0.5, 0, 1), pan = o.pan || 0;
     var size = clamp(o.size != null ? o.size : 0.5, 0, 1), amp = (o.gain != null ? o.gain : 1) * 0.35;
+    if (kind === "porpoise") return porpoise(ctx, out, t, h, pan, size, amp, o);
+    if (kind === "seagull") return seagull(ctx, out, t, h, pan, size, amp, o);
     if (kind === "bubbles") {
       var n = 3 + Math.round(size * 6), end = t;
       for (var i = 0; i < n; i++) {
@@ -317,6 +424,19 @@
   window.SurfaceWater = {
     treat: treat, bed: bed, voice: voice, PRESETS: PRESETS, BEDS: BEDS, VOICES: VOICES,
     preset: function (id) { return byId(PRESETS, id); },
+    /* which voice the music plays for a preset: by its mix weights, but a voice with a gap (a gull, a porpoise) never
+       comes back sooner than that; then the preset's other voice plays instead. ctx gives the time. */
+    pick: function (id, ctx) {
+      var P = byId(PRESETS, id) || PRESETS[0], mx = P.mix; if (!mx) return P.voice || "drop";
+      var now = ctx ? ctx.currentTime : 0, last = ctx ? cache(ctx) : {}, keys = Object.keys(mx), sum = 0, r, k, i;
+      for (i = 0; i < keys.length; i++) sum += mx[keys[i]];
+      r = Math.random() * sum; for (i = 0; i < keys.length; i++) { k = keys[i]; r -= mx[k]; if (r <= 0) break; }
+      var V = byId(VOICES, k);
+      if (V && V.gap && ctx) { var lk = "last:" + k; if (last[lk] != null && now - last[lk] < V.gap) { for (i = 0; i < keys.length; i++) { var W2 = byId(VOICES, keys[i]); if (!W2 || !W2.gap) return keys[i]; } return "drop"; } last[lk] = now; }
+      return k;
+    },
+    /* what a tap plays for a preset; y 0..1, 1 at the top: above the waterline (the top third) its sky voice */
+    tap: function (id, y) { var P = byId(PRESETS, id) || PRESETS[0]; if (P.sky && y != null && y > 0.67) return P.sky; return P.tap || "drop"; },
     rebuild: function () { ends = []; if (CACHE) CACHE = new WeakMap(); }
   };
 })();
