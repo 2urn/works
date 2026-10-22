@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><style>html,body{background:#000000}</style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022191715";window.__VERSION__="0.29.59";window.__NOTES__=[{"v":"0.29.59","date":"22 Oct 2026","items":[{"kind":"new","text":"moving stickers. In Capture's sticker shelf, Still or Moving: Moving records three seconds of the field inside the duck-rabbit, with its frame and extras, clear outside, looping without a seam, 600 px at 15 fps. A GIF by default; the share sheet writes the same sticker again as APNG (a soft edge, for iMessage and Telegram) or WebP (512 square under 500 KB, for WhatsApp) without recording again, and shows its size"},{"kind":"new","text":"the share sheet's \"make it as\" row has Moving, so a GIF, a still or a sticker becomes a moving sticker (the sheet steps aside while it records), and a moving sticker becomes a still one on the spot"},{"kind":"change","text":"the live sticker preview says \"moving\" when Moving is on"}]}]</script>
+<script>window.__BUILD__="20261022192552";window.__VERSION__="0.29.60";window.__NOTES__=[{"v":"0.29.60","date":"22 Oct 2026","items":[{"kind":"new","text":"Room, for playing together: each performer on their own phone or laptop with their own sound, in time over the internet, no MIDI. Make a room and read its code out, or join with a code (index › Room, the bar's room tool, or the o key)"},{"kind":"new","text":"one leads: everyone follows its tempo and beat one, and its scene changes land on the same beat everywhere, with its morph. The leader's switch: Free, Tempo or Scenes; each follower picks Tempo and/or Scene, and can step out"},{"kind":"new","text":"who is in, who leads, and how close each clock is (±ms), in the Room section; a pill at the top of the stage shows the room, how many, and the sync. Hand the lead to anyone; if the leader leaves, the next in line takes over"},{"kind":"new","text":"Nudge moves your beat a little earlier or later, for a speaker that lags (Bluetooth most of all)"},{"kind":"change","text":"Session became Room: one system. Ableton Link stays (the Link helper on the laptop gives the leader its tempo); codes are now six characters"},{"kind":"change","text":"the beats line up where they are heard (the audio clock's output time), so tapped and shared tempos sit on the beat on every device"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -20,7 +20,7 @@
       (o.r ? "&r=" + encodeURIComponent(o.r) : "") + (o.q ? "&q=" + encodeURIComponent(o.q) : "") +
       "&s=" + encodeURIComponent(screen.width + "," + screen.height + "," + (w.devicePixelRatio || 1)) +
       (navigator.webdriver ? "&b=153" : "") + "&rnd=" + Math.random().toString(36).slice(2);
-    var i = new Image(); i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
+    var i = new Image(); i.referrerPolicy = "no-referrer"; i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
   }
   var seen = {};
   /* cxCount("look: Spiral Arc") — an event. Built-in names only: never send what a person typed. */
@@ -31,8 +31,12 @@
   };
   function view() {
     var ref = d.referrer;
-    try { if (ref && new URL(ref).hostname === l.hostname) ref = ""; } catch (e) {}
-    send(l.pathname, { t: d.title, r: ref, q: l.search });
+    try { if (ref) { var ru = new URL(ref); ref = ru.hostname === l.hostname ? "" : ru.origin; } } catch (e) { ref = ""; }   // the site, never its path
+    /* the path and campaign tags only (22 Oct): a page's other parameters can be private (?l= a shared scene,
+       ?session= a room's code), so they never leave the page */
+    var q = "";
+    try { var sp = new URLSearchParams(l.search), keep = new URLSearchParams(); sp.forEach(function (v, k) { if (/^utm_[a-z]+$/.test(k)) keep.append(k, v.slice(0, 80)); }); q = keep.toString(); q = q ? "?" + q : ""; } catch (e) {}
+    send(l.pathname, { t: d.title, r: ref, q: q });
     try { if (matchMedia("(display-mode: standalone)").matches || navigator.standalone) w.cxCount("opened as app", 1); } catch (e) {}
   }
   if (d.visibilityState === "prerender")
@@ -62,12 +66,12 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022191715"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022191715">
+<script src="claude-web.js?v=20261022192552"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022192552">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
-<meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <script>/* 0.26.10: the stage is the page from the first paint. The index stays shut until setPlayer() runs; before, iOS painted
    the open index for a moment before the cover (Dimitry, 20 Oct) */
@@ -119,38 +123,37 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022191715"></script>
-<script src="surface/selftest.js?v=20261022191715"></script>
-<script src="surface/report.js?v=20261022191715"></script>
-<script src="surface/auto.js?v=20261022191715"></script>
-<script src="surface/toolpath.js?v=20261022191715"></script>
-<script src="surface/capture.js?v=20261022191715"></script>
-<script src="surface/pop.js?v=20261022191715"></script>
-<script src="surface/hints.js?v=20261022191715"></script>
-<script src="surface/paths.js?v=20261022191715"></script>
-<script src="surface/keys.js?v=20261022191715"></script>
-<script src="surface/reset.js?v=20261022191715"></script>
-<script src="surface/files.js?v=20261022191715"></script>
-<script src="surface/tabs.js?v=20261022191715"></script>
-<script src="surface/running.js?v=20261022191715"></script>
-<script src="surface/trim.js?v=20261022191715"></script>
-<script src="surface/audiowake.js?v=20261022191715"></script>
-<script src="surface/session.js?v=20261022191715"></script>
-<script src="surface/output.js?v=20261022191715"></script>
-<script src="surface/voice.js?v=20261022191715"></script>
-<script src="surface/voicelib.js?v=20261022191715"></script>
-<script src="surface/instruments.js?v=20261022191715"></script>
-<script src="surface/listview.js?v=20261022191715"></script>
-<script src="surface/beads.js?v=20261022191715"></script>
-<script src="surface/strip.js?v=20261022191715"></script>
-<script src="surface/sheetnav.js?v=20261022191715"></script>
-<script src="surface/twofinger.js?v=20261022191715"></script>
-<script src="surface/shortlink.js?v=20261022191715"></script>
-<script src="surface/undo.js?v=20261022191715"></script>
-<script src="surface/pro.js?v=20261022191715"></script>
-<script src="surface/fresh.js?v=20261022191715"></script>
-<script src="surface/notice.js?v=20261022191715"></script>
-<script src="surface/perform.js?v=20261022191715"></script>
+<script src="vendor/opentype.min.js?v=20261022192552"></script>
+<script src="surface/selftest.js?v=20261022192552"></script>
+<script src="surface/report.js?v=20261022192552"></script>
+<script src="surface/auto.js?v=20261022192552"></script>
+<script src="surface/toolpath.js?v=20261022192552"></script>
+<script src="surface/capture.js?v=20261022192552"></script>
+<script src="surface/pop.js?v=20261022192552"></script>
+<script src="surface/hints.js?v=20261022192552"></script>
+<script src="surface/paths.js?v=20261022192552"></script>
+<script src="surface/keys.js?v=20261022192552"></script>
+<script src="surface/reset.js?v=20261022192552"></script>
+<script src="surface/files.js?v=20261022192552"></script>
+<script src="surface/tabs.js?v=20261022192552"></script>
+<script src="surface/running.js?v=20261022192552"></script>
+<script src="surface/trim.js?v=20261022192552"></script>
+<script src="surface/audiowake.js?v=20261022192552"></script>
+<script src="surface/output.js?v=20261022192552"></script>
+<script src="surface/voice.js?v=20261022192552"></script>
+<script src="surface/voicelib.js?v=20261022192552"></script>
+<script src="surface/instruments.js?v=20261022192552"></script>
+<script src="surface/listview.js?v=20261022192552"></script>
+<script src="surface/beads.js?v=20261022192552"></script>
+<script src="surface/strip.js?v=20261022192552"></script>
+<script src="surface/sheetnav.js?v=20261022192552"></script>
+<script src="surface/twofinger.js?v=20261022192552"></script>
+<script src="surface/shortlink.js?v=20261022192552"></script>
+<script src="surface/undo.js?v=20261022192552"></script>
+<script src="surface/pro.js?v=20261022192552"></script>
+<script src="surface/fresh.js?v=20261022192552"></script>
+<script src="surface/notice.js?v=20261022192552"></script>
+<script src="surface/perform.js?v=20261022192552"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -167,13 +170,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022191715"></script>
-<script src="surface/rail.js?v=20261022191715"></script>
-<script src="surface/touchsound.js?v=20261022191715"></script>
-<script src="surface/water.js?v=20261022191715"></script>
-<script src="surface/ripple.js?v=20261022191715"></script>
-<script src="surface/float.js?v=20261022191715"></script>
-<script src="surface/manual.js?v=20261022191715"></script>
+<script src="surface/pack.js?v=20261022192552"></script>
+<script src="surface/rail.js?v=20261022192552"></script>
+<script src="surface/touchsound.js?v=20261022192552"></script>
+<script src="surface/water.js?v=20261022192552"></script>
+<script src="surface/ripple.js?v=20261022192552"></script>
+<script src="surface/float.js?v=20261022192552"></script>
+<script src="surface/manual.js?v=20261022192552"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -3559,7 +3562,7 @@ const AUTO_RENAMED={'looks only':'built-in'};   // 21 Oct: Looks only became Bui
 const MORPH_BEADS=[0,2,4,8,16,30,60];
 const migMorph=v=>{if(v==null||!isFinite(+v))return null;v=+v;if(v<=.05)return 0;if(v===2.2)return 2;if(v===6)return 8;return MORPH_BEADS.reduce((a,b)=>Math.abs(b-v)<Math.abs(a-v)?b:a,2)};
 const morphOwn=p=>p?migMorph(lookCfg(p).morph):null;
-const morphFor=p=>{const m=morphOwn(p);return m==null?AUTO.morph:m};
+const morphFor=p=>{if(window.__roomMorph!=null)return window.__roomMorph;const m=morphOwn(p);return m==null?AUTO.morph:m};   // a room's scene brings its leader's morph
 if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false,material:typeof q.material==='boolean'?q.material:q.style!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true,material:false};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true,material:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound&&!AUTO.parts.material)AUTO.parts={pattern:true,style:true,sound:true,material:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=migMorph(store.auto.morph)}
 /* EVERY (Dimitry, 21 Oct): a row of beads with the count inside, counted in seconds, beats or bars, or at random.
    Beats follow the beat that plays (or the tapped tempo, or 120). AUTO.sec stays the interval now running, in seconds. */
@@ -3607,7 +3610,11 @@ function tapRate(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=B
 function tapAlign(){if(!AUD.ctx||!AUD.beatNode||!AUD.play.beat)return;const pat=BEATS[AUD.play.beat];if(!pat)return;
   const c=AUD.ctx,old=AUD.beatNode,buf=old.buffer,r=TAP.bpm?TAP.bpm/pat.bpm:1,n=c.createBufferSource();n.buffer=buf;n.loop=true;n.playbackRate.value=r;n.connect(AUD.pre.beat);
   let start=c.currentTime+.03,off=0;
-  if(TAP.bpm){const bl=60/TAP.bpm,pn=tapNow(),k=Math.ceil((pn+.03-TAP.s0)/bl);start=c.currentTime+(TAP.s0+k*bl-pn);off=((k%4+4)%4)*(60/pat.bpm)}
+  /* the audio clock read through getOutputTimestamp (what is heard now, and when): the grid lands where it is HEARD,
+     the speaker's own delay included, so phones and laptops in a room line up by ear (0.29.60); currentTime alone
+     is the fallback */
+  if(TAP.bpm){const bl=60/TAP.bpm,pn=tapNow();let cn=c.currentTime;try{const o=c.getOutputTimestamp();if(o&&o.performanceTime>0&&Math.abs(o.contextTime+(pn-o.performanceTime/1000)-c.currentTime)<.5)cn=o.contextTime+(pn-o.performanceTime/1000)}catch(_){}
+    let k=Math.ceil((pn+.03-TAP.s0)/bl);start=cn+(TAP.s0+k*bl-pn);if(start<c.currentTime+.01){k++;start+=bl}off=((k%4+4)%4)*(60/pat.bpm)}
   try{old.stop(start)}catch(_){}n.start(start,off);AUD.beatNode=n;AUD.t0=start-off/r;AUD.dur=60/(TAP.bpm||pat.bpm)/4}
 /* each frame: with no beat or bytebeat playing, the tap grid pulses the field on every beat */
 function tapTick(){if(!TAP.bpm)return;const k=Math.floor((tapNow()-TAP.s0)/(60/TAP.bpm));if(k!==TAP.lastK){TAP.lastK=k;TAP.beatHit=true;if(!AUD.play.beat&&!AUD.play.byte)SIGNALS.beat=1}}
@@ -3668,7 +3675,8 @@ function cleanLook(o){try{if(!o||typeof o!=='object'||Array.isArray(o))return nu
   return out}catch(e){try{console.warn('cleanLook',e)}catch(_){}return null}}
 function applyLook(p,idx,instant,part){
   clearTimeout(pendLook);pendLook=null;
-  const d=instant||!booted?0:beatDelay();
+  let d=instant||!booted?0:beatDelay();
+  try{if(typeof ROOMC!=='undefined'&&ROOMC.lead())d=ROOMC.out(p,idx,instant,part,d)}catch(e){console.warn('room out',e)}   // leading a room: the scene goes to everyone, landing on the same beat
   if(d<10){applyLookNow(p,idx,instant,part);return}
   pendLook=setTimeout(()=>{pendLook=null;applyLookNow(p,idx,instant,part)},d-6)}
 /* WHAT CHANGES (Dimitry, 20 Oct: a scene is a pattern, its style and its sound; typing a word and having it replaced by
@@ -5949,7 +5957,7 @@ const TOOLS=[
   {id:'view',label:'view',aria:'View: arrows, pattern, lens glow, trails'},
   {id:'frame',label:'frame',aria:'Frame: move, scale and rotate the drawing in the window'},
   {id:'path',label:'path',aria:'Pattern: edit this one, draw a new one, duplicate the scene'},
-  {id:'session',label:'session',pro:'session',aria:'Session (Pro, open while in beta): laptops in one room play in time; one conducts (tempo, or tempo and scenes); Ableton Link'}];
+  {id:'session',label:'room',pro:'session',aria:'Room (Pro, open while in beta): phones and laptops play in time over the internet; one leads (tempo, or tempo and scenes); Ableton Link'}];
 let ACTIVE=null,pickOpen=false,toolShown=true;
 const svgI=k=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+IC[k]+'</svg>';
 function chainMark(){const T=$('pickTrack');if(!T)return;const run={text:!!SEQ.on,steer:!!STEER.loop,magnet:!!MGR.loop};
@@ -6188,12 +6196,12 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
   if(ACTIVE==='session'&&window.SESSION){
     /* SESSION (Dimitry, 22 Oct): the shelf holds what a performer reaches for; the sheet holds start, join, names, Link */
     const st=SESSION.state(),ic=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+k+'</svg>';
-    btn(st.role?st.code:'start / join',ic(IC.session),st.role?'Session '+st.code+': open the session sheet':'Start a session or join one',()=>SESSION.open(),!!st.role);
+    btn(st.role?st.code:'make / join',ic(IC.session),st.role?'Room '+st.code+': open the room':'Make a room or join one',()=>SESSION.open(),!!st.role);
     if(st.role==='conductor'){sep();grp('they follow');
       for(const [m,l,a] of [['free','free','each laptop on its own'],['tempo','tempo','my beat'],['scenes','scenes','my beat and my scenes']])
         btn(l,ic(m==='free'?'<path d="M5 12h14"/>':m==='tempo'?'<path d="M4 12h3l2-5 3 10 2-5h6"/>':'<rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 10h16"/>'),'The others follow: '+a,()=>{SESSION.setMode(m);buildToolShelf()},st.mode===m)}
     if(st.role==='follower'){sep();
-      btn(st.following?'step out':'follow',ic(st.following?'<path d="M9 5H5v14h4M14 8l4 4-4 4M18 12H9"/>':'<path d="M15 5h4v14h-4M10 8l-4 4 4 4M6 12h9"/>'),st.following?'Step out: play on your own, stay in the session':'Follow the conductor again',()=>{SESSION.follow(!st.following);buildToolShelf()},!st.following)}
+      btn(st.following?'step out':'follow',ic(st.following?'<path d="M9 5H5v14h4M14 8l4 4-4 4M18 12H9"/>':'<path d="M15 5h4v14h-4M10 8l-4 4 4 4M6 12h9"/>'),st.following?'Step out: play on your own, stay in the room':'Follow the leader again',()=>{SESSION.follow(!st.following);buildToolShelf()},!st.following)}
     /* CLEAN OUTPUT (Dimitry, 22 Oct: "clean HDMI for performance session"): the stage alone in its own window, on the
        projector; the laptop keeps the controls. Phones and tablets mirror only, so there it is the bare stage. */
     if(window.OUTPUT){sep();const on=OUTPUT.isOpen();
@@ -8754,31 +8762,9 @@ const BETA_ROLES=[['artist','artist'],['musician','musician · sound'],['designe
 const BETA={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/beta_signups',key:'sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp',tool:'current'};
 /* REPORT A BUG (Dimitry, 20 Oct): Surface · Report into bug_reports (add-only from the browser). The moment's state
    goes with it: the scene, the sound, touchable sound and how often it had to repair itself, the drawer, the version. */
-/* SESSION (0.29.27, Dimitry, 22 Oct: 4-5 laptops in one room in time; a switch on the conductor; Link). Kit
-   surface/session.js over Supabase Realtime (the same project as the reports). The follower's tempo lands in the tap grid,
-   so the beats, the robot's bar and the word sequence's bar all follow it. Conducting is Pro; joining is free. */
+/* SESSION became ROOM (0.29.60): one system, the kit's room.js; window.SESSION is now an adapter over ROOMC (below,
+   before the index's sections), so the bar's tool shelf keeps the same buttons. */
 window.SESSION=null;
-try{if(window.SurfaceSession){let fromSession=0,sceneT=0;
-  const extTempo=(bpm,s0)=>{if(bpm==null){if(TAP.ext){TAP.ext=false;TAP.bpm=null;TAP.taps=[];TAP.n=0;tapRate();tapAlign();syncSndShelf()}return}
-    TAP.ext=true;TAP.bpm=Math.round(bpm*100)/100;TAP.taps=[];TAP.n=0;TAP.s0=s0;TAP.lastK=Math.floor((tapNow()-s0)/(60/TAP.bpm));tapRate();tapAlign();syncSndShelf()};
-  /* following the conductor's scenes, this laptop's own Auto play would fight it: it pauses (once, with a word) */
-  const quiet=()=>{try{if(autoT){setAuto(false,true);toast('following the conductor’s scenes · Auto play paused here')}}catch(_){}};
-  SESSION=SurfaceSession.mount({tool:'current',name:'Current',relay:{url:BETA.url.replace(/\/rest\/v1\/.*$/,''),key:BETA.key},
-    tempo:extTempo,
-    myTempo:()=>{if(TAP.bpm)return{bpm:TAP.bpm,beatOneSec:TAP.s0};
-      const pat=AUD.play&&AUD.play.beat&&BEATS[AUD.play.beat];if(!pat||!AUD.ctx||AUD.t0==null)return null;
-      let pt=null;try{const o=AUD.ctx.getOutputTimestamp();if(o&&o.performanceTime)pt=o.performanceTime/1000+(AUD.t0-o.contextTime)}catch(_){}
-      return{bpm:pat.bpm,beatOneSec:pt}},
-    scene:()=>({look:snapshot(curName||'look')}),
-    applyScene:d=>{if(!d||!d.look)return;fromSession=performance.now();quiet();const L=cleanLook(d.look);if(!L||typeof L.gcode!=='string')return;applyLook({...L,gen:()=>L.gcode},-1,false)},
-    canConduct:()=>!!(window.isPro&&isPro('session')),
-    onChange:st=>{try{if(ACTIVE==='session')buildToolShelf()}catch(_){}
-      if(st.role==='follower'&&st.following&&st.mode==='scenes')quiet();
-      try{document.documentElement.classList.toggle('inSession',!!st.role)}catch(_){}}});
-  /* every scene change on the conductor goes out (debounced: a preset applies its look, a morph starts) */
-  const AL=applyLook;applyLook=function(){const r=AL.apply(this,arguments);
-    if(performance.now()-fromSession>600){clearTimeout(sceneT);sceneT=setTimeout(()=>{try{SESSION.sceneChanged()}catch(_){}},150)}return r}}}
-catch(e){console.warn('session',e)}
 window.INSTR=null;try{if(window.SurfaceInstruments&&window.SurfaceVoice)INSTR=SurfaceInstruments.mount({key:'current',
   ctx:()=>AUD.ctx,dest:()=>AUD.mainIn,on:()=>!!AUD.ctx&&!AUD.userOff,stage:$('cv').parentElement,say:t=>toast(t),name:'Current',save:(blob,fn)=>saveBlob(fn,blob),
   grid:()=>{const c=AUD.ctx;if(!c)return null;if(TAP.bpm)return{bpm:TAP.bpm,zero:c.currentTime+(TAP.s0-tapNow())};
@@ -8915,10 +8901,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022191715"></script>
-<script src="surface/links.js?v=20261022191715"></script>
-<script src="surface/tips.js?v=20261022191715"></script>
-<script src="surface/sections.js?v=20261022191715"></script>
+<script src="surface/install.js?v=20261022192552"></script>
+<script src="surface/links.js?v=20261022192552"></script>
+<script src="surface/tips.js?v=20261022192552"></script>
+<script src="surface/sections.js?v=20261022192552"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8960,6 +8946,7 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
     {id:'current.frame',d:'Frame: move, scale and turn the drawing',keys:['/'],run:()=>tool('frame')},
     {id:'current.path',d:'Path: edit or draw the pattern',keys:['.'],run:()=>tool('path')},
     {id:'current.camera',d:'Camera: on, the other camera, off',keys:['C'],run:()=>$('srCam').click()},
+    {id:'current.room',d:'Room: play in time with others (make, join, leave)',keys:['o'],run:()=>ROOMC.open()},
     {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
   const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Scenes',compact:true,d:'Go straight to scene 1 to 9',actions:PR},{name:'Current',actions:CU}];
   try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:GROUPS});SurfaceKeys.toolbar('#playbar','Player')}catch(e){console.warn('keys',e)}
@@ -9093,6 +9080,207 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
   row.querySelectorAll('[role=radio]').forEach(b=>{b.onclick=()=>{SurfaceNotice.enable(b.dataset.v==='on');ns()};
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
+</script>
+<script src="surface/room.js?v=20261022192552"></script>
+<style>/* ROOM: the section in the index and the status pill on the stage */
+#roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
+html.inRoom #roomPill{display:inline-flex}
+#roomPill i{flex:none;width:8px;height:8px;border-radius:50%;background:#f2c14e}
+#roomPill[data-s=joined] i{background:#7bd389}#roomPill[data-s=offline] i,#roomPill[data-s=reconnecting] i{background:#ff6b5b;animation:roomBlink 1s steps(2) infinite}
+#roomPill b{font-weight:700}#roomPill span{opacity:.75;font-weight:500;overflow:hidden;text-overflow:ellipsis}
+#roomPill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@keyframes roomBlink{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){#roomPill i{animation:none!important}}
+html.bare #roomPill{opacity:0;pointer-events:none}html.panelUp #roomPill{opacity:0;pointer-events:none}
+#room .room-in[hidden],#room .room-out[hidden]{display:none}
+#room .room-f{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 0}
+#room input{font:13px var(--mono);padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg);min-width:0}
+#room #roomName{flex:1 1 9em}#room #roomCode{width:7.5em;text-transform:uppercase;letter-spacing:.2em}
+#room .room-code{font:700 44px/1 var(--mono);letter-spacing:.18em;margin:6px 0 2px;color:var(--fg)}
+#room .room-st{font:12px/1.4 var(--mono);color:var(--muted);margin:0 0 6px;min-height:1.4em}
+#room .room-peers{list-style:none;margin:6px 0 4px;padding:0}
+#room .room-peers li{display:flex;align-items:center;gap:8px;min-height:36px;border-bottom:1px solid var(--line);font-size:13px}
+#room .room-peers li i{flex:none;width:10px;height:10px;border-radius:50%}
+#room .room-peers li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#room .room-peers li em{font:11px var(--mono);font-style:normal;color:var(--muted)}
+#room .room-peers li .room-lead{font:700 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+#room .room-peers li button{font:500 11px var(--sans);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:none;color:var(--fg);cursor:pointer}
+#room .dsp-seg button[aria-pressed=true]{color:var(--fg);font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px}
+#room [data-follow][aria-pressed=false]{text-decoration:line-through;text-decoration-color:var(--muted)}
+#room .room-link{font:12px var(--mono);color:var(--muted);word-break:break-all}
+#room .btn.ghost{background:none;color:var(--fg)}
+#room .room-note{font-size:12px;line-height:1.45;color:var(--muted);margin:8px 0 0;max-width:40ch}
+</style>
+<button type="button" id="roomPill" data-s="connecting" aria-label="Room: open the room settings"><i aria-hidden="true"></i><b id="roomPillCode"></b><span id="roomPillTxt"></span></button>
+<script>/* ROOM SYNC (Dimitry, 22 Oct 2026, for the Frost Electronic Music Ensemble: five performers, five phones or laptops,
+   five sounds, one time, no MIDI). A room code over the internet (kit room.js, Supabase Realtime broadcast). One
+   leads: its tempo and beat one are the room's; followers take them into their tap tempo (TAP), so everything that
+   already follows the tap follows the room: the built-in beats line up, new scenes land on the grid, the word
+   sequence counts its bars, the field pulses on the beat. The leader's scene changes (the robot, the dice, a tap in
+   the list, ‹ ›) go out landing on a quantized beat far enough ahead for the network, with its morph time; each
+   performer chooses to follow Tempo, Scene or both. Sound never travels: a follower's own sound stays its own. */
+/* a scene from the room passes cleanLook (Current's own validator, above) before it is applied */
+/* ?room=CODE (and the older ?session=CODE) is read once, here, and taken out of the address at once: the analytics
+   count the address on load, and a room code is not theirs to see */
+const ROOM_Q=(()=>{let c=null;try{const u=new URL(location.href);c=u.searchParams.get('room')||u.searchParams.get('session');
+  if(u.searchParams.has('room')||u.searchParams.has('session')){u.searchParams.delete('room');u.searchParams.delete('session');history.replaceState(history.state,'',u.pathname+u.search+u.hash)}}catch(_){}return c})();
+const ROOMC=(function(){
+  const CFG={url:'wss://ofvwgdniibxpuncdzjhm.supabase.co/realtime/v1/websocket',key:LOOKS_DB.key,prefix:'current-room-'};
+  const LS='current.room',LEAD_MS=420,NUDGES=[-60,-30,-15,0,15,30,60];
+  let P={name:'',follow:{tempo:true,scene:true},nudge:0,mode:'scenes',link:false};
+  try{const o=JSON.parse(localStorage.getItem(LS)||'null');if(o&&typeof o==='object'){P.name=String(o.name||'').slice(0,24);if(o.follow)P.follow={tempo:o.follow.tempo!==false,scene:o.follow.scene!==false};if(NUDGES.includes(+o.nudge))P.nudge=+o.nudge;if(['free','tempo','scenes'].includes(o.mode))P.mode=o.mode;P.link=!!o.link}else{const m=localStorage.getItem('surface.session.mode');if(['free','tempo','scenes'].includes(m))P.mode=m;P.link=localStorage.getItem('surface.session.link')==='1';P.name=String(localStorage.getItem('surface.session.name')||'').slice(0,24)}}catch(_){}
+  const save=()=>{try{localStorage.setItem(LS,JSON.stringify(P))}catch(_){}};
+  let room=null,lastT=null,mine=false,roomMode='scenes',linkC=null,linkSt=null,lastPack=null,sent={bpm:null,bar0:null,at:0},loop=0,toldRobot=false,S_={state:'',peers:[],sync:null};
+  const $r=id=>document.getElementById(id);
+  /* the leader's time: the tapped tempo, else the beat that plays (its loop runs on the audio clock), else none */
+  function clockNow(){
+    if(P.link&&linkSt&&linkSt.up&&linkSt.bpm&&linkSt.z!=null)return{bpm:Math.round(linkSt.bpm*100)/100,bar0:linkSt.z-performance.timeOrigin,bpb:4,src:'link'};
+    if(TAP.bpm)return{bpm:TAP.bpm,bar0:TAP.s0*1000,bpb:4,src:'tap'};
+    try{if(AUD.ctx&&AUD.play.beat&&AUD.loopOn&&AUD.dur&&AUD.ctx.state==='running'){const c=AUD.ctx.currentTime;return{bpm:Math.round(60/(AUD.dur*4)*100)/100,bar0:performance.now()-(c-AUD.t0)*1000,bpb:4,src:'beat'}}}catch(_){}
+    return null}
+  const barMs=t=>t.bpb*60000/t.bpm;
+  const latest=t=>{const L=barMs(t),n=performance.now();return t.bar0+Math.floor((n-t.bar0)/L)*L};   // the last bar line before now
+  const phaseDiff=(a,b,L)=>{let d=((a-b)%L+L)%L;if(d>L/2)d-=L;return d};
+  function leaderTick(){if(!room||!room.isLeader())return;const c=clockNow(),n=performance.now();
+    if(!c){if(sent.bpm!==null||n-sent.at>2000){room.tempo({bpm:null,mode:P.mode});sent={bpm:null,bar0:null,at:n}}return}
+    const b0=latest(c),ch=sent.bpm==null||Math.abs(sent.bpm-c.bpm)>.05||Math.abs(phaseDiff(b0,sent.bar0,barMs(c)))>4;
+    if(ch||n-sent.at>2000){room.tempo({bpm:c.bpm,bar0:b0,bpb:c.bpb,src:c.src,mode:P.mode});sent={bpm:c.bpm,bar0:b0,at:n}}}
+  /* a follower takes the room's time into its tap tempo; small differences (under 10 ms) are left alone, so the
+     beat is not restarted for every new clock estimate */
+  const followsTempo=()=>P.follow.tempo&&roomMode!=='free',followsScene=()=>P.follow.scene&&roomMode==='scenes';
+  function release(){if(mine){mine=false;TAP.bpm=null;TAP.taps=[];TAP.n=0;try{tapRate();tapAlign();syncSndShelf()}catch(_){}}}
+  function inTempo(e){lastT=e;if(!room||room.isLeader())return;if(e.mode&&e.mode!==roomMode){roomMode=e.mode;paint();try{if(ACTIVE==='session')buildToolShelf()}catch(_){}}
+    if(!followsTempo()){if(roomMode==='free')release();return}
+    if(e.bpm==null||e.bar0==null){if(mine){mine=false;TAP.bpm=null;TAP.taps=[];TAP.n=0;try{tapRate();tapAlign();syncSndShelf()}catch(_){}}return}
+    const s0=(e.bar0+P.nudge)/1000,bl=60/e.bpm,L=bl*4;
+    const same=TAP.bpm&&Math.abs(TAP.bpm-e.bpm)<.01&&Math.abs(phaseDiff(s0,TAP.s0,L))<.010;
+    if(same&&mine)return;
+    TAP.bpm=e.bpm;TAP.s0=s0;TAP.taps=[];TAP.n=0;TAP.lastK=Math.floor((tapNow()-TAP.s0)/bl);clearTimeout(TAP.timer);mine=true;
+    try{tapRate();tapAlign();syncSndShelf();robotBeat()}catch(_){}
+    paint()}
+  /* what a scene is on the wire: a built-in by its name, anything else as the look itself (G-code included) */
+  function pack(p,idx){if(!p)return null;if(idx>=0&&PRESETS[idx]===p)return{name:p.name};
+    let L;try{L=JSON.parse(JSON.stringify({...p,gcode:typeof p.gen==='function'?p.gen():p.gcode,gen:undefined,user:undefined}))}catch(_){return null}
+    return JSON.stringify(L).length>180000?{big:1,name:p.name}:{look:L}}
+  function packNow(){if(lastPack)return lastPack;const all=allPresets();if(presetIdx>=0&&all[presetIdx])return{scene:pack(all[presetIdx],presetIdx),part:'all'};
+    return{scene:{look:snapshot(curName||'Room scene')},part:'all'}}
+  /* the leader's applyLook asks here first: a scene with followers waiting lands on a beat far enough ahead for the
+     network (about 0.4 s), the same beat on every device */
+  function out(p,idx,instant,part,d){if(!room||!room.isLeader())return d;
+    const sc=pack(p,idx);if(!sc)return d;lastPack={scene:sc,part:part||'all'};if(P.mode!=='scenes')return d;   // the room follows tempo only: the scene stays here
+    const mo=instant?0:(idx>=0?morphFor(p):AUTO.morph);
+    if(room.peers().length>1&&!instant){const c=clockNow();
+      if(c){const step=(QUANT?QUANT:4)*60000/c.bpm/4;let k=0;while(d<LEAD_MS&&k++<64)d+=step}else d=Math.max(d,LEAD_MS)}
+    lastPack={scene:sc,part:part||'all'};room.scene(sc,performance.now()+d,{morph:mo,part:part||'all'});return d}
+  function inScene(e){if(!followsScene()||!room||room.isLeader())return;const sc=e.scene||{};let p,idx=-1;
+    if(sc.look&&typeof sc.look.gcode==='string'){const L=cleanLook(sc.look);if(!L)return;p={...L,name:String(L.name||'Room scene').slice(0,40),gen:()=>L.gcode}}
+    else if(sc.name){idx=PRESETS.findIndex(x=>x.name===sc.name);p=PRESETS[idx];if(!p){toast('the leader’s scene “'+sc.name+'” is not in this version');return}}
+    if(!p){if(sc.big)toast('the leader’s scene is too big to send');return}
+    try{if(autoT)setAuto(false,true);if(RAND.tempo)setRandTempo(0)}catch(_){}
+    if(!toldRobot){toldRobot=true;toast('following the room’s scenes · your robot and dice rest',2600)}
+    clearTimeout(pendLook);pendLook=null;
+    const go=()=>{pendLook=null;const mm=e.morph==null?AUTO.morph:+e.morph,keepM=AUTO.morph,keepS=AUTO.parts.sound;
+      AUTO.morph=mm;window.__roomMorph=mm;AUTO.parts.sound=false;   // their own sound stays theirs
+      try{applyLookNow(p,idx,!!e.snap||mm<=.05,e.part||'all')}finally{AUTO.morph=keepM;window.__roomMorph=null;AUTO.parts.sound=keepS}
+      try{flashName(p.name);syncAutoUI()}catch(_){}};
+    const wait=e.at-performance.now();if(wait>6)pendLook=setTimeout(go,wait);else go()}
+  /* the pill on the stage and the section in the index */
+  function paint(){const H=document.documentElement;H.classList.toggle('inRoom',!!room);const pill=$r('roomPill');if(!room){renderOut();return}
+    const n=S_.peers.length||1,lead=room.isLeader(),sy=room.sync(),st=S_.state;
+    pill.dataset.s=st;$r('roomPillCode').textContent=room.code;
+    const q=lead?'you lead':sy.err==null?'syncing…':'±'+sy.err+' ms';
+    $r('roomPillTxt').textContent=(st==='joined'?n+' · '+q:st==='offline'?'offline':st==='reconnecting'?'reconnecting…':'connecting…');
+    pill.setAttribute('aria-label','Room '+room.code+': '+$r('roomPillTxt').textContent+'. Open the room');
+    const sec=$r('room');if(!sec)return;sec.querySelector('.room-out').hidden=true;sec.querySelector('.room-in').hidden=false;
+    sec.querySelector('.room-code').textContent=room.code;
+    const t=clockNow();
+    sec.querySelector('.room-st').textContent=(st==='joined'?'connected':st)+' · '+(lead?'you lead: your tempo and scenes are the room’s':'following'+(sy.err==null?' · measuring the clock…':' · sync ±'+sy.err+' ms (round trip '+sy.rtt+' ms)'))+(t?' · '+Math.round(t.bpm*10)/10+' bpm':' · no tempo yet: tap one, or play a beat');
+    const ul=sec.querySelector('.room-peers');ul.textContent='';
+    S_.peers.slice().sort((a,b)=>(b.lead-a.lead)||(b.me-a.me)).forEach(x=>{const li=document.createElement('li');
+      li.innerHTML='<i style="background:'+(/^#[0-9a-f]{3,8}$/i.test(x.color)?x.color:'#888')+'"></i><span></span>'+(x.lead?'<b class="room-lead">leads</b>':'')+'<em></em>';
+      li.querySelector('span').textContent=x.name+(x.me?' (you)':'');li.querySelector('em').textContent=x.lead?'':x.err!=null?'±'+x.err+' ms':'';
+      if(lead&&!x.me){const b=document.createElement('button');b.type='button';b.textContent='hand over';b.setAttribute('aria-label','Hand the lead to '+x.name);b.onclick=()=>{if(room.handover(x.id))toast(x.name+' leads now')};li.appendChild(b)}
+      ul.appendChild(li)});
+    sec.querySelectorAll('[data-follow]').forEach(b=>b.setAttribute('aria-pressed',String(!!P.follow[b.dataset.follow])));
+    sec.querySelector('[data-row=mode]').hidden=!lead;sec.querySelector('[data-row=follow]').hidden=lead;
+    sec.querySelectorAll('[data-mode]').forEach(b=>{const on=b.dataset.mode===P.mode;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1});
+    const fl=sec.querySelector('.room-fnote');fl.hidden=lead||roomMode==='scenes';fl.textContent=roomMode==='free'?'The leader set Free: everyone plays on their own for now.':'The leader shares its tempo only, not its scenes.';
+    const lk=sec.querySelector('[data-link]');lk.setAttribute('aria-pressed',String(P.link));const ls=sec.querySelector('.room-lks');
+    ls.innerHTML=!P.link?'':linkSt&&linkSt.up?'Link · '+(linkSt.peers|0)+' app'+(linkSt.peers===1?'':'s')+' · '+(+linkSt.bpm).toFixed(1)+' bpm':'no Link helper on this laptop · <a href="https://sys.chamy.xyz/tools/linkbridge/linkbridge.mjs" download>the Link bridge</a> · <a href="https://github.com/Deep-Symmetry/carabiner/releases" target="_blank" rel="noopener">Carabiner</a>';
+    sec.querySelectorAll('[data-nudge]').forEach(b=>b.setAttribute('aria-checked',String(+b.dataset.nudge===P.nudge)));
+    sec.querySelector('.room-link').textContent=link().replace(/^https?:\/\//,'')}
+  function renderOut(){const sec=$r('room');if(!sec)return;sec.querySelector('.room-out').hidden=false;sec.querySelector('.room-in').hidden=true}
+  const link=()=>{const base=/works\.chamy\.xyz/.test(location.host)?location.origin+location.pathname:'https://works.chamy.xyz/current/';return base+'?room='+(room?room.code:'')};
+  const canLead=()=>!!(window.isPro&&isPro('session'));
+  function join(code,make){code=SurfaceRoom.clean(code);if(code.length<4){toast('a room code has 6 letters');return false}
+    if(room)leave(true);
+    const nm=(P.name||'').trim()||'player '+((Math.random()*90+10)|0);
+    room=SurfaceRoom.join(code,{name:nm,make:!!make,url:CFG.url,key:CFG.key,prefix:CFG.prefix});
+    try{sessionStorage.setItem('current.room.code',code)}catch(_){}
+    room.on('state',s=>{S_.state=s;paint();if(s==='joined')sent={bpm:null,bar0:null,at:0}});
+    room.on('peers',L=>{S_.peers=L;paint();try{if(ACTIVE==='session')buildToolShelf()}catch(_){}});
+    room.on('sync',()=>paint());
+    room.on('leader',e=>{sent={bpm:null,bar0:null,at:0};lastPack=null;if(e.me)roomMode=P.mode;if(e.me){toast(make?'room '+code+' · you lead':'you lead the room now',2600);make=false;mine=false}paint()});
+    room.on('hello',e=>{const t=clockNow();room.state({to:e.id,tempo:t?{...t,mode:P.mode}:{bpm:null,mode:P.mode},scene:P.mode==='scenes'?packNow():null})});
+    room.on('tempo',inTempo);room.on('scene',inScene);
+    clearInterval(loop);loop=setInterval(()=>{leaderTick();if(room&&room.isLeader())paintSoon()},200);
+    S_.state='connecting';S_.peers=[];toldRobot=false;paint();if(window.cxCount)cxCount(make?'room: made':'room: joined',1);return true}
+  let pT=0;function paintSoon(){if(pT)return;pT=setTimeout(()=>{pT=0;paint()},1000)}
+  function leave(quiet){if(!room)return;room.leave();room=null;clearInterval(loop);try{sessionStorage.removeItem('current.room.code')}catch(_){}
+    S_={state:'',peers:[],sync:null};lastPack=null;paint();if(!quiet)toast('you left the room · your tempo stays',2400)}
+  /* the section: Room, before Resources and Settings */
+  (function(){const idx=$r('idx');if(!idx)return;const sec=document.createElement('section');sec.className='cx-grp';sec.id='room';
+    sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="roomL"><svg class="dsp-gear sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2.2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/></svg><span>Room</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="roomL">'+
+      '<p class="cx-lead">Play in time with other people, each on their own phone or laptop and their own sound. One leads: everyone follows its <b>tempo</b> and beat one, and if they like its <b>scenes</b>. Over the internet, no MIDI.</p>'+
+      '<div class="room-f"><label class="dsp-lab" for="roomName">Your name</label><input id="roomName" type="text" maxlength="24" autocomplete="nickname" placeholder="your name" spellcheck="false"></div>'+
+      '<div class="room-out"><div class="room-f"><button type="button" class="btn" id="roomMake">Make a room</button></div>'+
+      '<div class="room-f"><input id="roomCode" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CODE" aria-label="Room code, 4 to 6 letters"><button type="button" class="btn ghost" id="roomJoin">Join</button></div>'+
+      '<p class="room-note">Make a room and read its code out, or join one with the code you were given. Everyone needs the internet; the sound stays on each device.</p></div>'+
+      '<div class="room-in" hidden><div class="room-code" aria-label="Room code"></div><p class="room-link"></p><div class="room-f"><button type="button" class="btn ghost" id="roomCopy">copy link</button><button type="button" class="btn ghost" id="roomLeave">leave the room</button></div>'+
+      '<p class="room-st" role="status"></p><ul class="room-peers" aria-label="Who is in the room"></ul>'+
+      '<div class="dsp-row" data-row="mode"><span class="dsp-lab" id="room-md">They follow</span><div class="dsp-seg" role="radiogroup" aria-labelledby="room-md"><button type="button" role="radio" data-mode="free" aria-label="Free: everyone plays on their own">Free</button><button type="button" role="radio" data-mode="tempo" aria-label="Tempo: everyone follows your tempo and beat one">Tempo</button><button type="button" role="radio" data-mode="scenes" aria-label="Scenes: your tempo and your scene changes">Scenes</button></div></div>'+
+      '<div class="dsp-row" data-row="follow"><span class="dsp-lab" id="room-fl">Follow</span><div class="dsp-seg" role="group" aria-labelledby="room-fl"><button type="button" data-follow="tempo" aria-label="Follow the room’s tempo and beat one">Tempo</button><button type="button" data-follow="scene" aria-label="Follow the leader’s scene changes">Scene</button></div></div><p class="room-note room-fnote" hidden></p>'+
+      '<div class="dsp-row"><span class="dsp-lab" id="room-ng">Nudge</span><div class="dsp-seg" role="radiogroup" aria-labelledby="room-ng">'+NUDGES.map(v=>'<button type="button" role="radio" data-nudge="'+v+'" aria-label="Nudge your beat '+(v?(v>0?'later':'earlier')+' by '+Math.abs(v)+' ms':'not at all')+'">'+(v>0?'+':'')+v+'</button>').join('')+'</div></div>'+
+      '<div class="dsp-row"><span class="dsp-lab" id="room-lk">Link</span><div class="dsp-seg" role="group" aria-labelledby="room-lk"><button type="button" data-link aria-label="Ableton Link: take the tempo from Link through the helper on this laptop">Ableton Link</button></div></div><p class="room-note room-lks"></p>'+
+      '<p class="room-note"><b>Nudge</b> moves your beat a little earlier or later, for a speaker that lags (Bluetooth most of all): play together and nudge until it sits. Sound never travels: only time and scenes do, so each performer keeps their own sounds.</p></div></div>';
+    const st=$r('display');if(st&&st.parentNode===idx)idx.insertBefore(sec,st);else idx.appendChild(sec);
+    sec.querySelector('.cx-grpbtn').onclick=()=>{const on=sec.classList.toggle('cx-shut');sec.querySelector('.cx-grpbtn').setAttribute('aria-expanded',String(!on))};
+    const nm=$r('roomName');nm.value=P.name;nm.onkeydown=e=>e.stopPropagation();nm.onchange=()=>{P.name=nm.value.trim().slice(0,24);save();if(room)room.rename(P.name||room.me.name)};
+    const cd=$r('roomCode');cd.onkeydown=e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();$r('roomJoin').click()}};cd.oninput=()=>{const v=SurfaceRoom.clean(cd.value);if(v!==cd.value)cd.value=v};
+    $r('roomMake').onclick=()=>{P.name=nm.value.trim().slice(0,24);save();if(!canLead()){toast('leading a room comes with Pro · joining is free',3000);return}join(SurfaceRoom.code(6),true)};
+    $r('roomJoin').onclick=()=>{P.name=nm.value.trim().slice(0,24);save();if(!join(cd.value,false))cd.focus()};
+    $r('roomLeave').onclick=()=>leave();
+    $r('roomCopy').onclick=e=>{copyText(link(),'Room link',e.currentTarget)};
+    sec.querySelectorAll('[data-follow]').forEach(b=>b.onclick=()=>{const k=b.dataset.follow;P.follow[k]=!P.follow[k];save();
+      if(room&&!room.isLeader()&&P.follow[k])room.send('hello',{name:room.me.name,color:room.me.color});   // ask for the state again: snap back in
+      if(k==='tempo'&&!P.follow.tempo)release();paint();try{if(ACTIVE==='session')buildToolShelf()}catch(_){}});
+    sec.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+    sec.querySelector('[data-link]').onclick=()=>setLink(!P.link);
+    sec.querySelectorAll('[data-nudge]').forEach(b=>b.onclick=()=>{P.nudge=+b.dataset.nudge;save();if(lastT)inTempo(lastT);paint()});
+    renderOut()})();
+  $r('roomPill').onclick=()=>open();
+  ['pointerdown','touchstart','mousedown'].forEach(t=>$r('roomPill').addEventListener(t,e=>e.stopPropagation()));   // the stage would take the press
+  function open(){setPlayer(false);setTimeout(()=>{try{if(window.SurfaceSections)SurfaceSections.open('room')}catch(_){}const s=$r('room');if(s){s.classList.remove('cx-shut');s.querySelector('.cx-grpbtn').setAttribute('aria-expanded','true');s.scrollIntoView({block:'start',behavior:'smooth'});const f=room?$r('roomLeave'):$r('roomCode');try{f.focus({preventScroll:true})}catch(_){}}},260)}
+  /* a link with ?room=CODE joins it; a reload rejoins the room you were in */
+  addEventListener('load',()=>setTimeout(()=>{let c=ROOM_Q;
+    if(!c)try{c=sessionStorage.getItem('current.room.code')}catch(_){}
+    if(c&&SurfaceRoom.clean(c).length>=4)join(c,false)},600));
+  if(P.link)setLink(true);
+  /* ABLETON LINK (kept from Session): the helper on this laptop gives Link's tempo and beat; leading (or alone, or not
+     following the room's tempo) this laptop plays on Link's beat itself, and leading, the room gets it */
+  function onLink(st){const was=linkSt&&linkSt.up;linkSt=st;
+    if(st.up&&st.bpm&&st.z!=null&&!(room&&!room.isLeader()&&followsTempo())){const s0=(st.z-performance.timeOrigin)/1000,bl=60/st.bpm;
+      const same=TAP.bpm&&Math.abs(TAP.bpm-st.bpm)<.01&&Math.abs(phaseDiff(s0,TAP.s0,bl*4))<.010;
+      if(!same){TAP.bpm=Math.round(st.bpm*100)/100;TAP.s0=s0;TAP.taps=[];TAP.n=0;TAP.lastK=Math.floor((tapNow()-s0)/bl);clearTimeout(TAP.timer);try{tapRate();tapAlign();syncSndShelf()}catch(_){}}}
+    if(was!==st.up){paint();try{if(ACTIVE==='session')buildToolShelf()}catch(_){}}}
+  function setLink(on){P.link=!!on;save();if(on&&!linkC)linkC=SurfaceRoom.link(onLink);if(!on&&linkC){linkC.close();linkC=null;linkSt=null}paint()}
+  function setMode(m){if(!['free','tempo','scenes'].includes(m))return;P.mode=m;save();if(room&&room.isLeader()){roomMode=m;sent={bpm:null,bar0:null,at:0};leaderTick();if(m==='scenes')room.state({tempo:null,scene:packNow()})}paint()}
+  function stepOut(on){const f=!on;P.follow={tempo:f,scene:f};save();if(!f)release();else if(room&&!room.isLeader())room.send('hello',{name:room.me.name,color:room.me.color});paint()}
+  /* the bar's tool shelf (made for Session) reads the room through the same few calls */
+  window.SESSION={open:()=>open(),setMode:m=>setMode(m),follow:on=>stepOut(!on),setLink:on=>setLink(on),
+    state:()=>({role:room?(room.isLeader()?'conductor':'follower'):null,code:room?room.code:null,mode:room&&!room.isLeader()?roomMode:P.mode,
+      following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
+  return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
 <script>/* Surface · Sections: the index as a mini Codex. Drag a section by its grip, keep one open with its pin, fold all,
    focus (one open at a time), less text (the tools without the explanations). Remembered on this device. */
@@ -9590,7 +9778,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.59';
+const APP_VERSION='0.29.60';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -9634,7 +9822,7 @@ function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=funct
  Promise.all(ps).then(go,go)}
 function newer(v){var n=(v&&v.notes)||[],mine=window.__VERSION__,out=[];for(var i=0;i<n.length;i++){if(mine&&n[i].v===mine)break;out.push(n[i])}
  return mine&&out.length===n.length?out.slice(0,3):out}
-function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
+function pill(v){if(shown)return;if(held()){pend=v;return}shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
  d.style.cssText="position:fixed;z-index:99;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);max-width:calc(100vw - 24px);box-sizing:border-box;border-radius:24px;background:rgba(14,14,16,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.18);font:500 12px/1.35 system-ui,sans-serif;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);overflow:hidden";d.style.width=WN(notes.length);
  var row=document.createElement("div");row.style.cssText="display:flex;align-items:center;gap:4px;padding:4px 4px 4px 12px;white-space:nowrap;min-height:38px";lead(row);
  var t=document.createElement("span");t.style.cssText="overflow:hidden;text-overflow:ellipsis;min-width:0";t.textContent=v&&v.version?"Version "+v.version+" is ready":"A newer version is ready";row.appendChild(t);
@@ -9651,11 +9839,16 @@ function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.create
    list.appendChild(ul)});
   more.onclick=function(){var open=list.hidden;list.hidden=!open;more.setAttribute("aria-expanded",String(open));more.textContent=open?"What’s new ▴":"What’s new ▾"}}
  var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);
- var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();shown=false};row.appendChild(x);
- d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d)}
+ var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();pd=null;shown=false};row.appendChild(x);
+ d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d);pd=d}
+/* PERFORMING (surface/v1/perform.js, 22 Oct): while a show is on, a newer version never reloads the page and its pill
+   stays hidden; it waits, and the pill comes back when Performing ends */
+var held=function(){try{return!!(window.SurfacePerform&&SurfacePerform.on())}catch(e){return false}},pend=null,pd=null;
+document.addEventListener("surfaceperform",function(e){var on=e.detail&&e.detail.on;if(on&&pd){pd.remove();pd=null;shown=false}else if(!on&&pend){var v=pend;pend=null;pill(v)}});
 var last=0;window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;last=Date.now();
  return fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(v){busy=false;
   if(!v||!v.build)return"offline";if(v.build===B)return"current";
+  if(held()){pend=v;return"held"}
   var early=auto&&Date.now()-T0<15000,k="upd:"+v.build;
   if(early){try{if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");fresh();return"new"}}catch(e){}}
   pill(v);return"new"},function(){busy=false;return"offline"})};
@@ -9681,6 +9874,7 @@ function done(){var f=null;try{f=sessionStorage.getItem("upd:from");sessionStora
  setTimeout(function(){if(!keep&&d.isConnected){d.style.opacity="0";setTimeout(function(){d.remove()},600)}},7000)}
 })();</script>
 <script>if("serviceWorker"in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match */
-const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
+/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match; only
+   in the first seconds of a visit and never while performing (22 Oct: it could reload mid-show); later, the pill offers it */
+const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||performance.now()>15000)return;try{if(window.SurfacePerform&&SurfacePerform.on())return}catch(_){}try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
 </body></html>
