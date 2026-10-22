@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022052715";window.__VERSION__="0.29.20";window.__NOTES__=[{"v":"0.29.20","date":"23 Oct 2026","items":[{"kind":"new","text":"17 new scenes, 52 in all. Seven for water (Harbor, Pod, Rain on Glass, Deep Current, Hydrophone, Stream, Still Pond): each brings its water, its bed and its surface, and goes quiet under them"},{"kind":"new","text":"type scenes that play their own words: Loop · Swim · Play (the first scene now, starting on any of the three), Swim · Shallows, Play Shuffle and Word by Word, each with its own stay and morph. Type your own word and it wins"},{"kind":"new","text":"five scenes on colored grounds (Deep Blue, Terracotta, Sea Green, Bone, Violet), and Dice: Weather, where the dice rolls every 4 seconds until you leave it"},{"kind":"new","text":"collections. Scenes has a row of them (Water, Sound, Touch, Type, Lens & Glow, Color, Unsteady, G-code), and Auto play can run just one"},{"kind":"change","text":"every scene now has a second line color and a touch color, the color your finger paints in; the second color comes grain by grain, by motion or in time, at different speeds"},{"kind":"change","text":"the robot starts with a tour of eight scenes, 15 seconds each: type, the G-code underneath, its modes, your touch, a beat, a bytebeat, water, ink on paper"},{"kind":"fix","text":"Life Leads Speed, Flicker Hatch, Byte: Chord Drift and Hatch + Travel were nearly empty frames; they read now"},{"kind":"new","text":"a scene you save keeps its water, its surface, its sound, its words and the dice's tempo, and so does a scene you send as a link"}]}]</script>
+<script>window.__BUILD__="20261022054628";window.__VERSION__="0.29.21";window.__NOTES__=[{"v":"0.29.21","date":"23 Oct 2026","items":[{"kind":"new","text":"the water surface is a material now, its own part of a scene beside the pattern, the style and the sound, and Auto play can change it as a fourth change (Material)"},{"kind":"new","text":"what drives the surface: your touch, the sound, the pattern (ripples along the G-code's cuts as the field runs, and the field carrying the water along), or any mix. In the Water row"},{"kind":"new","text":"the material's colors: tint (the depth), glint (the highlights) and caustic (the gathered light), each following the lines, the second color or the ground. Colors and the pattern driver come with Pro: everyone can see them; with a key they work"},{"kind":"change","text":"Deep Current and Stream use them"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022052715"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022052715">
+<script src="claude-web.js?v=20261022054628"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022054628">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022052715"></script>
-<script src="surface/selftest.js?v=20261022052715"></script>
-<script src="surface/report.js?v=20261022052715"></script>
-<script src="surface/auto.js?v=20261022052715"></script>
-<script src="surface/toolpath.js?v=20261022052715"></script>
-<script src="surface/capture.js?v=20261022052715"></script>
-<script src="surface/pop.js?v=20261022052715"></script>
-<script src="surface/hints.js?v=20261022052715"></script>
-<script src="surface/paths.js?v=20261022052715"></script>
-<script src="surface/keys.js?v=20261022052715"></script>
-<script src="surface/reset.js?v=20261022052715"></script>
-<script src="surface/files.js?v=20261022052715"></script>
-<script src="surface/tabs.js?v=20261022052715"></script>
-<script src="surface/running.js?v=20261022052715"></script>
-<script src="surface/trim.js?v=20261022052715"></script>
-<script src="surface/audiowake.js?v=20261022052715"></script>
-<script src="surface/listview.js?v=20261022052715"></script>
-<script src="surface/beads.js?v=20261022052715"></script>
-<script src="surface/strip.js?v=20261022052715"></script>
-<script src="surface/sheetnav.js?v=20261022052715"></script>
-<script src="surface/twofinger.js?v=20261022052715"></script>
-<script src="surface/shortlink.js?v=20261022052715"></script>
-<script src="surface/undo.js?v=20261022052715"></script>
-<script src="surface/pro.js?v=20261022052715"></script>
+<script src="vendor/opentype.min.js?v=20261022054628"></script>
+<script src="surface/selftest.js?v=20261022054628"></script>
+<script src="surface/report.js?v=20261022054628"></script>
+<script src="surface/auto.js?v=20261022054628"></script>
+<script src="surface/toolpath.js?v=20261022054628"></script>
+<script src="surface/capture.js?v=20261022054628"></script>
+<script src="surface/pop.js?v=20261022054628"></script>
+<script src="surface/hints.js?v=20261022054628"></script>
+<script src="surface/paths.js?v=20261022054628"></script>
+<script src="surface/keys.js?v=20261022054628"></script>
+<script src="surface/reset.js?v=20261022054628"></script>
+<script src="surface/files.js?v=20261022054628"></script>
+<script src="surface/tabs.js?v=20261022054628"></script>
+<script src="surface/running.js?v=20261022054628"></script>
+<script src="surface/trim.js?v=20261022054628"></script>
+<script src="surface/audiowake.js?v=20261022054628"></script>
+<script src="surface/listview.js?v=20261022054628"></script>
+<script src="surface/beads.js?v=20261022054628"></script>
+<script src="surface/strip.js?v=20261022054628"></script>
+<script src="surface/sheetnav.js?v=20261022054628"></script>
+<script src="surface/twofinger.js?v=20261022054628"></script>
+<script src="surface/shortlink.js?v=20261022054628"></script>
+<script src="surface/undo.js?v=20261022054628"></script>
+<script src="surface/pro.js?v=20261022054628"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022052715"></script>
-<script src="surface/rail.js?v=20261022052715"></script>
-<script src="surface/touchsound.js?v=20261022052715"></script>
-<script src="surface/water.js?v=20261022052715"></script>
-<script src="surface/ripple.js?v=20261022052715"></script>
-<script src="surface/float.js?v=20261022052715"></script>
-<script src="surface/manual.js?v=20261022052715"></script>
+<script src="surface/pack.js?v=20261022054628"></script>
+<script src="surface/rail.js?v=20261022054628"></script>
+<script src="surface/touchsound.js?v=20261022054628"></script>
+<script src="surface/water.js?v=20261022054628"></script>
+<script src="surface/ripple.js?v=20261022054628"></script>
+<script src="surface/float.js?v=20261022054628"></script>
+<script src="surface/manual.js?v=20261022054628"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -780,7 +780,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apTiles.order{grid-template-columns:repeat(3,minmax(0,1fr))}
 .apTiles.morph{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* CHANGES (Dimitry, 21 Oct): the whole scene across the column, its two halves under it; the whole lights both halves */
-.apTiles.part{grid-template-columns:repeat(3,minmax(0,1fr))}
+.apTiles.part{grid-template-columns:repeat(4,minmax(0,1fr))}
 .apTiles.part .apScene{grid-column:1/-1;flex-direction:row;gap:10px;min-height:48px}
 .apT[aria-pressed=true],.apT.apPart[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 .apScene[aria-pressed=false]{background:rgb(var(--acc-rgb,85 184 201) / .14);border-color:rgb(var(--acc-rgb,85 184 201) / .45)}
@@ -826,7 +826,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #plAuto .apGo{width:48px;height:48px}#plAuto .apGo svg{width:22px;height:22px}
 #plAuto .apH{margin:10px 0 6px}#plAuto .apEveryH{margin:10px 0 6px}
 #plAuto .apT{min-height:44px;padding:5px 4px;gap:3px}#plAuto .apT svg{width:18px;height:18px}
-#plAuto .apTiles.part{grid-template-columns:1.25fr 1fr 1fr 1fr}#plAuto .apTiles.part .apScene{grid-column:auto;flex-direction:column;gap:3px;min-height:44px}
+#plAuto .apTiles.part{grid-template-columns:1.15fr repeat(4,minmax(0,1fr))}#plAuto .apTiles.part .apScene{grid-column:auto;flex-direction:column;gap:3px;min-height:44px}
 #plAuto .apBead{width:38px;height:38px}
 #plAuto .apNote{margin:10px 0 0}#plAuto .apNote .apInPlay{min-height:40px;padding:6px 14px}
 /* 0.28.7: the bar sits 13 px higher (0.28.5) and the band holds ‹ › now: 15 px less room, taken back here at every size */
@@ -1094,6 +1094,13 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 #bshelf .bsSw.sel>.lab{color:var(--acc,#55b8c9)}#toolTrack .si.dot.cur.sel{color:var(--acc,#55b8c9)}#toolTrack .si.dot.cur.sel i{box-shadow:0 0 0 2px rgb(var(--ui-g)),0 0 0 4px var(--acc,#55b8c9)}
 #bshelf .bsSw.flash{animation:bsFlash .7s ease}@keyframes bsFlash{30%{background:rgb(var(--acc-rgb,85 184 201) / .22)}}
 #bshelf .bsSw .bsPill{margin-left:4px}
+/* the material group (Pro): its pills as any, one lock-and-bolt in the group's corner, out of the flow */
+#bshelf .bsMat{position:relative;flex:none;display:flex;align-items:center;gap:6px;padding-right:14px}
+#bshelf .bsMat .proMk{display:none}#bshelf .bsMat.pro .proMk{display:block;position:absolute;top:-2px;right:0;width:12px;height:12px;fill:none;stroke:var(--acc,#55b8c9);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#bshelf .bsMat.pro .proMk .bolt{fill:var(--acc,#55b8c9);stroke:none}#bshelf .bsMat.pro>.bsPill:not(.bsJoin){opacity:.55}
+#bshelf .bsMat .bsMc{display:inline-flex;align-items:center;gap:6px}#bshelf .bsMat .bsMc i.sw{display:block!important;width:10px!important;height:10px!important;min-width:0!important;padding:0!important;margin:0!important;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .4);flex:none;box-sizing:border-box}
+#bshelf .bsMat .bsMc[aria-pressed=true]{border-color:var(--acc,#55b8c9)}
+#bshelf .bsMat .bsJoin{border-style:dashed;color:var(--acc,#55b8c9);text-transform:none;letter-spacing:0;font:500 11.5px/1 var(--sans)}#bshelf .bsMat .bsJoin[hidden]{display:none}
 #bshelf .s-strip-i.bsToolI{display:grid;place-items:center;color:var(--ui-ink);background:rgb(var(--ui-hi) / .06)}#bshelf .s-strip-i.bsToolI svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #bshelf .s-strip-i.bsWordI{display:grid;place-items:center;padding:0 6px;color:var(--ui-ink);background:rgb(var(--ui-hi) / .06);font:600 11px/1.1 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* the sounds themselves: the top drawer's buttons, a little shorter so they fit the shelf's height */
@@ -2616,10 +2623,10 @@ const PRESETS=[
   // water: ambient, beds and voices, no drum (the Frost ensemble piece, 8 Nov). A scene without water leaves yours as it is
   {name:'Water: Pod',gen:genSpiral,mode:'orbit',audio:'off',water:{preset:'pod',voices:'touch'},surface:'wake',magSound:'level',line:'#55b8c9',line2:'#ede6d6',alt:'grain',touchColor:'#ff6fa5',ground:'#04101a',p:{falloff:4.5,speed:1.3,fade:.04,magnet:.6,lag:3},flags:{arrows:false,path:false,travel:false,feed:false},col:['water','touch']},
   {name:'Water: Rain on Glass',gen:textGen,word:'RAIN',mode:'along',inside:'still',lensMode:'in',blur:9,audio:'off',water:{preset:'rain',voices:'touch'},surface:'glass',line:'#e8f1f2',line2:'#55b8c9',alt:'time',altTime:6,lineAlpha:.45,touchColor:'#dba359',ground:'#0b1418',p:{falloff:3,speed:.8,fade:.02,lens:1.1,dots:2},flags:{arrows:false,path:false,travel:false,feed:false},col:['water','type','lens']},
-  {name:'Water: Deep Current',gen:genSpiral,mode:'attract',audio:'off',water:{preset:'deep',depth:.85,voices:'touch'},surface:'still',line:'#336bf2',line2:'#55b8c9',alt:'time',altTime:8,touchColor:'#ede6d6',ground:'#03070d',canim:{ground:{m:'breathe',sp:.1}},p:{falloff:6,strength:.7,speed:.6,fade:.015,count:5000},flags:{arrows:false,path:false,travel:false,feed:false},col:['water','color']},
+  {name:'Water: Deep Current',gen:genSpiral,mode:'attract',audio:'off',water:{preset:'deep',depth:.85,voices:'touch'},material:{kind:'water',preset:'still',colors:{tint:'line',glint:null,caustic:'line2'},drive:{touch:true,sound:true,pattern:true}},line:'#336bf2',line2:'#55b8c9',alt:'time',altTime:8,touchColor:'#ede6d6',ground:'#03070d',canim:{ground:{m:'breathe',sp:.1}},p:{falloff:6,strength:.7,speed:.6,fade:.015,count:5000},flags:{arrows:false,path:false,travel:false,feed:false},col:['water','color']},
   {name:'Water: Hydrophone',gen:genRaster,mode:'across',audio:'Byte fractal',water:{preset:'hydrophone',voices:'both',hear:true},surface:'still',line:'#ede6d6',line2:'#55b8c9',alt:'time',altTime:4,touchColor:'#ff6b2b',ground:'#050b10',p:{falloff:3,speed:1,fade:.05,bbrate:.5},flags:{arrows:false,path:false,travel:false,feed:false},
     mods:{bbrate:{shape:'sine',per:24,depth:.3}},maps:[{src:'fy',dst:'bbrate',how:'push',amt:.3}],col:['water','sound']},
-  {name:'Water: Stream',gen:genRaster,mode:'along',audio:'off',water:{preset:'stream',voices:'touch'},surface:'drip',line:'#dba359',line2:'#ede6d6',alt:'motion',touchColor:'#55b8c9',ground:'#0a0f0c',p:{falloff:2.8,speed:1.8,fade:.05,wobble:.3},flags:{arrows:false,path:false,travel:false,feed:false},
+  {name:'Water: Stream',gen:genRaster,mode:'along',audio:'off',water:{preset:'stream',voices:'touch'},material:{kind:'water',preset:'drip',colors:{tint:null,glint:'line',caustic:null},drive:{touch:true,sound:true,pattern:true}},line:'#dba359',line2:'#ede6d6',alt:'motion',touchColor:'#55b8c9',ground:'#0a0f0c',p:{falloff:2.8,speed:1.8,fade:.05,wobble:.3},flags:{arrows:false,path:false,travel:false,feed:false},
     mods:{speed:{shape:'sine',per:6,depth:.5}},maps:[{src:'speed',dst:'fade',how:'push',amt:-.4}],col:['water','color']},
   {name:'Water: Still Pond',gen:genRose,mode:'orbit',audio:'off',water:{preset:'shallows',voices:'touch'},surface:'still',line:'#e8f1f2',line2:'#336bf2',alt:'grain',touchColor:'#ff6fa5',ground:'#050708',p:{falloff:4,speed:.7,fade:.025},flags:{arrows:false,path:false,travel:false,feed:false},
     mods:{falloff:{shape:'touch',per:1,depth:.6}},col:['water','touch']},
@@ -3098,7 +3105,7 @@ function frame(now){
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
   steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
   if(!RIP&&WATER&&WATER.on&&WATER.surfOn)try{rippleSync()}catch(_){}
-  if(RIP&&RIP.enabled())try{RIP.tick(dt)}catch(_){}
+  if(RIP&&RIP.enabled())try{ripplePattern();RIP.tick(dt)}catch(_){}
   try{SurfaceSelfTest.beat()}catch(_){}
 }
 function hud(){
@@ -3306,7 +3313,7 @@ function playIds(){const all=allPresets(),ord=orderedIds(),c=autoCol(),inc=ord.f
 // walk the ordered list from the current scene to the next one in play, either way
 function walk(ids,d){const ord=orderedIds(),set=new Set(ids);let p=ord.indexOf(presetIdx);if(p<0)p=d>0?-1:0;
   for(let s=1;s<=ord.length;s++){const i=ord[((p+d*s)%ord.length+ord.length)%ord.length];if(set.has(i))return i}return ids[0]}
-const AUTO={sec:15,order:'in order',morph:2.2,part:'all',unit:'sec',n:15,rand:false,parts:{pattern:true,style:true,sound:true},drawn:15,next:null,col:'all'};   // 15 s: the tour of eight in two minutes
+const AUTO={sec:15,order:'in order',morph:2.2,part:'all',unit:'sec',n:15,rand:false,parts:{pattern:true,style:true,sound:true,material:true},drawn:15,next:null,col:'all'};   // 15 s: the tour of eight in two minutes
 /* CHANGES ARE CHECKBOXES (0.27.8, Dimitry, 21 Oct: "it's not really a toggle, it's a checkbox ... when they're all
    selected, then it's the whole scene"). Pattern, Style and Sound, each in or out; all three is the Scene. The last one
    can't be unticked (with none, auto play would change nothing). Sound: ticked, each scene brings its own beat or
@@ -3314,7 +3321,7 @@ const AUTO={sec:15,order:'in order',morph:2.2,part:'all',unit:'sec',n:15,rand:fa
 function autoPart(){const P=AUTO.parts;return P.pattern&&P.style?'all':P.pattern?'pattern':P.style?'style':'none'}
 const AUTO_RENAMED={'looks only':'built-in'};   // 21 Oct: Looks only became Built-in (scenes, patterns, styles); saved settings follow
 const morphFor=p=>{const m=p&&lookCfg(p).morph;return m==null?AUTO.morph:m};
-if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound)AUTO.parts={pattern:true,style:true,sound:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=+store.auto.morph}
+if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false,material:typeof q.material==='boolean'?q.material:q.style!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true,material:false};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true,material:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound&&!AUTO.parts.material)AUTO.parts={pattern:true,style:true,sound:true,material:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=+store.auto.morph}
 /* EVERY (Dimitry, 21 Oct): a row of beads with the count inside, counted in seconds, beats or bars, or at random.
    Beats follow the beat that plays (or the tapped tempo, or 120). AUTO.sec stays the interval now running, in seconds. */
 const AUTO_UNITS={sec:{name:'seconds',one:'second',vals:[10,15,45,90,180]},beat:{name:'beats',one:'beat',vals:[1,2,4,8,16]},bar:{name:'bars',one:'bar',vals:[1,2,4,8,16]}};
@@ -3398,6 +3405,15 @@ function sceneWater(p){const w=p.water;if(w===undefined)return;
   if(['off','touch','music','both'].includes(w.voices))WATER.voices=w.voices;if(typeof w.hear==='boolean')WATER.hear=w.hear;waterSave();rippleSync();
   if(!ensureCtx())return;if(AUD.water&&AUD.water.c===AUD.ctx){AUD.water.preset(w.preset);try{AUD.water.depth(WATER.depth)}catch(_){}}
   waterRoute();try{waterHear()}catch(_){}if(!same&&window.cxCount)cxCount('sound: water '+w.preset+' (scene)',1)}
+/* the material a scene carries: {kind:'water', preset, colors:{tint, glint, caustic}, drive:{touch, sound, pattern}} or
+   false; the older surface:'id' is the same with only a preset. A scene without either leaves the material alone. */
+function sceneMaterial(p,part){if(part!==undefined&&!AUTO.parts.material)return;const m=p.material;
+  if(m===undefined)return sceneSurface(p);
+  if(m===false||m===null){if(WATER.surfOn){WATER.surfOn=false;waterSave();rippleSync()}return}
+  if(typeof m!=='object'||(m.kind&&m.kind!=='water'))return;
+  if(m.colors&&typeof m.colors==='object'){const c={tint:null,glint:null,caustic:null};for(const k in c)if(matOk(m.colors[k]))c[k]=m.colors[k];WATER.mat=c}
+  if(m.drive&&typeof m.drive==='object'){const d={...MAT_DEF.drive};for(const k in d)if(typeof m.drive[k]==='boolean')d[k]=m.drive[k];WATER.drive=d}
+  if(SURF_IDS.includes(m.preset)){WATER.surf=m.preset;WATER.surfOn=true}waterSave();rippleSync()}
 function sceneSurface(p){const v=p.surface;if(v===undefined)return;
   if(v===false||v===null||v==='off'){if(WATER.surfOn){WATER.surfOn=false;waterSave();rippleSync()}return}
   if(!SURF_IDS.includes(v))return;WATER.surf=v;WATER.surfOn=true;waterSave();rippleSync()}
@@ -3421,8 +3437,8 @@ function sceneGcode(p){if(p.gen===textGen&&!p.user){const L=Array.isArray(p.word
     if(w){const box=$('word'),was=box.value;box.value=w;try{return p.gen()}finally{box.value=was}}}
   return p.gen()}
 function applyLookNow(p,idx,instant,part){
-  if(part==='none'){presetIdx=idx;curName=p.name;sceneSound(p,part);syncPresetBtns();syncPlist();return}
-  if(part==='pattern'){presetIdx=idx;curName=p.name;sceneWords(p);$('gcode').value=p.gen();sceneSound(p,part);syncPresetBtns();syncPlist();build(!instant&&booted);return}
+  if(part==='none'){presetIdx=idx;curName=p.name;sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();return}
+  if(part==='pattern'){presetIdx=idx;curName=p.name;sceneWords(p);$('gcode').value=p.gen();sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();build(!instant&&booted);return}
   presetIdx=idx;curName=p.name;if(idx>=0&&PRESETS[idx]===p&&window.cxCount)cxCount('look: '+p.name,1);   // built-in scenes only, once a visit
   const to={...DEFAULTS,...p.p};for(const k of BB_SLIDERS)if(!(p.p&&k in p.p))to[k]=S[k];for(const k of PIC_MOVE)to[k]=S[k];
   const keepMods={};for(const k of PIC_MOVE)if(S.mods[k])keepMods[k]=S.mods[k];const keepMaps=S.maps.filter(m=>PIC_MOVE.includes(m.dst));
@@ -3432,7 +3448,7 @@ function applyLookNow(p,idx,instant,part){
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
   S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;applyGround()}syncLine();
   S.canim=JSON.parse(JSON.stringify(p.canim||{}));S.pathColor=p.pathColor||null;try{if(!$('colorPop').hidden)renderCM()}catch(_){}
-  S.blend=p.blend||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneSurface(p)}catch(e){console.warn('scene surface',e)}
+  S.blend=p.blend||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
   Object.assign(S.mods,keepMods);S.maps.push(...keepMaps);   // the picture's automation stays when the scene changes
@@ -3629,7 +3645,7 @@ function snapshot(name){return Object.assign({name,gcode:$('gcode').value,mode:S
 /* what a scene says beyond its look (22 Oct): saved with yours, carried by a shared link. Water and its surface as they
    are (false when dry), the sound by name (off when silent; nothing while your own music or the mic plays), the word, the
    sequence while it plays, the dice's tempo while it rolls */
-function snapExtras(){const o={};try{o.water=WATER.on?{preset:WATER.preset,depth:+(+WATER.depth).toFixed(3),bed:WATER.bed||'',bedLvl:WATER.bedLvl,voices:WATER.voices,hear:!!WATER.hear}:false;o.surface=WATER.on&&WATER.surfOn?WATER.surf:false}catch(_){}
+function snapExtras(){const o={};try{o.water=WATER.on?{preset:WATER.preset,depth:+(+WATER.depth).toFixed(3),bed:WATER.bed||'',bedLvl:WATER.bedLvl,voices:WATER.voices,hear:!!WATER.hear}:false;o.material=WATER.on&&WATER.surfOn?{kind:'water',preset:WATER.surf,colors:{...WATER.mat},drive:{...WATER.drive}}:false}catch(_){}
   try{if(!AUD.play.file&&!AUD.play.loop&&AUD.src!=='mic'){const a=AUD.play.byte||AUD.play.beat;o.audio=a&&a!=='Byte yours'?a:a?undefined:'off';if(o.audio===undefined)delete o.audio}}catch(_){}
   try{if(onTypeField()){const w=$('word').value.trim();if(w)o.word=w.slice(0,WORD_MAX)}if(SEQ.on&&store.seq.length)Object.assign(o,{words:store.seq.slice(0,24),seq:{order:SEQ.order,every:SEQ.every,morph:+store.textMorph||0}})}catch(_){}
   try{if(RAND.tempo)o.dice={tempo:RAND.tempo}}catch(_){}
@@ -3944,24 +3960,26 @@ function buildPlist(){plTabsMount();
       r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
       for(const b of us.children)b.setAttribute('aria-checked',String(b.dataset.u===AUTO.unit))};
     drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
-  /* Changes: SCENE across the top, lit when all three are in (a tap puts all three in), then Pattern, Style, Sound */
+  /* Changes: SCENE across the top, lit when all four are in (a tap puts all four in), then Pattern, Style, Sound and
+     Material (23 Oct: the water surface over the stage, its colors and what drives it) */
   const changes=()=>{const h=document.createElement('p');h.className='apH';h.textContent='Changes';box.appendChild(h);
     const g=document.createElement('div');g.className='apTiles part';g.setAttribute('role','group');g.setAttribute('aria-label','Auto play changes');
     const ICN={scene:'<rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 15.5l4.5-4 3.5 3 3-2.5 5 4"/><circle cx="15.5" cy="9.5" r="1.4"/>',
       pattern:'<path d="M4 18c3-9 6-9 8-4s5 5 8-6"/><circle cx="4" cy="18" r="1.3"/><circle cx="20" cy="8" r="1.3"/>',
       style:'<path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10z"/>',
-      sound:'<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11"/>'};
-    const WHAT={pattern:'the pattern: the G-code',style:'the style: colors, particles, motion, lens',sound:'the sound: the beat or bytebeat a scene brings'};
+      sound:'<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11"/>',
+      material:'<path d="M3 9c2.2-2 4.3-2 6.5 0s4.3 2 6.5 0 4.3-2 5 -.6"/><path d="M3 14c2.2-2 4.3-2 6.5 0s4.3 2 6.5 0 4.3-2 5-.6"/><circle cx="12" cy="19" r="1.4"/>'};
+    const WHAT={pattern:'the pattern: the G-code',style:'the style: colors, particles, motion, lens',sound:'the sound: the beat or bytebeat a scene brings, and its water',material:'the material: the water surface over the stage, its colors and what drives it'};
     const sc=document.createElement('button');sc.type='button';sc.className='apT apScene';sc.dataset.v='all';sc.innerHTML=PLI(ICN.scene)+'<span>Scene</span>';
-    sc.title='the whole scene: its pattern, its style, its sound';
-    sc.onclick=()=>{AUTO.parts={pattern:true,style:true,sound:true};done('changes: the whole scene')};g.appendChild(sc);
+    sc.title='the whole scene: its pattern, its style, its sound, its material';
+    sc.onclick=()=>{AUTO.parts={pattern:true,style:true,sound:true,material:true};done('changes: the whole scene')};g.appendChild(sc);
     const done=t=>{AUTO.part=autoPart();store.auto={...AUTO};persist();syncPlist();if(t)toast(t)};
-    for(const k of ['pattern','style','sound']){const b=document.createElement('button');b.type='button';b.className='apT apPart';b.dataset.k=k;b.setAttribute('role','checkbox');
+    for(const k of ['pattern','style','sound','material']){const b=document.createElement('button');b.type='button';b.className='apT apPart';b.dataset.k=k;b.setAttribute('role','checkbox');
       b.innerHTML=PLI(ICN[k])+'<span>'+k.charAt(0).toUpperCase()+k.slice(1)+'</span>';b.title=WHAT[k];
-      b.onclick=()=>{const P={...AUTO.parts,[k]:!AUTO.parts[k]};if(!P.pattern&&!P.style&&!P.sound){toast('one of the three stays in, or nothing would change');return}
-        AUTO.parts=P;const on=Object.keys(P).filter(x=>P[x]);done('changes: '+(on.length===3?'the whole scene':on.join(' and ')+(P.sound?'':' · the sound carries on')))};
+      b.onclick=()=>{const P={...AUTO.parts,[k]:!AUTO.parts[k]};if(!P.pattern&&!P.style&&!P.sound&&!P.material){toast('one of the four stays in, or nothing would change');return}
+        AUTO.parts=P;const on=Object.keys(P).filter(x=>P[x]);done('changes: '+(on.length===4?'the whole scene':on.join(' and ')+(P.sound?'':' · the sound carries on')))};
       g.appendChild(b)}
-    g._sync=()=>{const P=AUTO.parts,all=P.pattern&&P.style&&P.sound;sc.setAttribute('aria-pressed',String(all));sc.setAttribute('aria-label','Scene: change everything, the pattern, the style and the sound'+(all?' (on)':''));
+    g._sync=()=>{const P=AUTO.parts,all=P.pattern&&P.style&&P.sound&&P.material;sc.setAttribute('aria-pressed',String(all));sc.setAttribute('aria-label','Scene: change everything, the pattern, the style, the sound and the material'+(all?' (on)':''));
       for(const b of g.querySelectorAll('.apPart')){const k=b.dataset.k;b.setAttribute('aria-checked',String(!!P[k]));b.setAttribute('aria-label','Changes '+WHAT[k])}};
     box.appendChild(g);g._get=()=>'';return g};
   /* EVERY lives here, and only here (Dimitry, 21 Oct night, changing his mind: the robot's shelf is the scenes) */
@@ -5966,10 +5984,12 @@ const byteGlyph='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><
      voice. The field does not hear them (they are its answer, not its cue). Higher on screen is higher.
    Everything is made again on the new context when the phone took the sound (audiowake). var, not const: the frame loop
    may ask before this line has run (the TDZ rule, CLAUDE.md). */
-var WATER=(()=>{const d={on:false,preset:'shallows',depth:.3,bed:'',bedLvl:.5,voices:'touch',view:'mix',hear:false,surf:'drip',surfOn:false};
+var WATER=(()=>{const d={on:false,preset:'shallows',depth:.3,bed:'',bedLvl:.5,voices:'touch',view:'mix',hear:false,surf:'drip',surfOn:false,drive:{touch:true,sound:true,pattern:false},mat:{tint:null,glint:null,caustic:null}};
   try{const o=JSON.parse(localStorage.getItem('current.water')||'{}');if(typeof o.on==='boolean')d.on=o.on;if(window.SurfaceWater&&SurfaceWater.preset(o.preset))d.preset=o.preset;
     if(typeof o.depth==='number'&&isFinite(o.depth))d.depth=Math.max(0,Math.min(1,o.depth));if(typeof o.bedLvl==='number'&&isFinite(o.bedLvl))d.bedLvl=Math.max(0,Math.min(1,o.bedLvl));
-    if(['','surf','stream','hydrophone','rain'].includes(o.bed))d.bed=o.bed;if(['off','touch','music','both'].includes(o.voices))d.voices=o.voices;if(o.view==='water')d.view='water';d.hear=o.hear===true;if(typeof o.surfOn==='boolean')d.surfOn=o.surfOn;if(['still','drip','rain','wake','glass'].includes(o.surf))d.surf=o.surf}catch(_){}
+    if(['','surf','stream','hydrophone','rain'].includes(o.bed))d.bed=o.bed;if(['off','touch','music','both'].includes(o.voices))d.voices=o.voices;if(o.view==='water')d.view='water';d.hear=o.hear===true;if(typeof o.surfOn==='boolean')d.surfOn=o.surfOn;if(['still','drip','rain','wake','glass'].includes(o.surf))d.surf=o.surf;
+    if(o.drive&&typeof o.drive==='object')for(const k of ['touch','sound','pattern'])if(typeof o.drive[k]==='boolean')d.drive[k]=o.drive[k];
+    if(o.mat&&typeof o.mat==='object')for(const k of ['tint','glint','caustic'])if(matOk(o.mat[k]))d.mat[k]=o.mat[k]}catch(_){}
   return d})();
 var WT={was:false,dist:0,t0:0,lastV:0,whale:0,beat:0,drift:0,vAt:0};
 /* THE SURFACE (Dimitry, 21 Oct: "a water surface feature, like a water distortion ... that goes with the water sounds,
@@ -5977,12 +5997,28 @@ var WT={was:false,dist:0,t0:0,lastV:0,whale:0,beat:0,drift:0,vAt:0};
    water voice drops a ripple where it sounded (wVoice, whichever strip carries it), a tap always ripples, a finger
    stirs, the rain bed rains. Off in plain Mix. */
 var RIP=null;
-function ripple(){if(RIP||!window.SurfaceRipple)return RIP;try{RIP=SurfaceRipple.attach(cv,{preset:WATER.surf,onLost:()=>toast('the water surface was lost: switch it on again')})}catch(_){RIP=null}return RIP}
+/* THE SURFACE IS A MATERIAL (Dimitry, 23 Oct 00:39): a displacement layer over the stage, apart from the pattern, the
+   style and the sound. Its COLORS (tint: the depth color, glint: the highlights, caustic: the gathered light) follow
+   the scene's lines, second color or ground, or a hex; what DRIVES it is your touch, the sound (the water voices and the
+   rain bed, as before) and the pattern (drops along the G-code's cuts as the field runs, and the field's current
+   carrying the surface). Colors and the pattern driver are Pro; the surface and its presets stay free. Without Pro,
+   or with none set, it looks and answers exactly as before. */
+function matOk(v){return v===null||v===undefined?v===null:typeof v==='string'&&(/^#[0-9a-f]{6}$/i.test(v)||['line','line2','ground'].includes(v))}
+const MAT_DEF={drive:{touch:true,sound:true,pattern:false},mat:{tint:null,glint:null,caustic:null}};
+function matPro(){try{return isPro()}catch(_){return false}}
+function drv(k){const d=matPro()?WATER.drive:MAT_DEF.drive;return !!(d&&d[k])}
+function matPal(n){try{if(n==='line')return LC.line||S.line;if(n==='line2')return LC.second||S.line2||S.line;if(n==='ground')return groundHex()||'#050708'}catch(_){}return null}
+function rippleMat(){if(!RIP)return;const pro=matPro(),pat=pro&&WATER.drive.pattern;RIP.colors(pro?WATER.mat:MAT_DEF.mat);RIP.drive({path:pat?14:0,current:pat?.35:0});if(!pat){RIP._f=null;RIP._s=null}}
+function ripplePattern(){if(!RIP||!RIP.enabled()||!matPro()||!WATER.drive.pattern)return;
+  const f=FA||field;if(f&&RIP._f!==f){RIP._f=f;RIP.current(f,GW,GH)}
+  if(RIP._s!==segsPx&&W&&H){RIP._s=segsPx;RIP.path(segsPx.filter(q=>!q.travel).map(q=>[q.x0/W,q.y0/H,q.x1/W,q.y1/H]))}
+  RIP.flow(Math.min(1,(SIGNALS.flow||0)*1.5))}
+function ripple(){if(RIP||!window.SurfaceRipple)return RIP;try{RIP=SurfaceRipple.attach(cv,{preset:WATER.surf,palette:matPal,onLost:()=>toast('the water surface was lost: switch it on again')})}catch(_){RIP=null}return RIP}
 function rippleSync(){const want=!!(WATER&&WATER.on&&WATER.surfOn);if(!want&&!RIP)return;const r=ripple();if(!r)return;
   if(want&&!r.ok){WATER.surfOn=false;waterSave();toast('this browser cannot draw the water surface');return}
-  r.preset(WATER.surf);const P=SurfaceRipple.PRESETS.find(x=>x.id===WATER.surf)||{rain:0};r.rain((P.rain||0)+(WATER.bed==='rain'?14*WATER.bedLvl:0));r.enabled(want)}
+  r.preset(WATER.surf);const P=SurfaceRipple.PRESETS.find(x=>x.id===WATER.surf)||{rain:0};r.rain((P.rain||0)+(WATER.bed==='rain'&&drv('sound')?14*WATER.bedLvl:0));r.enabled(want);try{rippleMat()}catch(_){}}
 /* a voice's ripple, where it sounded: x from its pan, height from its pitch (higher on screen is higher) */
-function rippleVoice(kind,o){if(!RIP||!RIP.enabled()||!o)return;const x=o.pan==null?.5:(o.pan+1)/2,ty=1-(o.pitch==null?.5:o.pitch),z=o.size==null?.4:o.size;
+function rippleVoice(kind,o){if(!RIP||!RIP.enabled()||!o)return;if(!drv(WT.vsrc==='music'?'sound':'touch'))return;const x=o.pan==null?.5:(o.pan+1)/2,ty=1-(o.pitch==null?.5:o.pitch),z=o.size==null?.4:o.size;
   if(kind==='drop')RIP.drop(x,ty,.012+.012*z,1.1);
   else if(kind==='bubbles'){for(let i=0;i<3;i++)RIP.drop(x+(Math.random()-.5)*.06,ty+(Math.random()-.5)*.04,.006+.006*Math.random(),.45)}
   else if(kind==='whale')RIP.drop(x,ty,.05+.03*z,.7)
@@ -6012,7 +6048,7 @@ function wVoice(kind,o){const c=AUD.ctx;if(!c)return;WT.vAt=performance.now()/10
   const air=kind==='seagull'&&AUD.water&&AUD.water.air;if(air)o=Object.assign({},o,{air,gain:(o.gain==null?1:o.gain)*mixEff('water')});
   SurfaceWater.voice(c,AUD.preV||AUD.wIn,kind,o);try{rippleVoice(kind,o)}catch(_){}}
 function waterHear(){if(!AUD.chV)return;try{AUD.chV.disconnect()}catch(_){}AUD.chV.connect(WATER.hear?AUD.mainIn:AUD.wIn)}
-function waterTick(dt,x,y,sp){if(RIP&&RIP.enabled()&&TOUCH.on){RIP.stir(x,1-y,TOUCH.vx,TOUCH.vy);
+function waterTick(dt,x,y,sp){WT.vsrc='touch';if(RIP&&RIP.enabled()&&TOUCH.on&&drv('touch')){RIP.stir(x,1-y,TOUCH.vx,TOUCH.vy);
     const voiced=WATER.on&&AUD.water&&AUD.ctx&&AUD.ctx.state==='running'&&(WATER.voices==='touch'||WATER.voices==='both');if(!WT.was&&!voiced)RIP.drop(x,1-y)}   // a tap always ripples
   if(!WATER||!WATER.on||!AUD.water||!AUD.ctx||AUD.ctx.state!=='running'){WT.was=!!(TOUCH&&TOUCH.on);return}
   const W=window.SurfaceWater,c=AUD.ctx,now=performance.now()/1000,tv=WATER.voices==='touch'||WATER.voices==='both',pan=x*2-1;
@@ -6025,7 +6061,7 @@ function waterTick(dt,x,y,sp){if(RIP&&RIP.enabled()&&TOUCH.on){RIP.stir(x,1-y,TO
   WT.was=TOUCH.on}
 /* the music's beats fire the preset's voice, never faster than three a second */
 function waterBeat(){if(!WATER||!WATER.on||!AUD.water||!AUD.ctx)return;if(WATER.voices!=='music'&&WATER.voices!=='both')return;const now=performance.now()/1000;if(now-WT.beat<.34)return;if(WATER.hear&&now-WT.vAt<.25)return;WT.beat=now;
-  const P=SurfaceWater.preset(WATER.preset)||{voice:'drop'};wVoice(SurfaceWater.pick?SurfaceWater.pick(WATER.preset,AUD.ctx):P.voice||'drop',{pitch:.25+.6*Math.min(1,SIGNALS.high*1.5+Math.random()*.3),pan:Math.random()*1.4-.7,size:Math.random()*.7,gain:.7})}
+  const P=SurfaceWater.preset(WATER.preset)||{voice:'drop'};WT.vsrc='music';wVoice(SurfaceWater.pick?SurfaceWater.pick(WATER.preset,AUD.ctx):P.voice||'drop',{pitch:.25+.6*Math.min(1,SIGNALS.high*1.5+Math.random()*.3),pan:Math.random()*1.4-.7,size:Math.random()*.7,gain:.7});WT.vsrc='touch'}
 const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}catch(_){return true}})(),ctx:null,an:null,bus:null,vol:null,data:null,src:'off',file:null,fileBuf:null,node:null,timer:null,step:0,next:0,noise:null,
   peak:{bass:.2,mid:.2,high:.2,level:.2},avgLow:0,lastBeat:0,gain:1};
 /* THE MIXER (Dimitry, 18 Oct): a beat, a bytebeat, your music and the microphone each have a channel with its own level,
@@ -6662,6 +6698,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     for(const b of blendB){b.setAttribute('aria-pressed',String(pro&&bm===b.dataset.k));if(pro)b.removeAttribute('aria-disabled');else b.setAttribute('aria-disabled','true');b.title=pro?'':'Blend comes with Pro'}}
   pane._cm={g,update};update()}
 document.addEventListener('surface:pro',()=>{try{for(const g of CG_ORDER){const p=$(CM_PANE[g]);if(p&&p._cm)p._cm.update()}}catch(_){}});
+document.addEventListener('surface:pro',()=>{try{rippleSync();bsSync()}catch(_){}});   // a key switches the material's colors and drivers on (or off) at once
 $('cmClose').onclick=closeColorMix;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('colorPop').hidden&&$('colorPick').hidden){closeColorMix()}});
 document.addEventListener('pointerdown',e=>{const p=$('colorPop');if(!p||p.hidden)return;if(p.contains(e.target)||e.target.closest&&e.target.closest('#colorPick,#toolTrack,.cmPin,.lc-beta,#betaHost'))return;closeColorMix()},true);
@@ -7142,7 +7179,25 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         const vc=pills('What plays the water voices',[['off','no voices','No water voices'],['touch','touch','Your touch: a tap is a drop (Pod: porpoise clicks; Harbor, high up: a gull), a drag bubbles, a long gesture a whale'],['music','music',"The music's beats play the preset's voice"],['both','both','Touch and the music']],v=>{WATER.voices=v;waterSave()});
         rule(box);
         const sf=window.SurfaceRipple?pills('The water surface over the stage',[['','no surface','No water surface']].concat(SurfaceRipple.PRESETS.map(P=>[P.id,P.name,'Surface: '+P.name+': '+P.note])),v=>{WATER.surfOn=!!v;if(v)WATER.surf=v;waterSave();if(v&&!WATER.on)waterPreset(WATER.preset);else rippleSync()}):null;
-        return ()=>{check(mode,WATER.view);check(ps,WATER.on?WATER.preset:'');check(bed,WATER.bed||'');check(vc,WATER.voices);if(sf)check(sf,WATER.on&&WATER.surfOn?WATER.surf:'');
+        /* THE MATERIAL (Pro, shown before it is bought): what drives the surface, and its three colors. One lock-and-bolt
+           in the group's corner (it never changes a pill's size) and one line to join */
+        let mUp=()=>{};
+        if(sf){rule(box);const mg=mk('div','bsMat');mg.setAttribute('role','group');mg.setAttribute('aria-label','The water material: what drives it and its colors (Pro)');mg.insertAdjacentHTML('beforeend',PRO_MARK);box.appendChild(mg);
+          const gate=()=>{if(matPro())return true;try{openBetaSheet()}catch(_){}return false};
+          const DRV=[['touch','touch','Your touch drives the surface: a tap drops, a drag leaves a wake'],['sound','sound','The sound drives it: the water voices drop where they sound, the rain bed rains'],['pattern','pattern','The pattern drives it: drops along the G-code as the field runs, and the field carries the surface along']];
+          const dB=DRV.map(([k,t,al])=>{const b=mg.appendChild(mk('button','bsPill',t));b.type='button';b.setAttribute('role','switch');b.title=al;b.dataset.k=k;
+            b.onclick=()=>{if(!gate())return;WATER.drive={...WATER.drive,[k]:!WATER.drive[k]};waterSave();rippleSync();bsSync();if(window.cxCount)cxCount('material: drive '+k,1)};return b});
+          mg.appendChild(mk('span','bsRule')).setAttribute('aria-hidden','true');
+          const CYC=[null,'line','line2','ground'],CN={null:'off',line:'lines',line2:'second',ground:'ground'};
+          const CL=[['tint','tint','The depth color, over troughs and crests'],['glint','glint','The color of the highlights'],['caustic','caustic','The color of the light gathered where the surface curves']];
+          const cB=CL.map(([k,t,al])=>{const b=mg.appendChild(mk('button','bsPill bsMc','<i class="sw" aria-hidden="true"></i><span></span>'));b.type='button';b.title=al+': tap to follow the lines, the second color or the ground, or none';b.dataset.k=k;
+            b.onclick=()=>{if(!gate())return;const v=WATER.mat[k],i=CYC.indexOf(CYC.includes(v)?v:null);WATER.mat={...WATER.mat,[k]:CYC[(i+1)%CYC.length]};waterSave();rippleSync();bsSync();if(window.cxCount)cxCount('material: '+k,1)};return b});
+          const jn=mg.appendChild(mk('button','bsPill bsJoin','Join the Founders Club'));jn.type='button';jn.onclick=()=>{try{openBetaSheet()}catch(_){}};
+          mUp=()=>{const pro=matPro();mg.classList.toggle('pro',!pro);jn.hidden=pro;
+            for(const b of dB){const on=pro?!!WATER.drive[b.dataset.k]:!!MAT_DEF.drive[b.dataset.k];b.setAttribute('aria-checked',String(on));b.setAttribute('aria-label','Driven by '+b.dataset.k+': '+(on?'on':'off')+(pro?'':' (Pro)'))}
+            for(const b of cB){const k=b.dataset.k,v=pro?WATER.mat[k]:null,hex=v?(v[0]==='#'?v:matPal(v)):null;b.querySelector('span').textContent=k+(v?' · '+(CN[v]||v):'');
+              b.querySelector('.sw').style.background=hex||'transparent';b.setAttribute('aria-pressed',String(!!v));b.setAttribute('aria-label',k+': '+(v?CN[v]||v:'off')+(pro?'':' (Pro)'))}}}
+        return ()=>{mUp();check(mode,WATER.view);check(ps,WATER.on?WATER.preset:'');check(bed,WATER.bed||'');check(vc,WATER.voices);if(sf)check(sf,WATER.on&&WATER.surfOn?WATER.surf:'');
           dp.value=WATER.depth;dp.disabled=!WATER.on;hr.setAttribute('aria-checked',String(!!WATER.hear));hr.setAttribute('aria-label','The field hears the water voices: '+(WATER.hear?'on':'off'))}}
       const hush=k=>{stopCh(k);syncAud();syncSndShelf()};
       const si=(label,svg,aria,src,fn,cls)=>{const b=mk('button','si'+(cls?' '+cls:''),svg+'<span class="lab"></span>');b.type='button';b.querySelector('.lab').textContent=label;b.setAttribute('aria-label',aria);if(src)b.dataset.src=src;b.onclick=fn;box.appendChild(b);return b};
@@ -7916,10 +7971,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022052715"></script>
-<script src="surface/links.js?v=20261022052715"></script>
-<script src="surface/tips.js?v=20261022052715"></script>
-<script src="surface/sections.js?v=20261022052715"></script>
+<script src="surface/install.js?v=20261022054628"></script>
+<script src="surface/links.js?v=20261022054628"></script>
+<script src="surface/tips.js?v=20261022054628"></script>
+<script src="surface/sections.js?v=20261022054628"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8558,7 +8613,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.20';
+const APP_VERSION='0.29.21';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
