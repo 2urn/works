@@ -15,7 +15,7 @@
    FOOT (Dimitry, 21 Oct 2026, Current 0.28.3: "tabs at the bottom ... nearest the thumb and the bar"):
      SurfacePop.dress('#plist', { head: '.mxh', close: '#plClose', foot: true, toward: '#pAuto' })
    - the head becomes a band along the panel's lower edge (.spop-foot): tabs, title and close sit by the thumb;
-   - the close is the bottom shelf's tall tab, CLOSE turned 90 degrees (vertical-rl turned 180, reading bottom to top)
+   - the close is the bottom shelf's tall tab, CLOSE turned 90 degrees (vertical-rl, reading top to bottom, C at the top, low by its ⌄; shared with the shelf as .s-vclose)
      with a ⌄, the whole band's height its target; Esc stays the tool's;
    - the panel opens rising from its button and closes sliding down toward it (translate and opacity, 240 ms,
      ease-out in, ease-in out; a fade only under reduced motion). 'toward' is the bar button it belongs to;
@@ -25,7 +25,9 @@
   if (window.SurfacePop) return;
   var X = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   var CSS = [
-    ".spop{border-radius:18px;overflow:hidden;background:rgb(var(--ui-g,14 14 16) / .9);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);",
+    /* one corner for every pane over the stage: drawers, the bottom shelf, panels (Dimitry, 21 Oct night) */
+    ":where(:root){--s-pane-radius:20px}",
+    ".spop{border-radius:var(--s-pane-radius,20px);overflow:hidden;background:rgb(var(--ui-g,14 14 16) / .9);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);",
     "  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ui-ink,#fff)}",
     ".spop-head{display:flex;justify-content:space-between;align-items:center;min-height:40px;padding:0 6px 0 16px;border-bottom:1px solid rgb(var(--ui-hi,255 255 255) / .08);",
     "  font:500 10px/1 var(--sc-mono,var(--mono,ui-monospace,Menlo,monospace));letter-spacing:.18em;text-transform:uppercase;color:var(--ui-dim,#a8a8a8)}",
@@ -42,14 +44,17 @@
     "@starting-style{.spop:not([hidden]),.scap:not([hidden]){opacity:0;translate:0 16px}}}",
     /* FOOT: the band at the bottom, the tall close, the slide to and from the button */
     ".spop.spop-foot{display:flex;flex-direction:column}",
-    ".spop-foot>.spop-head{order:99;border-bottom:0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08);min-height:44px;padding-right:0}",
-    ".spop-foot>.sfTabCap{order:98}",
+    ".spop-foot>.spop-head{order:99;border-bottom:0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08);min-height:44px;padding-right:0;align-items:stretch}.spop-foot>.spop-head>*:not(.spop-vx):not(.s-snav-band){align-self:center}",
+    ".spop-foot>.sfTabCap{order:98}.spop-foot>.sfTabCap:not([hidden]){display:none}",   /* in a band the icons stay icons; the name is the tab's label and title */
     ".spop-foot .sfTab{border-bottom:0;border-top:2px solid transparent;margin:-1px 0 0;min-height:44px}.spop-foot .sfTab[aria-selected=true]{border-top-color:var(--acc,#55b8c9)}",
-    ".spop-head .spop-vx,.spop-vx{align-self:stretch;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;min-width:34px;min-height:44px;height:44px;padding:0 6px;margin:0;border:0;",
-    "  border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);border-radius:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer}",
-    ".spop-vx:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
-    ".spop-head .spop-vx span,.spop-vx span{writing-mode:vertical-rl;transform:rotate(180deg);font:600 8.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}",
-    ".spop-vx svg{flex:none;width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}",
+    /* THE VERTICAL CLOSE, one component for panels and the bottom shelf (Dimitry, 21 Oct night: "face down" like the
+       shelf's): CLOSE set vertically reading top to bottom (C at the top), low, by its ⌄; the whole height the target.
+       Class .s-vclose (or .spop-vx, which dress() gives a panel's close). */
+    ".spop-head .spop-vx,.spop-vx,.s-vclose{align-self:stretch;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;width:36px;min-height:44px;padding:0 0 4px;margin:0;border:0;",
+    "  border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);border-radius:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;box-sizing:border-box}",
+    ".spop-vx:hover,.s-vclose:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible,.s-vclose:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
+    ".spop-head .spop-vx span,.spop-vx span,.s-vclose span{writing-mode:vertical-rl;transform:none;font:600 7.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase}",
+    ".spop-vx svg,.s-vclose svg{flex:none;width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}",
     "@media (prefers-reduced-motion:no-preference){.spop.spop-foot{transition:opacity .24s ease-out,translate .24s cubic-bezier(.2,.7,.2,1),display .24s allow-discrete,overlay .24s allow-discrete}",
     ".spop.spop-foot[hidden]{opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px);transition-timing-function:ease-in,cubic-bezier(.4,0,.8,.4)}",
     "@starting-style{.spop.spop-foot:not([hidden]){opacity:0;translate:var(--spop-dx,0px) var(--spop-dy,40px)}}}",

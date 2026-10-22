@@ -15,7 +15,8 @@
       content. [ and ] do the same from the keyboard (not while typing).
 
      SurfaceSheetNav.swipe(sheetEl, tabsApi)          tabsApi from SurfaceTabs.mount (needs .step)
-     SurfaceSheetNav.ring([{ id, el, name, icon, isOpen(), open(), close() } …], {keys})   in the bar's order → {go(±1)}
+     SurfaceSheetNav.ring([{ id, el, name, icon, isOpen(), open(), close() } …], {keys, band})   in the bar's order → {go(±1)}
+       band: true puts ‹ › in each sheet's foot band (pop.js foot), left of its close, instead of beside the sheet
        keys:false when the tool registers [ and ] as named actions with keys.js (it should): they then call go(±1)
    Plain script, window.SurfaceSheetNav. Default looks at zero specificity. */
 (function () {
@@ -45,7 +46,11 @@
     "@keyframes sSnavBump{0%,100%{translate:0 0}35%{translate:var(--snav-bump,10px) 0}}" +
     ":where(.s-snav-in){animation:sSnavIn .22s cubic-bezier(.2,.8,.2,1)}:where(.s-snav-bump){animation:sSnavBump .26s ease-out}" +
     "@media (prefers-reduced-motion:reduce){:where(.s-snav-in),:where(.s-snav-bump){animation:none}:where(.s-snav) .s-snav-peek{transition:opacity .14s}}";
-  function css() { if (document.getElementById("snav-css")) return; var s = document.createElement("style"); s.id = "snav-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
+  var BAND_CSS = ":where(.s-snav-band){align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center}" +
+    ":where(.s-snav-band):hover{color:var(--ui-ink,#fff)}:where(.s-snav-band):focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}" +
+    ":where(.s-snav-band) svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}";
+  function css() { if (!document.getElementById("snav-band-css")) { var t = document.createElement("style"); t.id = "snav-band-css"; t.textContent = BAND_CSS; (document.head || document.documentElement).prepend(t); }
+    if (document.getElementById("snav-css")) return; var s = document.createElement("style"); s.id = "snav-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
   function play(el, cls, v, name) { if (!el) return; el.classList.remove(cls); el.style.setProperty(name, v); void el.offsetWidth; el.classList.add(cls); setTimeout(function () { el.classList.remove(cls); }, 300); }
   function sideways(t, stop) {
     for (var n = t; n && n !== stop && n.nodeType === 1; n = n.parentElement) {
@@ -82,6 +87,24 @@
     var prev = document.createElement("button"), next = document.createElement("button");
     [prev, next].forEach(function (b, k) { b.type = "button"; b.className = "s-snav " + (k ? "next" : "prev"); b.hidden = true; b.setAttribute("data-noswipe", ""); document.body.appendChild(b); });
     var cur = -1, raf = 0, held = -1, heldAt = 0;
+    /* IN THE BAND (Dimitry, 21 Oct night: no arrows on the panel's sides; ‹ | › | CLOSE along its bottom band): with
+       o.band, a sheet whose foot band (pop.js foot: .spop-foot > .spop-head) exists gets the two steps there, just left of
+       its close, and the side arrows stay hidden for it. A sheet without a band keeps the side arrows. */
+    var bandBtns = [];
+    if (o.band) items.forEach(function (it) {
+      var head = it.el.querySelector(".spop-foot > .spop-head, .spop-head"); if (!head || !it.el.classList.contains("spop-foot")) return;
+      var x = head.querySelector(".spop-vx, .s-vclose");
+      [-1, 1].forEach(function (d) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "s-snav-band " + (d < 0 ? "prev" : "next"); b.setAttribute("data-noswipe", "");
+        b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + (d < 0 ? "M14.5 6.5 9 12l5.5 5.5" : "M9.5 6.5 15 12l-5.5 5.5") + '"/></svg>';
+        b.addEventListener("pointerdown", function (e) { held = openIdx(); heldAt = performance.now(); e.stopPropagation(); }, true);
+        b.addEventListener("click", function (e) { e.stopPropagation(); go(d); });
+        head.insertBefore(b, x || null); b.__it = it; b.__d = d; bandBtns.push(b);
+      });
+      it.__band = true;
+    });
+    function bandLabels() { var n = items.length; bandBtns.forEach(function (b) { var i = items.indexOf(b.__it), t = items[(i + b.__d + n) % n]; var s = (b.__d < 0 ? "Previous: " : "Next: ") + t.name; if (b.title !== s) { b.title = s; b.setAttribute("aria-label", s); } }); }
+    bandLabels();
     function openIdx() { for (var i = 0; i < items.length; i++) { try { if (items[i].isOpen()) return i; } catch (e) {} } return -1; }
     function chev(d) { return '<svg class="ch" viewBox="0 0 10 10" aria-hidden="true"><path d="' + (d < 0 ? "M6.5 1.5 3 5l3.5 3.5" : "M3.5 1.5 7 5 3.5 8.5") + '"/></svg>'; }
     function label(b, it, d) { b.innerHTML = '<span class="s-snav-pill">' + chev(d) + '</span><span class="s-snav-peek">' + (it.icon || "") + "</span>"; var t = (d < 0 ? "Previous: " : "Next: ") + it.name; b.setAttribute("aria-label", t + " ([ or ])".replace(d < 0 ? " or ]" : "[ or ", "")); b.title = t; }
@@ -94,7 +117,7 @@
     }
     function place() {
       if (held >= 0 && performance.now() - heldAt < 1500) { raf = requestAnimationFrame(place); return; }   // mid-press: stay put, or the click would land on nothing
-      cur = openIdx(); var on = cur >= 0;
+      cur = openIdx(); var on = cur >= 0 && !items[cur].__band;
       prev.hidden = next.hidden = !on;
       if (on) {
         var it = items[cur], r = it.el.getBoundingClientRect(), y = r.top + Math.min(r.height / 2, 220), n = items.length;
