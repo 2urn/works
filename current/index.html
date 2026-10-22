@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022041712";window.__VERSION__="0.29.13";window.__NOTES__=[{"v":"0.29.13","date":"22 Oct 2026","items":[{"kind":"change","text":"the mixer's master runs across the whole panel, under both columns, so it reads as the master"}]}]</script>
+<script>window.__BUILD__="20261022042605";window.__VERSION__="0.29.14";window.__NOTES__=[{"v":"0.29.14","date":"23 Oct 2026","items":[{"kind":"fix","text":"a shared scene's link opens on that scene and stays there. Auto play, which starts by itself on a computer, used to move on to the next scene within a second; it now waits until you start it"},{"kind":"change","text":"new scene links are shorter, d.chamy.xyz/ and seven characters. Older links keep working"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022041712"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022041712">
+<script src="claude-web.js?v=20261022042605"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022042605">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022041712"></script>
-<script src="surface/selftest.js?v=20261022041712"></script>
-<script src="surface/report.js?v=20261022041712"></script>
-<script src="surface/auto.js?v=20261022041712"></script>
-<script src="surface/toolpath.js?v=20261022041712"></script>
-<script src="surface/capture.js?v=20261022041712"></script>
-<script src="surface/pop.js?v=20261022041712"></script>
-<script src="surface/hints.js?v=20261022041712"></script>
-<script src="surface/paths.js?v=20261022041712"></script>
-<script src="surface/keys.js?v=20261022041712"></script>
-<script src="surface/reset.js?v=20261022041712"></script>
-<script src="surface/files.js?v=20261022041712"></script>
-<script src="surface/tabs.js?v=20261022041712"></script>
-<script src="surface/running.js?v=20261022041712"></script>
-<script src="surface/trim.js?v=20261022041712"></script>
-<script src="surface/audiowake.js?v=20261022041712"></script>
-<script src="surface/listview.js?v=20261022041712"></script>
-<script src="surface/beads.js?v=20261022041712"></script>
-<script src="surface/strip.js?v=20261022041712"></script>
-<script src="surface/sheetnav.js?v=20261022041712"></script>
-<script src="surface/twofinger.js?v=20261022041712"></script>
-<script src="surface/shortlink.js?v=20261022041712"></script>
-<script src="surface/undo.js?v=20261022041712"></script>
-<script src="surface/pro.js?v=20261022041712"></script>
+<script src="vendor/opentype.min.js?v=20261022042605"></script>
+<script src="surface/selftest.js?v=20261022042605"></script>
+<script src="surface/report.js?v=20261022042605"></script>
+<script src="surface/auto.js?v=20261022042605"></script>
+<script src="surface/toolpath.js?v=20261022042605"></script>
+<script src="surface/capture.js?v=20261022042605"></script>
+<script src="surface/pop.js?v=20261022042605"></script>
+<script src="surface/hints.js?v=20261022042605"></script>
+<script src="surface/paths.js?v=20261022042605"></script>
+<script src="surface/keys.js?v=20261022042605"></script>
+<script src="surface/reset.js?v=20261022042605"></script>
+<script src="surface/files.js?v=20261022042605"></script>
+<script src="surface/tabs.js?v=20261022042605"></script>
+<script src="surface/running.js?v=20261022042605"></script>
+<script src="surface/trim.js?v=20261022042605"></script>
+<script src="surface/audiowake.js?v=20261022042605"></script>
+<script src="surface/listview.js?v=20261022042605"></script>
+<script src="surface/beads.js?v=20261022042605"></script>
+<script src="surface/strip.js?v=20261022042605"></script>
+<script src="surface/sheetnav.js?v=20261022042605"></script>
+<script src="surface/twofinger.js?v=20261022042605"></script>
+<script src="surface/shortlink.js?v=20261022042605"></script>
+<script src="surface/undo.js?v=20261022042605"></script>
+<script src="surface/pro.js?v=20261022042605"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022041712"></script>
-<script src="surface/rail.js?v=20261022041712"></script>
-<script src="surface/touchsound.js?v=20261022041712"></script>
-<script src="surface/water.js?v=20261022041712"></script>
-<script src="surface/ripple.js?v=20261022041712"></script>
-<script src="surface/float.js?v=20261022041712"></script>
-<script src="surface/manual.js?v=20261022041712"></script>
+<script src="surface/pack.js?v=20261022042605"></script>
+<script src="surface/rail.js?v=20261022042605"></script>
+<script src="surface/touchsound.js?v=20261022042605"></script>
+<script src="surface/water.js?v=20261022042605"></script>
+<script src="surface/ripple.js?v=20261022042605"></script>
+<script src="surface/float.js?v=20261022042605"></script>
+<script src="surface/manual.js?v=20261022042605"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -4510,7 +4510,7 @@ const cardId=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz2345
 /* the scene's own link, made once per scene; the QR carries it */
 async function lookLink(){const snap=snapshot(curName&&curName!=='Random'?curName:'Shared scene'),key=JSON.stringify(snap);
   if(CARD.link&&CARD.linkKey===key)return CARD.link;
-  const u=await shortLink(snap);   // the studio's short link (kit shortlink.js): works.chamy.xyz/c/<code>
+  const u=await shortLink(snap);   // the studio's short link (kit shortlink.js): d.chamy.xyz/<code>
   if(u){CARD.link=u;CARD.linkKey=key;if(window.cxCount)cxCount('card: look link',1);return u}
   CARD.linkKey=key;CARD.link=SHARE_URL;return SHARE_URL}
 /* the short link for a scene: SurfaceShort when the kit has it, else the cards' own ?l=<id> insert (the same table) */
@@ -4795,10 +4795,19 @@ $('cdRoll').onclick=()=>{randomLook(false);$('cdNote').textContent='a new scene 
 $('cdSave').onclick=async()=>{const b=await cardBlob();if(b&&await saveBlob(appFile('jpg'),b)){toast('card saved');if(window.cxCount)cxCount('card: save '+CARD.size+(CARD.brand===false?' · no branding':''))}};
 $('cdShare').onclick=async()=>{const b0=await cardBlob();if(!b0)return;const m=cardMsg(),fn=appFile('jpg'),b=await stampFile(b0,fn);try{await navigator.share({files:[new File([b],fn,{type:'image/jpeg'})],title:CARD.brand===false?undefined:'Current',text:CARD.brand===false?(m||undefined):(m?m+' · ':'')+'Current: '+CARD_TAG+'. Join the Founders Club. '+(CARD.link||SHARE_URL)});if(window.cxCount)cxCount('card: share'+(CARD.brand===false?' · no branding':''))}catch(e){if(e&&e.name!=='AbortError')toast('Sharing is blocked here. Save the card instead.')}};
 /* a shared scene's link opens that scene */
-function openSharedLook(){let id=null;try{id=new URLSearchParams(location.search).get('l')}catch(_){}if(!id||!/^[A-Za-z0-9]{7,10}$/.test(id))return;   // 7: the studio's short links (/c/<code>); 10: the cards' older ones
+/* THE LINK'S SCENE STAYS (0.29.14, Dimitry 22 Oct: d.chamy.xyz/BRPsXKMfcg opened "Type: Counter-flow", the row is
+   "Unsteady: Drunk Type"). The row was read and applied; then auto play, which starts by itself on a computer 400 ms in
+   and in his profile turns every 4 beats, took the stage to the next scene within a second. A link opens on its scene and
+   auto play waits for him: SHARED_IN is read before boot, the computer's auto start skips it, and auto play (and the dice's clock) is stopped
+   when the scene lands (the robot button starts it again). */
+const SHARED_IN=(()=>{try{const id=new URLSearchParams(location.search).get('l');return id&&/^[A-Za-z0-9]{4,16}$/.test(id)?id:null}catch(_){return null}})();
+function openSharedLook(){const id=SHARED_IN;if(!id)return;   // 7: the studio's short links (d.chamy.xyz/<code>); 10: the older ones
   try{const u=new URL(location.href);u.searchParams.delete('l');history.replaceState(null,'',u.pathname+u.search+u.hash)}catch(_){}   // a reload keeps what you did after, not the link's scene again
+  try{if(autoT)setAuto(false,true)}catch(_){}
   fetch(LOOKS_DB.url+'?id=eq.'+id+'&select=look',{headers:{apikey:LOOKS_DB.key}}).then(r=>r.ok?r.json():[]).then(rows=>{const L=rows&&rows[0]&&rows[0].look;if(!L||typeof L.gcode!=='string'){toast('that shared scene could not be found');return}
-    applyLook({...L,name:String(L.name||'Shared scene').slice(0,40),gen:()=>L.gcode},-1,true);toast('a shared scene · '+String(L.name||'').slice(0,40));if(window.cxCount)cxCount('card: look opened',1)}).catch(()=>toast('that shared scene could not be loaded'))}
+    try{if(autoT)setAuto(false,true)}catch(_){}try{if(RAND.tempo)setRandTempo(0)}catch(_){}   // the dice's own clock would roll a new style over it too
+    const name=String(L.name||'Shared scene').slice(0,40);applyLook({...L,name,gen:()=>L.gcode},-1,true);window.__sharedLook={id,name};
+    try{flashName(name)}catch(_){}toast('a shared scene · '+name,2600);if(window.cxCount)cxCount('card: look opened',1)}).catch(()=>toast('that shared scene could not be loaded'))}
 /* the link alone, from anywhere: over the cover too (the cover makes the rest of the page inert, so the modal is
    lifted out of that for as long as it is open) */
 function openShare(from){const w=$('imgwrap'),L=document.getElementById('launch');if(L){w.removeAttribute('inert');w.classList.add('overCover')}
@@ -7694,10 +7703,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022041712"></script>
-<script src="surface/links.js?v=20261022041712"></script>
-<script src="surface/tips.js?v=20261022041712"></script>
-<script src="surface/sections.js?v=20261022041712"></script>
+<script src="surface/install.js?v=20261022042605"></script>
+<script src="surface/links.js?v=20261022042605"></script>
+<script src="surface/tips.js?v=20261022042605"></script>
+<script src="surface/sections.js?v=20261022042605"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8268,7 +8277,7 @@ try{const dl=$('displayL');SurfaceSections.controls(dl,{label:'Hidden',before:dl
   /* three fingers on the stage, as Fracture: hide or bring back */
   let tri=0;$('stage').addEventListener('touchstart',e=>{if(e.touches.length===3){const t=performance.now();if(t-tri>600){tri=t;bare(!de.classList.contains('bare'))}}},{passive:true});
   /* on a computer the scenes play by themselves from the start; the auto button stops them */
-  if(matchMedia('(hover:hover) and (pointer:fine)').matches)setTimeout(()=>{try{if(!autoT)setAuto(true,true)}catch(e){}},400);
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!SHARED_IN)setTimeout(()=>{try{if(!autoT)setAuto(true,true)}catch(e){}},400);   // not when a link brought a scene (0.29.14)
 })();
 
 /* MODAL ICONS (Dimitry, 19 Oct): every modal's head starts with the icon of the control that opens it, copied from
@@ -8336,7 +8345,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.13';
+const APP_VERSION='0.29.14';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

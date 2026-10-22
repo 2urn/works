@@ -1,11 +1,11 @@
 /* Surface · Short links — one short address for anything a tool shares (Dimitry, 22 Oct 2026, 23:08: "a studio-wide
    short-link utility", after Current's scene links).
 
-   A link is works.chamy.xyz/c/<code>: seven characters from an alphabet with no look-alikes (no 0/O, 1/l/I). The code
+   A link is d.chamy.xyz/<code> (forwarded to works.chamy.xyz/c/<code>): seven characters from an alphabet with no look-alikes (no 0/O, 1/l/I). The code
    is a row in the studio's existing shared_looks table (Supabase: id, tool, look, version; insert-only, read one by id,
    public by design: anyone with the code can open what it holds). No new table.
 
-     SurfaceShort.make({tool: 'current', payload: {...}, version: '0.29.3'}) → Promise<'https://works.chamy.xyz/c/AbC3dEf' | null>
+     SurfaceShort.make({tool: 'current', payload: {...}, version: '0.29.3'}) → Promise<'https://d.chamy.xyz/AbC3dEf' | null>
      SurfaceShort.open(code) → Promise<{tool, look} | null>       (old 10-character codes open too)
      SurfaceShort.code(url or code) → the code, or null
      SurfaceShort.configure({db: {url, key}, base}) → another table or address (a fork, a test)
@@ -17,10 +17,10 @@
   "use strict";
   if (window.SurfaceShort) return;
   var A = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
-  var LEN = 10;   /* 7 when shared_looks_id_check allows {7,10}; today it asks for 10 (22 Oct 2026). One line. */
+  var LEN = 7;    /* shared_looks_id_check allows {7,10} since 23 Oct 2026 (it asked for 10 before; the 400 fallback below stays) */
   var O = {
     db: { url: "https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/shared_looks", key: "sb_publishable_7ihrmtQig6LMpHfNdhMhoQ_ow4quDUp" },
-    base: "https://works.chamy.xyz/c/"
+    base: "https://d.chamy.xyz/"   /* d.chamy.xyz/<code> forwards to works.chamy.xyz/c/<code> (live, HTTPS, 23 Oct 2026) */
   };
   function rnd(n) {
     var r = new Uint8Array(n), o = "";
@@ -30,7 +30,7 @@
   }
   function code(s) {
     if (!s) return null;
-    var m = /(?:\/c\/|[?&]l=|^https?:\/\/d\.chamy\.xyz\/)([A-Za-z0-9]{7,10})\b/.exec(String(s)) || /^([A-Za-z0-9]{7,10})$/.exec(String(s));
+    var m = /(?:\/c\/|[?&]l=|^https?:\/\/d\.chamy\.xyz\/)([A-Za-z0-9]{4,16})\b/.exec(String(s)) || /^([A-Za-z0-9]{4,16})$/.exec(String(s));
     return m ? m[1] : null;
   }
   function make(o) {
@@ -61,18 +61,19 @@
       .then(function (rows) { return rows && rows[0] ? rows[0] : null; }, function () { return null; });
   }
   function configure(o) { o = o || {}; if (o.db) O.db = o.db; if (o.base) O.base = o.base; }
-  /* the short address lives in ONE place: SurfaceShort.base. works.chamy.xyz/c/ today; d.chamy.xyz/ once that host is
-     set up (Dimitry, 22 Oct 23:11; the resolver already reads /<code> at the root of a host of its own) */
+  /* the short address lives in ONE place: SurfaceShort.base: d.chamy.xyz/ (Dimitry, 22 Oct 23:11;
+     live 23 Oct, forwarding /<code> to works.chamy.xyz/c/<code>). Codes of 4 to 16 characters are read, so a short or
+     mistyped one reaches the "expired or wrong" page rather than "nothing here". */
   /* THE RESOLVER, shared by every page that receives a short link (works.chamy.xyz's 404.html and c/index.html, and the
      planned d.chamy.xyz): finds the code in the address (/c/<code>, /c/?<code>, or /<code> on a host of its own), reads its
      row, and goes on to the tool with ?l=<code>. show(kind, tool) is called when there is nothing to go to:
      'none' (no code in the address), 'gone' (no such code, or the network failed; tool when the row named one). */
   var TOOLS = { current: { path: "https://works.chamy.xyz/current/", name: "Current" } };
   function inPath(loc, ownHost) {
-    var p = loc.pathname, m = /^\/c\/([A-Za-z0-9]{7,10})\/?$/.exec(p);
+    var p = loc.pathname, m = /^\/c\/([A-Za-z0-9]{4,16})\/?$/.exec(p);
     if (m) return m[1];
-    if (/^\/c\/?$/.test(p) || (ownHost && /^\/?$/.test(p))) { m = /^\?([A-Za-z0-9]{7,10})$/.exec(loc.search) || /[?&](?:c|l)=([A-Za-z0-9]{7,10})\b/.exec(loc.search); if (m) return m[1]; }
-    if (ownHost) { m = /^\/([A-Za-z0-9]{7,10})\/?$/.exec(p); if (m) return m[1]; }
+    if (/^\/c\/?$/.test(p) || (ownHost && /^\/?$/.test(p))) { m = /^\?([A-Za-z0-9]{4,16})$/.exec(loc.search) || /[?&](?:c|l)=([A-Za-z0-9]{4,16})\b/.exec(loc.search); if (m) return m[1]; }
+    if (ownHost) { m = /^\/([A-Za-z0-9]{4,16})\/?$/.exec(p); if (m) return m[1]; }
     return null;
   }
   function resolve(o) {
