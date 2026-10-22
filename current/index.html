@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
+<!doctype html><html lang="en"><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022191540";window.__VERSION__="0.29.58";window.__NOTES__=[{"v":"0.29.58","date":"22 Oct 2026","items":[{"kind":"new","text":"Settings has a Performing switch. On, nothing reloads by itself mid-show, the update notice waits until you turn it off, and the screen stays awake. It is also on by itself while you are in a room, or while auto play runs in fullscreen"},{"kind":"new","text":"auto play keeps the screen awake while it runs"},{"kind":"fix","text":"a shared scene, a pack or a room can only bring colors, settings and words, never anything that runs on the page"},{"kind":"fix","text":"bytebeat formulas from packs, links and files are read by Current's own formula reader and never run as code; a formula it cannot read is refused with a note"},{"kind":"fix","text":"opening Current no longer keeps a copy of the scene online; a scene link is made only when you open the cards or ask for a link"},{"kind":"fix","text":"on a slow or stuck connection Current opens from what it kept within a few seconds, instead of waiting"},{"kind":"fix","text":"the visitor count no longer sees a shared scene's link or a room's code"}]}]</script>
+<script>window.__BUILD__="20261022191715";window.__VERSION__="0.29.59";window.__NOTES__=[{"v":"0.29.59","date":"22 Oct 2026","items":[{"kind":"new","text":"moving stickers. In Capture's sticker shelf, Still or Moving: Moving records three seconds of the field inside the duck-rabbit, with its frame and extras, clear outside, looping without a seam, 600 px at 15 fps. A GIF by default; the share sheet writes the same sticker again as APNG (a soft edge, for iMessage and Telegram) or WebP (512 square under 500 KB, for WhatsApp) without recording again, and shows its size"},{"kind":"new","text":"the share sheet's \"make it as\" row has Moving, so a GIF, a still or a sticker becomes a moving sticker (the sheet steps aside while it records), and a moving sticker becomes a still one on the spot"},{"kind":"change","text":"the live sticker preview says \"moving\" when Moving is on"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -20,7 +20,7 @@
       (o.r ? "&r=" + encodeURIComponent(o.r) : "") + (o.q ? "&q=" + encodeURIComponent(o.q) : "") +
       "&s=" + encodeURIComponent(screen.width + "," + screen.height + "," + (w.devicePixelRatio || 1)) +
       (navigator.webdriver ? "&b=153" : "") + "&rnd=" + Math.random().toString(36).slice(2);
-    var i = new Image(); i.referrerPolicy = "no-referrer"; i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
+    var i = new Image(); i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
   }
   var seen = {};
   /* cxCount("look: Spiral Arc") — an event. Built-in names only: never send what a person typed. */
@@ -31,12 +31,8 @@
   };
   function view() {
     var ref = d.referrer;
-    try { if (ref) { var ru = new URL(ref); ref = ru.hostname === l.hostname ? "" : ru.origin; } } catch (e) { ref = ""; }   // the site, never its path
-    /* the path and campaign tags only (22 Oct): a page's other parameters can be private (?l= a shared scene,
-       ?session= a room's code), so they never leave the page */
-    var q = "";
-    try { var sp = new URLSearchParams(l.search), keep = new URLSearchParams(); sp.forEach(function (v, k) { if (/^utm_[a-z]+$/.test(k)) keep.append(k, v.slice(0, 80)); }); q = keep.toString(); q = q ? "?" + q : ""; } catch (e) {}
-    send(l.pathname, { t: d.title, r: ref, q: q });
+    try { if (ref && new URL(ref).hostname === l.hostname) ref = ""; } catch (e) {}
+    send(l.pathname, { t: d.title, r: ref, q: l.search });
     try { if (matchMedia("(display-mode: standalone)").matches || navigator.standalone) w.cxCount("opened as app", 1); } catch (e) {}
   }
   if (d.visibilityState === "prerender")
@@ -66,12 +62,12 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022191540"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022191540">
+<script src="claude-web.js?v=20261022191715"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022191715">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
-<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <script>/* 0.26.10: the stage is the page from the first paint. The index stays shut until setPlayer() runs; before, iOS painted
    the open index for a moment before the cover (Dimitry, 20 Oct) */
@@ -123,38 +119,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022191540"></script>
-<script src="surface/selftest.js?v=20261022191540"></script>
-<script src="surface/report.js?v=20261022191540"></script>
-<script src="surface/auto.js?v=20261022191540"></script>
-<script src="surface/toolpath.js?v=20261022191540"></script>
-<script src="surface/capture.js?v=20261022191540"></script>
-<script src="surface/pop.js?v=20261022191540"></script>
-<script src="surface/hints.js?v=20261022191540"></script>
-<script src="surface/paths.js?v=20261022191540"></script>
-<script src="surface/keys.js?v=20261022191540"></script>
-<script src="surface/reset.js?v=20261022191540"></script>
-<script src="surface/files.js?v=20261022191540"></script>
-<script src="surface/tabs.js?v=20261022191540"></script>
-<script src="surface/running.js?v=20261022191540"></script>
-<script src="surface/trim.js?v=20261022191540"></script>
-<script src="surface/audiowake.js?v=20261022191540"></script>
-<script src="surface/session.js?v=20261022191540"></script>
-<script src="surface/output.js?v=20261022191540"></script>
-<script src="surface/voice.js?v=20261022191540"></script>
-<script src="surface/voicelib.js?v=20261022191540"></script>
-<script src="surface/instruments.js?v=20261022191540"></script>
-<script src="surface/listview.js?v=20261022191540"></script>
-<script src="surface/beads.js?v=20261022191540"></script>
-<script src="surface/strip.js?v=20261022191540"></script>
-<script src="surface/sheetnav.js?v=20261022191540"></script>
-<script src="surface/twofinger.js?v=20261022191540"></script>
-<script src="surface/shortlink.js?v=20261022191540"></script>
-<script src="surface/undo.js?v=20261022191540"></script>
-<script src="surface/pro.js?v=20261022191540"></script>
-<script src="surface/fresh.js?v=20261022191540"></script>
-<script src="surface/notice.js?v=20261022191540"></script>
-<script src="surface/perform.js?v=20261022191540"></script>
+<script src="vendor/opentype.min.js?v=20261022191715"></script>
+<script src="surface/selftest.js?v=20261022191715"></script>
+<script src="surface/report.js?v=20261022191715"></script>
+<script src="surface/auto.js?v=20261022191715"></script>
+<script src="surface/toolpath.js?v=20261022191715"></script>
+<script src="surface/capture.js?v=20261022191715"></script>
+<script src="surface/pop.js?v=20261022191715"></script>
+<script src="surface/hints.js?v=20261022191715"></script>
+<script src="surface/paths.js?v=20261022191715"></script>
+<script src="surface/keys.js?v=20261022191715"></script>
+<script src="surface/reset.js?v=20261022191715"></script>
+<script src="surface/files.js?v=20261022191715"></script>
+<script src="surface/tabs.js?v=20261022191715"></script>
+<script src="surface/running.js?v=20261022191715"></script>
+<script src="surface/trim.js?v=20261022191715"></script>
+<script src="surface/audiowake.js?v=20261022191715"></script>
+<script src="surface/session.js?v=20261022191715"></script>
+<script src="surface/output.js?v=20261022191715"></script>
+<script src="surface/voice.js?v=20261022191715"></script>
+<script src="surface/voicelib.js?v=20261022191715"></script>
+<script src="surface/instruments.js?v=20261022191715"></script>
+<script src="surface/listview.js?v=20261022191715"></script>
+<script src="surface/beads.js?v=20261022191715"></script>
+<script src="surface/strip.js?v=20261022191715"></script>
+<script src="surface/sheetnav.js?v=20261022191715"></script>
+<script src="surface/twofinger.js?v=20261022191715"></script>
+<script src="surface/shortlink.js?v=20261022191715"></script>
+<script src="surface/undo.js?v=20261022191715"></script>
+<script src="surface/pro.js?v=20261022191715"></script>
+<script src="surface/fresh.js?v=20261022191715"></script>
+<script src="surface/notice.js?v=20261022191715"></script>
+<script src="surface/perform.js?v=20261022191715"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -171,13 +167,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022191540"></script>
-<script src="surface/rail.js?v=20261022191540"></script>
-<script src="surface/touchsound.js?v=20261022191540"></script>
-<script src="surface/water.js?v=20261022191540"></script>
-<script src="surface/ripple.js?v=20261022191540"></script>
-<script src="surface/float.js?v=20261022191540"></script>
-<script src="surface/manual.js?v=20261022191540"></script>
+<script src="surface/pack.js?v=20261022191715"></script>
+<script src="surface/rail.js?v=20261022191715"></script>
+<script src="surface/touchsound.js?v=20261022191715"></script>
+<script src="surface/water.js?v=20261022191715"></script>
+<script src="surface/ripple.js?v=20261022191715"></script>
+<script src="surface/float.js?v=20261022191715"></script>
+<script src="surface/manual.js?v=20261022191715"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1075,6 +1071,7 @@ body #playbar>#pShot.busy{opacity:.55}
 .owKind[hidden],#imgwrap.nomedia .owKind{display:none}
 .owKind button{min-height:36px;min-width:64px;padding:0 12px;border:0;background:none;color:var(--ui-mid);font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 .owKind button+button{border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1)}
+.owKind.owFmt{margin-top:0}.owKind button:disabled{opacity:.4;cursor:default}
 .owKind button[aria-checked=true]{background:var(--lit-fill,#8fd0db);color:var(--acc-ink,#04181c)}
 .owKind button:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}
 .owRow[hidden]{display:none}
@@ -1210,6 +1207,8 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
   transition:opacity .28s ease,visibility 0s .28s;-webkit-tap-highlight-color:transparent;display:block}
 #stkPrev.on{opacity:1;visibility:visible;transition:opacity .28s ease,visibility 0s}
 #stkPrev canvas{display:block;position:static;inset:auto}
+#stkPrev .mv{display:none;position:absolute;left:8px;top:8px;padding:3px 6px 2px;border-radius:999px;background:rgba(4,4,6,.7);color:#eef3f4;font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;pointer-events:none}
+#stkPrev.mv .mv{display:block}
 #stkPrev:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
 html.bare #stkPrev{opacity:0!important;visibility:hidden!important}
 @media (prefers-reduced-motion:reduce){#stkPrev,#stkPrev.on{transition:none}}
@@ -2459,6 +2458,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
   <div id="owHead">Share the piece</div>
   <p id="owMeta"></p>
   <div class="owKind" id="owKind" role="radiogroup" aria-label="Make it as"></div>
+  <div class="owKind owFmt" id="owFmt" role="radiogroup" aria-label="File type" hidden></div>
   <div class="owRow" id="owFile">
     <button class="owBtn pri" id="owSave" type="button" aria-label="Save the file to this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>save</button>
     <button class="owBtn" id="owShare" type="button" aria-label="Share the file: the system share sheet, for Instagram, TikTok, Messages, Photos" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 14.5V4m-4 4 4-4 4 4"/><path d="M7 11H5.5v8.5h13V11H17"/></svg>share file</button>
@@ -4764,7 +4764,7 @@ const CAP={mode:'still',shape:'screen',gif:5,snd:.5,len:'free',intro:0,outro:0,f
 const STK_HEX=/^#[0-9a-f]{6}$/i;
 function stkNorm(o){o=o&&typeof o==='object'?o:{};const e=o.edge==='white'?'#ffffff':o.edge==='black'?'#000000':o.edge==='none'?'none':STK_HEX.test(o.edge||'')?String(o.edge).toLowerCase():'#ffffff';
   const x=o.x&&typeof o.x==='object'?{brand:!!o.x.brand,text:!!o.x.text,qr:!!o.x.qr}:{brand:o.extra==='name',text:false,qr:o.extra==='qr'};
-  return {edge:e,mine:STK_HEX.test(o.mine||'')?String(o.mine).toLowerCase():null,x,text:typeof o.text==='string'?o.text.slice(0,32):null}}
+  return {edge:e,mine:STK_HEX.test(o.mine||'')?String(o.mine).toLowerCase():null,x,text:typeof o.text==='string'?o.text.slice(0,32):null,mov:!!o.mov,fmt:['gif','apng','webp'].includes(o.fmt)?o.fmt:'gif'}}
 try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif','sticker'].includes(o.mode))CAP.mode=o.mode;if(o.stk&&typeof o.stk==='object')CAP.stk=stkNorm(o.stk);if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif;if(typeof o.snd==='number'&&o.snd>=0&&o.snd<=1)CAP.snd=o.snd;else if(o.snd in{music:1,both:1,mic:1})CAP.snd={music:0,both:.5,mic:1}[o.snd]}catch(_){}
 try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['free',10,30,60,'4b','8b','16b'].includes(o.len))CAP.len=o.len;for(const k of ['intro','outro','fade'])if(o[k]===0||o[k]===1)CAP[k]=o[k]}catch(_){}
 function capSave(){try{localStorage.setItem('toolpath-capture',JSON.stringify(CAP))}catch(_){}}
@@ -4876,6 +4876,151 @@ async function capSticker(){try{toast('cutting the sticker…',1600);
   const F=frameInto(document.createElement('canvas'),L.mw,L.mh,false,true);
   const art=stkPaint(L,F);
   const bl=await new Promise(r=>art.toBlob(r,'image/png'));if(!bl)throw 0;STK_FLIP=!BATCH.sink;showOut(bl,'png',L.W,L.H)}catch(e){console.warn('[sticker]',e);toast('The sticker could not be made here.')}}
+/* THE MOVING STICKER (Dimitry, 22 Oct 14:43: "make it a GIF sticker or make a GIF into a sticker"): the field moving
+   inside the duck-rabbit, with the sticker's frame and extras, clear outside, three seconds that loop (the last 0.4 s
+   crossfade into the first, so the seam does not jump), 600 px on its long side, 15 fps: the sizes sticker apps take.
+   Recorded like a GIF (the frame and extras are cut once, only the field is redrawn), then encoded here on the device:
+   GIF by default (1-bit clear: the mark's soft edge is matted on the frame color, one palette for every frame so it
+   does not flicker, and only what changed is written, so the file stays small), APNG (full alpha, the format Telegram
+   and iMessage take), or animated WebP where the browser can write WebP (512 × 512, under 500 KB when it can be:
+   WhatsApp's rule). The share sheet switches between them from the same frames, without recording again. */
+const STK_MV={fps:15,body:3,xf:.4,side:600,warn:2*1024*1024,wa:500*1024};
+const stkMvDur=(i,fps)=>Math.round((i+1)*1000/fps)-Math.round(i*1000/fps);   // 67, 66, 67: exactly 15 a second over the loop
+let STK_WEBP=null;function stkWebpOk(){if(STK_WEBP==null){try{const c=document.createElement('canvas');c.width=c.height=2;STK_WEBP=c.toDataURL('image/webp').startsWith('data:image/webp')}catch(_){STK_WEBP=false}}return STK_WEBP}
+async function startStkMove(){if(REC||ENC)return;if(!window.GIFENC){toast('The GIF maker did not load.');return}
+  try{const K=stkNorm(CAP.stk);
+    const link=K.x.qr?await Promise.race([lookLink().catch(()=>null),new Promise(r=>setTimeout(()=>r(null),5000))]):null;
+    let S=560,L=await stkLayout(K,S,link||shareUrl());const k=STK_MV.side/Math.max(L.W,L.H);if(Math.abs(k-1)>.02){S=Math.round(S*k);L=await stkLayout(K,S,link||shareUrl())}
+    const f=document.createElement('canvas');f.width=L.mw;f.height=L.mh;const fg=f.getContext('2d');
+    const art=document.createElement('canvas');art.width=L.W;art.height=L.H;const ag=art.getContext('2d',{willReadFrequently:true});
+    const st={kind:'stk',t0:performance.now(),raf:0,last:-1e9,frames:[],L,K,max:(STK_MV.body+STK_MV.xf)*1000,need:Math.round((STK_MV.body+STK_MV.xf)*STK_MV.fps),src:null};
+    const grab=()=>{st.src=stillCanvas(st.src);const sw=st.src.width,sh=st.src.height,a=L.mw/L.mh;let w=sw,h=sw/a;if(h>sh){h=sh;w=sh*a}
+      fg.clearRect(0,0,f.width,f.height);fg.imageSmoothingQuality='high';fg.drawImage(st.src,(sw-w)/2,(sh-h)/2,w,h,0,0,f.width,f.height);stkPaint(L,f,art);st.frames.push(ag.getImageData(0,0,L.W,L.H).data)};
+    const loop=t=>{if(REC!==st)return;if(t-st.last>=1000/STK_MV.fps-4){st.last=t;try{grab()}catch(e){console.warn('[moving sticker]',e)}}
+      if(st.frames.length>=st.need||performance.now()-st.t0>=st.max*3){stopStkMove();return}st.raf=requestAnimationFrame(loop)};   // by count: a slow device takes longer, the loop stays 3 s
+    REC=st;st.raf=requestAnimationFrame(loop);syncShot();tickTime();toast('recording the moving sticker · '+STK_MV.body+' s',1600)}
+  catch(e){console.warn('[moving sticker]',e);toast('The moving sticker could not be made here.')}}
+/* the loop: the frames after the body fade into the first ones, so the last frame leads into the first */
+function stkLoopify(fr,fps){const k=Math.round(STK_MV.xf*fps),n=fr.length;if(n<2*k+4)return fr;const N=n-k,out=fr.slice(0,N);
+  for(let i=0;i<k;i++){const w=i/k,a=fr[N+i],b=fr[i],o=new Uint8ClampedArray(a.length);for(let p=0;p<o.length;p+=4){o[p]=a[p]+(b[p]-a[p])*w;o[p+1]=a[p+1]+(b[p+1]-a[p+1])*w;o[p+2]=a[p+2]+(b[p+2]-a[p+2])*w;o[p+3]=b[p+3]}out[i]=o}
+  return out}
+async function stopStkMove(){const st=REC;if(!st||st.kind!=='stk')return;cancelAnimationFrame(st.raf);REC=null;
+  if(st.frames.length<2){syncShot();toast('Nothing was recorded.');return}
+  ENC=true;syncShot();const mv={frames:stkLoopify(st.frames,STK_MV.fps),W:st.L.W,H:st.L.H,fps:STK_MV.fps,K:st.K};st.frames=null;
+  try{const fmt=CAP.stk.fmt==='webp'&&!stkWebpOk()?'gif':CAP.stk.fmt||'gif',r=await stkMvEncode(mv,fmt);ENC=false;syncShot();
+    STK_FLIP=false;showOut(r.blob,r.ext,r.w,r.h,{kind:'msticker',label:r.label,mv,fmt});stkMvWarn()}
+  catch(e){console.warn('[moving sticker]',e);ENC=false;syncShot();toast('The moving sticker could not be made.')}}
+const stkProg=(i,n)=>{try{$('pRecTime').textContent=Math.round((i+1)/n*100)+'%'}catch(_){}return new Promise(r=>setTimeout(r,0))};
+async function stkMvEncode(mv,fmt){if(fmt==='apng')return {blob:await (typeof CompressionStream==='function'?encApng8:encApng)(mv),ext:'png',label:'APNG',w:mv.W,h:mv.H};
+  if(fmt==='webp'){const r=await encWebpAnim(mv);return {blob:r.blob,ext:'webp',label:'WebP',w:r.side,h:r.side}}
+  return {blob:await encGifStk(mv),ext:'gif',label:'GIF',w:mv.W,h:mv.H}}
+function stkMvWarn(){if(!OUT||!OUT.mv)return;const z=OUT.blob.size;
+  if(OUT.fmt==='webp'&&z>STK_MV.wa)toast('Over WhatsApp\'s 500 KB for a sticker ('+fmtSize(z)+'). A calmer scene comes out smaller.',3600);
+  else if(z>STK_MV.warn)toast('A large sticker: '+fmtSize(z)+'. Most apps want under 2 MB; a calmer scene or WebP comes out smaller.',3600)}
+/* GIF: one palette for all the frames (sampled across them), the soft edge matted on the frame color and cut at half,
+   index 255 the clear one; each frame after the first writes only the pixels whose color changed (the rest are clear
+   and the frame before shows through: disposal 1) */
+async function encGifStk(mv){const {GIFEncoder,quantize,applyPalette}=window.GIFENC,{frames,W,H,fps,K}=mv,n=frames.length,np=W*H;
+  const hx=String(K.edge!=='none'?K.edge:(groundHex()||stageBg()||'#050708')).trim(),m=/^#[0-9a-f]{6}$/i.test(hx)?[1,3,5].map(i=>parseInt(hx.substr(i,2),16)):[5,7,8];
+  const samp=[],step=Math.max(1,Math.floor(n/10));for(let i=0;i<n;i+=step){const d=frames[i];for(let p=(i*37%13)*4;p<d.length;p+=4*13)if(d[p+3]>=128)samp.push(d[p],d[p+1],d[p+2],255)}
+  let pal=quantize(new Uint8Array(samp.length?samp:[0,0,0,255]),255,{format:'rgb565'}).slice(0,255);while(pal.length<255)pal.push([0,0,0]);
+  const full=pal.concat([[0,0,0]]),enc=GIFEncoder(),shown=new Uint8Array(np).fill(255),buf=new Uint8ClampedArray(np*4);
+  for(let i=0;i<n;i++){const d=frames[i];buf.set(d);for(let p=0;p<buf.length;p+=4){const a=buf[p+3];if(a>=128&&a<255){const t=a/255;buf[p]=buf[p]*t+m[0]*(1-t);buf[p+1]=buf[p+1]*t+m[1]*(1-t);buf[p+2]=buf[p+2]*t+m[2]*(1-t)}}
+    const idx=applyPalette(buf,pal,'rgb565');
+    for(let q=0;q<np;q++){if(d[q*4+3]<128){idx[q]=255;continue}if(i&&idx[q]===shown[q])idx[q]=255;else shown[q]=idx[q]}
+    const dl=(Math.round((i+1)*100/fps)-Math.round(i*100/fps))*10;   // a GIF counts in hundredths: 70, 60, 70 ms
+    enc.writeFrame(idx,W,H,i?{transparent:true,transparentIndex:255,delay:dl,dispose:1}:{palette:full,transparent:true,transparentIndex:255,delay:dl,dispose:1,repeat:0});
+    if(i%3===2)await stkProg(i,n)}
+  enc.finish();return new Blob([enc.bytes()],{type:'image/gif'})}
+/* APNG, the plain way (older browsers without CompressionStream): PNG frames from the canvas, put together here (acTL, fcTL, fdAT). After the first, each frame is only the box
+   of what changed, blended over the one before; a pixel within 3 of what shows is left as it is (measured against what
+   shows, so nothing drifts). The mark's soft edge keeps the first frame's colors (a soft pixel cannot be laid over itself). */
+function pngChunks(u){const out=[],dv=new DataView(u.buffer,u.byteOffset,u.byteLength);let p=8;while(p+8<=u.length){const len=dv.getUint32(p),type=String.fromCharCode(u[p+4],u[p+5],u[p+6],u[p+7]);out.push({type,data:u.subarray(p+8,p+8+len)});p+=12+len}return out}
+function pngChunk(type,data){const o=new Uint8Array(12+data.length),dv=new DataView(o.buffer);dv.setUint32(0,data.length);for(let i=0;i<4;i++)o[4+i]=type.charCodeAt(i);o.set(data,8);
+  dv.setUint32(8+data.length,crc32(o.subarray(4,8+data.length)));return o}   // crc32: the zip writer's (below)
+async function encApng(mv){const {frames,W,H,fps}=mv,n=frames.length,np=W*H,parts=[new Uint8Array([137,80,78,71,13,10,26,10])];
+  const c=document.createElement('canvas'),g=c.getContext('2d'),shown=new Uint8ClampedArray(frames[0]),soft=new Uint8Array(np);for(let q=0;q<np;q++){const a=frames[0][q*4+3];soft[q]=a>0&&a<255?1:0}
+  let seq=0,ihdr=null;const be=(dv,o,v,b)=>b===4?dv.setUint32(o,v):b===2?dv.setUint16(o,v):dv.setUint8(o,v);
+  const fctl=(w,h,x,y,i,blend)=>{const d=new Uint8Array(26),dv=new DataView(d.buffer);be(dv,0,seq++,4);be(dv,4,w,4);be(dv,8,h,4);be(dv,12,x,4);be(dv,16,y,4);be(dv,20,stkMvDur(i,fps),2);be(dv,22,1000,2);be(dv,24,0,1);be(dv,25,blend,1);return pngChunk('fcTL',d)};
+  const body=[];
+  for(let i=0;i<n;i++){const d=frames[i];let x0=0,y0=0,x1=W,y1=H,px;
+    if(!i)px=new ImageData(new Uint8ClampedArray(d),W,H);
+    else{x0=W;y0=H;x1=0;y1=0;const ch=new Uint8Array(np);
+      for(let q=0;q<np;q++){const p=q*4;if(soft[q]||d[p+3]<255)continue;if(Math.abs(d[p]-shown[p])>3||Math.abs(d[p+1]-shown[p+1])>3||Math.abs(d[p+2]-shown[p+2])>3||shown[p+3]<255){ch[q]=1;const x=q%W,y=(q/W)|0;if(x<x0)x0=x;if(x>=x1)x1=x+1;if(y<y0)y0=y;if(y>=y1)y1=y+1}}
+      if(x1<=x0){x0=y0=0;x1=y1=1}
+      const w=x1-x0,h=y1-y0,o=new Uint8ClampedArray(w*h*4);
+      for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const q=y*W+x;if(!ch[q])continue;const p=q*4,r=((y-y0)*w+(x-x0))*4;o[r]=d[p];o[r+1]=d[p+1];o[r+2]=d[p+2];o[r+3]=255;shown[p]=d[p];shown[p+1]=d[p+1];shown[p+2]=d[p+2];shown[p+3]=255}
+      px=new ImageData(o,w,h)}
+    c.width=px.width;c.height=px.height;g.putImageData(px,0,0);
+    const u=new Uint8Array(await (await new Promise(r=>c.toBlob(r,'image/png'))).arrayBuffer()),ck=pngChunks(u);
+    if(!i)ihdr=ck.find(x=>x.type==='IHDR').data;
+    body.push(fctl(px.width,px.height,x0,y0,i,i?1:0));
+    for(const x of ck)if(x.type==='IDAT'){if(!i)body.push(pngChunk('IDAT',x.data));else{const fd=new Uint8Array(4+x.data.length);new DataView(fd.buffer).setUint32(0,seq++);fd.set(x.data,4);body.push(pngChunk('fdAT',fd))}}
+    if(i%3===2)await stkProg(i,n)}
+  const ac=new Uint8Array(8),av=new DataView(ac.buffer);av.setUint32(0,n);av.setUint32(4,0);
+  parts.push(pngChunk('IHDR',ihdr),pngChunk('acTL',ac),...body,pngChunk('IEND',new Uint8Array(0)));return new Blob(parts,{type:'image/png'})}
+/* APNG, small (where the browser has CompressionStream, which is everywhere now): an indexed PNG like the GIF, one
+   palette for all the frames, but with the alpha a GIF lacks: 240 opaque colors for the field and the frame, 15 soft
+   ones for the mark's antialiased edge, index 255 clear. After the first, each frame is the box of the pixels whose
+   color changed, laid over the one before; everything else clear. Written here: PLTE, tRNS, deflate per frame. */
+async function zlibBytes(u){const cs=new CompressionStream('deflate'),w=cs.writable.getWriter();w.write(u);w.close();return new Uint8Array(await new Response(cs.readable).arrayBuffer())}
+async function encApng8(mv){const {GIFENC:G}=window,{frames,W,H,fps}=mv,n=frames.length,np=W*H;
+  const so=[],ss=[],step=Math.max(1,Math.floor(n/10));
+  for(let i=0;i<n;i+=step){const d=frames[i];for(let p=(i*37%13)*4;p<d.length;p+=4*13){const a=d[p+3];if(a===255)so.push(d[p],d[p+1],d[p+2],255)}}
+  {const d=frames[0];for(let p=0;p<d.length;p+=4){const a=d[p+3];if(a>=8&&a<255)ss.push(d[p],d[p+1],d[p+2],a)}}
+  let po=G.quantize(new Uint8Array(so.length?so:[0,0,0,255]),240,{format:'rgb565'}).slice(0,240);while(po.length<240)po.push([0,0,0]);
+  let ps=ss.length?G.quantize(new Uint8Array(ss),15,{format:'rgba4444'}).slice(0,15):[];while(ps.length<15)ps.push([0,0,0,128]);
+  const PL=new Uint8Array(768),TR=new Uint8Array(256);po.forEach((c,i)=>{PL.set(c.slice(0,3),i*3);TR[i]=255});ps.forEach((c,i)=>{PL.set(c.slice(0,3),(240+i)*3);TR[240+i]=c[3]});TR[255]=0;
+  const shown=new Uint8Array(np).fill(255),parts=[new Uint8Array([137,80,78,71,13,10,26,10])],body=[];let seq=0;
+  const ih=new Uint8Array(13),iv=new DataView(ih.buffer);iv.setUint32(0,W);iv.setUint32(4,H);ih[8]=8;ih[9]=3;
+  for(let i=0;i<n;i++){const d=frames[i],idx=G.applyPalette(d,po,'rgb565');
+    for(let q=0;q<np;q++){const a=d[q*4+3];if(a<8){idx[q]=255;continue}
+      if(a<255){if(i){idx[q]=255;continue}idx[q]=240+G.nearestColorIndex(ps,[d[q*4],d[q*4+1],d[q*4+2],a])}   // soft edge: drawn once, then left
+      if(i&&idx[q]===shown[q])idx[q]=255;else shown[q]=idx[q]}
+    let x0=0,y0=0,x1=W,y1=H;
+    if(i){x0=W;y0=H;x1=0;y1=0;for(let y=0;y<H;y++){const r=y*W;for(let x=0;x<W;x++)if(idx[r+x]!==255){if(x<x0)x0=x;if(x>=x1)x1=x+1;if(y<y0)y0=y;if(y>=y1)y1=y+1}}if(x1<=x0){x0=y0=0;x1=y1=1}}
+    const w=x1-x0,h=y1-y0,raw=new Uint8Array((w+1)*h);for(let y=0;y<h;y++){raw[y*(w+1)]=0;raw.set(idx.subarray((y+y0)*W+x0,(y+y0)*W+x1),y*(w+1)+1)}
+    const z=await zlibBytes(raw),fc=new Uint8Array(26),fv=new DataView(fc.buffer);
+    fv.setUint32(0,seq++);fv.setUint32(4,w);fv.setUint32(8,h);fv.setUint32(12,x0);fv.setUint32(16,y0);fv.setUint16(20,stkMvDur(i,fps));fv.setUint16(22,1000);fc[24]=0;fc[25]=i?1:0;body.push(pngChunk('fcTL',fc));
+    if(!i)body.push(pngChunk('IDAT',z));else{const fd=new Uint8Array(4+z.length);new DataView(fd.buffer).setUint32(0,seq++);fd.set(z,4);body.push(pngChunk('fdAT',fd))}
+    if(i%3===2)await stkProg(i,n)}
+  const ac=new Uint8Array(8),av=new DataView(ac.buffer);av.setUint32(0,n);av.setUint32(4,0);
+  parts.push(pngChunk('IHDR',ih),pngChunk('acTL',ac),pngChunk('PLTE',PL),pngChunk('tRNS',TR),...body,pngChunk('IEND',new Uint8Array(0)));return new Blob(parts,{type:'image/png'})}
+/* animated WebP: each frame a WebP from the canvas (lossy, with its alpha), on a 512 × 512 square, wrapped here in
+   VP8X + ANIM + ANMF; the quality steps down until it fits WhatsApp's 500 KB, or stops at 0.3 */
+async function encWebpAnim(mv){const {frames,W,H,fps}=mv,n=frames.length,side=512,s=Math.min(side/W,side/H),dw=Math.round(W*s),dh=Math.round(H*s),dx=(side-dw)>>1,dy=(side-dh)>>1;
+  const src=document.createElement('canvas');src.width=W;src.height=H;const sg=src.getContext('2d'),c=document.createElement('canvas');c.width=c.height=side;const g=c.getContext('2d');
+  const le=(a,o,v,b)=>{for(let i=0;i<b;i++)a[o+i]=(v>>>(8*i))&255};
+  const riffChunks=u=>{const out=[];let p=12;while(p+8<=u.length){const t=String.fromCharCode(u[p],u[p+1],u[p+2],u[p+3]),len=u[p+4]|u[p+5]<<8|u[p+6]<<16|u[p+7]<<24;out.push({t,raw:u.subarray(p,p+8+len+(len&1))});p+=8+len+(len&1)}return out};
+  const one=async(i,q)=>{sg.putImageData(new ImageData(frames[i],W,H),0,0);g.clearRect(0,0,side,side);g.imageSmoothingQuality='high';g.drawImage(src,dx,dy,dw,dh);
+    const b=await new Promise(r=>c.toBlob(r,'image/webp',q));if(!b||b.type!=='image/webp')throw new Error('no webp');return b};
+  /* the quality is guessed from every eighth frame first, so the whole run is written once (twice at most) */
+  const QS=[.8,.62,.46,.32,.2];let qi=QS.length-1;
+  for(let j=0;j<QS.length;j++){let z=0,m=0;for(let i=0;i<n;i+=8){z+=(await one(i,QS[j])).size;m++}if(z/m*n*1.04+64<=STK_MV.wa*.94){qi=j;break}}
+  let best=null;
+  for(const q of QS.slice(qi)){const anm=[];let tot=0;
+    for(let i=0;i<n;i++){const b=await one(i,q);
+      const u=new Uint8Array(await b.arrayBuffer()),fr=riffChunks(u).filter(x=>x.t==='ALPH'||x.t==='VP8 '||x.t==='VP8L');let fl=0;for(const x of fr)fl+=x.raw.length;
+      const a=new Uint8Array(8+16+fl);a.set([65,78,77,70],0);le(a,4,16+fl,4);le(a,8,0,3);le(a,11,0,3);le(a,14,side-1,3);le(a,17,side-1,3);le(a,20,stkMvDur(i,fps),3);a[23]=2;   // no blend, no dispose: each frame is whole
+      let o=24;for(const x of fr){a.set(x.raw,o);o+=x.raw.length}anm.push(a);tot+=a.length;if(i%4===3)await stkProg(i,n)}
+    const head=new Uint8Array(12+18+14);head.set([82,73,70,70],0);le(head,4,4+18+14+tot,4);head.set([87,69,66,80],8);
+    head.set([86,80,56,88],12);le(head,16,10,4);head[20]=0x12;le(head,24,side-1,3);le(head,27,side-1,3);
+    head.set([65,78,73,77],30);le(head,34,6,4);le(head,38,0,4);le(head,42,0,2);
+    best={blob:new Blob([head,...anm],{type:'image/webp'}),side,q};if(best.blob.size<=STK_MV.wa)break}
+  return best}
+/* the share sheet's file type for a moving sticker: the same frames, written again as GIF, APNG or WebP */
+async function stkMvRefmt(fmt){if(!OUT||!OUT.mv||ENC||fmt===OUT.fmt)return;if(fmt==='webp'&&!stkWebpOk())return;ENC=true;syncShot();owFmtSync();
+  try{const r=await stkMvEncode(OUT.mv,fmt);CAP.stk.fmt=fmt;capSave();if(OUT.url)URL.revokeObjectURL(OUT.url);
+    Object.assign(OUT,{blob:r.blob,ext:r.ext,w:r.w,h:r.h,label:r.label,fmt,url:URL.createObjectURL(r.blob),name:appFile(r.ext)});$('imgout').src=OUT.url;owMetaSet();
+    $('owShare').hidden=!canShareFile(new File([OUT.blob],OUT.name,{type:OUT.blob.type}));stkMvWarn()}
+  catch(e){console.warn('[moving sticker]',e);toast('That file type could not be made here.')}
+  ENC=false;syncShot();owFmtSync()}
+function owMetaSet(){if(!OUT)return;const mv=OUT.mv,z=OUT.blob.size;
+  $('owMeta').textContent=(OUT.label||OUT.ext.toUpperCase())+' · '+OUT.w+'×'+OUT.h+(mv?' · '+(mv.frames.length/mv.fps).toFixed(1)+' s loop':'')+' · '+fmtSize(z)+(mv&&OUT.fmt==='webp'&&z>STK_MV.wa?' · over 500 KB':mv&&z>STK_MV.warn?' · large':'')}
+function owFmtSync(){const F=$('owFmt');if(!F)return;const on=!!(OUT&&OUT.mv&&!$('imgwrap').classList.contains('nomedia'));F.hidden=!on;if(!on)return;
+  if(!F.children.length)[['gif','GIF','GIF: plays everywhere; a hard edge'],['apng','APNG','APNG: a soft edge, for Telegram and iMessage'],['webp','WebP','WebP: 512 square, for WhatsApp']].forEach(([k,n,t])=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.dataset.v=k;b.textContent=n;b.title=t;b.onclick=()=>stkMvRefmt(k);F.appendChild(b)});
+  for(const b of F.children){const k=b.dataset.v,no=k==='webp'&&!stkWebpOk();b.setAttribute('aria-checked',String(k===OUT.fmt));b.disabled=ENC||no;
+    b.setAttribute('aria-label',(no?'WebP cannot be written in this browser':b.title)+(k===OUT.fmt?' (this one)':''))}}
 /* THE STICKER PREVIEW (Dimitry, 22 Oct 13:43): while Capture is on Sticker and its shelf is open, the sticker as it will
    come out (the field inside the duck-rabbit, its frame, its extras), live at 8 frames a second on a small frosted card,
    centred above the bar, or above whatever has opened above the bar; never over the bar, a drawer or a panel (when there
@@ -4885,7 +5030,7 @@ const PV={el:null,cv:null,L:null,key:'',busy:false,src:null,fld:null,art:null,t:
 function stkPrevDirty(){PV.key=''}
 function stkPrevWant(){try{return !!(BS&&BS.open&&BS.sec==='capture'&&CAP.mode==='sticker'&&!REC&&!ENC&&!document.documentElement.classList.contains('bare')&&!document.hidden&&!$('bshelf').hidden)}catch(_){return false}}
 function stkPrevEl(){if(PV.el)return PV.el;const b=document.createElement('button');b.type='button';b.id='stkPrev';b.setAttribute('aria-label','Sticker preview. Tap to make the sticker');b.title='Tap to make the sticker';
-  const c=document.createElement('canvas');b.appendChild(c);b.onclick=()=>{if(!REC&&!ENC)shutter()};b.tabIndex=-1;document.body.appendChild(b);PV.el=b;PV.cv=c;return b}
+  const c=document.createElement('canvas');b.appendChild(c);const t=document.createElement('span');t.className='mv';t.textContent='moving';t.setAttribute('aria-hidden','true');b.appendChild(t);b.onclick=()=>{if(!REC&&!ENC)shutter()};b.tabIndex=-1;document.body.appendChild(b);PV.el=b;PV.cv=c;return b}
 /* what the card must not cover: everything fixed and visible that is not the stage (the bar, the shelves, the drawers,
    the panels, the marks); scanned four times a second */
 function stkObstacles(){const now=performance.now();if(now-PV.obsT<250)return PV.obs;PV.obsT=now;const out=[],W=innerWidth,H=innerHeight;
@@ -4910,6 +5055,7 @@ function stkPrevTick(){const want=stkPrevWant();if(!want&&!PV.el)return;const b=
   if(!want){if(b.classList.contains('on')){b.classList.remove('on');b.tabIndex=-1}return}
   const phone=Math.min(innerWidth,innerHeight)<560,cssH=phone?92:Math.round(Math.max(150,Math.min(200,innerHeight*.2))),dpr=Math.min(2,devicePixelRatio||1),S=Math.round(cssH*dpr*.95);
   stkPrevBuild(S);const L=PV.L;if(!L)return;
+  {const mv=!!CAP.stk.mov;if(b.classList.contains('mv')!==mv){b.classList.toggle('mv',mv);b.setAttribute('aria-label',mv?'Moving sticker preview. Tap to record the moving sticker':'Sticker preview. Tap to make the sticker');b.title=mv?'Tap to record the moving sticker':'Tap to make the sticker'}}
   const ch=cssH,cw=Math.round(ch*L.W/L.H);
   /* the field, cover-cropped to the mark's box, then cut by the mark over the frame and the tab */
   try{PV.src=stillCanvas(PV.src);const f=PV.fld||(PV.fld=document.createElement('canvas'));if(f.width!==L.mw)f.width=L.mw;if(f.height!==L.mh)f.height=L.mh;
@@ -4971,7 +5117,7 @@ const ttTail=st=>st.O||(st.fade?TT.fade:0);
 function ttSetup(st,bodySec){const b=BATCH.run;   // titles and a set length belong to batch export (Dimitry, 19 Oct): a single capture stays plain
   st.I=b&&CAP.intro?TT.intro:0;st.O=b&&CAP.outro?TT.outro:0;st.fade=b&&!!CAP.fade;st.B=bodySec||0;st.outroAt=null;if(st.I||st.O)ttPrep()}
 /* stop asked for (the button, or the length): play the outro or the fade first, then stop */
-function recFinish(){const st=REC;if(!st)return;if(st.kind==='gif'){stopGif();return}
+function recFinish(){const st=REC;if(!st)return;if(st.kind==='gif'){stopGif();return}if(st.kind==='stk'){stopStkMove();return}
   const t=(performance.now()-st.t0)/1000;if(st.outroAt==null&&ttTail(st)&&t>=st.I){st.outroAt=t;setTimeout(()=>{if(REC===st&&st.rec.state!=='inactive')st.rec.stop()},ttTail(st)*1000+120);syncShot();return}
   if(st.rec.state!=='inactive')st.rec.stop()}
 function startVideo(){const mime=pickMime();if(!mime){toast('This browser cannot record video here. Try GIF.');return}
@@ -5001,12 +5147,12 @@ async function stopGif(){const st=REC;if(!st||st.kind!=='gif')return;cancelAnima
     enc.finish();ENC=false;syncShot();showOut(new Blob([enc.bytes()],{type:'image/gif'}),'gif',st.w,st.h)}
   catch(e){ENC=false;syncShot();toast('The GIF could not be made.')}}
 function tickTime(){clearInterval(recTick);const el=$('pRecTime');const f=()=>{if(!REC){clearInterval(recTick);syncShot();return}
-  const s=(performance.now()-REC.t0)/1000;el.textContent=REC.kind==='gif'?Math.max(0,CAP.gif-s).toFixed(1)+'s':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')};f();recTick=setInterval(f,100)}
+  const s=(performance.now()-REC.t0)/1000;el.textContent=REC.kind==='stk'?Math.max(0,(REC.need-REC.frames.length)/STK_MV.fps).toFixed(1)+'s':REC.kind==='gif'?Math.max(0,CAP.gif-s).toFixed(1)+'s':Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')};f();recTick=setInterval(f,100)}
 function syncShot(){bsSync();const b=$('pShot');b.dataset.mode=CAP.mode;b.classList.toggle('rec',!!REC);b.classList.toggle('busy',ENC);
-  b.setAttribute('aria-label',REC?'Stop recording':ENC?'Making the GIF':(CAP.mode==='still'?'Capture a still':CAP.mode==='sticker'?'Make a sticker':'Record '+(CAP.mode==='gif'?'a GIF':'video'))+'. Press and hold for mode, shape and sharing');
+  b.setAttribute('aria-label',REC?'Stop recording':ENC?'Making the GIF':(CAP.mode==='still'?'Capture a still':CAP.mode==='sticker'?(CAP.stk&&CAP.stk.mov?'Record a moving sticker':'Make a sticker'):'Record '+(CAP.mode==='gif'?'a GIF':'video'))+'. Press and hold for mode, shape and sharing');
   if(!REC&&!ENC)$('pRecTime').textContent=CAP.mode==='still'?'':CAP.mode==='sticker'?'stkr':CAP.mode;if(!$('shotPop').hidden)buildShotPop()}
 function shutter(){if(ENC)return;if(REC){recFinish();return}
-  if(CAP.mode==='video')startVideo();else if(CAP.mode==='gif')startGif();else if(CAP.mode==='sticker')capSticker();else capStill();
+  if(CAP.mode==='video')startVideo();else if(CAP.mode==='gif')startGif();else if(CAP.mode==='sticker')(CAP.stk&&CAP.stk.mov?startStkMove:capSticker)();else capStill();
   try{camKeep()}catch(e){console.warn('[camlib]',e)}}
 /* THE CAMERA INTO THE LIBRARY (Dimitry, 22 Oct): while the camera is the source, what it sees when you capture is kept in
    Source's library too, as the camera saw it (not the stage over it): a still keeps the frame (mirrored as shown), a
@@ -5039,8 +5185,8 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: shape and shari
   get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();if(k==='snd'){recMix();return}syncShot()},busy:()=>!!(REC||ENC),
   dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
   hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
-    return CAP.mode==='sticker'?'A PNG sticker: the field inside the duck-rabbit, clear background. Frame and what goes under it are in the shelf below Capture.':CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
-  primary:{label:()=>REC?'stop':ENC?'making…':CAP.mode==='still'||CAP.mode==='sticker'?'save':'record',disabled:()=>ENC,run:()=>{closeShotPop();shutter()}},
+    return CAP.mode==='sticker'&&CAP.stk&&CAP.stk.mov?'A moving sticker: '+STK_MV.body+' seconds of the field inside the duck-rabbit at '+STK_MV.fps+' fps, looping, clear outside, '+STK_MV.side+' px. A GIF; APNG or WebP from the share sheet. Frame and extras are in the shelf below Capture.':CAP.mode==='sticker'?'A PNG sticker: the field inside the duck-rabbit, clear background. Frame and what goes under it are in the shelf below Capture.':CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
+  primary:{label:()=>REC?'stop':ENC?'making…':CAP.mode==='still'||CAP.mode==='sticker'&&!(CAP.stk&&CAP.stk.mov)?'save':'record',disabled:()=>ENC,run:()=>{closeShotPop();shutter()}},
   secondary:{label:'share',run:()=>{closeShotPop();openOut(false)}},
   onClose:()=>$('pShot').setAttribute('aria-expanded','false')});
 function buildShotPop(){SHOT.build();batchBtn()}
@@ -5129,23 +5275,25 @@ function renderBatch(){const b=$('batchBody');if(!b)return;b.innerHTML='';const 
   const pr=document.createElement('span');pr.id='btProg';pr.textContent=BATCH.at||(n?'saved together as one .zip':'');act.append(go,pr);b.appendChild(act)}
 function openBatch(){try{closeShotPop()}catch(_){}renderBatch();$('batchPop').hidden=false}
 function closeBatch(){if(BATCH.run)return;$('batchPop').hidden=true}
-function showOut(blob,ext,w,h){if(BATCH.sink){const f=BATCH.sink;BATCH.sink=null;f(blob,ext);return}   // a batch collects it
-  if(window.cxCount)cxCount('capture: '+ext);if(OUT&&OUT.url)URL.revokeObjectURL(OUT.url);OUT={blob,ext,w,h,url:URL.createObjectURL(blob),name:appFile(ext),kind:CAP.mode};openOut(true)}
+function showOut(blob,ext,w,h,o){if(BATCH.sink){const f=BATCH.sink;BATCH.sink=null;f(blob,ext);return}   // a batch collects it
+  if(window.cxCount)cxCount('capture: '+ext);if(OUT&&OUT.url)URL.revokeObjectURL(OUT.url);OUT=Object.assign({blob,ext,w,h,url:URL.createObjectURL(blob),name:appFile(ext),kind:CAP.mode},o||{});openOut(true)}
 function openOut(withMedia){const w=$('imgwrap'),img=$('imgout'),v=$('vidout'),u=shareUrl(),E=encodeURIComponent;
   withMedia=!!(withMedia&&OUT);w.classList.toggle('nomedia',!withMedia);img.hidden=v.hidden=true;try{v.pause()}catch(_){}v.removeAttribute('src');
   if(withMedia){if(OUT.ext==='mp4'||OUT.ext==='webm'){v.src=OUT.url;v.hidden=false;v.play().catch(()=>{})}else{img.src=OUT.url;img.hidden=false}
-    $('owMeta').textContent=OUT.ext.toUpperCase()+' · '+OUT.w+'×'+OUT.h+' · '+fmtSize(OUT.blob.size);
+    owMetaSet();
     $('owShare').hidden=!canShareFile(new File([OUT.blob],OUT.name,{type:OUT.blob.type}));
     $('owTrim').hidden=!(OUT.ext==='mp4'||OUT.ext==='webm');
     $('owNote').textContent='The buttons below post the link. Instagram and TikTok take the file itself: save it, or use share file on a phone.'+(OUT.ext==='png'||OUT.ext==='gif'?' You can also press and hold the picture to save it.':'')}
   else $('owNote').textContent='';
   {const K=$('owKind');K.innerHTML='';if(withMedia){const cur=OUT.kind||(OUT.ext==='gif'?'gif':OUT.ext==='png'?'still':'video');
-    [['still','Still'],['video','Video'],['gif','GIF'],['sticker','Sticker']].forEach(([k,n])=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=n;
-      b.setAttribute('aria-checked',String(k===cur));b.setAttribute('aria-label',k===cur?n+' (this one)':(k==='video'||k==='gif'?'Record a '+(k==='gif'?'GIF':'video')+' instead':'Make it a '+n.toLowerCase()+' instead'));
-      b.onclick=()=>{if(k===cur||REC||ENC)return;if(k==='sticker')CAP.preStk=cur;CAP.mode=k;capSave();try{syncShot();bsSync()}catch(_){}
+    /* a moving sticker is a sticker that records (22 Oct): GIF or video into one, still sticker into one, and back */
+    [['still','Still'],['video','Video'],['gif','GIF'],['sticker','Sticker'],['msticker','Moving']].forEach(([k,n])=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=n;
+      const nm=k==='msticker'?'Moving sticker':n;if(k==='msticker')b.title='Moving sticker';
+      b.setAttribute('aria-checked',String(k===cur));b.setAttribute('aria-label',k===cur?nm+' (this one)':(k==='video'||k==='gif'||k==='msticker'?'Record a '+(k==='gif'?'GIF':k==='msticker'?'moving sticker':'video')+' instead':'Make it a '+n.toLowerCase()+' instead'));
+      b.onclick=()=>{if(k===cur||REC||ENC)return;const sk=k==='sticker'||k==='msticker';if(sk&&cur!=='sticker'&&cur!=='msticker')CAP.preStk=cur;if(sk)CAP.stk.mov=k==='msticker';CAP.mode=sk?'sticker':k;capSave();try{syncShot();bsSync();stkPrevDirty()}catch(_){}
         if(k==='still'||k==='sticker'){shutter();return}   // remade from the stage, in place
-        closeOut();setTimeout(()=>shutter(),450)};   // video and GIF need time: the sheet steps aside and the recording starts
-      K.appendChild(b)})}}
+        closeOut();setTimeout(()=>shutter(),450)};   // video, GIF and a moving sticker need time: the sheet steps aside and the recording starts
+      K.appendChild(b)})}owFmtSync()}
   $('owHead').textContent=withMedia?'Share the piece':'Share Current';
   $('owSend').hidden=!navigator.share;$('owUrl').textContent=u;
   $('owEmbedCode').value='<iframe src="'+u+'" width="960" height="540" style="border:0" allow="autoplay; fullscreen; camera; microphone" title="'+SHARE_TITLE+'"></iframe>';
@@ -5537,7 +5685,7 @@ function closeOut(){const w=$('imgwrap'),img=$('imgout'),pv=PV.el;if(w.dataset.c
   for(const e of [w,$('owBand')])e.animate([{backgroundColor:'rgba(4,4,6,.985)'},{backgroundColor:'rgba(4,4,6,0)'}],{duration:380,easing:'ease-in',fill:'forwards'});
   img.animate([{transformOrigin:'0 0',transform:'none'},{transformOrigin:'0 0',transform:flipT(to,from)}],{duration:400,easing:owEase,fill:'forwards'}).onfinish=done}
 function closeOutNow(){try{if(TRIM)TRIM.close()}catch(_){}try{$('owCardBox').hidden=true;$('owCard').setAttribute('aria-expanded','false')}catch(_){}const w=$('imgwrap');if(w.classList.contains('overCover')){w.classList.remove('overCover');if(document.getElementById('launch'))w.setAttribute('inert','');try{document.querySelector('#launch .lc-share').focus({preventScroll:true})}catch(_){}}
-  w.classList.remove('show','fl0');w.dataset.flip='';try{for(const a of w.getAnimations({subtree:true}))a.cancel()}catch(_){}if(PV.el)PV.el.style.visibility='';try{$('vidout').pause()}catch(_){}}
+  w.classList.remove('show','fl0');w.dataset.flip='';try{for(const a of w.getAnimations({subtree:true}))a.cancel()}catch(_){}if(PV.el)PV.el.style.visibility='';try{$('vidout').pause()}catch(_){}if(OUT&&OUT.mv)OUT.mv=null}   // a moving sticker's frames (tens of MB) go with the sheet
 function fold(which){[['owQRBox','owQR'],['owEmbedBox','owEmbed']].forEach(([box,btn])=>{const on=box===which&&$(box).hidden;$(box).hidden=!on;$(btn).setAttribute('aria-expanded',String(on))})}
 function qrDraw(c,text,S){const m=qrMatrix(text);if(!m)return false;const n=m.length,q=4,side=(n+q*2)*S;c.width=c.height=side;const g=c.getContext('2d');
   g.fillStyle='#fff';g.fillRect(0,0,side,side);g.fillStyle='#000';for(let r=0;r<n;r++)for(let j=0;j<n;j++)if(m[r][j])g.fillRect((j+q)*S,(r+q)*S,S,S);return true}
@@ -7877,8 +8025,13 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       /* THE STICKER'S CHOICES beside the modes while Sticker is on (Dimitry, 22 Oct 13:42): Frame as color chips, like
          the swatches of the color shelf (none in diagonal lines, white, black, and your own color, last); a press and
          hold on any chip, or a tap on the last, opens the Color mixer at the sticker's frame. Extras as toggles. */
-      let fe=null,xe=null,tx=null;if(CAP.mode==='sticker'){const K=CAP.stk;
+      let fe=null,xe=null,tx=null,me=null;if(CAP.mode==='sticker'){const K=CAP.stk;
         rule(box);
+        /* STILL OR MOVING (Dimitry, 22 Oct 14:43): a moving sticker records the field for a few seconds, like a GIF */
+        me=mk('div','bsG bsStkM');me.setAttribute('role','radiogroup');me.setAttribute('aria-label','Sticker: still or moving');
+        [[false,'Still','A still sticker: a PNG'],[true,'Moving','A moving sticker: '+STK_MV.body+' seconds that loop, a GIF']].forEach(([v,n,aria])=>{const b=mk('button','bsPill',n);b.type='button';b.setAttribute('role','radio');b.dataset.v=String(v);b.setAttribute('aria-label',aria);b.title=aria;
+          b.onclick=()=>{if(REC||ENC||!!K.mov===v)return;K.mov=v;capSave();syncShot();bsSync();stkPrevDirty()};me.appendChild(b)});
+        box.appendChild(me);rule(box);
         const fr=mk('div','bsSw bsStkF');fr.appendChild(mk('span','lab','frame'));fe=mk('div','bsSw');fe.setAttribute('role','radiogroup');fe.setAttribute('aria-label','Sticker frame');
         const chip=(v,aria,cls,fn)=>{const b=mk('button',cls||'');b.type='button';b.setAttribute('role','radio');b.dataset.v=v;b.setAttribute('aria-label',aria);b.title=aria;
           wireTapHold(b,{tap:fn,hold:()=>openStickerMix(v==='mine'?(K.mine||K.edge):v==='none'?null:v)});   // the app's tap-and-hold (a right-click is a hold)
@@ -7901,6 +8054,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
           tx.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();tx.blur()}e.stopPropagation()});xr.appendChild(tx)}
         box.appendChild(xr)}
       return ()=>{check(g,CAP.mode);for(const b of g.children)b.disabled=!!(REC||ENC);
+        if(me)for(const b of me.children){b.setAttribute('aria-checked',String(b.dataset.v===String(!!CAP.stk.mov)));b.disabled=!!(REC||ENC)}
         if(fe){const K=CAP.stk,E=K.edge,cur=E==='none'?'none':sameC(E,'#ffffff')?'#ffffff':sameC(E,'#000000')?'#000000':'mine';check(fe,cur);
           const m=fe.querySelector('.mine');if(m){const c=K.mine||(cur==='mine'?E:null);m.style.background=c||'';m.classList.toggle('empty',!c);m.setAttribute('aria-label',c?'Your frame color, '+c+'. Tap to mix it':'Your own frame color. Tap to mix one')}
           for(const b of xe.children)b.setAttribute('aria-pressed',String(!!K.x[b.dataset.v]))}}},key:()=>CAP.mode==='sticker'?'stk'+(CAP.stk.x.text?'t':''):'cap'},
@@ -8761,10 +8915,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022191540"></script>
-<script src="surface/links.js?v=20261022191540"></script>
-<script src="surface/tips.js?v=20261022191540"></script>
-<script src="surface/sections.js?v=20261022191540"></script>
+<script src="surface/install.js?v=20261022191715"></script>
+<script src="surface/links.js?v=20261022191715"></script>
+<script src="surface/tips.js?v=20261022191715"></script>
+<script src="surface/sections.js?v=20261022191715"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9436,7 +9590,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.58';
+const APP_VERSION='0.29.59';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -9480,7 +9634,7 @@ function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=funct
  Promise.all(ps).then(go,go)}
 function newer(v){var n=(v&&v.notes)||[],mine=window.__VERSION__,out=[];for(var i=0;i<n.length;i++){if(mine&&n[i].v===mine)break;out.push(n[i])}
  return mine&&out.length===n.length?out.slice(0,3):out}
-function pill(v){if(shown)return;if(held()){pend=v;return}shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
+function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
  d.style.cssText="position:fixed;z-index:99;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);max-width:calc(100vw - 24px);box-sizing:border-box;border-radius:24px;background:rgba(14,14,16,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.18);font:500 12px/1.35 system-ui,sans-serif;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);overflow:hidden";d.style.width=WN(notes.length);
  var row=document.createElement("div");row.style.cssText="display:flex;align-items:center;gap:4px;padding:4px 4px 4px 12px;white-space:nowrap;min-height:38px";lead(row);
  var t=document.createElement("span");t.style.cssText="overflow:hidden;text-overflow:ellipsis;min-width:0";t.textContent=v&&v.version?"Version "+v.version+" is ready":"A newer version is ready";row.appendChild(t);
@@ -9497,16 +9651,11 @@ function pill(v){if(shown)return;if(held()){pend=v;return}shown=true;var notes=n
    list.appendChild(ul)});
   more.onclick=function(){var open=list.hidden;list.hidden=!open;more.setAttribute("aria-expanded",String(open));more.textContent=open?"What’s new ▴":"What’s new ▾"}}
  var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);
- var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();pd=null;shown=false};row.appendChild(x);
- d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d);pd=d}
-/* PERFORMING (surface/v1/perform.js, 22 Oct): while a show is on, a newer version never reloads the page and its pill
-   stays hidden; it waits, and the pill comes back when Performing ends */
-var held=function(){try{return!!(window.SurfacePerform&&SurfacePerform.on())}catch(e){return false}},pend=null,pd=null;
-document.addEventListener("surfaceperform",function(e){var on=e.detail&&e.detail.on;if(on&&pd){pd.remove();pd=null;shown=false}else if(!on&&pend){var v=pend;pend=null;pill(v)}});
+ var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();shown=false};row.appendChild(x);
+ d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d)}
 var last=0;window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;last=Date.now();
  return fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(v){busy=false;
   if(!v||!v.build)return"offline";if(v.build===B)return"current";
-  if(held()){pend=v;return"held"}
   var early=auto&&Date.now()-T0<15000,k="upd:"+v.build;
   if(early){try{if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");fresh();return"new"}}catch(e){}}
   pill(v);return"new"},function(){busy=false;return"offline"})};
@@ -9532,7 +9681,6 @@ function done(){var f=null;try{f=sessionStorage.getItem("upd:from");sessionStora
  setTimeout(function(){if(!keep&&d.isConnected){d.style.opacity="0";setTimeout(function(){d.remove()},600)}},7000)}
 })();</script>
 <script>if("serviceWorker"in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match; only
-   in the first seconds of a visit and never while performing (22 Oct: it could reload mid-show); later, the pill offers it */
-const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||performance.now()>15000)return;try{if(window.SurfacePerform&&SurfacePerform.on())return}catch(_){}try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
+/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match */
+const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
 </body></html>
