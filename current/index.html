@@ -1,6 +1,6 @@
-<!doctype html><html><head><style>html,body{background:#000000}</style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022190340";window.__VERSION__="0.29.57";window.__NOTES__=[{"v":"0.29.57","date":"22 Oct 2026","items":[{"kind":"new","text":"now and then, when there is no update, a word from the studio in the update's place: a question to answer, news, or a call for artists and volunteers. At most once every few days, never in the first minute, never while the robot, a recording or the bare stage is running"},{"kind":"new","text":"Settings has a News switch (Off / On) for the studio's questions and news"}]}]</script>
+<script>window.__BUILD__="20261022191105";window.__VERSION__="0.29.58";window.__NOTES__=[{"v":"0.29.58","date":"22 Oct 2026","items":[{"kind":"new","text":"Settings has a Performing switch. On, nothing reloads by itself mid-show, the update notice waits until you turn it off, and the screen stays awake. It is also on by itself while you are in a room, or while auto play runs in fullscreen"},{"kind":"new","text":"auto play keeps the screen awake while it runs"},{"kind":"fix","text":"a shared scene, a pack or a room can only bring colors, settings and words, never anything that runs on the page"},{"kind":"fix","text":"bytebeat formulas from packs, links and files are read by Current's own formula reader and never run as code; a formula it cannot read is refused with a note"},{"kind":"fix","text":"opening Current no longer keeps a copy of the scene online; a scene link is made only when you open the cards or ask for a link"},{"kind":"fix","text":"on a slow or stuck connection Current opens from what it kept within a few seconds, instead of waiting"},{"kind":"fix","text":"the visitor count no longer sees a shared scene's link or a room's code"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -20,7 +20,7 @@
       (o.r ? "&r=" + encodeURIComponent(o.r) : "") + (o.q ? "&q=" + encodeURIComponent(o.q) : "") +
       "&s=" + encodeURIComponent(screen.width + "," + screen.height + "," + (w.devicePixelRatio || 1)) +
       (navigator.webdriver ? "&b=153" : "") + "&rnd=" + Math.random().toString(36).slice(2);
-    var i = new Image(); i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
+    var i = new Image(); i.referrerPolicy = "no-referrer"; i.src = "https://" + cfg.code + ".goatcounter.com/count?" + q;   // GoatCounter's documented /count endpoint
   }
   var seen = {};
   /* cxCount("look: Spiral Arc") — an event. Built-in names only: never send what a person typed. */
@@ -31,8 +31,12 @@
   };
   function view() {
     var ref = d.referrer;
-    try { if (ref && new URL(ref).hostname === l.hostname) ref = ""; } catch (e) {}
-    send(l.pathname, { t: d.title, r: ref, q: l.search });
+    try { if (ref) { var ru = new URL(ref); ref = ru.hostname === l.hostname ? "" : ru.origin; } } catch (e) { ref = ""; }   // the site, never its path
+    /* the path and campaign tags only (22 Oct): a page's other parameters can be private (?l= a shared scene,
+       ?session= a room's code), so they never leave the page */
+    var q = "";
+    try { var sp = new URLSearchParams(l.search), keep = new URLSearchParams(); sp.forEach(function (v, k) { if (/^utm_[a-z]+$/.test(k)) keep.append(k, v.slice(0, 80)); }); q = keep.toString(); q = q ? "?" + q : ""; } catch (e) {}
+    send(l.pathname, { t: d.title, r: ref, q: q });
     try { if (matchMedia("(display-mode: standalone)").matches || navigator.standalone) w.cxCount("opened as app", 1); } catch (e) {}
   }
   if (d.visibilityState === "prerender")
@@ -62,12 +66,12 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022190340"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022190340">
+<script src="claude-web.js?v=20261022191105"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022191105">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
-<meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <script>/* 0.26.10: the stage is the page from the first paint. The index stays shut until setPlayer() runs; before, iOS painted
    the open index for a moment before the cover (Dimitry, 20 Oct) */
@@ -119,37 +123,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022190340"></script>
-<script src="surface/selftest.js?v=20261022190340"></script>
-<script src="surface/report.js?v=20261022190340"></script>
-<script src="surface/auto.js?v=20261022190340"></script>
-<script src="surface/toolpath.js?v=20261022190340"></script>
-<script src="surface/capture.js?v=20261022190340"></script>
-<script src="surface/pop.js?v=20261022190340"></script>
-<script src="surface/hints.js?v=20261022190340"></script>
-<script src="surface/paths.js?v=20261022190340"></script>
-<script src="surface/keys.js?v=20261022190340"></script>
-<script src="surface/reset.js?v=20261022190340"></script>
-<script src="surface/files.js?v=20261022190340"></script>
-<script src="surface/tabs.js?v=20261022190340"></script>
-<script src="surface/running.js?v=20261022190340"></script>
-<script src="surface/trim.js?v=20261022190340"></script>
-<script src="surface/audiowake.js?v=20261022190340"></script>
-<script src="surface/session.js?v=20261022190340"></script>
-<script src="surface/output.js?v=20261022190340"></script>
-<script src="surface/voice.js?v=20261022190340"></script>
-<script src="surface/voicelib.js?v=20261022190340"></script>
-<script src="surface/instruments.js?v=20261022190340"></script>
-<script src="surface/listview.js?v=20261022190340"></script>
-<script src="surface/beads.js?v=20261022190340"></script>
-<script src="surface/strip.js?v=20261022190340"></script>
-<script src="surface/sheetnav.js?v=20261022190340"></script>
-<script src="surface/twofinger.js?v=20261022190340"></script>
-<script src="surface/shortlink.js?v=20261022190340"></script>
-<script src="surface/undo.js?v=20261022190340"></script>
-<script src="surface/pro.js?v=20261022190340"></script>
-<script src="surface/fresh.js?v=20261022190340"></script>
-<script src="surface/notice.js?v=20261022190340"></script>
+<script src="vendor/opentype.min.js?v=20261022191105"></script>
+<script src="surface/selftest.js?v=20261022191105"></script>
+<script src="surface/report.js?v=20261022191105"></script>
+<script src="surface/auto.js?v=20261022191105"></script>
+<script src="surface/toolpath.js?v=20261022191105"></script>
+<script src="surface/capture.js?v=20261022191105"></script>
+<script src="surface/pop.js?v=20261022191105"></script>
+<script src="surface/hints.js?v=20261022191105"></script>
+<script src="surface/paths.js?v=20261022191105"></script>
+<script src="surface/keys.js?v=20261022191105"></script>
+<script src="surface/reset.js?v=20261022191105"></script>
+<script src="surface/files.js?v=20261022191105"></script>
+<script src="surface/tabs.js?v=20261022191105"></script>
+<script src="surface/running.js?v=20261022191105"></script>
+<script src="surface/trim.js?v=20261022191105"></script>
+<script src="surface/audiowake.js?v=20261022191105"></script>
+<script src="surface/session.js?v=20261022191105"></script>
+<script src="surface/output.js?v=20261022191105"></script>
+<script src="surface/voice.js?v=20261022191105"></script>
+<script src="surface/voicelib.js?v=20261022191105"></script>
+<script src="surface/instruments.js?v=20261022191105"></script>
+<script src="surface/listview.js?v=20261022191105"></script>
+<script src="surface/beads.js?v=20261022191105"></script>
+<script src="surface/strip.js?v=20261022191105"></script>
+<script src="surface/sheetnav.js?v=20261022191105"></script>
+<script src="surface/twofinger.js?v=20261022191105"></script>
+<script src="surface/shortlink.js?v=20261022191105"></script>
+<script src="surface/undo.js?v=20261022191105"></script>
+<script src="surface/pro.js?v=20261022191105"></script>
+<script src="surface/fresh.js?v=20261022191105"></script>
+<script src="surface/notice.js?v=20261022191105"></script>
+<script src="surface/perform.js?v=20261022191105"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -166,13 +171,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022190340"></script>
-<script src="surface/rail.js?v=20261022190340"></script>
-<script src="surface/touchsound.js?v=20261022190340"></script>
-<script src="surface/water.js?v=20261022190340"></script>
-<script src="surface/ripple.js?v=20261022190340"></script>
-<script src="surface/float.js?v=20261022190340"></script>
-<script src="surface/manual.js?v=20261022190340"></script>
+<script src="surface/pack.js?v=20261022191105"></script>
+<script src="surface/rail.js?v=20261022191105"></script>
+<script src="surface/touchsound.js?v=20261022191105"></script>
+<script src="surface/water.js?v=20261022191105"></script>
+<script src="surface/ripple.js?v=20261022191105"></script>
+<script src="surface/float.js?v=20261022191105"></script>
+<script src="surface/manual.js?v=20261022191105"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1867,7 +1872,7 @@ html[data-theme=light][data-panes=see] .panel{background:color-mix(in srgb,var(-
 .dsp-seg button{min-height:34px;padding:0;border:0;background:none;color:var(--muted);font:500 13px/1 var(--sans);cursor:pointer}
 .dsp-seg button[aria-checked=true]{color:var(--fg);font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px}
 .dsp-seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.dsp-note{margin:8px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted);max-width:38ch}.dsp-note b{color:var(--fg)}
+.dsp-note,.pf-note{margin:8px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted);max-width:38ch}.dsp-note b{color:var(--fg)}.pf-note{margin:6px 0 4px}
 .dsp-row3{grid-template-columns:5.5em minmax(0,1fr) auto}
 .dsp-re{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--muted);cursor:pointer}.dsp-re:hover,.dsp-re:focus-visible{color:var(--fg)}
 .dsp-re svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -2024,7 +2029,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 </style>
 
 <div class="app">
-  <div class="stage" id="stage">
+  <div class="stage" id="stage" role="main" aria-label="Stage">
     <div id="bgLayer" aria-hidden="true"><img id="bgImg" alt=""><video id="bgVid" muted playsinline loop></video></div>
     <canvas id="cv" aria-label="Particles flowing through a vector field built from the G-code pattern"></canvas>
     <canvas id="ov" aria-hidden="true" style="pointer-events:none"></canvas>
@@ -3511,7 +3516,7 @@ function syncInside(){[...ins.children].forEach(b=>b.setAttribute('aria-pressed'
 const LS='toolpath-field:v1';
 let store={user:[],player:null,auto:null,morph:null};
 let STORE_OLD=false;   // this browser ran Current before (Fresh shows its sparkles only to old friends)
-try{const o=JSON.parse(localStorage.getItem(LS)||'null');if(o&&typeof o==='object'){STORE_OLD=true;store=Object.assign(store,o)}if(!Array.isArray(store.user))store.user=[]}catch(e){}
+try{const o=JSON.parse(localStorage.getItem(LS)||'null');if(o&&typeof o==='object'){STORE_OLD=true;store=Object.assign(store,o)}if(!Array.isArray(store.user))store.user=[];store.user=store.user.map(cleanLook).filter(u=>u&&typeof u.gcode==='string')}catch(e){}
 function persist(){try{localStorage.setItem(LS,JSON.stringify(store))}catch(e){}}
 const allPresets=()=>PRESETS.concat(store.user.map(u=>({...u,user:true,gen:()=>u.gcode})));
 // scene list: which scenes are in play (checkbox), their order (drag), and a morph of their own (or the global one)
@@ -3612,6 +3617,55 @@ function beatDelay(){
   // the loop started at t0 and never drifts (it runs on the audio clock), so the grid is exact
   const c=AUD.ctx.currentTime,dur=AUD.dur,now=(c-AUD.t0)/dur,k=Math.ceil((now+.08)/QUANT)*QUANT;
   return Math.max(0,(AUD.t0+k*dur-c)*1000)}
+/* CLEAN LOOK (security, 22 Oct): every scene that comes from outside this page (a shared link ?l=, a short link, a pack,
+   a room's scene, the scenes kept in this browser, a resume) passes through here before anything reads it. A look is
+   data, never markup: colors must be #hex, names of things must be names this tool knows, numbers are finite and kept
+   in their range, text is capped. What fails is dropped, so the scene falls back to its defaults. Unknown keys are kept
+   only as inert plain data (short text with no markup characters, finite numbers, booleans), so a newer version's
+   scene still opens here. Returns a new object (or null for something that is not a look); never throws. */
+function cleanLook(o){try{if(!o||typeof o!=='object'||Array.isArray(o))return null;const LOOK_HEX=/^#[0-9a-f]{3,8}$/i;   // inside: the scenes kept in this browser are cleaned at boot, above any const declared here (TDZ)
+  const hex=v=>typeof v==='string'&&LOOK_HEX.test(v)?v:undefined,num=(v,lo,hi)=>{v=+v;return typeof v==='number'&&isFinite(v)?Math.max(lo,Math.min(hi,v)):undefined};
+  const txt=(v,n)=>typeof v==='string'?v.replace(/[\u0000-\u001f\u007f<>]/g,'').slice(0,n):undefined;
+  const one=(v,list)=>typeof v==='string'&&list.includes(v)?v:undefined;
+  const inert=(v,d)=>{if(v===null||typeof v==='boolean')return v;if(typeof v==='number')return isFinite(v)?v:undefined;
+    if(typeof v==='string')return v.replace(/[\u0000-\u0008\u000b-\u001f\u007f<>"'`]/g,'').slice(0,200);
+    if(d>4||typeof v!=='object')return undefined;
+    if(Array.isArray(v))return v.slice(0,64).map(x=>inert(x,d+1)).filter(x=>x!==undefined);
+    const r={};let n=0;for(const k of Object.keys(v)){if(++n>64)break;if(!/^[\w$-]{1,40}$/.test(k)||k==='__proto__'||k==='constructor'||k==='prototype')continue;const x=inert(v[k],d+1);if(x!==undefined)r[k]=x}return r};
+  const out={};
+  for(const k of Object.keys(o)){if(k==='__proto__'||k==='constructor'||k==='prototype'||k==='gen'||k==='user')continue;const v=o[k];let w;
+    switch(k){
+      case 'name':w=txt(v,60);break;
+      case 'word':case 'font':case 'audio':w=txt(v,80);break;
+      case 'words':w=Array.isArray(v)?v.slice(0,24).map(x=>txt(String(x),64)).filter(Boolean):undefined;break;
+      case 'gcode':w=typeof v==='string'?v.slice(0,4e6):undefined;break;
+      case 'line':case 'arrow':w=hex(v);break;
+      case 'line2':case 'touchColor':case 'pathColor':w=v===null?null:hex(v);break;
+      case 'ground':w=typeof v==='string'&&(['dark','paper','auto'].includes(v)||LOOK_HEX.test(v))?v:undefined;break;
+      case 'mode':w=typeof v==='string'&&Object.prototype.hasOwnProperty.call(MODES,v)?v:undefined;break;
+      case 'inside':w=one(v,['same','reverse','across','still','empty']);break;
+      case 'lensMode':w=one(v,['off','in','out','swirl']);break;
+      case 'blend':w=one(v,['source-over','lighter','screen','multiply','overlay','difference']);break;
+      case 'alt':w=typeof v==='string'&&Object.prototype.hasOwnProperty.call(ALTS,v)?v:undefined;break;
+      case 'magSound':w=one(v,MAG_SOUNDS);break;
+      case 'lineAlpha':case 'arrowAlpha':w=num(v,0,1);break;
+      case 'altTime':w=num(v,.1,120);break;
+      case 'blur':w=num(v,0,64);break;
+      case 't':w=num(v,0,1e14);break;
+      case 'lineOff':w=typeof v==='boolean'?v:undefined;break;
+      case 'p':{if(!v||typeof v!=='object')break;w={};for(const s of SLIDERS){const x=num(v[s[0]],s[2],s[3]);if(x!==undefined)w[s[0]]=x}
+        for(const d in DEFAULTS)if(!(d in w)&&d in v){const x=num(v[d],-1e6,1e6);if(x!==undefined)w[d]=x}break}
+      case 'flags':{if(!v||typeof v!=='object')break;w={};for(const f of Object.keys(v).slice(0,32))if(/^\w{1,24}$/.test(f)&&typeof v[f]==='boolean')w[f]=v[f];break}
+      case 'canim':{if(!v||typeof v!=='object')break;w={};for(const g of Object.keys(v).slice(0,16)){const a=v[g];if(!/^\w{1,24}$/.test(g)||!a||typeof a!=='object')continue;
+          const m=one(a.m,['off','drift','pulse','breathe']);if(!m)continue;const e={m};const sp=num(a.sp,0,1);if(sp!==undefined)e.sp=sp;w[g]=e}break}
+      case 'maps':{if(!Array.isArray(v))break;w=v.slice(0,32).filter(m=>m&&typeof m==='object'&&typeof m.src==='string'&&typeof m.dst==='string'&&/^\w{1,24}$/.test(m.src)&&SLIDERS.some(s=>s[0]===m.dst))
+          .map(m=>({src:m.src,dst:m.dst,how:m.how==='follow'?'follow':'push',amt:num(m.amt,-1,1)||0}));break}
+      case 'mods':{if(!v||typeof v!=='object')break;w={};for(const s of Object.keys(v).slice(0,64)){if(!SLIDERS.some(x=>x[0]===s))continue;const m=inert(v[s],1);if(m&&typeof m==='object'&&!Array.isArray(m)&&(m.shape===undefined||/^\w{1,24}$/.test(m.shape)))w[s]=m}break}
+      default:w=inert(v,1)}
+    if(w!==undefined)out[k]=w}
+  if(typeof out.name!=='string'||!out.name.trim())out.name='Shared scene';
+  if(!out.mode)out.mode='along';
+  return out}catch(e){try{console.warn('cleanLook',e)}catch(_){}return null}}
 function applyLook(p,idx,instant,part){
   clearTimeout(pendLook);pendLook=null;
   const d=instant||!booted?0:beatDelay();
@@ -3688,6 +3742,7 @@ function wxEnd(k0){const held=RIP_HOLD;RIP_HOLD=false;if(!held){return}
   r.handover({swap:()=>{RIP_HOLD=false;rippleSync()},ready:sceneSettled})}
 function applyLookNow(p,idx,instant,part){const k=wxBegin();try{applyLookNow0(p,idx,instant,part)}finally{wxEnd(k)}}
 function applyLookNow0(p,idx,instant,part){
+  if(!(idx>=0)){const c=cleanLook(p);if(!c)return;const g0=p.gen;p=typeof c.gcode==='string'?{...c,gen:()=>c.gcode}:{...c,gen:typeof g0==='function'?()=>String(g0()||''):()=>''}}   // from outside: data only (cleanLook)
   if(part==='none'){presetIdx=idx;curName=p.name;sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();return}
   if(part==='pattern'){presetIdx=idx;curName=p.name;sceneWords(p);$('gcode').value=p.gen();sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();
     {const md=idx>=0?morphFor(p):AUTO.morph;if(!instant&&booted&&md>0.05)WM_PENDING=md*1000}build(!instant&&booted);return}
@@ -5139,6 +5194,10 @@ const cardWord=()=>CARD.img.word||(CARD.img.word=new Promise(res=>{const el=docu
 const cardDuckC=()=>CARD.img.duckC||(CARD.img.duckC=new Promise(res=>{if(!window.__DUCKC){res(null);return}const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=window.__DUCKC}));
 const cardId=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789',r=crypto.getRandomValues(new Uint8Array(10));let o='';for(const x of r)o+=A[x%A.length];return o};
 /* the scene's own link, made once per scene; the QR carries it */
+/* ONLY WHEN ASKED (security, 22 Oct: the cards were drawn 9 s into every visit and each drawing kept a scene in
+   shared_looks, 271 rows nobody shared): the link is made once the person opens the cards or the share sheet; the
+   drawing ahead of time stays on this device. */
+let CARD_LINKS_OK=false;
 async function lookLink(){const snap=snapshot(curName&&curName!=='Random'?curName:'Shared scene'),key=JSON.stringify(snap);
   if(CARD.link&&CARD.linkKey===key)return CARD.link;
   const u=await shortLink(snap);   // the studio's short link (kit shortlink.js): d.chamy.xyz/<code>
@@ -5258,7 +5317,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
      duck's shadow. */
   look=look||stillCanvas(document.createElement('canvas'));const u=Math.min(W/1200,H/630),font=(window.__TITLES__&&window.__TITLES__.font)||'sans-serif';
   try{await Promise.all([document.fonts.load('700 100px '+font),document.fonts.load('400 24px "Instrument Sans"'),document.fonts.load('600 24px "Instrument Sans"')])}catch(_){}
-  const [dw,mark,dc,url,word]=await Promise.all([cardDuckW(),cardMark(),cardDuckC(),lookLink(),cardWord()]);
+  const [dw,mark,dc,url,word]=await Promise.all([cardDuckW(),cardMark(),cardDuckC(),CARD_LINKS_OK?lookLink():Promise.resolve(CARD.link||SHARE_URL),cardWord()]);
   const C=(CARD_COLORS.find(x=>x[0]===color)||CARD_COLORS[0])[1],light=cardLum(C)>.4,INK='#0c0d0f',FG=light?INK:'#fff';
   const SANS='"Instrument Sans", system-ui, sans-serif';
   /* THE GRID (Dimitry's Canva master "CHAMY·XYZ — Brand Grids", 20 Oct; sys/brands/README.md). Three units, from the
@@ -5346,7 +5405,7 @@ async function drawCard(size,style,c,look,msg,color){size=size||CARD.size;style=
        modules, inside what level M error correction rebuilds; checked by decoding the rendered card */
     const ld=onColor?dw:(dc||dw);if(ld){const ps=qs*.2,px=qx+(qs-ps)/2,py=qy+(qs-ps)/2;g.fillStyle=TILE;g.beginPath();g.roundRect?g.roundRect(px,py,ps,ps,ps*.18):g.rect(px,py,ps,ps);g.fill();
       const dh=ps*.82,dwid=dh*ld.width/ld.height;if(ld===dw){const t=document.createElement('canvas');t.width=ld.width;t.height=ld.height;const tg=t.getContext('2d');tg.drawImage(ld,0,0);tg.globalCompositeOperation='source-in';tg.fillStyle=INK;tg.fillRect(0,0,t.width,t.height);g.drawImage(t,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}else g.drawImage(ld,px+(ps-dwid)/2,py+(ps-dh)/2,dwid,dh)}}
-  const linked=url!==SHARE_URL;CARD.note=linked?'The link opens this exact scene, live.':'The link opens Current (this scene could not be kept from here: try on works.chamy.xyz).';
+  const linked=url!==SHARE_URL;CARD.note=!CARD_LINKS_OK?'':linked?'The link opens this exact scene, live.':'The link opens Current (this scene could not be kept from here: try on works.chamy.xyz).';
   return c}
 /* THE RAIL (Dimitry, 19 Oct: not one giant card, a horizontal slider of every design to pick from, and a message,
    as Substack does): all eight designs from one frozen frame of the scene, as thumbnails; the picked one is
@@ -5421,7 +5480,7 @@ async function cardRail(keep){const gen=++CARD_GEN,rail=$('cdRail');if(!keep||!C
 function railSync(scroll){const rail=$('cdRail');for(const b of rail.children){const on=b.dataset.sz===CARD.size&&b.dataset.st===CARD.style;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1;if(on&&scroll)try{b.scrollIntoView({inline:'center',block:'nearest'})}catch(_){}}}
 const cardBlob=async()=>{const c=await drawCard(CARD.size,CARD.style,null,CARD_LOOK,cardMsg(),CARD.color);return new Promise(r=>c.toBlob(r,'image/jpeg',.92))};   // cards save as .jpg (Dimitry, 20 Oct)
 let msgT=0;$('cdMsg').addEventListener('input',()=>{clearTimeout(msgT);msgT=setTimeout(()=>cardRail(true),450)});
-$('owCard').onclick=()=>{const box=$('owCardBox'),on=box.hidden;box.hidden=!on;$('owCard').setAttribute('aria-expanded',String(on));if(on){(CARD_WARM||Promise.resolve()).then(()=>cardRail()).then(()=>cardBlob()).then(b=>{$('cdShare').hidden=!(b&&canShareFile(new File([b],'current-card.png',{type:'image/png'})))});if(window.cxCount)cxCount('card: open',1);try{box.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}}};
+$('owCard').onclick=()=>{const box=$('owCardBox'),on=box.hidden;box.hidden=!on;$('owCard').setAttribute('aria-expanded',String(on));if(on){CARD_LINKS_OK=true;(CARD_WARM||Promise.resolve()).then(()=>cardRail()).then(()=>cardBlob()).then(b=>{$('cdShare').hidden=!(b&&canShareFile(new File([b],'current-card.png',{type:'image/png'})))});if(window.cxCount)cxCount('card: open',1);try{box.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}}};
 $('cdRoll').onclick=()=>{randomLook(false);$('cdNote').textContent='a new scene is settling…';setTimeout(cardRail,1400)};
 $('cdSave').onclick=async()=>{const b=await cardBlob();if(b&&await saveBlob(appFile('jpg'),b)){toast('card saved');if(window.cxCount)cxCount('card: save '+CARD.size+(CARD.brand===false?' · no branding':''))}};
 $('cdShare').onclick=async()=>{const b0=await cardBlob();if(!b0)return;const m=cardMsg(),fn=appFile('jpg'),b=await stampFile(b0,fn);try{await navigator.share({files:[new File([b],fn,{type:'image/jpeg'})],title:CARD.brand===false?undefined:'Current',text:CARD.brand===false?(m||undefined):(m?m+' · ':'')+'Current: '+CARD_TAG+'. Join the Founders Club. '+(CARD.link||SHARE_URL)});if(window.cxCount)cxCount('card: share'+(CARD.brand===false?' · no branding':''))}catch(e){if(e&&e.name!=='AbortError')toast('Sharing is blocked here. Save the card instead.')}};
@@ -5437,7 +5496,7 @@ function openSharedLook(){const id=SHARED_IN;if(!id)return;   // 7: the studio's
   try{if(autoT)setAuto(false,true)}catch(_){}
   fetch(LOOKS_DB.url+'?id=eq.'+id+'&select=look',{headers:{apikey:LOOKS_DB.key}}).then(r=>r.ok?r.json():[]).then(rows=>{const L=rows&&rows[0]&&rows[0].look;if(!L||typeof L.gcode!=='string'){toast('that shared scene could not be found');return}
     try{if(autoT)setAuto(false,true)}catch(_){}try{if(RAND.tempo)setRandTempo(0)}catch(_){}   // the dice's own clock would roll a new style over it too
-    const name=String(L.name||'Shared scene').slice(0,40);applyLook({...L,name,gen:()=>L.gcode},-1,true);window.__sharedLook={id,name};
+    const C=cleanLook(L);if(!C||typeof C.gcode!=='string'){toast('that shared scene could not be opened');return}const name=String(C.name||'Shared scene').slice(0,40);applyLook({...C,name,gen:()=>C.gcode},-1,true);window.__sharedLook={id,name};
     try{flashName(name)}catch(_){}toast('a shared scene · '+name,2600);if(window.cxCount)cxCount('card: look opened',1)}).catch(()=>toast('that shared scene could not be loaded'))}
 /* the link alone, from anywhere: over the cover too (the cover makes the rest of the page inert, so the modal is
    lifted out of that for as long as it is open) */
@@ -5879,7 +5938,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     b.setAttribute('aria-label',aria);if(pressed!=null)b.setAttribute('aria-pressed',String(!!pressed));b.onclick=()=>{fn();buildToolShelf()};t.appendChild(b);return b};
   // a color dot: tap picks it; tap the lit one again to turn that color off; press, hold and drag up/down for its opacity
   const dot=(c,aria,fn,on,alpha,pick)=>{const b=document.createElement('button');b.type='button';b.className='si dot'+(c?'':' none');
-    b.innerHTML='<i'+(c?' style="background:'+c+(alpha&&on?';opacity:'+Math.max(.15,alpha.get()):'')+'"':'')+'></i>'+(alpha&&on?'<span class="lab">'+Math.round(alpha.get()*100)+'%</span>':'');
+    {const i=document.createElement('i');if(c){i.style.background=c;if(alpha&&on)i.style.opacity=Math.max(.15,alpha.get())}b.appendChild(i);if(alpha&&on){const l=document.createElement('span');l.className='lab';l.textContent=Math.round(alpha.get()*100)+'%';b.appendChild(l)}}   // DOM, never markup: a color is data (cleanLook, 22 Oct)
     b.setAttribute('aria-label',aria+(alpha?'. Hold and drag up or down for opacity':'')+(pick&&c?'. Hold still (or right-click) for your own color':''));if(pick&&c)b.dataset.tip=aria+'. Hold for your own color'+(alpha?', or hold and drag up or down for opacity':'')+'.';if(on!=null)b.setAttribute('aria-pressed',String(!!on));
     let g=null;
     b.addEventListener('pointerdown',e=>{if(e.button>0)return;g={y:e.clientY,x:e.clientX,id:e.pointerId,mode:'tap',a0:alpha?alpha.get():0,t:(!alpha&&pick&&c)?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='pick';if(navigator.vibrate)navigator.vibrate(10)}},(window.SurfaceKeys?SurfaceKeys.holdMs:520)):alpha?setTimeout(()=>{if(g&&g.mode==='tap'){g.mode='alpha';g.ay=g.y;try{b.setPointerCapture(g.id)}catch(_){}
@@ -5910,7 +5969,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
        themselves live in the shelf only, never in both places. */
     for(const g of CG_ORDER){const G=CG[g],cur=G.get(),on=G.on();
       const b=document.createElement('button');b.type='button';b.className='si dot cur'+(on?'':' none')+(S.canim&&S.canim[g]&&S.canim[g].m&&S.canim[g].m!=='off'?' anim':'');
-      b.innerHTML='<i'+(on?' style="background:'+cur+'"':'')+'></i><span class="lab">'+G.name.toLowerCase()+'</span>';b.dataset.g=g;
+      {const i=document.createElement('i');if(on)i.style.background=cur;const l=document.createElement('span');l.className='lab';l.textContent=G.name.toLowerCase();b.append(i,l)}b.dataset.g=g;
       const sel=CM_SEL()===g;if(sel)b.classList.add('sel');
       b.setAttribute('aria-label',G.name+' color, '+(on?cur:'off')+(sel?', selected':'')+'. Tap for its choices below; hold for the Color mixer');b.setAttribute('aria-pressed',String(sel));
       let ht=0,held=false;
@@ -6338,10 +6397,11 @@ function bbParse(src){
     return(t,n,l,o,p,a,b,c)=>{E[0]=t;E[1]=n;E[2]=l;E[3]=o;E[4]=p;E[5]=a;E[6]=b;E[7]=c;return root(E);};}catch(e){return null;}
 }
 
-let BB_EVAL=null;
+/* ONE PARSER, NEVER EVAL (security, 22 Oct): a formula is a bytebeat expression read by bbParse, which knows numbers, the
+   letters t n l o p a b c, the operators, Math's functions and lookup strings and lists, and nothing else. Formulas come
+   from packs, shared scenes and other people's files, so none of them is ever run as JavaScript (it was, by new Function,
+   when the page allowed it). A formula bbParse cannot read is refused with a plain message. */
 function bbCompile(src){
-  if(BB_EVAL!==false){try{const f=new Function('t','n','l','o','p','a','b','c','const {sin,cos,tan,abs,floor,ceil,sqrt,pow,min,max,random,PI}=Math;const int=Math.floor;return ('+src+');');
-      f(1000,...BB_LET);BB_EVAL=true;return f}catch(e){if(e instanceof EvalError||/eval|unsafe|Content Security/i.test(String(e&&e.message)))BB_EVAL=false}}
   try{const f=bbParse(src);if(!f)return null;f(1000,...BB_LET);return f}catch(e){return null}}
 /* LIVE VOICE (bytebeat now plays live, not from a rendered loop, so its letters can move while it sounds).
    One core, two hosts, as in Bytebeat Reef: an AudioWorklet when the page allows it, a ScriptProcessor otherwise. */
@@ -6360,8 +6420,7 @@ class BBCore{
       out[i]=this.hold;this.t+=this.rate}}
 }
 const BB_SRC=bbParse.toString()+'\n'+BBCore.toString()+`
-function comp(s){try{const f=new Function('t','n','l','o','p','a','b','c','const {sin,cos,tan,abs,floor,ceil,sqrt,pow,min,max,random,PI}=Math;const int=Math.floor;return ('+s+');');f(1000,9,8,3,2,4,4,4);return f}catch(e){}
-  try{const f=bbParse(s);if(f){f(1000,9,8,3,2,4,4,4);return f}}catch(e){}return null}
+function comp(s){try{const f=bbParse(s);if(f){f(1000,9,8,3,2,4,4,4);return f}}catch(e){}return null}
 class BBV extends AudioWorkletProcessor{constructor(){super();this.c=new BBCore(sampleRate,comp);this.port.onmessage=e=>{const ok=this.c.set(e.data);if(e.data.f!==undefined)this.port.postMessage({ok})}}
   process(_,o){this.c.fill(o[0][0]);return true}}
 registerProcessor('current-bytebeat',BBV);`;
@@ -8013,7 +8072,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     if(!busy)BS.hide()});
   /* the carets below: one under each round button, one in the pill's middle; the owner's is lit */
   const cr=$('bsCarets');const CAR=[['pill','robot'],['pShot','capture'],['pSrc','source'],['pSnd','sound'],['pSteer','tools']];
-  CAR.forEach(([id,sec])=>{const c=mk('button','bsCar');c.type='button';c.tabIndex=-1;c.setAttribute('aria-hidden','true');c.dataset.for=id;c.dataset.sec=sec;
+  CAR.forEach(([id,sec])=>{const c=mk('button','bsCar');c.type='button';c.tabIndex=-1;c.setAttribute('aria-hidden','true');c.setAttribute('aria-label','Open the '+sec+' shelf');c.title='Open the '+sec+' shelf';c.dataset.for=id;c.dataset.sec=sec;
     c.onclick=()=>{if(BS.open&&BS.sec===sec&&id!=='pill')BS.hide();else BS.show(id==='pill'&&['robot','dice','scenes'].includes(BS.sec)?BS.sec:sec)};cr.appendChild(c)});
   const hit=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
   const badges=()=>[...document.querySelectorAll('.sp-bb')].filter(b=>b.offsetWidth&&getComputedStyle(b).visibility!=='hidden').map(b=>b.getBoundingClientRect());
@@ -8112,7 +8171,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
    to them with no cover and no opening. Kept a minute only, in this tab only. */
 const RESUME=(()=>{try{const v=JSON.parse(sessionStorage.getItem('current.resume')||'null');sessionStorage.removeItem('current.resume');return v&&Date.now()-v.at<60000?v:null}catch(_){return null}})();
 const go=()=>{loadPreset(0,true);
-  if(RESUME&&RESUME.look){try{const L=RESUME.look;applyLook({...L,gen:()=>L.gcode},-1,true)}catch(e){console.warn('resume',e)}}
+  if(RESUME&&RESUME.look){try{const L=cleanLook(RESUME.look);if(L&&typeof L.gcode==='string')applyLook({...L,gen:()=>L.gcode},-1,true)}catch(e){console.warn('resume',e)}}
   booted=true;requestAnimationFrame(frame);try{openSharedLook()}catch(_){}
   if(RESUME&&RESUME.bare)setTimeout(()=>{try{setBare(true)}catch(_){}},50)};
 /* SELF-TEST (Dimitry, 20 Oct: "a check system self test on load ... if the field doesn't play, a system down message
@@ -8557,7 +8616,7 @@ try{if(window.SurfaceSession){let fromSession=0,sceneT=0;
       let pt=null;try{const o=AUD.ctx.getOutputTimestamp();if(o&&o.performanceTime)pt=o.performanceTime/1000+(AUD.t0-o.contextTime)}catch(_){}
       return{bpm:pat.bpm,beatOneSec:pt}},
     scene:()=>({look:snapshot(curName||'look')}),
-    applyScene:d=>{if(!d||!d.look)return;fromSession=performance.now();quiet();const L=d.look;applyLook({...L,gen:()=>L.gcode},-1,false)},
+    applyScene:d=>{if(!d||!d.look)return;fromSession=performance.now();quiet();const L=cleanLook(d.look);if(!L||typeof L.gcode!=='string')return;applyLook({...L,gen:()=>L.gcode},-1,false)},
     canConduct:()=>!!(window.isPro&&isPro('session')),
     onChange:st=>{try{if(ACTIVE==='session')buildToolShelf()}catch(_){}
       if(st.role==='follower'&&st.following&&st.mode==='scenes')quiet();
@@ -8702,10 +8761,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022190340"></script>
-<script src="surface/links.js?v=20261022190340"></script>
-<script src="surface/tips.js?v=20261022190340"></script>
-<script src="surface/sections.js?v=20261022190340"></script>
+<script src="surface/install.js?v=20261022191105"></script>
+<script src="surface/links.js?v=20261022191105"></script>
+<script src="surface/tips.js?v=20261022191105"></script>
+<script src="surface/sections.js?v=20261022191105"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8726,6 +8785,7 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
        updated; anything else is saved as a new one with a name made for it. Shift adds the box, to name it. */
     {id:'sheet.prev',d:'The previous panel (when one is open)',keys:['['],run:()=>{if(SHEET_NAV)SHEET_NAV.go(-1)}},
     {id:'sheet.next',d:'The next panel (when one is open)',keys:[']'],run:()=>{if(SHEET_NAV)SHEET_NAV.go(1)}},
+    {id:'perform',d:'Performing on or off (nothing reloads, the screen stays awake)',keys:[],run:()=>{if(window.SurfacePerform){SurfacePerform.set(!SurfacePerform.manual());toast(SurfacePerform.manual()?'performing: nothing reloads, the screen stays awake':'performing off')}}},
     {id:'save',d:'Save this scene',keys:['mod+s'],run:()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:autoName())}},
     {id:'saveas',d:'Save as a new scene, and name it',keys:['shift+mod+s'],run:()=>saveAsBox()},
     /* the master flow (22 Oct): every speed at once, on this device; = and - step it, \ puts it back to x1 */
@@ -8833,6 +8893,23 @@ addEventListener('load',()=>{setTimeout(()=>{const d=document.getElementById('di
   sec.querySelectorAll('.dsp-seg button').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);H.dataset[r.key]=b.dataset.v;try{localStorage.setItem(r.store,b.dataset.v)}catch(e){}sync()};
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const bs=[...b.parentNode.children],i=bs.indexOf(b),n=bs[(i+(/Right|Down/.test(e.key)?1:bs.length-1))%bs.length];n.click();n.focus()}});
   wideQ.addEventListener?.('change',sync);sync()})();
+/* PERFORMING (Dimitry's show safety, 22 Oct; kit perform.js, CONVENTIONS › Performing): a row of its own at the top of
+   Settings. On: no update reloads the page and the "newer version" pill waits, and the screen stays awake. It is also on
+   by itself while a room is joined, and while auto play runs in fullscreen. Auto play keeps the screen awake on its own. */
+try{const P=window.SurfacePerform,dl=document.getElementById('displayL');if(P&&dl){
+  const row=document.createElement('div');row.className='dsp-row';row.dataset.row='perform';row.id='performRow';
+  row.innerHTML='<span class="dsp-lab" id="dsp-perform">Performing</span><div class="dsp-seg" role="radiogroup" aria-labelledby="dsp-perform"><button type="button" role="radio" data-v="0" aria-label="Performing off: updates can reload the page when you choose">Off</button><button type="button" role="radio" data-v="1" aria-label="Performing on: nothing reloads by itself, the update notice waits, the screen stays awake">On</button></div>';
+  const note=document.createElement('p');note.className='pf-note';note.id='performNote';   // not .dsp-note: Settings finds its own note by that class
+  dl.insertBefore(row,dl.firstChild);row.after(note);
+  const sync=()=>{const m=P.manual(),why=P.why().filter(w=>w!=='switch');row.querySelectorAll('[role=radio]').forEach(b=>{const on=(b.dataset.v==='1')===m;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1});
+    note.textContent=m?'On: nothing reloads by itself and the screen stays awake. Turn it off after the show.':why.length?'On by itself while '+why.map(w=>({room:'you are in a room',autoplay:'auto play runs in fullscreen'})[w]||w).join(' and ')+'.':'Turn on for a show: no update reloads the page, the screen stays awake.'};
+  row.querySelectorAll('[role=radio]').forEach(b=>{b.onclick=()=>{P.set(b.dataset.v==='1');if(typeof toast==='function')toast(P.manual()?'performing: nothing reloads, the screen stays awake':'performing off');sync()};
+    b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const n=b.nextElementSibling||b.previousElementSibling;n.click();n.focus()}});
+  document.addEventListener('surfaceperform',sync);sync();
+  const full=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+  setInterval(()=>{try{let room=false;try{const st=window.SESSION&&SESSION.state&&SESSION.state();room=!!(st&&st.role)}catch(_){}
+    const auto=typeof autoT!=='undefined'&&!!autoT,still=typeof S!=='undefined'&&!!S.paused;
+    P.hold('room',room);P.hold('autoplay',auto&&full());P.wake('autoplay',auto&&!still)}catch(_){}},1000)}}catch(e){console.warn('performing',e)}
 /* Surface · Hints: a Hints row in Display, and the first visit points at the speaker once the cover has gone */
 try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-note');
   /* Current's own segmented row, the same as Drawer and Panes; the level itself is Surface's */
@@ -9064,7 +9141,7 @@ try{(function(){
     const ins=!!(window.INSTR&&window.SurfaceInstruments&&SurfaceInstruments.inPack&&SurfaceInstruments.inPack(P));if(ins)INSTR.import(f);
     const LJ=P.json('looks.json'),looks=LJ&&Array.isArray(LJ.looks)?LJ.looks:Array.isArray(LJ)?LJ:[];
     for(const L of looks.slice(0,200)){if(!L||typeof L.name!=='string')continue;const g=typeof L.gcode==='string'?L.gcode:P.text('gcode/'+slug(L.name)+'.nc');if(!g)continue;
-      if(store.user.some(u=>u.name===L.name)){had++;continue}store.user.push({...L,gcode:g,p:{...DEFAULTS,...(L.p||{})}});lk++}
+      const CL=cleanLook({...L,gcode:g});if(!CL)continue;if(store.user.some(u=>u.name===CL.name)){had++;continue}store.user.push({...CL,p:{...DEFAULTS,...(CL.p||{})}});lk++}
     const BJ=P.json('beats.json'),beats=BJ&&BJ.beats&&typeof BJ.beats==='object'?BJ.beats:{};
     for(const k in beats){const n=String(k).slice(0,28).trim(),b=beats[k];if(!n||!BEAT_OK(b))continue;
       if(BEATS[n]||PACK_BEATS[n]||(fpOn()&&FP_BEATS[n])){had++;continue}PACK_BEATS[n]={bpm:+b.bpm,k:b.k,s:b.s,h:b.h,b:b.b};bt++}
@@ -9359,7 +9436,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.57';
+const APP_VERSION='0.29.58';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -9403,7 +9480,7 @@ function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=funct
  Promise.all(ps).then(go,go)}
 function newer(v){var n=(v&&v.notes)||[],mine=window.__VERSION__,out=[];for(var i=0;i<n.length;i++){if(mine&&n[i].v===mine)break;out.push(n[i])}
  return mine&&out.length===n.length?out.slice(0,3):out}
-function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
+function pill(v){if(shown)return;if(held()){pend=v;return}shown=true;var notes=newer(v),d=document.createElement("div"),acc="var(--accent,#55b8c9)";d.setAttribute("role","status");upd(d,"ready");
  d.style.cssText="position:fixed;z-index:99;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);max-width:calc(100vw - 24px);box-sizing:border-box;border-radius:24px;background:rgba(14,14,16,.92);color:#eef1f2;border:1px solid rgba(255,255,255,.18);font:500 12px/1.35 system-ui,sans-serif;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);overflow:hidden";d.style.width=WN(notes.length);
  var row=document.createElement("div");row.style.cssText="display:flex;align-items:center;gap:4px;padding:4px 4px 4px 12px;white-space:nowrap;min-height:38px";lead(row);
  var t=document.createElement("span");t.style.cssText="overflow:hidden;text-overflow:ellipsis;min-width:0";t.textContent=v&&v.version?"Version "+v.version+" is ready":"A newer version is ready";row.appendChild(t);
@@ -9420,11 +9497,16 @@ function pill(v){if(shown)return;shown=true;var notes=newer(v),d=document.create
    list.appendChild(ul)});
   more.onclick=function(){var open=list.hidden;list.hidden=!open;more.setAttribute("aria-expanded",String(open));more.textContent=open?"What’s new ▴":"What’s new ▾"}}
  var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);
- var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();shown=false};row.appendChild(x);
- d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d)}
+ var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();pd=null;shown=false};row.appendChild(x);
+ d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d);pd=d}
+/* PERFORMING (surface/v1/perform.js, 22 Oct): while a show is on, a newer version never reloads the page and its pill
+   stays hidden; it waits, and the pill comes back when Performing ends */
+var held=function(){try{return!!(window.SurfacePerform&&SurfacePerform.on())}catch(e){return false}},pend=null,pd=null;
+document.addEventListener("surfaceperform",function(e){var on=e.detail&&e.detail.on;if(on&&pd){pd.remove();pd=null;shown=false}else if(!on&&pend){var v=pend;pend=null;pill(v)}});
 var last=0;window.checkForUpdate=function(auto){if(busy)return Promise.resolve("busy");busy=true;last=Date.now();
  return fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null}).then(function(v){busy=false;
   if(!v||!v.build)return"offline";if(v.build===B)return"current";
+  if(held()){pend=v;return"held"}
   var early=auto&&Date.now()-T0<15000,k="upd:"+v.build;
   if(early){try{if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");fresh();return"new"}}catch(e){}}
   pill(v);return"new"},function(){busy=false;return"offline"})};
@@ -9450,6 +9532,7 @@ function done(){var f=null;try{f=sessionStorage.getItem("upd:from");sessionStora
  setTimeout(function(){if(!keep&&d.isConnected){d.style.opacity="0";setTimeout(function(){d.remove()},600)}},7000)}
 })();</script>
 <script>if("serviceWorker"in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match */
-const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had)return;try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
+/* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match; only
+   in the first seconds of a visit and never while performing (22 Oct: it could reload mid-show); later, the pill offers it */
+const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||performance.now()>15000)return;try{if(window.SurfacePerform&&SurfacePerform.on())return}catch(_){}try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
 </body></html>

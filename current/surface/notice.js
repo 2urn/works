@@ -142,7 +142,8 @@
     return !!document.querySelector("[data-upd]");
   }
   function phoneFull() { return !!(document.fullscreenElement || document.webkitFullscreenElement) && matchMedia("(pointer:coarse)").matches; }
-  function busyNow() { return document.hidden || phoneFull() || (O.busy && safe(O.busy)); }
+  function busyNow() { return document.hidden || phoneFull() || performing() || (O.busy && safe(O.busy)); }
+  function performing() { try { return !!(window.SurfacePerform && SurfacePerform.on()); } catch (e) { return false; } }   // never mid-show (perform.js, 22 Oct)
   function shownThisVisit() { try { return !!sessionStorage.getItem(SS); } catch (e) { return false; } }
 
   function eligible(n, d, now) {
