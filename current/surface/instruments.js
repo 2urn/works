@@ -44,6 +44,17 @@
   "use strict";
   if (window.SurfaceInstruments) return;
   var ROLES = [["touch", "Touch", "your finger plays it"], ["beat", "On the beat", "it strikes on the grid"], ["bed", "Bed", "it plays under everything"], ["pattern", "Pattern", "the drawing sequences it"]];
+  /* the four roles' icons (Dimitry, 22 Oct: "icons for touch, beat, bed and pattern"): drawn once here, 24-unit strokes
+     (round caps, currentColor; class "f" is filled), used on the sheet's role buttons and by any guide
+     (SurfaceInstruments.ROLE_ICONS). Touch: a tap and its ripple. On the beat: even pulses, the first accented.
+     Bed: two long layers under everything. Pattern: a path through points, the drawing as sequencer. */
+  var ROLE_ICONS = {
+    touch: '<circle class="f" cx="12" cy="12" r="2.4"/><path d="M7.2 12a4.8 4.8 0 0 1 9.6 0M16.8 12a4.8 4.8 0 0 1-9.6 0" opacity=".75"/><path d="M3.6 12a8.4 8.4 0 0 1 16.8 0M20.4 12a8.4 8.4 0 0 1-16.8 0" opacity=".4"/>',
+    beat: '<path d="M4 6.5v11M9.3 9.5v5M14.7 9.5v5M20 9.5v5"/>',
+    bed: '<path d="M3 10c3-2 6-2 9 0s6 2 9 0"/><path d="M3 15.5c3-2 6-2 9 0s6 2 9 0" opacity=".6"/>',
+    pattern: '<path d="M4 17.5 9 8l5 7 6-9.5"/><circle class="f" cx="4" cy="17.5" r="1.7"/><circle class="f" cx="9" cy="8" r="1.7"/><circle class="f" cx="14" cy="15" r="1.7"/><circle class="f" cx="20" cy="5.5" r="1.7"/>'
+  };
+  function roleIcon(r) { return '<svg class="ri" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (ROLE_ICONS[r] || "") + "</svg>"; }
   var EVERY = [["beat", "every beat", 4], ["back", "2 and 4", 16], ["off", "off-beats", 4], ["bar", "once a bar", 16], ["eighth", "eighths", 2]];
   /* the library's drums arrive as a groove, not all on every beat: kick, backbeat, eighth hats; the rest wait */
   var GROOVE = { kick: { every: "beat" }, snare: { every: "back" }, "closed hat": { every: "eighth", level: .6 }, "open hat": { every: "off", on: false },
@@ -127,6 +138,10 @@
   }
   function mount(O) {
     O = O || {};
+    /* O.words (22 Oct 2026, Dimitry: "kit or pack … be consistent; pack is a common thing in this world"): what the sheet
+       calls itself and its save button. Default Instruments / Save as a set; Current says Pack / Save as a pack. */
+    var WD = { title: "Instruments", save: "Save as a set" };
+    if (O.words && typeof O.words === "object") { if (typeof O.words.title === "string") WD.title = O.words.title; if (typeof O.words.save === "string") WD.save = O.words.save; }
     var LS = "surface.instruments." + (O.key || "tool"), list = [], kept = null;
     try { kept = JSON.parse(localStorage.getItem(LS + ".set") || "null"); } catch (e) { kept = null; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
@@ -370,7 +385,8 @@
       ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
       ".sin button.go{background:#fff;color:#0b0f10}.sin .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
       ".sin .seg{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:11px;overflow:hidden}" +
-      ".sin .seg button{flex:1;min-width:0;height:40px;padding:0 4px;border:0;background:none;color:rgba(255,255,255,.75);font:600 9.5px/1.15 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
+      ".sin .seg button{flex:1;min-width:0;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px;border:0;background:none;color:rgba(255,255,255,.75);font:600 9.5px/1.15 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
+      ".sin .seg .ri{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sin .seg .ri .f{fill:currentColor;stroke:none}" +
       ".sin .seg button+button{border-left:1px solid rgba(255,255,255,.2)}.sin .seg button[aria-checked=true]{background:#fff;color:#0b0f10}" +
       ".sin .snd{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid rgba(255,255,255,.1)}" +
       ".sin .hd{display:flex;align-items:center;gap:8px}.sin .hd .nm{flex:1;min-width:0;font:600 13px/1.2 var(--sans,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
@@ -381,12 +397,12 @@
       ".sin .off .nm{opacity:.5}.sin .new{background:rgba(255,255,255,.05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}";
     function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
     function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-    function seg(cur, label) { return '<div class="seg" role="radiogroup" aria-label="' + label + '">' + ROLES.map(function (r) { return '<button type="button" role="radio" data-r="' + r[0] + '" aria-checked="' + (cur === r[0]) + '" title="' + r[2] + '">' + r[1] + "</button>"; }).join("") + "</div>"; }
+    function seg(cur, label) { return '<div class="seg" role="radiogroup" aria-label="' + label + '">' + ROLES.map(function (r) { return '<button type="button" role="radio" data-r="' + r[0] + '" aria-checked="' + (cur === r[0]) + '" title="' + r[2] + '">' + roleIcon(r[0]) + "<span>" + r[1] + "</span></button>"; }).join("") + "</div>"; }
     function ensure() {
       if (box) return;
       if (!document.getElementById("sin-css")) { var st = el("style"); st.id = "sin-css"; st.textContent = CSS; document.head.appendChild(st); }
       veil = el("div", "sin-veil"); box = el("div", "sin"); veil.hidden = box.hidden = true;
-      box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Instruments");
+      box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", WD.title);
       fileIn = el("input"); fileIn.type = "file"; fileIn.multiple = true; fileIn.accept = ".json,.zip,application/json,application/zip,audio/*,.wav,.mp3,.ogg,.m4a,.aac,.flac,.webm"; fileIn.hidden = true;
       fileIn.onchange = function () { var f = [].slice.call(fileIn.files || []); fileIn.value = ""; if (f.length) importFile(f.length === 1 ? f[0] : f); };
       dirIn = el("input"); dirIn.type = "file"; dirIn.hidden = true; dirIn.setAttribute("webkitdirectory", ""); dirIn.multiple = true;
@@ -401,7 +417,7 @@
     var ON = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
     function render() {
       if (!box || box.hidden) return;
-      var h = '<h2><span>Instruments</span><button type="button" class="x" aria-label="Close">✕</button></h2>';
+      var h = '<h2><span>' + esc(WD.title) + '</span><button type="button" class="x" aria-label="Close">✕</button></h2>';
       if (pending) {
         if (pending.error) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>: " + esc(pending.error) + '</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
         else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " Pullula’s microphone)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
@@ -418,7 +434,7 @@
       });
       var L = window.SurfaceVoiceLib;
       if (L) h += '<p class="st">The studio’s library</p><div class="row"><button type="button" class="b lib" data-k="sounds">Glass and textures</button><button type="button" class="b lib" data-k="drums">Drums</button></div>';
-      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">Save as a set</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a Pullula mix or a Fracture set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
+      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">' + esc(WD.save) + '</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a Pullula mix or a Fracture set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
       box.innerHTML = h;
       var q = function (s) { return box.querySelector(s); };
       q(".x").onclick = close;
@@ -453,7 +469,7 @@
       playing: function () { return LIVE.length > 0 || bed.h.length > 0; },
       samples: function () { var k = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (s) { k[s] = !!SurfaceVoice.sample(s); }); }); return k; } };
   }
-  window.SurfaceInstruments = { mount: mount, recipesIn: recipesIn, AUDIO: AUDIO, CAP: CAP,
+  window.SurfaceInstruments = { mount: mount, ROLE_ICONS: ROLE_ICONS, recipesIn: recipesIn, AUDIO: AUDIO, CAP: CAP,
     /* does this pack hold anything for instruments? (a tool's own pack opener asks, then hands the file over) */
     inPack: function (P) { var any = false; P.files.forEach(function (u, k) { if (any) return; if (AUDIO.test(k)) any = true; else if (/\.json$/i.test(k)) { var o = P.json(k); if (o && recipesIn(o).length) any = true; } }); return any; } };
 })();
