@@ -14,7 +14,7 @@
        email: 'hi@chamy.xyz',                   // optional: a contact line under the form ("Rather write?")
        icon: true                               // optional: SurfaceReport.ICON is the bug, for the tool's own buttons
      });
-     R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'
+     R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'; R.open(how, {feedback:true}) opens it ticked
      R.offer('the sound had to be restarted')   // a quiet line with "report it", for when the tool caught something
    Plain script, window.SurfaceReport, no dependencies; reads SurfaceSelfTest when it is there. */
 (function () {
@@ -37,6 +37,8 @@
     ".srp pre{margin:6px 0 0;max-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:10px/1.4 var(--mono,monospace);color:rgba(255,255,255,.6);background:rgba(255,255,255,.04);border-radius:8px;padding:8px}" +
     ".srp-go{height:34px;border:0;border-radius:17px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}.srp-go:disabled{opacity:.5;cursor:default}" +
     ".srp-alt a{color:inherit;text-decoration:underline;text-underline-offset:3px}.srp-alt{font-size:11px!important;color:rgba(255,255,255,.6)!important}" +
+    ".srp-fb{display:flex;align-items:center;gap:9px;margin:-2px 0 0;font:400 12px/1.3 var(--sans,system-ui);color:rgba(255,255,255,.82);cursor:pointer;-webkit-tap-highlight-color:transparent}" +
+    ".srp-fb input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--acc,#55b8c9);cursor:pointer}.srp-fb small{color:rgba(255,255,255,.5);font-size:11px}" +
     ".srp-msg{min-height:1em;color:var(--acc,#55b8c9)!important}.srp-msg.bad{color:#ff8a80!important}" +
     ".srp :focus-visible{outline:2px solid #fff;outline-offset:2px}" +
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
@@ -55,15 +57,22 @@
     if (!document.getElementById("srp-css")) { var st = el("style"); st.id = "srp-css"; st.textContent = CSS; document.head.appendChild(st); }
     var veil = el("div", "srp-veil"), box = el("div", "srp"), how = "button", sent = false, last = null;
     veil.hidden = box.hidden = true; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-labelledby", "srpH");
-    box.innerHTML = '<div class="srp-hd"><p class="srp-h" id="srpH">' + ICON + '<span>Report a bug</span></p><button type="button" class="srp-x" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
-      '<p>Something not right? Say what you did and what happened. ' + (O.name || "The tool") + ' adds what it knows about this moment (version, browser, what was playing, recent errors); nothing about you unless you type it.</p>' +
+    box.innerHTML = '<div class="srp-hd"><p class="srp-h" id="srpH">' + ICON + '<span class="srp-t">Report a bug</span></p><button type="button" class="srp-x" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+      '<p><span class="srp-lead">Something not right? Say what you did and what happened.</span> ' + (O.name || "The tool") + ' adds what it knows about this moment (version, browser, what was playing, recent errors); nothing about you unless you type it.</p>' +
       '<label class="srp-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" for="srpN">What happened?</label><textarea id="srpN" maxlength="2000" placeholder="what happened?"></textarea>' +
+      '<label class="srp-fb"><input type="checkbox" class="srp-fbx"><span>Feedback only <small>an idea or a wish, nothing broken</small></span></label>' +
       '<label style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" for="srpE">Email (optional)</label><input id="srpE" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="email, if you’d like a reply (optional)">' +
       '<details><summary>what’s sent</summary><pre></pre></details>' +
       (O.email ? '<p class="srp-alt">Rather write? <a href="mailto:' + O.email + '?subject=' + encodeURIComponent((O.name || "Tool") + " bug") + '">' + O.email + '</a></p>' : '') +
       '<button type="button" class="srp-go">send</button><p class="srp-msg" role="status" aria-live="polite"></p>';
     document.body.append(veil, box);
-    var ta = box.querySelector("textarea"), em = box.querySelector("input"), pre = box.querySelector("pre"), go = box.querySelector(".srp-go"), msg = box.querySelector(".srp-msg");
+    var ta = box.querySelector("textarea"), em = box.querySelector("input[type=email]"), pre = box.querySelector("pre"), go = box.querySelector(".srp-go"), msg = box.querySelector(".srp-msg");
+    /* FEEDBACK ONLY (Dimitry, 22 Oct): ideas and wishes go in the same box, marked kind 'feedback', so they are read as
+       requests and never sent to be reproduced and fixed as bugs */
+    var fbx = box.querySelector(".srp-fbx"), ttl = box.querySelector(".srp-t"), lead = box.querySelector(".srp-lead");
+    function mode() { var f = fbx.checked; ttl.textContent = f ? "Send feedback" : "Report a bug"; ta.placeholder = f ? "your idea, or what you wish it did" : "what happened?";
+      lead.textContent = f ? "An idea, a wish, something that could work better? Say it here." : "Something not right? Say what you did and what happened."; }
+    fbx.onchange = mode;
     var say = function (t, bad) { msg.textContent = t; msg.classList.toggle("bad", !!bad); };
     function gather() {
       var T = window.SurfaceSelfTest, text = "";
@@ -73,7 +82,8 @@
       return log;
     }
     function close() { box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 360); if (last && last.focus) try { last.focus(); } catch (e) {} }
-    function open(h) {
+    function open(h, o2) {
+      fbx.checked = !!(o2 && o2.feedback); mode();
       how = h || "button"; sent = false; last = document.activeElement; go.disabled = false; go.textContent = "send"; say("");
       var g = gather(); pre.textContent = "version " + (ver() || "?") + "\n" + device() + "\n\n" + (g.state ? JSON.stringify(g.state, null, 1) + "\n\n" : "") + g.selftest;
       box.hidden = veil.hidden = false; requestAnimationFrame(function () { box.classList.add("on"); veil.classList.add("on"); });
@@ -85,15 +95,15 @@
     go.onclick = function () {
       if (sent) { close(); return; }
       var note = ta.value.replace(/\s+$/, "").trim(), mail = em.value.trim();
-      if (!note) { say("Say a few words about what happened.", 1); ta.focus(); return; }
+      if (!note) { say(fbx.checked ? "Say a few words first." : "Say a few words about what happened.", 1); ta.focus(); return; }
       if (mail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { say("That email doesn’t look complete (or leave it empty).", 1); em.focus(); return; }
       if (!O.endpoint || !O.key) { say("Reports aren’t set up here yet.", 1); return; }
       go.disabled = true; say("sending…");
-      var body = { tool: O.tool || "tool", version: ver().slice(0, 24) || null, note: note.slice(0, 2000), log: gather(), device: device().slice(0, 300), page: location.pathname.slice(0, 300), email: mail || null, how: how };
+      var body = { tool: O.tool || "tool", version: ver().slice(0, 24) || null, note: note.slice(0, 2000), log: gather(), device: device().slice(0, 300), page: location.pathname.slice(0, 300), email: mail || null, how: how, kind: fbx.checked ? "feedback" : "bug" };
       fetch(O.endpoint, { method: "POST", headers: { apikey: O.key, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify(body) })
         .then(function (r) {
           if (!r.ok) throw r.status;
-          sent = true; ta.value = ""; say("Thank you. You found a bad thing; now it can be fixed."); go.disabled = false; go.textContent = "close";
+          sent = true; ta.value = ""; say(body.kind === "feedback" ? "Thank you. Your idea is in." : "Thank you. It’s on the list to be fixed, with everything needed to find it."); go.disabled = false; go.textContent = "close";
           if (window.cxCount) try { cxCount("report: sent", 1); } catch (e) {}
           setTimeout(function () { if (sent && !box.hidden) close(); }, 3500);
         })
