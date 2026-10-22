@@ -18,7 +18,7 @@
      })
      SurfaceFresh.seen(id)              // mark one used by hand (a shortcut or a menu reached it)
      SurfaceFresh.list()                // [{ id, name }] showing now, for a version line
-     SurfaceFresh.kind('new'|'fix'|'change', {label})   // the icon of a kind of change, HTML, a 16 px slot + "New:" for readers
+     SurfaceFresh.kind('new'|'fix'|'change', {label})   // the icon of a kind of change + its word (NEW / FIX / CHANGE), HTML: two cells (16 px, auto)
      SurfaceFresh.KINDS                 // { new|fix|change: { name, color, svg } }
    Plain script, window.SurfaceFresh, no dependencies. Default looks at zero specificity: the tool's rules win. */
 (function () {
@@ -101,10 +101,12 @@
     change: { name: "Change", color: "#9aa5a8", svg: "<svg " + LINE + '><path d="M12.8 6.4A5 5 0 0 0 3.5 5.2M3.2 9.6a5 5 0 0 0 9.3 1.2M3.3 2.6v2.8h2.8M12.7 13.4v-2.8H9.9"/></svg>' }
   };
   function kind(k, o) {
-    var K = KINDS[k]; if (!K) return '<span style="display:inline-block;flex:none;width:16px;height:16px"></span>';
+    var K = KINDS[k]; if (!K) return '<span style="display:inline-block;flex:none;width:16px;height:16px"></span><span></span>';   // two cells, like a kind
     var lab = !(o && o.label === false);
     return '<span class="sf-kind" data-kind="' + k + '" aria-hidden="true" style="display:inline-flex;flex:none;width:16px;height:16px;align-items:center;justify-content:center;vertical-align:-3px;color:' + K.color + '">' + K.svg + "</span>" +
-      (lab ? '<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">' + K.name + ": </span>" : "");
+      /* the word is shown too (Dimitry, 22 Oct 14:23: "we should still have those labels"): small capitals in the kind's
+         colour, in its own column after the icon, so notes read NEW / FIX / CHANGE at a glance as well as by icon */
+      (lab ? '<span class="sf-kindw" style="flex:none;font:600 9px/16px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:' + K.color + '">' + K.name + '<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)">:</span></span>' : "");
   }
   window.SurfaceFresh = {
     init: init, seen: mark, paint: paint, STAR: STAR, KINDS: KINDS, kind: kind,
