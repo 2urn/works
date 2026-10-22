@@ -29,7 +29,8 @@
                                              //   silence for `silence` ms while playing counts as dead (rule 4)
        silence: 6000,
        change:  (suspect, why) => void,      // optional: called when the sound is marked lost, and when it is back
-       rescue:  { reload, report }           // optional: the rescue chip (rule 5)
+       rescue:  { reload, report },          // optional: the rescue chip (rule 5)
+       alive:   () => boolean                // optional: the tool's own word that sound really plays (rule 7)
      }) → { state(), wake() }                // wake(): rebuild now (a "restart sound" button can call it)
 
    4. (22 Oct) The clock runs but nothing comes out: `level` reads exact zero for `silence` ms while the tool says it
@@ -42,6 +43,7 @@
    A rebuild runs only on a click or a key (or the chip's Sound), never on pointerup/touchend alone: a drag ends in a
    touchend that iOS does not count as a gesture, and a context made there starts suspended (22 Oct, same report).
    6. A marked sound that is running, ticking and measurably playing for 2 s clears itself (with `level`).
+   7. After a rebuild the sound is checked before the chip says so; still silent, Reset becomes the white button.
    When the sound comes back, by a rebuild or by itself, the chip says "Sound back" for a moment and goes (no toast).
    Plain script, window.SurfaceAudioWake, no dependencies. */
 (function () {
@@ -51,7 +53,7 @@
   function watch(o) {
     o = o || {};
     var suspect = false, why = "", hiddenAt = 0, wasPlaying = false, bound = null, lastT = -1, still = 0, busy = 0, rebuilds = 0, resumes = 0, said = 0;
-    var away = o.away == null ? 2000 : o.away, quiet = 0, chip = null, alive = 0, backT = 0;
+    var away = o.away == null ? 2000 : o.away, quiet = 0, chip = null, alive = 0, backT = 0, checking = false, checks = 0;
     function setS(v, w) { var was = suspect; suspect = v; if (v) why = w || why; if (was !== v) { try { o.change && o.change(v, why); } catch (e) {} show(v); } }
     function ctx() { try { return o.ctx && o.ctx(); } catch (e) { return null; } }
     function playing() { try { return !!(o.playing && o.playing()); } catch (e) { return false; } }
@@ -67,6 +69,7 @@
           ".saw.on{opacity:1;translate:0 0}.saw[hidden]{display:none}" +
           ".saw .back{display:none;align-items:center;gap:6px;height:36px;padding:0 14px;color:#fff;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
           ".saw.is-back button{display:none}.saw.is-back .back{display:flex}" +
+          ".saw.try-reset button.go{background:rgba(255,255,255,.1);color:#fff}.saw.try-reset button.rs{background:#fff;color:#0b0f10}" +
           ".saw button{display:flex;align-items:center;gap:6px;height:36px;min-width:36px;padding:0 12px;border:0;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;touch-action:manipulation}" +
           ".saw button.go{background:#fff;color:#0b0f10}.saw button.bug{padding:0;justify-content:center}" +
           ".saw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}" +
@@ -76,7 +79,7 @@
         b1.innerHTML = '<svg ' + SVG + '><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4.5h-4.5"/></svg>Sound';
         b1.onclick = function () { rebuild("Sound button"); };
         chip.appendChild(b1);
-        if (o.rescue.reload) { var b2 = document.createElement("button"); b2.type = "button"; b2.title = "Reload the app straight back to where you are";
+        if (o.rescue.reload) { var b2 = document.createElement("button"); b2.type = "button"; b2.className = "rs"; b2.title = "Reload the app straight back to where you are";
           b2.innerHTML = '<svg ' + SVG + '><path d="M4 12a8 8 0 0 1 13.7-5.6L20 9"/><path d="M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15"/><path d="M4 20v-5h5"/></svg>Reset';
           b2.onclick = function () { try { console.info("[audiowake] reset (" + why + ")"); } catch (_) {} try { o.rescue.reload(); } catch (e) { location.reload(); } };
           chip.appendChild(b2); }
@@ -106,7 +109,20 @@
                        Reset still works when a rebuild can't */
         try { console.warn("[audiowake] rebuild failed: " + (e && e.message)); } catch (_) {}
         bind(); suspect = false; setS(true, "rebuild failed"); return; }
-      setS(false); bind(); if (!o.rescue) say("sound back"); try { console.info("[audiowake] rebuilt (" + w + ")"); } catch (_) {}
+      /* 7. CHECKED, NOT ASSUMED (Dimitry, 22 Oct, 0.29.33: after dictating, Sound said "Sound back" and nothing played; only
+         a restart helped). The chip stays while the new sound is checked (1.2 s): its context running, its clock moving,
+         and the tool's alive() if it has one. Back: "Sound back", then the chip goes. Not back: the chip stays and Reset
+         becomes the white button, because a reload is what still works then. */
+      bind(); var c = ctx(), t0 = c ? c.currentTime : 0, n = ++checks; checking = true;
+      try { console.info("[audiowake] rebuilt (" + w + "), checking"); } catch (_) {}
+      setTimeout(function () { if (n !== checks) return; checking = false;
+        var c2 = ctx(), ok = !!c2 && c2.state === "running" && c2.currentTime > t0 + 0.4;
+        if (ok && o.alive) { try { ok = !!o.alive(); } catch (e) { ok = false; } }
+        try { console.info("[audiowake] after rebuild: " + (ok ? "playing" : "still silent (" + (c2 ? c2.state : "no context") + ")")); } catch (_) {}
+        if (ok) { if (chip) chip.classList.remove("try-reset"); setS(false); if (!o.rescue) say("sound back"); return; }
+        why = "still silent after a restart"; if (!suspect) setS(true, why);
+        if (chip) chip.classList.add("try-reset"); else say("still no sound · reload the page");
+      }, 1200);
     }
     function unlock(c) {
       try { c.resume(); } catch (e) {}
@@ -119,6 +135,7 @@
       if (e && e.isTrusted === false) return;   // a tool's own .click() (Auto play) is not a touch: iOS won't start sound from it
       bind(); var c = ctx(); if (!c || !playing()) { setS(false); return; }
       if (suspect) {   // only a real tap (click) or key rebuilds: a drag's touchend is no gesture on iOS
+        if (checking) return;
         if (e && (e.type === "click" || (e.type === "keydown" && !(e.target && (e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || "")))))) { busy = Date.now(); rebuild(why); }
         return; }
       var n = Date.now(); if (n - busy < 350) { if (c.state !== "running") unlock(c); return; } busy = n;

@@ -16,7 +16,8 @@
      });
      R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'; R.open(how, {feedback:true}) opens it ticked
      R.offer('the sound had to be restarted')   // a quiet line with "report it", for when the tool caught something
-     R.corner(button)      // phones: puts the tool's bug button exactly where the sheet's close appears (returns its frame)
+     R.corner(button)      // phones: puts the tool's bug button exactly where the sheet's close appears (returns its frame);
+                           //   tablets: the sheet and the frame both open in the top right corner
    Plain script, window.SurfaceReport, no dependencies; reads SurfaceSelfTest when it is there. */
 (function () {
   "use strict";
@@ -51,6 +52,10 @@
     ".srp.srp-frame{z-index:24;background:none;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;opacity:1;overflow:visible;max-height:none;pointer-events:none;transition:opacity .4s ease,visibility 0s}" +
     ".srp-frame .srp-h{visibility:hidden}.srp-frame .srp-x{pointer-events:auto;background:rgba(0,0,0,.28);color:rgba(255,255,255,.6)}.srp-frame .srp-x svg{fill:none;stroke:currentColor;stroke-width:1.7}" +
     "@media (min-width:900px) and (hover:hover){.srp.srp-frame{display:none}}" +
+    /* a tablet (Dimitry, 22 Oct, iPad: the bug sat mid-screen, where the centred sheet's close is; "it could just move the
+       panel to the top right"): on a screen at least 600 px each way without a mouse, the sheet and its frame open in the
+       top right corner, so the bug is in the corner and is still the sheet's close */
+    "@media (min-width:600px) and (min-height:600px) and (not ((min-width:900px) and (hover:hover))){.srp{left:auto;right:max(12px,env(safe-area-inset-right,0px));translate:0 -8px}.srp.on,.srp.srp-frame{translate:none}}" +
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
     ".srp-offer.on{opacity:1;translate:-50% 0}.srp-offer button{border:0;border-radius:999px;padding:7px 12px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;white-space:nowrap}" +
     ".srp-offer .srp-ox{background:none;color:rgba(255,255,255,.6);padding:7px 6px}" +
