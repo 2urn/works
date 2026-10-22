@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022100516";window.__VERSION__="0.29.22";window.__NOTES__=[{"v":"0.29.22","date":"22 Oct 2026","items":[{"kind":"new","text":"when the sound dies with nothing changed, a chip appears top right: Sound restarts the sound, Reset reloads the app straight back to your scene (no cover), and the bug reports it from there"},{"kind":"new","text":"a sound that goes completely silent while a beat, bytebeat or loop plays now counts as lost too, not only a stalled clock"},{"kind":"new","text":"on a phone, the bug report has its own button on the screen, beside the duck"}]}]</script>
+<script>window.__BUILD__="20261022112754";window.__VERSION__="0.29.23";window.__NOTES__=[{"v":"0.29.23","date":"22 Oct 2026","items":[{"kind":"fix","text":"bringing the sound back works now. Every restart was failing once a water scene had played (a piece of the old sound engine stayed behind), so the sound stayed off and the chip had nothing that worked"},{"kind":"fix","text":"if a restart ever fails, the chip stays up so Reset is there, instead of vanishing"},{"kind":"fix","text":"typing a bug report on a phone no longer brings up the computer's Keys button"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022100516"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022100516">
+<script src="claude-web.js?v=20261022112754"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022112754">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022100516"></script>
-<script src="surface/selftest.js?v=20261022100516"></script>
-<script src="surface/report.js?v=20261022100516"></script>
-<script src="surface/auto.js?v=20261022100516"></script>
-<script src="surface/toolpath.js?v=20261022100516"></script>
-<script src="surface/capture.js?v=20261022100516"></script>
-<script src="surface/pop.js?v=20261022100516"></script>
-<script src="surface/hints.js?v=20261022100516"></script>
-<script src="surface/paths.js?v=20261022100516"></script>
-<script src="surface/keys.js?v=20261022100516"></script>
-<script src="surface/reset.js?v=20261022100516"></script>
-<script src="surface/files.js?v=20261022100516"></script>
-<script src="surface/tabs.js?v=20261022100516"></script>
-<script src="surface/running.js?v=20261022100516"></script>
-<script src="surface/trim.js?v=20261022100516"></script>
-<script src="surface/audiowake.js?v=20261022100516"></script>
-<script src="surface/listview.js?v=20261022100516"></script>
-<script src="surface/beads.js?v=20261022100516"></script>
-<script src="surface/strip.js?v=20261022100516"></script>
-<script src="surface/sheetnav.js?v=20261022100516"></script>
-<script src="surface/twofinger.js?v=20261022100516"></script>
-<script src="surface/shortlink.js?v=20261022100516"></script>
-<script src="surface/undo.js?v=20261022100516"></script>
-<script src="surface/pro.js?v=20261022100516"></script>
+<script src="vendor/opentype.min.js?v=20261022112754"></script>
+<script src="surface/selftest.js?v=20261022112754"></script>
+<script src="surface/report.js?v=20261022112754"></script>
+<script src="surface/auto.js?v=20261022112754"></script>
+<script src="surface/toolpath.js?v=20261022112754"></script>
+<script src="surface/capture.js?v=20261022112754"></script>
+<script src="surface/pop.js?v=20261022112754"></script>
+<script src="surface/hints.js?v=20261022112754"></script>
+<script src="surface/paths.js?v=20261022112754"></script>
+<script src="surface/keys.js?v=20261022112754"></script>
+<script src="surface/reset.js?v=20261022112754"></script>
+<script src="surface/files.js?v=20261022112754"></script>
+<script src="surface/tabs.js?v=20261022112754"></script>
+<script src="surface/running.js?v=20261022112754"></script>
+<script src="surface/trim.js?v=20261022112754"></script>
+<script src="surface/audiowake.js?v=20261022112754"></script>
+<script src="surface/listview.js?v=20261022112754"></script>
+<script src="surface/beads.js?v=20261022112754"></script>
+<script src="surface/strip.js?v=20261022112754"></script>
+<script src="surface/sheetnav.js?v=20261022112754"></script>
+<script src="surface/twofinger.js?v=20261022112754"></script>
+<script src="surface/shortlink.js?v=20261022112754"></script>
+<script src="surface/undo.js?v=20261022112754"></script>
+<script src="surface/pro.js?v=20261022112754"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022100516"></script>
-<script src="surface/rail.js?v=20261022100516"></script>
-<script src="surface/touchsound.js?v=20261022100516"></script>
-<script src="surface/water.js?v=20261022100516"></script>
-<script src="surface/ripple.js?v=20261022100516"></script>
-<script src="surface/float.js?v=20261022100516"></script>
-<script src="surface/manual.js?v=20261022100516"></script>
+<script src="surface/pack.js?v=20261022112754"></script>
+<script src="surface/rail.js?v=20261022112754"></script>
+<script src="surface/touchsound.js?v=20261022112754"></script>
+<script src="surface/water.js?v=20261022112754"></script>
+<script src="surface/ripple.js?v=20261022112754"></script>
+<script src="surface/float.js?v=20261022112754"></script>
+<script src="surface/manual.js?v=20261022112754"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -6308,6 +6308,16 @@ function audRebuild(){const was={...AUD.play},lay=AUD.lay,mic=AUD.mic,camMic=mic
   for(const k of ['beat','byte','file','loop'])stopCh(k);stopLayer();
   if(mic){if(camMic&&camMic.length){try{AUD.mic.node.disconnect();AUD.mic.sink.disconnect();AUD.mic.mon.disconnect();clearInterval(AUD.mic.gt)}catch(_){}AUD.mic=null}else stopMic(true)}
   const old=AUD.ctx;AUD.ctx=null;try{old&&old.close()}catch(_){}
+  /* THE SWEEP (0.29.23, Dimitry's iPhone, 22 Oct: every rebuild failed, "nodes belong to different audio contexts").
+     ensureCtx makes most nodes again, but some outlive it: the channel strips (pre, preV), the water treatment and bed,
+     anything a later feature hangs on AUD. One stale node and the first connect throws, the rebuild stops halfway and
+     the sound stays off. So every node of the old context goes: a node is dropped, an object holding nodes is emptied
+     ({} so code that reads into it still runs), an object made on the old context (.c / .context) is stopped and dropped. */
+  for(const k of Object.keys(AUD)){const v=AUD[k];if(!v||typeof v!=='object'||Array.isArray(v))continue;
+    if(v instanceof AudioNode){AUD[k]=null;continue}
+    if(typeof AudioBuffer!=='undefined'&&v instanceof AudioBuffer)continue;if(typeof MediaStream!=='undefined'&&v instanceof MediaStream)continue;
+    if(v.c===old||v.context===old){try{v.stop&&v.stop()}catch(_){}AUD[k]=null;continue}
+    try{if(Object.values(v).some(x=>x instanceof AudioNode||(x&&(x.c===old||x.context===old))))AUD[k]={}}catch(_){}}
   BBV.ready=null;BBV.post=null;BBV.out=null;BBV.sent='';AUD.bbOn=false;RECDEST=null;
   if(!ensureCtx())return;
   if(was.beat)startBeat(was.beat);if(was.byte)startByte(was.byte);if(was.file&&AUD.fileBuf)startFile();if(was.loop&&AUD.loopBuf)startLoop();if(lay)startLayer(lay);
@@ -7989,10 +7999,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022100516"></script>
-<script src="surface/links.js?v=20261022100516"></script>
-<script src="surface/tips.js?v=20261022100516"></script>
-<script src="surface/sections.js?v=20261022100516"></script>
+<script src="surface/install.js?v=20261022112754"></script>
+<script src="surface/links.js?v=20261022112754"></script>
+<script src="surface/tips.js?v=20261022112754"></script>
+<script src="surface/sections.js?v=20261022112754"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8631,7 +8641,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.22';
+const APP_VERSION='0.29.23';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();

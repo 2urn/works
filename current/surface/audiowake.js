@@ -86,9 +86,13 @@
       if (c && c.addEventListener) c.addEventListener("statechange", function () { if (c === ctx() && c.state !== "running" && !document.hidden) mark("context " + c.state); });
     }
     function rebuild(w) {
-      setS(false); rebuilds++; quiet = 0;
-      try { o.rebuild && o.rebuild(); } catch (e) { try { console.warn("[audiowake] rebuild failed: " + (e && e.message)); } catch (_) {} }
-      bind(); say("sound back"); try { console.info("[audiowake] rebuilt (" + w + ")"); } catch (_) {}
+      rebuilds++; quiet = 0;
+      try { o.rebuild && o.rebuild(); }
+      catch (e) {   /* a failed rebuild keeps the chip up (Dimitry, 22 Oct: "sound back didn't stay on screen or work"):
+                       Reset still works when a rebuild can't */
+        try { console.warn("[audiowake] rebuild failed: " + (e && e.message)); } catch (_) {}
+        bind(); suspect = false; setS(true, "rebuild failed"); return; }
+      setS(false); bind(); say("sound back"); try { console.info("[audiowake] rebuilt (" + w + ")"); } catch (_) {}
     }
     function unlock(c) {
       try { c.resume(); } catch (e) {}
