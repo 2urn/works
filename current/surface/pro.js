@@ -77,13 +77,24 @@
   var BETA = {};
   var SHUT = '<path class="shC" d="M8 10V7.5a4 4 0 0 1 8 0V10"/>', OPEN = '<path class="shO" d="M8 10V7a4 4 0 0 1 7.6-1.7"/>';
   var BODY = '<rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/>';
+  /* the open padlock breathes (Dimitry, 22 Oct: "a subtle animation of the lock popping open, just the top part
+     pulsing up and down"): only the shackle lifts and tilts a little, every few seconds; still under reduced motion.
+     Never call the open state "beta" in CSS: tools already use .beta for the Founders pill. */
+  (function css() {
+    if (typeof document === "undefined" || document.getElementById("spro-css")) return;
+    var st = document.createElement("style"); st.id = "spro-css";
+    st.textContent = ".proOpen .shO,.proMk.proOpen .shO,.proOpen>.proMk .shO{transform-box:fill-box;transform-origin:0% 100%;animation:spro-lift 3.2s ease-in-out infinite}" +
+      "@keyframes spro-lift{0%,46%,100%{transform:none}18%{transform:translateY(-2.2px) rotate(-7deg)}30%{transform:translateY(-1px) rotate(-3deg)}}" +
+      "@media (prefers-reduced-motion:reduce){.proOpen .shO,.proMk.proOpen .shO{animation:none}}";
+    (document.head || document.documentElement).appendChild(st);
+  })();
   function keyed(f) { return st.on && (st.feats === "*" || (Array.isArray(st.feats) && st.feats.indexOf(f) >= 0)); }
   function stateOf(f) { return keyed(f || "*") ? "key" : (f && BETA[f]) ? "beta" : "locked"; }
   window.SurfacePro = {
     beta: function (map) { BETA = map || {}; fire(); },
     state: stateOf,
     mark: function (f, cls) { var s2 = stateOf(f); if (s2 === "key") return "";
-      return '<svg class="proMk' + (s2 === "beta" ? " beta" : "") + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (s2 === "beta" ? OPEN : SHUT) + BODY + "</svg>"; },
+      return '<svg class="proMk' + (s2 === "beta" ? " proOpen" : "") + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (s2 === "beta" ? OPEN : SHUT) + BODY + "</svg>"; },
     testing: function () { return Object.keys(BETA).filter(function (k) { return !keyed(k); }).map(function (k) { var b = BETA[k] || {}; return { id: k, name: b.name || k, note: b.note || "" }; }); },
     SHUT: SHUT, OPEN: OPEN, BODY: BODY,
     init: init,
