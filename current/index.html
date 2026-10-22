@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022050216";window.__VERSION__="0.29.18";window.__NOTES__=[{"v":"0.29.18","date":"23 Oct 2026","items":[{"kind":"fix","text":"the Color mixer no longer jumps when a color changes, a color animates or the scene moves on: it stays where it is and only its values change"},{"kind":"change","text":"the Color mixer as wide as the bar: the picker on the left (always open), the swatches on the right with Related and Recent each in a row, and the animation in one row along the bottom"},{"kind":"new","text":"Blend, how the lines lay onto what is drawn (normal, add, screen, multiply, overlay, difference). It comes with Pro: everyone can see it; with a key it works, and a scene keeps its blend"}]}]</script>
+<script>window.__BUILD__="20261022050704";window.__VERSION__="0.29.19";window.__NOTES__=[{"v":"0.29.19","date":"23 Oct 2026","items":[{"kind":"change","text":"the robot's signal is clean rings now: thin arcs rise from its antenna, widen and fade, one on each beat; with reduced motion, one still arc"},{"kind":"change","text":"the flow readout says ×3, not ×3.0"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022050216"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022050216">
+<script src="claude-web.js?v=20261022050704"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022050704">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,43 +119,43 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022050216"></script>
-<script src="surface/selftest.js?v=20261022050216"></script>
-<script src="surface/report.js?v=20261022050216"></script>
-<script src="surface/auto.js?v=20261022050216"></script>
-<script src="surface/toolpath.js?v=20261022050216"></script>
-<script src="surface/capture.js?v=20261022050216"></script>
-<script src="surface/pop.js?v=20261022050216"></script>
-<script src="surface/hints.js?v=20261022050216"></script>
-<script src="surface/paths.js?v=20261022050216"></script>
-<script src="surface/keys.js?v=20261022050216"></script>
-<script src="surface/reset.js?v=20261022050216"></script>
-<script src="surface/files.js?v=20261022050216"></script>
-<script src="surface/tabs.js?v=20261022050216"></script>
-<script src="surface/running.js?v=20261022050216"></script>
-<script src="surface/trim.js?v=20261022050216"></script>
-<script src="surface/audiowake.js?v=20261022050216"></script>
-<script src="surface/listview.js?v=20261022050216"></script>
-<script src="surface/beads.js?v=20261022050216"></script>
-<script src="surface/strip.js?v=20261022050216"></script>
-<script src="surface/sheetnav.js?v=20261022050216"></script>
-<script src="surface/twofinger.js?v=20261022050216"></script>
-<script src="surface/shortlink.js?v=20261022050216"></script>
-<script src="surface/undo.js?v=20261022050216"></script>
-<script src="surface/pro.js?v=20261022050216"></script>
+<script src="vendor/opentype.min.js?v=20261022050704"></script>
+<script src="surface/selftest.js?v=20261022050704"></script>
+<script src="surface/report.js?v=20261022050704"></script>
+<script src="surface/auto.js?v=20261022050704"></script>
+<script src="surface/toolpath.js?v=20261022050704"></script>
+<script src="surface/capture.js?v=20261022050704"></script>
+<script src="surface/pop.js?v=20261022050704"></script>
+<script src="surface/hints.js?v=20261022050704"></script>
+<script src="surface/paths.js?v=20261022050704"></script>
+<script src="surface/keys.js?v=20261022050704"></script>
+<script src="surface/reset.js?v=20261022050704"></script>
+<script src="surface/files.js?v=20261022050704"></script>
+<script src="surface/tabs.js?v=20261022050704"></script>
+<script src="surface/running.js?v=20261022050704"></script>
+<script src="surface/trim.js?v=20261022050704"></script>
+<script src="surface/audiowake.js?v=20261022050704"></script>
+<script src="surface/listview.js?v=20261022050704"></script>
+<script src="surface/beads.js?v=20261022050704"></script>
+<script src="surface/strip.js?v=20261022050704"></script>
+<script src="surface/sheetnav.js?v=20261022050704"></script>
+<script src="surface/twofinger.js?v=20261022050704"></script>
+<script src="surface/shortlink.js?v=20261022050704"></script>
+<script src="surface/undo.js?v=20261022050704"></script>
+<script src="surface/pro.js?v=20261022050704"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022050216"></script>
-<script src="surface/rail.js?v=20261022050216"></script>
-<script src="surface/touchsound.js?v=20261022050216"></script>
-<script src="surface/water.js?v=20261022050216"></script>
-<script src="surface/ripple.js?v=20261022050216"></script>
-<script src="surface/float.js?v=20261022050216"></script>
-<script src="surface/manual.js?v=20261022050216"></script>
+<script src="surface/pack.js?v=20261022050704"></script>
+<script src="surface/rail.js?v=20261022050704"></script>
+<script src="surface/touchsound.js?v=20261022050704"></script>
+<script src="surface/water.js?v=20261022050704"></script>
+<script src="surface/ripple.js?v=20261022050704"></script>
+<script src="surface/float.js?v=20261022050704"></script>
+<script src="surface/manual.js?v=20261022050704"></script>
 
 <style>
 /* THEME (Dimitry, 18 Oct, after Pullula's): Settings > Theme, Auto | Light | Dark. The drawer already follows --bg/--fg;
@@ -730,14 +730,16 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 @keyframes roboLight{0%{opacity:1}70%{opacity:.25}100%{opacity:1}}
 /* the antenna sends a signal (Dimitry, 21 Oct night: "like a cell tower or Wi-Fi"; 22 Oct: the side arcs read as dust at bar
    size): clean rings rise from the antenna's light and widen as they go, fading out, one launched on each beat, three alive
-   at once. Thin vector strokes that do not scale, so they stay crisp at 1x and 2x; they may rise above the icon's box. */
+   at once. Thin vector strokes that do not scale, so they stay crisp at 1x and 2x; they may rise above the icon's box.
+   23 Oct (still dust at bar size): a wider arc (120 deg, radius 3) growing to radius 7.8 while it drifts 3.5 up, 1.3 px,
+   so each ring reads as a ring; they stay inside the button's own 54 px box, never over the pill's edge or a drawer. */
 #pAuto svg,.apGo.robo svg{overflow:visible}
 .robo-w path{opacity:0;transform-box:view-box;transform-origin:12px 4.2px}
 #pAuto.on .robo-w path,.apGo.robo.on .robo-w path{animation:roboRing calc(var(--robo-beat,1s) * 3) cubic-bezier(.2,.6,.4,1) infinite}
 #pAuto.on .robo-w .r2,.apGo.robo.on .robo-w .r2{animation-delay:calc(var(--robo-beat,1s) * -1)}
 #pAuto.on .robo-w .r3,.apGo.robo.on .robo-w .r3{animation-delay:calc(var(--robo-beat,1s) * -2)}
-@keyframes roboRing{0%{opacity:0;transform:translateY(0) scale(.6)}10%{opacity:1}100%{opacity:0;transform:translateY(-3px) scale(2.05)}}
-@media (prefers-reduced-motion:reduce){#pAuto.on .robo-e,.apGo.robo.on .robo-e,#pAuto.on .robo-l,.apGo.robo.on .robo-l,#pAuto.on .robo-w path,.apGo.robo.on .robo-w path{animation:none}#pAuto.on .robo-w .r1,.apGo.robo.on .robo-w .r1{opacity:.9;transform:translateY(-.8px) scale(1.45)}}
+@keyframes roboRing{0%{opacity:0;transform:translateY(0) scale(.5)}14%{opacity:.95}100%{opacity:0;transform:translateY(-3.5px) scale(2.6)}}
+@media (prefers-reduced-motion:reduce){#pAuto.on .robo-e,.apGo.robo.on .robo-e,#pAuto.on .robo-l,.apGo.robo.on .robo-l,#pAuto.on .robo-w path,.apGo.robo.on .robo-w path{animation:none}#pAuto.on .robo-w .r1,.apGo.robo.on .robo-w .r1{opacity:.9;transform:translateY(-.6px) scale(1.15)}}
 .apGo.robo svg{width:30px;height:30px;fill:none}   /* 0.27.11: the robot stays on its button while it plays; the lit button says it is running */
 /* capture is the same size as every other bar button (Dimitry, 19 Oct) */
 @media (max-height:559px){body #playbar{bottom:calc(8px + env(safe-area-inset-bottom,0px) - var(--vgap,0px));gap:14px}body #playbar>button,body #pTrans>button{width:44px;height:44px}}
@@ -2182,7 +2184,7 @@ body #pTrans{overflow:visible}body #pTrans>button:first-child{border-radius:999p
 <div id="playbar" role="toolbar" aria-label="Player controls">
   <div id="pTrans" role="group" aria-label="Scenes and auto play">
     <button id="pPrev" type="button" aria-label="Previous scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button id="pAuto" type="button" data-drawer aria-pressed="false" aria-label="The robot: it plays the scenes by itself (auto play). Hold for its options" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g id="pAutoGo" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.15"><path class="r1" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/></g><g class="robo-e"><circle cx="9.3" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.2" r="1.25" fill="currentColor" stroke="none"/></g><path d="M10 16.6h4"/></g><g id="pAutoStop"><rect x="7.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="13.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/></g></svg></button>
+    <button id="pAuto" type="button" data-drawer aria-pressed="false" aria-label="The robot: it plays the scenes by itself (auto play). Hold for its options" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g id="pAutoGo" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-e"><circle cx="9.3" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.2" r="1.25" fill="currentColor" stroke="none"/></g><path d="M10 16.6h4"/></g><g id="pAutoStop"><rect x="7.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="13.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/></g></svg></button>
     <button id="pNext" type="button" aria-label="Next scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button id="pRand" type="button" data-drawer aria-label="Random style. Drag left or right to set how often it rolls by itself; drag down for how much and how often; drag up or hold for the random matrix" aria-haspopup="dialog" aria-controls="rlist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><g class="pips" fill="currentColor"><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="15" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="9" cy="15" r="1.5"/></g></svg></button>
   </div>
@@ -2677,7 +2679,7 @@ const SIGNALS={touch:0,fx:0,fy:0,flow:0,bass:0,mid:0,high:0,level:0,beat:0};
    scene or a snapshot, so the robot, the dice, autos and mappings all keep working under it. Two fingers sliding up or
    down together (kit twofinger.js), Shift+wheel, or = and - ; a two-finger double tap or \ goes back to x1. */
 const FLOW={mul:1,MIN:.25,MAX:3,t:0};try{const v=+localStorage.getItem('current.flow');if(v>=FLOW.MIN&&v<=FLOW.MAX)FLOW.mul=v}catch(_){}
-function flowFmt(m){return 'flow \u00d7'+(m>=.995&&m<=1.005?'1':m<1?m.toFixed(2).replace(/0$/,''):m.toFixed(1))}
+function flowFmt(m){return 'flow \u00d7'+(m>=.995&&m<=1.005?'1':m<1?m.toFixed(2).replace(/0$/,''):m.toFixed(1).replace(/\.0$/,''))}
 function setFlow(m,show){m=Math.max(FLOW.MIN,Math.min(FLOW.MAX,m));if(Math.abs(Math.log2(m))<.06)m=1;FLOW.mul=m;
   try{localStorage.setItem('current.flow',String(+m.toFixed(3)))}catch(_){}
   const r=document.getElementById('flowRd');if(r&&show!==false){r.textContent=flowFmt(m);r.classList.add('on');clearTimeout(FLOW.t);if(show!=='hold')FLOW.t=setTimeout(()=>r.classList.remove('on'),900)}}
@@ -3801,7 +3803,7 @@ let plSegs=[];
    order and morph. Everything in the Auto tab is drawn from the live state by syncAutoUI(), so it can never lag the bar. */
 const PLI=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
 /* THE PANEL'S BIG BUTTON IS THE ROBOT (Dimitry, 21 Oct night): the bar's robot, drawn the same, tap = start or stop */
-const ROBOT_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="robo-g" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.15"><path class="r1" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.75 2.9A2.6 2.6 0 0 1 14.25 2.9"/></g><g class="robo-e"><circle cx="9.3" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.2" r="1.25" fill="currentColor" stroke="none"/></g><path d="M10 16.6h4"/></g></svg>';
+const ROBOT_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="robo-g" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-e"><circle cx="9.3" cy="13.2" r="1.25" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.2" r="1.25" fill="currentColor" stroke="none"/></g><path d="M10 16.6h4"/></g></svg>';
 /* THE ROBOT DANCES WHILE IT RUNS (Dimitry, 21 Oct night): its eyes glance side to side and its antenna light pulses,
    one move per beat when it counts beats or bars, otherwise about once a second. Steady light under reduced motion. */
 function robotBeat(){let b=1;try{if(AUTO.unit!=='sec')b=Math.min(2,Math.max(.25,autoBeatSec()))}catch(_){}document.documentElement.style.setProperty('--robo-beat',b.toFixed(3)+'s')}
@@ -7814,10 +7816,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022050216"></script>
-<script src="surface/links.js?v=20261022050216"></script>
-<script src="surface/tips.js?v=20261022050216"></script>
-<script src="surface/sections.js?v=20261022050216"></script>
+<script src="surface/install.js?v=20261022050704"></script>
+<script src="surface/links.js?v=20261022050704"></script>
+<script src="surface/tips.js?v=20261022050704"></script>
+<script src="surface/sections.js?v=20261022050704"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -8456,7 +8458,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.18';
+const APP_VERSION='0.29.19';
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);document.querySelectorAll('.vBuild').forEach(e=>e.textContent=f)})();
