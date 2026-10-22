@@ -1,6 +1,6 @@
 <!doctype html><html><head><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261022172730";window.__VERSION__="0.29.45";window.__NOTES__=[{"v":"0.29.45","date":"22 Oct 2026","items":[{"kind":"fix","text":"a change of scene really morphs now. The colors cross over instead of jumping: the lines, the second color, touch, arrows, the pattern, and the ground (the stage and the trails follow it every frame), all in OKLab, so a dark ground warms through its own tones into terracotta"},{"kind":"fix","text":"the field morphs too: the old current blends into the new one, so the particles drift from one into the next; the lens dips to nothing and comes back if it changes mode; lines, arrows and the pattern fade out and in"},{"kind":"change","text":"Morph is a row of beads like Every: Cut · 2 · 4 · 8 · 16 · 30 · 60 seconds, 8 by default. Cut is the instant change. The bead timing a morph wears a ring that fills to its end"},{"kind":"change","text":"a scene with its own morph says so at the Morph row's right (\"this scene: 2 s\"); without one, the row's choice is used. Snap, glide and slow come across as Cut, 2 and 8"}]}]</script>
+<script>window.__BUILD__="20261022173353";window.__VERSION__="0.29.46";window.__NOTES__=[{"v":"0.29.46","date":"22 Oct 2026","items":[{"kind":"new","text":"a small gear in the corner of each Auto play \"Changes\" tile takes you to where that thing is made: Pattern to the Pattern tool, Style to Color, Sound to the sound drawer and its beats, Material to Water and the surface, Scene to your scenes. A tap on the gear never switches the tile"},{"kind":"new","text":"the dice can roll at random intervals: the last bead of its \"how often\" row, a pair of dice, picks each next wait from the row (2, 4, 8, 15, 30 or 60 seconds, or beats or bars), never the same twice running, so it never falls into step with the robot. The bead timing the next roll wears a ring that fills to it"},{"kind":"change","text":"in the Sound drawer, \"your file\" is now \"track\" and \"instruments\" is \"kit\", so no label is cut off"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -62,8 +62,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261022172730"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261022172730">
+<script src="claude-web.js?v=20261022173353"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261022173353">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -119,36 +119,36 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261022172730"></script>
-<script src="surface/selftest.js?v=20261022172730"></script>
-<script src="surface/report.js?v=20261022172730"></script>
-<script src="surface/auto.js?v=20261022172730"></script>
-<script src="surface/toolpath.js?v=20261022172730"></script>
-<script src="surface/capture.js?v=20261022172730"></script>
-<script src="surface/pop.js?v=20261022172730"></script>
-<script src="surface/hints.js?v=20261022172730"></script>
-<script src="surface/paths.js?v=20261022172730"></script>
-<script src="surface/keys.js?v=20261022172730"></script>
-<script src="surface/reset.js?v=20261022172730"></script>
-<script src="surface/files.js?v=20261022172730"></script>
-<script src="surface/tabs.js?v=20261022172730"></script>
-<script src="surface/running.js?v=20261022172730"></script>
-<script src="surface/trim.js?v=20261022172730"></script>
-<script src="surface/audiowake.js?v=20261022172730"></script>
-<script src="surface/session.js?v=20261022172730"></script>
-<script src="surface/output.js?v=20261022172730"></script>
-<script src="surface/voice.js?v=20261022172730"></script>
-<script src="surface/voicelib.js?v=20261022172730"></script>
-<script src="surface/instruments.js?v=20261022172730"></script>
-<script src="surface/listview.js?v=20261022172730"></script>
-<script src="surface/beads.js?v=20261022172730"></script>
-<script src="surface/strip.js?v=20261022172730"></script>
-<script src="surface/sheetnav.js?v=20261022172730"></script>
-<script src="surface/twofinger.js?v=20261022172730"></script>
-<script src="surface/shortlink.js?v=20261022172730"></script>
-<script src="surface/undo.js?v=20261022172730"></script>
-<script src="surface/pro.js?v=20261022172730"></script>
-<script src="surface/fresh.js?v=20261022172730"></script>
+<script src="vendor/opentype.min.js?v=20261022173353"></script>
+<script src="surface/selftest.js?v=20261022173353"></script>
+<script src="surface/report.js?v=20261022173353"></script>
+<script src="surface/auto.js?v=20261022173353"></script>
+<script src="surface/toolpath.js?v=20261022173353"></script>
+<script src="surface/capture.js?v=20261022173353"></script>
+<script src="surface/pop.js?v=20261022173353"></script>
+<script src="surface/hints.js?v=20261022173353"></script>
+<script src="surface/paths.js?v=20261022173353"></script>
+<script src="surface/keys.js?v=20261022173353"></script>
+<script src="surface/reset.js?v=20261022173353"></script>
+<script src="surface/files.js?v=20261022173353"></script>
+<script src="surface/tabs.js?v=20261022173353"></script>
+<script src="surface/running.js?v=20261022173353"></script>
+<script src="surface/trim.js?v=20261022173353"></script>
+<script src="surface/audiowake.js?v=20261022173353"></script>
+<script src="surface/session.js?v=20261022173353"></script>
+<script src="surface/output.js?v=20261022173353"></script>
+<script src="surface/voice.js?v=20261022173353"></script>
+<script src="surface/voicelib.js?v=20261022173353"></script>
+<script src="surface/instruments.js?v=20261022173353"></script>
+<script src="surface/listview.js?v=20261022173353"></script>
+<script src="surface/beads.js?v=20261022173353"></script>
+<script src="surface/strip.js?v=20261022173353"></script>
+<script src="surface/sheetnav.js?v=20261022173353"></script>
+<script src="surface/twofinger.js?v=20261022173353"></script>
+<script src="surface/shortlink.js?v=20261022173353"></script>
+<script src="surface/undo.js?v=20261022173353"></script>
+<script src="surface/pro.js?v=20261022173353"></script>
+<script src="surface/fresh.js?v=20261022173353"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -165,13 +165,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261022172730"></script>
-<script src="surface/rail.js?v=20261022172730"></script>
-<script src="surface/touchsound.js?v=20261022172730"></script>
-<script src="surface/water.js?v=20261022172730"></script>
-<script src="surface/ripple.js?v=20261022172730"></script>
-<script src="surface/float.js?v=20261022172730"></script>
-<script src="surface/manual.js?v=20261022172730"></script>
+<script src="surface/pack.js?v=20261022173353"></script>
+<script src="surface/rail.js?v=20261022173353"></script>
+<script src="surface/touchsound.js?v=20261022173353"></script>
+<script src="surface/water.js?v=20261022173353"></script>
+<script src="surface/ripple.js?v=20261022173353"></script>
+<script src="surface/float.js?v=20261022173353"></script>
+<script src="surface/manual.js?v=20261022173353"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -879,6 +879,13 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 #plAuto .apGo{width:48px;height:48px}#plAuto .apGo svg{width:22px;height:22px}
 #plAuto .apH{margin:10px 0 6px}#plAuto .apEveryH{margin:10px 0 6px}
 #plAuto .apT{min-height:44px;padding:5px 4px;gap:3px}#plAuto .apT svg{width:18px;height:18px}
+/* the gear in a Changes tile's lower-right corner (22 Oct): beside the tile in its wrapper, over the corner, never sizing it */
+.apTW{position:relative;display:grid;min-width:0}.apTW>.apT{min-width:0}.apTiles.part .apTWs{grid-column:1/-1}#plAuto .apTiles.part .apTWs{grid-column:auto}
+.apGear{position:absolute;right:-5px;bottom:-5px;z-index:1;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-dim);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.apGear svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;translate:-.5px -.5px;pointer-events:none}
+@media (min-height:741px){.apTW>.apT>svg,.apTW>.apT>span{translate:0 -4px}}   /* tiles stacked icon over label: lift both 4 px so the gear sits under the label, not on it */
+.apGear:hover{color:var(--ui-ink)}.apGear:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
+.apT[aria-checked=true]+.apGear,.apT[aria-pressed=true]+.apGear{color:var(--acc-ink,#04181c)}
 #plAuto .apTiles.part{grid-template-columns:1.15fr repeat(4,minmax(0,1fr))}#plAuto .apTiles.part .apScene{grid-column:auto;flex-direction:column;gap:3px;min-height:44px}
 #plAuto .apBead{width:38px;height:38px}
 #plAuto .apNote{margin:10px 0 0}#plAuto .apNote .apInPlay{min-height:40px;padding:6px 14px}
@@ -1138,6 +1145,7 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 #bshelf .bsBeads::before{content:'';position:absolute;left:20px;right:20px;top:50%;height:2px;margin-top:-1px;background:rgb(var(--ui-hi) / .18);pointer-events:none}
 #bshelf .bsBeads button{position:relative;flex:none;width:var(--s-bead,40px);height:var(--s-bead,40px);padding:0;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .24);background:rgb(var(--ui-g));color:var(--ui-ink);display:grid;place-items:center;font:600 13px/1 var(--mono)}
 #bshelf .bsBeads button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}#bshelf .bsBeads .dt{fill:currentColor;stroke:none}
+#bshelf .bsBeads button.ring::after{content:'';position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--acc,#55b8c9) calc(var(--p,0) * 1turn),rgb(var(--acc-rgb,85 184 201) / .14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}#bshelf .bsBeads button.ring.dim::after{opacity:.5}
 #bshelf .bsBeads button[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 /* a slider is a fixed 150 px, its name on top, so a row of them reads like the mixer's strips laid sideways */
 #bshelf .bsSl{display:grid;grid-template-columns:150px;grid-template-rows:auto auto;gap:4px;flex:none}
@@ -2315,7 +2323,7 @@ body #pTrans>#pRand.on::before,body #playbar>#pRand.on::before{background:conic-
 <div class="shelf" id="shelfSteer" role="toolbar" aria-label="Steer and loop tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si" id="stRec" type="button" aria-pressed="false" aria-label="Record a loop of your steering gesture"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle class="dot" cx="12" cy="12" r="6" fill="currentColor" stroke="none"/><rect class="sq" x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">rec</span></button><button class="si" id="stLoop" type="button" aria-pressed="false" disabled aria-label="Play or stop the recorded loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M17.8 2.8 17.6 6.4 14 6.2"/></svg><span class="lab" id="stLoopV">loop</span></button><button class="si" id="stSize" type="button" aria-label="Brush size. Tap to change, or pinch with two fingers while steering"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" stroke-dasharray="2.2 2.6"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg><span class="lab" id="stSizeV">brush M</span></button><button class="si" id="stRes" type="button" aria-pressed="false" aria-label="Restore brush: painting wipes your steering under the brush, bringing back the G-code field there"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.2 3.8v3.5h3.5"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg><span class="lab">restore</span></button><button class="si" id="stHold" type="button" aria-label="How long painted direction lasts. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3.5h10M7 20.5h10"/><path d="M8 3.5c0 4.5 8 4.6 8 8.5s-8 4-8 8.5M16 3.5c0 4.5-8 4.6-8 8.5s8 4 8 8.5"/></svg><span class="lab" id="stHoldV">hold 14s</span></button><button class="si" id="stClr" type="button" aria-label="Clear the painted direction and the loop"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 19.5h11"/><path d="M4.3 14.9 13.6 5.6a1.8 1.8 0 0 1 2.5 0l3.3 3.3a1.8 1.8 0 0 1 0 2.5l-7.6 7.6a1.8 1.8 0 0 1-1.3.5H8.4a1.8 1.8 0 0 1-1.3-.5l-2.8-2.8a.9.9 0 0 1 0-1.3z"/><path d="m9.4 9.8 5.3 5.3"/></svg><span class="lab">clear</span></button></div></div>
 <div class="shelf" id="shelfPick" role="toolbar" aria-label="Tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="pickTrack"></div></div>
 <div class="shelf" id="shelfTool" role="toolbar" aria-label="Tool settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="toolTrack"></div></div>
-<div class="shelf" id="shelfSnd" role="toolbar" aria-label="Sound: beats, your file and settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="sndTrack"></div></div>
+<div class="shelf" id="shelfSnd" role="toolbar" aria-label="Sound: beats, your track and settings"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track" id="sndTrack"></div></div>
 <div class="shelf" id="shelfSrc" role="toolbar" aria-label="Source tools"><button class="shv l" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6 9 12l6 6"/></svg></button><button class="shv r" type="button" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><div class="track"><button class="si srRm" id="srOff" type="button" aria-label="Remove the source and give the stage back to the field" title="Remove the source"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m9 9 6 6m0-6-6 6"/></svg><span class="lab">remove</span></button><button class="si" id="srPic" type="button" aria-pressed="false" aria-label="Use a picture from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m5.5 16.5 4.2-4.6 3.2 3.2 2.3-2.2 3.3 3.6"/><circle cx="15.8" cy="9.4" r="1.5" fill="currentColor" stroke="none"/></svg><span class="lab">picture</span></button><button class="si" id="srVid" type="button" aria-pressed="false" aria-label="Use a video from this device"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="6" width="12.5" height="12" rx="2"/><path d="m16 10.5 4.5-2.7v8.4L16 13.5"/></svg><span class="lab">video</span></button><button class="si" id="srCam" type="button" aria-pressed="false" aria-label="Use the camera. With the camera on, tap to switch between the front and back cameras"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="camI"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/></g><g class="camF"><path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><path d="M9.2 12.4a3 3 0 0 1 5.2-1.6"/><path d="M14.9 9.6v1.6h-1.6"/><path d="M14.8 14a3 3 0 0 1-5.2 1.6"/><path d="M9.1 16.8v-1.6h1.6"/></g></svg><span class="lab" id="srCamV">camera</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srShow" type="button" aria-label="How strongly the source shows under the particles. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.8 12s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z"/><circle cx="12" cy="12" r="2.6"/></svg><span class="lab" id="srShowV">show 50%</span></button><button class="si" id="srGround" type="button" aria-label="The ground under the camera, video or picture. Tap to change; hold for the Color mixer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none" opacity=".45"/></svg><span class="lab" id="srGroundV">under</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srTrace" type="button" aria-label="Trace the source into patterns: its shapes become the field"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18c3-9 6-12 9-9s1 8 4 8 3-4 3-6"/><circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="11" r="1.6" fill="currentColor" stroke="none"/></svg><span class="lab">trace</span></button><button class="si" id="srInv" type="button" aria-label="Which part of the source traces: dark or light areas"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg><span class="lab" id="srInvV">dark ink</span></button><span class="sep" aria-hidden="true"></span><button class="si" id="srDrive" type="button" aria-pressed="false" aria-label="Picture drive: tap to let the picture steer the current, drag left or right for how much" style="touch-action:none"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 14.5c2-3 4-3 5 0s3 3 5 0"/><path d="m15.5 12.6 1.6 1.9 1.9-1.6"/></svg><span class="lab">drive</span></button><button class="si" id="srDriveMode" type="button" aria-label="How the picture steers: along its edges, downhill into the dark, or across toward the light. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16c3-6 5-8 8-8s5 2 8 8"/><path d="M12 8v8m-2.5-2.5L12 16l2.5-2.5"/></svg><span class="lab" id="srDriveModeV">along</span></button><button class="si" id="srDetail" type="button" aria-label="Detail of the picture that drives the field: fine follows small shapes, broad only the big masses. Tap to change"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.6"/><circle cx="18.5" cy="12" r="3.9" stroke-dasharray="2 2"/></svg><span class="lab" id="srDetailV">detail</span></button><button class="si" id="srAuto" type="button" aria-label="Picture automation: tap to turn it on or off, hold for its controls"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2" fill="currentColor" stroke="none"/></svg><span class="lab" id="srAutoV">auto</span></button><button class="si" id="srMir" type="button" aria-pressed="false" aria-label="Mirror the camera"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5v17" stroke-dasharray="2 2.4"/><path d="M9 7 4 12l5 5zM15 7l5 5-5 5z"/></svg><span class="lab">mirror</span></button></div></div>
 <input type="file" id="srFile" hidden aria-hidden="true">
 <div id="gestSw" hidden><div id="gestCap" class="sh-coach" role="status" aria-live="polite"></div></div>
@@ -3646,18 +3654,23 @@ function syncMorphSeg(){[...morphSeg.children].forEach(b=>b.setAttribute('aria-p
 const RAND_SPAN={falloff:[1.5,7],strength:[.6,1.8],speed:[.8,2.4],count:[1500,5000],fade:[.02,.1],life:[80,320],lens:[0,2.5],wobble:[0,.7],magnet:[-.6,.9],pulse:[0,.8],lag:[.6,4]};
 const RAND_CHOICES=[['lineColor','Line colors'],['ground','Ground color (off unless you switch it on)'],['mode','Field mode'],['inside','Inside closed shapes'],['lensMode','Lens mode'],['mods','Auto'],['maps','Mappings'],['arrows','Arrows on or off'],['arrowColor','Arrow color']];
 const RAND_TEMPOS=[0,2,4,8,15,30,60];
-const RAND={amt:.6,tempo:0,keys:{},shapes:{},unit:'sec',n:0};
+const RAND={amt:.6,tempo:0,keys:{},shapes:{},unit:'sec',n:0,rnd:false,drawn:0};
 /* THE DICE COUNTS IN BEATS TOO (Dimitry, 22 Oct: "the interval at the bottom only shows seconds, there's no way to change
    by the beat or the measure"). Seconds, beats or bars, like Auto's beads; a beat is the playing sound's (or the tap
    tempo's), read again on every roll so a new tempo carries over. RAND.tempo stays the seconds the clock runs on (a
    scene's own dice tempo is seconds). */
 const RAND_UNITS={sec:{name:'seconds',short:'sec',one:'second',vals:[2,4,8,15,30,60]},beat:{name:'beats',short:'beat',one:'beat',vals:[1,2,4,8,16]},bar:{name:'bars',short:'bar',one:'bar',vals:[1,2,4,8]}};
-if(store.randEvery&&RAND_UNITS[store.randEvery.u]){RAND.unit=store.randEvery.u;RAND.n=+store.randEvery.n||0}
+if(store.randEvery&&RAND_UNITS[store.randEvery.u]){RAND.unit=store.randEvery.u;RAND.n=+store.randEvery.n||0;RAND.rnd=store.randEvery.rnd===true}
 function randSec(u,n){if(!n)return 0;const b=(()=>{try{if(AUD.dur)return AUD.dur*4}catch(_){}try{if(TAP.bpm)return 60/TAP.bpm}catch(_){}return .5})();
   return Math.max(.25,u==='beat'?n*b:u==='bar'?n*4*b:n)}
 const randCounted=()=>RAND.unit!=='sec'&&RAND.n&&RAND.tempo&&Math.abs(randSec(RAND.unit,RAND.n)-RAND.tempo)<.02;
-function randEveryTxt(){if(!RAND.tempo)return 'by hand';if(randCounted()){const U=RAND_UNITS[RAND.unit];return 'every '+(RAND.n===1?U.one:RAND.n+' '+U.name)}return 'every '+fmtSec(RAND.tempo)}
-function setRandEvery(u,n){RAND.unit=u;RAND.n=n;store.randEvery={u,n};persist();setRandTempo(randSec(u,n))}
+function randEveryTxt(){if(!RAND.tempo)return 'by hand';if(randRnd())return 'every few '+RAND_UNITS[RAND.unit].name+', at random';if(randCounted()){const U=RAND_UNITS[RAND.unit];return 'every '+(RAND.n===1?U.one:RAND.n+' '+U.name)}return 'every '+fmtSec(RAND.tempo)}
+/* DICE INSIDE THE DICE (Dimitry, 22 Oct): like the robot's Every row, the dice's own row ends in a random bead (a pair
+   of dice). Each next roll then comes after one of the row's counts, picked at random and never the same twice running,
+   so the dice never falls into step with the robot. A scene's own dice tempo still wins while it plays. */
+const randRnd=()=>RAND.rnd&&!DICE_KEEP.on;
+function randDraw(){const L=RAND_UNITS[RAND.unit].vals,o=L.length>1?L.filter(v=>v!==RAND.drawn):L;RAND.drawn=o[(Math.random()*o.length)|0];return randSec(RAND.unit,RAND.drawn)}
+function setRandEvery(u,n,rnd){RAND.unit=u;RAND.rnd=!!rnd;RAND.n=rnd?0:n;store.randEvery={u,n:RAND.n,rnd:RAND.rnd};persist();setRandTempo(rnd?randDraw():randSec(u,n))}
 // what the random engine may hand a modulator or a mapping: maths shapes, and sound bands (live only when a beat or file plays)
 const RAND_MATHS=[['sine','Sine'],['tri','Triangle'],['square','Square'],['saw','Saw'],['noise','Noise'],['random','Random steps']];
 const RAND_SOUND=[['bass','Bass'],['mid','Mid'],['high','High'],['level','Level'],['beat','Beat']];
@@ -3727,11 +3740,16 @@ let randAt=0,randRaf=0;
 /* THE ROBOT AND THE DICE RUN TOGETHER (Dimitry, 21 Oct night): the robot changes the scene on its clock, the dice rolls
    the style on its own between changes. A new scene restarts the dice's clock (randRestart), and a roll due within a
    second of the robot's next change waits for it, so a roll never lands on top of a change. */
-function setRandTempo(sec,fromScene){if(!fromScene)DICE_KEEP.on=false;RAND.tempo=sec;clearInterval(randT);randAt=performance.now();randT=sec?setInterval(()=>{
+function setRandTempo(sec,fromScene){if(!fromScene)DICE_KEEP.on=false;RAND.tempo=sec;clearInterval(randT);clearTimeout(randT);randAt=performance.now();
+  if(sec&&randRnd()){   // at random: one timeout at a time, each drawing the next wait
+    const fire=()=>{if(!(autoT&&autoAt+AUTO.sec*1000-performance.now()<1000))randomLook(false);   // too close to the robot's change: skip, the change restarts the clock
+      RAND.tempo=randDraw();randAt=performance.now();randT=setTimeout(fire,RAND.tempo*1000);dieRhythm();bsSync()};
+    randT=setTimeout(fire,sec*1000);$('pRand').classList.add('on');syncRand();dieRhythm();return}
+  randT=sec?setInterval(()=>{
     if(autoT&&autoAt+AUTO.sec*1000-performance.now()<1000)return;randAt=performance.now();randomLook(false);
     if(RAND.unit!=='sec'&&RAND.n&&!DICE_KEEP.on){const s2=randSec(RAND.unit,RAND.n);if(Math.abs(s2-RAND.tempo)>.02)setRandTempo(s2,true)}},sec*1000):null;
   const b=$('pRand');b.classList.toggle('on',!!sec);syncRand();dieRhythm()}
-function randRestart(){if(RAND.tempo)setRandTempo(RAND.tempo,true)}
+function randRestart(){if(RAND.tempo)setRandTempo(randRnd()?randDraw():RAND.tempo,true)}   // at random, a new scene draws a new wait too
 const tempoTxt=t=>t?'every '+fmtSec(t):'by hand';
 function syncRand(){bsSync();const b=$('pRand');b.style.setProperty('--amt',RAND.amt);
   const r=$('rlAmt');if(r){r.value=RAND.amt;$('rlAmtV').textContent=Math.round(RAND.amt*100)+'%'}
@@ -3740,7 +3758,7 @@ function syncRand(){bsSync();const b=$('pRand');b.style.setProperty('--amt',RAND
   document.querySelectorAll('#rlBody input[data-s]').forEach(x=>x.checked=inShape(x.dataset.s));
   const h=$('rlHint');if(h){const m=RAND_MATHS.filter(([k])=>inShape(k)).length,n=RAND_SOUND.filter(([k])=>inShape(k)).length;
     h.textContent=!inMatrix('mods')&&!inMatrix('maps')?'Auto and mappings are out of the matrix, so these switches rest.'
-      :n&&AUD.src==='off'&&m?'Sound shapes join when a beat or your file plays.'
+      :n&&AUD.src==='off'&&m?'Sound shapes join when a beat or your track plays.'
       :!m&&!n?'Nothing switched on: rolls fall back to sine.':'Mappings can also roll with the switched-on sound bands as sources.'}}
 function buildRlist(){
   const b=$('rlBody');b.innerHTML='';
@@ -4141,6 +4159,16 @@ function buildPlist(){plTabsMount();
       r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
       for(const b of us.children)b.setAttribute('aria-checked',String(b.dataset.u===AUTO.unit))};
     drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
+  /* THE GEAR ON EACH TILE (Dimitry, 22 Oct): a small gear in a Changes tile's lower-right corner goes to where that
+     thing is made. Pattern: the Pattern tool. Style: the Color tool. Sound: the sound drawer and its shelf (beats).
+     Material: the same, turned to Water, at the surface. Scene: the Scenes list, beside Auto play. It sits beside the
+     tile in a wrapper (a button cannot hold a button), absolutely over the corner, so the tile keeps its size; its own
+     24 px target, its own label; a tap on it never toggles the tile. Auto play closes first (one panel at a time). */
+  const GEAR_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.2"/><path d="M12 2.6v3.2M12 18.2v3.2M2.6 12h3.2M18.2 12h3.2M5.4 5.4l2.2 2.2M16.4 16.4l2.2 2.2M5.4 18.6l2.2-2.2M16.4 7.6l2.2-2.2"/></svg>';
+  const GEAR_NAME={scene:'Edit scenes',pattern:'Edit pattern',style:'Edit style',sound:'Edit sound',material:'Edit material'};
+  const apGearWrap=(tile,k)=>{const w=document.createElement('div');w.className='apTW'+(k==='scene'?' apTWs':'');w.appendChild(tile);
+    const gb=document.createElement('button');gb.type='button';gb.className='apGear';gb.dataset.k=k;gb.innerHTML=GEAR_SVG;gb.setAttribute('aria-label',GEAR_NAME[k]);gb.title=GEAR_NAME[k];
+    gb.addEventListener('pointerdown',e=>e.stopPropagation());gb.onclick=e=>{e.stopPropagation();e.preventDefault();apGearGo(k)};w.appendChild(gb);return w};
   /* Changes: SCENE across the top, lit when all four are in (a tap puts all four in), then Pattern, Style, Sound and
      Material (23 Oct: the water surface over the stage, its colors and what drives it) */
   const changes=()=>{const h=document.createElement('p');h.className='apH';h.textContent='Changes';box.appendChild(h);
@@ -4153,13 +4181,13 @@ function buildPlist(){plTabsMount();
     const WHAT={pattern:'the pattern: the G-code',style:'the style: colors, particles, motion, lens',sound:'the sound: the beat or bytebeat a scene brings, and its water',material:'the material: the water surface over the stage, its colors and what drives it'};
     const sc=document.createElement('button');sc.type='button';sc.className='apT apScene';sc.dataset.v='all';sc.innerHTML=PLI(ICN.scene)+'<span>Scene</span>';
     sc.title='the whole scene: its pattern, its style, its sound, its material';
-    sc.onclick=()=>{AUTO.parts={pattern:true,style:true,sound:true,material:true};done('changes: the whole scene')};g.appendChild(sc);
+    sc.onclick=()=>{AUTO.parts={pattern:true,style:true,sound:true,material:true};done('changes: the whole scene')};g.appendChild(apGearWrap(sc,'scene'));
     const done=t=>{AUTO.part=autoPart();store.auto={...AUTO};persist();syncPlist();if(t)toast(t)};
     for(const k of ['pattern','style','sound','material']){const b=document.createElement('button');b.type='button';b.className='apT apPart';b.dataset.k=k;b.setAttribute('role','checkbox');
       b.innerHTML=PLI(ICN[k])+'<span>'+k.charAt(0).toUpperCase()+k.slice(1)+'</span>';b.title=WHAT[k];
       b.onclick=()=>{const P={...AUTO.parts,[k]:!AUTO.parts[k]};if(!P.pattern&&!P.style&&!P.sound&&!P.material){toast('one of the four stays in, or nothing would change');return}
         AUTO.parts=P;const on=Object.keys(P).filter(x=>P[x]);done('changes: '+(on.length===4?'the whole scene':on.join(' and ')+(P.sound?'':' · the sound carries on')))};
-      g.appendChild(b)}
+      g.appendChild(apGearWrap(b,k))}
     g._sync=()=>{const P=AUTO.parts,all=P.pattern&&P.style&&P.sound&&P.material;sc.setAttribute('aria-pressed',String(all));sc.setAttribute('aria-label','Scene: change everything, the pattern, the style, the sound and the material'+(all?' (on)':''));
       for(const b of g.querySelectorAll('.apPart')){const k=b.dataset.k;b.setAttribute('aria-checked',String(!!P[k]));b.setAttribute('aria-label','Changes '+WHAT[k])}};
     box.appendChild(g);g._get=()=>'';return g};
@@ -4338,6 +4366,14 @@ function morphUI(){const g=document.querySelector('#plAuto .apMoBeads');if(!g)re
 function openPlist(tab){bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
   const on=$('plItems').querySelector('[aria-current="true"]');if(on)on.scrollIntoView({block:'center'});$('plClose').focus({preventScroll:true})}
 function closePlist(){if($('plist').hidden)return;$('plist').hidden=true;['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','false'))}
+/* where each Changes tile's gear goes (22 Oct): the shelf turns to that place too */
+function apGearGo(k){if(k==='scene'){if(plTabs)plTabs.show('looks');return}
+  closePlist();try{closeRlist()}catch(_){}
+  const shelf=sec=>{try{if(BS&&BS.ready)BS.show(sec)}catch(_){}};
+  if(k==='pattern'||k==='style'){selectTool(k==='pattern'?'path':'color');shelf('tools');return}
+  WATER.view=k==='material'?'water':'mix';try{waterSave()}catch(_){}
+  sndOpen=true;srcOpen=false;pickOpen=false;buildSndShelf();syncSteer();shelf('sound');
+  if(k==='material')requestAnimationFrame(()=>{const t=document.querySelector('#bsBody [aria-label="The water surface over the stage"]');if(t)try{t.scrollIntoView({block:'nearest',inline:'start',behavior:'smooth'})}catch(_){}})}
 $('plClose').onclick=closePlist;
 document.addEventListener('pointerdown',e=>{const m=$('plist');if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('#pTrans,#bshelf'))closePlist();
   const r=$('rlist');if(!r.hidden&&!r.contains(e.target)&&!e.target.closest('#pRand,#randMx,#bshelf'))closeRlist()},true);
@@ -6541,7 +6577,7 @@ function hookMic(st,cam){
   if(AUD.recMic)try{g.connect(AUD.recMic);AUD.mic.rec=1;recMix()}catch(_){}   // a mic goes into a video (the capture panel's sound row says how much), never to the speakers
   if(!join){AUD.src='mic';AUD.last=cam?(AUD.last||'mic'):'mic';AUD.peak={bass:.08,mid:.08,high:.08,level:.08}}syncAud();
   st.getAudioTracks()[0]?.addEventListener('ended',()=>{if(AUD.mic&&AUD.mic.stream===st){const a=AUD.src==='mic';stopMic(true);if(a)stopAudio();else syncAud()}});
-  if(!cam)toast(join?'microphone joins '+(AUD.src==='file'?(AUD.file||'your file'):AUD.src.toLowerCase())+' · the field hears both':'microphone · the room moves the field')}
+  if(!cam)toast(join?'microphone joins '+(AUD.src==='file'?(AUD.file||'your track'):AUD.src.toLowerCase())+' · the field hears both':'microphone · the room moves the field')}
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
   f.arrayBuffer().then(b=>AUD.ctx.decodeAudioData(b)).then(buf=>{AUD.fileBuf=buf;AUD.file=f.name;startFile();toast('playing '+f.name)})
    .catch(()=>toast('Could not read that file. Try an mp3, wav or m4a.'));e.target.value=''});
@@ -6551,10 +6587,10 @@ const audSeg=$('audSrc');
 function syncAud(){bsSync();try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
   const opts=['off',...Object.keys(BEATS),...Object.keys(BYTES),...(BB_USER?['Byte yours']:[])].concat(AUD.fileBuf?['file']:[],['mic']);
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
-    b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your file: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
+    b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your track: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   const on=AUD.src!=='off',sb=$('pSnd');sb.classList.toggle('on',on);sb.classList.toggle('muted',on&&!!AUD.muted);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=AUD.mic?'mic':'';sb.setAttribute('aria-label',(on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your file, the microphone and settings');
+  sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=AUD.mic?'mic':'';sb.setAttribute('aria-label',(on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your track, the microphone and settings');
   try{mixSync()}catch(_){}
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, auto play or boot
@@ -6720,7 +6756,7 @@ function sndOffStart(){if(SOFF.on){sndOffEnd(true);toast('sound stays on');retur
     if(p>=1){SOFF.on=false;SOFF.raf=0;setMute(true);sndOffDone();return}SOFF.raf=requestAnimationFrame(step)};
   SOFF.raf=requestAnimationFrame(step);
   SOFF.to=setTimeout(()=>{if(SOFF.on&&SOFF.el===el&&!AUD.muted){cancelAnimationFrame(SOFF.raf);SOFF.on=false;setMute(true);sndOffDone()}},SOFF.ms+120)}   // the fade keeps the audio clock: a busy frame loop never leaves it behind
-// SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your file and timing
+// SOUND SHELF: tap the speaker = sound on/off; drag on it = volume; press and hold = the shelf of beats, your track and timing
 const BEAT_SHORT={'Four on the floor':'four','Broken 96':'broken','Halftime 70':'half','Fibonacci 110':'fibo','Pulse 60':'pulse'};
 function beatGlyph(pat){let d='';for(let i=0;i<16;i++){const x=4.5+(i%4)*5,y=4.5+Math.floor(i/4)*5,k=pat.k[i]==='x',sn=pat.s[i]==='x';
   d+=k?`<circle cx="${x}" cy="${y}" r="1.9" fill="currentColor" stroke="none"/>`:sn?`<circle cx="${x}" cy="${y}" r="1.6"/>`:`<circle cx="${x}" cy="${y}" r=".6" fill="currentColor" stroke="none" opacity=".45"/>`}
@@ -6744,16 +6780,16 @@ function buildSndShelf(){const t=$('sndTrack');t.innerHTML='';
   const into=b=>{grp.appendChild(b);return b};
   into(add('sdMic','mic','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg>','Listen to the microphone: the room moves the field, alone or under the music. Nothing is sent anywhere; a video you record holds it only as its sound row says',()=>{})).dataset.src='mic';
   {const mb=$('sdMic');mb.onclick=null;wireTapHold(mb,{tap:()=>{if(AUD.src==='mic'){AUD.userOff=true;stopAudio()}else if(AUD.mic){stopMic(true);syncAud();toast('microphone off · the music plays on')}else startMic()},hold:()=>openMix('mic')});mb.setAttribute('aria-label',mb.getAttribute('aria-label')+'. Hold for the Mic tab: gain, gate, heard and the looper')}
-  const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'your file','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
-    AUD.fileBuf?'Play your file: '+AUD.file:'Load a sound file from this device',()=>{});into(f);f.dataset.src='file';f.onclick=null;
+  const f=add('sdFile',AUD.file?AUD.file.replace(/\.[^.]+$/,'').slice(0,9):'track','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 17.5V6l10-2v11.5"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>',
+    AUD.fileBuf?'Play your track: '+AUD.file:'Load a track (any audio file) from this device',()=>{});into(f);f.dataset.src='file';f.onclick=null;
   wireTapHold(f,{tap:()=>{if(isOn('file'))return hush('file');if(AUD.fileBuf){AUD.userOff=false;startFile()}else $('audFile').click()},hold:()=>openMix('mix')});
   /* INSTRUMENTS (0.29.33, Dimitry, 22 Oct): sounds made in Pullula, imported; each plays by touch (the default), on the
      beat, as a bed or from the pattern, chosen on import and changed any time (kit instruments.js + voice.js) */
-  if(window.INSTR){const ib=add('sdInst','instruments','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 15.5c2.2 0 2.2-7 4.4-7s2.2 9 4.4 9 2.2-12 4.4-12 1.8 5 2.8 5"/></svg>',
+  if(window.INSTR){const ib=add('sdInst','kit','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 15.5c2.2 0 2.2-7 4.4-7s2.2 9 4.4 9 2.2-12 4.4-12 1.8 5 2.8 5"/></svg>',
     'Instruments: sounds made in Pullula, played by touch, on the beat, as a bed or from the pattern. Import a recipe, a mix or a pack',()=>INSTR.open());
     const mk=window.SurfacePro&&SurfacePro.mark('instruments');if(mk)ib.insertAdjacentHTML('beforeend','<em class="proB">'+mk+'</em>');
-    const n=INSTR.list().filter(x=>x.on).length;if(n)ib.querySelector('.lab').textContent='instruments '+n;into(ib)}
-  if(AUD.fileBuf)into(add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different sound file',()=>$('audFile').click()));
+    const n=INSTR.list().filter(x=>x.on).length;if(n)ib.querySelector('.lab').textContent='kit '+n;into(ib)}
+  if(AUD.fileBuf)into(add('sdLoad','load…','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>','Load a different track (any audio file)',()=>$('audFile').click()));
   into(add('sdMix','mix','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1"/><rect x="10" y="7" width="4" height="3" rx="1"/><rect x="16" y="11" width="4" height="3" rx="1"/></svg>','The mixer: how much of the beat, the bytebeat, your music, the microphone and its loop you hear and the field follows',()=>openMix('mix')));
   {const cr=document.createElement('button');cr.type='button';cr.className='sgCaret';cr.setAttribute('aria-label','Open the sound panel');cr.title='The sound panel: Mic, Mixer, Beat, Bytes';cr.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 14l5-5 5 5"/></svg>';cr.onclick=()=>openMix();grp.appendChild(cr)}
   rule();
@@ -7278,7 +7314,7 @@ $('srCam').onclick=async()=>{
     try{st=await navigator.mediaDevices.getUserMedia({video:V,audio:a});heard=true;break}catch(e){if(e&&e.name==='NotAllowedError')break}}
   try{if(!st)st=await navigator.mediaDevices.getUserMedia({video:V,audio:false});   // no microphone allowed: the picture alone
     if(SRC.kind==='none')SRC.frame0={...FRAME};stopSource();SRC.stream=st;SRC.kind='camera';SRC.flipped=false;{const vt=st.getVideoTracks()[0],fm=vt&&vt.getSettings?vt.getSettings().facingMode:null;if(fm)SRC.facing=fm==='environment'?'environment':'user';SRC.mirror=SRC.facing==='user'}SRC.gcode=null;bgVid.muted=true;bgVid.srcObject=st;await bgVid.play().catch(()=>{});if(!SRC.show)SRC.show=.5;syncSrc();
-    if(heard&&st.getAudioTracks().length){const was=AUD.src!=='off'&&AUD.src!=='mic'?(AUD.src==='file'?(AUD.file||'your file'):AUD.src.toLowerCase()):'';startMic(new MediaStream(st.getAudioTracks()));toast(was?'camera on · its microphone joins '+was+': the field hears both, a video records both':'camera and its microphone · the field moves to what it hears',3600)}
+    if(heard&&st.getAudioTracks().length){const was=AUD.src!=='off'&&AUD.src!=='mic'?(AUD.src==='file'?(AUD.file||'your track'):AUD.src.toLowerCase()):'';startMic(new MediaStream(st.getAudioTracks()));toast(was?'camera on · its microphone joins '+was+': the field hears both, a video records both':'camera and its microphone · the field moves to what it hears',3600)}
     else{audioSessionFor(false);toast('camera under the field (no microphone) · drive lets it steer')}}
   catch(err){audioSessionFor(false);toast(err&&err.name==='NotAllowedError'?'camera blocked: this viewer or the browser said no':'camera unavailable here: try a picture or a video')}};
 (b=>{let t=0,held=false;b.addEventListener('pointerdown',e=>{if(e.button>0)return;held=false;t=setTimeout(()=>{held=true;if(navigator.vibrate)navigator.vibrate(10);openColorMix('ground')},(window.SurfaceKeys?SurfaceKeys.holdMs:520))});
@@ -7502,6 +7538,9 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
   const mk=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
   const HAND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15.5"/></svg>';
   const DICE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" class="dt"/><circle cx="15" cy="15" r="1.3" class="dt"/><circle cx="15" cy="9" r="1.3" class="dt"/><circle cx="9" cy="15" r="1.3" class="dt"/></svg>';
+  /* a pair of dice (22 Oct): the back one's hidden edge left out, so the two overlap; the single die is DICE */
+  const DICE2='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 9.5V5.7a2.2 2.2 0 0 1 2.2-2.2h6.6a2.2 2.2 0 0 1 2.2 2.2v6.6a2.2 2.2 0 0 1-2.2 2.2H14"/><circle cx="13.3" cy="6.6" r="1.15" class="dt"/><circle cx="15.6" cy="9" r="1.15" class="dt"/><circle cx="17.9" cy="11.4" r="1.15" class="dt"/><rect x="3" y="9.5" width="11" height="11" rx="2.2"/><circle cx="6.3" cy="12.8" r="1.15" class="dt"/><circle cx="10.7" cy="17.2" r="1.15" class="dt"/></svg>';
+  let diceRaf=0;
   const radios=(label,cls)=>{const g=mk('div',cls);g.setAttribute('role','radiogroup');g.setAttribute('aria-label',label);return g};
   const radio=(g,html,aria,v,pick)=>{const b=mk('button','',html);b.type='button';b.setAttribute('role','radio');b.dataset.v=String(v);b.setAttribute('aria-label',aria);b.onclick=pick;g.appendChild(b);return b};
   const check=(g,v)=>{for(const b of g.children)b.setAttribute('aria-checked',String(b.dataset.v===String(v)))};
@@ -7529,11 +7568,18 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     dice:{title:()=>'Dice',build(box){
       const U=RAND_UNITS[RAND.unit],bd=radios('How often it rolls by itself, in '+U.name,'bsBeads');
       [0,...U.vals].forEach(t=>radio(bd,t?String(t):HAND,t?'Roll every '+(RAND.unit==='sec'?fmtSec(t):t===1?U.one:t+' '+U.name):'Roll by hand',t,()=>{setRandEvery(RAND.unit,t);bsSync()}));
+      radio(bd,DICE2,'Roll at random: every few '+U.name+', a different count each time','rnd',()=>{setRandEvery(RAND.unit,0,true);bsSync()}).title='at random';   // the pair of dice, last, as on the robot's row
       const un=radios('Count in','apUnit bsUnit');
       for(const u of Object.keys(RAND_UNITS))radio(un,RAND_UNITS[u].short,'Count in '+RAND_UNITS[u].name,u,()=>{if(u===RAND.unit)return;const o=RAND_UNITS[RAND.unit].vals,i=Math.max(0,o.indexOf(RAND.n));
-        const L=RAND_UNITS[u].vals;setRandEvery(u,RAND.tempo?L[Math.min(i,L.length-1)]:0);bsSync()});
+        const L=RAND_UNITS[u].vals;if(RAND.tempo&&randRnd()){RAND.drawn=0;setRandEvery(u,0,true)}else setRandEvery(u,RAND.tempo?L[Math.min(i,L.length-1)]:0);bsSync()});
       box.append(un,bd);   // the unit first, so seconds, beats and bars show without scrolling
-      return ()=>{check(bd,RAND.tempo&&(RAND.unit==='sec'?RAND.tempo:randCounted()?RAND.n:-1));check(un,RAND.unit)}},key:()=>RAND.unit},
+      /* the timing ring: the bead timing the next roll fills to it; dim when the dice drew it (as on the robot's row) */
+      cancelAnimationFrame(diceRaf);const ring=()=>{const T=RAND.tempo,live=document.body.contains(bd)&&BS.open&&BS.sec==='dice';
+        const want=!live||!T?null:randRnd()?String(RAND.drawn):RAND.unit==='sec'?String(T):randCounted()?String(RAND.n):null;
+        for(const b of bd.children){const is=want!=null&&b.dataset.v===want;b.classList.toggle('ring',is);b.classList.toggle('dim',is&&randRnd());
+          if(is){let f=Math.min(1,(performance.now()-randAt)/(T*1000));if(RAND.unit!=='sec'){const n=(+want)*(RAND.unit==='bar'?4:1);f=Math.floor(f*n+1e-6)/n}b.style.setProperty('--p',f.toFixed(4))}}
+        if(live&&T)diceRaf=requestAnimationFrame(ring)};
+      return ()=>{check(bd,RAND.tempo&&(randRnd()?'rnd':RAND.unit==='sec'?RAND.tempo:randCounted()?RAND.n:-1));check(un,RAND.unit);cancelAnimationFrame(diceRaf);ring()}},key:()=>RAND.unit},
     scenes:{title:()=>'Scenes',build(box){return stripSect(box)},key:()=>playIds().join(',')+'|'+allPresets().length},
     capture:{title:()=>'Capture',build(box){
       const g=radios('What a capture makes','bsCap');
@@ -7553,7 +7599,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         current:()=>SRC.kind==='picture'||SRC.kind==='video'?MEDIA.cur:null,next:()=>null,pick:id=>mediaUse(id),remove:id=>mediaRemove(id)});
       box.appendChild(st.el);return ()=>st.sync()},key:()=>MEDIA.items.map(x=>x.id).join(',')},
     /* SOUND (21 Oct night: "at the bottom ... the 5 beats and the collection of bytes"): the sounds themselves in one row.
-       Up top, the Sound drawer keeps the inputs (mic, your file, mix) and the modifiers (tap, eighth, dry, links, touch).
+       Up top, the Sound drawer keeps the inputs (mic, your track, mix) and the modifiers (tap, eighth, dry, links, touch).
        The row's first switch is beats | water: in water, the row is the water's presets, beds and voices. */
     sound:{title:()=>WATER.view==='water'?'Water':'Sound',key:()=>WATER.view+'|'+(BB_USER?1:0),build(box){
       const mode=radios('The row shows','bsUnits');
@@ -8402,10 +8448,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261022172730"></script>
-<script src="surface/links.js?v=20261022172730"></script>
-<script src="surface/tips.js?v=20261022172730"></script>
-<script src="surface/sections.js?v=20261022172730"></script>
+<script src="surface/install.js?v=20261022173353"></script>
+<script src="surface/links.js?v=20261022173353"></script>
+<script src="surface/tips.js?v=20261022173353"></script>
+<script src="surface/sections.js?v=20261022173353"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9044,12 +9090,13 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.45';
+const APP_VERSION='0.29.46';
 /* NEW MARKS (Dimitry, 22 Oct): a small sparkle beside a control while what it does is new (kit fresh.js) */
 try{SurfaceFresh.init({tool:'current',version:APP_VERSION,known:STORE_OLD,keep:8,feats:{   // keep: a sparkle lasts 8 new features (Dimitry, 22 Oct); list oldest first, never delete old ones
   offbar:{sel:'#pSnd',since:'0.29.36',name:'Sound off fades, with a way back'},
   dicebeats:{sel:'#pRand',since:'0.29.37',name:'The dice counts in beats and bars'},
-  sticker:{sel:'#pShot',since:'0.29.37',name:'Sticker: the field inside the duck-rabbit'}}})}catch(e){console.warn('fresh',e)}
+  sticker:{sel:'#pShot',since:'0.29.37',name:'Sticker: the field inside the duck-rabbit'},
+  dicernd:{sel:'#pRand',since:'0.29.46',name:'The dice rolls at random intervals too'}}})}catch(e){console.warn('fresh',e)}
 (()=>{const b=window.__BUILD__,f=b?String(b).replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d).*/,'$1-$2-$3 $4:$5 UTC'):'dev (preview)';
   $('idxVer').textContent='Version '+APP_VERSION+' beta \u00b7 build '+f;
   document.querySelectorAll('.vNum').forEach(e=>e.textContent=APP_VERSION);
