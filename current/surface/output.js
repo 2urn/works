@@ -16,7 +16,8 @@
        fps: 60,                             // optional cap
        tick: function (now) {},              // optional: step the tool once, called only while the tool's own window
                                             //   gets no frames (covered by the output window, full screen on one display)
-       onChange: function (open) {}
+       onChange: function (open) {},
+       onSize: function (w, h) {}            // optional: the output's pixel size changed (it went full screen, or moved)
      });
      O.open() (inside a tap) · O.close() · O.isOpen() · SurfaceOutput.supported → false on iPhone/iPad
    Plain script, window.SurfaceOutput, no dependencies. */
@@ -64,7 +65,7 @@
       if (!w || !h) return;
       /* cap the pixels at 4K so a large projector doesn't slow the laptop's own stage */
       var k = Math.min(1, Math.sqrt(3840 * 2160 / (w * h))); w = Math.round(w * k); h = Math.round(h * k);
-      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; try { O.onSize && O.onSize(w, h); } catch (e) {} }
       try { O.draw && O.draw(cv, w, h); } catch (e) { try { console.warn("[output]", e); } catch (_) {} }
     }
     /* the other screen: the window opens at once (the tap's permission to open a window is short) and moves there when
@@ -94,7 +95,9 @@
       if (w && !w.closed) { try { w.close(); } catch (e) {} }
       if (w) changed();
     }
-    return { open: open, close: close, isOpen: function () { return !!(win && !win.closed); } };
+    /* its shape, for a tool that mirrors it (kit board.js: the laptop's stage takes the output's aspect) */
+    function size() { return win && !win.closed ? [win.innerWidth, win.innerHeight] : null; }
+    return { open: open, close: close, isOpen: function () { return !!(win && !win.closed); }, size: size };
   }
   window.SurfaceOutput = { mount: mount, supported: !IOS };
 })();
