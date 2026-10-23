@@ -65,7 +65,8 @@
     "  font:700 8px/1 " + MONO + ";letter-spacing:0;color:#0b0f10;background:var(--sp-c,#55b8c9);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none;",
     "  transition:transform .3s ease,opacity .3s ease}",
     ".sp-b.done{background:rgba(14,14,16,.7);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.25px var(--sp-c,#55b8c9),0 0 0 1px rgba(0,0,0,.5)}",
-    ".sp-b svg{width:8px;height:8px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}",
+    /* two :not(#…) so a row's own icon rule (.shelf button svg: 24 px) cannot blow the tick up (23 Oct, iPhone) */
+    ".sp-b:not(#sp-0):not(#sp-1) svg{width:8px;height:8px;min-width:0;max-width:8px;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;flex:none;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}",
     /* under-badge: a button centred under its control, on the row's bottom line */
     /* two :not(#…) give these the weight of two ids, so a row's own button rule (#playbar>button) cannot size them */
     /* (Dimitry, 22 Oct: the pills under the bar were obtrusive) a small dot: filled with one digit while the path is open,
