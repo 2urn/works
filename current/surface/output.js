@@ -14,6 +14,8 @@
        name: 'Current',
        draw: function (canvas, w, h) {},   // draw the stage into canvas at w × h device pixels
        fps: 60,                             // optional cap
+       tick: function (now) {},              // optional: step the tool once, called only while the tool's own window
+                                            //   gets no frames (covered by the output window, full screen on one display)
        onChange: function (open) {}
      });
      O.open() (inside a tap) · O.close() · O.isOpen() · SurfaceOutput.supported → false on iPhone/iPad
@@ -46,10 +48,18 @@
       d.addEventListener("pointermove", wake); wake();
       w.addEventListener("keydown", function (e) { if (e.key === "Escape" && !d.fullscreenElement) close(); });
     }
-    function frame(now) {
-      raf = requestAnimationFrame(frame);
+    /* THE OUTPUT DRIVES ITSELF (Dimitry, 22 Oct 22:00: "when I hit the output monitor and I try to make it full screen,
+       it plays for 1 second or so, and then it freezes"). Full screen on the same display covers the tool's window, and
+       Chrome on a Mac stops animation frames in a window it sees as covered: the tool stopped drawing and the output
+       kept its last picture. The loop now runs on the output window's own frames (it is the one being watched), and
+       when the tool's window has had no frame for 120 ms it steps the tool itself (o.tick) before drawing. */
+    var mainAt = performance.now();   // the tool window's last frame, kept by a watch loop while the output is open
+    function frame() {
       if (!win || win.closed) { close(); return; }
+      raf = win.requestAnimationFrame(frame);
+      var now = performance.now();
       if (now - last < gap - 1) return; last = now;
+      if (O.tick && now - mainAt > 120) { try { O.tick(now); } catch (e) { try { console.warn("[output tick]", e); } catch (_) {} } }
       var dpr = win.devicePixelRatio || 1, w = Math.round(win.innerWidth * dpr), h = Math.round(win.innerHeight * dpr);
       if (!w || !h) return;
       /* cap the pixels at 4K so a large projector doesn't slow the laptop's own stage */
@@ -72,13 +82,14 @@
       win = window.open("", "surface-output-" + (O.name || "stage").toLowerCase().replace(/\W+/g, "-"), "popup,width=960,height=540");
       if (!win) return false;
       page(win); place();
-      cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
-      clearInterval(poll); poll = setInterval(function () { if (!win || win.closed) close(); }, 1000);   // the frame loop sleeps in a hidden tab; this doesn't
+      try { win.cancelAnimationFrame(raf); } catch (e) {} raf = win.requestAnimationFrame(frame);
+      mainAt = performance.now(); (function watch() { mainAt = performance.now(); if (win && !win.closed) requestAnimationFrame(watch); })();
+      clearInterval(poll); poll = setInterval(function () { if (!win || win.closed) close(); }, 1000);   // notices the window closed even when no frames come
       window.addEventListener("pagehide", close);
       changed(); return true;
     }
     function close() {
-      cancelAnimationFrame(raf); clearInterval(poll);
+      try { win && !win.closed && win.cancelAnimationFrame(raf); } catch (e) {} clearInterval(poll);
       var w = win; win = null; cv = null;
       if (w && !w.closed) { try { w.close(); } catch (e) {} }
       if (w) changed();
