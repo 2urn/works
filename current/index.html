@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261023035727";window.__VERSION__="0.29.90";window.__NOTES__=[{"v":"0.29.90","date":"22 Oct 2026","items":[{"kind":"fix","text":"on an iPhone in the light theme, the strip under the page is dark like the stage, not white"}]}]</script>
+<script>window.__BUILD__="20261023040103";window.__VERSION__="0.29.91";window.__NOTES__=[{"v":"0.29.91","date":"22 Oct 2026","items":[{"kind":"change","text":"every slider has the same round knob in the accent, on a thin track filled up to it (on an iPhone they were white pills)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,13 +66,22 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261023035727"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261023035727">
+<script src="claude-web.js?v=20261023040103"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261023040103">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
+<script>/* rangeFill (0.29.91): every slider carries --p, how far its knob is along, for the track's fill. Kept on input and on
+   any value set from code (the value setter is wrapped once), so presets, looks and the robot move the fill too. */
+(function(){function f(el){try{var a=+el.min||0,b=el.max===''?100:+el.max,v=+el.value;el.style.setProperty('--p',(b>a?(v-a)/(b-a)*100:0)+'%')}catch(e){}}
+window.rangeFill=f;document.addEventListener('input',function(e){var t=e.target;if(t&&t.type==='range')f(t)},true);
+try{var d=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');Object.defineProperty(HTMLInputElement.prototype,'value',{configurable:true,enumerable:d.enumerable,get:d.get,set:function(v){d.set.call(this,v);if(this.type==='range')f(this)}});
+ var dn=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'valueAsNumber');if(dn&&dn.set)Object.defineProperty(HTMLInputElement.prototype,'valueAsNumber',{configurable:true,enumerable:dn.enumerable,get:dn.get,set:function(v){dn.set.call(this,v);if(this.type==='range')f(this)}})}catch(e){}
+new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.matches&&n.matches('input[type=range]'))f(n);if(n.querySelectorAll)n.querySelectorAll('input[type=range]').forEach(f)});if(m.type==='attributes'&&m.target.type==='range')f(m.target)})}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['value','min','max']});
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('input[type=range]').forEach(f)})})();
+</script>
 <script>/* 0.26.10: the stage is the page from the first paint. The index stays shut until setPlayer() runs; before, iOS painted
    the open index for a moment before the cover (Dimitry, 20 Oct) */
 try{document.body.classList.add("player")}catch(e){}
@@ -123,38 +132,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261023035727"></script>
-<script src="surface/selftest.js?v=20261023035727"></script>
-<script src="surface/report.js?v=20261023035727"></script>
-<script src="surface/auto.js?v=20261023035727"></script>
-<script src="surface/toolpath.js?v=20261023035727"></script>
-<script src="surface/capture.js?v=20261023035727"></script>
-<script src="surface/pop.js?v=20261023035727"></script>
-<script src="surface/hints.js?v=20261023035727"></script>
-<script src="surface/paths.js?v=20261023035727"></script>
-<script src="surface/keys.js?v=20261023035727"></script>
-<script src="surface/reset.js?v=20261023035727"></script>
-<script src="surface/files.js?v=20261023035727"></script>
-<script src="surface/tabs.js?v=20261023035727"></script>
-<script src="surface/running.js?v=20261023035727"></script>
-<script src="surface/trim.js?v=20261023035727"></script>
-<script src="surface/audiowake.js?v=20261023035727"></script>
-<script src="surface/output.js?v=20261023035727"></script>
-<script src="surface/board.js?v=20261023035727"></script>
-<script src="surface/voice.js?v=20261023035727"></script>
-<script src="surface/voicelib.js?v=20261023035727"></script>
-<script src="surface/instruments.js?v=20261023035727"></script>
-<script src="surface/listview.js?v=20261023035727"></script>
-<script src="surface/beads.js?v=20261023035727"></script>
-<script src="surface/strip.js?v=20261023035727"></script>
-<script src="surface/sheetnav.js?v=20261023035727"></script>
-<script src="surface/twofinger.js?v=20261023035727"></script>
-<script src="surface/shortlink.js?v=20261023035727"></script>
-<script src="surface/undo.js?v=20261023035727"></script>
-<script src="surface/pro.js?v=20261023035727"></script>
-<script src="surface/fresh.js?v=20261023035727"></script>
-<script src="surface/notice.js?v=20261023035727"></script>
-<script src="surface/perform.js?v=20261023035727"></script>
+<script src="vendor/opentype.min.js?v=20261023040103"></script>
+<script src="surface/selftest.js?v=20261023040103"></script>
+<script src="surface/report.js?v=20261023040103"></script>
+<script src="surface/auto.js?v=20261023040103"></script>
+<script src="surface/toolpath.js?v=20261023040103"></script>
+<script src="surface/capture.js?v=20261023040103"></script>
+<script src="surface/pop.js?v=20261023040103"></script>
+<script src="surface/hints.js?v=20261023040103"></script>
+<script src="surface/paths.js?v=20261023040103"></script>
+<script src="surface/keys.js?v=20261023040103"></script>
+<script src="surface/reset.js?v=20261023040103"></script>
+<script src="surface/files.js?v=20261023040103"></script>
+<script src="surface/tabs.js?v=20261023040103"></script>
+<script src="surface/running.js?v=20261023040103"></script>
+<script src="surface/trim.js?v=20261023040103"></script>
+<script src="surface/audiowake.js?v=20261023040103"></script>
+<script src="surface/output.js?v=20261023040103"></script>
+<script src="surface/board.js?v=20261023040103"></script>
+<script src="surface/voice.js?v=20261023040103"></script>
+<script src="surface/voicelib.js?v=20261023040103"></script>
+<script src="surface/instruments.js?v=20261023040103"></script>
+<script src="surface/listview.js?v=20261023040103"></script>
+<script src="surface/beads.js?v=20261023040103"></script>
+<script src="surface/strip.js?v=20261023040103"></script>
+<script src="surface/sheetnav.js?v=20261023040103"></script>
+<script src="surface/twofinger.js?v=20261023040103"></script>
+<script src="surface/shortlink.js?v=20261023040103"></script>
+<script src="surface/undo.js?v=20261023040103"></script>
+<script src="surface/pro.js?v=20261023040103"></script>
+<script src="surface/fresh.js?v=20261023040103"></script>
+<script src="surface/notice.js?v=20261023040103"></script>
+<script src="surface/perform.js?v=20261023040103"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -173,13 +182,13 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261023035727"></script>
-<script src="surface/rail.js?v=20261023035727"></script>
-<script src="surface/touchsound.js?v=20261023035727"></script>
-<script src="surface/water.js?v=20261023035727"></script>
-<script src="surface/ripple.js?v=20261023035727"></script>
-<script src="surface/float.js?v=20261023035727"></script>
-<script src="surface/manual.js?v=20261023035727"></script>
+<script src="surface/pack.js?v=20261023040103"></script>
+<script src="surface/rail.js?v=20261023040103"></script>
+<script src="surface/touchsound.js?v=20261023040103"></script>
+<script src="surface/water.js?v=20261023040103"></script>
+<script src="surface/ripple.js?v=20261023040103"></script>
+<script src="surface/float.js?v=20261023040103"></script>
+<script src="surface/manual.js?v=20261023040103"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -253,6 +262,18 @@ h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.01em}
 .modes button{font:12px var(--mono);padding:5px 8px;background:transparent;border:0;color:var(--muted);cursor:pointer;border-radius:0}
 .modes button[aria-pressed="true"]{color:var(--bg);background:var(--fg)}
 input[type=range]{width:100%;accent-color:var(--accent)}
+/* ONE KNOB (Dimitry, 22 Oct 23:58, iPhone: the native sliders drew a white pill; "should be circle and blue"): every slider
+   the page does not draw itself is a round accent knob on a thin track, filled to the knob (--p, kept by rangeFill below).
+   :where() keeps this at zero weight, and the sliders with their own drawing (.rw, .sa-ed, .mxWave, .cmEdR) are left out. */
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *)){-webkit-appearance:none;appearance:none;height:26px;margin:0;background:transparent;cursor:ew-resize;touch-action:pan-y}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *))::-webkit-slider-runnable-track{height:4px;border-radius:2px;border:0;background:linear-gradient(90deg,var(--acc,#55b8c9) var(--p,0%),rgb(var(--ui-hi,255 255 255) / .16) var(--p,0%))}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *))::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;border:0;background:var(--acc,#55b8c9);box-shadow:0 0 0 2px rgb(var(--ui-g,14 14 16) / .85),0 1px 4px rgb(0 0 0 / .3)}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *))::-moz-range-track{height:4px;border-radius:2px;border:0;background:rgb(var(--ui-hi,255 255 255) / .16)}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *))::-moz-range-progress{height:4px;border-radius:2px;background:var(--acc,#55b8c9)}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *))::-moz-range-thumb{width:20px;height:20px;border-radius:50%;border:0;background:var(--acc,#55b8c9);box-shadow:0 0 0 2px rgb(var(--ui-g,14 14 16) / .85)}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *)):focus-visible{outline:none}
+:where(input[type=range]:not(.rw *,.sa-ed *,.mxWave *,.cmEdR *)):focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px rgb(var(--ui-g,14 14 16) / .85),0 0 0 4px var(--acc,#55b8c9)}
+:where(input[type=range]:disabled){opacity:.45;cursor:not-allowed}
 .check{display:flex;align-items:center;gap:8px;font-size:13px}
 .check input{accent-color:var(--accent)}
 textarea{width:100%;box-sizing:border-box;min-height:150px;font:11.5px/1.5 var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:0;padding:8px;resize:vertical}
@@ -9218,10 +9239,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261023035727"></script>
-<script src="surface/links.js?v=20261023035727"></script>
-<script src="surface/tips.js?v=20261023035727"></script>
-<script src="surface/sections.js?v=20261023035727"></script>
+<script src="surface/install.js?v=20261023040103"></script>
+<script src="surface/links.js?v=20261023040103"></script>
+<script src="surface/tips.js?v=20261023040103"></script>
+<script src="surface/sections.js?v=20261023040103"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9398,7 +9419,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261023035727"></script>
+<script src="surface/room.js?v=20261023040103"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10153,7 +10174,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.90';
+const APP_VERSION='0.29.91';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
