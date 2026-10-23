@@ -61,7 +61,7 @@
 .sfs-hint{margin-right:auto;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#8a9396);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
 .sfs-hint.on{opacity:1}
 .sfs-bar button:hover{color:var(--fg,#eef1f2)}
-.sfs-bar button[aria-pressed="true"]{color:var(--accent,#55b8c9)}
+.sfs-bar button[aria-pressed="true"]{color:var(--acc-tx,var(--accent,#55b8c9))}
 .sfs-bar button[hidden]{display:none}
 .sfs-bar .sfs-end{margin-right:-2px}.sfs-bar .sfs-end[aria-pressed="true"] svg path:first-child{fill:currentColor}
 .sfs-bar button:focus-visible,.sfs-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
@@ -69,16 +69,16 @@
 .sfs-root>.sfs-sec{position:relative;border-top:2px solid var(--fg,#eef1f2)}
 .sfs-root>.sfs-sec>.cx-grpbtn{padding-right:88px}.sfs-root>.sfs-sec.sfs-can>.cx-grpbtn{padding-right:128px}
 .sfs-gone{display:none!important}
-.sfs-hide{position:absolute;top:0;right:74px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.45;-webkit-tap-highlight-color:transparent}
+.sfs-hide{position:absolute;top:0;right:74px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.7;-webkit-tap-highlight-color:transparent}
 .sfs-hide:hover,.sfs-hide:focus-visible{opacity:1;color:var(--fg,#eef1f2)}.sfs-hide:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
 @media (hover:none){.sfs-hide{opacity:.7}}
 .sfs-hide svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
 .sfs-hlist{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;flex:1}
 .sfs-hlist button{min-height:36px;padding:0;border:0;background:none;cursor:pointer;color:var(--fg,#eef1f2);font:500 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
 .sfs-hlist button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.sfs-hlist .sfs-all{color:var(--accent,#55b8c9)}.sfs-hlist em{font:400 12px/1.4 var(--sans,inherit);font-style:normal;color:var(--muted,#8a9396);letter-spacing:0;text-transform:none}
-.sfs-keep{position:absolute;top:0;right:34px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.55;font-size:16px;-webkit-tap-highlight-color:transparent}
-.sfs-keep:hover{opacity:1;color:var(--fg,#eef1f2)}.sfs-keep[aria-pressed="true"]{opacity:1;color:var(--accent,#55b8c9)}
+.sfs-hlist .sfs-all{color:var(--acc-tx,var(--accent,#55b8c9))}.sfs-hlist em{font:400 12px/1.4 var(--sans,inherit);font-style:normal;color:var(--muted,#8a9396);letter-spacing:0;text-transform:none}
+.sfs-keep{position:absolute;top:0;right:34px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.75;font-size:16px;-webkit-tap-highlight-color:transparent}
+.sfs-keep:hover{opacity:1;color:var(--fg,#eef1f2)}.sfs-keep[aria-pressed="true"]{opacity:1;color:var(--acc-tx,var(--accent,#55b8c9))}
 .sfs-keep:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px;opacity:1}
 @media (hover:none){.sfs-keep{opacity:.8}}
 /* the keep pin is the kit's push pin, the same drawing as a popover's (float.js) and the drawer's (Dimitry, 20 Oct:

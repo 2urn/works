@@ -42,7 +42,7 @@
 
   var CSS = [
     /* the symbol */
-    ".sa-btn{flex:none;width:26px;height:28px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--sa-quiet,currentColor);opacity:.55;cursor:pointer;-webkit-tap-highlight-color:transparent}",
+    ".sa-btn{flex:none;width:26px;height:28px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--sa-quiet,currentColor);opacity:.75;cursor:pointer;-webkit-tap-highlight-color:transparent}",
     ".sa-btn:hover,.sa-btn:focus-visible,.sa-btn[aria-expanded=true]{opacity:1}",
     ".sa-btn svg{width:18px;height:18px;overflow:visible}",
     ".sa-led>.sa-btn{margin-left:-6px}",

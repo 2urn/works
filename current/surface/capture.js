@@ -37,7 +37,7 @@
     ".scap-head{display:flex;justify-content:space-between;align-items:center;min-height:40px;padding:0 6px 0 16px;border-bottom:1px solid rgb(var(--ui-hi,255 255 255) / .08);",
     "  font:500 10px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.18em;text-transform:uppercase;color:var(--ui-dim,#a8a8a8)}",
     ".scap-r{display:flex;align-items:center;gap:2px}",
-    ".scap-dims{color:var(--ca);letter-spacing:.06em;text-transform:none;font-size:11px}",
+    ".scap-dims{color:color-mix(in oklab,var(--ca),#000 var(--acc-dk,0%));letter-spacing:.06em;text-transform:none;font-size:11px}",
     ".scap-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer}.scap-x:hover{color:var(--ui-ink,#fff)}",
     ".scap-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
     ".scap-body{overflow-y:auto;scrollbar-gutter:stable;overscroll-behavior:contain;padding:10px 12px 12px;display:grid;gap:8px}",

@@ -44,7 +44,7 @@
     ".srp .srp-fb input:checked{background-color:#fff;border-color:#fff;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b0f10' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E\")}" +
     ".srp .srp-fb input:focus-visible{outline:2px solid #fff;outline-offset:2px}" +
     ".srp-fb small{color:rgba(255,255,255,.5);font-size:11px}" +
-    ".srp-msg{min-height:1em;color:var(--acc,#55b8c9)!important}.srp-msg.bad{color:#ff8a80!important}" +
+    ".srp-msg{min-height:1em;color:var(--acc-tx,var(--acc,#55b8c9))!important}.srp-msg.bad{color:#ff8a80!important}" +
     ".srp :focus-visible{outline:2px solid #fff;outline-offset:2px}" +
     /* THE CORNER (Dimitry, 22 Oct: "make it a part of the sheet itself for iPhone so it can't misalign"): an empty copy
        of the sheet's own frame and header, made with the same classes, so the button sits exactly where the sheet's

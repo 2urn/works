@@ -29,7 +29,7 @@
     ".s-trash{display:flex;flex-direction:column;gap:2px;margin:6px 0 0;padding:0;list-style:none}" +
     ".s-trash li{display:flex;align-items:center;gap:8px;min-height:36px;font:400 13px/1.2 var(--sans,system-ui);color:var(--ui-mid,#b9c2c5)}" +
     ".s-trash li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.s-trash li small{flex:none;font:500 10px var(--mono,monospace);color:var(--ui-dim,#8a9396)}" +
-    ".s-trash li button{flex:none;height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--acc,#55b8c9);background:none;color:var(--acc,#55b8c9);font:600 10px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
+    ".s-trash li button{flex:none;height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--acc,#55b8c9);background:none;color:var(--acc-tx,var(--acc,#55b8c9));font:600 10px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
     ".s-trash-none{font:400 12px var(--sans,system-ui);color:var(--ui-dim,#8a9396);margin:6px 0 0}" +
     "@media (prefers-reduced-motion:reduce){.s-undo{transition:none}}";
   function css() { if (document.getElementById("s-undo-css")) return; var s = document.createElement("style"); s.id = "s-undo-css"; s.textContent = CSS; (document.head || document.documentElement).appendChild(s); }

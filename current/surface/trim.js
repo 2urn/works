@@ -42,7 +42,7 @@
     ".strim button.strim-b{height:32px;padding:0 14px;border-radius:16px;border:1px solid color-mix(in srgb,currentColor 35%,transparent);background:none;color:inherit;font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
     ".strim button.strim-b.go{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ".strim button.strim-b:disabled{opacity:.5;cursor:default}" +
-    ".strim-msg{min-height:1em;color:var(--acc,#55b8c9)}";
+    ".strim-msg{min-height:1em;color:var(--acc-tx,var(--acc,#55b8c9))}";
   function css() { if (document.getElementById("strim-css")) return; var s = document.createElement("style"); s.id = "strim-css"; s.textContent = CSS; document.head.appendChild(s); }
   function fmt(t) { t = Math.max(0, t); var m = Math.floor(t / 60), s = t - m * 60; return m + ":" + (s < 10 ? "0" : "") + s.toFixed(1); }
 

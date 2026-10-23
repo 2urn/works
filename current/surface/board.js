@@ -43,7 +43,7 @@
     ".sb-strip::-webkit-scrollbar{display:none}.sb-strip[hidden]{display:none}",
     ".sb-it{position:relative;flex:none;min-width:64px;display:grid;place-items:center;align-content:center;gap:4px;padding:6px 10px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:rgb(var(--ui-hi,255 255 255) / .05);color:inherit;cursor:pointer;font:600 9.5px/1.15 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.1em;text-transform:uppercase;text-align:center;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}",
     ".sb-it:active{transform:scale(.97)}.sb-it svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}",
-    ".sb-it.sb-rg{min-width:150px;grid-template-columns:1fr auto;align-items:center;justify-items:start;cursor:default}.sb-rg .sb-v{justify-self:end;color:var(--acc,#55b8c9);letter-spacing:.04em}",
+    ".sb-it.sb-rg{min-width:150px;grid-template-columns:1fr auto;align-items:center;justify-items:start;cursor:default}.sb-rg .sb-v{justify-self:end;color:var(--acc-tx,var(--acc,#55b8c9));letter-spacing:.04em}",
     ".sb-rg input{grid-column:1/-1;width:100%;margin:0;accent-color:var(--acc,#55b8c9)}",
     ".sb-tool{flex:none;width:44px;display:grid;place-items:center;border:0;border-radius:10px;background:none;color:var(--ui-dim,#9aa3a6);cursor:pointer}.sb-tool:hover{color:var(--ui-ink,#fff)}.sb-tool svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}",
     ".sb-empty{align-self:center;padding:0 10px;font:400 12.5px/1.35 var(--sans,system-ui,sans-serif);color:var(--ui-dim,#9aa3a6)}",
@@ -60,7 +60,7 @@
     ".sb-pick button{display:flex;width:100%;align-items:center;gap:10px;padding:8px 6px;border:0;border-radius:8px;background:none;color:inherit;text-align:left;font:400 13px/1.3 var(--sans,system-ui,sans-serif);cursor:pointer}.sb-pick button:hover{background:rgb(var(--ui-hi,255 255 255) / .07)}",
     ".sb-pick button[aria-disabled=true]{opacity:.4;cursor:default}.sb-pick button b{font-weight:600}.sb-pick button i{margin-left:auto;font-style:normal;font:600 9px/1 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.1em;color:var(--ui-dim,#9aa3a6);text-transform:uppercase}",
     ".sb-pick .sb-boards{display:flex;flex-wrap:wrap;gap:6px}.sb-pick .sb-boards button{width:auto;padding:7px 12px;border-radius:15px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);font:600 10px/1 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.1em;text-transform:uppercase}",
-    ".sb-pick .sb-boards button.sb-cur{border-color:var(--acc,#55b8c9);color:var(--acc,#55b8c9)}",
+    ".sb-pick .sb-boards button.sb-cur{border-color:var(--acc,#55b8c9);color:var(--acc-tx,var(--acc,#55b8c9))}",
     ".sb-pick .sb-name{display:flex;gap:6px;width:100%}.sb-pick .sb-name input{flex:1;min-width:0;height:32px;padding:0 10px;border-radius:8px;border:1px solid var(--acc,#55b8c9);background:transparent;color:inherit;font:400 13px/1 var(--sans,system-ui,sans-serif)}.sb-pick .sb-name button{width:auto;padding:0 14px;border-radius:16px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 10px/1 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase}"
   ].join("\n");
   var PEN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 7.5l3 3"/></svg>';

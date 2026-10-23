@@ -375,29 +375,31 @@
     /* ---------- the sheet ---------- */
     var box = null, veil = null, fileIn = null, dirIn = null;
     var canDir = (function () { try { var i = document.createElement("input"); return "webkitdirectory" in i && !(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) && !(navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform)); } catch (e) { return false; } })();
+    /* THEMED (Dimitry, 22 Oct 23:34: in the light theme the Pack tab was white on white): the sheet's whites are the
+       tool's --ui-* colors when it has them, the old dark-sheet values when it has not */
     var CSS =
       ".sin-veil{position:fixed;inset:0;z-index:80;background:rgba(5,7,9,.55);opacity:0;transition:opacity .3s}.sin-veil.on{opacity:1}" +
-      ".sin{position:fixed;z-index:81;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);translate:-50% 0;width:min(400px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;scrollbar-gutter:stable;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgba(10,13,16,.95);color:#fff;border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;font:400 13px/1.4 var(--sans,system-ui)}" +
+      ".sin{position:fixed;z-index:81;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);translate:-50% 0;width:min(400px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;scrollbar-gutter:stable;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:16px;background:rgb(var(--ui-g,10 13 16) / .95);color:var(--ui-ink,#fff);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);box-shadow:0 20px 60px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity .3s;font:400 13px/1.4 var(--sans,system-ui)}" +
       /* O.host: the sheet lives inside the tool's own panel (Current: a tab of the Sound panel), at that panel's width and
          place, with no veil and no close of its own (the panel has one) */
       ".sin.sin-in{position:static;left:auto;top:auto;translate:none;width:auto;max-height:none;overflow:visible;padding:0;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;opacity:1}.sin.sin-in>h2{display:none}" +
       "@media (min-width:900px) and (hover:hover){.sin:not(.sin-in){top:50%;translate:-50% -50%}}.sin.on{opacity:1}.sin[hidden],.sin-veil[hidden]{display:none}" +
       ".sin h2{display:flex;align-items:center;justify-content:space-between;margin:0;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase}" +
-      ".sin .x{width:32px;height:32px;margin:-6px -6px -6px 0;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font:16px/1 system-ui;cursor:pointer}" +
-      ".sin p{margin:0;color:rgba(255,255,255,.72);font-size:12px}.sin .st{font:500 10px/1.3 var(--mono,monospace);letter-spacing:.06em;color:rgba(255,255,255,.55)}" +
-      ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
-      ".sin button.go{background:#fff;color:#0b0f10}.sin .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
-      ".sin .seg{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:11px;overflow:hidden}" +
-      ".sin .seg button{flex:1;min-width:0;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px;border:0;background:none;color:rgba(255,255,255,.75);font:600 9.5px/1.15 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
+      ".sin .x{width:32px;height:32px;margin:-6px -6px -6px 0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);font:16px/1 system-ui;cursor:pointer}" +
+      ".sin p{margin:0;color:rgb(var(--ui-hi,255 255 255) / .72);font-size:12px}.sin .st{font:500 10px/1.3 var(--mono,monospace);letter-spacing:.06em;color:rgb(var(--ui-hi,255 255 255) / .55)}" +
+      ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgb(var(--ui-hi,255 255 255) / .1);color:var(--ui-ink,#fff);font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
+      ".sin button.go{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}.sin .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
+      ".sin .seg{display:flex;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:11px;overflow:hidden}" +
+      ".sin .seg button{flex:1;min-width:0;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px;border:0;background:none;color:rgb(var(--ui-hi,255 255 255) / .75);font:600 9.5px/1.15 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
       ".sin .seg .ri{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sin .seg .ri .f{fill:currentColor;stroke:none}" +
-      ".sin .seg button+button{border-left:1px solid rgba(255,255,255,.2)}.sin .seg button[aria-checked=true]{background:#fff;color:#0b0f10}" +
-      ".sin .snd{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid rgba(255,255,255,.1)}" +
+      ".sin .seg button+button{border-left:1px solid rgb(var(--ui-hi,255 255 255) / .2)}.sin .seg button[aria-checked=true]{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}" +
+      ".sin .snd{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .1)}" +
       ".sin .hd{display:flex;align-items:center;gap:8px}.sin .hd .nm{flex:1;min-width:0;font:600 13px/1.2 var(--sans,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
-      ".sin .hd button{width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;display:grid;place-items:center}" +
+      ".sin .hd button{width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);cursor:pointer;display:grid;place-items:center}" +
       ".sin .hd button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
       ".sin .hd button[aria-pressed=true]{background:var(--acc,#55b8c9);color:#04181c}" +
-      ".sin .ev{align-self:flex-start;height:28px;padding:0 10px;border:1px solid rgba(255,255,255,.2);border-radius:14px;background:none;color:rgba(255,255,255,.8);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
-      ".sin .off .nm{opacity:.5}.sin .new{background:rgba(255,255,255,.05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}";
+      ".sin .ev{align-self:flex-start;height:28px;padding:0 10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:14px;background:none;color:rgb(var(--ui-hi,255 255 255) / .8);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
+      ".sin .off .nm{opacity:.5}.sin .new{background:rgb(var(--ui-hi,255 255 255) / .05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}";
     function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
     function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function seg(cur, label) { return '<div class="seg" role="radiogroup" aria-label="' + label + '">' + ROLES.map(function (r) { return '<button type="button" role="radio" data-r="' + r[0] + '" aria-checked="' + (cur === r[0]) + '" title="' + r[2] + '">' + roleIcon(r[0]) + "<span>" + r[1] + "</span></button>"; }).join("") + "</div>"; }

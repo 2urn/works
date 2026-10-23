@@ -53,7 +53,7 @@
        its arms along the box edges, so on a round button it stays outside the rim
        and never sits on the button. Two gentle pulses when it appears, then still (Dimitry, 22 Oct: "way too
        aggressive ... about 50% of that size ... barely move ... once or twice and then it doesn't do anything") */
-    st.textContent = ":where(.sf-new){position:absolute;top:0;right:0;width:13px;height:13px;transform:translate(50%,-50%);pointer-events:none;color:var(--acc,var(--accent,#55b8c9));z-index:2;filter:drop-shadow(0 0 .75px var(--ui-solid,#000))}" +
+    st.textContent = ":where(.sf-new){position:absolute;top:0;right:0;width:13px;height:13px;transform:translate(50%,-50%);pointer-events:none;color:var(--acc-tx,var(--acc,var(--accent,#55b8c9))));z-index:2;filter:drop-shadow(0 0 .75px var(--ui-solid,#000))}" +
       ":where(.sf-new) svg{animation:sf-tw 1.4s ease-in-out .6s 2}" +
       "@keyframes sf-tw{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.75}}" +
       "@media (prefers-reduced-motion:reduce){:where(.sf-new) svg{animation:none}}";

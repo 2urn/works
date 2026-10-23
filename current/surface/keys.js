@@ -171,7 +171,7 @@
 .sk-cap{display:inline-grid;place-items:center;min-width:32px;height:32px;padding:0 8px;border:1.5px solid rgb(var(--ui-hi,255 255 255) / .55);border-bottom-width:2.5px;border-radius:6px;background:none;font:600 13.5px/1 var(--mono,ui-monospace,monospace);color:var(--ui-ink,#eef1f2);box-sizing:border-box;cursor:pointer}\
 .sk-cap:hover{border-color:var(--sk-acc,#55b8c9)}\
 .sk-cap.sk-none{font-size:12px;font-weight:500;color:var(--ui-dim,#8a9396);border-style:dashed}\
-.sk-cap.sk-wait{border-color:var(--sk-acc,#55b8c9);color:var(--sk-acc,#55b8c9);font-size:12px;animation:sk-pulse 1s ease-in-out infinite alternate}\
+.sk-cap.sk-wait{border-color:var(--sk-acc,#55b8c9);color:var(--sk-acc,var(--acc-tx,#55b8c9));font-size:12px;animation:sk-pulse 1s ease-in-out infinite alternate}\
 .sk-cap.sk-fixed{cursor:default;border-color:rgb(var(--ui-hi,255 255 255) / .3)}\
 .sk-cap.sk-moved{border-color:var(--sk-acc,#55b8c9)}\
 @keyframes sk-pulse{to{opacity:.55}}\

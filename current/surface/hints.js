@@ -38,7 +38,7 @@
     "  font:600 11px/1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 6px #000;",
     "  opacity:0;transition:opacity .5s ease}",
     ".sh-here.show{opacity:1}",
-    ".sh-here span{display:block;white-space:nowrap;text-align:center}",
+    ".sh-here span{display:block;white-space:nowrap;text-align:center;padding:5px 9px 4px 11px;border-radius:999px;background:rgba(8,10,12,.72)}",   /* a dark pill: readable over a light shelf too (22 Oct) */
     ".sh-here svg{width:18px;height:22px;fill:none;stroke:var(--sh-acc,var(--sc-acc,#fff));stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 4px #000);animation:sh-bob 1.1s ease-in-out infinite}",
     "@keyframes sh-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}",
     ".sh-pulse{animation:sh-pulse 1.3s ease-out 3}",

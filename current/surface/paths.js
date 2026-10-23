@@ -59,10 +59,13 @@
   var MONO = "var(--mono,ui-monospace,Menlo,monospace)";
   var CSS = [
     /* corner badge: a mark on a control */
-    ".sp-b{position:absolute;top:-5px;right:-5px;z-index:3;min-width:17px;height:17px;padding:0 3px;box-sizing:border-box;border-radius:9px;display:grid;place-items:center;",
-    "  font:700 9px/1 " + MONO + ";letter-spacing:0;color:#0b0f10;background:var(--sp-c,#55b8c9);box-shadow:0 0 0 1.5px rgba(0,0,0,.55);pointer-events:none;",
+    /* (Dimitry, 22 Oct 23:38: the corner badges kept the old big "03" pills) the same small dot as under the bar:
+       one digit while the path is open, a ring with a tiny tick once it is walked */
+    ".sp-b{position:absolute;top:-3px;right:-3px;z-index:3;width:13px;height:13px;min-width:0;padding:0;box-sizing:border-box;border-radius:50%;display:grid;place-items:center;",
+    "  font:700 8px/1 " + MONO + ";letter-spacing:0;color:#0b0f10;background:var(--sp-c,#55b8c9);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none;",
     "  transition:transform .3s ease,opacity .3s ease}",
-    ".sp-b.done{background:rgba(14,14,16,.72);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.5px var(--sp-c,#55b8c9),0 0 0 1.5px rgba(0,0,0,.55);font-size:10px}",
+    ".sp-b.done{background:rgba(14,14,16,.7);color:var(--sp-c,#55b8c9);box-shadow:inset 0 0 0 1.25px var(--sp-c,#55b8c9),0 0 0 1px rgba(0,0,0,.5)}",
+    ".sp-b svg{width:8px;height:8px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}",
     /* under-badge: a button centred under its control, on the row's bottom line */
     /* two :not(#…) give these the weight of two ids, so a row's own button rule (#playbar>button) cannot size them */
     /* (Dimitry, 22 Oct: the pills under the bar were obtrusive) a small dot: filled with one digit while the path is open,
@@ -135,7 +138,7 @@
     ".sp-nag .sp-meter{margin:2px 0 2px}",
     /* the first discovery: the suggestion card, ringed in the path's color, a headline and a few lines */
     ".sp-first{width:min(340px,calc(100vw - 24px));border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 14px 48px color-mix(in srgb,var(--c) 38%,transparent)}",
-    ".sp-first .sp-hd{color:var(--c)}.sp-first .sp-hd b{color:var(--c);font-weight:700}",
+    ".sp-first .sp-hd{color:color-mix(in oklab,var(--c),#000 var(--acc-dk,0%))}.sp-first .sp-hd b{color:color-mix(in oklab,var(--c),#000 var(--acc-dk,0%));font-weight:700}",
     ".sp-fh{margin:0;font:600 18px/1.25 var(--sans,system-ui,sans-serif);letter-spacing:-.01em}",
     ".sp-fb{margin:0;font-size:13.5px;line-height:1.45;color:var(--ui-mid,#c9cfd1)}.sp-fb b{color:var(--ui-ink,#fff);font-weight:600}",
     "@media (prefers-reduced-motion:no-preference){.sp-first .sp-fst{display:inline-block;animation:sp-spark 1.4s ease-in-out 3}}",
@@ -217,10 +220,10 @@
               el.appendChild(b);
             }
           }
-          if (row && row !== el) {   // the dot: one digit, no leading zero; walked, a tiny tick
+          {   // the dot, under the bar and on a corner alike: one digit, no leading zero; walked, a tiny tick
             var k = f ? "tick" : String(/^\d+$/.test(p.id) ? parseInt(p.id, 10) : p.id).slice(0, 2);
             if (b.dataset.k !== k) { b.dataset.k = k; if (f) b.innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.4 5.3l1.8 1.8 3.6-3.9"/></svg>'; else b.textContent = k; }
-          } else if (b.textContent !== txt) b.textContent = txt;
+          }
           b.classList.toggle("done", f); b.dataset.path = p.id; b.style.setProperty("--sp-c", c);
         });
       });

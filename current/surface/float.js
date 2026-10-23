@@ -39,7 +39,7 @@
     ".sf-grip svg{width:14px;height:14px;fill:currentColor}",
     ".sf-pin svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}",
     ".sf-pin:hover,.sf-grip:hover{color:var(--ui-ink,#fff)}",
-    ".sf-pin[aria-pressed=true]{color:var(--accent,#55b8c9)}",
+    ".sf-pin[aria-pressed=true]{color:var(--acc-tx,var(--accent,#55b8c9))}",
     ".sf-pin[aria-pressed=true] svg{fill:currentColor}",
     ".sf-pin:focus-visible,.sf-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:1px;border-radius:8px}",
     ".sf-free{transition:box-shadow .2s ease}",

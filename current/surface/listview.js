@@ -38,10 +38,10 @@
     ".s-lvmenu[hidden]{display:none!important}" +
     ".s-lvbar .s-lvmenu button{width:100%!important;display:flex!important;align-items:center;justify-content:space-between;gap:12px;min-height:var(--s-hit,40px);padding:0 10px!important;border:0;border-radius:calc(var(--s-radius,10px) - 4px);background:none;color:inherit;font:inherit;text-transform:none;letter-spacing:0;text-align:left;cursor:pointer}" +
     ".s-lvmenu button:hover,.s-lvmenu button:focus-visible{background:var(--s-sunk,rgba(127,127,127,.14));outline:none}" +
-    ".s-lvmenu button[aria-checked=true]{color:var(--s-accent,var(--acc,#55b8c9))}.s-lvmenu button[aria-checked=true]::after{content:'\\2713'}" +
+    ".s-lvmenu button[aria-checked=true]{color:var(--s-accent,var(--acc-tx,var(--acc,#55b8c9)))}.s-lvmenu button[aria-checked=true]::after{content:'\\2713'}" +
     ":where(.s-star){width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:color-mix(in srgb,currentColor 45%,transparent);cursor:pointer}" +
     ":where(.s-star) svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}" +
-    ":where(.s-star[aria-pressed=true]){color:var(--acc,#55b8c9)}:where(.s-star[aria-pressed=true]) svg{fill:currentColor}" +
+    ":where(.s-star[aria-pressed=true]){color:var(--acc-tx,var(--acc,#55b8c9))}:where(.s-star[aria-pressed=true]) svg{fill:currentColor}" +
     /* every segment the same target (Dimitry, 22 Oct 23:58: the ★ was a sliver): the segment token tall, at least 44 px
        wide, the star glyph as big as the words look (15 px) */
     ".s-lvbar .segs{gap:0}.s-lvbar .sg,.s-seg-even .sg{min-width:44px;min-height:var(--s-seg-h,36px);display:inline-grid;place-items:center;padding:0 6px;box-sizing:border-box}" +
