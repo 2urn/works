@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261023020224";window.__VERSION__="0.29.74";window.__NOTES__=[{"v":"0.29.74","date":"22 Oct 2026","items":[{"kind":"fix","text":"the output window no longer freezes a second after you make it full screen on the same display. The browser stops animating a window that is covered; the output window now keeps Current moving itself"}]}]</script>
+<script>window.__BUILD__="20261023022037";window.__VERSION__="0.29.75";window.__NOTES__=[{"v":"0.29.75","date":"22 Oct 2026","items":[{"kind":"change","text":"saving a scene shows it was saved, where the button was: the scene's picture, a check, its number among yours and its name. Tap the name to rename it there and then; the button comes back after a few seconds, or with done"},{"kind":"change","text":"while you are in a room, the Room tool's tile shows the moving dots under it, like the text tool while its words play"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261023020224"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261023020224">
+<script src="claude-web.js?v=20261023022037"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261023022037">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -123,37 +123,37 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261023020224"></script>
-<script src="surface/selftest.js?v=20261023020224"></script>
-<script src="surface/report.js?v=20261023020224"></script>
-<script src="surface/auto.js?v=20261023020224"></script>
-<script src="surface/toolpath.js?v=20261023020224"></script>
-<script src="surface/capture.js?v=20261023020224"></script>
-<script src="surface/pop.js?v=20261023020224"></script>
-<script src="surface/hints.js?v=20261023020224"></script>
-<script src="surface/paths.js?v=20261023020224"></script>
-<script src="surface/keys.js?v=20261023020224"></script>
-<script src="surface/reset.js?v=20261023020224"></script>
-<script src="surface/files.js?v=20261023020224"></script>
-<script src="surface/tabs.js?v=20261023020224"></script>
-<script src="surface/running.js?v=20261023020224"></script>
-<script src="surface/trim.js?v=20261023020224"></script>
-<script src="surface/audiowake.js?v=20261023020224"></script>
-<script src="surface/output.js?v=20261023020224"></script>
-<script src="surface/voice.js?v=20261023020224"></script>
-<script src="surface/voicelib.js?v=20261023020224"></script>
-<script src="surface/instruments.js?v=20261023020224"></script>
-<script src="surface/listview.js?v=20261023020224"></script>
-<script src="surface/beads.js?v=20261023020224"></script>
-<script src="surface/strip.js?v=20261023020224"></script>
-<script src="surface/sheetnav.js?v=20261023020224"></script>
-<script src="surface/twofinger.js?v=20261023020224"></script>
-<script src="surface/shortlink.js?v=20261023020224"></script>
-<script src="surface/undo.js?v=20261023020224"></script>
-<script src="surface/pro.js?v=20261023020224"></script>
-<script src="surface/fresh.js?v=20261023020224"></script>
-<script src="surface/notice.js?v=20261023020224"></script>
-<script src="surface/perform.js?v=20261023020224"></script>
+<script src="vendor/opentype.min.js?v=20261023022037"></script>
+<script src="surface/selftest.js?v=20261023022037"></script>
+<script src="surface/report.js?v=20261023022037"></script>
+<script src="surface/auto.js?v=20261023022037"></script>
+<script src="surface/toolpath.js?v=20261023022037"></script>
+<script src="surface/capture.js?v=20261023022037"></script>
+<script src="surface/pop.js?v=20261023022037"></script>
+<script src="surface/hints.js?v=20261023022037"></script>
+<script src="surface/paths.js?v=20261023022037"></script>
+<script src="surface/keys.js?v=20261023022037"></script>
+<script src="surface/reset.js?v=20261023022037"></script>
+<script src="surface/files.js?v=20261023022037"></script>
+<script src="surface/tabs.js?v=20261023022037"></script>
+<script src="surface/running.js?v=20261023022037"></script>
+<script src="surface/trim.js?v=20261023022037"></script>
+<script src="surface/audiowake.js?v=20261023022037"></script>
+<script src="surface/output.js?v=20261023022037"></script>
+<script src="surface/voice.js?v=20261023022037"></script>
+<script src="surface/voicelib.js?v=20261023022037"></script>
+<script src="surface/instruments.js?v=20261023022037"></script>
+<script src="surface/listview.js?v=20261023022037"></script>
+<script src="surface/beads.js?v=20261023022037"></script>
+<script src="surface/strip.js?v=20261023022037"></script>
+<script src="surface/sheetnav.js?v=20261023022037"></script>
+<script src="surface/twofinger.js?v=20261023022037"></script>
+<script src="surface/shortlink.js?v=20261023022037"></script>
+<script src="surface/undo.js?v=20261023022037"></script>
+<script src="surface/pro.js?v=20261023022037"></script>
+<script src="surface/fresh.js?v=20261023022037"></script>
+<script src="surface/notice.js?v=20261023022037"></script>
+<script src="surface/perform.js?v=20261023022037"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -170,13 +170,13 @@ try{SurfacePro.beta({
   output:{name:'Clean output',note:'the stage alone on a projector or second screen, the controls stay on the laptop'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261023020224"></script>
-<script src="surface/rail.js?v=20261023020224"></script>
-<script src="surface/touchsound.js?v=20261023020224"></script>
-<script src="surface/water.js?v=20261023020224"></script>
-<script src="surface/ripple.js?v=20261023020224"></script>
-<script src="surface/float.js?v=20261023020224"></script>
-<script src="surface/manual.js?v=20261023020224"></script>
+<script src="surface/pack.js?v=20261023022037"></script>
+<script src="surface/rail.js?v=20261023022037"></script>
+<script src="surface/touchsound.js?v=20261023022037"></script>
+<script src="surface/water.js?v=20261023022037"></script>
+<script src="surface/ripple.js?v=20261023022037"></script>
+<script src="surface/float.js?v=20261023022037"></script>
+<script src="surface/manual.js?v=20261023022037"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -989,6 +989,19 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
 body #playbar>button>svg *,body #pTrans>button>svg *{stroke-width:1.9}#srAuto svg *{stroke-width:1.58}   /* the kit's Auto mark is drawn on 20 units */
 #plSave kbd,.saveScene kbd{font:500 10px/1 var(--mono);letter-spacing:.06em;opacity:.6;text-transform:none}
 @media (pointer:coarse){#plSave kbd,.saveScene kbd{display:none}}
+/* the saved card where the button was (22 Oct) */
+#plSave[hidden],.saveScene[hidden]{display:none}
+.saveProof{box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px 6px 6px;border-radius:24px;border:1px solid var(--acc,#55b8c9);background:rgb(var(--ui-g,14 14 16) / .6);color:var(--ui-ink,#fff);animation:spIn .24s cubic-bezier(.2,.7,.2,1)}
+.saveProof.out{opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
+@keyframes spIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.saveProof .spPic{flex:none;width:68px;height:40px;border-radius:18px 8px 8px 18px;background:#000 center/cover no-repeat;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14)}
+.saveProof .spTx{flex:1;min-width:0;display:grid;gap:3px}
+.saveProof .spOk{white-space:nowrap;overflow:hidden;display:flex;align-items:center;gap:5px;font:600 9.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--acc,#55b8c9)}
+.saveProof .spOk svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.saveProof .spNm{justify-self:start;max-width:100%;padding:0;border:0;border-bottom:1px dashed rgb(var(--ui-hi,255 255 255) / .35);background:none;color:inherit;font:500 14px/1.25 var(--sans);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:text}
+.saveProof .spIn{width:100%;min-width:0;padding:2px 6px;border-radius:6px;border:1px solid var(--acc,#55b8c9);background:transparent;color:inherit;font:500 14px/1.25 var(--sans)}
+.saveProof .spX{flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid rgb(var(--ui-hi,255 255 255) / .24);background:transparent;color:inherit;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.saveProof{animation:none}.saveProof.out{transition:none}}
 #plSave:active,.saveScene:active{transform:translateY(1px)}#plSave:focus-visible,.saveScene:focus-visible{outline:2px solid #fff;outline-offset:2px}
 /* the glass pop-ups' scrollbars: thin, the glass's own ink, no white OS track (presets, random matrix, order, words, fonts) */
 /* scrollbars never move content (Dimitry, 22 Oct 13:37): every scroller keeps its gutter */
@@ -4117,12 +4130,31 @@ function savePreset(name){name=(name||'').trim().slice(0,32)||autoName();
   const snap=snapshot(name),j=store.user.findIndex(u=>u.name===name);snap.t=j>=0&&store.user[j].t||Date.now();if(j>=0)store.user[j]=snap;else store.user.push(snap);persist();
   presetIdx=PRESETS.length+store.user.findIndex(u=>u.name===name);curName=name;baseline={...snap.p};renderPresets();syncVals();syncPlist();toast('saved “'+name+'”');
   {const at=presetIdx;requestAnimationFrame(()=>{try{keepFrame(allPresets()[at],at)}catch(_){}})}}   // the stage is showing it now: its frame is its thumbnail (23 Oct)
+/* SAVED, SHOWN (Dimitry, 22 Oct 22:18: "Save the scene doesn't actually give any evidence that the scene has been
+   saved … what the scene is named and maybe what it might look like could be important to be able to view as
+   confirmation"). Where the button was: the scene's picture, a check, "saved", its name (tap to rename, there and
+   then) and its place among yours. It stays 5 s, longer while the name is being edited, then the button returns. */
+function saveProof(btn){const foot=btn&&btn.parentElement;if(!foot)return;const name=curName,mine=store.user.findIndex(u=>u.name===name);
+  let pic='';try{pic=sceneFrame(136,80,'image/png')}catch(_){}
+  foot.querySelectorAll('.saveProof').forEach(e=>e.remove());clearTimeout(foot._pt);
+  const pr=document.createElement('div');pr.className='saveProof';pr.setAttribute('role','status');
+  pr.innerHTML='<i class="spPic" aria-hidden="true"></i><span class="spTx"><span class="spOk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>saved · no. '+(mine+1)+'</span><button type="button" class="spNm" title="Tap to rename"></button></span><button type="button" class="spX" aria-label="Done">done</button>';
+  if(pic)pr.querySelector('.spPic').style.backgroundImage='url('+pic+')';
+  const nm=pr.querySelector('.spNm');nm.textContent=name;nm.setAttribute('aria-label','Saved as '+name+'. Tap to rename');
+  let editing=false;const done=()=>{clearTimeout(foot._pt);pr.classList.add('out');btn.hidden=false;setTimeout(()=>pr.remove(),220)};
+  const later=ms=>{clearTimeout(foot._pt);foot._pt=setTimeout(()=>{if(!editing)done()},ms)};
+  nm.onclick=()=>{editing=true;clearTimeout(foot._pt);const old=nm.textContent,inp=document.createElement('input');inp.className='spIn';inp.value=old;inp.maxLength=32;inp.setAttribute('aria-label','New name for '+old);inp.setAttribute('enterkeyhint','done');
+    nm.replaceWith(inp);inp.focus();try{inp.select()}catch(_){}
+    let f=false;const fin=keep=>{if(f)return;f=true;editing=false;const n=keep?renameUser(old,inp.value):null;nm.textContent=n||old;nm.setAttribute('aria-label','Saved as '+(n||old)+'. Tap to rename');inp.replaceWith(nm);later(2600)};
+    inp.onkeydown=e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();fin(true)}else if(e.key==='Escape'){e.preventDefault();fin(false)}};inp.onblur=()=>fin(true)};
+  pr.querySelector('.spX').onclick=done;pr.title='Your scene number '+(mine+1);
+  btn.hidden=true;foot.appendChild(pr);later(5000)}
 $('randBtn').onclick=()=>randomLook(true);
 {const k2=$('rlSaveScene').querySelector('kbd');k2.textContent=(window.SurfaceKeys&&SurfaceKeys.show)?SurfaceKeys.show('mod+s'):/Mac|iPhone|iPad/.test(navigator.platform||'')?'\u2318S':'Ctrl+S';
- $('rlSaveScene').onclick=()=>{savePreset('');toast('saved “'+curName+'” · rename it in Scenes',2600)}}   // named for what it is, renamed in Scenes (Dimitry, 20 Oct: "automatically named and editable")
+ $('rlSaveScene').onclick=()=>{savePreset('');saveProof($('rlSaveScene'))}}   // named for what it is, renamed in Scenes (Dimitry, 20 Oct: "automatically named and editable")
 {const k=$('plSave').querySelector('kbd');k.textContent=(window.SurfaceKeys&&SurfaceKeys.show)?SurfaceKeys.show('mod+s'):/Mac|iPhone|iPad/.test(navigator.platform||'')?'\u2318S':'Ctrl+S';
  $('plSave').onclick=()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:'');buildLooks();syncPlist();
-   const r=$('plItems').querySelector('.lk.cur');if(r)r.scrollIntoView({block:'nearest'})}}
+   const r=$('plItems').querySelector('.lk.cur');if(r)r.scrollIntoView({block:'nearest'});saveProof($('plSave'))}}
 $('randMx').onclick=()=>$('rlist').hidden?openRlist():closeRlist();
 $('rlClose').onclick=closeRlist;
 $('saveBtn').onclick=()=>{const r=$('saveRow');r.hidden=!r.hidden;if(!r.hidden){const i=$('saveName');if(curName&&curName!=='Random'&&!curName.startsWith('Traced')&&!PRESETS.some(p=>p.name===curName))i.value=curName;else prefillName(i);i.focus();i.select()}};
@@ -4566,15 +4598,16 @@ function buildLooks(){
 /* RENAME (Dimitry, 20 Oct: "automatically named and editable"): a scene of yours is named for what it is when saved; the
    pencil renames it in place. Return or leaving the field keeps the name, Escape keeps the old one. Its star, order, play
    state, morph and count follow it. Built-in scenes keep their names: duplicate one to make it yours. */
+/* rename one of your scenes everywhere it is kept; the new name, or null when nothing changed */
+function renameUser(old,v){let n=(v||'').trim().slice(0,32);if(!n||n===old)return null;
+  if(PRESETS.some(x=>x.name===n))n+=' (yours)';
+  if(store.user.some(u=>u.name===n)){toast('you already have “'+n+'”');return null}
+  const u=store.user.find(u=>u.name===old);if(!u)return null;u.name=n;const ok='u:'+old,nk='u:'+n;
+  for(const m of [store.lookFav,store.lookUsed,store.looks])if(m&&ok in m){m[nk]=m[ok];delete m[ok]}
+  store.lookOrder=store.lookOrder.map(k=>k===ok?nk:k);if(curName===old)curName=n;persist();renderPresets();buildLooks();syncPlist();toast('renamed “'+n+'”');return n}
 function renameScene(i,nm){const p=allPresets()[i];if(!p||!p.user||!nm)return;const old=p.name,inp=document.createElement('input');
   inp.className='nmEdit';inp.value=old;inp.maxLength=32;inp.setAttribute('aria-label','New name for '+old);inp.setAttribute('enterkeyhint','done');nm.replaceWith(inp);inp.focus();try{inp.setSelectionRange(0,old.length)}catch(_){}
-  let done=false;const fin=keep=>{if(done)return;done=true;let n=(inp.value||'').trim().slice(0,32);
-    if(!keep||!n||n===old){buildLooks();syncPlist();return}
-    if(PRESETS.some(x=>x.name===n))n+=' (yours)';
-    if(store.user.some(u=>u.name===n)){toast('you already have “'+n+'”');buildLooks();syncPlist();return}
-    const u=store.user.find(u=>u.name===old);if(!u){buildLooks();return}u.name=n;const ok='u:'+old,nk='u:'+n;
-    for(const m of [store.lookFav,store.lookUsed,store.looks])if(m&&ok in m){m[nk]=m[ok];delete m[ok]}
-    store.lookOrder=store.lookOrder.map(k=>k===ok?nk:k);if(curName===old)curName=n;persist();renderPresets();buildLooks();syncPlist();toast('renamed “'+n+'”')};
+  let done=false;const fin=keep=>{if(done)return;done=true;if(!keep||!renameUser(old,inp.value)){buildLooks();syncPlist()}};
   inp.onkeydown=e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();fin(true)}else if(e.key==='Escape'){e.preventDefault();fin(false)}};inp.onblur=()=>fin(true)}
 function saveOrder(){const all=allPresets(),cur=orderedIds().map(i=>lookKey(all[i])),shown=[...$('plItems').querySelectorAll('.lk')].map(r=>r.dataset.key),set=new Set(shown);let j=0;
   store.lookOrder=cur.map(k=>set.has(k)?shown[j++]:k);persist();renderPresets()}   // a filtered list moves its rows among the slots they held
@@ -6079,7 +6112,7 @@ const TOOLS=[
   {id:'session',label:'room',pro:'session',aria:'Room (Pro, open while in beta): phones and laptops play in time over the internet; one leads (tempo, or tempo and scenes); Ableton Link'}];
 let ACTIVE=null,pickOpen=false,toolShown=true;
 const svgI=k=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+IC[k]+'</svg>';
-function chainMark(){const T=$('pickTrack');if(!T)return;const run={text:!!SEQ.on,steer:!!STEER.loop,magnet:!!MGR.loop};
+function chainMark(){const T=$('pickTrack');if(!T)return;const run={text:!!SEQ.on,steer:!!STEER.loop,magnet:!!MGR.loop,session:document.documentElement.classList.contains('inRoom')};   // in a room, the Room tile's chain runs too (Dimitry, 22 Oct 22:19)
   T.querySelectorAll('.si[data-tool]').forEach(b=>{SurfaceRunning.mark(b,!!run[b.dataset.tool]);b.classList.remove('seqon','running')});
   /* THE ∞ LOOPS (Dimitry, 23 Oct 00:34: running things move): while a steer loop records or plays, a dash runs round the
      ∞ itself, on its tile and on the Tools button when that shows it (kit SurfaceRunning.lap; still under reduced motion) */
@@ -9090,10 +9123,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261023020224"></script>
-<script src="surface/links.js?v=20261023020224"></script>
-<script src="surface/tips.js?v=20261023020224"></script>
-<script src="surface/sections.js?v=20261023020224"></script>
+<script src="surface/install.js?v=20261023022037"></script>
+<script src="surface/links.js?v=20261023022037"></script>
+<script src="surface/tips.js?v=20261023022037"></script>
+<script src="surface/sections.js?v=20261023022037"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9270,7 +9303,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261023020224"></script>
+<script src="surface/room.js?v=20261023022037"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -9374,7 +9407,7 @@ const ROOMC=(function(){
       try{flashName(p.name);syncAutoUI()}catch(_){}};
     const wait=e.at-performance.now();if(wait>6)pendLook=setTimeout(go,wait);else go()}
   /* the pill on the stage and the section in the index */
-  function paint(){const H=document.documentElement;H.classList.toggle('inRoom',!!room);const pill=$r('roomPill');if(!room){renderOut();return}
+  function paint(){const H=document.documentElement;H.classList.toggle('inRoom',!!room);try{chainMark()}catch(_){}const pill=$r('roomPill');if(!room){renderOut();return}
     const n=S_.peers.length||1,lead=room.isLeader(),sy=room.sync(),st=S_.state;
     pill.dataset.s=st;$r('roomPillCode').textContent=room.code;
     const q=lead?'you lead':sy.err==null?'syncing…':'±'+sy.err+' ms';
@@ -10025,7 +10058,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.29.74';
+const APP_VERSION='0.29.75';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
