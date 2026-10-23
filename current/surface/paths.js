@@ -577,6 +577,8 @@
   }
   var api = { mount: mount, done: done, firstCard: function (id) { var p = O && byId(id || O.paths[0].id); return p ? firstCard(p, p.steps[0]) : null; }, set: set, setNag: setNag, open: open, go: go, nag: nag, meter: meter, layout: layout,
     flash: function (id) { var p = O && byId(id); return p ? flash(p) : 0; },
-    isDone: function (id) { return !!S.done[id]; }, get on() { return S.on; }, get suggest() { return S.nag; }, get progress() { return total(); } };
+    isDone: function (id) { return !!S.done[id]; },
+    isFull: function (id) { var p = O && byId(id); return !!(p && full(p)); },   // every step of a path done (a tool's milestones, e.g. a certificate)
+    list: function () { return O ? O.paths.map(function (p) { return { id: p.id, title: p.title }; }) : []; }, get on() { return S.on; }, get suggest() { return S.nag; }, get progress() { return total(); } };
   window.SurfacePaths = api;
 })();
