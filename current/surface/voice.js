@@ -1,7 +1,7 @@
 /* Surface · Voice — sounds written as recipes (format voice/0), played by one small synth.
-   Moved here from Pullula (2urn/pullula @ 50dfe54, its "VOICE" section, unchanged) on 22 Oct 2026 so every tool plays a
-   Pullula sound exactly as Pullula does (Dimitry: "we did it for Fracture and Pullula, just didn't integrate import
-   into Current"). Pullula still carries its own copy; when it loads this file instead, there is one engine.
+   Moved here from the studio's synth (its repository @ 50dfe54, its "VOICE" section, unchanged) on 22 Oct 2026 so every tool plays a
+   the studio's synth sound exactly as the studio's synth does (Dimitry: "we did it for the studio's other instruments, just didn't integrate import
+   into Current"). the studio's synth still carries its own copy; when it loads this file instead, there is one engine.
 
      SurfaceVoice.play(ctx, dest, recipe, opts) → { release(at), stop(at), done, out }   (see the notes below)
      SurfaceVoice.shape(recipe) → { start, hold, end, held }

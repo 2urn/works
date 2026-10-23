@@ -54,7 +54,7 @@
   const PROSE = '.cx-lead,.cx-body>p:not(.cx-acts):not(:has(a,button,input)),.cx-body dd,.cx-body .lp,.note,.sfs-prose';   // a paragraph holding a link or a control is a tool, not prose (Contact)
   const CSS = `
 .sfs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
-/* the Codex's page tools, as icons (from Pullula's page settings): the name shows in the hint as each is pointed at */
+/* the Codex's page tools, as icons (from the studio synth's page settings): the name shows in the hint as each is pointed at */
 .sfs-bar button{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.56;stroke-linecap:round;stroke-linejoin:round}
 .sfs-bar .sfs-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -163,7 +163,7 @@
 
     /* the toolbar */
     const bar = document.createElement('div'); bar.className = 'sfs-bar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', o.label + ': sections');
-    /* icons from the Codex's page settings (Pullula): fold (−), open (+), one at a time, explanations; reset is a turn-back arrow.
+    /* icons from the Codex's page settings (the studio's synth): fold (−), open (+), one at a time, explanations; reset is a turn-back arrow.
        Each button carries its name three ways: aria-label for screen readers, title for a desktop hover, and the hint at the
        left of the row while it is pointed at or focused (and briefly after a tap, for touch). */
     const ICO = { fold: '<path d="M5 12h14"/>', open: '<path d="M5 12h14M12 5v14"/>', one: '<path d="M5 5h14M5 19h14"/><rect x="5" y="9" width="14" height="6" rx="1"/>',

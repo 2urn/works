@@ -1,4 +1,4 @@
-/* Surface · Capture panel — what the shutter's hold opens, in Fracture's layout (Dimitry, 18 Oct 2026: "Fracture has
+/* Surface · Capture panel — what the shutter's hold opens, in the glass piece's layout (Dimitry, 18 Oct 2026: "the studio's glass piece has
    a better layout / polish for this screen"). One look for every tool: a frosted card above the bar, "capture" and
    the output size in its head, the modes as a segmented pair (or three), the shapes as cards that say what each is
    for, the tool's own extras (a GIF length…), one primary action in the accent and a quiet secondary beside it.
@@ -9,7 +9,7 @@
        host: '#shotPop',                                  // the dialog element (positioned by the tool), or omitted for a new one
        label: 'Capture: mode, shape and sharing',
        modes:  [['still','still'], ['video','video'], ['gif','gif']],
-       shapes: SurfaceCapture.SHAPES,                     // [key, what it is for]; Fracture's order and words by default
+       shapes: SurfaceCapture.SHAPES,                     // [key, what it is for]; the glass piece's order and words by default
        extras: [{ key: 'gif', show: s => s.mode === 'gif', items: [[3,'3s'],[5,'5s'],[8,'8s']], label: 'GIF length' }],
                                                           // or a slider: { key, type: 'range', min: 0, max: 1, step: .05,
                                                           //   ends: v => ['music 50%', 'mic 50%'], live: true (stays usable while busy) }

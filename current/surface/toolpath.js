@@ -5,7 +5,7 @@
    This module reads G-code and hands back two things any tool can use, and draws nothing itself:
 
      the PATH   where you are at any moment along the line: moves ONE thing (a sprite, a brush, a camera, a light,
-                a reveal, a playhead carrying sounds, as in Pullula's play lines)
+                a reveal, a playhead carrying sounds, as in the studio synth's play lines)
      the FIELD  a direction at every point of the stage: steers MANY things at once (particles, strands, water)
 
    Born in Current (works.chamy.xyz/current), which uses it for its field. Plain script, window.SurfaceToolpath,

@@ -1,12 +1,12 @@
-/* Surface · Instruments — sounds made in Pullula (recipes, format voice/0), imported into any tool and played there
+/* Surface · Instruments — sounds from the studio's synth (recipes, format voice/0), imported into any tool and played there
    (Dimitry, 22 Oct 2026: import into Current; "selectable on import and after, with touch as default").
 
-   What it opens: a recipe (voice/0), a Pullula mix (mix/0, each sound carries its recipe), saved mixes (mixes/0), a
-   list of recipes, an instrument/1 set (Fracture's set format: its own recipes, and the glass voices it has on, through
+   What it opens: a recipe (voice/0), a mix (mix/0, each sound carries its recipe), saved mixes (mixes/0), a
+   list of recipes, an instrument/1 set (the glass piece's set format: its own recipes, and the glass voices it has on, through
    the studio's library), or a pack zip holding any of those (SurfacePack). The library (voicelib.js) is offered in the
    sheet. "Save as a set" writes instrument/1 with the recipes and each one's role, carrying every section of the last
-   set opened that this tool does not use (Fracture's rule: an engine preserves what it does not understand). Recipes that need a live input (Pullula's vocal
-   sounds) are left out: they need Pullula's microphone chain.
+   set opened that this tool does not use (the glass piece's rule: an engine preserves what it does not understand). Recipes that need a live input (the studio synth's vocal
+   sounds) are left out: they need the studio synth's microphone chain.
 
    What a sound does is its ROLE, chosen when it comes in and changed any time after:
      touch    your finger on the stage plays it: a tap strikes, a hold sustains a held sound; left/right pans it
@@ -110,15 +110,15 @@
       made: { by: "you", from: name }, hold: long, trim: 0,
       layers: [{ source: "sample", sample: key, loop: long, start: { time: long ? 0.25 : 0.003, gain: 1 }, end: { time: long ? 0.8 : 0.06, gain: 0 } }] };
   }
-  /* every recipe in whatever was opened. An instrument/1 set (Fracture's set format, now every tool's) gives its own
-     recipes, and its voices that the studio's library has a recipe for (Fracture's glass, SurfaceVoiceLib.fracture);
-     a voice Fracture keeps off unless asked (crystal, scan) counts only when the set switches it on. */
+  /* every recipe in whatever was opened. An instrument/1 set (the glass piece's set format, now every tool's) gives its own
+     recipes, and its voices that the studio's library has a recipe for (the glass piece's glass, SurfaceVoiceLib.glass);
+     a voice the studio's glass piece keeps off unless asked (crystal, scan) counts only when the set switches it on. */
   var VOICE_OFF = ["crystal", "scan"];
   function fromSet(o, out) {
     if (Array.isArray(o.recipes)) recipesIn(o.recipes, out);
     var L = window.SurfaceVoiceLib, V = o.voices;
     if (L && V && typeof V === "object") Object.keys(V).forEach(function (id) {
-      var v = V[id] || {}, on = v.on == null ? VOICE_OFF.indexOf(id) < 0 : !!+v.on, nm = L.fracture[id];
+      var v = V[id] || {}, on = v.on == null ? VOICE_OFF.indexOf(id) < 0 : !!+v.on, nm = (L.glass || {})[id];
       if (!on || !nm) return;
       var r = L.sounds.filter(function (x) { return x.name === nm; })[0]; if (!r) return;
       r = JSON.parse(JSON.stringify(r)); r._level = Math.max(0, Math.min(2, typeof v.level === "number" ? v.level : 1)); out.push(r);
@@ -291,9 +291,9 @@
         });
       });
     }
-    /* SAVE AS A SET (instrument/1, Fracture's rule: an engine preserves what it does not understand). Every section of
+    /* SAVE AS A SET (instrument/1, the glass piece's rule: an engine preserves what it does not understand). Every section of
        the last set opened that this tool does not use goes back out unchanged; the recipes and each one's role here are
-       written in sections of their own, which Fracture and Pullula keep in turn. */
+       written in sections of their own, which the studio's other instruments keep in turn. */
     function exportSet(name) {
       var base = kept ? JSON.parse(JSON.stringify(kept)) : {};
       base.format = "instrument/1"; base.engine = O.key || "tool"; base.name = name || base.name || ((O.name || "My") + " instruments");
@@ -425,21 +425,21 @@
       var h = '<h2><span>' + esc(WD.title) + '</span><button type="button" class="x" aria-label="Close">✕</button></h2>';
       if (pending) {
         if (pending.error) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>: " + esc(pending.error) + '</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
-        else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " Pullula’s microphone)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
+        else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " a live microphone chain)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
         else h += '<div class="new"><p><b>' + pending.recipes.length + " sound" + (pending.recipes.length > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + '</p><p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p>" +
           (pending.notes && pending.notes.length ? '<p class="st">Left out: ' + pending.notes.map(esc).join(" · ") + "</p>" : "") +
           (pending.roles && pending.asSet !== false ? '<p>Each plays as the set says (touch, beat, bed or pattern); change any of them after.</p><div class="row"><button type="button" class="b own">Choose one role for all</button></div>'
             : "<p>How should " + (pending.recipes.length > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds")) +
           '<div class="row"><button type="button" class="b go pa">Add</button><button type="button" class="b pd">Cancel</button></div></div>';
       }
-      if (!list.length && !pending) h += "<p>Bring in sounds: your own recordings (wav, mp3, ogg, m4a), or a recipe, a mix or a pack made in Pullula or by hand (.json or .zip). Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p>";
+      if (!list.length && !pending) h += "<p>Bring in sounds: your own recordings (wav, mp3, ogg, m4a), or a recipe, a mix or a pack made in a synth or by hand (.json or .zip). Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p>";
       list.forEach(function (x) {
         h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="On or off">' + ON + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
           (x.role === "beat" || x.role === "pattern" ? '<button type="button" class="ev" title="How often">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button>" : "") + "</div>";
       });
       var L = window.SurfaceVoiceLib;
       if (L) h += '<p class="st">The studio’s library</p><div class="row"><button type="button" class="b lib" data-k="sounds">Glass and textures</button><button type="button" class="b lib" data-k="drums">Drums</button></div>';
-      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">' + esc(WD.save) + '</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a Pullula mix or a Fracture set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
+      h += '<div class="row"><button type="button" class="b imp">Import…</button>' + (canDir ? '<button type="button" class="b dir">Folder…</button>' : "") + (list.length ? '<button type="button" class="b sv">' + esc(WD.save) + '</button>' : "") + '</div><p class="st">Recordings, a pack (.zip), a sound, a mix or an instrument set; or drop them here. A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p>';
       box.innerHTML = h;
       var q = function (s) { return box.querySelector(s); };
       var xb = q(".x"); if (xb) xb.onclick = close;
