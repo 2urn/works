@@ -460,7 +460,7 @@ html{scroll-padding-top:calc(88px + env(safe-area-inset-top,0px))}
       <tr><td>trim · level</td><td>recipe · roles</td><td>dB on the recipe; 0 to 2 in roles</td></tr>
     </tbody>
   </table></div>
-  <p>The starter pack's <code>instrument.json</code> has eight working examples of all of this. Sounds made in Pullula (the studio's sound tool) use the same format and open here too.</p>
+  <p>The starter pack's <code>instrument.json</code> has eight working examples of all of this. Sounds made in the studio's sound tool use the same format and open here too.</p>
 </div></section>
 
 <section class="cx-grp ch" id="share"><button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="share-b"><i>07</i><span>Share with the ensemble</span><svg class="cx-ch" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="cx-gbody" id="share-b">
@@ -692,7 +692,7 @@ html{scroll-padding-top:calc(88px + env(safe-area-inset-top,0px))}
   const PROSE = '.cx-lead,.cx-body>p:not(.cx-acts):not(:has(a,button,input)),.cx-body dd,.cx-body .lp,.note,.sfs-prose';   // a paragraph holding a link or a control is a tool, not prose (Contact)
   const CSS = `
 .sfs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
-/* the Codex's page tools, as icons (from Pullula's page settings): the name shows in the hint as each is pointed at */
+/* the Codex's page tools, as icons (from the studio's page settings): the name shows in the hint as each is pointed at */
 .sfs-bar button{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.56;stroke-linecap:round;stroke-linejoin:round}
 .sfs-bar .sfs-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -801,7 +801,7 @@ html{scroll-padding-top:calc(88px + env(safe-area-inset-top,0px))}
 
     /* the toolbar */
     const bar = document.createElement('div'); bar.className = 'sfs-bar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', o.label + ': sections');
-    /* icons from the Codex's page settings (Pullula): fold (−), open (+), one at a time, explanations; reset is a turn-back arrow.
+    /* icons from the Codex's page settings (the studio's): fold (−), open (+), one at a time, explanations; reset is a turn-back arrow.
        Each button carries its name three ways: aria-label for screen readers, title for a desktop hover, and the hint at the
        left of the row while it is pointed at or focused (and briefly after a tap, for touch). */
     const ICO = { fold: '<path d="M5 12h14"/>', open: '<path d="M5 12h14M12 5v14"/>', one: '<path d="M5 5h14M5 19h14"/><rect x="5" y="9" width="14" height="6" rx="1"/>',
@@ -1447,17 +1447,10 @@ window.SurfaceMarks = {"lockup": "<svg class=\"sc-lockup\" viewBox=\"103.5 500.5
   },
   {
    "group": "Sister tools",
-   "name": "Pullula",
+   "name": "Two instruments still unreleased",
    "by": "CHAMY·XYZ",
-   "label": "voice/0",
-   "for": "the sound recipe format"
-  },
-  {
-   "group": "Sister tools",
-   "name": "Fracture",
-   "by": "CHAMY·XYZ",
-   "label": "instrument/1",
-   "for": "the set format"
+   "label": "voice/0 · instrument/1",
+   "for": "the sound recipe format and the set format"
   },
   {
    "group": "Your tools",
