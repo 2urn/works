@@ -153,9 +153,11 @@
   /* the sheet */
   var CSS = "\
 .sk-btn[hidden]{display:none!important}\
-.sk-ov{position:fixed;inset:0;z-index:60;display:flex;align-items:safe center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));background:rgb(var(--ui-g,14 14 16) / .78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--ui-ink,#eef1f2);opacity:0;transition:opacity .2s ease}\
+/* FULL SCREEN (Dimitry, 22 Oct 23:29: it covers most of the screen anyway, so make it full screen like the share sheet): an opaque page that scrolls as a whole, the head and its close stay at the top */\
+.sk-ov{position:fixed;inset:0;z-index:60;display:block;overflow-y:auto;overscroll-behavior:contain;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:rgb(var(--ui-g,14 14 16) / .985);color:var(--ui-ink,#eef1f2);opacity:0;transition:opacity .2s ease}\
 .sk-ov.on{opacity:1}.sk-ov[hidden]{display:none}\
-.sk-box{width:min(1180px,100%);max-height:100%;overflow:auto;scrollbar-gutter:stable;padding:22px 24px 18px;border:1px solid var(--ui-line,#23292b);background:var(--ui-solid,#0f1213);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45);box-sizing:border-box}\
+.sk-box{width:min(1180px,100%);margin:0 auto;padding:0 24px 32px;box-sizing:border-box}\
+.sk-hd{position:sticky;top:0;z-index:1;padding:14px 0 6px;background:rgb(var(--ui-g,14 14 16) / .985)}\
 .sk-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 4px}\
 .sk-hd h2{margin:0;font:600 13px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}\
 .sk-sub{margin:0 0 6px;font:400 12.5px/1.5 var(--sans,system-ui);color:var(--ui-dim,#8a9396)}\
@@ -197,7 +199,7 @@
     ov = el("div", "sk-ov"); ov.hidden = true; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); ov.setAttribute("aria-labelledby", "sk-title");
     box = el("div", "sk-box"); ov.appendChild(box);
     live = el("div", "sk-live"); live.setAttribute("aria-live", "polite"); ov.appendChild(live);
-    ov.addEventListener("pointerdown", function (e) { if (e.target === ov) close(); });
+    ov.addEventListener("pointerdown", function (e) { if (e.target === ov && e.clientX < ov.clientWidth) close(); });
     ov.addEventListener("keydown", function (e) {
       if (listening) return;
       if (e.key === "Escape" || e.key === "?") { e.preventDefault(); e.stopPropagation(); close(); return; }
@@ -264,7 +266,7 @@
   function setHold(v) { if (!HOLDS[v]) return; hold = v; save(HOLD, v); fire(); }
   function open() {
     if (!ov) build(); render(); lastFocus = document.activeElement;
-    ov.hidden = false; requestAnimationFrame(function () { ov.classList.add("on"); });
+    ov.hidden = false; ov.scrollTop = 0; requestAnimationFrame(function () { ov.classList.add("on"); });
     if (btn) btn.setAttribute("aria-expanded", "true");
     var c = box.querySelector(".sk-x"); if (c) c.focus({ preventScroll: true });
   }
