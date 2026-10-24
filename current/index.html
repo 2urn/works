@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261024125055";window.__VERSION__="0.30.9";window.__NOTES__=[{"v":"0.30.9","date":"24 Oct 2026","items":[{"kind":"change","text":"Pulse is a Pro feature, open to everyone in the beta (the open padlock)","pro":"pulse"},{"kind":"new","text":"the list of what's new marks Pro items with the padlock, open while that feature is in the beta"},{"kind":"fix","text":"on a phone, the last button you tapped in a shelf no longer turns white (a leftover hover that looked like a third state); lit in the accent is on, ink is off"},{"kind":"fix","text":"in the Color tool's row, the mixer pinned at the end is solid, so the colors scrolling under it no longer read through its glass (ARROWS showed through MIXER)"},{"kind":"change","text":"the Random matrix has tabs: Roll (how much changes, what Auto rolls from, roll now), then Field, Pulse, Color, and Lens & Auto, each with its own list of what rolls"},{"kind":"new","text":"Surge and Breathe can roll too, in the matrix's Pulse tab beside Sway, Magnet and Lag; they stay out until you tick them, so a roll never starts the field pulsing unasked","pro":"pulse"}]}]</script>
+<script>window.__BUILD__="20261024133511";window.__VERSION__="0.30.10";window.__NOTES__=[{"v":"0.30.10","date":"24 Oct 2026","items":[{"kind":"fix","text":"a scene's ground no longer changes the interface's accent; the teal stays teal on every ground and through a morph (it had flipped to black when a ground turned colored, sometimes mid-animation)"},{"kind":"fix","text":"what is chosen in a shelf is lit with the teal wash behind it, like the pills of the bottom shelf (WET, REACT, TOUCH…); on the light theme its darkened teal label had been almost the black of the others"},{"kind":"change","text":"in the Random matrix, Roll now is a round dice button at the top, at the end of how much changes; at the foot of the Roll tab it hid below the lists"},{"kind":"change","text":"What's new marks a Pro item with its padlock alone, without saying so in words"},{"kind":"new","text":"with Increase Contrast on (iPhone: Settings › Accessibility › Display & Text Size), the accent becomes ink on the light theme and white on the dark one; the sound's draining bar stays white inside its dark body, so it never reads dark grey on black"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261024125055"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261024125055">
+<script src="claude-web.js?v=20261024133511"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261024133511">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -132,38 +132,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261024125055"></script>
-<script src="surface/selftest.js?v=20261024125055"></script>
-<script src="surface/report.js?v=20261024125055"></script>
-<script src="surface/auto.js?v=20261024125055"></script>
-<script src="surface/toolpath.js?v=20261024125055"></script>
-<script src="surface/capture.js?v=20261024125055"></script>
-<script src="surface/pop.js?v=20261024125055"></script>
-<script src="surface/hints.js?v=20261024125055"></script>
-<script src="surface/paths.js?v=20261024125055"></script>
-<script src="surface/keys.js?v=20261024125055"></script>
-<script src="surface/reset.js?v=20261024125055"></script>
-<script src="surface/files.js?v=20261024125055"></script>
-<script src="surface/tabs.js?v=20261024125055"></script>
-<script src="surface/running.js?v=20261024125055"></script>
-<script src="surface/trim.js?v=20261024125055"></script>
-<script src="surface/audiowake.js?v=20261024125055"></script>
-<script src="surface/output.js?v=20261024125055"></script>
-<script src="surface/board.js?v=20261024125055"></script>
-<script src="surface/voice.js?v=20261024125055"></script>
-<script src="surface/voicelib.js?v=20261024125055"></script>
-<script src="surface/instruments.js?v=20261024125055"></script>
-<script src="surface/listview.js?v=20261024125055"></script>
-<script src="surface/beads.js?v=20261024125055"></script>
-<script src="surface/strip.js?v=20261024125055"></script>
-<script src="surface/sheetnav.js?v=20261024125055"></script>
-<script src="surface/twofinger.js?v=20261024125055"></script>
-<script src="surface/shortlink.js?v=20261024125055"></script>
-<script src="surface/undo.js?v=20261024125055"></script>
-<script src="surface/pro.js?v=20261024125055"></script>
-<script src="surface/fresh.js?v=20261024125055"></script>
-<script src="surface/notice.js?v=20261024125055"></script>
-<script src="surface/perform.js?v=20261024125055"></script>
+<script src="vendor/opentype.min.js?v=20261024133511"></script>
+<script src="surface/selftest.js?v=20261024133511"></script>
+<script src="surface/report.js?v=20261024133511"></script>
+<script src="surface/auto.js?v=20261024133511"></script>
+<script src="surface/toolpath.js?v=20261024133511"></script>
+<script src="surface/capture.js?v=20261024133511"></script>
+<script src="surface/pop.js?v=20261024133511"></script>
+<script src="surface/hints.js?v=20261024133511"></script>
+<script src="surface/paths.js?v=20261024133511"></script>
+<script src="surface/keys.js?v=20261024133511"></script>
+<script src="surface/reset.js?v=20261024133511"></script>
+<script src="surface/files.js?v=20261024133511"></script>
+<script src="surface/tabs.js?v=20261024133511"></script>
+<script src="surface/running.js?v=20261024133511"></script>
+<script src="surface/trim.js?v=20261024133511"></script>
+<script src="surface/audiowake.js?v=20261024133511"></script>
+<script src="surface/output.js?v=20261024133511"></script>
+<script src="surface/board.js?v=20261024133511"></script>
+<script src="surface/voice.js?v=20261024133511"></script>
+<script src="surface/voicelib.js?v=20261024133511"></script>
+<script src="surface/instruments.js?v=20261024133511"></script>
+<script src="surface/listview.js?v=20261024133511"></script>
+<script src="surface/beads.js?v=20261024133511"></script>
+<script src="surface/strip.js?v=20261024133511"></script>
+<script src="surface/sheetnav.js?v=20261024133511"></script>
+<script src="surface/twofinger.js?v=20261024133511"></script>
+<script src="surface/shortlink.js?v=20261024133511"></script>
+<script src="surface/undo.js?v=20261024133511"></script>
+<script src="surface/pro.js?v=20261024133511"></script>
+<script src="surface/fresh.js?v=20261024133511"></script>
+<script src="surface/notice.js?v=20261024133511"></script>
+<script src="surface/perform.js?v=20261024133511"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -184,13 +184,13 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261024125055"></script>
-<script src="surface/rail.js?v=20261024125055"></script>
-<script src="surface/touchsound.js?v=20261024125055"></script>
-<script src="surface/water.js?v=20261024125055"></script>
-<script src="surface/ripple.js?v=20261024125055"></script>
-<script src="surface/float.js?v=20261024125055"></script>
-<script src="surface/manual.js?v=20261024125055"></script>
+<script src="surface/pack.js?v=20261024133511"></script>
+<script src="surface/rail.js?v=20261024133511"></script>
+<script src="surface/touchsound.js?v=20261024133511"></script>
+<script src="surface/water.js?v=20261024133511"></script>
+<script src="surface/ripple.js?v=20261024133511"></script>
+<script src="surface/float.js?v=20261024133511"></script>
+<script src="surface/manual.js?v=20261024133511"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -219,8 +219,19 @@ body.sndOffing #playbar{z-index:91}   /* the bar over the shape while it runs, s
 :root{--ui-g:14 14 16;--ui-hi:255 255 255;--ui-ink:#eef1f2;--ui-solid:#0f1213;--ui-line:#23292b;--ui-dim:#8a9396;--ui-mid:#b9c2c5}
 /* THE ACCENT AS INK (Dimitry, 22 Oct 23:34: on the light theme the lit teal labels, WET 95%, REACT, the selected tab, were unreadable): text and line icons in the accent use --acc-tx, the accent itself on dark glass and the accent mixed 55% toward black on light glass (about 6:1 on the panels). Fills, borders and lit backgrounds keep --acc. --acc-dk is the mix, so kit modules can darken their own colors (a path's color, say) the same way: color-mix(in oklab,var(--c),#000 var(--acc-dk,0%)). */
 :root{--acc-dk:0%;--acc-tx:color-mix(in oklab,var(--acc,#55b8c9),#000 var(--acc-dk))}
+/* THE ACCENT BELONGS TO THE PERSON, NOT THE GROUND (Dimitry, 24 Oct, screen recording: a scene's ground turning blue flipped
+   the lit teal to black mid-way through the sound button closing; "it should only change that much when the user is selecting
+   dark or light", and of the black: "a sort of high contrast, but the users have control over that at the iPhone level").
+   The teal is the accent in both themes; Increase Contrast (prefers-contrast: more) gives ink on light glass, white on dark. */
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--acc-dk:55%}}
 :root[data-theme="light"]{--acc-dk:55%}
+@media (prefers-contrast:more){:root{--acc:#f4f6f7;--acc-rgb:244 246 247;--acc-ink:#0d0f10;--acc-dk:0%}}
+@media (prefers-contrast:more) and (prefers-color-scheme:light){:root:not([data-theme="dark"]){--acc:#0d0f10;--acc-rgb:13 15 16;--acc-ink:#f4f6f7}}
+@media (prefers-contrast:more){:root[data-theme="light"]{--acc:#0d0f10;--acc-rgb:13 15 16;--acc-ink:#f4f6f7}}
+/* the sound thermometer's body is always dark glass, so an ink accent would drain dark grey on black (Dimitry, 24 Oct):
+   there it reverses, white inside the black */
+@media (prefers-contrast:more) and (prefers-color-scheme:light){:root:not([data-theme="dark"]) .sndShape{--lit-fill:#f4f6f7}}
+@media (prefers-contrast:more){:root[data-theme="light"] .sndShape{--lit-fill:#f4f6f7}}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--ui-g:246 247 248;--ui-hi:0 0 0;--ui-ink:#0d0f10;--ui-solid:#f4f5f5;--ui-line:#d9dddf;--ui-dim:#5d6568;--ui-mid:#3a4144}}
 :root[data-theme="light"]{--ui-g:246 247 248;--ui-hi:0 0 0;--ui-ink:#0d0f10;--ui-solid:#f4f5f5;--ui-line:#d9dddf;--ui-dim:#5d6568;--ui-mid:#3a4144}
 
@@ -1116,7 +1127,7 @@ body #playbar>#pShot.busy{opacity:.55}
 #shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px,var(--pop-room,100vh));--cap-acc:var(--acc,#55b8c9);--cap-on:var(--acc-ink,#04181c)}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985);color-scheme:dark;
-  --ui-g:14 14 16;--ui-hi:255 255 255;--ui-ink:#eef1f2;--ui-solid:#0f1213;--ui-line:#23292b;--ui-dim:#8a9396;--ui-mid:#b9c2c5;--acc-dk:0%;--acc-tx:var(--acc,#55b8c9)}   /* the share sheet is the work's own dark room in either theme: its words stay light (on light they had gone dark on dark, 22 Oct) */
+  --ui-g:14 14 16;--ui-hi:255 255 255;--ui-ink:#eef1f2;--ui-solid:#0f1213;--ui-line:#23292b;--ui-dim:#8a9396;--ui-mid:#b9c2c5;--acc:#55b8c9;--acc-rgb:85 184 201;--acc-ink:#04181c;--acc-dk:0%;--acc-tx:var(--acc,#55b8c9)}   /* the share sheet is the work's own dark room in either theme: its words stay light (on light they had gone dark on dark, 22 Oct) */
 #imgwrap .owStage{flex:none;display:flex;justify-content:center;max-width:100%;margin-top:auto}
 #owTrimBox{flex:none;width:min(100%,720px);color:#eef1f2}
 #imgwrap img,#imgwrap video{max-width:100%;max-height:52vh;border:1px solid #23292b;background:#000}
@@ -1580,7 +1591,10 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 #rlBody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 0 8px}#rlBody>.rlPane[hidden]{display:none}
 #rlBody .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
 #rlBody .sub .tb{padding:0 0 0 10px}
-.rlAmt{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:10px;align-items:center;padding:2px 14px}
+.rlAmt{display:grid;grid-template-columns:minmax(0,1fr) 40px 44px;gap:10px;align-items:center;padding:2px 14px}
+.rlAmt .rlRollR{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);cursor:pointer}
+.rlAmt .rlRollR:hover{border-color:rgb(var(--ui-hi) / .4)}.rlAmt .rlRollR:active{transform:scale(.94)}.rlAmt .rlRollR:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
+.rlAmt .rlRollR svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}.rlAmt .rlRollR svg .dt{fill:currentColor;stroke:none}
 .rlAmt input{accent-color:var(--acc,#55b8c9)}
 .rlAmt span{font:12px var(--mono);color:var(--ui-mid);text-align:right;font-variant-numeric:tabular-nums}
 #rlBody .segs{padding:2px 14px}
@@ -1655,11 +1669,6 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 #plItems .lk.off>button.nm{opacity:.42}
 #plItems .lk.dragging{background:rgb(var(--acc-rgb,85 184 201) / .12);outline:1px solid #1f4f58}
 #plItems .sub{display:flex;justify-content:space-between;align-items:center}#plItems .sub .tb{padding:0 0 0 10px}
-.rlRow{display:flex;flex-wrap:wrap;gap:0 4px;padding:8px 4px 0;border-top:1px solid var(--ui-line);margin-top:6px}
-/* ROLL NOW is a button, not a heading (Dimitry, 23 Oct 00:26: it read as a title with nothing under it) */
-#rlBody .rlRow{padding:10px 14px 2px}#rlBody .rlRow .rlRoll{display:inline-flex;align-items:center;gap:8px;width:auto;min-height:40px;padding:0 18px;border-radius:99px;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
-#rlBody .rlRow .rlRoll:hover{border-color:rgb(var(--ui-hi) / .4)}#rlBody .rlRow .rlRoll:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
-#rlBody .rlRow .rlRoll svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}#rlBody .rlRow .rlRoll svg .dt{fill:currentColor;stroke:none}
 .meters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .meter{display:flex;flex-direction:column;gap:4px;font:500 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .meter b{display:block;height:34px;background:var(--bg);border:1px solid var(--line);position:relative;overflow:hidden}
@@ -1698,6 +1707,14 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 /* a label never runs past its button (Dimitry's iPhone, 20 Oct: SWEEP+FADER ran into OWN LINKS): clipped with an ellipsis */
 /* chosen = colour only, no box around it (Dimitry, 18 Oct): the icon and its label take the accent */
 .si[aria-pressed="true"]{background:none;color:var(--acc-tx)}.si[aria-pressed="true"] .lab{color:var(--acc-tx)}
+/* ...now lit with the wash behind, like the bottom shelf's chosen pills (Dimitry, 24 Oct, iPhone: "I can't tell the difference
+   between selected and not selected": on the light glass the darkened accent came out near-black beside the black labels).
+   Kept contained, the reason for colour-only on 18 Oct: a wash round an icon with its word under it ran big and touched its
+   neighbours. So it is the lit frost, not the solid accent, with air between neighbours and inside the wash. */
+:is(.shelf,#bshelf) .si[aria-pressed="true"]:not(#edShapeActs *,#edOpts *,#stRec,#stRes,#mgRec){isolation:isolate;color:var(--acc-ink,#04181c)}
+:is(.shelf,#bshelf) .si[aria-pressed="true"]:not(#edShapeActs *,#edOpts *,#stRec,#stRes,#mgRec)::before{content:"";position:absolute;inset:4px -4px;z-index:-1;border-radius:11px;background:var(--lit-fill);box-shadow:0 0 0 1px var(--lit-edge)}
+:is(.shelf,#bshelf) .si[aria-pressed="true"]:not(#edShapeActs *,#edOpts *,#stRec,#stRes,#mgRec) .lab{color:var(--acc-ink,#04181c)}
+:is(.shelf,#bshelf) .si{position:relative;margin:0 6px}
 #stRec[aria-pressed="true"],#stRec[aria-pressed="true"] .lab{background:none;color:#ff7a52}#stRes[aria-pressed="true"],#stRes[aria-pressed="true"] .lab{background:none;color:#f2c14e}
 #mgRec[aria-pressed="true"]{background:#ff7a52;color:#1a0904}#mgRec[aria-pressed="true"] .lab{color:#1a0904}#mgRec .sq{display:none}#mgRec[aria-pressed="true"] .sq{display:inline}#mgRec[aria-pressed="true"] .dot{display:none}
 #stRec .sq{display:none}#stRec[aria-pressed="true"] .sq{display:inline}#stRec[aria-pressed="true"] .dot{display:none}
@@ -3226,19 +3243,13 @@ const stageBg=()=>document.documentElement.classList.contains('srcIgnore')?'#050
 /* THE UI GUARD (Dimitry, 19 Oct: with grounds of any color, teal and the glass can't be counted on): whenever the
    ground changes, the panels' glass thickens on a colored or light ground so the controls keep their own ground, and
    the accent is checked against the panel it now sits on. Below WCAG 2.1's 3:1 for controls (1.4.11), teal gives way to
-   white or ink, whichever reads; the text on accent fills follows. */
+   white or ink, whichever reads; the text on accent fills follows. Since 24 Oct the guard
+   moves only the glass: the accent is the person's (theme, Increase Contrast), never the ground's (see THE ACCENT BELONGS...). */
 let UIG='';
 const wcagLum=h=>{const n=parseInt(String(h).slice(1),16)||0;return .2126*OKC.lin(n>>16&255)+.7152*OKC.lin(n>>8&255)+.0722*OKC.lin(n&255)};
 const wcagRatio=(a,b)=>{const x=wcagLum(a),y=wcagLum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
 function uiGuard(gh){gh=gh||groundHex()||'#050708';if(gh===UIG)return;UIG=gh;const R=document.documentElement.style,[L,C]=OKC.lch(gh);
-  const plain=L<.24&&C<.05,glass=plain?0:.88;if(glass)R.setProperty('--ui-glass',glass);else R.removeProperty('--ui-glass');
-  const ug=(getComputedStyle(document.documentElement).getPropertyValue('--ui-g').trim()||'14 14 16').split(/\s+/).map(Number),gi=parseInt(gh.slice(1),16),gr=[gi>>16&255,gi>>8&255,gi&255];
-  const a=plain?.62:glass,bg='#'+ug.map((v,i)=>Math.round(v*a+gr[i]*(1-a)).toString(16).padStart(2,'0')).join('');
-  const minR=wcagRatio('#55b8c9',bg);   // the accent sits on the panels, so it is judged against them
-  if(minR>=3||plain){R.removeProperty('--acc');R.removeProperty('--acc-rgb');R.removeProperty('--acc-ink');return}
-  const w=wcagRatio('#f4f6f7',bg),k=wcagRatio('#0d0f10',bg);
-  if(w>=k){R.setProperty('--acc','#f4f6f7');R.setProperty('--acc-rgb','244 246 247');R.setProperty('--acc-ink','#0d0f10')}
-  else{R.setProperty('--acc','#0d0f10');R.setProperty('--acc-rgb','13 15 16');R.setProperty('--acc-ink','#f4f6f7')}}
+  const plain=L<.24&&C<.05,glass=plain?0:.88;if(glass)R.setProperty('--ui-glass',glass);else R.removeProperty('--ui-glass')}
 const groundName=()=>{if(S.ground==='auto')return 'auto';const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
 const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
@@ -4120,6 +4131,11 @@ function buildRlist(){
   sub('how much changes');
   const am=document.createElement('div');am.className='rlAmt';
   am.innerHTML='<input type="range" id="rlAmt" min="0.05" max="1" step="0.01" aria-label="How much each roll changes"><span id="rlAmtV"></span>';b.appendChild(am);
+  /* ROLL NOW sits at the top, a round button at the end of the amount (Dimitry, 24 Oct: at the foot of the Roll tab it hid
+     below the scroll, under the long lists of shapes) */
+  {const x=document.createElement('button');x.type='button';x.className='rlRollR';x.title='Roll now';x.setAttribute('aria-label','Roll a random style now');
+   x.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>');
+   x.onclick=()=>randomLook(true);am.appendChild(x)}
   am.querySelector('input').oninput=e=>{RAND.amt=+e.target.value;persistRand();syncRand()};
   const mkList=(P,G)=>{b=P;
   /* how often it rolls is the bottom shelf's now, and only there (Dimitry, 21 Oct night: "it doesn't need to appear in both places"): drag down on the dice */
@@ -4184,12 +4200,8 @@ function buildRlist(){
   col('Maths',RAND_MATHS,'Maths shapes the random engine may use');col('Sound',RAND_SOUND,'Sound bands the random engine may use');
   b.appendChild(cols);
   const hint=document.createElement('p');hint.className='rlHint';hint.id='rlHint';b.appendChild(hint);
-  const row=document.createElement('div');row.className='rlRow';
   /* a matrix as a text code (copy / paste to someone) is built and waiting: held back until the free / pro ladder is
-     decided (Dimitry, 18 Oct: "not yet, we need to think of the free / pro ladder"). Parked in Modules/parked/matrix-code.js. */
-  [['roll now',()=>randomLook(true),'Roll a random style now']].forEach(([t,f,al])=>{
-    const x=document.createElement('button');x.type='button';x.className='rlRoll';x.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>')+'<span>'+t+'</span>';x.setAttribute('aria-label',al);x.onclick=f;row.appendChild(x)});
-  b.appendChild(row);
+     decided (Dimitry, 18 Oct). Parked in Modules/parked/matrix-code.js. Roll now moved to the top (24 Oct). */
   {const L=$('rlTabs');L.innerHTML='';$('rlist').querySelectorAll('.sfTabCap').forEach(c=>c.remove());
    const DICE=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>');
    window.RL_TABS=SurfaceTabs.mount(L,[{id:'roll',name:'Roll',title:'How much each roll changes, and what Auto rolls from',pane:roll,icon:DICE},
@@ -9372,10 +9384,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261024125055"></script>
-<script src="surface/links.js?v=20261024125055"></script>
-<script src="surface/tips.js?v=20261024125055"></script>
-<script src="surface/sections.js?v=20261024125055"></script>
+<script src="surface/install.js?v=20261024133511"></script>
+<script src="surface/links.js?v=20261024133511"></script>
+<script src="surface/tips.js?v=20261024133511"></script>
+<script src="surface/sections.js?v=20261024133511"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9552,7 +9564,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261024125055"></script>
+<script src="surface/room.js?v=20261024133511"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -9753,7 +9765,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261024125055"></script>
+<script src="surface/touch.js?v=20261024133511"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -10427,7 +10439,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.30.9';
+const APP_VERSION='0.30.10';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
