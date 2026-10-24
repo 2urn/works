@@ -17,6 +17,8 @@
      R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'; R.open(how, {feedback:true}) opens it ticked
      R.offer('the sound had to be restarted')   // a quiet line with "report it", for when the tool caught something
      R.send('what the tool caught', {extra: {…}})   // a report with no sheet (the black box); resolves true when sent
+     R.crashed({up})       // after a crash: the bug buttons (corner() ones and mount({buttons: selector})) glow for 30 s;
+                           //   the sheet opened meanwhile says the tool closed unexpectedly. mount({thanks:{bugTitle,bug,feedbackTitle,feedback}})
      R.corner(button)      // phones: puts the tool's bug button exactly where the sheet's close appears (returns its frame);
                            //   tablets: the sheet and the frame both open in the top right corner
    Plain script, window.SurfaceReport, no dependencies; reads SurfaceSelfTest when it is there. */
@@ -60,7 +62,19 @@
     ".srp-offer{position:fixed;z-index:79;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));translate:-50% 8px;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px;background:rgba(10,13,16,.92);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.14);font:400 12px/1.3 var(--sans,system-ui);opacity:0;transition:opacity .3s,translate .4s cubic-bezier(.16,1,.3,1);max-width:calc(100vw - 24px)}" +
     ".srp-offer.on{opacity:1;translate:-50% 0}.srp-offer button{border:0;border-radius:999px;padding:7px 12px;background:#fff;color:#0b0f10;font:600 10px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;white-space:nowrap}" +
     ".srp-offer .srp-ox{background:none;color:rgba(255,255,255,.6);padding:7px 6px}" +
-    "@media (prefers-reduced-motion:reduce){.srp,.srp-veil,.srp-offer{transition:opacity .2s}}";
+    /* THANK YOU (Dimitry, 24 Oct: "the form does clear but there's no real message ... I'd like a nice warm thank you that
+       appreciates the person, whether it's feedback or a bug; and the window can close after that"): once sent, the
+       sheet becomes the thank-you alone, large, then closes by itself */
+    ".srp-ty{display:none;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:18px 6px 14px}.srp.done>*:not(.srp-ty){display:none}.srp.done .srp-ty{display:flex}" +
+    ".srp-ty i{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.srp-ty i svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}" +
+    ".srp-ty b{font:600 19px/1.25 var(--sans,system-ui);color:#fff}.srp .srp-ty p{max-width:30ch;font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.82)}" +
+    /* AFTER A CRASH (Dimitry, 24 Oct: "maybe more subtle: the bug gets a little circle around it, a couple of times it glows
+       blue and then it settles; when you click it, it says there was a crash ... if they don't, after 30 seconds it is a
+       normal bug button"): the tool's bug buttons pulse a ring three times, keep a quiet ring, and let go after 30 s */
+    ".srp-glow{position:relative;border-radius:50%;animation:srpGlow 1.4s ease-out 3;box-shadow:0 0 0 2px var(--acc,#55b8c9)}" +
+    "@keyframes srpGlow{0%{box-shadow:0 0 0 2px var(--acc,#55b8c9),0 0 0 0 rgba(85,184,201,.7)}100%{box-shadow:0 0 0 2px var(--acc,#55b8c9),0 0 0 14px rgba(85,184,201,0)}}" +
+    ".srp-crash{display:none;margin:0;padding:10px 12px;border-radius:10px;background:rgba(85,184,201,.14);font:400 12.5px/1.45 var(--sans,system-ui);color:#fff}.srp.crash .srp-crash{display:block}" +
+    "@media (prefers-reduced-motion:reduce){.srp,.srp-veil,.srp-offer{transition:opacity .2s}.srp-glow{animation:none}}";
   function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
   function device() {
     var n = navigator, s = screen || {};
@@ -80,8 +94,11 @@
       '<label style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" for="srpE">Email (optional)</label><input id="srpE" type="email" maxlength="254" autocomplete="email" inputmode="email" placeholder="email, if you’d like a reply (optional)">' +
       '<details><summary>what’s sent</summary><pre></pre></details>' +
       (O.email ? '<p class="srp-alt">Rather write? <a href="mailto:' + O.email + '?subject=' + encodeURIComponent((O.name || "Tool") + " bug") + '">' + O.email + '</a></p>' : '') +
-      '<button type="button" class="srp-go">send</button><p class="srp-msg" role="status" aria-live="polite"></p>';
+      '<button type="button" class="srp-go">send</button><p class="srp-msg" role="status" aria-live="polite"></p>' +
+      '<div class="srp-ty" role="status" aria-live="polite"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><b class="srp-tyh"></b><p class="srp-typ"></p></div>';
     document.body.append(veil, box);
+    var cr = el("p", "srp-crash"); box.insertBefore(cr, box.children[1]);
+    var crash = null, glowT = 0, glowing = [];
     var ta = box.querySelector("textarea"), em = box.querySelector("input[type=email]"), pre = box.querySelector("pre"), go = box.querySelector(".srp-go"), msg = box.querySelector(".srp-msg");
     /* FEEDBACK ONLY (Dimitry, 22 Oct): ideas and wishes go in the same box, marked kind 'feedback', so they are read as
        requests and never sent to be reproduced and fixed as bugs */
@@ -100,6 +117,8 @@
     function close() { box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 360); if (last && last.focus) try { last.focus(); } catch (e) {} }
     function open(h, o2) {
       fbx.checked = !!(o2 && o2.feedback); mode();
+      box.classList.remove("done"); box.classList.toggle("crash", !!crash);
+      if (crash) { cr.textContent = (O.name || "The tool") + " closed unexpectedly last time" + (crash.up ? ", after " + (crash.up < 120 ? crash.up + " seconds" : Math.round(crash.up / 60) + " minutes") : "") + ". What was happening went to the studio by itself; a few words about what you were doing help find it."; if (!ta.value) ta.value = ""; unglow(); }
       how = h || "button"; sent = false; last = document.activeElement; go.disabled = false; go.textContent = "send"; say("");
       var g = gather(); pre.textContent = "version " + (ver() || "?") + "\n" + device() + "\n\n" + (g.state ? JSON.stringify(g.state, null, 1) + "\n\n" : "") + g.selftest;
       box.hidden = veil.hidden = false; requestAnimationFrame(function () { box.classList.add("on"); veil.classList.add("on"); });
@@ -119,9 +138,13 @@
       fetch(O.endpoint, { method: "POST", headers: { apikey: O.key, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify(body) })
         .then(function (r) {
           if (!r.ok) throw r.status;
-          sent = true; ta.value = ""; say(body.kind === "feedback" ? "Thank you. Your idea is in." : "Thank you. It’s on the list to be fixed, with everything needed to find it."); go.disabled = false; go.textContent = "close";
+          sent = true; ta.value = ""; say(""); go.disabled = false; go.textContent = "close"; crash = null;
+          var fb = body.kind === "feedback", W = O.thanks || {};
+          box.querySelector(".srp-tyh").textContent = fb ? (W.feedbackTitle || "Thank you for the idea") : (W.bugTitle || "Thank you for the report");
+          box.querySelector(".srp-typ").textContent = fb ? (W.feedback || "Ideas like yours shape what comes next. It’s in, and it will be read.") : (W.bug || "You’ve helped make this better for everyone who plays it. It’s in, with everything needed to find it.");
+          box.classList.remove("crash"); box.classList.add("done");
           if (window.cxCount) try { cxCount("report: sent", 1); } catch (e) {}
-          setTimeout(function () { if (sent && !box.hidden) close(); }, 3500);
+          setTimeout(function () { if (sent && !box.hidden) close(); }, 3200);
         })
         .catch(function (s) { go.disabled = false; say("That didn’t go through" + (typeof s === "number" ? " (" + s + ")" : "") + ". Try again in a moment.", 1); });
     };
@@ -143,13 +166,24 @@
       requestAnimationFrame(function () { ofr.classList.add("on"); }); clearTimeout(ofT); ofT = setTimeout(hideOffer, 9000);
     }
     function hideOffer() { if (!ofr) return; ofr.classList.remove("on"); clearTimeout(ofT); setTimeout(function () { if (ofr && !ofr.classList.contains("on")) ofr.hidden = true; }, 320); }
+    /* crashed({up}) — the page died on screen last time (the self-test's black box): the tool's bug buttons glow for 30 s,
+       and the sheet, opened in that time (or until it is opened once), says so above the question. */
+    function unglow() { clearTimeout(glowT); glowing.forEach(function (b) { b.classList.remove("srp-glow"); }); glowing = []; }
+    function crashed(info) {
+      crash = info || {};
+      var bs = [].slice.call(document.querySelectorAll(O.buttons || "")).concat(corners);
+      bs.forEach(function (b) { if (b && glowing.indexOf(b) < 0) { b.classList.add("srp-glow"); glowing.push(b); } });
+      clearTimeout(glowT); glowT = setTimeout(function () { unglow(); crash = null; }, O.glowFor || 30000);
+    }
+    var corners = [];
     function corner(btn) {
+      corners.push(btn);
       var f = el("div", "srp srp-frame"); f.setAttribute("role", "presentation");
       var hd = el("div", "srp-hd", '<p class="srp-h" aria-hidden="true">' + ICON + "<span>Report a bug</span></p>");
       btn.classList.add("srp-x"); if (!btn.innerHTML.trim()) btn.innerHTML = ICON; hd.appendChild(btn); f.appendChild(hd); document.body.appendChild(f);
       return f;
     }
-    return { open: open, close: close, offer: offer, gather: gather, corner: corner, send: send };
+    return { open: open, close: close, offer: offer, gather: gather, corner: corner, send: send, crashed: crashed };
   }
   window.SurfaceReport = { mount: mount, ICON: ICON };
 })();
