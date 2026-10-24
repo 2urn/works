@@ -164,8 +164,18 @@
 .sk-x{width:44px;height:44px;border:0;border-radius:50%;background:none;color:inherit;cursor:pointer;font:400 24px/1 var(--sans,system-ui)}\
 .sk-x:hover{background:rgb(var(--ui-hi,255 255 255) / .08)}\
 /* COLUMNS THAT FILL (Dimitry, 22 Oct 23:27: one tall column, cut off at the top on a large monitor; keyboard commands, not a novel): the rows flow down and across as many 300 px columns as fit, a group continuing into the next column; compact rows */\
-.sk-cols{column-width:300px;column-gap:32px}.sk-g{break-inside:auto}.sk-g h3{break-after:avoid}.sk-row{break-inside:avoid}\
-.sk-g h3{margin:12px 0 4px;font:500 11px/1.2 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}\
+/* HEADERS IN ONE LINE (Dimitry, 24 Oct: the headers above the groups they serve, aligned together): each group is a block on one grid, its header on top, its rows flowing into the columns it was given (fit() shares the columns by row count); every header starts at the same height */\
+.sk-cols{display:grid;grid-template-columns:repeat(var(--sk-n,1),minmax(0,1fr));column-gap:32px;align-items:start}.sk-g{grid-column:span var(--sk-k,1);min-width:0}\
+.sk-gc{column-count:var(--sk-k,1);column-gap:32px}.sk-row,.sk-sg{break-inside:avoid}\
+.sk-sg h4{margin:14px 0 4px;font:500 10.5px/1.2 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim,#8a9396);opacity:.85}\
+/* PLAY WITH (Dimitry, 24 Oct: keys, then MIDI and OSC, Pro, greyed out, coming soon) */\
+.sk-in{margin-top:18px}.sk-in .sk-ins{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0 2px;border-top:1px solid var(--ui-line,#23292b)}\
+.sk-src{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border:1.5px solid rgb(var(--ui-hi,255 255 255) / .55);border-radius:18px;font:600 13px/1 var(--mono,ui-monospace,monospace);color:var(--ui-ink,#eef1f2);box-sizing:border-box}\
+.sk-src.sk-on{border-color:var(--sk-acc,#55b8c9)}.sk-src.sk-on::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--sk-acc,#55b8c9)}\
+.sk-src.sk-soon{opacity:.45;border-style:dashed;cursor:not-allowed}.sk-src em{font:400 11.5px/1 var(--sans,system-ui);font-style:normal;color:var(--ui-dim,#8a9396)}\
+.sk-src svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\
+.sk-in p{margin:6px 0 0;font:400 12px/1.5 var(--sans,system-ui);color:var(--ui-dim,#8a9396)}\
+.sk-g h3{margin:12px 0 4px;break-after:avoid;font:500 11px/1.2 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}\
 .sk-row{display:flex;align-items:center;gap:12px;min-height:36px;border-top:1px solid var(--ui-line,#23292b)}\
 .sk-caps{flex:none;display:flex;gap:5px;min-width:76px}.sk-caps.sk-wrap{flex:1 1 100%;flex-wrap:wrap;padding:6px 0}.sk-row:has(.sk-wrap){flex-wrap:wrap}\
 .sk-cap{display:inline-grid;place-items:center;min-width:32px;height:32px;padding:0 8px;border:1.5px solid rgb(var(--ui-hi,255 255 255) / .55);border-bottom-width:2.5px;border-radius:6px;background:none;font:600 13.5px/1 var(--mono,ui-monospace,monospace);color:var(--ui-ink,#eef1f2);box-sizing:border-box;cursor:pointer}\
@@ -212,6 +222,20 @@
       e.stopPropagation();
     });
     document.body.appendChild(ov);
+    addEventListener("resize", function () { if (!ov.hidden) fit(); });
+  }
+  /* share the grid's columns between the groups by row count, so the columns come out even and every header sits on one line */
+  var lay = null, ro = null;
+  function fit() {
+    if (!lay || !lay.cols.isConnected) return;
+    var W = lay.cols.clientWidth || Math.min(1180, innerWidth) - 48, B = lay.blocks, C = Math.max(1, Math.floor((W + 32) / 332));
+    var tot = B.reduce(function (t, b) { return t + Math.max(1, b.n); }, 0), R = Math.max(1, Math.ceil(tot / C)), ks;
+    for (;; R++) { ks = B.map(function (b) { return Math.min(C, Math.max(1, Math.ceil(Math.max(1, b.n) / R))); });
+      if (C < B.length || ks.reduce(function (t, k) { return t + k; }, 0) <= C) break; }
+    if (C >= B.length) for (var left = C - ks.reduce(function (t, k) { return t + k; }, 0); left > 0; left--) {   // spare columns go to the tallest column, so the grid fills the width
+      var j = 0; B.forEach(function (b, i) { if (b.n / ks[i] > B[j].n / ks[j]) j = i; }); ks[j]++; }
+    lay.cols.style.setProperty("--sk-n", String(C));
+    B.forEach(function (b, i) { b.sec.style.setProperty("--sk-k", String(ks[i])); });
   }
   function render() {
     if (!box) return; var keep = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.sk : null;
@@ -220,16 +244,21 @@
     var x = el("button", "sk-x", "×"); x.type = "button"; x.setAttribute("aria-label", "Close the keys"); x.onclick = close; x.dataset.sk = "x";
     hd.append(h, x); box.appendChild(hd);
     box.appendChild(el("p", "sk-sub", "Tap a key to change it, then press the key you want. If another action had it, the two swap."));
-    var cols = el("div", "sk-cols");
+    var cols = el("div", "sk-cols"), blocks = [], cur = null;
     (opts.groups || []).forEach(function (g) {
-      var sec = el("section", "sk-g"); sec.appendChild(el("h3", null, g.name));
+      /* a compact run (presets 1 to 9) sits inside the group before it, under its own small heading, unless sub:false */
+      var nest = cur && (g.sub === true || (g.compact && g.sub !== false));
+      var sec, gc;
+      if (nest) { sec = el("div", "sk-sg"); sec.appendChild(el("h4", null, g.name)); cur.gc.appendChild(sec); gc = sec; cur.n += 2; }
+      else { sec = el("section", "sk-g"); sec.appendChild(el("h3", null, g.name)); gc = el("div", "sk-gc"); sec.appendChild(gc); cols.appendChild(sec);
+        cur = { sec: sec, gc: gc, n: 0 }; blocks.push(cur); }
       if (g.compact) {   // a run of actions read as one row (presets 1 to 9): one cap each, every one its own key
         var row = el("div", "sk-row"), caps = el("span", "sk-caps sk-wrap");
         (g.actions || []).forEach(function (a) { var k = keysOf(a)[0] || "";
           var c = el("button", "sk-cap" + (isChar(k) ? " sk-ch" : "") + (!k ? " sk-none" : "") + (map[a.id] !== undefined ? " sk-moved" : ""), k || "add");
           c.type = "button"; c.dataset.sk = a.id + ":0"; c.setAttribute("aria-label", (k || "No key") + " \u2014 " + a.d + ". Change the key");
           c.onclick = function () { listen(a, c); }; caps.appendChild(c); });
-        row.append(caps); if (g.d) row.appendChild(el("span", null, g.d)); sec.appendChild(row); cols.appendChild(sec); return;
+        row.append(caps); if (g.d) row.appendChild(el("span", null, g.d)); gc.appendChild(row); cur.n += 2; return;
       }
       (g.actions || []).forEach(function (a) {
         var row = el("div", "sk-row"), caps = el("span", "sk-caps"), ks = keysOf(a);
@@ -241,11 +270,22 @@
           if (a.fixed) c.disabled = true; else c.onclick = function () { listen(a, c); };
           caps.appendChild(c);
         });
-        row.append(caps, el("span", null, a.d)); sec.appendChild(row);
+        row.append(caps, el("span", null, a.d)); gc.appendChild(row); cur.n++;
       });
-      cols.appendChild(sec);
     });
+    lay = { cols: cols, blocks: blocks }; fit();
     box.appendChild(cols);
+    var ins = opts.inputs === false ? null : (opts.inputs || [{ id: "keys", name: "Keys", on: true }, { id: "midi", name: "MIDI", soon: true }, { id: "osc", name: "OSC", soon: true }]);
+    if (ins) {
+      var lock = window.SurfacePro && SurfacePro.SHUT ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + SurfacePro.SHUT + SurfacePro.BODY + "</svg>" : "";
+      var is = el("section", "sk-g sk-in"), row2 = el("div", "sk-ins"); is.appendChild(el("h3", null, opts.inputsTitle || "Play with"));
+      ins.forEach(function (s0) { var c = el("span", "sk-src" + (s0.on ? " sk-on" : "") + (s0.soon ? " sk-soon" : ""));
+        c.textContent = s0.name; if (s0.soon) { c.insertAdjacentHTML("afterbegin", lock); c.appendChild(el("em", null, "coming soon")); c.setAttribute("aria-disabled", "true"); c.title = s0.name + ": coming with Pro"; }
+        row2.appendChild(c); });
+      is.appendChild(row2);
+      is.appendChild(el("p", null, opts.inputsNote || "MIDI and OSC are coming with Pro: the same actions, played from a controller or another app."));
+      box.appendChild(is);
+    }
     var ft = el("div", "sk-ft");
     var sw = el("button", "sk-sw"); sw.type = "button"; sw.setAttribute("role", "switch"); sw.dataset.sk = "sw";
     sw.append(el("i"), el("span", null, "Single-key shortcuts")); sw.setAttribute("aria-checked", String(on)); box.classList.toggle("sk-off", !on);
@@ -266,7 +306,7 @@
   function setHold(v) { if (!HOLDS[v]) return; hold = v; save(HOLD, v); fire(); }
   function open() {
     if (!ov) build(); render(); lastFocus = document.activeElement;
-    ov.hidden = false; ov.scrollTop = 0; requestAnimationFrame(function () { ov.classList.add("on"); });
+    ov.hidden = false; ov.scrollTop = 0; fit(); requestAnimationFrame(function () { ov.classList.add("on"); });
     if (btn) btn.setAttribute("aria-expanded", "true");
     var c = box.querySelector(".sk-x"); if (c) c.focus({ preventScroll: true });
   }
