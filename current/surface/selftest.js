@@ -38,7 +38,9 @@
        mascot: '#duckBtn svg',                // the mark to glitch (default: [data-selftest-mascot])
        checks: [{ id: 'index', name: 'Index', test: () => !!document.getElementById('idx') }, …]
      })
-     SurfaceSelfTest.beat()  beat('paused')  show()  run() → results  report() → text */
+     SurfaceSelfTest.beat()  beat('paused')  show()  run() → results  report() → text
+   THE BLACK BOX: start({box: () => ({…a few facts…}), onCrash: note => …}): a page that died on screen reports itself at
+   the next start (see the block below); SurfaceSelfTest.crashed holds that note. */
 (function () {
   "use strict";
   var O = null, ERR = [], last = 0, first = 0, t0 = Date.now(), el = null, shown = false, dismissed = false, results = [];
@@ -81,8 +83,27 @@
      another site that is scrolled off screen, a collapsed pane or a covered window gets no frames at all while
      document.hidden stays false. The kit keeps one tiny frame of its own: while it doesn't run either, the browser is
      not drawing, which is not the tool's stall. When frames come back the clocks start again, like a return. */
-  var drawn = Date.now();
-  (function tick() { var n = Date.now(); if (n - drawn > 1000) { if (!first) t0 = n; else last = n; } drawn = n; requestAnimationFrame(tick); })();
+  var drawn = Date.now(), fps = 0, fn = 0, ft = Date.now();
+  (function tick() { var n = Date.now(); if (n - drawn > 1000) { if (!first) t0 = n; else last = n; } drawn = n; fn++; if (n - ft >= 1000) { fps = fn; fn = 0; ft = n; } requestAnimationFrame(tick); })();
+  /* ---- THE BLACK BOX (24 Oct 2026, Dimitry's iPhone: the page was closed by iOS while he played, again and again, with
+     no error and no stall in this log, so nothing on the device could say why). Every 3 s while the page is on screen the
+     kit writes a small note (time, uptime, frames per second, the last errors, and O.box(), the tool's own few facts:
+     scene, sound, open panel). Leaving properly (hidden, pagehide: another app, the lock screen, a reload, an update)
+     marks it clean. A note found unclean at the next start means the page died while it was being looked at: that is
+     logged, and O.onCrash(note) is called a few seconds later so the tool can report it by itself. ---- */
+  var BOXK = "surface.selftest.box.";
+  function boxKey() { return BOXK + ((O && O.tool) || "tool"); }
+  function boxWrite(clean) {
+    if (!O) return;
+    try {
+      var b = { at: Date.now(), up: Math.round((Date.now() - t0) / 1000), v: String(O.version || ""), clean: !!clean, fps: fps, err: ERR.slice(-3) };
+      try { if (O.box) b.s = O.box(); } catch (e) { b.s = { error: String(e && e.message || e) }; }
+      try { if (performance.memory) b.heap = Math.round(performance.memory.usedJSHeapSize / 1e6); } catch (e) {}
+      localStorage.setItem(boxKey(), JSON.stringify(b).slice(0, 4000));
+    } catch (e) {}
+  }
+  addEventListener("visibilitychange", function () { boxWrite(document.hidden); });
+  addEventListener("pagehide", function () { boxWrite(true); });
   function asleep() { return document.hidden || Date.now() - drawn > 1000; }
   function heart() {
     var now = Date.now();
@@ -200,6 +221,13 @@
   }
   function start(o) {
     O = o || {};
+    var prevBox = null; try { prevBox = JSON.parse(localStorage.getItem(boxKey()) || "null"); } catch (e) {}
+    if (prevBox && !prevBox.clean && Date.now() - prevBox.at < 30 * 60000) {
+      api.crashed = prevBox;
+      log("ended unexpectedly after " + prevBox.up + " s on screen" + (prevBox.v ? " (" + prevBox.v + ")" : ""));
+      if (O.onCrash) setTimeout(function () { try { O.onCrash(prevBox); } catch (e) { keep("onCrash", e && e.message || e); } }, O.crashDelay || 8000);
+    }
+    boxWrite(document.hidden); setInterval(function () { if (!document.hidden) boxWrite(false); }, 3000);
     var waited = 0, go = function () {
       var ready = true; try { ready = O.ready ? !!O.ready() : true; } catch (e) { ready = false; }
       waited += 500;

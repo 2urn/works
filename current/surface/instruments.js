@@ -31,6 +31,8 @@
      I.import(file)      a file the tool was handed (drop, open)
      I.list()            [{ id, name, role, every, on }]
      I.sound(id)         { id, name, recipe, role, on, level }      I.ensure(recipes, role) → ids (reuses what is there)
+   Words and help (24 Oct 2026): mount({ words: { title, save, lead }, help: { label, go() } }): the sheet opens on its title
+     large and the lead ("Bring in your own sounds"); help adds a link to the tool's longer guide.
    Pad (23 Oct 2026): mount({ pad: { name, title, surface ('the stage'), add(id, x, y), drag(pointerEvent, id), count(id), color(id), presets(),
      preset(name) }, pro: { pad: 'pad' } }) adds the Pad role (named pad.name), a "put on the stage" button on each Pad
      sound (tap, or drag it onto the stage), the pad's presets, and a Pro mark on any role named in pro.
@@ -150,8 +152,8 @@
     O = O || {};
     /* O.words (22 Oct 2026, Dimitry: "kit or pack … be consistent; pack is a common thing in this world"): what the sheet
        calls itself and its save button. Default Instruments / Save as a set; Current says Pack / Save as a pack. */
-    var WD = { title: "Instruments", save: "Save as a set" };
-    if (O.words && typeof O.words === "object") { if (typeof O.words.title === "string") WD.title = O.words.title; if (typeof O.words.save === "string") WD.save = O.words.save; }
+    var WD = { title: "Instruments", save: "Save as a set", lead: "Bring in your own sounds" };
+    if (O.words && typeof O.words === "object") { if (typeof O.words.title === "string") WD.title = O.words.title; if (typeof O.words.save === "string") WD.save = O.words.save; if (typeof O.words.lead === "string") WD.lead = O.words.lead; }
     var LS = "surface.instruments." + (O.key || "tool"), list = [], kept = null;
     var PADO = O.pad && typeof O.pad === "object" ? O.pad : null;
     var MY_ROLES = PADO ? ROLES.concat([[PAD_ROLE[0], PADO.name || PAD_ROLE[1], PADO.title || PAD_ROLE[2]]]) : ROLES;
@@ -399,6 +401,10 @@
       "@media (min-width:900px) and (hover:hover){.sin:not(.sin-in){top:50%;translate:-50% -50%}}.sin.on{opacity:1}.sin[hidden],.sin-veil[hidden]{display:none}" +
       ".sin h2{display:flex;align-items:center;justify-content:space-between;margin:0;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase}" +
       ".sin .x{width:32px;height:32px;margin:-6px -6px -6px 0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);font:16px/1 system-ui;cursor:pointer}" +
+      ".sin .lead{display:grid;gap:6px;padding-bottom:4px}.sin .lead .lt{font:600 19px/1.15 var(--sans,system-ui,sans-serif);color:var(--ui-ink,#eef1f2)}.sin .lead .ls{font:600 14px/1.3 var(--sans,system-ui,sans-serif);color:var(--ui-ink,#eef1f2)}" +
+      ".sin .steps{margin:2px 0 0;padding-left:20px;display:grid;gap:4px;font-size:12.5px;line-height:1.4;color:rgb(var(--ui-hi,255 255 255) / .78)}.sin .steps b{color:var(--ui-ink,#eef1f2);font-weight:600}" +
+      ".sin .hl{justify-self:start;margin-top:2px;padding:6px 0;border:0;background:none;color:var(--acc-tx,var(--acc,#55b8c9));font:600 10px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;cursor:pointer}" +
+      ".sin .sh{margin:8px 0 0;font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}" +
       ".sin p{margin:0;color:rgb(var(--ui-hi,255 255 255) / .72);font-size:12px}.sin .st{font:500 10px/1.3 var(--mono,monospace);letter-spacing:.06em;color:rgb(var(--ui-hi,255 255 255) / .55)}" +
       ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgb(var(--ui-hi,255 255 255) / .1);color:var(--ui-ink,#fff);font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
       ".sin button.go{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}.sin .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
@@ -428,6 +434,7 @@
       ".sin .lb .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.sin .lb b{font:600 13px/1.2 var(--sans,system-ui)}.sin .lb small{font:400 11.5px/1.35 var(--sans,system-ui);color:rgb(var(--ui-hi,255 255 255) / .62)}" +
       ".sin .lb .tag{margin-left:6px;padding:2px 6px;border-radius:8px;font:600 9px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;background:rgb(var(--ui-hi,255 255 255) / .1);color:rgb(var(--ui-hi,255 255 255) / .75);vertical-align:1px}" +
       ".sin .s-lvbar{margin:2px 0 4px}.sin .s-lvbar>.segs{gap:4px}.sin .s-lvbar .sg{min-height:32px;padding:0 12px!important;border:0;border-radius:16px;background:rgb(var(--ui-hi,255 255 255) / .08);color:rgb(var(--ui-hi,255 255 255) / .75);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap}" +
+      ".sin .s-lvbar>.segs{overflow-x:auto;scrollbar-width:none}.sin .s-lvbar>.segs>.sg{flex:0 0 auto!important}" +   /* each pill as wide as its word: shrunk to share the row, TEXTURES ran into DRUMS (24 Oct) */
       ".sin .s-lvbar .sg[aria-checked=true]{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}" +
       ".sin .lb button.b{flex:none}.sin .lb button.b[disabled]{opacity:.5;cursor:default}" +
       ".sin .off .nm{opacity:.5}.sin .new{background:rgb(var(--ui-hi,255 255 255) / .05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}";
@@ -538,6 +545,15 @@
           '<div class="row"><button type="button" class="b go pa">Add</button><button type="button" class="b pd">Cancel</button></div></div>';
       }
       if (infoOn) h += '<div class="info" id="sin-info-' + esc(KEY) + '"><p>Bring in sounds: your own recordings (wav, mp3, ogg, m4a), or a recipe, a mix or a pack made in a synth or by hand (.json or .zip), with the round buttons at the top or by dropping them here. Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p><p>A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p></div>';
+      /* THE LEAD (Dimitry, 24 Oct, driving: "it should say pack at the top and bring in your own media ... no heading, no
+         bold"): the sheet names itself and its purpose in large type, with the way to the tool's longer guide (O.help);
+         the how-to stays behind the i, the packs in the browser below. */
+      if (!pending) {
+        h += '<div class="lead">' + (O.host ? "" : '<p class="lt">' + esc(WD.title) + "</p>") + '<p class="ls">' + esc(WD.lead) + "</p>";   // hosted, the panel's own heading already names it
+        if (O.help && O.help.label) h += '<button type="button" class="hl">' + esc(O.help.label) + " \u2192</button>";
+        h += "</div>";
+      }
+      if (list.length && !pending) h += '<p class="sh">Your sounds</p>';
       list.forEach(function (x) {
         h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="On or off">' + ON + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
           (x.role === "beat" || x.role === "pattern" ? '<button type="button" class="ev" title="How often">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button>" : "") +
@@ -550,6 +566,7 @@
       var q = function (s) { return box.querySelector(s); };
       var xb = q(".x"); if (xb) xb.onclick = close;
       head();
+      var hl = q(".hl"); if (hl) hl.onclick = function () { try { O.help.go(); } catch (e) {} };
       library(q(".lbs"));
       var sv = q(".sv"); if (sv) sv.onclick = saveSet;
       var pd = q(".pd"); if (pd) pd.onclick = function () { pending = null; render(); };

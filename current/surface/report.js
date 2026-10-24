@@ -16,6 +16,7 @@
      });
      R.open('button')      // open the sheet; how: 'button' | 'offer' | 'selftest' | 'key'; R.open(how, {feedback:true}) opens it ticked
      R.offer('the sound had to be restarted')   // a quiet line with "report it", for when the tool caught something
+     R.send('what the tool caught', {extra: {…}})   // a report with no sheet (the black box); resolves true when sent
      R.corner(button)      // phones: puts the tool's bug button exactly where the sheet's close appears (returns its frame);
                            //   tablets: the sheet and the frame both open in the top right corner
    Plain script, window.SurfaceReport, no dependencies; reads SurfaceSelfTest when it is there. */
@@ -124,6 +125,16 @@
         })
         .catch(function (s) { go.disabled = false; say("That didn’t go through" + (typeof s === "number" ? " (" + s + ")" : "") + ". Try again in a moment.", 1); });
     };
+    /* send(note, {extra}) — a report with no sheet, for what the tool caught by itself (24 Oct: the black box reports a
+       page that died on screen). Same body as the sheet's, how "selftest"; resolves true when it went through. */
+    function send(note, o2) {
+      o2 = o2 || {};
+      if (!O.endpoint || !O.key) return Promise.resolve(false);
+      var g = gather(); if (o2.extra) g.extra = o2.extra;
+      var body = { tool: O.tool || "tool", version: String(ver() || "").slice(0, 24) || null, note: String(note || "").slice(0, 2000), log: g, device: device().slice(0, 300), page: location.pathname.slice(0, 300), email: null, how: "selftest", kind: "bug" };
+      return fetch(O.endpoint, { method: "POST", headers: { apikey: O.key, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify(body) })
+        .then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
     var ofr = null, ofT = 0;
     function offer(t) {
       if (!ofr) { ofr = el("div", "srp-offer"); ofr.setAttribute("role", "status"); ofr.innerHTML = '<span></span><button type="button" class="srp-oy">report it</button><button type="button" class="srp-ox" aria-label="Dismiss">✕</button>'; document.body.appendChild(ofr);
@@ -138,7 +149,7 @@
       btn.classList.add("srp-x"); if (!btn.innerHTML.trim()) btn.innerHTML = ICON; hd.appendChild(btn); f.appendChild(hd); document.body.appendChild(f);
       return f;
     }
-    return { open: open, close: close, offer: offer, gather: gather, corner: corner };
+    return { open: open, close: close, offer: offer, gather: gather, corner: corner, send: send };
   }
   window.SurfaceReport = { mount: mount, ICON: ICON };
 })();
