@@ -35,6 +35,7 @@
        email: 'hi@chamy.xyz',
        recover: () => …,                      // try to get the frames going again without a reload
        resume: () => …,                       // save state, reload straight back to it (no cover, no opening)
+       grace: 20000,                          // ms after the stage first plays when a stall never reloads (a cold start after an update)
        mascot: '#duckBtn svg',                // the mark to glitch (default: [data-selftest-mascot])
        checks: [{ id: 'index', name: 'Index', test: () => !!document.getElementById('idx') }, …]
      })
@@ -255,6 +256,11 @@
             if (last > before && Date.now() - last < 1500) { log("recovered by itself"); return setTimeout(watch, 2000); }
             if (asleep()) return setTimeout(watch, 2000);   // the browser stopped drawing meanwhile: never reload a page nobody sees
             var k = "surface.selftest.resumed." + (O.tool || "tool"), prev = 0; try { prev = +sessionStorage.getItem(k) || 0; } catch (e) {}
+            /* NOT IN THE FIRST SECONDS (Dimitry, 24 Oct 19:48: after updates, when he had not opened it for a while, the
+               white duck came down, the page started over, and the duck came down again). A cold start after an update
+               (new files downloading, fonts, the first frames) can pause the frames for more than the stall; that is a
+               slow start, not a frozen stage, so no reload inside O.grace (20 s) of the page opening: log and keep watching. */
+            if (Date.now() - t0 < (O.grace || 20000)) { log("slow start: no reload in the first " + Math.round((O.grace || 20000) / 1000) + " s"); return setTimeout(watch, 2000); }
             if (O.resume && Date.now() - prev > 60000) {
               log("resumed: reloaded back to where it was");
               try { sessionStorage.setItem(k, String(Date.now())); } catch (e) {}

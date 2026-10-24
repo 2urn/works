@@ -25,6 +25,8 @@
 (function () {
   "use strict";
   if (window.SurfaceReport) return;
+  /* feedback wears a smile, not the bug (Dimitry, 24 Oct 19:51: "it should be turned into maybe a little smiley face so that it's no longer a bug") */
+  var SMILE = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M8.6 14.2a4.2 4.2 0 0 0 6.8 0"/><circle cx="9.3" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="14.7" cy="10" r=".9" fill="currentColor" stroke="none"/></svg>';
   var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 7.5a3 3 0 0 1 6 0"/><rect x="7" y="7.5" width="10" height="12" rx="5"/><path d="M12 11v8.5"/><path d="M7 12H3.5M20.5 12H17M7.3 16.5l-3 2M16.7 16.5l3 2M7.6 9 4.5 6.5M16.4 9l3.1-2.5"/></svg>';
   var CSS =
     ".srp-veil{position:fixed;inset:0;z-index:80;background:rgba(5,7,9,.62);opacity:0;transition:opacity .35s ease}.srp-veil.on{opacity:1}" +
@@ -103,7 +105,8 @@
     /* FEEDBACK ONLY (Dimitry, 22 Oct): ideas and wishes go in the same box, marked kind 'feedback', so they are read as
        requests and never sent to be reproduced and fixed as bugs */
     var fbx = box.querySelector(".srp-fbx"), ttl = box.querySelector(".srp-t"), lead = box.querySelector(".srp-lead");
-    function mode() { var f = fbx.checked; ttl.textContent = f ? "Send feedback" : "Report a bug"; ta.placeholder = f ? "your idea, or what you wish it did" : "what happened?";
+    function mode() { var f = fbx.checked; ttl.textContent = f ? "Send feedback" : "Report a bug";
+      { var hp = box.querySelector("#srpH"), ic = hp && hp.querySelector("svg"); if (ic && ic.dataset.k !== (f ? "s" : "b")) { ic.outerHTML = f ? SMILE : ICON; var n2 = hp.querySelector("svg"); if (n2) n2.dataset.k = f ? "s" : "b"; } } ta.placeholder = f ? "your idea, or what you wish it did" : "what happened?";
       lead.textContent = f ? "An idea, a wish, something that could work better? Say it here." : "Something not right? Say what you did and what happened."; }
     fbx.onchange = mode;
     var say = function (t, bad) { msg.textContent = t; msg.classList.toggle("bad", !!bad); };
@@ -185,5 +188,5 @@
     }
     return { open: open, close: close, offer: offer, gather: gather, corner: corner, send: send, crashed: crashed };
   }
-  window.SurfaceReport = { mount: mount, ICON: ICON };
+  window.SurfaceReport = {SMILE: SMILE,  mount: mount, ICON: ICON };
 })();
