@@ -53,13 +53,14 @@
   'use strict';
   const PROSE = '.cx-lead,.cx-body>p:not(.cx-acts):not(:has(a,button,input)),.cx-body dd,.cx-body .lp,.note,.sfs-prose';   // a paragraph holding a link or a control is a tool, not prose (Contact)
   const CSS = `
-.sfs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
+.sfs-bar{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 2px;margin:14px 0 2px;padding:0}
 /* the Codex's page tools, as icons (from the studio synth's page settings): the name shows in the hint as each is pointed at */
 .sfs-bar button{width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .sfs-bar button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.56;stroke-linecap:round;stroke-linejoin:round}
 .sfs-bar .sfs-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.sfs-hint{margin-right:auto;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#8a9396);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
-.sfs-hint.on{opacity:1}
+/* the hint takes no room (Dimitry, 24 Oct 17:19: hovering print shook the panel up and down: a longer name widened the hint, the row wrapped, the button slid from under the pointer, the hint went, the row unwrapped, again) */\
+.sfs-hint{position:absolute;left:0;top:50%;transform:translateY(-50%);font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#8a9396);opacity:0;transition:opacity .15s;pointer-events:none;white-space:nowrap}
+.sfs-hint.on{opacity:1}.sfs-hint.up{top:auto;bottom:100%;transform:none;margin-bottom:2px}
 .sfs-bar button:hover{color:var(--fg,#eef1f2)}
 .sfs-bar button[aria-pressed="true"]{color:var(--acc-tx,var(--accent,#55b8c9))}
 .sfs-bar button[hidden]{display:none}
@@ -170,7 +171,7 @@
       why: '<path d="M5 7h14M5 12h14M5 17h9"/>', out: '<rect x="3.5" y="5" width="11" height="14" rx="1.5"/><path d="M14 9.5h6.5V19H9"/><path d="M17 3.5h3.5V7M20.5 3.5 15 9"/>', print: '<path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="1.5"/><path d="M7 14h10v6.5H7z"/>', reset: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v3.8h3.8"/>', link: '<path d="M14 5h5v5M19 5l-8 8"/><path d="M17 14v5H5V7h5"/>' };
     const hint = document.createElement('span'); hint.className = 'sfs-hint'; hint.setAttribute('aria-hidden', 'true'); bar.appendChild(hint);
     let ht = 0;
-    const show = (b, ms) => { clearTimeout(ht); hint.textContent = b.dataset.name; hint.classList.add('on'); if (ms) ht = setTimeout(() => hint.classList.remove('on'), ms); };
+    const show = (b, ms) => { clearTimeout(ht); hint.textContent = b.dataset.name; hint.classList.remove('up'); { const f = bar.querySelector('button:not([hidden])'); if (f && hint.offsetWidth > f.offsetLeft - 8) hint.classList.add('up'); } hint.classList.add('on'); if (ms) ht = setTimeout(() => hint.classList.remove('on'), ms); };
     const hide = () => { clearTimeout(ht); hint.classList.remove('on'); };
     const mk = (txt, aria, fn, ico) => { const b = document.createElement('button'); b.type = 'button';
       b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (ICO[ico] || ICO.link) + '</svg><span class="sfs-name">' + txt + '</span>';
