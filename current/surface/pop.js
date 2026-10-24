@@ -19,7 +19,13 @@
      with a ⌄, the whole band's height its target; Esc stays the tool's;
    - the panel opens rising from its button and closes sliding down toward it (translate and opacity, 240 ms,
      ease-out in, ease-in out; a fade only under reduced motion). 'toward' is the bar button it belongs to;
-   - a downward swipe on the band closes it (a click on the close, so the tool's own close runs). */
+   - a downward swipe on the band closes it (a click on the close, so the tool's own close runs).
+
+   PIN (Dimitry, 24 Oct 2026, Current 0.30.6: "add a pin to this area so that when we want to keep a modal up for a
+   while, we can pin it ... the pin is there to hold the position"). { foot: true, pin: true } puts a pin in the band's
+   end group, left of ‹ › and Close. Pressed, the panel carries .spop-pinned and SurfacePop.pinned(el) is true: the tool
+   asks that before an outside tap closes it, so the stage can be played with the panel up. Close still closes; the pin
+   is remembered per panel id on this device (localStorage "surface.pin.<id>") and fires "spop-pin" on the panel. */
 (function () {
   "use strict";
   if (window.SurfacePop) return;
@@ -74,6 +80,11 @@
        left of ‹ › ⌄, so titles and tabs never push it */
     ".spop-foot>.spop-head>.spop-right{margin-left:auto;flex:none}.spop-foot>.spop-head>.spop-right~.spop-end{margin-left:0}",
     ".spop-foot>.spop-head>.spop-end>.s-snav-band,.spop-foot>.spop-head>.spop-end>.spop-vx{margin:0;flex:none}",
+    /* the pin: a band cell like ‹ ›; pressed, a filled pin in the accent and a lit top edge, so a pinned panel reads at a glance */
+    ".spop-pin{align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}",
+    ".spop-pin:hover{color:var(--ui-ink,#fff)}.spop-pin:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
+    ".spop-pin svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:rotate .2s ease}",
+    ".spop-pin[aria-pressed=true]{color:var(--acc-tx,var(--acc,#55b8c9));box-shadow:inset 0 2px 0 var(--acc,#55b8c9)}.spop-pin[aria-pressed=true] svg{fill:currentColor;rotate:0deg}.spop-pin[aria-pressed=false] svg{rotate:35deg}",
     /* SPAN (22 Oct): a panel is exactly the bar's width, from its first button's left edge to its last one's right */
     ".spop.spop-span{left:var(--span-l,12px)!important;right:auto!important;width:var(--span-w,calc(100vw - 24px))!important;max-width:none!important;min-width:0!important;transform:none!important;box-sizing:border-box;container-type:inline-size}"
   ].join("\n");
@@ -108,6 +119,7 @@
     if (head && x && head.contains(x) && !(x.parentNode && x.parentNode.classList && x.parentNode.classList.contains("spop-end"))) {
       var end = document.createElement("div"); end.className = "spop-end"; head.appendChild(end); end.appendChild(x);
     }
+    if (o.pin && head && x && x.parentNode && x.parentNode.classList.contains("spop-end")) pinIn(el, x.parentNode, o);
     /* where to slide: from the panel's bottom middle to its button's middle, measured each time it opens */
     var aim = function () {
       var b = o.toward ? q(document, o.toward) : null; if (!b || !b.offsetWidth) { el.style.removeProperty("--spop-dx"); el.style.removeProperty("--spop-dy"); return; }
@@ -124,6 +136,23 @@
       head.addEventListener("touchend", function (e) { if (!s0) return; var t = e.changedTouches[0], dx = t.clientX - s0.x, dy = t.clientY - s0.y; var ok = dy > 40 && Math.abs(dx) < dy * .7 && performance.now() - s0.t < 700; s0 = null; if (ok) x.click(); }, { passive: true });
       head.addEventListener("touchcancel", function () { s0 = null; }, { passive: true });
     }
+  }
+  var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6M10 3.5v6.2L6.8 13.5h10.4L14 9.7V3.5M12 13.5v7"/></svg>';
+  function pinKey(el) { return el.id ? "surface.pin." + el.id : null; }
+  function pinned(el) { el = q(document, el); return !!(el && el.classList.contains("spop-pinned")); }
+  function pinIn(el, end, o) {
+    if (end.querySelector(".spop-pin")) return;
+    var b = document.createElement("button"); b.type = "button"; b.className = "spop-pin"; b.innerHTML = PIN; b.setAttribute("data-noswipe", "");
+    var k = pinKey(el), on = false; try { on = !!k && localStorage.getItem(k) === "1"; } catch (e) {}
+    var set = function (v, quiet) {
+      on = !!v; el.classList.toggle("spop-pinned", on); b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-label", on ? "Pinned: this panel stays open while you play. Tap to unpin" : "Pin this panel: it stays open while you play on the stage");
+      b.title = on ? "Pinned" : "Pin";
+      if (!quiet) { try { if (k) localStorage.setItem(k, on ? "1" : "0"); } catch (e) {} try { el.dispatchEvent(new CustomEvent("spop-pin", { detail: { pinned: on } })); } catch (e) {} }
+    };
+    b.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
+    b.onclick = function (e) { e.stopPropagation(); set(!on); };
+    set(on, true); end.insertBefore(b, end.firstChild);
   }
   /* GLIDE: folded sections fade and settle as they open and close, and the page's own scrolling panes scroll
      smoothly. SurfacePop.glide({ shut: 'cx-shut', bodies: '.cx-gbody,.cx-body', scrollers: '#panel,.track' }).
@@ -168,5 +197,5 @@
     document.addEventListener("fullscreenchange", function () { last = ""; setTimeout(measure, 120); });
     return { measure: function () { last = ""; measure(); } };
   }
-  window.SurfacePop = { dress: dress, css: CSS, X: X, V: V, glide: glide, span: span };
+  window.SurfacePop = { dress: dress, css: CSS, X: X, V: V, glide: glide, span: span, pinned: pinned };
 })();

@@ -150,7 +150,7 @@
     root.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); close(); } });
     build();
     /* FOOT: the head goes to the bottom as pop.js's band, the × becomes the vertical close */
-    if (o.foot && window.SurfacePop) { x.innerHTML = ""; head.appendChild(x); SurfacePop.dress(root, { head: head, close: x, label: "Close the capture options", foot: true, toward: o.toward || null }); }
+    if (o.foot && window.SurfacePop) { x.innerHTML = ""; head.appendChild(x); SurfacePop.dress(root, { head: head, close: x, label: "Close the capture options", foot: true, pin: !!o.pin, toward: o.toward || null }); }
     return { el: root, build: build, open: open, close: close, isOpen: isOpen, go: go };
   }
   window.SurfaceCapture = { panel: panel, SHAPES: SHAPES };
