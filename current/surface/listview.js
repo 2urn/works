@@ -53,12 +53,21 @@
     "@container (min-width:560px){.s-lvcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;align-content:start;grid-auto-flow:column;" +
     "grid-template-rows:var(--lv-tpl,auto)}.s-lvcols>.s-lvhead,.s-lvcols>.s-lvfoot{grid-column:1/-1}}";
   function css() { if (document.getElementById("slv-css")) return; var s = document.createElement("style"); s.id = "slv-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
-  function group(name, opts, get, set) {
-    var g = document.createElement("div"); g.className = "segs"; g.setAttribute("role", "radiogroup"); g.setAttribute("aria-label", name);
-    var sync = function () { [].forEach.call(g.children, function (y, i) { y.setAttribute("aria-checked", String(opts[i][0] === get())); }); };
+  /* MULTI (Dimitry, 24 Oct 2026, Current 0.30.7: "there's no way to select more than one collection. They should actually
+     be toggles ... and all obviously would select all of them"). bar({ multi: true }): the show row is checkboxes; get().show
+     is an array of keys, [] meaning all. Tapping all clears to all; tapping a key while all is lit picks that key alone;
+     after that each tap adds or removes it, and removing the last goes back to all. The first option is the all key. */
+  function group(name, opts, get, set, multi) {
+    var g = document.createElement("div"); g.className = "segs"; g.setAttribute("role", multi ? "group" : "radiogroup"); g.setAttribute("aria-label", name);
+    var ALL = opts.length ? opts[0][0] : "all";
+    var on = function (k) { if (!multi) return k === get(); var a = get() || []; return k === ALL ? !a.length : a.indexOf(k) >= 0; };
+    var pick = function (k) { if (!multi) { set(k); return; } var a = (get() || []).slice();
+      if (k === ALL) a = []; else { var i = a.indexOf(k); if (i >= 0) a.splice(i, 1); else a.push(k); if (a.length >= opts.length - 1) a = []; }
+      set(a); };
+    var sync = function () { [].forEach.call(g.children, function (y, i) { y.setAttribute("aria-checked", String(on(opts[i][0]))); }); };
     opts.forEach(function (o) {
-      var x = document.createElement("button"); x.type = "button"; x.className = "sg"; x.innerHTML = starLabel(o[1]); x.setAttribute("role", "radio"); x.setAttribute("aria-label", o[2] || o[0]);
-      x.onclick = function () { set(o[0]); sync(); }; g.appendChild(x);
+      var x = document.createElement("button"); x.type = "button"; x.className = "sg"; x.innerHTML = starLabel(o[1]); x.setAttribute("role", multi ? "checkbox" : "radio"); x.setAttribute("aria-label", o[2] || o[0]);
+      x.onclick = function () { pick(o[0]); sync(); }; g.appendChild(x);
     });
     sync(); return g;
   }
@@ -122,7 +131,7 @@
   }
   function bar(o) {
     css(); var b = document.createElement("div"); b.className = "s-lvbar";
-    if (o.show && o.show.length) b.appendChild(group((o.label ? o.label + ": " : "") + "show", o.show, function () { return o.get().show; }, function (v) { o.set({ show: v }); }));
+    if (o.show && o.show.length) b.appendChild(group((o.label ? o.label + ": " : "") + "show", o.show, function () { return o.get().show; }, function (v) { o.set({ show: v }); }, !!o.multi));
     if (o.sort && o.sort.length) b.appendChild(o.sortAs === "segs" ? group((o.label ? o.label + ": " : "") + "sort", o.sort, function () { return o.get().sort; }, function (v) { o.set({ sort: v }); }) : sortMenu(o));
     return b;
   }
