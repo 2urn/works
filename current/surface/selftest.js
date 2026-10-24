@@ -109,6 +109,8 @@
   }
   function report() {
     var lines = [(O.tool || "Tool") + " self-test", "version " + (O.version || "?") + (window.__BUILD__ ? " · build " + window.__BUILD__ : ""), location.href.split("#")[0], navigator.userAgent, ""];
+    /* Display (24 Oct 2026): what this device saw, so a report from any device says how big things were there */
+    try { lines.push("Display: " + (window.SurfaceSize ? SurfaceSize.line() : "window " + innerWidth + "×" + innerHeight + " · screen " + screen.width + "×" + screen.height + " · pixel ratio " + (Math.round(devicePixelRatio * 100) / 100) + " · " + (matchMedia("(pointer:coarse)").matches ? "finger" : "mouse")), ""); } catch (e) {}
     results.forEach(function (r) { lines.push((r.ok ? "ok   " : "FAIL ") + r.name + (r.why ? ": " + r.why : "")); });
     if (ERR.length) { lines.push("", "Errors and warnings:"); ERR.forEach(function (e) { lines.push(e); }); }
     var lg = logGet(); if (lg.length) { lines.push("", "Log (this device):"); lg.forEach(function (e) { lines.push(e.at + "  " + e.what + (e.err && e.err.length ? "  [" + e.err.join(" / ") + "]" : "")); }); }
