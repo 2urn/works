@@ -3,6 +3,8 @@
 
      var T = SurfaceTabs.mount(listEl, [{ id, name, icon, title, pane, onShow }, …], storageKey);
      T.show(id) · T.last() · T.current() · T.step(±1) → false at an end · T.ids()
+     T.only([ids] | null): show only these tabs' buttons (one panel, several rooms: Current's Sound, Touch and In share it);
+       the arrows, step() and a show() of a hidden tab stay inside; null shows them all
    Builds a button per tab (the WAI-ARIA tabs pattern: arrows, Home, End; aria-selected, aria-controls), shows one pane,
    remembers the last tab, and fires 'sftab' on the list ({detail:{id, pane}}).
 
@@ -22,6 +24,7 @@
     ":where(.sfTab) svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sfTab):hover,:where(.sfTab[aria-selected=true]){color:var(--ui-ink,#eef1f2)}:where(.sfTab[aria-selected=true]){border-bottom-color:var(--acc,#55b8c9)}" +
     ":where(.sfPaneH){margin:0;padding:14px 16px 2px;font:600 15px/1.25 var(--sans,system-ui,sans-serif);letter-spacing:0;text-transform:none;color:var(--ui-ink,#eef1f2)}:where(.sfPaneH[hidden]){display:none}" +
+    ":where(.sfTab[hidden]){display:none}" +
     ":where(.sfTab):focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}" +
     ":where(.sfTab[aria-selected=false]) span,:where(.sfTabs.icons .sfTab) span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}" +
     ":where(.sfTabCap){margin:12px 16px 0;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-ink,#eef1f2)}:where(.sfTabCap[hidden]){display:none}";
@@ -32,21 +35,24 @@
      at the top"): with {heads:true} each pane gets its tab's name as a heading just above it (an h2, .sfPaneH), shown and
      hidden with the pane, outside it, so a pane that redraws itself never loses its title. The small caption under the
      tabs (.sfTabCap) is not needed then. */
-  var M = function (list,tabs,key,opt){const btns={};let cur=null;opt=opt||{};
+  var M = function (list,tabs,key,opt){const btns={};let cur=null,room=null;opt=opt||{};const vis=()=>tabs.filter(t=>!room||room.indexOf(t.id)>=0);
   if(opt.heads)tabs.forEach(t=>{if(!t.pane||t.head)return;const h=document.createElement(opt.tag||'h2');h.className='sfPaneH';h.textContent=t.name;h.hidden=!!t.pane.hidden;t.pane.before(h);t.head=h;   /* the head follows its pane's hidden however the pane is shown */
     try{new MutationObserver(()=>{h.hidden=!!t.pane.hidden}).observe(t.pane,{attributes:true,attributeFilter:['hidden']})}catch(_){}});
   const cap=document.createElement('p');cap.className='sfTabCap';cap.setAttribute('aria-hidden','true');cap.hidden=true;(list.parentElement||list).after(cap);
   const fit=()=>{list.classList.remove('icons');const tight=list.scrollWidth>list.clientWidth+1;list.classList.toggle('icons',tight);const t=tabs.find(t=>t.id===cur);cap.textContent=t?t.name:'';if(opt.heads){cap.hidden=true;return}cap.hidden=!tight};
   try{new ResizeObserver(()=>fit()).observe(list)}catch(_){addEventListener('resize',fit)}
   const get=()=>{try{const v=localStorage.getItem(key);return tabs.some(t=>t.id===v)?v:tabs[0].id}catch(_){return tabs[0].id}};
-  const show=id=>{if(!tabs.some(t=>t.id===id))id=tabs[0].id;cur=id;for(const t of tabs){const on=t.id===id,b=btns[t.id];b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;t.pane.hidden=!on;if(t.head)t.head.hidden=!on}
+  const show=id=>{if(!vis().some(t=>t.id===id))id=(vis()[0]||tabs[0]).id;cur=id;for(const t of tabs){const on=t.id===id,b=btns[t.id];b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;t.pane.hidden=!on;if(t.head)t.head.hidden=!on}
     try{localStorage.setItem(key,id)}catch(_){}fit();const t=tabs.find(t=>t.id===id);if(t.onShow)t.onShow();list.dispatchEvent(new CustomEvent('sftab',{detail:{id,pane:t.pane}}))};
   tabs.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='sfTab';b.setAttribute('role','tab');b.id=list.id+'-'+t.id;
     b.setAttribute('aria-controls',t.pane.id);t.pane.setAttribute('aria-labelledby',b.id);b.innerHTML=(t.icon||'')+'<span></span>';b.querySelector('span').textContent=t.name;
     if(t.title)b.title=t.title;b.onclick=()=>show(t.id);
-    b.onkeydown=e=>{const k=e.key;let j=-1;if(k==='ArrowRight')j=(i+1)%tabs.length;else if(k==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;else if(k==='Home')j=0;else if(k==='End')j=tabs.length-1;
-      if(j<0)return;e.preventDefault();show(tabs[j].id);btns[tabs[j].id].focus()};btns[t.id]=b;list.appendChild(b)});
+    b.onkeydown=e=>{const V=vis(),i=V.findIndex(x=>x.id===t.id),n=V.length,k=e.key;let j=-1;if(k==='ArrowRight')j=(i+1)%n;else if(k==='ArrowLeft')j=(i-1+n)%n;else if(k==='Home')j=0;else if(k==='End')j=n-1;
+      if(j<0)return;e.preventDefault();show(V[j].id);btns[V[j].id].focus()};btns[t.id]=b;list.appendChild(b)});
   /* step(±1): the next or previous tab, false at either end (no wrap), so a swipe can bounce there (sheetnav.js) */
-  const step=d=>{const i=tabs.findIndex(t=>t.id===cur),j=i+d;if(i<0||j<0||j>=tabs.length)return false;show(tabs[j].id);return true};
-  return {show,last:get,current:()=>cur,step,ids:()=>tabs.map(t=>t.id),list}};
+  const step=d=>{const V=vis(),i=V.findIndex(t=>t.id===cur),j=i+d;if(i<0||j<0||j>=V.length)return false;show(V[j].id);return true};
+  /* ROOMS (Dimitry, 24 Oct 19:17: Sound plays and shapes, Touch gathers what a finger does, In brings things in): one
+     panel, its tabs shown by room; a room of one tab hides the tab row's other buttons, the head names the page */
+  const only=ids=>{room=ids&&ids.length?ids.slice():null;for(const t of tabs)btns[t.id].hidden=!!room&&room.indexOf(t.id)<0;list.classList.toggle('sfOne',vis().length<2);if(cur&&room&&room.indexOf(cur)<0)show(vis()[0].id);else fit()};
+  return {show,last:get,current:()=>cur,step,only,room:()=>room,ids:()=>tabs.map(t=>t.id),list}};
 })();
