@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261024191530";window.__VERSION__="0.31.1";window.__NOTES__=[{"v":"0.31.1","date":"24 Oct 2026","items":[{"kind":"change","text":"the controls are sized to the window: the bar follows the window's shorter side, so a short, wide window gives the stage more room and a big monitor gets bigger buttons; shelves and panels keep their proportions with it. Phones look as they did"},{"kind":"new","text":"Settings › Size: Small, Medium or Large controls on this device, for zoom, a projector across the room, or eyesight"},{"kind":"new","text":"the self-test report says what the device saw: window, pixel ratio, finger or mouse, the size in use"}]}]</script>
+<script>window.__BUILD__="20261024202702";window.__VERSION__="0.31.2";window.__NOTES__=[{"v":"0.31.2","date":"24 Oct 2026","items":[{"kind":"fix","text":"on a big screen the panels above the bar grow with their contents, so Auto play shows everything without a scrollbar"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261024191530"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261024191530">
+<script src="claude-web.js?v=20261024202702"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261024202702">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -132,38 +132,38 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261024191530"></script>
-<script src="surface/selftest.js?v=20261024191530"></script><script src="surface/size.js?v=20261024191530"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261024191530"></script>
-<script src="surface/auto.js?v=20261024191530"></script>
-<script src="surface/toolpath.js?v=20261024191530"></script>
-<script src="surface/capture.js?v=20261024191530"></script>
-<script src="surface/pop.js?v=20261024191530"></script>
-<script src="surface/hints.js?v=20261024191530"></script>
-<script src="surface/paths.js?v=20261024191530"></script>
-<script src="surface/keys.js?v=20261024191530"></script>
-<script src="surface/reset.js?v=20261024191530"></script>
-<script src="surface/files.js?v=20261024191530"></script>
-<script src="surface/tabs.js?v=20261024191530"></script>
-<script src="surface/running.js?v=20261024191530"></script>
-<script src="surface/trim.js?v=20261024191530"></script>
-<script src="surface/audiowake.js?v=20261024191530"></script>
-<script src="surface/output.js?v=20261024191530"></script>
-<script src="surface/board.js?v=20261024191530"></script>
-<script src="surface/voice.js?v=20261024191530"></script>
-<script src="surface/voicelib.js?v=20261024191530"></script>
-<script src="surface/instruments.js?v=20261024191530"></script>
-<script src="surface/listview.js?v=20261024191530"></script>
-<script src="surface/beads.js?v=20261024191530"></script>
-<script src="surface/strip.js?v=20261024191530"></script>
-<script src="surface/sheetnav.js?v=20261024191530"></script>
-<script src="surface/twofinger.js?v=20261024191530"></script>
-<script src="surface/shortlink.js?v=20261024191530"></script>
-<script src="surface/undo.js?v=20261024191530"></script>
-<script src="surface/pro.js?v=20261024191530"></script>
-<script src="surface/fresh.js?v=20261024191530"></script>
-<script src="surface/notice.js?v=20261024191530"></script>
-<script src="surface/perform.js?v=20261024191530"></script>
+<script src="vendor/opentype.min.js?v=20261024202702"></script>
+<script src="surface/selftest.js?v=20261024202702"></script><script src="surface/size.js?v=20261024202702"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261024202702"></script>
+<script src="surface/auto.js?v=20261024202702"></script>
+<script src="surface/toolpath.js?v=20261024202702"></script>
+<script src="surface/capture.js?v=20261024202702"></script>
+<script src="surface/pop.js?v=20261024202702"></script>
+<script src="surface/hints.js?v=20261024202702"></script>
+<script src="surface/paths.js?v=20261024202702"></script>
+<script src="surface/keys.js?v=20261024202702"></script>
+<script src="surface/reset.js?v=20261024202702"></script>
+<script src="surface/files.js?v=20261024202702"></script>
+<script src="surface/tabs.js?v=20261024202702"></script>
+<script src="surface/running.js?v=20261024202702"></script>
+<script src="surface/trim.js?v=20261024202702"></script>
+<script src="surface/audiowake.js?v=20261024202702"></script>
+<script src="surface/output.js?v=20261024202702"></script>
+<script src="surface/board.js?v=20261024202702"></script>
+<script src="surface/voice.js?v=20261024202702"></script>
+<script src="surface/voicelib.js?v=20261024202702"></script>
+<script src="surface/instruments.js?v=20261024202702"></script>
+<script src="surface/listview.js?v=20261024202702"></script>
+<script src="surface/beads.js?v=20261024202702"></script>
+<script src="surface/strip.js?v=20261024202702"></script>
+<script src="surface/sheetnav.js?v=20261024202702"></script>
+<script src="surface/twofinger.js?v=20261024202702"></script>
+<script src="surface/shortlink.js?v=20261024202702"></script>
+<script src="surface/undo.js?v=20261024202702"></script>
+<script src="surface/pro.js?v=20261024202702"></script>
+<script src="surface/fresh.js?v=20261024202702"></script>
+<script src="surface/notice.js?v=20261024202702"></script>
+<script src="surface/perform.js?v=20261024202702"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -184,13 +184,13 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261024191530"></script>
-<script src="surface/rail.js?v=20261024191530"></script>
-<script src="surface/touchsound.js?v=20261024191530"></script>
-<script src="surface/water.js?v=20261024191530"></script>
-<script src="surface/ripple.js?v=20261024191530"></script>
-<script src="surface/float.js?v=20261024191530"></script>
-<script src="surface/manual.js?v=20261024191530"></script>
+<script src="surface/pack.js?v=20261024202702"></script>
+<script src="surface/rail.js?v=20261024202702"></script>
+<script src="surface/touchsound.js?v=20261024202702"></script>
+<script src="surface/water.js?v=20261024202702"></script>
+<script src="surface/ripple.js?v=20261024202702"></script>
+<script src="surface/float.js?v=20261024202702"></script>
+<script src="surface/manual.js?v=20261024202702"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -862,7 +862,7 @@ body #pAuto.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
   --pop-room:calc(100dvh - var(--pop-base,110px) - var(--pop-gap,12px) - env(safe-area-inset-top,0px) - 70px)}@media (max-width:560px){:root{--pop-gap:10px}}@media (min-width:1400px){:root{--pop-gap:16px}}
 #playname{position:fixed;left:0;right:0;z-index:7;bottom:calc(96px + max(0px,env(safe-area-inset-bottom,0px) - 26px) - var(--vgap,0px));text-align:center;pointer-events:none;font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 6px #000;opacity:0;transition:opacity .25s ease}
 #playname.show{opacity:1}
-#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#plist{position:fixed;z-index:31;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(72vh,calc(580px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #plist[hidden]{display:none}
 .mxh{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 4px 0 14px;border-bottom:1px solid var(--ui-line);font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
 .tb{background:transparent;border:0;color:var(--ui-dim);font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px;cursor:pointer}
@@ -1131,7 +1131,7 @@ body #playbar>#pShot.busy{opacity:.55}
 #pShot.rec #pRecTime{display:block;color:#fff;background:#c4302a;border-color:#c4302a;z-index:4}
 #pSnd{--sh-ring:rgb(var(--acc-rgb,85 184 201) / .85)}.sh-here{--sh-acc:var(--acc,#55b8c9)}
 /* the capture panel is Surface's (surface/capture.js, the studio's layout); Current only places it and gives it the blue */
-#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,600px,var(--pop-room,100vh));--cap-acc:var(--acc,#55b8c9);--cap-on:var(--acc-ink,#04181c)}
+#shotPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 32px));max-height:min(74vh,calc(600px * var(--s-ku,1)),var(--pop-room,100vh));--cap-acc:var(--acc,#55b8c9);--cap-on:var(--acc-ink,#04181c)}
 /* the result sheet: what you made, then every way out (American's share sheet) */
 #imgwrap{overflow-y:auto;justify-content:flex-start;background:rgba(4,4,6,.985);color-scheme:dark;
   --ui-g:14 14 16;--ui-hi:255 255 255;--ui-ink:#eef1f2;--ui-solid:#0f1213;--ui-line:#23292b;--ui-dim:#8a9396;--ui-mid:#b9c2c5;--acc:#55b8c9;--acc-rgb:85 184 201;--acc-ink:#04181c;--acc-dk:0%;--acc-tx:var(--acc,#55b8c9)}   /* the share sheet is the work's own dark room in either theme: its words stay light (on light they had gone dark on dark, 22 Oct) */
@@ -1377,10 +1377,10 @@ body #playbar>#pSnd.vdrag::after{content:attr(data-vol);position:absolute;left:5
 /* the sound's own wave behind the speaker (Dimitry, 19 Oct): live while sound plays, gone when it stops */
 #pSnd .sndWave{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;pointer-events:none;z-index:0}#pSnd>svg{position:relative;z-index:1}
 body #playbar>#pRand.dragging,body #pTrans>#pRand.dragging{transform:scale(1.12)}
-#mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#mixPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,calc(600px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #mixPop[hidden]{display:none}
 /* THE COLOR MIXER: the groups as tabs, each with its swatches, related colors, recent ones, animation, and what Pro adds */
-#colorPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(380px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#colorPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(380px,calc(100vw - 24px));max-height:min(74vh,calc(600px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #colorPop[hidden]{display:none}
 /* the ground with a camera, video or picture (Dimitry, 19 Oct): under (the ground shows through a faded source, as
    before), overlay (the source blends into the ground, CSS Compositing's overlay), ignore (the source sits on black) */
@@ -1504,7 +1504,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .bgGo.ghost{background:transparent;color:var(--ui-ink);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}
 .bgNote{margin:10px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
 .bbMoved{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:2px 0 8px}
-#batchPop{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(76vh,620px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#batchPop{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(76vh,calc(620px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #batchPop[hidden]{display:none}
 .scap-go.btOpen.soon{opacity:.38;cursor:default}
 #batchBody{overflow-y:auto;overscroll-behavior:contain;padding:4px 0 12px}
@@ -1567,7 +1567,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 .mxMic select{flex:1;min-width:0;max-width:100%;height:28px;border-radius:7px;border:1px solid rgb(var(--ui-hi,255 255 255) / .18);background:transparent;color:var(--ui-ink);font:500 16px var(--mono)}   /* 16px: smaller makes an iPhone zoom in on tap */
 .mxMic .segs button{padding:4px 0;margin-right:10px;border:0;background:none;color:var(--ui-dim);font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.mxMic .segs button[aria-pressed=true]{color:var(--acc-tx)}
 .mxNote{margin:8px 16px 0;font:400 11px/1.45 var(--sans,system-ui);color:var(--ui-dim)}
-#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#rlist{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(320px,calc(100vw - 24px));max-height:min(74vh,calc(600px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #rlist[hidden]{display:none}
 .trashRow #trashList{grid-column:1/-1}
 /* a Pro mark is a corner badge inside the tile's own box (Dimitry, 22 Oct 00:05: the field tile grew the row): never a line below */
@@ -1576,7 +1576,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 /* THE FIELD PANEL (22 Oct), a Pro preview: reach, strength, particles, trail fade, lifespan, wobble and five presets.
    Shown to everyone, marked the Pro way (the lock with its bolt at the top right, a dotted edge, a faint accent tint);
    it works with a key, and until then its controls are inert and one line says what it is and how to get it. */
-#fieldPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,600px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#fieldPop{position:fixed;z-index:32;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,110px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(74vh,calc(600px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #fieldPop[hidden]{display:none}
 #fpBody{overflow-y:auto;overscroll-behavior:contain;padding:10px 14px 12px;display:flex;flex-direction:column;gap:12px;position:relative}
 #fieldPop.locked #fpBody{outline:1.5px dotted rgb(var(--acc-rgb,85 184 201) / .55);outline-offset:-6px;border-radius:14px;background:rgb(var(--acc-rgb,85 184 201) / .06)}
@@ -1840,7 +1840,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rg
 .shface:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
 @media (prefers-reduced-motion:reduce){.shfield.flipin{animation:none}.shflip .kn{transition:none}}
 /* the typeface list: every face named in itself, plus adding Google Fonts or a font file */
-#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,560px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#fontList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(62vh,calc(560px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #fontList[hidden]{display:none}
 /* recent words + word sequencer: the backward clock in the word field opens it */
 .shfield{width:258px}
@@ -1848,7 +1848,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rg
 .shhist svg{width:19px;height:19px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .shhist:hover,.shhist[aria-expanded="true"]{color:var(--ui-ink)}.shhist.seq{color:var(--acc-tx)}
 .shhist:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-3px}
-#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,580px,var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
+#wordList{position:fixed;z-index:33;left:50%;transform:translateX(-50%);bottom:calc(var(--pop-base,190px) + var(--pop-gap,10px));width:min(340px,calc(100vw - 24px));max-height:min(66vh,calc(580px * var(--s-ku,1)),var(--pop-room,100vh));display:flex;flex-direction:column;color:var(--ui-ink)}
 #wordList[hidden]{display:none}
 #wlSeq{padding:2px 0 8px;border-bottom:1px solid var(--ui-line)}
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
@@ -9434,10 +9434,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261024191530"></script>
-<script src="surface/links.js?v=20261024191530"></script>
-<script src="surface/tips.js?v=20261024191530"></script>
-<script src="surface/sections.js?v=20261024191530"></script>
+<script src="surface/install.js?v=20261024202702"></script>
+<script src="surface/links.js?v=20261024202702"></script>
+<script src="surface/tips.js?v=20261024202702"></script>
+<script src="surface/sections.js?v=20261024202702"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -9617,7 +9617,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261024191530"></script>
+<script src="surface/room.js?v=20261024202702"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -9818,7 +9818,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261024191530"></script>
+<script src="surface/touch.js?v=20261024202702"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -10495,7 +10495,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.31.1';
+const APP_VERSION='0.31.2';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
