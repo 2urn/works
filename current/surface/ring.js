@@ -77,8 +77,8 @@
     ":where(.sr-dot)[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 6px 20px rgb(0 0 0 / .35)}" +
     ":where(.sr-dot):focus-visible{outline:2px solid #fff;outline-offset:3px}" +
     ":where(.sr-dot) .sr-num{font:700 13px/1 var(--mono,ui-monospace,monospace)}:where(.sr-dot.sr-busy){background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
-    ":where(.sr-hub) .sr-val{display:flex;align-items:center;gap:8px;padding:0 6px}:where(.sr-hub) .sr-val b{min-width:44px;font:700 12px/1 var(--mono,ui-monospace,monospace);text-align:right}" +
-    ":where(.sr-hub) .sr-val input{width:140px;accent-color:var(--acc,#55b8c9)}" +
+    ":where(.sr-hub) .sr-val{display:flex;align-items:center;gap:8px;padding:0 6px}:where(.sr-hub) .sr-val span{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}:where(.sr-hub) .sr-val b{min-width:44px;font:700 12px/1 var(--mono,ui-monospace,monospace);text-align:right}" +
+    ":where(.sr-hub) .sr-val input[type=range]{flex:none;width:140px;min-width:100px;margin:0;accent-color:var(--acc,#55b8c9)}" +
     ":where(.sr-lab){position:absolute;left:50%;top:calc(100% + 4px);transform:translateX(-50%);white-space:nowrap;font:600 9.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgb(0 0 0 / .9),0 0 8px rgb(0 0 0 / .7);pointer-events:none}" +
     /* opening: pop, pop, pop; the icon and the label arrive with the last pop */
     ".sr-ring.pop .sr-dot{animation:srPop .46s both;animation-delay:calc(var(--i) * 22ms)}" +
@@ -224,15 +224,21 @@
     }
     /* the hub becomes the value's slider; the tick (or Esc) gives the name back */
     function slider(it, fmt, clampV) {
-      var nm = hub.querySelector(".sr-mid") || hub.querySelector(".sr-name"), old = hub.querySelector(".sr-val"); if (old) old.remove();
+      var nm = hub.querySelector(".sr-mid") || hub.querySelector(".sr-name"), old = null; hub.querySelectorAll(".sr-val,.sr-ok").forEach(function (x) { x.remove(); });   /* one slider, one tick: each tap on the dot used to add a tick (25 Oct) */
       var v = document.createElement("label"); v.className = "sr-val"; var t = document.createElement("span"); t.textContent = it.label || ""; var bb = document.createElement("b");
       var r = document.createElement("input"); r.type = "range"; r.min = it.min == null ? 0 : it.min; r.max = it.max == null ? 100 : it.max; r.step = it.step || 1; r.value = it.get(); r.setAttribute("aria-label", it.aria || it.label || "value");
-      var ok = document.createElement("button"); ok.type = "button"; ok.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'; ok.setAttribute("aria-label", "Done");
+      var ok = document.createElement("button"); ok.type = "button"; ok.className = "sr-ok"; ok.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'; ok.setAttribute("aria-label", "Done");
       var paint = function () { bb.textContent = fmt(+r.value); }; paint();
       r.oninput = function () { it.set(clampV(+r.value)); paint(); };
-      var back = function () { v.remove(); ok.remove(); nm.hidden = false; try { (dots.filter(function (x) { return x.dataset.id === (it.id || ""); })[0] || dots[0]).focus(); } catch (er) {} };
+      var back = function () { v.remove(); ok.remove(); nm.hidden = false; hub.style.left = ""; try { (dots.filter(function (x) { return x.dataset.id === (it.id || ""); })[0] || dots[0]).focus(); } catch (er) {} };
       ok.onclick = function (e) { e.stopPropagation(); back(); }; r.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); back(); } });
-      v.append(t, r, bb); nm.hidden = true; nm.after(v, ok); try { r.focus(); } catch (er) {}
+      v.append(t, r, bb); nm.hidden = true; nm.after(v, ok); keepOn(); try { r.focus(); } catch (er) {}
+    }
+    /* the widened middle stays on screen: it slides along, the dots stay where they are */
+    function keepOn() {
+      hub.style.left = ""; var h = hub.getBoundingClientRect(), vw = document.documentElement.clientWidth || innerWidth, m = 6, dx = 0;
+      if (h.left < m) dx = m - h.left; else if (h.right > vw - m) dx = vw - m - h.right;
+      if (dx) hub.style.left = Math.round(dx) + "px";
     }
     var stop = function (e) { e.stopPropagation(); e.preventDefault(); };
     veil.addEventListener("pointerdown", function (e) { stop(e); if (cur && performance.now() - cur.t0 < 250) return; close("outside"); });
