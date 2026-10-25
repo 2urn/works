@@ -28,6 +28,7 @@
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
+       a value item may carry idle: () => bool (set but not heard: its arc dims);
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
        center: "bar" | "ball" (the middle as a bar, the default, or a round button like the bar button the ring came from;
        with define({icon}) the ball shows that icon over a small name), per ring in define, or per open,
@@ -137,12 +138,16 @@
     ":where(.sr-pg) i{width:4px;height:4px;border-radius:50%;box-sizing:border-box;box-shadow:inset 0 0 0 1px currentColor;background:none}" +
     ".sr-dot[aria-checked=true] .sr-pg{display:flex}.sr-dot .sr-pg i:first-child,.sr-dot.sr-p2 .sr-pg i:last-child{background:currentColor}.sr-dot.sr-p2 .sr-pg i:first-child{background:none}" +
     /* THE PULSE: a live dot's edge breathes, or follows the level it was given */
-    "@keyframes srLive{0%,100%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 3px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}50%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 9px rgb(var(--acc-rgb,85 184 201) / .28),0 6px 20px rgb(0 0 0 / .35)}}" +
-    ".sr-ring .sr-dot.sr-live{animation:srLive 1.4s ease-in-out infinite}" +
+    /* (Dimitry, 25 Oct 09:09: the swelling accent edge "looks just like a bigger button … it does need a pulsing inside of it,
+       a white circle inside it pulsing from the inner circumference outward, to the sound"): a live dot keeps its own edge;
+       a thin white ring starts just inside its rim and swells out past it with the level, fading as it goes. Without a
+       level it breathes slowly. */
+    ".sr-ring .sr-dot.sr-live::after{content:'';position:absolute;inset:3px;border-radius:50%;border:2px solid #fff;pointer-events:none;opacity:.35;transform:scale(1);animation:srLive 1.6s ease-in-out infinite}" +
+    "@keyframes srLive{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.16);opacity:.12}}" +
     /* (Dimitry, 25 Oct 08:51: "it's not actually pulsing to the sound, so it could be a lot thinner … it needs to pump in
        and out with the sound, or change opacity with the sound, or both"): with a level, the edge is a thin line at rest
        and swells and brightens with every sound, so a beat reads as a beat without a word */
-    ".sr-ring.sr-lv .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .35),0 0 0 calc(3.5px + var(--lv,0) * 8px) rgb(var(--acc-rgb,85 184 201) / calc(.25 + var(--lv,0) * .7)),0 6px 20px rgb(0 0 0 / .35)}" +
+    ".sr-ring.sr-lv .sr-dot.sr-live::after{animation:none;transform:scale(calc(1 + var(--lv,0) * .34));opacity:calc(.3 + var(--lv,0) * .7 - var(--lv,0) * var(--lv,0) * .5)}" +
     /* LABELS: they fade after the opening (learn), stay (always), or wait for a finger (never) */
     ".sr-ring.sr-labfade .sr-dot .sr-lab{animation:srHide .5s ease both}@keyframes srHide{from{opacity:1}to{opacity:0}}" +
     ".sr-ring.sr-labfade .sr-dot:hover .sr-lab,.sr-ring.sr-labfade .sr-dot:focus-visible .sr-lab,.sr-ring.sr-labfade .sr-dot:active .sr-lab,.sr-ring.sr-labfade .sr-dot.sr-busy .sr-lab{animation:none;opacity:1}" +
@@ -168,6 +173,7 @@
        an arc round its own edge, at rest and while dragged; a tap turns the ring's middle into a dial. */
     ".sr-ring .sr-dot svg.sr-arc,.sr-ring .sr-dial svg.sr-arc{position:absolute;inset:0;width:100%;height:100%;margin:0;transform:rotate(-90deg);pointer-events:none;overflow:visible;fill:none;stroke:none;animation:none}" +   /* weight enough to beat the dot's own icon size */
     ":where(.sr-arc) circle{fill:none;stroke-width:3;stroke-linecap:round}:where(.sr-arc) .t{stroke:currentColor;opacity:.14}:where(.sr-arc) .v{stroke:var(--acc,#55b8c9)}" +
+    ".sr-dot.sr-idle:not(.sr-busy) .sr-arc .v{opacity:.35}" +
     ".sr-dot.sr-busy .sr-arc .v{stroke:#fff}.sr-dot.sr-busy .sr-arc .t{opacity:.3}" +
     ":where(.sr-dial){position:absolute;left:0;top:0;width:88px;height:88px;transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14);pointer-events:auto;touch-action:none;cursor:ns-resize;z-index:2;outline:none}" +
     ":where(.sr-dial):focus-visible{box-shadow:0 0 0 2px #fff}" +
@@ -206,7 +212,7 @@
     ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
     ".sr-ring .sr-hub.sr-ball>*{transition:opacity .12s ease-in;opacity:0}" +
     ".sr-ring .sr-hub.sr-ball.sr-gone{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transform:translate(-50%,-50%) scale(.2)}" +
-    "@media (prefers-reduced-motion:reduce){.sr-ring .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 5px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
+    "@media (prefers-reduced-motion:reduce){.sr-ring .sr-dot.sr-live::after{animation:none;transform:none;opacity:.6}.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
   function css() { if (document.getElementById("sring-css")) return; var st = document.createElement("style"); st.id = "sring-css"; st.textContent = CSS; (document.head || document.documentElement).prepend(st); }
   var RINGS = {}, cur = null;
   var calm = function () { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
@@ -273,7 +279,10 @@
     var clampX = function (v) { return Math.max(pad, Math.min(W - pad, v)); }, clampY = function (v) { return Math.max(pad, Math.min(H - pad, v)); };
     var x = clampX(o.x == null ? W / 2 : o.x), y = clampY(o.y == null ? H / 2 : o.y);
     var veil = document.createElement("div"); veil.className = "sr-veil";
-    var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() ? "" : " pop"); ring.setAttribute("role", "menu"); ring.setAttribute("aria-label", def.title || "Choices");
+    var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() ? "" : " pop");
+    /* the opening plays once: a later class change (sr-live off) let the pop animation start over, and the dot dived into the
+       middle and came back (Dimitry, 25 Oct 09:09, "the push button still disappears behind the main button") */
+    if (!calm()) setTimeout(function () { ring.classList.remove("pop"); }, 900); ring.setAttribute("role", "menu"); ring.setAttribute("aria-label", def.title || "Choices");
     ring.style.left = x + "px"; ring.style.top = y + "px"; ring.style.setProperty("--sr-d", d + "px");
     /* the hub: pin · name · grip; the panel a bump above, the switch a bump below (or all four round a ball) */
     var BALL = (def.center || o.center) === "ball";
@@ -381,9 +390,10 @@
       var clampV = function (v) { return Math.max(mn, Math.min(mx, Math.round(v / st) * st)); }, icon = b.innerHTML, g = null, fr = function (v) { return (v - mn) / ((mx - mn) || 1); };
       b.setAttribute("role", "menuitem"); b.style.touchAction = "none";
       /* at rest: the icon, its level round the edge; dragged: the number inside, the level still round the edge */
-      var rest = function () { var v = +it.get(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change, or tap for a dial"); };
+      var idle = function () { var x = false; try { x = !!(it.idle && it.idle()); } catch (e) {} b.classList.toggle("sr-idle", x); };   // the amount is set but not heard: its arc dims
+      var rest = function () { var v = +it.get(); idle(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change, or tap for a dial"); };
       var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
-      rest(); b._arc = function () { if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
+      rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
         c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
       /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
       b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return; try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
