@@ -29,6 +29,7 @@
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
        a value item may carry idle: () => bool (set but not heard: its arc dims), lit: () => true | "dark" | false (heard: the accent; playing but muted: dark),
+       iconOff: the icon while idle;
        wake: () => void (idle and touched: turns its sound on instead of changing the amount),
        bg: (canvas, lit) => void (painted behind its icon every frame, e.g. the sound's wave); a go item roll: true turns its icon over;
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
@@ -312,7 +313,11 @@
         var was = (pow._was && performance.now() - pow._was.t < 1500) ? pow._was.on : !!PW.on(); pow._was = null;
         try { PW.set(!was); } catch (er) { console.warn("[ring]", er); } refresh(); };
       pow.addEventListener("pointerdown", function () { try { pow._was = { on: !!PW.on(), t: performance.now() }; } catch (er) {} }, true); }
-    else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }   // the bar button the ring came from: its icon, its word small under it
+    else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }
+    /* define({tap}): the middle does one thing when touched without being a switch (the Sound ring: wake the sound, 25 Oct 09:46) */
+    if (!PW && typeof def.tap === "function") { name.setAttribute("role", "button"); name.tabIndex = 0; name.style.cursor = "pointer";
+      var nt = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { def.tap(); } catch (er) { console.warn("[ring]", er); } };
+      name.addEventListener("click", nt); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nt(e); } }); }   // the bar button the ring came from: its icon, its word small under it
     else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
@@ -413,13 +418,14 @@
       var idle = function () { var x = false, l = false; try { x = !!(it.idle && it.idle()); l = it.lit ? it.lit() : false; } catch (e) {} b.classList.toggle("sr-idle", x); b.classList.toggle("sr-lit", l === true); b.classList.toggle("sr-dark", l === "dark"); };   // lit: true (heard), "dark" (playing, muted), false
       var bgc = null; if (typeof it.bg === "function") { bgc = document.createElement("canvas"); bgc.className = "sr-bg"; bgc.setAttribute("aria-hidden", "true");
         var paintBg = function () { if (!b.isConnected) return; if (bgc.parentNode !== b) b.insertBefore(bgc, b.firstChild); try { it.bg(bgc, b.classList.contains("sr-lit")); } catch (e) {} requestAnimationFrame(paintBg); }; requestAnimationFrame(paintBg); }   // the amount is set but not heard: its arc dims
-      var rest = function () { var v = +it.get(); idle(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change; tap to see it"); };
+      /* iconOff: what the dot shows while idle (the speaker crossed out when nothing can be heard, 25 Oct 09:45) */
+      var rest = function () { var v = +it.get(); idle(); b._icx = b.classList.contains("sr-idle") && it.iconOff ? 1 : 0; b.innerHTML = (b._icx ? it.iconOff : icon) + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change; tap to see it"); };
       var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
       /* a tap shows the amount in the dot for a moment; the middle no longer turns into a dial (Dimitry, 25 Oct 09:30: "a big
          dial on the middle button … I don't think it's necessary now that we have the side buttons … it lingers from the
          last thing pressed and creates sync issues"). dial() stays in the file for a tool that asks for it. */
       var pk = 0, peek = function () { clearTimeout(pk); show(+it.get()); pk = setTimeout(function () { if (!g) rest(); }, 1100); };
-      rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
+      rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; if ((b.classList.contains("sr-idle") && it.iconOff ? 1 : 0) !== b._icx) { rest(); return; } var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
         c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
       /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
       b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return;
