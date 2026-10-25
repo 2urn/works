@@ -47,7 +47,7 @@
        finale: { label: 'the pack', give: () => …, button: 'download the pack' },
        save: (name, blob) => …,                 // how the tool saves a file (progress export)
        toast: msg => …                          // how the tool speaks (a tick, a finished path)
-       first: { title: '…', body: '…html…', open: 'see the paths', stay: 24000 }   // the first-discovery card (6)
+       first: { title: '…', body: '…html… {id} {title}' or (path, step) => html, open: 'see the paths', stay: 24000 }   // the first-discovery card (6)
      })
      step.go: a selector (the control), a function, or { link: 'name' } (a SurfaceLinks name); default: the path's
        first badge. The control is outlined in the path's color for a moment, and focused.
@@ -127,7 +127,8 @@
     ".sp-hd>span{flex:1;min-width:0}.sp-hd b{color:var(--ui-ink,#fff);font-weight:500}",
     ".sp-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer}",
     ".sp-x:hover{color:var(--ui-ink,#fff)}.sp-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
-    ".sp-pip{flex:none;display:inline-grid;place-items:center;min-width:22px;height:15px;padding:0 5px;box-sizing:border-box;border-radius:8px;background:var(--c);color:#0b0f10;font:700 8.5px/1 " + MONO + ";letter-spacing:.04em}",
+    /* the pip is the badge (Dimitry, 24 Oct 23:53, circling "02" on the first-discovery card): a round dot with the path's number, as on the bar */
+    ".sp-pip{flex:none;display:inline-grid;place-items:center;width:16px;height:16px;padding:0;box-sizing:border-box;border-radius:50%;background:var(--c);color:#0b0f10;font:700 9px/1 " + MONO + ";letter-spacing:0}",
     ".sp-bd{padding:12px 14px 14px;display:grid;gap:10px}",
     ".sp-dots{display:flex;align-items:center;gap:6px;font:500 10px/1 " + MONO + ";letter-spacing:.1em;color:var(--ui-dim,#a8a8a8)}",
     ".sp-dots i{width:10px;height:10px;border-radius:50%;box-sizing:border-box;border:1.5px solid var(--c)}.sp-dots i.d{background:var(--c)}.sp-dots span{margin-left:4px}",
@@ -291,7 +292,7 @@
     if (!pop.hidden && popFor && popFor.p === p) { closePop(); return; }
     var n = count(p), t = p.steps.length, nx = nextOf(p), c = col(p);
     pop.style.setProperty("--c", c); pop.setAttribute("aria-label", "Path " + p.id + ", " + plain(p.title));
-    pop.innerHTML = '<div class="sp-hd"><i class="sp-pip">' + esc(p.id) + '</i><span>Path · <b>' + esc(plain(p.title)) + '</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
+    pop.innerHTML = '<div class="sp-hd"><i class="sp-pip">' + esc(pipN(p.id)) + '</i><span>Path · <b>' + esc(plain(p.title)) + '</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
       '<div class="sp-bd"><div class="sp-dots" role="img" aria-label="' + n + " of " + t + ' done">' + p.steps.map(function (s) { return "<i" + (S.done[s.id] ? ' class="d"' : "") + "></i>"; }).join("") + "<span>" + n + " / " + t + "</span></div>" +
       (nx ? '<p class="sp-nx"><small>next</small>' + nx.label + "</p>" : '<p class="sp-nx">Walked. ' + (p.reward && S.given[p.id] ? (p.reward.given || "") : "") + "</p>") +
       '<div class="sp-acts">' + (nx ? '<button type="button" class="pri" data-a="show">show me</button>' : "") + '<button type="button" data-a="there"' + (nx ? "" : ' class="pri"') + ">take me there</button></div></div>";
@@ -467,7 +468,7 @@
     var tt = total();
     el.innerHTML = '<div class="sp-hd"><span>' + ic() + 'Paths · <b>' + tt[0] + " of " + tt[1] + '</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
       '<div class="sp-bd">' + meterHTML() + '<ul class="sp-nl">' + next.map(function (x) {
-        return '<li><button type="button" class="sp-ln" data-go="' + esc(x[1].id) + '" style="--c:' + col(x[0]) + '"><i class="sp-pip">' + esc(x[0].id) + "</i><span>" + x[1].label + "</span>" + LINK + "</button></li>"; }).join("") +
+        return '<li><button type="button" class="sp-ln" data-go="' + esc(x[1].id) + '" style="--c:' + col(x[0]) + '"><i class="sp-pip">' + esc(pipN(x[0].id)) + "</i><span>" + x[1].label + "</span>" + LINK + "</button></li>"; }).join("") +
       '</ul><div class="sp-nf"><button type="button" data-a="all">all paths</button><button type="button" data-a="off">no suggestions</button></div></div>';
     el.querySelector(".sp-x").onclick = function () { el.hidden = true; };
     el.querySelectorAll(".sp-ln").forEach(function (b) { b.onclick = function () { el.hidden = true; go(b.dataset.go); }; });
@@ -482,6 +483,8 @@
   }
 
   /* ---- the first discovery: the first step ever ticked on this device (6) ---- */
+  /* a path's number as the badges show it: 02 -> 2 */
+  function pipN(id) { var n = parseInt(id, 10); return isNaN(n) ? String(id) : String(n); }
   function firstCard(p, s) {
     var f = O.first || {}, c = col(p);
     if (nag.el) nag.el.hidden = true;
@@ -496,8 +499,8 @@
     el.style.setProperty("--c", c);
     el.innerHTML = '<div class="sp-hd"><span><span class="sp-fst" aria-hidden="true">✦</span> <b>First discovery</b></span><button type="button" class="sp-x" aria-label="Close">' + X + "</button></div>" +
       '<div class="sp-bd"><p class="sp-fh">' + (f.title || "You found your first path step") + "</p>" +
-      '<div class="sp-dots" style="--c:' + c + '"><i class="sp-pip" style="--c:' + c + '">' + esc(p.id) + "</i>" + dots + "<span>" + esc(plain(p.title)) + " · " + count(p) + " of " + p.steps.length + "</span></div>" +
-      '<p class="sp-fb">' + (f.body || "") + "</p>" + meterHTML() +
+      '<div class="sp-dots" style="--c:' + c + '"><i class="sp-pip" style="--c:' + c + '">' + esc(pipN(p.id)) + "</i>" + dots + "<span>" + esc(plain(p.title)) + " · " + count(p) + " of " + p.steps.length + "</span></div>" +
+      '<p class="sp-fb">' + (typeof f.body === "function" ? f.body(p, s) : String(f.body || "").replace(/\{id\}/g, esc(p.id)).replace(/\{title\}/g, esc(plain(p.title)))) + "</p>" + meterHTML() +
       '<div class="sp-acts"><button type="button" class="pri" data-a="see">' + esc(f.open || "see the paths") + '</button><button type="button" data-a="ok">keep playing</button></div></div>';
     var shut = function () { el.hidden = true; };
     el.querySelector(".sp-x").onclick = shut; el.querySelector('[data-a="ok"]').onclick = shut;
