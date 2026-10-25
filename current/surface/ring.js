@@ -149,6 +149,18 @@
     ":where(.sr-dot) svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-dot)[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 6px 20px rgb(0 0 0 / .35)}" +
     ":where(.sr-dot):focus-visible{outline:2px solid #fff;outline-offset:3px}" +
+    /* QUANTITY WITHOUT A BAR (Dimitry, 25 Oct 08:34: "a systematic way of showing a quantity without bringing in horizontal
+       elements … the level in the dot as a percentage of a ring, the way we do the dice"): a value dot wears its level as
+       an arc round its own edge, at rest and while dragged; a tap turns the ring's middle into a dial. */
+    ".sr-ring .sr-dot svg.sr-arc,.sr-ring .sr-dial svg.sr-arc{position:absolute;inset:0;width:100%;height:100%;margin:0;transform:rotate(-90deg);pointer-events:none;overflow:visible;fill:none;stroke:none;animation:none}" +   /* weight enough to beat the dot's own icon size */
+    ":where(.sr-arc) circle{fill:none;stroke-width:3;stroke-linecap:round}:where(.sr-arc) .t{stroke:currentColor;opacity:.14}:where(.sr-arc) .v{stroke:var(--acc,#55b8c9)}" +
+    ".sr-dot.sr-busy .sr-arc .v{stroke:#fff}.sr-dot.sr-busy .sr-arc .t{opacity:.3}" +
+    ":where(.sr-dial){position:absolute;left:0;top:0;width:88px;height:88px;transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14);pointer-events:auto;touch-action:none;cursor:ns-resize;z-index:2;outline:none}" +
+    ":where(.sr-dial):focus-visible{box-shadow:0 0 0 2px #fff}" +
+    ".sr-ring .sr-dial svg.sr-arc{inset:5px;width:calc(100% - 10px);height:calc(100% - 10px)}:where(.sr-dial) .sr-arc circle{stroke-width:4}" +
+    ":where(.sr-dial) .dv{display:flex;flex-direction:column;align-items:center;gap:3px}:where(.sr-dial) b{font:700 16px/1 var(--mono,ui-monospace,monospace)}" +
+    ":where(.sr-dial) small{font:600 8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;opacity:.75}" +
+    ".sr-ring.sr-dialing .sr-hub{visibility:hidden}" +
     ":where(.sr-dot) .sr-num{font:700 13px/1 var(--mono,ui-monospace,monospace)}:where(.sr-dot.sr-busy){background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ":where(.sr-hub) .sr-val{display:flex;align-items:center;gap:8px;padding:0 6px}:where(.sr-hub) .sr-val span{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}:where(.sr-hub) .sr-val b{min-width:44px;font:700 12px/1 var(--mono,ui-monospace,monospace);text-align:right}" +
     ":where(.sr-hub) .sr-val input[type=range]{flex:none;width:140px;min-width:100px;margin:0;accent-color:var(--acc,#55b8c9)}" +
@@ -332,22 +344,47 @@
     function refresh() {
       if (!cur || cur.ring !== ring) return;
       if (rid || def.items) { var fresh = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean);
-        dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } }); }
+        dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } else if (b._arc) b._arc(); }); }
       if (pow) { var on = !!PW.on(); pow.setAttribute("aria-pressed", String(on)); ring.classList.toggle("sr-off", !on);
         pow.setAttribute("aria-label", (def.title || "Ring") + (on ? ": on. Tap to turn it off" : ": off. Tap to turn it on, or choose any dot")); pow.title = on ? "On: tap to turn off" : "Off: tap to turn on"; }
     }
     /* a value dot: drag across it (left to right, or down to up) and its number shows inside; a tap hands the hub its slider */
     function valueDot(b, it) {
       var mn = it.min == null ? 0 : it.min, mx = it.max == null ? 100 : it.max, st = it.step || 1, fmt = it.fmt || function (v) { return String(Math.round(v)); };
-      var clampV = function (v) { return Math.max(mn, Math.min(mx, Math.round(v / st) * st)); }, icon = b.innerHTML, g = null;
-      b.setAttribute("role", "menuitem"); b.style.touchAction = "none"; b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(it.get()) + ". Drag to change, or tap for a slider");
-      var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>'; b.querySelector(".sr-lab").textContent = it.label || ""; };
+      var clampV = function (v) { return Math.max(mn, Math.min(mx, Math.round(v / st) * st)); }, icon = b.innerHTML, g = null, fr = function (v) { return (v - mn) / ((mx - mn) || 1); };
+      b.setAttribute("role", "menuitem"); b.style.touchAction = "none";
+      /* at rest: the icon, its level round the edge; dragged: the number inside, the level still round the edge */
+      var rest = function () { var v = +it.get(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change, or tap for a dial"); };
+      var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
+      rest(); b._arc = function () { if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
+        c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
+      /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
       b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return; try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
-      b.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; b.classList.add("sr-busy");
-        var v = clampV(g.v + dd * (mx - mn) / 220); it.set(v); show(v); });
-      var end = function () { if (!g) return; var m = g.moved; g = null; b.classList.remove("sr-busy"); if (m) { setTimeout(function () { b.innerHTML = icon; }, 700); } else slider(it, fmt, clampV); };
-      b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); b.innerHTML = icon; });
-      b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail === 0) slider(it, fmt, clampV); });
+      b.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; b.classList.add("sr-busy");
+        var v = clampV(g.v + dd * (mx - mn) / 200); it.set(v); show(v); });
+      var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); dial(it, fmt, clampV, fr, b); } };
+      b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); rest(); });
+      b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail === 0) dial(it, fmt, clampV, fr, b); });
+    }
+    /* THE DIAL: the middle turns into the value's knob, its level round its edge, the number inside. Drag up or down
+       anywhere (the dial keeps the finger), arrows step, a tap without a drag (or Enter, Esc) gives the middle back */
+    function dial(it, fmt, clampV, fr, from) {
+      ring.querySelectorAll(".sr-dial").forEach(function (x) { x.remove(); });
+      var d = document.createElement("div"), st = it.step || 1, mn = it.min == null ? 0 : it.min, mx = it.max == null ? 100 : it.max, g = null;
+      d.className = "sr-dial"; d.tabIndex = 0; d.setAttribute("role", "slider"); d.setAttribute("aria-label", it.aria || it.label || "value"); d.setAttribute("aria-valuemin", mn); d.setAttribute("aria-valuemax", mx);
+      var paint = function () { var v = +it.get(); d.innerHTML = ARC(fr(v), 38) + '<span class="dv"><small></small><b></b></span>'; d.querySelector("small").textContent = it.label || ""; d.querySelector("b").textContent = fmt(v); d.setAttribute("aria-valuenow", v); d.setAttribute("aria-valuetext", fmt(v)); };
+      var set = function (v) { it.set(clampV(v)); paint(); if (from && from._arc) from._arc(); };
+      var back = function () { d.remove(); ring.classList.remove("sr-dialing"); try { from.focus({ preventScroll: true }); } catch (er) {} };
+      d.addEventListener("pointerdown", function (e) { e.stopPropagation(); try { d.setPointerCapture(e.pointerId); } catch (er) {} g = { y: e.clientY, x: e.clientX, v: +it.get(), moved: false }; });
+      d.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 5) return; g.moved = true; set(g.v + dd * (mx - mn) / 200); });
+      d.addEventListener("pointerup", function (e) { e.stopPropagation(); if (!g) return; var m = g.moved; g = null; if (!m) back(); });
+      d.addEventListener("pointercancel", function () { g = null; });
+      d.addEventListener("click", function (e) { e.stopPropagation(); });
+      d.addEventListener("keydown", function (e) { var k = e.key, v = +it.get(), big = Math.max(st, (mx - mn) / 10);
+        if (k === "ArrowUp" || k === "ArrowRight") set(v + st); else if (k === "ArrowDown" || k === "ArrowLeft") set(v - st); else if (k === "PageUp") set(v + big); else if (k === "PageDown") set(v - big);
+        else if (k === "Home") set(mn); else if (k === "End") set(mx); else if (k === "Enter" || k === "Escape" || k === " ") back(); else return;
+        e.preventDefault(); e.stopPropagation(); });
+      paint(); ring.classList.add("sr-dialing"); ring.appendChild(d); try { d.focus({ preventScroll: true }); } catch (er) {}
     }
     /* the hub becomes the value's slider; the tick (or Esc) gives the name back */
     function slider(it, fmt, clampV) {
@@ -373,6 +410,7 @@
     var key = function (e) {
       if (!cur) return; if (cur.pinned && !ring.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); close("esc"); } return; }   // pinned, the app keeps its keys but Esc
       var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} } return; }
+      if (document.activeElement && document.activeElement.classList && document.activeElement.classList.contains("sr-dial")) return;   // the dial keeps its keys
       var ae = document.activeElement; if (ae && ae.type === "range" && ring.contains(ae)) { if (e.key === "Escape") { stop(e); var okb = hub.querySelector(".sr-val + button"); if (okb) okb.click(); } return; }   // the slider keeps its arrows
       var i = dots.indexOf(document.activeElement);
       if (e.key === "Escape") { stop(e); close("esc"); return; }
@@ -399,6 +437,8 @@
     return { close: function () { close("api"); }, el: ring, ring: rid };
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
+  /* a level as an arc (hoisted: the dots are built before the code that follows them) */
+  function ARC(f, r) { var c = 2 * Math.PI * r; f = Math.max(0, Math.min(1, f || 0)); return '<svg class="sr-arc" viewBox="0 0 ' + (2 * r + 6) + ' ' + (2 * r + 6) + '" aria-hidden="true"><circle class="t" cx="' + (r + 3) + '" cy="' + (r + 3) + '" r="' + r + '"/><circle class="v" cx="' + (r + 3) + '" cy="' + (r + 3) + '" r="' + r + '" stroke-dasharray="' + (f * c).toFixed(1) + ' ' + c.toFixed(1) + '"' + (f ? "" : ' style="display:none"') + '/></svg>'; }
   function doubleTap(el, fn, o) {
     o = o || {}; var ms = o.ms || 380, px = o.px || 44, lastT = null, down = null, fired = -1e9;
     /* THE PENCIL (Dimitry, 25 Oct 08:24: "double tapping with a pencil should also trigger the ring; right now only my finger
