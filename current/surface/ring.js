@@ -120,10 +120,11 @@
     ":where(.sr-hub) .sr-pow.sr-ic{flex-direction:column;height:auto;padding:0;gap:4px}:where(.sr-hub) .sr-pow.sr-ic svg{opacity:.45;transition:opacity .15s,color .15s}:where(.sr-hub) .sr-pow.sr-ic[aria-pressed=true] svg{opacity:1;color:var(--acc,#55b8c9)}" +
     ".sr-ring.sr-off .sr-dot{opacity:.45}.sr-ring.sr-off .sr-dot:hover,.sr-ring.sr-off .sr-dot:focus-visible{opacity:.8}" +
     /* TWO PAGES: two points in a tab on the chosen dot's bottom edge */
-    ":where(.sr-pg){position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);display:none;gap:4px;padding:3px 5px;border-radius:999px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .18);pointer-events:none}" +
-    ":where(.sr-pg) i{width:5px;height:5px;border-radius:50%;background:var(--ui-ink,#eef1f2);opacity:.35}" +
-    ".sr-dot[aria-checked=true] .sr-pg{display:flex}.sr-dot .sr-pg i:first-child,.sr-dot.sr-p2 .sr-pg i:last-child{opacity:1}.sr-dot.sr-p2 .sr-pg i:first-child{opacity:.35}" +
-    ".sr-dot.sr-pgd .sr-lab{top:calc(100% + 9px)}" +
+    /* (Dimitry, 25 Oct 08:24: "over represented … no frame around the dots, no contrasting color … simply inside the circle
+       near the bottom, like the pin and the caret … two little dots, one filled and the other not") */
+    ":where(.sr-pg){position:absolute;left:50%;bottom:7px;transform:translateX(-50%);display:none;gap:3px;pointer-events:none}" +
+    ":where(.sr-pg) i{width:4px;height:4px;border-radius:50%;box-sizing:border-box;box-shadow:inset 0 0 0 1px currentColor;background:none}" +
+    ".sr-dot[aria-checked=true] .sr-pg{display:flex}.sr-dot .sr-pg i:first-child,.sr-dot.sr-p2 .sr-pg i:last-child{background:currentColor}.sr-dot.sr-p2 .sr-pg i:first-child{background:none}" +
     /* THE PULSE: a live dot's edge breathes, or follows the level it was given */
     "@keyframes srLive{0%,100%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 3px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}50%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 9px rgb(var(--acc-rgb,85 184 201) / .28),0 6px 20px rgb(0 0 0 / .35)}}" +
     ".sr-ring .sr-dot.sr-live{animation:srLive 1.4s ease-in-out infinite}" +
@@ -399,17 +400,27 @@
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
   function doubleTap(el, fn, o) {
-    o = o || {}; var ms = o.ms || 380, px = o.px || 44, lastT = null, down = null;
+    o = o || {}; var ms = o.ms || 380, px = o.px || 44, lastT = null, down = null, fired = -1e9;
+    /* THE PENCIL (Dimitry, 25 Oct 08:24: "double tapping with a pencil should also trigger the ring; right now only my finger
+       does"): a pen's tap rests longer and lands further off than a finger's, so it gets more room; and Safari may hand a
+       Pencil tap over as touches (touchType "stylus") without the pointer pair, so those count too. One gesture opens once. */
+    var fire = function (x, y, e) { var t = performance.now(); if (t - fired < 500) return; fired = t; fn(x, y, e); };
+    var sl = { t: null };
+    el.addEventListener("touchend", function (e) { var c = e.changedTouches && e.changedTouches[0]; if (!c || c.touchType !== "stylus" || e.touches.length) return;
+      var now = e.timeStamp || performance.now();
+      if (sl.t && now - sl.t.t < 500 && Math.hypot(c.clientX - sl.t.x, c.clientY - sl.t.y) < 60) { sl.t = null; if (o.when && !o.when(e)) return; fire(c.clientX, c.clientY, e); return; }
+      sl.t = { x: c.clientX, y: c.clientY, t: now }; }, { capture: true, passive: true });
     /* times are the events' own (e.timeStamp: when the finger touched), not when a busy page got round to them */
     var ts = function (e) { return e.timeStamp || performance.now(); };
     el.addEventListener("pointerdown", function (e) { if (e.button > 0 || !e.isPrimary) { down = null; return; } down = { x: e.clientX, y: e.clientY, t: ts(e), id: e.pointerId }; }, true);
     el.addEventListener("pointerup", function (e) {
       if (!down || e.pointerId !== down.id) return; var d = down; down = null;
-      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 14 || ts(e) - d.t > 280) { lastT = null; return; }   // a drag or a hold is not a tap
+      var pen = e.pointerType === "pen";
+      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > (pen ? 24 : 14) || ts(e) - d.t > (pen ? 450 : 280)) { lastT = null; return; }   // a drag or a hold is not a tap
       /* (25 Oct, Dimitry: "I would tap faster than it's expecting, so I have to slow down"): a quick thumb lands its
          second tap further off and rolls a little, so 380 ms, 44 px apart and 14 px of roll still make a double-tap */
       var now = ts(e);
-      if (lastT && now - lastT.t < ms && Math.hypot(e.clientX - lastT.x, e.clientY - lastT.y) < px) { lastT = null; if (o.when && !o.when(e)) return; fn(e.clientX, e.clientY, e); return; }
+      if (lastT && now - lastT.t < (pen ? Math.max(ms, 500) : ms) && Math.hypot(e.clientX - lastT.x, e.clientY - lastT.y) < (pen ? Math.max(px, 60) : px)) { lastT = null; if (o.when && !o.when(e)) return; fire(e.clientX, e.clientY, e); return; }
       lastT = { x: e.clientX, y: e.clientY, t: now };
     }, true);
     el.addEventListener("pointercancel", function () { down = null; }, true);
