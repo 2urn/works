@@ -104,7 +104,7 @@
     ":where(.sr-hub) .sr-up:hover,:where(.sr-hub) .sr-sw:hover{background:rgb(var(--ui-g,12 14 16) / .86);color:var(--acc,#55b8c9)}" +
     /* THE BALL (his second option): the centre as a round button, a small name inside, the same four parts at its four
        edges. Off unless a tool asks (center: "ball"); a slider in the middle turns it back into a bar while it shows */
-    ".sr-hub.sr-round:not(:has(.sr-val)){width:96px;height:96px;padding:0;justify-content:center}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)){width:88px;height:88px;padding:0;justify-content:center}" +
     ".sr-hub.sr-round:not(:has(.sr-val)) .sr-name{padding:0;font-size:8.5px;letter-spacing:.12em}" +
     ":where(.sr-hub) .sr-ic{display:flex;flex-direction:column;align-items:center;gap:4px}:where(.sr-hub) .sr-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
     ".sr-hub.sr-round:not(:has(.sr-val)) .sr-pin{position:absolute;left:3px;top:50%;transform:translateY(-50%);min-width:26px;width:26px}" +
@@ -130,7 +130,7 @@
     /* LABELS: they fade after the opening (learn), stay (always), or wait for a finger (never) */
     ".sr-ring.sr-labfade .sr-dot .sr-lab{animation:srHide .5s ease both}@keyframes srHide{from{opacity:1}to{opacity:0}}" +
     ".sr-ring.sr-labfade .sr-dot:hover .sr-lab,.sr-ring.sr-labfade .sr-dot:focus-visible .sr-lab,.sr-ring.sr-labfade .sr-dot:active .sr-lab,.sr-ring.sr-labfade .sr-dot.sr-busy .sr-lab{animation:none;opacity:1}" +
-    ":where(.sr-hub) .sr-pin{cursor:grab}" +
+    ":where(.sr-hub) .sr-pin{cursor:grab}:where(.sr-hub){touch-action:none;cursor:grab}:where(.sr-moving) .sr-hub,:where(.sr-moving) .sr-hub *{cursor:grabbing}" +
     /* PIN (Dimitry, 25 Oct 00:29: "the ring might be desired as a sort of floating thing … the disclosure triangle could share
        vertical space with a pin button to pin the menu, prevent it from closing"): the switch and the pin stacked at the
        name's right. Pinned, the ring floats: no veil, the stage plays under it, a choice keeps it open, Esc or the pin lets go */
@@ -228,7 +228,9 @@
     var PW = def.power || (rid ? null : o.power) || null, LV = def.level || o.level || null;   // a defined ring brings its own switch and level
     var d = Math.max(44, o.dot || 52), gap = 10;
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
-    var R = Math.max(o.r || 0, (def.center || o.center) === "ball" ? 108 : 92, (n * (d + gap + 18)) / (2 * Math.PI));   // a ball needs more room than a bar
+    /* tighter (Dimitry, 25 Oct 08:06: "as long as there's space between the top button and the middle, that gap could be
+       fairly smaller … so the ring in general can be quite a bit tighter"): the ball is 88, the top dot's word just clears it */
+    var R = Math.max(o.r || 0, (def.center || o.center) === "ball" ? 90 : 92, (n * (d + gap + 8)) / (2 * Math.PI));
     var lab = 14, pad = R + d / 2 + lab + 8, W = innerWidth, H = innerHeight;
     var clampX = function (v) { return Math.max(pad, Math.min(W - pad, v)); }, clampY = function (v) { return Math.max(pad, Math.min(H - pad, v)); };
     var x = clampX(o.x == null ? W / 2 : o.x), y = clampY(o.y == null ? H / 2 : o.y);
@@ -258,7 +260,7 @@
     var pin = null;
     if (o.pin !== false) {
       pin = document.createElement("button"); pin.type = "button"; pin.className = "sr-pin"; pin.innerHTML = PIN; pin.setAttribute("aria-pressed", "false"); pin.setAttribute("aria-label", "Pin the ring: it stays open while you play"); pin.title = "Pin: keep the ring open";
-      pin.onclick = function (e) { e.stopPropagation(); if (pin._moved) { pin._moved = false; return; } setPin(!(cur && cur.pinned)); };
+      pin.onclick = function (e) { e.stopPropagation(); setPin(!(cur && cur.pinned)); };
       hub.appendChild(pin);
     }
     hub.appendChild(mid); hub.appendChild(grip); if (sw) hub.appendChild(sw);   // pin · name · grip, the switch a bump below
@@ -270,12 +272,22 @@
     function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
       if (pin) { pin.setAttribute("aria-pressed", String(cur.pinned)); pin.setAttribute("aria-label", cur.pinned ? "Unpin: the ring closes after a choice again" : "Pin the ring: it stays open while you play"); }
       try { o.onPin && o.onPin(cur.pinned); } catch (er) {} }
-    /* the grip moves the whole ring, kept on screen */
-    function drags(h) { h.addEventListener("pointerdown", function (e) { if (h === grip) e.preventDefault(); e.stopPropagation(); try { h.setPointerCapture(e.pointerId); } catch (er) {} var sx = e.clientX, sy = e.clientY, ox = parseFloat(ring.style.left), oy = parseFloat(ring.style.top); h._moved = false;
-      var mv = function (ev) { var dx = ev.clientX - sx, dy = ev.clientY - sy; if (!h._moved && dx * dx + dy * dy < 36) return; h._moved = true; ring.style.left = clampX(ox + dx) + "px"; ring.style.top = clampY(oy + dy) + "px"; };
-      var up = function () { h.removeEventListener("pointermove", mv); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up); if (h._moved) setTimeout(function () { h._moved = false; }, 300); };
-      h.addEventListener("pointermove", mv); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up); }); }
-    drags(grip); if (pin) drags(pin);   // a tap on the pin pins; a drag on it moves the ring
+    /* THE WHOLE HUB MOVES THE RING (Dimitry, 25 Oct: "the active touch area for dragging the ring can really be anywhere
+       except for the drop-down menu and the panel caret ... the pin ... including the name"): a drag that starts anywhere
+       on the hub (grip, name, pin, the space between) moves the ring, kept on screen; the switch's list, the panel's caret
+       and a value's slider keep their own drags. A tap is still a tap: the pointer is captured only once the finger has
+       travelled 6 px, so the name's switch and the pin get their clicks, and the click that ends a drag is swallowed. */
+    var NODRAG = ".sr-sw,.sr-up,.sr-list,.sr-val,.sr-ok,input,select,textarea";
+    hub.addEventListener("pointerdown", function (e) {
+      if (e.button > 0 || (e.target.closest && e.target.closest(NODRAG))) return;
+      if (e.target.closest && e.target.closest(".sr-grip")) e.preventDefault();
+      e.stopPropagation(); var sx = e.clientX, sy = e.clientY, ox = parseFloat(ring.style.left), oy = parseFloat(ring.style.top), id = e.pointerId; hub._moved = false;
+      var mv = function (ev) { if (ev.pointerId !== id) return; var dx = ev.clientX - sx, dy = ev.clientY - sy; if (!hub._moved) { if (dx * dx + dy * dy < 36) return; hub._moved = true; ring.classList.add("sr-moving"); try { hub.setPointerCapture(id); } catch (er) {} }
+        ev.preventDefault(); ring.style.left = clampX(ox + dx) + "px"; ring.style.top = clampY(oy + dy) + "px"; };
+      var up = function (ev) { if (ev.pointerId !== id) return; removeEventListener("pointermove", mv, true); removeEventListener("pointerup", up, true); removeEventListener("pointercancel", up, true); ring.classList.remove("sr-moving");
+        if (hub._moved) setTimeout(function () { hub._moved = false; }, 300); };
+      addEventListener("pointermove", mv, true); addEventListener("pointerup", up, true); addEventListener("pointercancel", up, true); });
+    hub.addEventListener("click", function (e) { if (hub._moved) { e.stopPropagation(); e.preventDefault(); hub._moved = false; } }, true);   // the click that ends a drag is not a tap
     grip.addEventListener("keydown", function (e) { var k = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] }[e.key]; if (!k) return; e.preventDefault(); e.stopPropagation();
       ring.style.left = clampX(parseFloat(ring.style.left) + k[0]) + "px"; ring.style.top = clampY(parseFloat(ring.style.top) + k[1]) + "px"; });
     var dots = items.map(function (it, i) {
@@ -306,6 +318,10 @@
     /* each dot's state from its item: chosen, its page, live; the centre's switch */
     function dress(b, it) {
       if (it.kind !== "go" && it.kind !== "value") b.setAttribute("aria-checked", String(!!it.on));
+      /* a label or icon that follows the state (still / move) follows it here too */
+      var lb = b.querySelector(".sr-lab"); if (lb && it.label != null && lb.textContent !== it.label) lb.textContent = it.label;
+      if (it.icon && b._ic !== it.icon) { if (b._ic != null) { var sv = b.querySelector("svg:not(.sr-pg svg)"); if (sv) { var t = document.createElement("span"); t.innerHTML = it.icon; if (t.firstElementChild) sv.replaceWith(t.firstElementChild); } } b._ic = it.icon; }
+      if (it.aria && !it.more) b.setAttribute("aria-label", it.aria);
       var p2 = !!(it.more && it.more.on); b.classList.toggle("sr-p2", p2); b.classList.toggle("sr-live", !!it.live || (p2 && !!it.on));
       if (it.more) b.setAttribute("aria-label", (it.aria || it.label || it.id) + (it.on ? (p2 ? ". Its second page is on: " : ". Tap again for its second page: ") + (it.more.aria || "") : ""));
     }
@@ -368,6 +384,11 @@
     /* LABELS: learn holds them longer for the first five opens, then briefly; never lets them go at once */
     var lm = labels(), hold = lm === "never" ? 0 : seen(true) < 5 ? 1700 : 650;
     if (lm !== "always") setTimeout(function () { if (ring.isConnected) ring.classList.add("sr-labfade"); }, calm() ? hold : hold + (lm === "never" ? 0 : 420));
+    /* IN STEP WITH THE BAR (Dimitry, 25 Oct 08:06: "coordinate any ring indicators with the matching indicators on the bar
+       and anywhere else"): while the ring is open (pinned, above all) each dot re-reads its item, so a change made on the
+       bar, a key or a shelf shows here at once. SurfaceRing.refresh() does it on demand. */
+    var syncT = setInterval(function () { if (!ring.isConnected) { clearInterval(syncT); return; } try { refresh(); } catch (e) {} }, 400);
+    ring._refresh = refresh;
     /* THE PULSE with a level: the live dots follow it while the ring is open */
     if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * .35; ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
@@ -402,5 +423,5 @@
     for (var i = 0; i < n; i++) if (!out[i]) out[i] = rest.shift();
     return out;
   }
-  window.SurfaceRing = { labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
+  window.SurfaceRing = { refresh: function () { try { cur && cur.ring && cur.ring._refresh && cur.ring._refresh(); } catch (e) {} }, labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
