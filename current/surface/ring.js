@@ -174,6 +174,9 @@
        a pulse of activity … it needs to go blue, and the dice could animate"): a one-shot dot flashes lit and swells, a
        roll item's icon turns over once. A value item may be lit (heard: the accent) and may paint a canvas behind its
        icon (a wave), so the ring's volume shows what the bar's speaker shows. */
+    ".sr-ring .sr-pin.sr-flash>svg{animation:srPinFlash .85s ease-in-out}@keyframes srPinFlash{0%,100%{transform:none;opacity:1}20%,60%{transform:scale(1.55);opacity:1;filter:drop-shadow(0 0 4px var(--acc,#55b8c9))}40%,80%{transform:scale(1.1)}}" +
+    ".sr-ring:not(.pop) .sr-dot{transition:transform .35s cubic-bezier(.3,.7,.4,1),opacity .25s}" +
+    ".sr-ring.sr-mini .sr-dot{transform:translate(0,0) scale(.3);opacity:0;pointer-events:none}" +
     ".sr-ring .sr-dot.sr-hit{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);transition:none}" +
     ".sr-ring .sr-dot.sr-roll>svg:not(.sr-arc){animation:srRoll .55s cubic-bezier(.3,.7,.4,1)}@keyframes srRoll{0%{transform:rotate(0) scale(1)}40%{transform:rotate(200deg) scale(.8)}100%{transform:rotate(360deg) scale(1)}}" +
     ".sr-ring .sr-dot.sr-lit{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
@@ -276,7 +279,13 @@
     try { c.o.onClose && c.o.onClose(why); } catch (e) {}
   }
   function open(o) {
-    css(); close("again"); o = o || {};
+    o = o || {};
+    /* PINNED STAYS PUT (Dimitry, 25 Oct 10:02: a double-tap elsewhere "makes a new ring there and the old one disappears, which
+       defeats the purpose of pinning … instead the pin should flash, revealing that it's locked and has to be moved by hand"):
+       while a ring is pinned, opening another (a double-tap, a key) only flashes its pin; switching rings from its own list
+       still replaces it. */
+    if (cur && cur.pinned && !o._own) { flashPin(); return { close: function () { close("api"); }, el: cur.ring, ring: cur.id }; }
+    css(); close("again");
     var rings = (o.rings || []).filter(function (id) { return RINGS[id]; });
     var rid = o.ring && RINGS[o.ring] ? o.ring : rings.length ? (rings.indexOf(last(o.key)) >= 0 ? last(o.key) : rings[0]) : null;
     var def = rid ? RINGS[rid] : { title: o.title, items: function () { return o.items || []; } };
@@ -314,18 +323,18 @@
         try { PW.set(!was); } catch (er) { console.warn("[ring]", er); } refresh(); };
       pow.addEventListener("pointerdown", function () { try { pow._was = { on: !!PW.on(), t: performance.now() }; } catch (er) {} }, true); }
     else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }
+    else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     /* define({tap}): the middle does one thing when touched without being a switch (the Sound ring: wake the sound, 25 Oct 09:46) */
     if (!PW && typeof def.tap === "function") { name.setAttribute("role", "button"); name.tabIndex = 0; name.style.cursor = "pointer";
       var nt = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { def.tap(); } catch (er) { console.warn("[ring]", er); } };
       name.addEventListener("click", nt); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nt(e); } }); }   // the bar button the ring came from: its icon, its word small under it
-    else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
         L = document.createElement("div"); L.className = "sr-list"; L.setAttribute("role", "menu"); L.setAttribute("aria-label", "Rings");
         rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); b.textContent = RINGS[id].title;
-          b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
+          b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { _own: true, ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
             remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; L.appendChild(b); });
         ring.appendChild(L); var f = L.querySelector("[aria-checked=true]") || L.firstChild; try { f.focus({ preventScroll: true }); } catch (er) {} };
     }
@@ -359,6 +368,12 @@
       var up = function (ev) { if (ev.pointerId !== id) return; removeEventListener("pointermove", mv, true); removeEventListener("pointerup", up, true); removeEventListener("pointercancel", up, true); ring.classList.remove("sr-moving");
         if (hub._moved) setTimeout(function () { hub._moved = false; }, 300); };
       addEventListener("pointermove", mv, true); addEventListener("pointerup", up, true); addEventListener("pointercancel", up, true); });
+    /* SHRINK TO ITS MIDDLE (25 Oct 10:02: "if we double tap the menu itself, bring in its small buttons and just remain the round
+       button where it's located … a performer could put a ring in a place and have it shrink when it's not needed"): a
+       double-tap on the middle folds the dots in (sr-mini) and another brings them out; the pin and the two carets keep their
+       own taps. */
+    doubleTap(hub, function () { ring.classList.toggle("sr-mini"); var m = ring.classList.contains("sr-mini"); dots.forEach(function (d) { d.tabIndex = -1; d.setAttribute("aria-hidden", String(m)); }); hub.setAttribute("aria-label", m ? "Folded: double-tap to open the ring again" : ""); },
+      { when: function (e) { return !(e.target && e.target.closest && e.target.closest(".sr-pin,.sr-sw,.sr-up,.sr-list,.sr-val,.sr-dial")); } });
     hub.addEventListener("click", function (e) { if (hub._moved) { e.stopPropagation(); e.preventDefault(); hub._moved = false; } }, true);   // the click that ends a drag is not a tap
     grip.addEventListener("keydown", function (e) { var k = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] }[e.key]; if (!k) return; e.preventDefault(); e.stopPropagation();
       ring.style.left = clampX(parseFloat(ring.style.left) + k[0]) + "px"; ring.style.top = clampY(parseFloat(ring.style.top) + k[1]) + "px"; });
@@ -551,5 +566,6 @@
     for (var i = 0; i < n; i++) if (!out[i]) out[i] = rest.shift();
     return out;
   }
+  function flashPin() { if (!cur) return; var p = cur.ring.querySelector(".sr-pin"); if (!p) return; p.classList.remove("sr-flash"); void p.offsetWidth; p.classList.add("sr-flash"); setTimeout(function () { p.classList.remove("sr-flash"); }, 900); }
   window.SurfaceRing = { refresh: function () { try { cur && cur.ring && cur.ring._refresh && cur.ring._refresh(); } catch (e) {} }, labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
