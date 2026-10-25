@@ -117,6 +117,7 @@
     ":where(.sr-hub) .sr-pow{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px 0 9px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
     ":where(.sr-hub) .sr-pow i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.7}" +
     ":where(.sr-hub) .sr-pow[aria-pressed=true] i{background:var(--acc,#55b8c9);box-shadow:0 0 6px var(--acc,#55b8c9);opacity:1}" +
+    ":where(.sr-hub) .sr-pow.sr-ic{flex-direction:column;height:auto;padding:0;gap:4px}:where(.sr-hub) .sr-pow.sr-ic svg{opacity:.45;transition:opacity .15s,color .15s}:where(.sr-hub) .sr-pow.sr-ic[aria-pressed=true] svg{opacity:1;color:var(--acc,#55b8c9)}" +
     ".sr-ring.sr-off .sr-dot{opacity:.45}.sr-ring.sr-off .sr-dot:hover,.sr-ring.sr-off .sr-dot:focus-visible{opacity:.8}" +
     /* TWO PAGES: two points in a tab on the chosen dot's bottom edge */
     ":where(.sr-pg){position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);display:none;gap:4px;padding:3px 5px;border-radius:999px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .18);pointer-events:none}" +
@@ -242,7 +243,9 @@
     var hub = document.createElement("div"); hub.className = "sr-hub" + (BALL ? " sr-round" : "");   // not sr-ball: that is the closing fold's class
     var grip = document.createElement("button"); grip.type = "button"; grip.className = "sr-grip"; grip.innerHTML = GRIP; grip.setAttribute("aria-label", "Move the ring (drag)"); grip.title = "Drag to move the ring";
     var name = document.createElement("span"), pow = null; name.className = "sr-name";
-    if (PW) { pow = document.createElement("button"); pow.type = "button"; pow.className = "sr-pow"; pow.innerHTML = "<i></i><span></span>"; pow.lastChild.textContent = def.title || ""; name = pow;
+    if (PW) { pow = document.createElement("button"); pow.type = "button"; pow.className = "sr-pow"; pow.innerHTML = "<i></i><span></span>";
+      if (BALL && def.icon) { pow.className = "sr-pow sr-ic"; pow.innerHTML = def.icon + "<span></span>"; }   // a round centre with a switch: the bar button's icon is the switch, lit when on (25 Oct)
+      pow.lastChild.textContent = def.title || ""; name = pow;
       pow.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the tap that opened the ring lands on the name, in the middle: not a switch (CLAUDE.md) */
         try { PW.set(!PW.on()); } catch (er) { console.warn("[ring]", er); } refresh(); }; }
     else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }   // the bar button the ring came from: its icon, its word small under it
