@@ -28,6 +28,7 @@
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
+       items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
        pin: true (the pin; false hides it), pinned: false (open pinned),
        onClose: (why) => {}, onSwitch: (id) => {}, onPin: (on) => {} })
      items: [{ id, icon: '<svg…>', label: 'push', aria: 'Push: …', on: bool, kind: 'radio'|'check'|'go', stay: bool, pick: () => {} }]
@@ -145,6 +146,7 @@
     var rid = o.ring && RINGS[o.ring] ? o.ring : rings.length ? (rings.indexOf(last(o.key)) >= 0 ? last(o.key) : rings[0]) : null;
     var def = rid ? RINGS[rid] : { title: o.title, items: function () { return o.items || []; } };
     var items = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean), n = items.length; if (!n) return null;
+    items = place(items); n = items.length;
     if (rid) remember(o.key, rid);
     var d = Math.max(44, o.dot || 52), gap = 10;
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
@@ -268,6 +270,18 @@
       lastT = { x: e.clientX, y: e.clientY, t: now };
     }, true);
     el.addEventListener("pointercancel", function () { down = null; }, true);
+  }
+  /* FIXED PLACES (Dimitry, 25 Oct 01:01: "the panel button with the upwards arrow at the top of the ring, just like the
+     previous and next arrows at the bottom left and right … that should be convention"). An item may ask for a place:
+     at: "top" (the way up to a panel), "bottom-left" (back), "bottom-right" (next). The rest keep their order round the
+     ring. Dots start at the top and go clockwise, so bottom-right is the slot nearest 4:30 and bottom-left nearest 7:30. */
+  function place(items) {
+    var n = items.length, slot = { top: 0, "bottom-right": Math.round(n * 135 / 360) % n, "bottom-left": Math.round(n * 225 / 360) % n };
+    if (slot["bottom-left"] === slot["bottom-right"]) slot["bottom-left"] = (slot["bottom-right"] + 1) % n;
+    var out = new Array(n), rest = [];
+    items.forEach(function (it) { var k = it.at && slot[it.at]; if (k != null && !out[k]) out[k] = it; else rest.push(it); });
+    for (var i = 0; i < n; i++) if (!out[i]) out[i] = rest.shift();
+    return out;
   }
   window.SurfaceRing = { pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
