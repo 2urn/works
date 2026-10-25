@@ -42,7 +42,7 @@
   "use strict";
   if (window.SurfaceRing) return;
   var MARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.6" r="2"/><circle cx="18.4" cy="8.3" r="2"/><circle cx="18.4" cy="15.7" r="2"/><circle cx="12" cy="19.4" r="2"/><circle cx="5.6" cy="15.7" r="2"/><circle cx="5.6" cy="8.3" r="2"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>';
-  var GRIP = '<svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><circle cx="4" cy="5" r="1.3"/><circle cx="8" cy="5" r="1.3"/><circle cx="4" cy="10" r="1.3"/><circle cx="8" cy="10" r="1.3"/><circle cx="4" cy="15" r="1.3"/><circle cx="8" cy="15" r="1.3"/></svg>';
+  var GRIP = '<svg viewBox="0 0 20 6" aria-hidden="true" focusable="false"><circle cx="5" cy="1.5" r="1.1"/><circle cx="10" cy="1.5" r="1.1"/><circle cx="15" cy="1.5" r="1.1"/><circle cx="5" cy="4.5" r="1.1"/><circle cx="10" cy="4.5" r="1.1"/><circle cx="15" cy="4.5" r="1.1"/></svg>';
   var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 5 3 3.5H7l3-3.5z"/><path d="M12 12v8.5"/></svg>';
   var CARET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>';
   /* three pops: a third of the way, three quarters, home; each step overshoots a little and settles */
@@ -55,11 +55,13 @@
     ":where(.sr-hub) .sr-name svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}" +
     ":where(.sr-hub) button{display:grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;touch-action:none}" +
     ":where(.sr-hub) button:hover{background:rgb(var(--ui-hi,255 255 255) / .1)}" +
-    ":where(.sr-hub) .sr-grip{cursor:grab}:where(.sr-hub) .sr-grip svg{width:9px;height:16px;fill:currentColor;opacity:.7}" +
+    /* 25 Oct, his redraw of the hub: pin · name over its grip · switch, one row high. The grip sits under the word; the pin drags too */
+    ":where(.sr-mid){display:flex;flex-direction:column;align-items:center}:where(.sr-mid) .sr-name{padding:5px 8px 1px}" +
+    ":where(.sr-hub) .sr-grip{cursor:grab;height:12px;min-width:44px;padding:0}:where(.sr-hub) .sr-grip svg{width:20px;height:6px;fill:currentColor;opacity:.6}" +
+    ":where(.sr-hub) .sr-pin{cursor:grab}" +
     /* PIN (Dimitry, 25 Oct 00:29: "the ring might be desired as a sort of floating thing … the disclosure triangle could share
        vertical space with a pin button to pin the menu, prevent it from closing"): the switch and the pin stacked at the
        name's right. Pinned, the ring floats: no veil, the stage plays under it, a choice keeps it open, Esc or the pin lets go */
-    ":where(.sr-side){display:flex;flex-direction:column;gap:2px}:where(.sr-hub) .sr-side button{min-width:30px;height:24px}" +
     ":where(.sr-hub) .sr-pin svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) .sr-pin[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ".sr-ring.sr-pinned .sr-hub{box-shadow:0 0 0 1.5px var(--acc,#55b8c9)}" +
@@ -153,13 +155,12 @@
     var veil = document.createElement("div"); veil.className = "sr-veil";
     var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() ? "" : " pop"); ring.setAttribute("role", "menu"); ring.setAttribute("aria-label", def.title || "Choices");
     ring.style.left = x + "px"; ring.style.top = y + "px"; ring.style.setProperty("--sr-d", d + "px");
-    /* the hub: grip · name · switch */
+    /* the hub: pin · name over its grip · switch */
     var hub = document.createElement("div"); hub.className = "sr-hub";
     var grip = document.createElement("button"); grip.type = "button"; grip.className = "sr-grip"; grip.innerHTML = GRIP; grip.setAttribute("aria-label", "Move the ring (drag)"); grip.title = "Drag to move the ring";
     var name = document.createElement("span"); name.className = "sr-name";
     if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
-    hub.append(grip, name);
-    var side = document.createElement("span"); side.className = "sr-side";
+    var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name, grip);
     if (rings.length > 1) {
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
@@ -168,24 +169,24 @@
           b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
             remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; L.appendChild(b); });
         ring.appendChild(L); var f = L.querySelector("[aria-checked=true]") || L.firstChild; try { f.focus({ preventScroll: true }); } catch (er) {} };
-      side.appendChild(sw);
     }
     var pin = null;
     if (o.pin !== false) {
       pin = document.createElement("button"); pin.type = "button"; pin.className = "sr-pin"; pin.innerHTML = PIN; pin.setAttribute("aria-pressed", "false"); pin.setAttribute("aria-label", "Pin the ring: it stays open while you play"); pin.title = "Pin: keep the ring open";
-      pin.onclick = function (e) { e.stopPropagation(); setPin(!(cur && cur.pinned)); };
-      side.appendChild(pin);
+      pin.onclick = function (e) { e.stopPropagation(); if (pin._moved) { pin._moved = false; return; } setPin(!(cur && cur.pinned)); };
+      hub.appendChild(pin);
     }
-    if (side.children.length) hub.appendChild(side);
+    hub.appendChild(mid); if (sw) hub.appendChild(sw);
     ring.appendChild(hub);
     function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
       if (pin) { pin.setAttribute("aria-pressed", String(cur.pinned)); pin.setAttribute("aria-label", cur.pinned ? "Unpin: the ring closes after a choice again" : "Pin the ring: it stays open while you play"); }
       try { o.onPin && o.onPin(cur.pinned); } catch (er) {} }
     /* the grip moves the whole ring, kept on screen */
-    grip.addEventListener("pointerdown", function (e) { e.preventDefault(); e.stopPropagation(); try { grip.setPointerCapture(e.pointerId); } catch (er) {} var sx = e.clientX, sy = e.clientY, ox = parseFloat(ring.style.left), oy = parseFloat(ring.style.top);
-      var mv = function (ev) { ring.style.left = clampX(ox + ev.clientX - sx) + "px"; ring.style.top = clampY(oy + ev.clientY - sy) + "px"; };
-      var up = function () { grip.removeEventListener("pointermove", mv); grip.removeEventListener("pointerup", up); grip.removeEventListener("pointercancel", up); };
-      grip.addEventListener("pointermove", mv); grip.addEventListener("pointerup", up); grip.addEventListener("pointercancel", up); });
+    function drags(h) { h.addEventListener("pointerdown", function (e) { if (h === grip) e.preventDefault(); e.stopPropagation(); try { h.setPointerCapture(e.pointerId); } catch (er) {} var sx = e.clientX, sy = e.clientY, ox = parseFloat(ring.style.left), oy = parseFloat(ring.style.top); h._moved = false;
+      var mv = function (ev) { var dx = ev.clientX - sx, dy = ev.clientY - sy; if (!h._moved && dx * dx + dy * dy < 36) return; h._moved = true; ring.style.left = clampX(ox + dx) + "px"; ring.style.top = clampY(oy + dy) + "px"; };
+      var up = function () { h.removeEventListener("pointermove", mv); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up); if (h._moved) setTimeout(function () { h._moved = false; }, 300); };
+      h.addEventListener("pointermove", mv); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up); }); }
+    drags(grip); if (pin) drags(pin);   // a tap on the pin pins; a drag on it moves the ring
     grip.addEventListener("keydown", function (e) { var k = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] }[e.key]; if (!k) return; e.preventDefault(); e.stopPropagation();
       ring.style.left = clampX(parseFloat(ring.style.left) + k[0]) + "px"; ring.style.top = clampY(parseFloat(ring.style.top) + k[1]) + "px"; });
     var dots = items.map(function (it, i) {
@@ -221,7 +222,7 @@
     }
     /* the hub becomes the value's slider; the tick (or Esc) gives the name back */
     function slider(it, fmt, clampV) {
-      var nm = hub.querySelector(".sr-name"), old = hub.querySelector(".sr-val"); if (old) old.remove();
+      var nm = hub.querySelector(".sr-mid") || hub.querySelector(".sr-name"), old = hub.querySelector(".sr-val"); if (old) old.remove();
       var v = document.createElement("label"); v.className = "sr-val"; var t = document.createElement("span"); t.textContent = it.label || ""; var bb = document.createElement("b");
       var r = document.createElement("input"); r.type = "range"; r.min = it.min == null ? 0 : it.min; r.max = it.max == null ? 100 : it.max; r.step = it.step || 1; r.value = it.get(); r.setAttribute("aria-label", it.aria || it.label || "value");
       var ok = document.createElement("button"); ok.type = "button"; ok.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'; ok.setAttribute("aria-label", "Done");
