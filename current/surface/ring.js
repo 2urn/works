@@ -199,6 +199,10 @@
        that sinks into the middle (Dimitry, 25 Oct: "it just disappears ... I do like when it shrinks back in one petal at a
        time ... I wonder if the title bar should just become a circle") */
     ".sr-ring .sr-dot.sr-fold1{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transition-delay:var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0}" +
+    ".sr-ring .sr-dot.sr-fold2{transition:transform .45s cubic-bezier(.5,0,.3,1) var(--fd,0ms),opacity .45s ease-in var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0;pointer-events:none}" +
+    ".sr-ring .sr-dot.sr-fold2.sr-live{animation:none}" +
+    ".sr-ring .sr-hub.sr-linger{transition:opacity 1.5s ease-in;opacity:0}" +
+    ".sr-ring .sr-hub.sr-linger:hover{opacity:.6;transition:opacity .2s}" +
     ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
     ".sr-ring .sr-hub.sr-ball>*{transition:opacity .12s ease-in;opacity:0}" +
     ".sr-ring .sr-hub.sr-ball.sr-gone{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transform:translate(-50%,-50%) scale(.2)}" +
@@ -222,23 +226,29 @@
     try { c.veil.remove(); } catch (e) {}
     var gone = function () { try { c.ring.remove(); } catch (e) {} };
     if (calm() && chosen && hold && why === "pick") { chosen.style.zIndex = "2"; setTimeout(gone, hold); }
-    else if (calm() || why === "again" || !c.ring.isConnected) gone();
+    else if (calm() || why === "again" || why === "api" || !c.ring.isConnected) gone();
     else {
-      c.ring.classList.remove("pop"); void c.ring.offsetWidth;   // settle without the opening animation first: a transition never starts from a style an animation was holding, so the petals blinked out instead of folding
-      var dots = [].slice.call(c.ring.querySelectorAll(".sr-dot")), hub = c.ring.querySelector(".sr-hub"), list = c.ring.querySelector(".sr-list");
-      if (list) list.remove();
-      dots.forEach(function (d) { if (d !== chosen) d.classList.add("sr-fold"); });
-      if (chosen) { chosen.classList.add("sr-chosen"); setTimeout(function () { chosen.classList.add("sr-home"); }, 220 + hold); setTimeout(function () { if (hub) hub.classList.add("sr-gone"); }, 400 + hold); setTimeout(gone, 600 + hold); }
+      /* THE LINGER (Dimitry, 25 Oct 08:56: "I don't think the ring menu should disappear immediately … the buttons should pop
+         back into the menu in one second, not super fast; if the menu has not been pinned it then slowly fades over a second
+         and a half, giving the user time to see what they've done, and for the menu to linger in case they want to go back to
+         it and maybe pin it"). The petals fold home over about a second (a chosen one holds lit first), then the middle stays
+         and fades over 1.5 s; a tap on it while it fades opens the ring again where it was (on the pin: opened pinned). */
+      c.ring.classList.remove("pop"); void c.ring.offsetWidth;   // settle without the opening animation first: a transition never starts from a style an animation was holding
+      var dots = [].slice.call(c.ring.querySelectorAll(".sr-dot")), hub = c.ring.querySelector(".sr-hub");
+      c.ring.querySelectorAll(".sr-list,.sr-dial").forEach(function (x) { x.remove(); }); c.ring.classList.remove("sr-dialing");
+      var others = dots.filter(function (d) { return d !== chosen; }), k = others.length, step = k > 1 ? Math.round(520 / (k - 1)) : 0;
+      others.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.add("sr-fold2"); });
+      var foldEnd = (k ? (k - 1) * step : 0) + 450;
+      if (chosen) { chosen.classList.add("sr-chosen"); var ch = Math.max(hold, 300); setTimeout(function () { chosen.style.setProperty("--fd", "0ms"); chosen.classList.add("sr-fold2"); }, ch); foldEnd = Math.max(foldEnd, ch + 450); }
+      if (!hub) { setTimeout(gone, foldEnd); }
       else {
-        var k = dots.length, step = Math.max(34, Math.round(210 / Math.max(1, k)));   // a small ring (three dots) folds slower, so it still reads one petal at a time
-        dots.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.remove("sr-fold"); d.classList.add("sr-fold1"); });
-        var t1 = Math.max(0, (k - 2) * step);
-        if (hub) {
-          var hr = hub.getBoundingClientRect(); hub.style.boxSizing = "border-box"; hub.style.width = hr.width + "px"; void hub.offsetWidth;
-          setTimeout(function () { hub.classList.add("sr-ball"); hub.style.width = hr.height + "px"; }, t1);
-          setTimeout(function () { hub.classList.add("sr-gone"); }, t1 + 200);
-        }
-        setTimeout(gone, t1 + 420);
+        var again = function (e) { e.stopPropagation(); e.preventDefault(); if (!c.ring.isConnected) return;
+          var pinIt = !!(e.target && e.target.closest && e.target.closest(".sr-pin")), x = parseFloat(c.ring.style.left), y = parseFloat(c.ring.style.top);
+          gone(); open(Object.assign({}, c.o, { ring: c.id || c.o.ring, x: x, y: y, pinned: pinIt })); };
+        hub.addEventListener("pointerdown", again, true); hub.addEventListener("click", function (e) { e.stopPropagation(); }, true);
+        hub.setAttribute("aria-label", "Open the ring again");
+        setTimeout(function () { if (c.ring.isConnected) hub.classList.add("sr-linger"); }, foldEnd);
+        setTimeout(gone, foldEnd + 1500);
       }
     }
     try { if (c.back && c.back.focus && why !== "pick") c.back.focus({ preventScroll: true }); } catch (e) {}
