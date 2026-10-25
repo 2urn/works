@@ -113,6 +113,17 @@
     ".sr-hub.sr-round:not(:has(.sr-val)) .sr-sw{bottom:3px;width:34px;height:24px;border-radius:999px;box-shadow:none;background:none}" +
     ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up svg,.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw svg{margin:0}" +
     ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up::after,.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw::after{display:none}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) :is(.sr-up,.sr-sw){-webkit-backdrop-filter:none;backdrop-filter:none}" +   /* their blur drew a pale pill inside the ball */
+    /* (Dimitry, 25 Oct 08:40–08:41) no hard-edged highlight inside the middle ("I don't want the ring within the ring"):
+       the parts round the edge rest at 65% and come to full under a finger or the pointer, nothing drawn behind them; the
+       middle itself only brightens. The edge icons sit 7 px nearer the rim, their touch areas where they were, so the
+       icon and the word in the middle get more room. */
+    ".sr-hub.sr-round:not(:has(.sr-val)) button:hover,.sr-hub.sr-round:not(:has(.sr-val)) .sr-up:hover,.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw:hover{background:none;color:inherit}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) :is(.sr-pin,.sr-grip,.sr-up,.sr-sw)>svg{opacity:.65;transition:opacity .15s}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) :is(.sr-pin,.sr-grip,.sr-up,.sr-sw):is(:hover,:active,:focus-visible)>svg,.sr-hub.sr-round .sr-pin[aria-pressed=true]>svg{opacity:1}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-name,.sr-hub.sr-round:not(:has(.sr-val)) .sr-pow{opacity:.9;transition:opacity .15s}.sr-hub.sr-round:not(:has(.sr-val)) :is(.sr-name,.sr-pow):is(:hover,:active,:focus-visible){opacity:1}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-pin>svg{translate:-7px 0}.sr-hub.sr-round:not(:has(.sr-val)) .sr-grip>svg{translate:7px 0}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up>svg{translate:0 -7px}.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw>svg{translate:0 7px}" +
     /* THE CENTRE: the name as the ring's switch, a point before the word, lit or hollow */
     ":where(.sr-hub) .sr-pow{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px 0 9px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
     ":where(.sr-hub) .sr-pow i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.7}" +
