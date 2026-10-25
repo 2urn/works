@@ -28,7 +28,8 @@
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
-       a value item may carry idle: () => bool (set but not heard: its arc dims);
+       a value item may carry idle: () => bool (set but not heard: its arc dims), lit: () => true | "dark" | false (heard: the accent; playing but muted: dark),
+       bg: (canvas, lit) => void (painted behind its icon every frame, e.g. the sound's wave); a go item roll: true turns its icon over;
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
        center: "bar" | "ball" (the middle as a bar, the default, or a round button like the bar button the ring came from;
        with define({icon}) the ball shows that icon over a small name), per ring in define, or per open,
@@ -166,6 +167,17 @@
     ":where(.sr-list) button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ":where(.sr-dot){position:absolute;left:0;top:0;width:var(--sr-d,52px);height:var(--sr-d,52px);margin:calc(var(--sr-d,52px) / -2) 0 0 calc(var(--sr-d,52px) / -2);padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);cursor:pointer;pointer-events:auto;transform:translate(var(--x),var(--y));-webkit-tap-highlight-color:transparent}" +
     ":where(.sr-dot) svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
+    /* (Dimitry, 25 Oct 09:19: tapping the dice or an arrow "nothing happens … there's no indicator that it has been pressed …
+       a pulse of activity … it needs to go blue, and the dice could animate"): a one-shot dot flashes lit and swells, a
+       roll item's icon turns over once. A value item may be lit (heard: the accent) and may paint a canvas behind its
+       icon (a wave), so the ring's volume shows what the bar's speaker shows. */
+    ".sr-ring .sr-dot.sr-hit{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);transition:none}" +
+    ".sr-ring .sr-dot.sr-roll>svg:not(.sr-arc){animation:srRoll .55s cubic-bezier(.3,.7,.4,1)}@keyframes srRoll{0%{transform:rotate(0) scale(1)}40%{transform:rotate(200deg) scale(.8)}100%{transform:rotate(360deg) scale(1)}}" +
+    ".sr-ring .sr-dot.sr-lit{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
+    ".sr-ring .sr-dot.sr-dark{background:var(--acc-ink,#04181c);color:#fff}.sr-ring .sr-dot.sr-dark .sr-arc .t{stroke:#fff;opacity:.18}" +
+    ".sr-ring .sr-dot.sr-lit .sr-arc .v{stroke:var(--acc-ink,#04181c)}.sr-ring .sr-dot.sr-lit .sr-arc .t{stroke:var(--acc-ink,#04181c);opacity:.2}" +
+    ".sr-ring .sr-dot canvas.sr-bg{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;pointer-events:none}" +
+    ".sr-ring .sr-dot>svg:not(.sr-arc),.sr-ring .sr-dot>.sr-num{position:relative}" +
     ":where(.sr-dot)[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 6px 20px rgb(0 0 0 / .35)}" +
     ":where(.sr-dot):focus-visible{outline:2px solid #fff;outline-offset:3px}" +
     /* QUANTITY WITHOUT A BAR (Dimitry, 25 Oct 08:34: "a systematic way of showing a quantity without bringing in horizontal
@@ -353,6 +365,7 @@
       if (it.kind === "value") { valueDot(b, it); ring.appendChild(b); return b; }
       b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the click that ends the opening tap lands where the dots start, in the middle: not a choice */
         var keep = !!it.stay, I = b._it || it;
+        if (I.kind === "go" || I.stay) { b.classList.remove("sr-hit", "sr-roll"); void b.offsetWidth; b.classList.add("sr-hit"); if (I.roll) b.classList.add("sr-roll"); setTimeout(function () { b.classList.remove("sr-hit", "sr-roll"); }, 600); }
         /* TWO PAGES: the chosen dot, tapped again while the ring is on, turns its page */
         if (I.more && I.kind === "radio" && b.getAttribute("aria-checked") === "true" && !(PW && !PW.on())) {
           try { I.more.set(!I.more.on); } catch (er) { console.warn("[ring]", er); } refresh();
@@ -390,7 +403,9 @@
       var clampV = function (v) { return Math.max(mn, Math.min(mx, Math.round(v / st) * st)); }, icon = b.innerHTML, g = null, fr = function (v) { return (v - mn) / ((mx - mn) || 1); };
       b.setAttribute("role", "menuitem"); b.style.touchAction = "none";
       /* at rest: the icon, its level round the edge; dragged: the number inside, the level still round the edge */
-      var idle = function () { var x = false; try { x = !!(it.idle && it.idle()); } catch (e) {} b.classList.toggle("sr-idle", x); };   // the amount is set but not heard: its arc dims
+      var idle = function () { var x = false, l = false; try { x = !!(it.idle && it.idle()); l = it.lit ? it.lit() : false; } catch (e) {} b.classList.toggle("sr-idle", x); b.classList.toggle("sr-lit", l === true); b.classList.toggle("sr-dark", l === "dark"); };   // lit: true (heard), "dark" (playing, muted), false
+      var bgc = null; if (typeof it.bg === "function") { bgc = document.createElement("canvas"); bgc.className = "sr-bg"; bgc.setAttribute("aria-hidden", "true");
+        var paintBg = function () { if (!b.isConnected) return; if (bgc.parentNode !== b) b.insertBefore(bgc, b.firstChild); try { it.bg(bgc, b.classList.contains("sr-lit")); } catch (e) {} requestAnimationFrame(paintBg); }; requestAnimationFrame(paintBg); }   // the amount is set but not heard: its arc dims
       var rest = function () { var v = +it.get(); idle(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change, or tap for a dial"); };
       var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
       rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
