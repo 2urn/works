@@ -406,17 +406,21 @@
       var idle = function () { var x = false, l = false; try { x = !!(it.idle && it.idle()); l = it.lit ? it.lit() : false; } catch (e) {} b.classList.toggle("sr-idle", x); b.classList.toggle("sr-lit", l === true); b.classList.toggle("sr-dark", l === "dark"); };   // lit: true (heard), "dark" (playing, muted), false
       var bgc = null; if (typeof it.bg === "function") { bgc = document.createElement("canvas"); bgc.className = "sr-bg"; bgc.setAttribute("aria-hidden", "true");
         var paintBg = function () { if (!b.isConnected) return; if (bgc.parentNode !== b) b.insertBefore(bgc, b.firstChild); try { it.bg(bgc, b.classList.contains("sr-lit")); } catch (e) {} requestAnimationFrame(paintBg); }; requestAnimationFrame(paintBg); }   // the amount is set but not heard: its arc dims
-      var rest = function () { var v = +it.get(); idle(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change, or tap for a dial"); };
+      var rest = function () { var v = +it.get(); idle(); b.innerHTML = icon + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change; tap to see it"); };
       var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
+      /* a tap shows the amount in the dot for a moment; the middle no longer turns into a dial (Dimitry, 25 Oct 09:30: "a big
+         dial on the middle button … I don't think it's necessary now that we have the side buttons … it lingers from the
+         last thing pressed and creates sync issues"). dial() stays in the file for a tool that asks for it. */
+      var pk = 0, peek = function () { clearTimeout(pk); show(+it.get()); pk = setTimeout(function () { if (!g) rest(); }, 1100); };
       rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
         c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
       /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
       b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return; try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
       b.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; b.classList.add("sr-busy");
         var v = clampV(g.v + dd * (mx - mn) / 200); it.set(v); show(v); });
-      var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); dial(it, fmt, clampV, fr, b); } };
+      var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); peek(); } };
       b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); rest(); });
-      b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail === 0) dial(it, fmt, clampV, fr, b); });
+      b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail === 0) peek(); });
     }
     /* THE DIAL: the middle turns into the value's knob, its level round its edge, the number inside. Drag up or down
        anywhere (the dial keeps the finger), arrows step, a tap without a drag (or Enter, Esc) gives the middle back */
