@@ -28,7 +28,8 @@
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
-       onClose: (why) => {}, onSwitch: (id) => {} })
+       pin: true (the pin; false hides it), pinned: false (open pinned),
+       onClose: (why) => {}, onSwitch: (id) => {}, onPin: (on) => {} })
      items: [{ id, icon: '<svg…>', label: 'push', aria: 'Push: …', on: bool, kind: 'radio'|'check'|'go', stay: bool, pick: () => {} }]
      a value: { id, kind: 'value', icon, label, aria, get: () => n, set: (n) => {}, min: 0, max: 100, step: 1, fmt: n => '50%' }
        (Dimitry, 24 Oct 20:15: "where you drag and a number changes, that number could happen inside the button that you
@@ -42,6 +43,7 @@
   if (window.SurfaceRing) return;
   var MARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.6" r="2"/><circle cx="18.4" cy="8.3" r="2"/><circle cx="18.4" cy="15.7" r="2"/><circle cx="12" cy="19.4" r="2"/><circle cx="5.6" cy="15.7" r="2"/><circle cx="5.6" cy="8.3" r="2"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>';
   var GRIP = '<svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><circle cx="4" cy="5" r="1.3"/><circle cx="8" cy="5" r="1.3"/><circle cx="4" cy="10" r="1.3"/><circle cx="8" cy="10" r="1.3"/><circle cx="4" cy="15" r="1.3"/><circle cx="8" cy="15" r="1.3"/></svg>';
+  var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 5 3 3.5H7l3-3.5z"/><path d="M12 12v8.5"/></svg>';
   var CARET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>';
   /* three pops: a third of the way, three quarters, home; each step overshoots a little and settles */
   var POP = "cubic-bezier(.2,1.7,.45,1)";
@@ -54,6 +56,14 @@
     ":where(.sr-hub) button{display:grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;touch-action:none}" +
     ":where(.sr-hub) button:hover{background:rgb(var(--ui-hi,255 255 255) / .1)}" +
     ":where(.sr-hub) .sr-grip{cursor:grab}:where(.sr-hub) .sr-grip svg{width:9px;height:16px;fill:currentColor;opacity:.7}" +
+    /* PIN (Dimitry, 25 Oct 00:29: "the ring might be desired as a sort of floating thing … the disclosure triangle could share
+       vertical space with a pin button to pin the menu, prevent it from closing"): the switch and the pin stacked at the
+       name's right. Pinned, the ring floats: no veil, the stage plays under it, a choice keeps it open, Esc or the pin lets go */
+    ":where(.sr-side){display:flex;flex-direction:column;gap:2px}:where(.sr-hub) .sr-side button{min-width:30px;height:24px}" +
+    ":where(.sr-hub) .sr-pin svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}" +
+    ":where(.sr-hub) .sr-pin[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
+    ".sr-ring.sr-pinned .sr-hub{box-shadow:0 0 0 1.5px var(--acc,#55b8c9)}" +
+    ".sr-ring .sr-dot.sr-tap{transition:transform .14s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.18)}" +
     ":where(.sr-hub) .sr-sw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) button:focus-visible{outline:2px solid #fff;outline-offset:1px}" +
     ":where(.sr-list){position:absolute;left:0;top:24px;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;padding:4px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
@@ -149,17 +159,28 @@
     var name = document.createElement("span"); name.className = "sr-name";
     if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     hub.append(grip, name);
+    var side = document.createElement("span"); side.className = "sr-side";
     if (rings.length > 1) {
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
         L = document.createElement("div"); L.className = "sr-list"; L.setAttribute("role", "menu"); L.setAttribute("aria-label", "Rings");
         rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); b.textContent = RINGS[id].title;
-          b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top) });
+          b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
             remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; L.appendChild(b); });
         ring.appendChild(L); var f = L.querySelector("[aria-checked=true]") || L.firstChild; try { f.focus({ preventScroll: true }); } catch (er) {} };
-      hub.appendChild(sw);
+      side.appendChild(sw);
     }
+    var pin = null;
+    if (o.pin !== false) {
+      pin = document.createElement("button"); pin.type = "button"; pin.className = "sr-pin"; pin.innerHTML = PIN; pin.setAttribute("aria-pressed", "false"); pin.setAttribute("aria-label", "Pin the ring: it stays open while you play"); pin.title = "Pin: keep the ring open";
+      pin.onclick = function (e) { e.stopPropagation(); setPin(!(cur && cur.pinned)); };
+      side.appendChild(pin);
+    }
+    if (side.children.length) hub.appendChild(side);
     ring.appendChild(hub);
+    function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
+      if (pin) { pin.setAttribute("aria-pressed", String(cur.pinned)); pin.setAttribute("aria-label", cur.pinned ? "Unpin: the ring closes after a choice again" : "Pin the ring: it stays open while you play"); }
+      try { o.onPin && o.onPin(cur.pinned); } catch (er) {} }
     /* the grip moves the whole ring, kept on screen */
     grip.addEventListener("pointerdown", function (e) { e.preventDefault(); e.stopPropagation(); try { grip.setPointerCapture(e.pointerId); } catch (er) {} var sx = e.clientX, sy = e.clientY, ox = parseFloat(ring.style.left), oy = parseFloat(ring.style.top);
       var mv = function (ev) { ring.style.left = clampX(ox + ev.clientX - sx) + "px"; ring.style.top = clampY(oy + ev.clientY - sy) + "px"; };
@@ -181,6 +202,7 @@
         var keep = !!it.stay;
         if (it.kind === "check") b.setAttribute("aria-checked", String(b.getAttribute("aria-checked") !== "true")); else if (it.kind !== "go") dots.forEach(function (x) { if (x.getAttribute("role") === "menuitemradio") x.setAttribute("aria-checked", String(x === b)); });
         try { it.pick && it.pick(); } catch (er) { console.warn("[ring]", er); }
+        if (cur && cur.pinned) { b.classList.add("sr-tap"); setTimeout(function () { b.classList.remove("sr-tap"); }, 180); return; }
         if (!(keep && cur)) close("pick", b, it.kind === "go" ? 0 : 650); });   /* a switch lingers lit (or unlit) so its new state shows (Dimitry, 25 Oct 00:25: "you don't really know if you've actually triggered the button") */
       ring.appendChild(b); return b;
     });
@@ -213,7 +235,8 @@
     veil.addEventListener("pointerdown", function (e) { stop(e); if (cur && performance.now() - cur.t0 < 250) return; close("outside"); });
     ["pointerup", "click", "touchstart", "touchend"].forEach(function (t) { veil.addEventListener(t, stop, { passive: false }); });
     var key = function (e) {
-      if (!cur) return; var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} } return; }
+      if (!cur) return; if (cur.pinned && !ring.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); close("esc"); } return; }   // pinned, the app keeps its keys but Esc
+      var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} } return; }
       var ae = document.activeElement; if (ae && ae.type === "range" && ring.contains(ae)) { if (e.key === "Escape") { stop(e); var okb = hub.querySelector(".sr-val + button"); if (okb) okb.click(); } return; }   // the slider keeps its arrows
       var i = dots.indexOf(document.activeElement);
       if (e.key === "Escape") { stop(e); close("esc"); return; }
@@ -223,7 +246,8 @@
     };
     document.addEventListener("keydown", key, true);
     document.body.append(veil, ring);
-    cur = { o: o, veil: veil, ring: ring, key: key, back: o.back || document.activeElement, t0: performance.now(), id: rid };
+    cur = { o: o, veil: veil, ring: ring, key: key, back: o.back || document.activeElement, t0: performance.now(), id: rid, pinned: false };
+    if (o.pinned) setPin(true);
     requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
     return { close: function () { close("api"); }, el: ring, ring: rid };
   }
@@ -244,5 +268,5 @@
     }, true);
     el.addEventListener("pointercancel", function () { down = null; }, true);
   }
-  window.SurfaceRing = { open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
+  window.SurfaceRing = { pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
