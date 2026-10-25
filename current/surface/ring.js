@@ -98,18 +98,20 @@
   function remember(k, id) { try { localStorage.setItem(lastKey(k), id); } catch (e) {} }
   function define(id, def) { RINGS[id] = def; }
   /* the end: what = 'pick' (a dot was chosen, the effect already done), anything else folds everything at once */
-  function close(why, chosen) {
+  function close(why, chosen, hold) {
+    hold = hold || 0;
     if (!cur) return; var c = cur; cur = null;
     document.removeEventListener("keydown", c.key, true);
     try { c.veil.remove(); } catch (e) {}
     var gone = function () { try { c.ring.remove(); } catch (e) {} };
-    if (calm() || why === "again" || !c.ring.isConnected) gone();
+    if (calm() && chosen && hold && why === "pick") { chosen.style.zIndex = "2"; setTimeout(gone, hold); }
+    else if (calm() || why === "again" || !c.ring.isConnected) gone();
     else {
       c.ring.classList.remove("pop"); void c.ring.offsetWidth;   // settle without the opening animation first: a transition never starts from a style an animation was holding, so the petals blinked out instead of folding
       var dots = [].slice.call(c.ring.querySelectorAll(".sr-dot")), hub = c.ring.querySelector(".sr-hub"), list = c.ring.querySelector(".sr-list");
       if (list) list.remove();
       dots.forEach(function (d) { if (d !== chosen) d.classList.add("sr-fold"); });
-      if (chosen) { chosen.classList.add("sr-chosen"); setTimeout(function () { chosen.classList.add("sr-home"); }, 220); setTimeout(function () { if (hub) hub.classList.add("sr-gone"); }, 400); setTimeout(gone, 600); }
+      if (chosen) { chosen.classList.add("sr-chosen"); setTimeout(function () { chosen.classList.add("sr-home"); }, 220 + hold); setTimeout(function () { if (hub) hub.classList.add("sr-gone"); }, 400 + hold); setTimeout(gone, 600 + hold); }
       else {
         var step = 34, k = dots.length;
         dots.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.remove("sr-fold"); d.classList.add("sr-fold1"); });
@@ -179,7 +181,7 @@
         var keep = !!it.stay;
         if (it.kind === "check") b.setAttribute("aria-checked", String(b.getAttribute("aria-checked") !== "true")); else if (it.kind !== "go") dots.forEach(function (x) { if (x.getAttribute("role") === "menuitemradio") x.setAttribute("aria-checked", String(x === b)); });
         try { it.pick && it.pick(); } catch (er) { console.warn("[ring]", er); }
-        if (!(keep && cur)) close("pick", b); });
+        if (!(keep && cur)) close("pick", b, it.kind === "go" ? 0 : 650); });   /* a switch lingers lit (or unlit) so its new state shows (Dimitry, 25 Oct 00:25: "you don't really know if you've actually triggered the button") */
       ring.appendChild(b); return b;
     });
     /* a value dot: drag across it (left to right, or down to up) and its number shows inside; a tap hands the hub its slider */
