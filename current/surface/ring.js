@@ -29,10 +29,12 @@
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
        a value item may carry idle: () => bool (set but not heard: its arc dims), lit: () => true | "dark" | false (heard: the accent; playing but muted: dark),
+       wake: () => void (idle and touched: turns its sound on instead of changing the amount),
        bg: (canvas, lit) => void (painted behind its icon every frame, e.g. the sound's wave); a go item roll: true turns its icon over;
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
        center: "bar" | "ball" (the middle as a bar, the default, or a round button like the bar button the ring came from;
        with define({icon}) the ball shows that icon over a small name), per ring in define, or per open,
+       define({icon, iconOff}): a round centre that is a switch shows iconOff while off;
        pin: true (the pin; false hides it), pinned: false (open pinned),
        power: { on: () => bool, set: (v) => {} },                   // the name is the ring's switch (see THE CENTRE below)
        level: () => 0..1,                                            // what a live dot pulses with (a sound's level); none: it breathes
@@ -305,7 +307,11 @@
       if (BALL && def.icon) { pow.className = "sr-pow sr-ic"; pow.innerHTML = def.icon + "<span></span>"; }   // a round centre with a switch: the bar button's icon is the switch, lit when on (25 Oct)
       pow.lastChild.textContent = def.title || ""; name = pow;
       pow.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the tap that opened the ring lands on the name, in the middle: not a switch (CLAUDE.md) */
-        try { PW.set(!PW.on()); } catch (er) { console.warn("[ring]", er); } refresh(); }; }
+        /* the state as the finger came down: the same touch can wake what the switch reports (a browser's sound starts on
+           the first touch), and reading it at the click turned the sound off the moment it woke (25 Oct, the speaker) */
+        var was = (pow._was && performance.now() - pow._was.t < 1500) ? pow._was.on : !!PW.on(); pow._was = null;
+        try { PW.set(!was); } catch (er) { console.warn("[ring]", er); } refresh(); };
+      pow.addEventListener("pointerdown", function () { try { pow._was = { on: !!PW.on(), t: performance.now() }; } catch (er) {} }, true); }
     else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }   // the bar button the ring came from: its icon, its word small under it
     else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
@@ -395,6 +401,7 @@
       if (rid || def.items) { var fresh = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean);
         dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } else if (b._arc) b._arc(); }); }
       if (pow) { var on = !!PW.on(); pow.setAttribute("aria-pressed", String(on)); ring.classList.toggle("sr-off", !on);
+        if (def.iconOff && pow.classList.contains("sr-ic")) { var want = on ? def.icon : def.iconOff; if (pow._ic !== want) { var sv = pow.querySelector("svg"), t = document.createElement("span"); t.innerHTML = want; if (sv && t.firstElementChild) sv.replaceWith(t.firstElementChild); pow._ic = want; } }   // a switch that looks off when off: the speaker with its cross
         pow.setAttribute("aria-label", (def.title || "Ring") + (on ? ": on. Tap to turn it off" : ": off. Tap to turn it on, or choose any dot")); pow.title = on ? "On: tap to turn off" : "Off: tap to turn on"; }
     }
     /* a value dot: drag across it (left to right, or down to up) and its number shows inside; a tap hands the hub its slider */
@@ -415,12 +422,17 @@
       rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
         c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
       /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
-      b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return; try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
+      b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return;
+        /* (Dimitry, 25 Oct 09:34: "I can adjust the volume, but there's still no sound playing … tapping it needs to activate it
+           before you can adjust the volume"): an idle amount with a wake turns its sound on first; the next touch sets it */
+        var asleep = false; try { asleep = !!(it.idle && it.idle() && it.wake); } catch (er) {}
+        if (asleep) { g = null; b.classList.remove("sr-hit"); void b.offsetWidth; b.classList.add("sr-hit"); setTimeout(function () { b.classList.remove("sr-hit"); }, 600); try { it.wake(); } catch (er) { console.warn("[ring]", er); } b._woke = performance.now(); return; }
+        try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
       b.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; b.classList.add("sr-busy");
         var v = clampV(g.v + dd * (mx - mn) / 200); it.set(v); show(v); });
       var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); peek(); } };
       b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); rest(); });
-      b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail === 0) peek(); });
+      b.addEventListener("click", function (e) { e.stopPropagation(); if (b._woke && performance.now() - b._woke < 800) return; if (e.detail === 0) peek(); });
     }
     /* THE DIAL: the middle turns into the value's knob, its level round its edge, the number inside. Drag up or down
        anywhere (the dial keeps the finger), arrows step, a tap without a drag (or Enter, Esc) gives the middle back */
