@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261025124447";window.__VERSION__="0.33.4";window.__NOTES__=[{"v":"0.33.4","date":"25 Oct 2026","items":[{"kind":"change","text":"the magnet on the beat no longer pulses a pill behind PUSH / PULL, so its drawer keeps still; the ring round the icon shows the beat"},{"kind":"change","text":"the ring's round middle has no highlight inside it: the pin, grip and arrows round its edge rest a little dim and brighten under your finger, and sit nearer the rim so the middle breathes"}]}]</script>
+<script>window.__BUILD__="20261025125444";window.__VERSION__="0.33.5";window.__NOTES__=[{"v":"0.33.5","date":"25 Oct 2026","items":[{"kind":"fix","text":"tapping the chosen ring dot again to turn its second page (touchable sound) keeps the ring open; the dot bumps once instead of vanishing and coming back"},{"kind":"change","text":"a dot that plays with the sound has a thin edge that swells and brightens with every sound and every beat, so you can see it is listening"},{"kind":"change","text":"the magnet's push is a dark green instead of orange, so push and pull differ in lightness for colour-blind eyes"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261025124447"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261025124447">
+<script src="claude-web.js?v=20261025125444"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261025125444">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -132,39 +132,39 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261025124447"></script>
-<script src="surface/selftest.js?v=20261025124447"></script><script src="surface/size.js?v=20261025124447"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261025124447"></script>
-<script src="surface/auto.js?v=20261025124447"></script>
-<script src="surface/toolpath.js?v=20261025124447"></script>
-<script src="surface/capture.js?v=20261025124447"></script>
-<script src="surface/pop.js?v=20261025124447"></script>
-<script src="surface/hints.js?v=20261025124447"></script>
-<script src="surface/paths.js?v=20261025124447"></script>
-<script src="surface/keys.js?v=20261025124447"></script>
-<script src="surface/reset.js?v=20261025124447"></script>
-<script src="surface/files.js?v=20261025124447"></script>
-<script src="surface/tabs.js?v=20261025124447"></script>
-<script src="surface/running.js?v=20261025124447"></script>
-<script src="surface/trim.js?v=20261025124447"></script>
-<script src="surface/audiowake.js?v=20261025124447"></script>
-<script src="surface/output.js?v=20261025124447"></script>
-<script src="surface/board.js?v=20261025124447"></script>
-<script src="surface/voice.js?v=20261025124447"></script>
-<script src="surface/voicelib.js?v=20261025124447"></script>
-<script src="surface/instruments.js?v=20261025124447"></script>
-<script src="surface/listview.js?v=20261025124447"></script>
-<script src="surface/beads.js?v=20261025124447"></script>
-<script src="surface/strip.js?v=20261025124447"></script>
-<script src="surface/sheetnav.js?v=20261025124447"></script>
-<script src="surface/twofinger.js?v=20261025124447"></script>
-<script src="surface/ring.js?v=20261025124447"></script>
-<script src="surface/shortlink.js?v=20261025124447"></script>
-<script src="surface/undo.js?v=20261025124447"></script>
-<script src="surface/pro.js?v=20261025124447"></script>
-<script src="surface/fresh.js?v=20261025124447"></script>
-<script src="surface/notice.js?v=20261025124447"></script>
-<script src="surface/perform.js?v=20261025124447"></script>
+<script src="vendor/opentype.min.js?v=20261025125444"></script>
+<script src="surface/selftest.js?v=20261025125444"></script><script src="surface/size.js?v=20261025125444"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261025125444"></script>
+<script src="surface/auto.js?v=20261025125444"></script>
+<script src="surface/toolpath.js?v=20261025125444"></script>
+<script src="surface/capture.js?v=20261025125444"></script>
+<script src="surface/pop.js?v=20261025125444"></script>
+<script src="surface/hints.js?v=20261025125444"></script>
+<script src="surface/paths.js?v=20261025125444"></script>
+<script src="surface/keys.js?v=20261025125444"></script>
+<script src="surface/reset.js?v=20261025125444"></script>
+<script src="surface/files.js?v=20261025125444"></script>
+<script src="surface/tabs.js?v=20261025125444"></script>
+<script src="surface/running.js?v=20261025125444"></script>
+<script src="surface/trim.js?v=20261025125444"></script>
+<script src="surface/audiowake.js?v=20261025125444"></script>
+<script src="surface/output.js?v=20261025125444"></script>
+<script src="surface/board.js?v=20261025125444"></script>
+<script src="surface/voice.js?v=20261025125444"></script>
+<script src="surface/voicelib.js?v=20261025125444"></script>
+<script src="surface/instruments.js?v=20261025125444"></script>
+<script src="surface/listview.js?v=20261025125444"></script>
+<script src="surface/beads.js?v=20261025125444"></script>
+<script src="surface/strip.js?v=20261025125444"></script>
+<script src="surface/sheetnav.js?v=20261025125444"></script>
+<script src="surface/twofinger.js?v=20261025125444"></script>
+<script src="surface/ring.js?v=20261025125444"></script>
+<script src="surface/shortlink.js?v=20261025125444"></script>
+<script src="surface/undo.js?v=20261025125444"></script>
+<script src="surface/pro.js?v=20261025125444"></script>
+<script src="surface/fresh.js?v=20261025125444"></script>
+<script src="surface/notice.js?v=20261025125444"></script>
+<script src="surface/perform.js?v=20261025125444"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -187,13 +187,13 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261025124447"></script>
-<script src="surface/rail.js?v=20261025124447"></script>
-<script src="surface/touchsound.js?v=20261025124447"></script>
-<script src="surface/water.js?v=20261025124447"></script>
-<script src="surface/ripple.js?v=20261025124447"></script>
-<script src="surface/float.js?v=20261025124447"></script>
-<script src="surface/manual.js?v=20261025124447"></script>
+<script src="surface/pack.js?v=20261025125444"></script>
+<script src="surface/rail.js?v=20261025125444"></script>
+<script src="surface/touchsound.js?v=20261025125444"></script>
+<script src="surface/water.js?v=20261025125444"></script>
+<script src="surface/ripple.js?v=20261025125444"></script>
+<script src="surface/float.js?v=20261025125444"></script>
+<script src="surface/manual.js?v=20261025125444"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2096,11 +2096,11 @@ body #playbar>#pSteer.shelfopen:not(.lit){background:color-mix(in srgb,rgb(var(-
 .si.mag .mi::before{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
   background:conic-gradient(var(--mc,var(--acc,#55b8c9)) calc(var(--mp,.85)*360deg),rgb(var(--ui-hi) / .1) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
-.si.mag.neg .mi::before{background:conic-gradient(from calc(var(--mp,.5)*-360deg),var(--mc,#ff7a52) 0 calc(var(--mp,.5)*360deg),rgb(var(--ui-hi) / .1) 0)}
+.si.mag.neg .mi::before{background:conic-gradient(from calc(var(--mp,.5)*-360deg),var(--mc,#0f5534) 0 calc(var(--mp,.5)*360deg),rgb(var(--ui-hi) / .1) 0)}
 #toolTrack .si.mag[aria-pressed="true"]{background:none}
-.si.mag[aria-pressed="true"] .mi{background:rgb(var(--acc-rgb,85 184 201) / .22)}.si.mag.neg[aria-pressed="true"] .mi{background:rgba(255,122,82,.22)}
+.si.mag[aria-pressed="true"] .mi{background:rgb(var(--acc-rgb,85 184 201) / .22)}.si.mag.neg[aria-pressed="true"] .mi{background:rgba(15,85,52,.28)}
 #toolTrack .si.mag[aria-pressed="true"] .mi svg{background:none;padding:0;margin:0;color:var(--ui-ink)}
-#toolTrack .si.mag[aria-pressed="true"]{color:var(--ui-ink)}#toolTrack .si.mag.neg[aria-pressed="true"] .lab{color:#ff7a52}
+#toolTrack .si.mag[aria-pressed="true"]{color:var(--ui-ink)}#toolTrack .si.mag.neg[aria-pressed="true"] .lab{color:#0f5534}
 .si.mag.dragging .mi{transform:scale(1.12)}
 /* magnet on Auto (on the beat, a sound band, a wave): the button follows the live value, blue pull / red push, the word
    swapping with it, and a level rising behind the word with the signal that drives it (Dimitry, 18 Oct) */
@@ -3523,6 +3523,11 @@ function mgSample(L,ph){const ev=L.ev;let lo=0,hi=ev.length-1;if(ph<=ev[0][0])re
   while(hi-lo>1){const m=(lo+hi)>>1;if(ev[m][0]<=ph)lo=m;else hi=m}const a=ev[lo],b=ev[hi],k=(ph-a[0])/Math.max(1,b[0]-a[0]);
   return [ph,a[1]&&b[1]?1:a[1],a[2]+(b[2]-a[2])*k,a[3]+(b[3]-a[3])*k]}
 function markDirtyMag(){try{if(curName&&!curName.endsWith('*'))curName+='*'}catch(_){}}
+/* PUSH IS A DARK GREEN (Dimitry, 25 Oct 08:40 and 08:52: "teal and orange is just an impossible combination" for colour-blind
+   eyes; a dark green, or a dark red, that differs from the teal in lightness, "the same gray value as a fairly dark gray").
+   #0f5534 is about 3.6:1 against the teal, so push and pull differ by light and dark, not by hue alone. On the black stage
+   the ring is drawn a step lighter so it still shows. */
+const MAG_PUSH='#0f5534',MAG_PUSH_STAGE='#2f8f5f';
 const MAGS={f:1,flip:1},MAG_SOUNDS=['off','beat','bass','mid','high','level'];
 const UN={ghost:null,magSg:1,on:false,t:0,fx:0,fy:0,magW:0,pv:0,ps:1,beatHi:false,tick:0,wob:0,mag:0,pa:0};
 function unsteadyTick(dt){
@@ -3591,7 +3596,7 @@ function fadeTrails(a){if(TRANSP){ctx.globalCompositeOperation='destination-out'
 // finger marks (magnet ring, steer brush, loop ghost, rec dot) live on their own canvas, which captures leave out
 function drawFingerMarks(){
   if((ACTIVE==='magnet'||MGR.loop)&&Math.abs(S.magnet||0)>.004){const sz=performance.now()-MAG.sizing<900,a=sz?.7:Math.min(.45,UN.magW*.45);
-    if(a>.02){const R=Math.min(W,H)*MAG.r,x=sz?MAG.sx:UN.fx,y=sz?MAG.sy:UN.fy;ctx.save();ctx.globalAlpha=a;ctx.lineWidth=1.5;ctx.strokeStyle=UN.magSg<0?'#ff7a52':'#55b8c9';
+    if(a>.02){const R=Math.min(W,H)*MAG.r,x=sz?MAG.sx:UN.fx,y=sz?MAG.sy:UN.fy;ctx.save();ctx.globalAlpha=a;ctx.lineWidth=1.5;ctx.strokeStyle=UN.magSg<0?MAG_PUSH_STAGE:'#55b8c9';
       ctx.setLineDash(UN.magSg<0?[6,6]:[]);ctx.beginPath();ctx.arc(x,y,R,0,Math.PI*2);ctx.stroke();ctx.restore()}}
   drawSteer()}
 function drawOverlay(){
@@ -6614,7 +6619,7 @@ function magIcon(v){const rep=v<0;
   // just the horseshoe, poles down toward the field it pulls on; the ring around it says attract or repel
   return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21v-8.5a6 6 0 0 1 12 0V21"/><path d="M6 18.2v2.8M18 18.2v2.8" stroke-width="4.2" stroke-linecap="butt"/></svg>'}
 function magRing(el){const v=S.magnet||0,on=Math.abs(v)>.004,p=Math.min(1,Math.abs(v||window._magKeep||0));
-  el.style.setProperty('--mp',(Math.abs(v)>.004?Math.abs(v):p).toFixed(3));el.style.setProperty('--mc',(on?v:(window._magKeep||.85))<0?'#ff7a52':'#55b8c9');
+  el.style.setProperty('--mp',(Math.abs(v)>.004?Math.abs(v):p).toFixed(3));el.style.setProperty('--mc',(on?v:(window._magKeep||.85))<0?MAG_PUSH:'#55b8c9');
   el.classList.toggle('neg',(on?v:(window._magKeep||.85))<0)}
 function magLabel(v){return Math.abs(v)<=.004?'magnet off':(v<0?'repel ':'attract ')+Math.round(Math.abs(v)*100)+'%'}
 function setMagnet(v){S.magnet=Math.max(-1,Math.min(1,v));MORPH=null;$('s-magnet').value=S.magnet;syncVals()}
@@ -6622,7 +6627,7 @@ function magLive(){const b=document.querySelector('#toolTrack .si.mag');if(!b)re
   const ms=S.magSound||'off',auto=ms!=='off'||!!S.mods.magnet||S.maps.some(m=>m.dst==='magnet');b.classList.toggle('live',auto&&Math.abs(S.magnet||0)>.004);
   if(!b.classList.contains('live')){if(b.dataset.lv){delete b.dataset.lv;b.querySelector('.lab').style.color='';magRing(b)}return}b.dataset.lv=1;
   /* with the sound link on, the dial is centred on zero and swings: pull (blue) on one beat, push (red) on the next, at the strength you set; off, it is back at that setting */
-  const v=(E.magnet||0)*(ms!=='off'&&typeof MAGS!=='undefined'?MAGS.f:1),neg=v<0,c=neg?'#ff7a52':'#55b8c9';
+  const v=(E.magnet||0)*(ms!=='off'&&typeof MAGS!=='undefined'?MAGS.f:1),neg=v<0,c=neg?MAG_PUSH:'#55b8c9';
   b.style.setProperty('--mp',Math.min(1,Math.abs(v)).toFixed(3));b.style.setProperty('--mc',c);b.classList.toggle('neg',neg);
   const m=autoOf('magnet'),sh=ms!=='off'?ms:m&&m.shape,lv=sh&&sh in SIGNALS?SIGNALS[sh]:(SIGNALS.level||0);b.style.setProperty('--lv',Math.max(0,Math.min(1,+lv||0)).toFixed(3));
   const l=b.querySelector('.lab'),w=Math.abs(v)<.02?'magnet':neg?'push':'pull';if(l.textContent!==w)l.textContent=w;
@@ -8692,7 +8697,7 @@ function soundItems(){const vol=$('audVol'),mx=vol?+vol.max||1:1,pct=v=>Math.rou
    ring item … people have already learned the bar icons"; "Play could be a play arrow. We don't really use one anywhere, and the robot is one of the ring items"): each ring's middle is the round button
    it came from, its icon over a small name */
 const RING_BALL={touch:TOUCH_HAND,play:RING_I('<path d="M8 5.5v13l10.5-6.5z"/>'),sound:RING_I('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>')};
-try{const lvl=()=>Math.min(1,(SIGNALS.level||0)*1.6+(SIGNALS.touch||0)*.5);SurfaceRing.define('touch',{title:'Touch',items:touchItems,center:'ball',icon:RING_BALL.touch,power:TOUCH_POWER,level:lvl});SurfaceRing.define('play',{title:'Play',items:playItems,center:'ball',icon:RING_BALL.play});SurfaceRing.define('sound',{title:'Sound',items:soundItems,center:'ball',icon:RING_BALL.sound,level:lvl})}catch(_){}
+try{const lvl=()=>Math.min(1,Math.max((SIGNALS.level||0)*1.6+(SIGNALS.touch||0)*.5,(SIGNALS.beat||0)*.9));   /* the beat counts on its own, so a quiet groove still pumps */SurfaceRing.define('touch',{title:'Touch',items:touchItems,center:'ball',icon:RING_BALL.touch,power:TOUCH_POWER,level:lvl});SurfaceRing.define('play',{title:'Play',items:playItems,center:'ball',icon:RING_BALL.play});SurfaceRing.define('sound',{title:'Sound',items:soundItems,center:'ball',icon:RING_BALL.sound,level:lvl})}catch(_){}
 function openTouchRing(x,y,ring){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();
   SurfaceRing.open({x:x==null?r.left+r.width/2:x,y:y==null?r.top+r.height/2:y,rings:['touch','play','sound'],ring,key:'current',onSwitch:id=>{if(window.cxCount)cxCount('ring: '+id,1)}})}
 /* a double-tap on the stage opens it where the finger is (not while placing a frame, nor in steer, whose taps paint) */
@@ -9904,10 +9909,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261025124447"></script>
-<script src="surface/links.js?v=20261025124447"></script>
-<script src="surface/tips.js?v=20261025124447"></script>
-<script src="surface/sections.js?v=20261025124447"></script>
+<script src="surface/install.js?v=20261025125444"></script>
+<script src="surface/links.js?v=20261025125444"></script>
+<script src="surface/tips.js?v=20261025125444"></script>
+<script src="surface/sections.js?v=20261025125444"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10088,7 +10093,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261025124447"></script>
+<script src="surface/room.js?v=20261025125444"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10289,7 +10294,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261025124447"></script>
+<script src="surface/touch.js?v=20261025125444"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -10972,7 +10977,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.4';
+const APP_VERSION='0.33.5';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

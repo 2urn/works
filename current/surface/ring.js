@@ -139,7 +139,10 @@
     /* THE PULSE: a live dot's edge breathes, or follows the level it was given */
     "@keyframes srLive{0%,100%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 3px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}50%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 9px rgb(var(--acc-rgb,85 184 201) / .28),0 6px 20px rgb(0 0 0 / .35)}}" +
     ".sr-ring .sr-dot.sr-live{animation:srLive 1.4s ease-in-out infinite}" +
-    ".sr-ring.sr-lv .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 calc(3px + var(--lv,0) * 9px) rgb(var(--acc-rgb,85 184 201) / calc(.75 - var(--lv,0) * .45)),0 6px 20px rgb(0 0 0 / .35)}" +
+    /* (Dimitry, 25 Oct 08:51: "it's not actually pulsing to the sound, so it could be a lot thinner … it needs to pump in
+       and out with the sound, or change opacity with the sound, or both"): with a level, the edge is a thin line at rest
+       and swells and brightens with every sound, so a beat reads as a beat without a word */
+    ".sr-ring.sr-lv .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .35),0 0 0 calc(3.5px + var(--lv,0) * 8px) rgb(var(--acc-rgb,85 184 201) / calc(.25 + var(--lv,0) * .7)),0 6px 20px rgb(0 0 0 / .35)}" +
     /* LABELS: they fade after the opening (learn), stay (always), or wait for a finger (never) */
     ".sr-ring.sr-labfade .sr-dot .sr-lab{animation:srHide .5s ease both}@keyframes srHide{from{opacity:1}to{opacity:0}}" +
     ".sr-ring.sr-labfade .sr-dot:hover .sr-lab,.sr-ring.sr-labfade .sr-dot:focus-visible .sr-lab,.sr-ring.sr-labfade .sr-dot:active .sr-lab,.sr-ring.sr-labfade .sr-dot.sr-busy .sr-lab{animation:none;opacity:1}" +
@@ -334,7 +337,10 @@
         /* TWO PAGES: the chosen dot, tapped again while the ring is on, turns its page */
         if (I.more && I.kind === "radio" && b.getAttribute("aria-checked") === "true" && !(PW && !PW.on())) {
           try { I.more.set(!I.more.on); } catch (er) { console.warn("[ring]", er); } refresh();
-          if (cur && cur.pinned) return; close("pick", b, 650); return; }
+          /* (Dimitry, 25 Oct 08:51: tapped twice "the button disappears and then pops up again, so you don't really realize
+             what has happened"): turning a page keeps the ring open, the dot bumps once, and its edge starts or stops
+             moving with the sound, so the change shows where the finger is */
+          b.classList.add("sr-tap"); setTimeout(function () { b.classList.remove("sr-tap"); }, 180); return; }
         if (it.kind === "check") b.setAttribute("aria-checked", String(b.getAttribute("aria-checked") !== "true")); else if (it.kind !== "go") dots.forEach(function (x) { if (x.getAttribute("role") === "menuitemradio") x.setAttribute("aria-checked", String(x === b)); });
         try { I.pick && I.pick(); } catch (er) { console.warn("[ring]", er); }
         if (PW || I.more) refresh();
@@ -443,7 +449,7 @@
     var syncT = setInterval(function () { if (!ring.isConnected) { clearInterval(syncT); return; } try { refresh(); } catch (e) {} }, 400);
     ring._refresh = refresh;
     /* THE PULSE with a level: the live dots follow it while the ring is open */
-    if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * .35; ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
+    if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * (v > lv ? .6 : .18); /* up fast with a hit, down slower: a pump, not a flicker */ ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
     return { close: function () { close("api"); }, el: ring, ring: rid };
   }
