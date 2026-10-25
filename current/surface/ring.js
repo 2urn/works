@@ -23,21 +23,49 @@
    middle carries a grip (drag to move the ring) and, with more than one ring, a switch that lists them. The last one
    used is remembered (per tool key) and opens next time.
 
-     SurfaceRing.define(id, { title, items: () => [ … ] })          // items as below, built fresh each time it opens
+     SurfaceRing.define(id, { title, items: () => [ … ], power, level })   // items as below, built fresh each time it opens
      var R = SurfaceRing.open({ x, y,                                // client px: where it centres
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
        pin: true (the pin; false hides it), pinned: false (open pinned),
+       power: { on: () => bool, set: (v) => {} },                   // the name is the ring's switch (see THE CENTRE below)
+       level: () => 0..1,                                            // what a live dot pulses with (a sound's level); none: it breathes
        onClose: (why) => {}, onSwitch: (id) => {}, onPin: (on) => {} })
-     items: [{ id, icon: '<svg…>', label: 'push', aria: 'Push: …', on: bool, kind: 'radio'|'check'|'go', stay: bool, pick: () => {} }]
+     items: [{ id, icon: '<svg…>', label: 'push', aria: 'Push: …', on: bool, kind: 'radio'|'check'|'go', stay: bool, pick: () => {},
+              live: bool,                                            // playing: its edge pulses (THE PULSE)
+              more: { on: bool, set: (v) => {}, aria } }]            // a second page on a radio dot (TWO PAGES)
      a value: { id, kind: 'value', icon, label, aria, get: () => n, set: (n) => {}, min: 0, max: 100, step: 1, fmt: n => '50%' }
        (Dimitry, 24 Oct 20:15: "where you drag and a number changes, that number could happen inside the button that you
        pressed, or it could take over the name of the ring … like a 0 to 100 slider"): drag across the dot and the number
        shows inside it; tap it and the ring's name becomes that value's slider, with a tick to come back.
+     SurfaceRing.labels() · SurfaceRing.labels('learn' | 'always' | 'never')   // the dots' words (LABELS); kept per device
      R.close() · SurfaceRing.isOpen() · SurfaceRing.close() · SurfaceRing.last(key) · SurfaceRing.MARK (the six-dot mark)
      SurfaceRing.doubleTap(el, (x, y, e) => {}, { ms: 320, px: 24, when: e => bool })   // a one-finger double-tap on el
+
+   THE FRAME (Dimitry, 25 Oct 06:22, drawn on the ring: "the top of the frame is the panel caret and the bottom of the frame
+   is the little grab bar so those things don't have to actually take up space as an actual button"): an item at "top"
+   that goes somewhere (kind go: the way to the ring's panel) is a caret tab notched into the top edge of the name, not a
+   dot; the grip is a lozenge notched into its bottom edge. The pin is an outline leaning over when loose and stands up
+   solid when pinned, with no fill of its own to compete with the dots.
+
+   THE CENTRE (same note: "how do we indicate that it's a master switch whereas the other buttons are its children"): with
+   power, the name is the ring's switch. On, a lit point before the word; off, a hollow one and every dot dims but keeps
+   its choice. A dot chosen while off turns the ring back on with it. Lit always means happening now: nothing that says
+   off is ever lit, so a ring has no "off" dot of its own.
+
+   TWO PAGES ("a double dot at the bottom that suggests two modes like in a picture gallery … framed to hug the edge"): a
+   radio dot with more shows two small points in a tab on its bottom edge while it is the choice. A tap on the chosen dot
+   turns the page: the second point lights and the dot goes live. Another tap turns it back.
+
+   THE PULSE ("their edge is doing something interesting … vibrating in and out"): a live dot's edge breathes; given a
+   level, it pulses with it instead. Reduced motion: a steady second ring.
+
+   LABELS ("show and then fade … once you know what they are maybe you don't need them"): learn (the default) shows the
+   words as the ring opens, holds them, then lets them fade; the first five opens hold longer. always keeps them; never
+   shows them only under a finger, a pointer or the focus. The name and any value never fade.
+
    Plain script, window.SurfaceRing, no dependencies. Loads its own styles; a tool's rules win (:where). */
 (function () {
   "use strict";
@@ -57,15 +85,38 @@
     ":where(.sr-hub) button{display:grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;touch-action:none}" +
     ":where(.sr-hub) button:hover{background:rgb(var(--ui-hi,255 255 255) / .1)}" +
     /* 25 Oct, his redraw of the hub: pin · name over its grip · switch, one row high. The grip sits under the word; the pin drags too */
-    ":where(.sr-mid){display:flex;flex-direction:column;align-items:center}:where(.sr-mid) .sr-name{padding:5px 8px 1px}" +
-    ":where(.sr-hub) .sr-grip{cursor:grab;height:12px;min-width:44px;padding:0}:where(.sr-hub) .sr-grip svg{width:20px;height:6px;fill:currentColor;opacity:.6}" +
+    ":where(.sr-mid){display:flex;flex-direction:column;align-items:center}" +
+    /* THE FRAME: the grip hugs the bottom edge, the panel's caret the top edge, each a lozenge notched into the name's border */
+    ":where(.sr-hub) .sr-grip,:where(.sr-hub) .sr-up{position:absolute;left:50%;transform:translateX(-50%);min-width:0;height:16px;width:40px;padding:0;border-radius:999px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14)}" +
+    ":where(.sr-hub) .sr-grip{bottom:-9px;cursor:grab}:where(.sr-hub) .sr-grip svg{width:18px;height:6px;fill:currentColor;opacity:.65}" +
+    ":where(.sr-hub) .sr-up{top:-9px}:where(.sr-hub) .sr-up svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}" +
+    /* a finger's reach around each small tab, without growing what you see */
+    ":where(.sr-hub) .sr-grip::after,:where(.sr-hub) .sr-up::after{content:'';position:absolute;left:-6px;right:-6px}:where(.sr-hub) .sr-grip::after{top:7px;bottom:-12px}:where(.sr-hub) .sr-up::after{top:-12px;bottom:7px}" +
+    ":where(.sr-hub) .sr-grip:hover,:where(.sr-hub) .sr-up:hover{background:rgb(var(--ui-g,12 14 16) / .94);color:var(--acc,#55b8c9)}" +
+    /* THE CENTRE: the name as the ring's switch, a point before the word, lit or hollow */
+    ":where(.sr-hub) .sr-pow{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px 0 9px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
+    ":where(.sr-hub) .sr-pow i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.7}" +
+    ":where(.sr-hub) .sr-pow[aria-pressed=true] i{background:var(--acc,#55b8c9);box-shadow:0 0 6px var(--acc,#55b8c9);opacity:1}" +
+    ".sr-ring.sr-off .sr-dot{opacity:.45}.sr-ring.sr-off .sr-dot:hover,.sr-ring.sr-off .sr-dot:focus-visible{opacity:.8}" +
+    /* TWO PAGES: two points in a tab on the chosen dot's bottom edge */
+    ":where(.sr-pg){position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);display:none;gap:4px;padding:3px 5px;border-radius:999px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .18);pointer-events:none}" +
+    ":where(.sr-pg) i{width:5px;height:5px;border-radius:50%;background:var(--ui-ink,#eef1f2);opacity:.35}" +
+    ".sr-dot[aria-checked=true] .sr-pg{display:flex}.sr-dot .sr-pg i:first-child,.sr-dot.sr-p2 .sr-pg i:last-child{opacity:1}.sr-dot.sr-p2 .sr-pg i:first-child{opacity:.35}" +
+    ".sr-dot.sr-pgd .sr-lab{top:calc(100% + 9px)}" +
+    /* THE PULSE: a live dot's edge breathes, or follows the level it was given */
+    "@keyframes srLive{0%,100%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 3px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}50%{box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 9px rgb(var(--acc-rgb,85 184 201) / .28),0 6px 20px rgb(0 0 0 / .35)}}" +
+    ".sr-ring .sr-dot.sr-live{animation:srLive 1.4s ease-in-out infinite}" +
+    ".sr-ring.sr-lv .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 calc(3px + var(--lv,0) * 9px) rgb(var(--acc-rgb,85 184 201) / calc(.75 - var(--lv,0) * .45)),0 6px 20px rgb(0 0 0 / .35)}" +
+    /* LABELS: they fade after the opening (learn), stay (always), or wait for a finger (never) */
+    ".sr-ring.sr-labfade .sr-dot .sr-lab{animation:srHide .5s ease both}@keyframes srHide{from{opacity:1}to{opacity:0}}" +
+    ".sr-ring.sr-labfade .sr-dot:hover .sr-lab,.sr-ring.sr-labfade .sr-dot:focus-visible .sr-lab,.sr-ring.sr-labfade .sr-dot:active .sr-lab,.sr-ring.sr-labfade .sr-dot.sr-busy .sr-lab{animation:none;opacity:1}" +
     ":where(.sr-hub) .sr-pin{cursor:grab}" +
     /* PIN (Dimitry, 25 Oct 00:29: "the ring might be desired as a sort of floating thing … the disclosure triangle could share
        vertical space with a pin button to pin the menu, prevent it from closing"): the switch and the pin stacked at the
        name's right. Pinned, the ring floats: no veil, the stage plays under it, a choice keeps it open, Esc or the pin lets go */
-    ":where(.sr-hub) .sr-pin svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}" +
-    ":where(.sr-hub) .sr-pin[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
-    ".sr-ring.sr-pinned .sr-hub{box-shadow:0 0 0 1.5px var(--acc,#55b8c9)}" +
+    ":where(.sr-hub) .sr-pin svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transform:rotate(40deg);opacity:.7;transition:transform .18s,opacity .18s}" +
+    /* pinned: the pin stands up, solid, in the accent; no round fill to compete with the dots (25 Oct 06:22) */
+    ":where(.sr-hub) .sr-pin[aria-pressed=true] svg{transform:none;fill:var(--acc,#55b8c9);stroke:var(--acc,#55b8c9);opacity:1}" +
     ".sr-ring .sr-dot.sr-tap{transition:transform .14s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.18)}" +
     ":where(.sr-hub) .sr-sw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) button:focus-visible{outline:2px solid #fff;outline-offset:1px}" +
@@ -87,12 +138,13 @@
     "@keyframes srPop{0%{transform:translate(0,0) scale(.15);opacity:0;animation-timing-function:" + POP + "}" +
     "33%{transform:translate(calc(var(--x) * .34),calc(var(--y) * .34)) scale(.5);opacity:1;animation-timing-function:" + POP + "}" +
     "66%{transform:translate(calc(var(--x) * .74),calc(var(--y) * .74)) scale(.8);animation-timing-function:" + POP + "}" +
-    "100%{transform:translate(var(--x),var(--y)) scale(1);opacity:1}}" +
+    "100%{transform:translate(var(--x),var(--y)) scale(1)}}" +
     "@keyframes srShow{from{opacity:0}to{opacity:1}}" +
     "@keyframes srHub{from{transform:translate(-50%,-50%) scale(.6);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}" +
     /* closing: the others fold home first; a chosen dot swells, then slides home; the name goes last */
     ".sr-ring .sr-dot.sr-fold{transition:transform .18s ease-in,opacity .18s ease-in;transform:translate(0,0) scale(.3);opacity:0}" +
     ".sr-ring .sr-dot.sr-chosen{z-index:1;transition:transform .2s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.28)}" +
+    ".sr-ring .sr-dot.sr-chosen.sr-live,.sr-ring .sr-dot.sr-fold.sr-live,.sr-ring .sr-dot.sr-fold1.sr-live{animation:none}" +
     ".sr-ring .sr-dot.sr-chosen.sr-home{transition:transform .22s cubic-bezier(.5,0,.3,1),opacity .22s ease-in .08s;transform:translate(0,0) scale(.7);opacity:0}" +
     ".sr-ring .sr-hub.sr-gone{transition:opacity .16s ease-in,transform .16s ease-in;opacity:0;transform:translate(-50%,-50%) scale(.85)}" +
     /* sent away (a tap off the ring, Esc): the petals fold home one at a time, last first, and the name becomes a dot
@@ -102,7 +154,7 @@
     ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
     ".sr-ring .sr-hub.sr-ball>*{transition:opacity .12s ease-in;opacity:0}" +
     ".sr-ring .sr-hub.sr-ball.sr-gone{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transform:translate(-50%,-50%) scale(.2)}" +
-    "@media (prefers-reduced-motion:reduce){.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
+    "@media (prefers-reduced-motion:reduce){.sr-ring .sr-dot.sr-live{animation:none;box-shadow:0 0 0 2px rgb(255 255 255 / .5),0 0 0 5px var(--acc,#55b8c9),0 6px 20px rgb(0 0 0 / .35)}.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
   function css() { if (document.getElementById("sring-css")) return; var st = document.createElement("style"); st.id = "sring-css"; st.textContent = CSS; (document.head || document.documentElement).prepend(st); }
   var RINGS = {}, cur = null;
   var calm = function () { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
@@ -110,6 +162,10 @@
   function last(k) { try { return localStorage.getItem(lastKey(k)) || null; } catch (e) { return null; } }
   function remember(k, id) { try { localStorage.setItem(lastKey(k), id); } catch (e) {} }
   function define(id, def) { RINGS[id] = def; }
+  var LABK = "surface.ring.labels", SEENK = "surface.ring.seen";
+  function labels(v) { if (v === "learn" || v === "always" || v === "never") { try { localStorage.setItem(LABK, v); } catch (e) {} return v; }
+    var m; try { m = localStorage.getItem(LABK); } catch (e) {} return m === "always" || m === "never" ? m : "learn"; }
+  function seen(add) { var k = 0; try { k = +localStorage.getItem(SEENK) || 0; if (add) localStorage.setItem(SEENK, String(k + 1)); } catch (e) {} return k; }
   /* the end: what = 'pick' (a dot was chosen, the effect already done), anything else folds everything at once */
   function close(why, chosen, hold) {
     hold = hold || 0;
@@ -126,7 +182,7 @@
       dots.forEach(function (d) { if (d !== chosen) d.classList.add("sr-fold"); });
       if (chosen) { chosen.classList.add("sr-chosen"); setTimeout(function () { chosen.classList.add("sr-home"); }, 220 + hold); setTimeout(function () { if (hub) hub.classList.add("sr-gone"); }, 400 + hold); setTimeout(gone, 600 + hold); }
       else {
-        var step = 34, k = dots.length;
+        var k = dots.length, step = Math.max(34, Math.round(210 / Math.max(1, k)));   // a small ring (three dots) folds slower, so it still reads one petal at a time
         dots.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.remove("sr-fold"); d.classList.add("sr-fold1"); });
         var t1 = Math.max(0, (k - 2) * step);
         if (hub) {
@@ -146,8 +202,10 @@
     var rid = o.ring && RINGS[o.ring] ? o.ring : rings.length ? (rings.indexOf(last(o.key)) >= 0 ? last(o.key) : rings[0]) : null;
     var def = rid ? RINGS[rid] : { title: o.title, items: function () { return o.items || []; } };
     var items = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean), n = items.length; if (!n) return null;
+    var upIt = null; items = items.filter(function (it) { if (!upIt && it.at === "top" && it.kind === "go") { upIt = it; return false; } return true; }); n = items.length; if (!n && !upIt) return null;
     items = place(items); n = items.length;
     if (rid) remember(o.key, rid);
+    var PW = def.power || (rid ? null : o.power) || null, LV = def.level || o.level || null;   // a defined ring brings its own switch and level
     var d = Math.max(44, o.dot || 52), gap = 10;
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
     var R = Math.max(o.r || 0, 92, (n * (d + gap + 18)) / (2 * Math.PI));
@@ -160,9 +218,12 @@
     /* the hub: pin · name over its grip · switch */
     var hub = document.createElement("div"); hub.className = "sr-hub";
     var grip = document.createElement("button"); grip.type = "button"; grip.className = "sr-grip"; grip.innerHTML = GRIP; grip.setAttribute("aria-label", "Move the ring (drag)"); grip.title = "Drag to move the ring";
-    var name = document.createElement("span"); name.className = "sr-name";
-    if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
-    var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name, grip);
+    var name = document.createElement("span"), pow = null; name.className = "sr-name";
+    if (PW) { pow = document.createElement("button"); pow.type = "button"; pow.className = "sr-pow"; pow.innerHTML = "<i></i><span></span>"; pow.lastChild.textContent = def.title || ""; name = pow;
+      pow.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the tap that opened the ring lands on the name, in the middle: not a switch (CLAUDE.md) */
+        try { PW.set(!PW.on()); } catch (er) { console.warn("[ring]", er); } refresh(); }; }
+    else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
+    var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
@@ -178,7 +239,11 @@
       pin.onclick = function (e) { e.stopPropagation(); if (pin._moved) { pin._moved = false; return; } setPin(!(cur && cur.pinned)); };
       hub.appendChild(pin);
     }
-    hub.appendChild(mid); if (sw) hub.appendChild(sw);
+    hub.appendChild(mid); if (sw) hub.appendChild(sw); hub.appendChild(grip);
+    if (upIt) { var up = document.createElement("button"); up.type = "button"; up.className = "sr-up"; up.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 14l6-6 6 6"/></svg>';
+      up.setAttribute("aria-label", upIt.aria || upIt.label || "Panel"); up.title = upIt.aria || upIt.label || "Panel";
+      up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
+      hub.appendChild(up); }
     ring.appendChild(hub);
     function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
       if (pin) { pin.setAttribute("aria-pressed", String(cur.pinned)); pin.setAttribute("aria-label", cur.pinned ? "Unpin: the ring closes after a choice again" : "Pin the ring: it stays open while you play"); }
@@ -198,17 +263,37 @@
       if (it.kind !== "go") b.setAttribute("aria-checked", String(!!it.on));
       b.setAttribute("aria-label", it.aria || it.label || it.id); if (it.aria) b.title = it.aria;
       b.innerHTML = (it.icon || "") + '<span class="sr-lab" aria-hidden="true"></span>'; b.querySelector(".sr-lab").textContent = it.label || "";
+      if (it.more && it.kind === "radio") { b.classList.add("sr-pgd"); b.insertAdjacentHTML("beforeend", '<span class="sr-pg" aria-hidden="true"><i></i><i></i></span>'); }
+      b._it = it; dress(b, it);
       b.style.setProperty("--x", (Math.cos(a) * R).toFixed(1) + "px"); b.style.setProperty("--y", (Math.sin(a) * R).toFixed(1) + "px");
       b.tabIndex = -1;
       if (it.kind === "value") { valueDot(b, it); ring.appendChild(b); return b; }
       b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the click that ends the opening tap lands where the dots start, in the middle: not a choice */
-        var keep = !!it.stay;
+        var keep = !!it.stay, I = b._it || it;
+        /* TWO PAGES: the chosen dot, tapped again while the ring is on, turns its page */
+        if (I.more && I.kind === "radio" && b.getAttribute("aria-checked") === "true" && !(PW && !PW.on())) {
+          try { I.more.set(!I.more.on); } catch (er) { console.warn("[ring]", er); } refresh();
+          if (cur && cur.pinned) return; close("pick", b, 650); return; }
         if (it.kind === "check") b.setAttribute("aria-checked", String(b.getAttribute("aria-checked") !== "true")); else if (it.kind !== "go") dots.forEach(function (x) { if (x.getAttribute("role") === "menuitemradio") x.setAttribute("aria-checked", String(x === b)); });
-        try { it.pick && it.pick(); } catch (er) { console.warn("[ring]", er); }
+        try { I.pick && I.pick(); } catch (er) { console.warn("[ring]", er); }
+        if (PW || I.more) refresh();
         if (cur && cur.pinned) { b.classList.add("sr-tap"); setTimeout(function () { b.classList.remove("sr-tap"); }, 180); return; }
         if (!(keep && cur)) close("pick", b, it.kind === "go" ? 0 : 650); });   /* a switch lingers lit (or unlit) so its new state shows (Dimitry, 25 Oct 00:25: "you don't really know if you've actually triggered the button") */
       ring.appendChild(b); return b;
     });
+    /* each dot's state from its item: chosen, its page, live; the centre's switch */
+    function dress(b, it) {
+      if (it.kind !== "go" && it.kind !== "value") b.setAttribute("aria-checked", String(!!it.on));
+      var p2 = !!(it.more && it.more.on); b.classList.toggle("sr-p2", p2); b.classList.toggle("sr-live", !!it.live || (p2 && !!it.on));
+      if (it.more) b.setAttribute("aria-label", (it.aria || it.label || it.id) + (it.on ? (p2 ? ". Its second page is on: " : ". Tap again for its second page: ") + (it.more.aria || "") : ""));
+    }
+    function refresh() {
+      if (!cur || cur.ring !== ring) return;
+      if (rid || def.items) { var fresh = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean);
+        dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } }); }
+      if (pow) { var on = !!PW.on(); pow.setAttribute("aria-pressed", String(on)); ring.classList.toggle("sr-off", !on);
+        pow.setAttribute("aria-label", (def.title || "Ring") + (on ? ": on. Tap to turn it off" : ": off. Tap to turn it on, or choose any dot")); pow.title = on ? "On: tap to turn off" : "Off: tap to turn on"; }
+    }
     /* a value dot: drag across it (left to right, or down to up) and its number shows inside; a tap hands the hub its slider */
     function valueDot(b, it) {
       var mn = it.min == null ? 0 : it.min, mx = it.max == null ? 100 : it.max, st = it.step || 1, fmt = it.fmt || function (v) { return String(Math.round(v)); };
@@ -257,6 +342,12 @@
     document.body.append(veil, ring);
     cur = { o: o, veil: veil, ring: ring, key: key, back: o.back || document.activeElement, t0: performance.now(), id: rid, pinned: false };
     if (o.pinned) setPin(true);
+    refresh();
+    /* LABELS: learn holds them longer for the first five opens, then briefly; never lets them go at once */
+    var lm = labels(), hold = lm === "never" ? 0 : seen(true) < 5 ? 1700 : 650;
+    if (lm !== "always") setTimeout(function () { if (ring.isConnected) ring.classList.add("sr-labfade"); }, calm() ? hold : hold + (lm === "never" ? 0 : 420));
+    /* THE PULSE with a level: the live dots follow it while the ring is open */
+    if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * .35; ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
     return { close: function () { close("api"); }, el: ring, ring: rid };
   }
@@ -289,5 +380,5 @@
     for (var i = 0; i < n; i++) if (!out[i]) out[i] = rest.shift();
     return out;
   }
-  window.SurfaceRing = { pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
+  window.SurfaceRing = { labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
