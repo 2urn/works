@@ -82,6 +82,13 @@
     ".sr-ring .sr-dot.sr-chosen{z-index:1;transition:transform .2s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.28)}" +
     ".sr-ring .sr-dot.sr-chosen.sr-home{transition:transform .22s cubic-bezier(.5,0,.3,1),opacity .22s ease-in .08s;transform:translate(0,0) scale(.7);opacity:0}" +
     ".sr-ring .sr-hub.sr-gone{transition:opacity .16s ease-in,transform .16s ease-in;opacity:0;transform:translate(-50%,-50%) scale(.85)}" +
+    /* sent away (a tap off the ring, Esc): the petals fold home one at a time, last first, and the name becomes a dot
+       that sinks into the middle (Dimitry, 25 Oct: "it just disappears ... I do like when it shrinks back in one petal at a
+       time ... I wonder if the title bar should just become a circle") */
+    ".sr-ring .sr-dot.sr-fold1{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transition-delay:var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0}" +
+    ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
+    ".sr-ring .sr-hub.sr-ball>*{transition:opacity .12s ease-in;opacity:0}" +
+    ".sr-ring .sr-hub.sr-ball.sr-gone{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transform:translate(-50%,-50%) scale(.2)}" +
     "@media (prefers-reduced-motion:reduce){.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
   function css() { if (document.getElementById("sring-css")) return; var st = document.createElement("style"); st.id = "sring-css"; st.textContent = CSS; (document.head || document.documentElement).prepend(st); }
   var RINGS = {}, cur = null;
@@ -98,12 +105,22 @@
     var gone = function () { try { c.ring.remove(); } catch (e) {} };
     if (calm() || why === "again" || !c.ring.isConnected) gone();
     else {
-      c.ring.classList.remove("pop");
+      c.ring.classList.remove("pop"); void c.ring.offsetWidth;   // settle without the opening animation first: a transition never starts from a style an animation was holding, so the petals blinked out instead of folding
       var dots = [].slice.call(c.ring.querySelectorAll(".sr-dot")), hub = c.ring.querySelector(".sr-hub"), list = c.ring.querySelector(".sr-list");
       if (list) list.remove();
       dots.forEach(function (d) { if (d !== chosen) d.classList.add("sr-fold"); });
       if (chosen) { chosen.classList.add("sr-chosen"); setTimeout(function () { chosen.classList.add("sr-home"); }, 220); setTimeout(function () { if (hub) hub.classList.add("sr-gone"); }, 400); setTimeout(gone, 600); }
-      else { if (hub) hub.classList.add("sr-gone"); setTimeout(gone, 220); }
+      else {
+        var step = 34, k = dots.length;
+        dots.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.remove("sr-fold"); d.classList.add("sr-fold1"); });
+        var t1 = Math.max(0, (k - 2) * step);
+        if (hub) {
+          var hr = hub.getBoundingClientRect(); hub.style.boxSizing = "border-box"; hub.style.width = hr.width + "px"; void hub.offsetWidth;
+          setTimeout(function () { hub.classList.add("sr-ball"); hub.style.width = hr.height + "px"; }, t1);
+          setTimeout(function () { hub.classList.add("sr-gone"); }, t1 + 200);
+        }
+        setTimeout(gone, t1 + 420);
+      }
     }
     try { if (c.back && c.back.focus && why !== "pick") c.back.focus({ preventScroll: true }); } catch (e) {}
     try { c.o.onClose && c.o.onClose(why); } catch (e) {}
@@ -210,13 +227,15 @@
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
   function doubleTap(el, fn, o) {
-    o = o || {}; var ms = o.ms || 320, px = o.px || 24, lastT = null, down = null;
+    o = o || {}; var ms = o.ms || 380, px = o.px || 44, lastT = null, down = null;
     /* times are the events' own (e.timeStamp: when the finger touched), not when a busy page got round to them */
     var ts = function (e) { return e.timeStamp || performance.now(); };
     el.addEventListener("pointerdown", function (e) { if (e.button > 0 || !e.isPrimary) { down = null; return; } down = { x: e.clientX, y: e.clientY, t: ts(e), id: e.pointerId }; }, true);
     el.addEventListener("pointerup", function (e) {
       if (!down || e.pointerId !== down.id) return; var d = down; down = null;
-      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 10 || ts(e) - d.t > 280) { lastT = null; return; }   // a drag or a hold is not a tap
+      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 14 || ts(e) - d.t > 280) { lastT = null; return; }   // a drag or a hold is not a tap
+      /* (25 Oct, Dimitry: "I would tap faster than it's expecting, so I have to slow down"): a quick thumb lands its
+         second tap further off and rolls a little, so 380 ms, 44 px apart and 14 px of roll still make a double-tap */
       var now = ts(e);
       if (lastT && now - lastT.t < ms && Math.hypot(e.clientX - lastT.x, e.clientY - lastT.y) < px) { lastT = null; if (o.when && !o.when(e)) return; fn(e.clientX, e.clientY, e); return; }
       lastT = { x: e.clientX, y: e.clientY, t: now };
