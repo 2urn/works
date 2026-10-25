@@ -29,6 +29,8 @@
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
        title, items,                                                 // or a one-off ring without define()
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
+       center: "bar" | "ball" (the middle as a bar, the default, or a round button like the bar button the ring came from;
+       with define({icon}) the ball shows that icon over a small name), per ring in define, or per open,
        pin: true (the pin; false hides it), pinned: false (open pinned),
        power: { on: () => bool, set: (v) => {} },                   // the name is the ring's switch (see THE CENTRE below)
        level: () => 0..1,                                            // what a live dot pulses with (a sound's level); none: it breathes
@@ -71,7 +73,7 @@
   "use strict";
   if (window.SurfaceRing) return;
   var MARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.6" r="2"/><circle cx="18.4" cy="8.3" r="2"/><circle cx="18.4" cy="15.7" r="2"/><circle cx="12" cy="19.4" r="2"/><circle cx="5.6" cy="15.7" r="2"/><circle cx="5.6" cy="8.3" r="2"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>';
-  var GRIP = '<svg viewBox="0 0 20 6" aria-hidden="true" focusable="false"><circle cx="5" cy="1.5" r="1.1"/><circle cx="10" cy="1.5" r="1.1"/><circle cx="15" cy="1.5" r="1.1"/><circle cx="5" cy="4.5" r="1.1"/><circle cx="10" cy="4.5" r="1.1"/><circle cx="15" cy="4.5" r="1.1"/></svg>';
+  var GRIP = '<svg viewBox="0 0 6 20" aria-hidden="true" focusable="false"><circle cx="1.5" cy="5" r="1.1"/><circle cx="1.5" cy="10" r="1.1"/><circle cx="1.5" cy="15" r="1.1"/><circle cx="4.5" cy="5" r="1.1"/><circle cx="4.5" cy="10" r="1.1"/><circle cx="4.5" cy="15" r="1.1"/></svg>';
   var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 5 3 3.5H7l3-3.5z"/><path d="M12 12v8.5"/></svg>';
   var CARET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>';
   /* three pops: a third of the way, three quarters, home; each step overshoots a little and settles */
@@ -86,13 +88,31 @@
     ":where(.sr-hub) button:hover{background:rgb(var(--ui-hi,255 255 255) / .1)}" +
     /* 25 Oct, his redraw of the hub: pin · name over its grip · switch, one row high. The grip sits under the word; the pin drags too */
     ":where(.sr-mid){display:flex;flex-direction:column;align-items:center}" +
-    /* THE FRAME: the grip hugs the bottom edge, the panel's caret the top edge, each a lozenge notched into the name's border */
-    ":where(.sr-hub) .sr-grip,:where(.sr-hub) .sr-up{position:absolute;left:50%;transform:translateX(-50%);min-width:0;height:16px;width:40px;padding:0;border-radius:999px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14)}" +
-    ":where(.sr-hub) .sr-grip{bottom:-9px;cursor:grab}:where(.sr-hub) .sr-grip svg{width:18px;height:6px;fill:currentColor;opacity:.65}" +
-    ":where(.sr-hub) .sr-up{top:-9px}:where(.sr-hub) .sr-up svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}" +
-    /* a finger's reach around each small tab, without growing what you see */
-    ":where(.sr-hub) .sr-grip::after,:where(.sr-hub) .sr-up::after{content:'';position:absolute;left:-6px;right:-6px}:where(.sr-hub) .sr-grip::after{top:7px;bottom:-12px}:where(.sr-hub) .sr-up::after{top:-12px;bottom:7px}" +
-    ":where(.sr-hub) .sr-grip:hover,:where(.sr-hub) .sr-up:hover{background:rgb(var(--ui-g,12 14 16) / .94);color:var(--acc,#55b8c9)}" +
+    /* THE FRAME, canon (Dimitry, 25 Oct 07:57, drawn on the iPad: "since the menu comes from the bottom that's where the caret
+       down should be, so this follows the model we're using in the bar … putting the gripper on the right-hand side,
+       definitely canon"): the centre reads like a bar button turned into a ring's middle. Pin on the left, the grip's
+       dots on the right, the panel's caret a bump on the top edge, the ring switch a bump on the bottom edge, the bumps
+       part of the outline, not lozenges laid on it. The switch's list drops from the bottom bump. */
+    ":where(.sr-hub) .sr-grip{width:22px;min-width:22px;padding:0;cursor:grab}:where(.sr-hub) .sr-grip svg{width:6px;height:18px;fill:currentColor;opacity:.65}" +
+    ":where(.sr-hub) .sr-up,:where(.sr-hub) .sr-sw{position:absolute;left:50%;transform:translateX(-50%);min-width:0;width:46px;height:15px;padding:0;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}" +
+    ":where(.sr-hub) .sr-up{top:-15px;border-radius:15px 15px 0 0;box-shadow:0 -1px 0 rgb(var(--ui-hi,255 255 255) / .14),-1px 0 0 rgb(var(--ui-hi,255 255 255) / .14),1px 0 0 rgb(var(--ui-hi,255 255 255) / .14)}" +
+    ":where(.sr-hub) .sr-sw{bottom:-15px;border-radius:0 0 15px 15px;box-shadow:0 1px 0 rgb(var(--ui-hi,255 255 255) / .14),-1px 0 0 rgb(var(--ui-hi,255 255 255) / .14),1px 0 0 rgb(var(--ui-hi,255 255 255) / .14)}" +
+    ":where(.sr-hub) .sr-up svg,:where(.sr-hub) .sr-sw svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}" +
+    ":where(.sr-hub) .sr-up svg{margin-top:3px}:where(.sr-hub) .sr-sw svg{margin-top:-3px}" +
+    /* a finger's reach around each bump, outward only, without growing what you see */
+    ":where(.sr-hub) .sr-up::after,:where(.sr-hub) .sr-sw::after{content:'';position:absolute;left:-6px;right:-6px}:where(.sr-hub) .sr-up::after{top:-14px;bottom:0}:where(.sr-hub) .sr-sw::after{top:0;bottom:-14px}" +
+    ":where(.sr-hub) .sr-up:hover,:where(.sr-hub) .sr-sw:hover{background:rgb(var(--ui-g,12 14 16) / .86);color:var(--acc,#55b8c9)}" +
+    /* THE BALL (his second option): the centre as a round button, a small name inside, the same four parts at its four
+       edges. Off unless a tool asks (center: "ball"); a slider in the middle turns it back into a bar while it shows */
+    ".sr-hub.sr-round:not(:has(.sr-val)){width:96px;height:96px;padding:0;justify-content:center}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-name{padding:0;font-size:8.5px;letter-spacing:.12em}" +
+    ":where(.sr-hub) .sr-ic{display:flex;flex-direction:column;align-items:center;gap:4px}:where(.sr-hub) .sr-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-pin{position:absolute;left:3px;top:50%;transform:translateY(-50%);min-width:26px;width:26px}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-grip{position:absolute;right:3px;top:50%;transform:translateY(-50%)}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up{top:3px;width:34px;height:24px;border-radius:999px;box-shadow:none;background:none}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-sw{bottom:3px;width:34px;height:24px;border-radius:999px;box-shadow:none;background:none}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up svg,.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw svg{margin:0}" +
+    ".sr-hub.sr-round:not(:has(.sr-val)) .sr-up::after,.sr-hub.sr-round:not(:has(.sr-val)) .sr-sw::after{display:none}" +
     /* THE CENTRE: the name as the ring's switch, a point before the word, lit or hollow */
     ":where(.sr-hub) .sr-pow{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px 0 9px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase}" +
     ":where(.sr-hub) .sr-pow i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.7}" +
@@ -120,7 +140,7 @@
     ".sr-ring .sr-dot.sr-tap{transition:transform .14s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.18)}" +
     ":where(.sr-hub) .sr-sw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) button:focus-visible{outline:2px solid #fff;outline-offset:1px}" +
-    ":where(.sr-list){position:absolute;left:0;top:24px;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;padding:4px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
+    ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;padding:4px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
     ":where(.sr-list) button{min-height:40px;padding:0 16px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
     ":where(.sr-list) button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ":where(.sr-dot){position:absolute;left:0;top:0;width:var(--sr-d,52px);height:var(--sr-d,52px);margin:calc(var(--sr-d,52px) / -2) 0 0 calc(var(--sr-d,52px) / -2);padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);cursor:pointer;pointer-events:auto;transform:translate(var(--x),var(--y));-webkit-tap-highlight-color:transparent}" +
@@ -208,20 +228,22 @@
     var PW = def.power || (rid ? null : o.power) || null, LV = def.level || o.level || null;   // a defined ring brings its own switch and level
     var d = Math.max(44, o.dot || 52), gap = 10;
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
-    var R = Math.max(o.r || 0, 92, (n * (d + gap + 18)) / (2 * Math.PI));
+    var R = Math.max(o.r || 0, (def.center || o.center) === "ball" ? 108 : 92, (n * (d + gap + 18)) / (2 * Math.PI));   // a ball needs more room than a bar
     var lab = 14, pad = R + d / 2 + lab + 8, W = innerWidth, H = innerHeight;
     var clampX = function (v) { return Math.max(pad, Math.min(W - pad, v)); }, clampY = function (v) { return Math.max(pad, Math.min(H - pad, v)); };
     var x = clampX(o.x == null ? W / 2 : o.x), y = clampY(o.y == null ? H / 2 : o.y);
     var veil = document.createElement("div"); veil.className = "sr-veil";
     var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() ? "" : " pop"); ring.setAttribute("role", "menu"); ring.setAttribute("aria-label", def.title || "Choices");
     ring.style.left = x + "px"; ring.style.top = y + "px"; ring.style.setProperty("--sr-d", d + "px");
-    /* the hub: pin · name over its grip · switch */
-    var hub = document.createElement("div"); hub.className = "sr-hub";
+    /* the hub: pin · name · grip; the panel a bump above, the switch a bump below (or all four round a ball) */
+    var BALL = (def.center || o.center) === "ball";
+    var hub = document.createElement("div"); hub.className = "sr-hub" + (BALL ? " sr-round" : "");   // not sr-ball: that is the closing fold's class
     var grip = document.createElement("button"); grip.type = "button"; grip.className = "sr-grip"; grip.innerHTML = GRIP; grip.setAttribute("aria-label", "Move the ring (drag)"); grip.title = "Drag to move the ring";
     var name = document.createElement("span"), pow = null; name.className = "sr-name";
     if (PW) { pow = document.createElement("button"); pow.type = "button"; pow.className = "sr-pow"; pow.innerHTML = "<i></i><span></span>"; pow.lastChild.textContent = def.title || ""; name = pow;
       pow.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the tap that opened the ring lands on the name, in the middle: not a switch (CLAUDE.md) */
         try { PW.set(!PW.on()); } catch (er) { console.warn("[ring]", er); } refresh(); }; }
+    else if ((def.center || o.center) === "ball" && def.icon) { name.className = "sr-name sr-ic"; name.innerHTML = def.icon + "<span></span>"; name.lastChild.textContent = def.title || ""; }   // the bar button the ring came from: its icon, its word small under it
     else if (o.hub === "mark") { name.innerHTML = MARK; name.setAttribute("aria-label", def.title || ""); name.title = def.title || ""; } else name.textContent = def.title || "";
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
@@ -239,7 +261,7 @@
       pin.onclick = function (e) { e.stopPropagation(); if (pin._moved) { pin._moved = false; return; } setPin(!(cur && cur.pinned)); };
       hub.appendChild(pin);
     }
-    hub.appendChild(mid); if (sw) hub.appendChild(sw); hub.appendChild(grip);
+    hub.appendChild(mid); hub.appendChild(grip); if (sw) hub.appendChild(sw);   // pin · name · grip, the switch a bump below
     if (upIt) { var up = document.createElement("button"); up.type = "button"; up.className = "sr-up"; up.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 14l6-6 6 6"/></svg>';
       up.setAttribute("aria-label", upIt.aria || upIt.label || "Panel"); up.title = upIt.aria || upIt.label || "Panel";
       up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
