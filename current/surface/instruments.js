@@ -279,7 +279,9 @@
         var u8 = function (v) { return v instanceof Uint8Array ? Promise.resolve(v) : v.arrayBuffer().then(function (b) { return new Uint8Array(b); }); };
         var paths = []; map.forEach(function (v, k) { paths.push(k); });
         var jsons = paths.filter(function (k) { return /\.json$/i.test(k); }), audio = paths.filter(function (k) { return AUDIO.test(k); });
-        var out = { name: (man && man.name) || name, recipes: [], samples: {}, notes: [], roles: null, live: 0 };
+        var out = { name: (man && man.name) || name, recipes: [], samples: {}, notes: [], roles: null, live: 0,
+          /* a pack can bring looks for a material (pack.json "looks": [{ material, name, says, colors }]) and names its author */
+          looks: man && Array.isArray(man.looks) ? man.looks.slice(0, 24) : null, by: man && man.by ? String(man.by).slice(0, 60) : "" };
         return Promise.all(jsons.map(function (k) { return u8(map.get(k)).then(function (b) { var o = null; try { o = JSON.parse(new TextDecoder().decode(b)); } catch (e) {} return [k, o]; }); })).then(function (js) {
           var used = {}, total = 0;
           js.forEach(function (x) {
@@ -369,7 +371,7 @@
         var rs = g.recipes, ok = rs.filter(function (r) { return !usesInput(r); });
         Object.keys(g.samples).forEach(function (k) { try { SurfaceVoice.sample(k, g.samples[k].buf); } catch (e) {} });
         var allSmp = ok.length && ok.every(function (r) { return samplesOf(r).length; }), allLong = allSmp && ok.every(function (r) { return r.hold; });
-        pending = { name: g.name || nm, recipes: ok, live: rs.length - ok.length, role: allLong ? "bed" : "touch", set: lastSet, roles: g.roles, samples: g.samples, notes: g.notes };
+        pending = { name: g.name || nm, recipes: ok, live: rs.length - ok.length, role: allLong ? "bed" : "touch", set: lastSet, roles: g.roles, samples: g.samples, notes: g.notes, looks: g.looks, by: g.by };
         open(); return ok.length;
       }, function (e) { pending = { name: nm, error: e && e.message || "could not be read" }; open(); return 0; });
     }
@@ -549,11 +551,17 @@
           .then(function (b) { importFile(new File([b], (p.file || p.id || "pack") + ".zip", { type: "application/zip" })); })
           .catch(function () { if (btn) { btn.disabled = false; btn.textContent = p.label || "Add"; } try { O.say && O.say(p.name + " could not be fetched: are you offline?"); } catch (e) {} }); }
     }
+    /* the looks a pack brings, by material (SurfaceMaterial): named on the card, added with the sounds */
+    function looksLine(P) { var L = (P.looks || []).filter(function (x) { return x && x.name && x.material; }); if (!L.length) return "";
+      return '<p class="st">' + (P.recipes && P.recipes.length ? "And " : "") + L.length + " look" + (L.length > 1 ? "s" : "") + " for " + esc(L[0].material) + ": " + L.map(function (x) { return esc(x.name); }).join(" · ") + "</p>"; }
+    function addLooks(P) { var L = (P.looks || []).filter(function (x) { return x && x.name && x.material; }); if (!L.length || !window.SurfaceMaterial) return 0;
+      var by = {}; L.forEach(function (x) { (by[x.material] = by[x.material] || []).push(x); }); var n = 0; for (var m in by) n += SurfaceMaterial.add(m, by[m], P.by); return n; }
     function render() {
       if (!box || box.hidden) return;
       var h = '<h2><span>' + esc(WD.title) + '</span><button type="button" class="x" aria-label="Close">✕</button></h2>';
       if (pending) {
         if (pending.error) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>: " + esc(pending.error) + '</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
+        else if (!pending.recipes.length && pending.looks && pending.looks.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>" + (pending.by ? " by " + esc(pending.by) : "") + "</p>" + looksLine(pending) + '<div class="row"><button type="button" class="b go pa">Add</button><button type="button" class="b pd">Cancel</button></div></div>';
         else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " a live microphone chain)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
         else { var nS = pending.recipes.length, bySet = pending.roles && pending.asSet !== false;
           /* THE PARTS, SHOWN (Dimitry, 25 Oct 22:58: "confused by the options for this pack"): a set that already gives each sound its
@@ -564,6 +572,7 @@
             groups = '<ul class="rg">' + MY_ROLES.filter(function (r) { return G[r[0]]; }).map(function (r) { return "<li>" + roleIcon(r[0]) + "<span><b>" + esc(r[1]) + "</b><small>" + esc(r[2]) + '</small></span><span class="ns">' + G[r[0]].map(esc).join(" · ") + "</span></li>"; }).join("") + "</ul>"; }
           h += '<div class="new"><p><b>' + nS + " sound" + (nS > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + "</p>" +
           (bySet ? groups + '<p class="st">Change any of them later, under Your sounds.</p>' : '<p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p>") +
+          looksLine(pending) +
           (pending.notes && pending.notes.length ? '<p class="st">Left out: ' + pending.notes.map(esc).join(" · ") + "</p>" : "") +
           (bySet ? "" : "<p>How should " + (nS > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds")) +
           '<div class="row"><button type="button" class="b go pa">Add ' + (nS > 1 ? nS + " sounds" : "it") + '</button><button type="button" class="b pd">Cancel</button></div>' +
@@ -600,11 +609,12 @@
         var st = pending.set, gr = null, smp = pending.samples;
         if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
         var before = {}; list.forEach(function (y) { before[y.id] = 1; });
+        var nl = addLooks(pending);
         var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr));
         if (PADO) list.filter(function (y) { return !before[y.id] && y.role === "pad" && y.on; }).forEach(function (y, k, a) { padCall("add", y.id, a.length > 1 ? 0.2 + 0.6 * k / (a.length - 1) : 0.5, 0.5); });
         if (st) { var lean = JSON.parse(JSON.stringify(st)); delete lean.recipes; kept = lean; try { localStorage.setItem(LS + ".set", JSON.stringify(lean)); } catch (e) {} }
         pending = null; render();
-        var said = n ? n + " sound" + (n > 1 ? "s" : "") + " added" : "already here";
+        var said = (n ? n + " sound" + (n > 1 ? "s" : "") + " added" : nl ? "" : "already here") + (nl ? (n ? " · " : "") + nl + " look" + (nl > 1 ? "s" : "") + " added" : "");
         keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
       box.querySelectorAll(".snd").forEach(function (row) {

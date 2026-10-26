@@ -377,8 +377,13 @@ html{scroll-padding-top:calc(88px + env(safe-area-inset-top,0px))}
   "tool": "current",
   "id": "my-pack",              <span class="c">// lowercase and dashes; keeps your recordings apart from other packs</span>
   "name": "My pack",            <span class="c">// what Current shows</span>
-  "by": "your name"
+  "by": "your name",            <span class="c">// the author: shown with the pack and with each of its looks</span>
+  "looks": [                    <span class="c">// optional: color looks for a material</span>
+    { "material": "water", "name": "Midnight", "says": "dark water, bright edges",
+      "colors": { "tint": "ground", "glint": "line2", "caustic": "line" } }
+  ]
 }</pre>
+  <p>A look sets every part of a material's color at once. Water has three parts: <b>tint</b> (the water itself, in its dips and crests), <b>glint</b> (the sparkle on the highlights) and <b>caustic</b> (the net of light it gathers, like the floor of a pool). Each takes one of the scene's own colors, so a look fits any scene: <code>"line"</code> (the lines), <code>"line2"</code> (the second color), <code>"ground"</code>, or <code>null</code> for none. A pack can be looks alone, with no sounds; its looks appear with Water's own, under your name.</p>
   <h3>instrument.json, commented</h3>
   <p>The comments here are for reading. JSON itself has no comments, so delete them in your file, or copy the template's <code>instrument.json</code>, which uses <code>"_how"</code> fields as notes instead (anything starting with <code>_</code> is ignored).</p>
 <pre>{
