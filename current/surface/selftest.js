@@ -41,7 +41,8 @@
      })
      SurfaceSelfTest.beat()  beat('paused')  show()  run() → results  report() → text
    THE BLACK BOX: start({box: () => ({…a few facts…}), onCrash: note => …}): a page that died on screen reports itself at
-   the next start (see the block below); SurfaceSelfTest.crashed holds that note. */
+   the next start (see the block below); SurfaceSelfTest.crashed holds that note. SurfaceSelfTest.leaving() before any
+   reload or navigation on purpose, so it is never taken for a crash. */
 (function () {
   "use strict";
   var O = null, ERR = [], last = 0, first = 0, t0 = Date.now(), el = null, shown = false, dismissed = false, results = [];
@@ -105,6 +106,13 @@
   }
   addEventListener("visibilitychange", function () { boxWrite(document.hidden); });
   addEventListener("pagehide", function () { boxWrite(true); });
+  /* LEAVING ON PURPOSE (25 Oct 2026: five automatic "ended after 0 s, Last scene: ?" reports from his iPhone and his
+     Mac's Safari app, each the first visit after a release. The page that "died" was the update reload: a new version's
+     worker takes over in the first second and the export reloads once. Its clean note did not survive in WebKit.)
+     leaving() is called by any code about to reload or navigate on purpose: the box is marked clean, and a mark in this
+     tab's sessionStorage says so, which the next start reads even when the localStorage note was lost. */
+  var LEAVEK = "surface.selftest.leaving";
+  function leaving() { boxWrite(true); try { sessionStorage.setItem(LEAVEK, String(Date.now())); } catch (e) {} }
   function asleep() { return document.hidden || Date.now() - drawn > 1000; }
   function heart() {
     var now = Date.now();
@@ -200,7 +208,7 @@
       '<div class="st-a">' + (bad.length ? '<button type="button" class="pri" data-a="reload">reload</button>' : "") + (!bad.length && LAST ? '<button type="button" class="pri" data-a="last">copy last report</button>' : "") + '<button type="button" data-a="copy">copy report</button>' + (O.email ? '<button type="button" data-a="mail">email report</button>' : "") + "</div></div>";
     el.querySelector(".st-x").onclick = function () { el.hidden = true; dismissed = true; };
     var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { lb.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
-    var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { location.reload(); };
+    var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { leaving(); location.reload(); };
     el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
     var m = el.querySelector('[data-a="mail"]'); if (m) m.onclick = function () { location.href = "mailto:" + O.email + "?subject=" + encodeURIComponent((O.tool || "Tool") + " self-test " + (O.version || "")) + "&body=" + encodeURIComponent(report().slice(0, 1800)); };
     if (bad.length) mascot(el.querySelector(".st-m"));
@@ -223,6 +231,8 @@
   function start(o) {
     O = o || {};
     var prevBox = null; try { prevBox = JSON.parse(localStorage.getItem(boxKey()) || "null"); } catch (e) {}
+    var left = 0; try { left = +sessionStorage.getItem(LEAVEK) || 0; sessionStorage.removeItem(LEAVEK); } catch (e) {}
+    if (prevBox && !prevBox.clean && left && left >= prevBox.at - 4000 && Date.now() - left < 60000) prevBox.clean = true;
     if (prevBox && !prevBox.clean && Date.now() - prevBox.at < 30 * 60000) {
       api.crashed = prevBox;
       log("ended unexpectedly after " + prevBox.up + " s on screen" + (prevBox.v ? " (" + prevBox.v + ")" : ""));
@@ -278,6 +288,6 @@
   /* if the tool's own script died before it could call start(), the kit still speaks: 12 s after load, a card */
   addEventListener("load", function () { setTimeout(function () { if (O) return; O = { tool: document.title || "This tool", version: window.__VERSION__ || "", email: "hi@chamy.xyz", checks: [{ id: "boot", name: "Start-up", test: function () { return "the tool did not finish starting"; } }] }; check(); }, 12000); });
   function lastReport() { try { return JSON.parse(localStorage.getItem(LASTK + "." + ((O && O.tool) || "tool")) || "null"); } catch (e) { return null; } }
-  var api = { start: start, beat: beat, run: run, report: report, last: lastReport, log: logGet, show: function () { run(); card(true); }, get errors() { return ERR.slice(); } };
+  var api = { start: start, beat: beat, leaving: leaving, run: run, report: report, last: lastReport, log: logGet, show: function () { run(); card(true); }, get errors() { return ERR.slice(); } };
   window.SurfaceSelfTest = api;
 })();

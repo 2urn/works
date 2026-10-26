@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261025230419";window.__VERSION__="0.33.15";window.__NOTES__=[{"v":"0.33.15","date":"25 Oct 2026","items":[{"kind":"change","text":"the sign-up card is the Founders 100 Club, and how many have joined is a progress bar, on the card, on the welcome and in the index"},{"kind":"new","text":"founders can be credited by name in Current's credits, with a box to tick when they join"},{"kind":"new","text":"the card's terms, behind a small Terms toggle that rises over the foot of the form: free to join, first come first served, not a contest or sweepstakes, and no ownership, shares or equity in anything"}]}]</script>
+<script>window.__BUILD__="20261026013323";window.__VERSION__="0.33.16";window.__NOTES__=[{"v":"0.33.16","date":"26 Oct 2026","items":[{"kind":"fix","text":"opening Current right after an update no longer sends a crash report by itself (the update's one reload was taken for a crash)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261025230419"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261025230419">
+<script src="claude-web.js?v=20261026013323"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261026013323">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -132,39 +132,39 @@ html,body{background:#000}
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261025230419"></script>
-<script src="surface/selftest.js?v=20261025230419"></script><script src="surface/size.js?v=20261025230419"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261025230419"></script>
-<script src="surface/auto.js?v=20261025230419"></script>
-<script src="surface/toolpath.js?v=20261025230419"></script>
-<script src="surface/capture.js?v=20261025230419"></script>
-<script src="surface/pop.js?v=20261025230419"></script>
-<script src="surface/hints.js?v=20261025230419"></script>
-<script src="surface/paths.js?v=20261025230419"></script>
-<script src="surface/keys.js?v=20261025230419"></script>
-<script src="surface/reset.js?v=20261025230419"></script>
-<script src="surface/files.js?v=20261025230419"></script>
-<script src="surface/tabs.js?v=20261025230419"></script>
-<script src="surface/running.js?v=20261025230419"></script>
-<script src="surface/trim.js?v=20261025230419"></script>
-<script src="surface/audiowake.js?v=20261025230419"></script>
-<script src="surface/output.js?v=20261025230419"></script>
-<script src="surface/board.js?v=20261025230419"></script>
-<script src="surface/voice.js?v=20261025230419"></script>
-<script src="surface/voicelib.js?v=20261025230419"></script>
-<script src="surface/instruments.js?v=20261025230419"></script>
-<script src="surface/listview.js?v=20261025230419"></script>
-<script src="surface/beads.js?v=20261025230419"></script>
-<script src="surface/strip.js?v=20261025230419"></script>
-<script src="surface/sheetnav.js?v=20261025230419"></script>
-<script src="surface/twofinger.js?v=20261025230419"></script>
-<script src="surface/ring.js?v=20261025230419"></script>
-<script src="surface/shortlink.js?v=20261025230419"></script>
-<script src="surface/undo.js?v=20261025230419"></script>
-<script src="surface/pro.js?v=20261025230419"></script>
-<script src="surface/fresh.js?v=20261025230419"></script>
-<script src="surface/notice.js?v=20261025230419"></script>
-<script src="surface/perform.js?v=20261025230419"></script>
+<script src="vendor/opentype.min.js?v=20261026013323"></script>
+<script src="surface/selftest.js?v=20261026013323"></script><script src="surface/size.js?v=20261026013323"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261026013323"></script>
+<script src="surface/auto.js?v=20261026013323"></script>
+<script src="surface/toolpath.js?v=20261026013323"></script>
+<script src="surface/capture.js?v=20261026013323"></script>
+<script src="surface/pop.js?v=20261026013323"></script>
+<script src="surface/hints.js?v=20261026013323"></script>
+<script src="surface/paths.js?v=20261026013323"></script>
+<script src="surface/keys.js?v=20261026013323"></script>
+<script src="surface/reset.js?v=20261026013323"></script>
+<script src="surface/files.js?v=20261026013323"></script>
+<script src="surface/tabs.js?v=20261026013323"></script>
+<script src="surface/running.js?v=20261026013323"></script>
+<script src="surface/trim.js?v=20261026013323"></script>
+<script src="surface/audiowake.js?v=20261026013323"></script>
+<script src="surface/output.js?v=20261026013323"></script>
+<script src="surface/board.js?v=20261026013323"></script>
+<script src="surface/voice.js?v=20261026013323"></script>
+<script src="surface/voicelib.js?v=20261026013323"></script>
+<script src="surface/instruments.js?v=20261026013323"></script>
+<script src="surface/listview.js?v=20261026013323"></script>
+<script src="surface/beads.js?v=20261026013323"></script>
+<script src="surface/strip.js?v=20261026013323"></script>
+<script src="surface/sheetnav.js?v=20261026013323"></script>
+<script src="surface/twofinger.js?v=20261026013323"></script>
+<script src="surface/ring.js?v=20261026013323"></script>
+<script src="surface/shortlink.js?v=20261026013323"></script>
+<script src="surface/undo.js?v=20261026013323"></script>
+<script src="surface/pro.js?v=20261026013323"></script>
+<script src="surface/fresh.js?v=20261026013323"></script>
+<script src="surface/notice.js?v=20261026013323"></script>
+<script src="surface/perform.js?v=20261026013323"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -187,13 +187,13 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261025230419"></script>
-<script src="surface/rail.js?v=20261025230419"></script>
-<script src="surface/touchsound.js?v=20261025230419"></script>
-<script src="surface/water.js?v=20261025230419"></script>
-<script src="surface/ripple.js?v=20261025230419"></script>
-<script src="surface/float.js?v=20261025230419"></script>
-<script src="surface/manual.js?v=20261025230419"></script>
+<script src="surface/pack.js?v=20261026013323"></script>
+<script src="surface/rail.js?v=20261026013323"></script>
+<script src="surface/touchsound.js?v=20261026013323"></script>
+<script src="surface/water.js?v=20261026013323"></script>
+<script src="surface/ripple.js?v=20261026013323"></script>
+<script src="surface/float.js?v=20261026013323"></script>
+<script src="surface/manual.js?v=20261026013323"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -7701,7 +7701,7 @@ function audRebuild(){const was={...AUD.play},lay=AUD.lay,mic=AUD.mic,camMic=mic
 /* THE RESCUE CHIP (Dimitry, 22 Oct): when the sound dies with nothing changed, Sound / Reset / bug appear top right.
    Reset is the self-test's resume: the scene and the bare stage saved, a reload straight back, no cover. Silence counts
    only for the beat, bytebeat and loop, which never go exactly quiet; a file can end and a mic is gated. */
-function resumeNow(){try{sessionStorage.setItem('current.resume',JSON.stringify({at:Date.now(),look:snapshot(curName||'look'),bare:document.documentElement.classList.contains('bare')}))}catch(_){}location.reload()}
+function resumeNow(){try{sessionStorage.setItem('current.resume',JSON.stringify({at:Date.now(),look:snapshot(curName||'look'),bare:document.documentElement.classList.contains('bare')}))}catch(_){}try{SurfaceSelfTest.leaving()}catch(_){}location.reload()}
 let AWBUF=null;
 const AUDWAKE=window.SurfaceAudioWake?SurfaceAudioWake.watch({ctx:()=>AUD.ctx,playing:()=>!!AUD.ctx&&(AUD.src!=='off'||!!AUD.bed),rebuild:audRebuild,say:t=>toast(t,2600),
   level:()=>{const p=AUD.play||{};if(!AUD.an||!(p.beat||p.byte||p.loop))return null;const n=AUD.an.fftSize;if(!AWBUF||AWBUF.length!==n)AWBUF=new Uint8Array(n);AUD.an.getByteTimeDomainData(AWBUF);let m=0;for(let i=0;i<n;i++){const d=Math.abs(AWBUF[i]-128);if(d>m)m=d}return m/128},
@@ -9967,10 +9967,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261025230419"></script>
-<script src="surface/links.js?v=20261025230419"></script>
-<script src="surface/tips.js?v=20261025230419"></script>
-<script src="surface/sections.js?v=20261025230419"></script>
+<script src="surface/install.js?v=20261026013323"></script>
+<script src="surface/links.js?v=20261026013323"></script>
+<script src="surface/tips.js?v=20261026013323"></script>
+<script src="surface/sections.js?v=20261026013323"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10151,7 +10151,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261025230419"></script>
+<script src="surface/room.js?v=20261026013323"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10352,7 +10352,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261025230419"></script>
+<script src="surface/touch.js?v=20261026013323"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11042,7 +11042,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.15';
+const APP_VERSION='0.33.16';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -11227,7 +11227,7 @@ function pro(it){var P=window.SurfacePro;if(!it.pro||!P||!P.BODY)return"";var st
  return' <svg viewBox="0 0 24 24" aria-label="'+(st==="beta"?"Pro, open in the beta":"Pro")+'" role="img" style="display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-left:3px;fill:none;stroke:var(--acc,#55b8c9);stroke-width:2;stroke-linecap:round;stroke-linejoin:round">'+(st==="beta"?P.OPEN:P.SHUT)+P.BODY.replace('class="bolt"','class="bolt" style="fill:var(--acc,#55b8c9);stroke:none"')+'</svg>'}
 function item(it){var li=document.createElement("li");li.style.cssText="display:grid;grid-template-columns:16px 50px 1fr;gap:8px;align-items:start;position:relative";li.innerHTML=(KI[it.kind]||KI.none)+"<span style=\"align-self:baseline\">"+esc(it.text)+pro(it)+"</span>";return li}
 function lead(row){if(!KI)return;var s=document.createElement("span");s.innerHTML=KI.lead;s.style.cssText="display:inline-flex;flex:none;margin-right:6px";row.appendChild(s)}
-function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=function(){location.reload()};var ps=[];
+function fresh(){try{sessionStorage.setItem("upd:from",B)}catch(e){}var go=function(){try{window.SurfaceSelfTest&&SurfaceSelfTest.leaving&&SurfaceSelfTest.leaving()}catch(e){}location.reload()};var ps=[];
  if("caches"in window)ps.push(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x.indexOf("current-")===0}).map(function(x){return caches.delete(x)}))}));
  if(navigator.serviceWorker)ps.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.update().catch(function(){})}))}));
  Promise.all(ps).then(go,go)}
@@ -11287,5 +11287,5 @@ function done(){var f=null;try{f=sessionStorage.getItem("upd:from");sessionStora
 <script>if("serviceWorker"in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 /* a new version's worker took over a page that loaded the old one's files: reload once, so page and scripts match; only
    in the first seconds of a visit and never while performing (22 Oct: it could reload mid-show); later, the pill offers it */
-const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||performance.now()>15000)return;try{if(window.SurfacePerform&&SurfacePerform.on())return}catch(_){}try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}location.reload()})}</script>
+const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!had||performance.now()>15000)return;try{if(window.SurfacePerform&&SurfacePerform.on())return}catch(_){}try{if(sessionStorage.getItem("sw-reloaded"))return;sessionStorage.setItem("sw-reloaded","1")}catch(_){}try{window.SurfaceSelfTest&&SurfaceSelfTest.leaving&&SurfaceSelfTest.leaving()}catch(_){}location.reload()})}</script>
 </body></html>
