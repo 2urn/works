@@ -166,10 +166,10 @@
     ":where(.sr-hub) .sr-sw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) button:focus-visible{outline:2px solid #fff;outline-offset:1px}" +
     /* the switch's list (Dimitry, 26 Oct 05:50, iPad, drawn on it: "less vertical space and icon"): each ring's own icon
-       before its name, rows 34 px and touching (no gap, so no dead space between targets); a ring may give the list a
+       before its name, rows 40 px, a finger's target (he asked for 40, 05:58), and touching (no gap); a ring may give the list a
        fuller name than its centre carries (define({menu})) */
     ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);display:flex;flex-direction:column;gap:0;padding:3px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
-    ":where(.sr-list) button{display:flex;align-items:center;gap:9px;min-height:34px;padding:0 14px 0 10px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
+    ":where(.sr-list) button{display:flex;align-items:center;gap:9px;min-height:40px;padding:0 14px 0 10px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
     ":where(.sr-list) button svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-list) button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ":where(.sr-dot){position:absolute;left:0;top:0;width:var(--sr-d,52px);height:var(--sr-d,52px);margin:calc(var(--sr-d,52px) / -2) 0 0 calc(var(--sr-d,52px) / -2);padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);cursor:pointer;pointer-events:auto;transform:translate(var(--x),var(--y));-webkit-tap-highlight-color:transparent}" +
