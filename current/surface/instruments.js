@@ -50,7 +50,8 @@
 (function () {
   "use strict";
   if (window.SurfaceInstruments) return;
-  var ROLES = [["touch", "Touch", "your finger plays it"], ["beat", "On the beat", "it strikes on the grid"], ["bed", "Bed", "it plays under everything"], ["pattern", "Pattern", "the drawing sequences it"]];
+  /* the parts in plain words (Dimitry, 25 Oct 23:05: "not friendly to beginners"; Bed stays: it has no visual meaning here) */
+  var ROLES = [["touch", "Touch", "plays when you touch the stage"], ["beat", "On the beat", "plays in time with the beat"], ["bed", "Bed", "plays softly underneath, all the time"], ["pattern", "Pattern", "follows the drawing"]];
   /* PAD (23 Oct 2026, with pad.js): a fifth role a tool opts into with mount({pad: {...}}): the sound stands on the stage
      as a dot you drag (SurfacePad). Shown only where the tool hosts a pad; its name is the tool's (pad.name). */
   var PAD_ROLE = ["pad", "Pad", "a dot on the stage you drag"];
@@ -66,6 +67,13 @@
     /* Pad: a dot with the short trail of its journey behind it */
     pad: '<circle class="f" cx="16.2" cy="8.2" r="3.3"/><path d="M12.6 10.6C10.4 13.6 7.6 16.6 4 18" opacity=".75"/><path d="M3.6 13.2c1.4-.5 2.6-1.3 3.6-2.3" opacity=".4"/>'
   };
+  /* THE PACK'S MARK (Dimitry, 25 Oct 23:07): simple and by what a pack holds, not by its subject: a sound, a drawing in code
+     (a pattern, G-code), a picture, a material; a pack's own cover image takes its place when it has one */
+  var PACK_ICONS = { sound: '<path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/>',
+    pattern: '<path d="M8 6 3.5 12 8 18M16 6l4.5 6-4.5 6"/><path d="M10 15c1-3 3-3 4-6"/>',
+    picture: '<rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17.5 5-5 3.5 3.5 2.5-2.5 4 4"/>',
+    texture: '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 10 10 3.5M3.5 16.5 16.5 3.5M7 20.5 20.5 7M13.5 20.5l7-7"/>' };
+  function packIcon(t) { return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (PACK_ICONS[t] || PACK_ICONS.sound) + "</svg>"; }
   function roleIcon(r) { return '<svg class="ri" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (ROLE_ICONS[r] || "") + "</svg>"; }
   var EVERY = [["beat", "every beat", 4], ["back", "2 and 4", 16], ["off", "off-beats", 4], ["bar", "once a bar", 16], ["eighth", "eighths", 2]];
   /* the library's drums arrive as a groove, not all on every beat: kick, backbeat, eighth hats; the rest wait */
@@ -157,6 +165,8 @@
     var LS = "surface.instruments." + (O.key || "tool"), list = [], kept = null;
     var PADO = O.pad && typeof O.pad === "object" ? O.pad : null;
     var MY_ROLES = PADO ? ROLES.concat([[PAD_ROLE[0], PADO.name || PAD_ROLE[1], PADO.title || PAD_ROLE[2]]]) : ROLES;
+    /* a set made in a tool with a part this one lacks (a pad, say): that sound plays as the default part here (review a4eb318a1e r-1) */
+    function hasRole(r) { return MY_ROLES.some(function (x) { return x[0] === r; }); }
     function padCall(fn) { if (!PADO || typeof PADO[fn] !== "function") return null; try { return PADO[fn].apply(null, [].slice.call(arguments, 1)); } catch (e) { try { console.warn("[instruments] pad." + fn, e); } catch (_) {} return null; } }
     try { kept = JSON.parse(localStorage.getItem(LS + ".set") || "null"); } catch (e) { kept = null; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
@@ -345,7 +355,7 @@
       recipes.forEach(function (r) {
         if (usesInput(r)) return;
         var k = (r.name || "sound") + "|" + JSON.stringify(r).length; if (have[k]) return; have[k] = 1;
-        var R = roles && roles[r.name] || {}, rl = R.role || role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
+        var R = roles && roles[r.name] || {}, rl = R.role && hasRole(R.role) ? R.role : role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
         if (r._level != null) { r = JSON.parse(JSON.stringify(r)); delete r._level; }
         list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv }); n++;
       });
@@ -431,13 +441,16 @@
       ".sin .info{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:12px;background:rgb(var(--ui-hi,255 255 255) / .06)}" +
       ".sin .lbs{display:flex;flex-direction:column}.sin .lbk{margin:10px 0 2px;font:600 10px/1.3 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--ui-hi,255 255 255) / .55)}" +
       ".sin .lb{display:flex;align-items:center;gap:10px;min-height:52px;padding:6px 0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .1)}" +
+      ".sin .lb .cv{flex:none;width:40px;height:40px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:rgb(var(--ui-hi,255 255 255) / .08);color:rgb(var(--ui-hi,255 255 255) / .8)}.sin .lb .cv img{width:100%;height:100%;object-fit:cover;display:block}.sin .lb .cv svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sin .lb small.by{font-weight:500;color:rgb(var(--ui-hi,255 255 255) / .78)}" +
       ".sin .lb .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.sin .lb b{font:600 13px/1.2 var(--sans,system-ui)}.sin .lb small{font:400 11.5px/1.35 var(--sans,system-ui);color:rgb(var(--ui-hi,255 255 255) / .62)}" +
       ".sin .lb .tag{margin-left:6px;padding:2px 6px;border-radius:8px;font:600 9px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;background:rgb(var(--ui-hi,255 255 255) / .1);color:rgb(var(--ui-hi,255 255 255) / .75);vertical-align:1px}" +
       ".sin .s-lvbar{margin:2px 0 4px}.sin .s-lvbar>.segs{gap:4px}.sin .s-lvbar .sg{min-height:32px;padding:0 12px!important;border:0;border-radius:16px;background:rgb(var(--ui-hi,255 255 255) / .08);color:rgb(var(--ui-hi,255 255 255) / .75);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap}" +
       ".sin .s-lvbar>.segs{overflow-x:auto;scrollbar-width:none}.sin .s-lvbar>.segs>.sg{flex:0 0 auto!important}" +   /* each pill as wide as its word: shrunk to share the row, TEXTURES ran into DRUMS (24 Oct) */
       ".sin .s-lvbar .sg[aria-checked=true]{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}" +
       ".sin .lb button.b{flex:none}.sin .lb button.b[disabled]{opacity:.5;cursor:default}" +
-      ".sin .off .nm{opacity:.5}.sin .new{background:rgb(var(--ui-hi,255 255 255) / .05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}";
+      ".sin .off .nm{opacity:.5}.sin .new{background:rgb(var(--ui-hi,255 255 255) / .05);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}" +
+      /* the parts, grouped (Dimitry, 25 Oct: "confused by the options for this pack"): each part names what it does and lists its sounds */
+      ".sin .new .rg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.sin .new .rg li{display:grid;grid-template-columns:22px 1fr;gap:2px 8px;align-items:start}.sin .new .rg svg{width:18px;height:18px;margin-top:1px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sin .new .rg svg .f{fill:currentColor;stroke:none}.sin .new .rg b{font-weight:600}.sin .new .rg small{opacity:.6;margin-left:6px}.sin .new .rg span.ns{grid-column:2;font:inherit;opacity:.85}";
     function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
     function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function proMk(r) { var f = O.pro && O.pro[r]; return f && window.SurfacePro && SurfacePro.mark ? '<em class="proB">' + SurfacePro.mark(f) + "</em>" : ""; }
@@ -475,8 +488,10 @@
        heading (the tabs' h2.sfPaneH just above the host, or O.head); in the sheet, its h2. */
     var infoOn = false, KEY = O.key || "tool";
     var I_INFO = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg>';
-    var I_FILE = '<svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 14v5h14v-5"/></svg>';
-    var I_DIR = '<svg viewBox="0 0 24 24"><path d="M3.5 7.5V18a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-8l-2-2.5h-5a1 1 0 0 0-1 1z"/></svg>';
+    /* IMPORT, a pair (Dimitry, 25 Oct 23:11: a plain folder reads as "open a folder"): a page and a folder, each with the same arrow
+       going down into it; the arrow says bring in, the shape says what */
+    var I_FILE = '<svg viewBox="0 0 24 24"><path d="M6.5 3.5h7.5l4 4v13h-11.5z"/><path d="M14 3.5v4h4"/><path d="M12.2 10v7M9.4 14.2l2.8 2.8 2.8-2.8"/></svg>';
+    var I_DIR = '<svg viewBox="0 0 24 24"><path d="M3.5 7.5V18a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-8l-2-2.5h-5a1 1 0 0 0-1 1z"/><path d="M12 10.5v6M9.4 14l2.6 2.6 2.6-2.6"/></svg>';
     function headEl() { var hd = typeof O.head === "function" ? O.head() : O.head; if (hd) return hd;
       var host = typeof O.host === "function" ? O.host() : O.host, pv = host && host.previousElementSibling;
       return pv && pv.classList.contains("sfPaneH") ? pv : box.querySelector("h2"); }
@@ -517,7 +532,9 @@
       vis.forEach(function (p) {
         if (sort === "kind" && p.kind !== last) { at.appendChild(el("p", "lbk", esc(p.kind))); last = p.kind; }
         var here = typeof p.here === "function" && p.here();
-        var r = el("div", "lb", '<span class="t"><b>' + esc(p.name) + (p.tag ? '<span class="tag">' + esc(p.tag) + "</span>" : "") + "</b>" + (p.note ? "<small>" + esc(p.note) + "</small>" : "") + "</span>" +
+        var by = p.by || (p.lib && O.libBy) || "";
+        var r = el("div", "lb", '<span class="cv">' + (p.cover ? '<img alt="" src="' + esc(p.cover) + '">' : packIcon(p.type || O.packType || "sound")) + "</span>" +
+          '<span class="t"><b>' + esc(p.name) + (p.tag ? '<span class="tag">' + esc(p.tag) + "</span>" : "") + "</b>" + (by ? '<small class="by">by ' + esc(by) + "</small>" : "") + (p.note ? "<small>" + esc(p.note) + "</small>" : "") + "</span>" +
           '<button type="button" class="b"' + (here ? " disabled" : "") + ' aria-label="' + esc((p.label || "Add") + " " + p.name) + '">' + esc(here ? (p.hereLabel || "Here") : (p.label || "Add")) + "</button>");
         r.querySelector("button").onclick = function () { take(p, r.querySelector("button")); };
         at.appendChild(r);
@@ -538,11 +555,19 @@
       if (pending) {
         if (pending.error) h += '<div class="new"><p><b>' + esc(pending.name) + "</b>: " + esc(pending.error) + '</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
         else if (!pending.recipes.length) h += '<div class="new"><p><b>' + esc(pending.name) + "</b> has no sounds this tool can play" + (pending.live ? " (its " + pending.live + " live voice" + (pending.live > 1 ? "s need" : " needs") + " a live microphone chain)" : "") + '.</p><div class="row"><button type="button" class="b pd">OK</button></div></div>';
-        else h += '<div class="new"><p><b>' + pending.recipes.length + " sound" + (pending.recipes.length > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + '</p><p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p>" +
+        else { var nS = pending.recipes.length, bySet = pending.roles && pending.asSet !== false;
+          /* THE PARTS, SHOWN (Dimitry, 25 Oct 22:58: "confused by the options for this pack"): a set that already gives each sound its
+             part shows them grouped under the part, with what the part does, instead of a sentence about roles; each can be
+             changed later under Your sounds, so there is no "one part for all" here (23:05: not friendly to beginners) */
+          var groups = "";
+          if (bySet) { var G = {}; pending.recipes.forEach(function (r) { var rl = (pending.roles[r.name] || {}).role; if (!rl || !hasRole(rl)) rl = pending.role || "touch"; (G[rl] = G[rl] || []).push(r.name); });
+            groups = '<ul class="rg">' + MY_ROLES.filter(function (r) { return G[r[0]]; }).map(function (r) { return "<li>" + roleIcon(r[0]) + "<span><b>" + esc(r[1]) + "</b><small>" + esc(r[2]) + '</small></span><span class="ns">' + G[r[0]].map(esc).join(" · ") + "</span></li>"; }).join("") + "</ul>"; }
+          h += '<div class="new"><p><b>' + nS + " sound" + (nS > 1 ? "s" : "") + "</b> in " + esc(pending.name) + (pending.live ? " · " + pending.live + " live voice" + (pending.live > 1 ? "s" : "") + " left out" : "") + "</p>" +
+          (bySet ? groups + '<p class="st">Change any of them later, under Your sounds.</p>' : '<p class="st">' + pending.recipes.map(function (r) { return esc(r.name); }).join(" · ") + "</p>") +
           (pending.notes && pending.notes.length ? '<p class="st">Left out: ' + pending.notes.map(esc).join(" · ") + "</p>" : "") +
-          (pending.roles && pending.asSet !== false ? '<p>Each plays as the set says (touch, beat, bed or pattern); change any of them after.</p><div class="row"><button type="button" class="b own">Choose one role for all</button></div>'
-            : "<p>How should " + (pending.recipes.length > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds")) +
-          '<div class="row"><button type="button" class="b go pa">Add</button><button type="button" class="b pd">Cancel</button></div></div>';
+          (bySet ? "" : "<p>How should " + (nS > 1 ? "they" : "it") + " play?</p>" + seg(pending.role, "Role for the new sounds")) +
+          '<div class="row"><button type="button" class="b go pa">Add ' + (nS > 1 ? nS + " sounds" : "it") + '</button><button type="button" class="b pd">Cancel</button></div>' +
+          "</div>"; }
       }
       if (infoOn) h += '<div class="info" id="sin-info-' + esc(KEY) + '"><p>Bring in sounds: your own recordings (wav, mp3, ogg, m4a), or a recipe, a mix or a pack made in a synth or by hand (.json or .zip), with the round buttons at the top or by dropping them here. Each one plays by touch, on the beat, as a bed, or from the pattern, and you can change which any time.</p><p>A set with recordings saves as a pack zip to share. Sounds play while the sound is on. Touch: tap or hold on the stage.</p></div>';
       /* THE LEAD (Dimitry, 24 Oct, driving: "it should say pack at the top and bring in your own media ... no heading, no
@@ -571,7 +596,6 @@
       var sv = q(".sv"); if (sv) sv.onclick = saveSet;
       var pd = q(".pd"); if (pd) pd.onclick = function () { pending = null; render(); };
       box.querySelectorAll(".pp").forEach(function (b) { b.onclick = function () { if (padCall("preset", b.dataset.p)) { render(); try { O.say && O.say(b.dataset.p + ": " + b.title); } catch (e) {} } }; });
-      var own = q(".own"); if (own) own.onclick = function () { pending.asSet = false; render(); };
       var pa = q(".pa"); if (pa) pa.onclick = function () {
         var st = pending.set, gr = null, smp = pending.samples;
         if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }

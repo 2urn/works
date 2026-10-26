@@ -79,7 +79,9 @@
     ".spop-foot>.spop-head>:not(.spop-end){min-width:0;flex:0 1 auto}",
     /* a button that belongs at the right end of the band (an (i), Dimitry 22 Oct 23:54) wears .spop-right: it sits just
        left of ‹ › ⌄, so titles and tabs never push it */
-    ".spop-foot>.spop-head>.spop-right{margin-left:auto;flex:none}.spop-foot>.spop-head>.spop-right~.spop-end{margin-left:0}",
+    ".spop-foot>.spop-head>.spop-right{margin-left:auto;flex:none}.spop-foot>.spop-head>.spop-right:not([hidden])~.spop-end{margin-left:0}",
+    /* (Dimitry, 25 Oct 23:02, the Pack panel: pin ‹ › ⌄ sat by the tab, not in the corner) a HIDDEN right-hand button must not take the
+       group's push: only a shown one sits between the tabs and the end */
     ".spop-foot>.spop-head>.spop-end>.s-snav-band,.spop-foot>.spop-head>.spop-end>.spop-vx{margin:0;flex:none}",
     /* the pin: a band cell like ‹ ›; pressed, a filled pin in the accent and a lit top edge, so a pinned panel reads at a glance */
     ".spop-pin{align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}",
