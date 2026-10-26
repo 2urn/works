@@ -518,8 +518,9 @@
     var LB = (function () { try { return JSON.parse(localStorage.getItem("surface.instr." + KEY + ".lib")) || {}; } catch (e) { return {}; } })();
     function libItems() {
       var L = window.SurfaceVoiceLib, out = [];
-      if (L && L.sounds) out.push({ id: "sounds", name: "Glass and textures", kind: "Textures", note: L.sounds.length + " sounds from the studio’s synth: glass, air, metal", lib: "sounds" });
-      if (L && L.drums) out.push({ id: "drums", name: "Drums", kind: "Drums", note: L.drums.length + " drums, arriving as a groove: kick, backbeat, eighth hats", lib: "drums" });
+      /* mount({lib:false}) leaves the studio's own library (glass and textures, drums) out: the tool offers only its packs */
+      if (O.lib !== false && L && L.sounds) out.push({ id: "sounds", name: "Glass and textures", kind: "Textures", note: L.sounds.length + " sounds from the studio’s synth: glass, air, metal", lib: "sounds" });
+      if (O.lib !== false && L && L.drums) out.push({ id: "drums", name: "Drums", kind: "Drums", note: L.drums.length + " drums, arriving as a groove: kick, backbeat, eighth hats", lib: "drums" });
       var P = typeof O.packs === "function" ? O.packs() : O.packs; (P || []).forEach(function (p) { if (p && p.name) out.push(p); });
       return out;
     }
