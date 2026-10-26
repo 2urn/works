@@ -433,6 +433,11 @@
       ".sin .hd button{width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);cursor:pointer;display:grid;place-items:center}" +
       ".sin .hd button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
       ".sin .hd button[aria-pressed=true]{background:var(--acc,#55b8c9);color:#04181c}" +
+      /* the Pack row, read at a glance (Dimitry, 26 Oct 00:39: "What does this mean? … Is it for preset default of what?"): the
+         switch is lit with a check when the sound plays and an empty ring when it is off; an off row dims its roles and timing (not Hear: you may listen before turning it on, review 61551ce-r-2);
+         the timing pill says what it is */
+      ".sin .off .seg,.sin .off .evr{opacity:.45}.sin .hd .tg[aria-pressed=false]{background:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}" +
+      ".sin .evr{display:flex;align-items:center;gap:10px}.sin .evl{font:600 9px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--ui-hi,255 255 255) / .5)}" +
       ".sin .ev{align-self:flex-start;height:28px;padding:0 10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:14px;background:none;color:rgb(var(--ui-hi,255 255 255) / .8);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
       /* THE BROWSER (Dimitry, 24 Oct: the explanation behind an i beside the heading, import and folder as round buttons at the top right, the library a browser shown or grouped by kind like the scenes, Water in it as itself) */
       ".sfPaneH.sin-h:not([hidden]){display:flex;align-items:center;gap:6px}.sin-ha{display:contents}.sin-hr{display:flex;gap:6px;margin-left:auto}" +
@@ -476,6 +481,7 @@
     var PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.2.7l10.3-6.4a.8.8 0 0 0 0-1.4L9.2 4.9A.8.8 0 0 0 8 5.6z" fill="currentColor" stroke="none"/></svg>';
     var BIN = '<svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg>';
     var ON = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    var OFFI = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/></svg>';   // off: an empty ring, never a check (26 Oct)
     /* a Pad sound's button: tap puts it on the stage, drag carries it there (PADO.drag hands the pointer to the pad) */
     function padBtn(x) { var n = padCall("count", x.id) || 0, c = padCall("color", x.id) || "#fff", on = (PADO && PADO.surface) || "the stage";
       return '<button type="button" class="ps" style="--c:' + esc(c) + '" aria-label="Put ' + esc(x.name) + " on " + esc(on) + (n ? " (" + n + " there)" : "") + '" title="Tap to put it on ' + esc(on) + ', or drag it there"><i></i>' + (n ? "on " + esc(on) + " · " + n : "put on " + esc(on)) + "</button>"; }
@@ -589,8 +595,8 @@
       }
       if (list.length && !pending) h += '<p class="sh">Your sounds</p>';
       list.forEach(function (x) {
-        h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="On or off">' + ON + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
-          (x.role === "beat" || x.role === "pattern" ? '<button type="button" class="ev" title="How often">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button>" : "") +
+        h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="' + (x.on ? "On: tap to silence it" : "Off: tap to play it") + '">' + (x.on ? ON : OFFI) + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
+          (x.role === "beat" || x.role === "pattern" ? '<div class="evr"><span class="evl" aria-hidden="true">How often</span><button type="button" class="ev" aria-label="How often ' + esc(x.name) + ' strikes: ' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + '. Tap for the next" title="How often: tap for the next">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button></div>" : "") +
           (x.role === "pad" && PADO ? padBtn(x) : "") + "</div>";
       });
       var PS = PADO && padCall("presets");
