@@ -168,10 +168,21 @@
     /* the switch's list (Dimitry, 26 Oct 05:50, iPad, drawn on it: "less vertical space and icon"): each ring's own icon
        before its name, rows 40 px, a finger's target (he asked for 40, 05:58), and touching (no gap); a ring may give the list a
        fuller name than its centre carries (define({menu})) */
-    ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);display:flex;flex-direction:column;gap:0;padding:3px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
-    ":where(.sr-list) button{display:flex;align-items:center;gap:9px;min-height:40px;padding:0 14px 0 10px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
+    /* THE WHEEL (Dimitry, 26 Oct 05:59-06:01: "a vertical scroll with magnifying glass … magnifying effect"): the switch's list
+       is a short vertical wheel, three rows showing, a lens across the middle; the row in the lens is magnified and the
+       others shrink and fade with their distance from it (the Dock's magnification, an iOS picker's wheel). Scroll it with
+       a finger, a trackpad or the arrow keys; a tap on any row switches. Rows 40 px (05:58). Web standards only: CSS
+       scroll snapping, and a scale worked out from each row's distance to the lens on scroll. */
+    ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);padding:0;overflow:hidden;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
+    ":where(.sr-list)::before{content:'';position:absolute;left:5px;right:5px;top:40px;height:40px;border-radius:12px;background:rgb(var(--ui-hi,255 255 255) / .07);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .26);pointer-events:none}" +
+    ":where(.sr-list) .sr-wh{position:relative;height:120px;box-sizing:border-box;padding:40px 0;overflow-y:auto;overscroll-behavior:contain;scroll-snap-type:y mandatory;scrollbar-width:none;touch-action:pan-y;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}" +
+    ":where(.sr-list) .sr-wh::-webkit-scrollbar{display:none}" +
+    ":where(.sr-list) button{display:flex;align-items:center;justify-content:center;width:100%;min-height:40px;height:40px;padding:0 26px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;white-space:nowrap;scroll-snap-align:center}" +
+    ":where(.sr-list) .sr-mg{display:inline-flex;align-items:center;gap:9px;transform-origin:center;will-change:transform}" +
     ":where(.sr-list) button svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}" +
-    ":where(.sr-list) button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
+    ":where(.sr-list) button[aria-checked=true]{color:var(--acc-tx,var(--acc,#55b8c9))}" +
+    ":where(.sr-list) button[aria-checked=true] .sr-mg::after{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;margin-left:1px}" +   /* the current ring: a dot as well as the colour (review 28e047e-r-2) */
+    ":where(.sr-list) button:focus-visible{outline:none}:where(.sr-list) button:focus-visible .sr-mg{text-decoration:underline;text-underline-offset:4px}" +
     ":where(.sr-dot){position:absolute;left:0;top:0;width:var(--sr-d,52px);height:var(--sr-d,52px);margin:calc(var(--sr-d,52px) / -2) 0 0 calc(var(--sr-d,52px) / -2);padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);cursor:pointer;pointer-events:auto;transform:translate(var(--x),var(--y));-webkit-tap-highlight-color:transparent}" +
     ":where(.sr-dot) svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
     /* (Dimitry, 25 Oct 09:19: tapping the dice or an arrow "nothing happens … there's no indicator that it has been pressed …
@@ -282,6 +293,12 @@
     try { if (c.back && c.back.focus && why !== "pick") c.back.focus({ preventScroll: true }); } catch (e) {}
     try { c.o.onClose && c.o.onClose(why); } catch (e) {}
   }
+  /* the wheel: bring a row into the lens; magnify by distance from it (1.3 in the lens, down to 0.78; fading to 0.3) */
+  function wheelTo(wh, b, smooth) { if (!wh || !b) return; var top = b.offsetTop - (wh.clientHeight - b.offsetHeight) / 2;
+    try { wh.scrollTo({ top: top, behavior: smooth && !calm() ? "smooth" : "auto" }); } catch (e) { wh.scrollTop = top; } }
+  function magnify(wh) { var r = wh.getBoundingClientRect(), c = r.top + r.height / 2;
+    Array.prototype.forEach.call(wh.children, function (b) { var q = b.getBoundingClientRect(), d = Math.abs((q.top + q.height / 2 - c) / (q.height || 40));
+      var m = b.firstChild; if (m && m.style) m.style.transform = "scale(" + Math.max(0.78, 1.3 - 0.3 * d).toFixed(3) + ")"; b.style.opacity = Math.max(0.3, 1 - 0.45 * d).toFixed(2); }); }
   function open(o) {
     o = o || {};
     /* PINNED STAYS PUT (Dimitry, 25 Oct 10:02: a double-tap elsewhere "makes a new ring there and the old one disappears, which
@@ -337,10 +354,14 @@
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].menu || RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
         L = document.createElement("div"); L.className = "sr-list"; L.setAttribute("role", "menu"); L.setAttribute("aria-label", "Rings");
-        rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); if (RINGS[id].icon) b.innerHTML = RINGS[id].icon; var bt = document.createElement("span"); bt.textContent = RINGS[id].menu || RINGS[id].title; b.appendChild(bt);
+        var wh = document.createElement("div"); wh.className = "sr-wh"; L.appendChild(wh);
+        rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); var mg = document.createElement("span"); mg.className = "sr-mg"; if (RINGS[id].icon) mg.innerHTML = RINGS[id].icon; var bt = document.createElement("span"); bt.textContent = RINGS[id].menu || RINGS[id].title; mg.appendChild(bt); b.appendChild(mg);
           b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { _own: true, ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
-            remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; L.appendChild(b); });
-        ring.appendChild(L); var f = L.querySelector("[aria-checked=true]") || L.firstChild; try { f.focus({ preventScroll: true }); } catch (er) {} };
+            remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; b.addEventListener("focus", function () { var kv = false; try { kv = b.matches(":focus-visible"); } catch (er) {} if (kv) wheelTo(wh, b, true); });   /* keys only: a mouse focuses on press, and sliding the row then lost its click (review 28e047e-r-1) */ wh.appendChild(b); });
+        ring.appendChild(L); var f = wh.querySelector("[aria-checked=true]") || wh.firstChild;
+        var mr = 0; wh.addEventListener("scroll", function () { if (!mr) mr = requestAnimationFrame(function () { mr = 0; magnify(wh); }); }, { passive: true });
+        var wmax = 0; Array.prototype.forEach.call(wh.children, function (x) { wmax = Math.max(wmax, x.firstChild.offsetWidth); }); wh.style.minWidth = Math.ceil(wmax * 1.3 + 28) + "px";   /* room for a magnified name (review 28e047e-r-3) */
+        wheelTo(wh, f, false); magnify(wh); try { f.focus({ preventScroll: true }); } catch (er) {} };
     }
     var pin = null;
     if (o.pin !== false) {
@@ -502,7 +523,10 @@
     ["pointerup", "click", "touchstart", "touchend"].forEach(function (t) { veil.addEventListener(t, stop, { passive: false }); });
     var key = function (e) {
       if (!cur) return; if (cur.pinned && !ring.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); close("esc"); } return; }   // pinned, the app keeps its keys but Esc
-      var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} } return; }
+      var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} }
+        else if (/^(ArrowUp|ArrowDown|Home|End)$/.test(e.key)) { stop(e); var bs = Array.prototype.slice.call(L.querySelectorAll("button")), k = bs.indexOf(document.activeElement);
+          k = e.key === "Home" ? 0 : e.key === "End" ? bs.length - 1 : Math.max(0, Math.min(bs.length - 1, k + (e.key === "ArrowDown" ? 1 : -1))); try { bs[k].focus({ preventScroll: true }); } catch (er) {} }
+        return; }
       if (document.activeElement && document.activeElement.classList && document.activeElement.classList.contains("sr-dial")) return;   // the dial keeps its keys
       var ae = document.activeElement; if (ae && ae.type === "range" && ring.contains(ae)) { if (e.key === "Escape") { stop(e); var okb = hub.querySelector(".sr-val + button"); if (okb) okb.click(); } return; }   // the slider keeps its arrows
       var i = dots.indexOf(document.activeElement);
