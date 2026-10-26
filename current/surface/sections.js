@@ -44,6 +44,13 @@
                                         //   manual). icon: a name in ICO (link, out, print); when: () => bool, shown only if true
        always: '#guide',                // optional: sections that can never be hidden
        auto: { install: () => bool }    // optional: sections hidden by the tool itself while the test holds
+       groups: [{ name: 'Start', icon: '<svg…>', ids: ['guide','paths'] }, …], // optional (26 Oct): heading rows over the column. Each
+                                        //   sits above the first shown section of its group, wherever the person has put it;
+                                        //   a section in no group has no heading. Headings never move or fold.
+       order: ['guide','pack','paths'],  // optional: the shipped order by id (sections built in script can be ordered too);
+                                        //   ids it leaves out follow in their page order
+       orderVersion: 2,                 // optional: bump it when the shipped order changes; a saved order from an older
+                                        //   version is set aside once (folds, keeps and hides are kept)
 
      })
    API: SurfaceSections.open(id) opens one section (respecting focus, and showing it if hidden) and returns it.
@@ -68,6 +75,13 @@
 .sfs-bar button:focus-visible,.sfs-grip:focus-visible{outline:2px solid var(--accent,#55b8c9);outline-offset:2px}
 @media (pointer:coarse){.sfs-bar button{width:44px;height:44px}}
 .sfs-root>.sfs-sec{position:relative;border-top:2px solid var(--fg,#eef1f2)}
+/* GROUPS (Dimitry, 26 Oct 06:13-06:42: "maybe groupings"; "only 2 levels"; "there are no gaps … the exact same rhythm.
+   It's the labels that make the difference and the icons"): a group heading is a row of the column's own step (14 px, the
+   2 px rule, 44 px), its icon flush left and its name in mono capitals; the sections in a group are one step in (their icon
+   under the heading's name). Top-level sections stay flush left. Not a control: no tap, no focus */
+.sfs-root>.sfs-head{display:flex;align-items:center;gap:10px;box-sizing:border-box;height:46px;margin:14px 0 0;padding:0;border-top:2px solid var(--fg,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--fg,#eef1f2);pointer-events:none;-webkit-user-select:none;user-select:none}
+.sfs-root>.sfs-head svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.sfs-root>.sfs-sec.sfs-sub>.cx-grpbtn{padding-left:26px}
 .sfs-root>.sfs-sec>.cx-grpbtn{padding-right:88px}.sfs-root>.sfs-sec.sfs-can>.cx-grpbtn{padding-right:128px}
 .sfs-gone{display:none!important}
 .sfs-hide{position:absolute;top:0;right:74px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted,#8a9396);cursor:pointer;opacity:.7;-webkit-tap-highlight-color:transparent}
@@ -123,7 +137,8 @@
     const secs = () => [...root.children].filter(c => c.matches(o.section)).concat(extra());
     const isFixed = s => s.parentNode !== root || !!(o.fixed && s.matches(o.fixed));
     const movable = () => secs().filter(s => !isFixed(s));
-    const DEFAULT = movable().map(s => s.id);
+    const DEFAULT = (() => { const dom = movable().map(s => s.id), want = Array.isArray(o.order) ? o.order.filter(id => dom.indexOf(id) >= 0) : [];
+      return want.concat(dom.filter(id => want.indexOf(id) < 0)); })();   // o.order: the shipped order by id, for sections a tool builds in script
     let st = load(KEY);
     root.classList.add('sfs-root');
     const live = document.createElement('div'); live.className = 'sfs-live'; live.setAttribute('aria-live', 'polite'); root.appendChild(live);
@@ -138,10 +153,25 @@
       let ref = anchor ? anchor.nextSibling : parent.firstChild;
       for (const id of want) { const s = byId[id]; if (s !== ref) parent.insertBefore(s, ref); else ref = ref.nextSibling; ref = s.nextSibling; }
     }
+    if (Array.isArray(o.order)) applyOrder(DEFAULT);
+    if (o.orderVersion != null && st.ov !== o.orderVersion) { delete st.order; delete st.grp; st.ov = o.orderVersion; save(KEY, st); }   // a new shipped order wins once
     if (Array.isArray(st.order)) applyOrder(st.order);
 
+    /* the group headings. A section belongs to the group it was shipped in, until the person moves it: then it joins the
+       group it lands in (st.grp, kept on the device), so a group always stays in one piece and its heading sits above it */
+    const HEADS = (o.groups || []).map(g => { const h = document.createElement('div'); h.className = 'sfs-head'; h.setAttribute('role', 'heading'); h.setAttribute('aria-level', '2'); h.innerHTML = (g.icon || '') + '<span></span>'; h.lastChild.textContent = g.name; return { g: g, h: h }; });
+    const shipped = id => { const x = HEADS.find(x => x.g.ids.indexOf(id) >= 0); return x ? x.g.name : null; };
+    const groupOf = id => (st.grp && st.grp[id]) || shipped(id);
+    function regroup() { if (!HEADS.length) return; const ms = secs().filter(c => c.parentNode === root);
+      ms.forEach((c, i) => { const me = groupOf(c.id); if (!me) return; const pv = ms[i - 1] && groupOf(ms[i - 1].id), nx = ms[i + 1] && groupOf(ms[i + 1].id);
+        if (me !== pv && me !== nx && (pv || nx)) { const to = pv || nx; st.grp = st.grp || {}; if (to === shipped(c.id)) delete st.grp[c.id]; else st.grp[c.id] = to; } }); }
+    function placeHeads() { if (!HEADS.length) return;
+      for (const c of secs()) c.classList.toggle('sfs-sub', !!groupOf(c.id));   // one step in, under its heading
+      const shown = c => !c.classList.contains('sfs-gone') && !c.hidden;
+      for (const x of HEADS) { const first = [...root.children].find(c => c.matches(o.section) && groupOf(c.id) === x.g.name && shown(c));
+        if (first) { if (first.previousElementSibling !== x.h) root.insertBefore(x.h, first); } else if (x.h.parentNode) x.h.remove(); } }
     const setShut = (s, shut) => { s.classList.toggle('cx-shut', shut); const b = s.querySelector(':scope>.cx-grpbtn'); if (b) b.setAttribute('aria-expanded', String(!shut)); };
-    const persist = () => { st.order = movable().map(s => s.id); st.shut = secs().filter(s => s.classList.contains('cx-shut')).map(s => s.id); save(KEY, st); sync(); };
+    const persist = () => { regroup(); st.order = movable().map(s => s.id); st.shut = secs().filter(s => s.classList.contains('cx-shut')).map(s => s.id); save(KEY, st); sync(); };
     function hideSec(id) { const s = document.getElementById(id); if (!s || !canHide(s)) return false; st.hidden = (st.hidden || []).filter(x => x !== id).concat(id); persist(); paintHidden(); say(nameOf(s) + ' hidden. Bring it back in Settings'); return true; }
     function showSec(id) { const s = document.getElementById(id); if (!s || secs().indexOf(s) < 0) return false; const was = isHidden(s); st.hidden = (st.hidden || []).filter(x => x !== id); shownAuto[id] = 1; persist(); paintHidden(); if (was) say(nameOf(s) + ' shown'); return was; }
     function hiddenList() { return secs().filter(s => canHide(s) && isHidden(s)).map(s => ({ id: s.id, name: nameOf(s), auto: (st.hidden || []).indexOf(s.id) < 0 })); }
@@ -159,7 +189,7 @@
     const shownAuto = {};
     const autoOn = id => { const f = o.auto && o.auto[id]; try { return !!(f && f() && !shownAuto[id]); } catch (e) { return false; } };
     const isHidden = s => (st.hidden || []).indexOf(s.id) >= 0 || autoOn(s.id);
-    const paintHidden = () => { for (const s of secs()) s.classList.toggle('sfs-gone', canHide(s) && isHidden(s)); HL.forEach(f => f()); };
+    const paintHidden = () => { for (const s of secs()) s.classList.toggle('sfs-gone', canHide(s) && isHidden(s)); HL.forEach(f => f()); placeHeads(); };
     const HL = [];
 
     /* the toolbar */
@@ -190,7 +220,7 @@
     }, 'one');
     const bBrief = mk('less text', 'Less text: hide the explanations, keep the tools', () => { st.brief = !st.brief; persist(); say(st.brief ? 'Showing the tools only' : 'Showing the explanations'); }, 'why');
     for (const l of (o.links || [])) { if (l.when && !l.when()) continue; mk(l.label, l.aria || l.label, l.run, l.icon || 'link'); }   // the tool's own jumps (e.g. licenses)
-    const bReset = mk('reset order', 'Put the sections back in their first order', () => { applyOrder(DEFAULT); persist(); say('Order reset'); }, 'reset');
+    const bReset = mk('reset order', 'Put the sections back in their first order', () => { delete st.grp; applyOrder(DEFAULT); persist(); say('Order reset'); }, 'reset');
     const first = movable()[0] || secs()[0];
     root.insertBefore(bar, first);
     function sync() {
@@ -200,6 +230,7 @@
       bFocus.setAttribute('aria-pressed', String(!!st.focus)); bBrief.setAttribute('aria-pressed', String(!!st.brief));
       (briefScope || root).classList.toggle('sfs-brief', !!st.brief);
       bReset.hidden = movable().map(s => s.id).join() === DEFAULT.join();
+      placeHeads();
     }
 
     /* folding: the tool's own handler runs on the button first; this follows it */
@@ -243,7 +274,7 @@
         s.classList.add('sfs-can');
         const h = document.createElement('button'); h.type = 'button'; h.className = 'sfs-hide'; h.innerHTML = EYE_OFF;
         h.setAttribute('aria-label', 'Hide ' + nameOf(s) + '. Bring it back in Settings'); h.title = 'Hide ' + nameOf(s);
-        h.onclick = () => { const next = s.nextElementSibling; hideSec(s.id); const f = next && next.querySelector && next.querySelector(':scope>.cx-grpbtn'); if (f) f.focus({ preventScroll: true }); };
+        h.onclick = () => { let next = s.nextElementSibling; while (next && next.classList && next.classList.contains('sfs-head')) next = next.nextElementSibling;   /* past a group heading (review cab9b9a-r-1) */ hideSec(s.id); const f = next && next.querySelector && next.querySelector(':scope>.cx-grpbtn'); if (f) f.focus({ preventScroll: true }); };
         s.insertBefore(h, s.querySelector(':scope>.sfs-keep') || null);
       }
     }
@@ -257,10 +288,18 @@
       for (const m of ms) for (const n of m.addedNodes) {
         if (n.nodeType !== 1 || !n.id || wired.has(n) || !n.matches(o.section)) continue;
         any = true; wire(n);
-        if (!isFixed(n) && DEFAULT.indexOf(n.id) < 0) { const ids = movable().map(x => x.id), i = ids.indexOf(n.id); const after = ids.slice(0, i).reverse().find(id => DEFAULT.indexOf(id) >= 0); DEFAULT.splice(after ? DEFAULT.indexOf(after) + 1 : 0, 0, n.id); }
+        const oi = Array.isArray(o.order) ? o.order.indexOf(n.id) : -1;
+        if (!isFixed(n) && DEFAULT.indexOf(n.id) < 0 && oi >= 0) { const before = o.order.slice(0, oi).reverse().find(id => DEFAULT.indexOf(id) >= 0); DEFAULT.splice(before ? DEFAULT.indexOf(before) + 1 : 0, 0, n.id); }   // a late section the tool placed in o.order goes where it said
+        else if (!isFixed(n) && DEFAULT.indexOf(n.id) < 0) { const ids = movable().map(x => x.id), i = ids.indexOf(n.id); const after = ids.slice(0, i).reverse().find(id => DEFAULT.indexOf(id) >= 0); DEFAULT.splice(after ? DEFAULT.indexOf(after) + 1 : 0, 0, n.id); }
         const seen = Array.isArray(st.order) && st.order.indexOf(n.id) >= 0;
         if (seen) { applyOrder(st.order); if (Array.isArray(st.shut)) setShut(n, st.shut.indexOf(n.id) >= 0); }
-        else if (st.focus || (o.start && o.start.folded && !Array.isArray(st.shut)) || secs().filter(x => x !== n && !kept(x)).every(x => x.classList.contains('cx-shut'))) setShut(n, true);   // a newcomer folds with the rest
+        else {
+          if (oi >= 0 && !isFixed(n)) {   // not in a saved order: next to its shipped neighbour in whatever order is in use
+            if (!Array.isArray(st.order)) applyOrder(DEFAULT);
+            else { const ids = st.order.slice(), nb = o.order.slice(0, oi).reverse().find(id => ids.indexOf(id) >= 0); ids.splice(nb ? ids.indexOf(nb) + 1 : 0, 0, n.id); applyOrder(ids); } }
+          if (Array.isArray(st.shut) && st.shut.indexOf(n.id) >= 0) setShut(n, true);   // its saved fold, kept through an order reset (review 5239a76-r-1)
+          else if (st.focus || (o.start && o.start.folded && !Array.isArray(st.shut)) || secs().filter(x => x !== n && !kept(x)).every(x => x.classList.contains('cx-shut'))) setShut(n, true);   // a newcomer folds with the rest
+        }
         if (kept(n)) setShut(n, false);
       }
       if (any) { paintHidden(); sync(); }
