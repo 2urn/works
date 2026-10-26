@@ -23,7 +23,7 @@
    middle carries a grip (drag to move the ring) and, with more than one ring, a switch that lists them. The last one
    used is remembered (per tool key) and opens next time.
 
-     SurfaceRing.define(id, { title, items: () => [ … ], power, level })   // items as below, built fresh each time it opens
+     SurfaceRing.define(id, { title, menu, items: () => [ … ], power, level })   // menu: its name in the switch's list (else title)   // items as below, built fresh each time it opens
      var R = SurfaceRing.open({ x, y,                                // client px: where it centres
        rings: ['touch', 'play'], ring: 'touch', key: 'current',      // defined rings to switch between; which; where the last is kept
        hub: 'label' | 'mark',                                        // the name as a word, or as the ring's mark (aria keeps the name)
@@ -165,8 +165,12 @@
     ".sr-ring .sr-dot.sr-tap{transition:transform .14s " + POP + ";transform:translate(var(--x),var(--y)) scale(1.18)}" +
     ":where(.sr-hub) .sr-sw svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) button:focus-visible{outline:2px solid #fff;outline-offset:1px}" +
-    ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;padding:4px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
-    ":where(.sr-list) button{min-height:40px;padding:0 16px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
+    /* the switch's list (Dimitry, 26 Oct 05:50, iPad, drawn on it: "less vertical space and icon"): each ring's own icon
+       before its name, rows 34 px and touching (no gap, so no dead space between targets); a ring may give the list a
+       fuller name than its centre carries (define({menu})) */
+    ":where(.sr-list){position:absolute;left:0;top:38px;transform:translateX(-50%);display:flex;flex-direction:column;gap:0;padding:3px;border-radius:16px;background:rgb(var(--ui-g,12 14 16) / .94);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14),0 10px 30px rgb(0 0 0 / .4);pointer-events:auto;z-index:2}" +
+    ":where(.sr-list) button{display:flex;align-items:center;gap:9px;min-height:34px;padding:0 14px 0 10px;border:0;border-radius:12px;background:none;color:var(--ui-ink,#eef1f2);font:600 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;text-align:left;cursor:pointer;white-space:nowrap}" +
+    ":where(.sr-list) button svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-list) button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}" +
     ":where(.sr-dot){position:absolute;left:0;top:0;width:var(--sr-d,52px);height:var(--sr-d,52px);margin:calc(var(--sr-d,52px) / -2) 0 0 calc(var(--sr-d,52px) / -2);padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);cursor:pointer;pointer-events:auto;transform:translate(var(--x),var(--y));-webkit-tap-highlight-color:transparent}" +
     ":where(.sr-dot) svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
@@ -330,10 +334,10 @@
       name.addEventListener("click", nt); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nt(e); } }); }   // the bar button the ring came from: its icon, its word small under it
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
-      var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
+      var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].menu || RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
         L = document.createElement("div"); L.className = "sr-list"; L.setAttribute("role", "menu"); L.setAttribute("aria-label", "Rings");
-        rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); b.textContent = RINGS[id].title;
+        rings.forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", String(id === rid)); if (RINGS[id].icon) b.innerHTML = RINGS[id].icon; var bt = document.createElement("span"); bt.textContent = RINGS[id].menu || RINGS[id].title; b.appendChild(bt);
           b.onclick = function (ev) { ev.stopPropagation(); if (id === rid) { L.remove(); return; } var oo = Object.assign({}, o, { _own: true, ring: id, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!(cur && cur.pinned) });
             remember(o.key, id); try { o.onSwitch && o.onSwitch(id); } catch (er) {} open(oo); }; L.appendChild(b); });
         ring.appendChild(L); var f = L.querySelector("[aria-checked=true]") || L.firstChild; try { f.focus({ preventScroll: true }); } catch (er) {} };
