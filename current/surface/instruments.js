@@ -682,7 +682,15 @@
     }
     /* set(id, {on}): a tool's own shelf switches a sound (Current's lower drawer lists pack sounds by when they play, 26 Oct) */
     function setSound(id, p) { var x = list.filter(function (y) { return y.id === id; })[0]; if (!x || !p) return false; if ("on" in p) x.on = !!p.on; resetBed(); save(); render(); return true; }
-    return { set: setSound, open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet, sound: sound, ensure: ensureSounds, render: function () { render(); },
+    /* THE LIBRARY FROM OUTSIDE (Dimitry, 26 Oct 22:43: switching water and glass from the shelf): a tool can list what the
+       library offers ({id, name, kind, here, role}) and take one, which opens the panel on that pack's add screen */
+    function libPub() { return libItems().map(function (p) { var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name; });
+      return { id: p.id, name: p.name, kind: p.kind, here: !!here, role: p.lib === "drums" ? "beat" : p.lib === "sounds" ? "touch" : (p.role || null) }; }); }
+    function libTake(id) { var p = libItems().filter(function (q) { return q.id === id; })[0]; if (!p) return false; open(); take(p, null); try { render(); } catch (e) {} return true; }
+    /* remove(id): a tool takes a sound out of the list (26 Oct 23:04: sounds added from a library the public build no
+       longer offers stay in a visitor's own list; the tool removes them) */
+    function removeSound(id) { var n = list.length; list = list.filter(function (y) { return y.id !== id; }); if (list.length === n) return false; resetBed(); save(); render(); try { gcSamples(); } catch (e) {} return true; }
+    return { set: setSound, open: open, close: close, import: importFile, list: pub, add: add, library: libPub, take: libTake, remove: removeSound, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet, sound: sound, ensure: ensureSounds, render: function () { render(); },
       playing: function () { return LIVE.length > 0 || bed.h.length > 0; },
       samples: function () { var k = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (s) { k[s] = !!SurfaceVoice.sample(s); }); }); return k; } };
   }
