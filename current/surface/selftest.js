@@ -139,6 +139,8 @@
   }
   function report() {
     var lines = [(O.tool || "Tool") + " self-test", "version " + (O.version || "?") + (window.__BUILD__ ? " · build " + window.__BUILD__ : ""), location.href.split("#")[0], navigator.userAgent, ""];
+    /* Zoom (27 Oct 2026): a zoom a browser lets through shows in the report (kit nozoom.js) */
+    try { if (window.SurfaceNoZoom) { var nz = SurfaceNoZoom.state(); lines.push("Zoom: scale " + nz.scale + " · double taps held " + nz.guarded + " · zooms undone " + nz.undone + " · touch-action " + (nz.css || "?")); } } catch (e) {}
     /* Display (24 Oct 2026): what this device saw, so a report from any device says how big things were there */
     try { lines.push("Display: " + (window.SurfaceSize ? SurfaceSize.line() : "window " + innerWidth + "×" + innerHeight + " · screen " + screen.width + "×" + screen.height + " · pixel ratio " + (Math.round(devicePixelRatio * 100) / 100) + " · " + (matchMedia("(pointer:coarse)").matches ? "finger" : "mouse")), ""); } catch (e) {}
     results.forEach(function (r) { lines.push((r.ok ? "ok   " : "FAIL ") + r.name + (r.why ? ": " + r.why : "")); });

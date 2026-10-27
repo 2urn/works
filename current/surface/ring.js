@@ -320,13 +320,23 @@
     if (cur && cur.pinned && !o._own) { flashPin(); return { close: function () { close("api"); }, el: cur.ring, ring: cur.id }; }
     css(); close("again");
     var PAR = o._parent || null;   /* DOTS THAT ARE RINGS: reached through a dot, this ring goes back up instead of switching */
+    /* THE LAST RING, EVEN A DOT'S (Dimitry, 27 Oct 07:51: a double tap "should return to the last menu that it was on ... it
+       shouldn't be the sound menu if the last thing you were working on was the image menu unless you directly invoked
+       that menu"): a ring reached through a dot is remembered as parent>dot, and opening with no ring named goes straight
+       back into it, its return arrow to the parent; if that dot is gone or no longer a door (the picture removed), the parent */
+    if (!PAR && !o.ring && !o._dive) { var L = last(o.key); if (L && L.indexOf(">") > 0) { var pr = L.split(">")[0], via = L.split(">")[1];
+      if ((o.rings || []).indexOf(pr) >= 0 && RINGS[pr]) { var its = []; try { its = (typeof RINGS[pr].items === "function" ? RINGS[pr].items() : RINGS[pr].items || []).filter(Boolean); } catch (er) {}
+        var dot = its.filter(function (x) { return x.id === via && x.ring && !(x.kind === "check" && !x.on); })[0],   /* a check dot that is off (the camera removed) reopens its parent */ po = Object.assign({}, o, { ring: pr, _dive: true });
+        if (dot) { var sb = typeof dot.ring === "string" ? { ring: dot.ring } : { ring: null, title: dot.ring.title || dot.label, icon: dot.ring.icon || dot.icon, items: dot.ring.items };
+          return open(Object.assign({ key: o.key, hub: o.hub, pin: o.pin, onClose: o.onClose, onPin: o.onPin, dot: o.dot }, sb, { x: o.x, y: o.y, pinned: o.pinned, center: "ball", _parent: { o: po, title: RINGS[pr].menu || RINGS[pr].title || "" } })); }
+        return open(po); } } }
     var rings = PAR ? [] : (o.rings || []).filter(function (id) { return RINGS[id]; });
     var rid = o.ring && RINGS[o.ring] ? o.ring : rings.length ? (rings.indexOf(last(o.key)) >= 0 ? last(o.key) : rings[0]) : null;
     var def = rid ? RINGS[rid] : { title: o.title, icon: o.icon, center: o.center, items: function () { return (typeof o.items === "function" ? o.items() : o.items) || []; } };
     var items = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean), n = items.length; if (!n) return null;
     var upIt = null; items = items.filter(function (it) { if (!upIt && it.at === "top" && it.kind === "go") { upIt = it; return false; } return true; }); n = items.length; if (!n && !upIt) return null;
     var back = PAR ? function () { var bx = parseFloat(ring.style.left), by = parseFloat(ring.style.top), pn = !!(cur && cur.pinned);
-      open(Object.assign({}, PAR.o, { _own: true, x: bx, y: by, pinned: pn })); } : null;
+      open(Object.assign({}, PAR.o, { _own: true, _dive: true, x: bx, y: by, pinned: pn })); } : null;   /* _dive: back lands on the parent, never the remembered dot's ring again (review fe08e54684 r-1) */
     if (PAR) upIt = { kind: "go", label: "back", aria: "Back to the " + (PAR.title || "first") + " ring", _back: true, pick: back };
     items = place(items); n = items.length;
     if (rid && !PAR) remember(o.key, rid);
@@ -457,8 +467,9 @@
     function dive(b, I) {
       var x0 = parseFloat(ring.style.left), y0 = parseFloat(ring.style.top), pn = !!(cur && cur.pinned);
       var sub = typeof I.ring === "string" ? { ring: I.ring } : { ring: null, title: I.ring.title || I.label, icon: I.ring.icon || I.icon, items: I.ring.items };
+      if (rid && I.id && !PAR) remember(o.key, rid + ">" + I.id);   /* only a top ring's dot (r-2) */   /* the next double tap comes back here (Dimitry, 27 Oct 07:51) */
       var go = function () { open(Object.assign({ key: o.key, hub: o.hub, pin: o.pin, onClose: o.onClose, onPin: o.onPin, dot: o.dot }, sub,
-        { _own: true, x: x0, y: y0, pinned: pn, center: "ball", _parent: { o: o, title: def.menu || def.title || "" } })); };
+        { _own: true, x: x0, y: y0, pinned: pn, center: "ball", _parent: { o: rid ? Object.assign({}, o, { ring: rid }) : o, title: def.menu || def.title || "" } })); };   /* the parent named: back reopens exactly the ring it came from (review 7299ef1f9e r-1) */
       if (calm()) { go(); return; }
       ring.classList.remove("pop"); void ring.offsetWidth; ring.classList.add("sr-diving");
       var k = 0; dots.forEach(function (d) { if (d !== b) { d.style.setProperty("--fd", (k++ * 30) + "ms"); d.classList.add("sr-fold2"); } });
