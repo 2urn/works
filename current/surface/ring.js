@@ -42,6 +42,7 @@
        onClose: (why) => {}, onSwitch: (id) => {}, onPin: (on) => {} })
      items: [{ id, icon: '<svg…>', label: 'push', aria: 'Push: …', on: bool, kind: 'radio'|'check'|'go', stay: bool, pick: () => {},
               live: bool,                                            // playing: its edge pulses (THE PULSE)
+              level: () => 0..1,                                     // this dot's own level: only it pulses with it (a ring's level drives them all)
               more: { on: bool, set: (v) => {}, aria } }]            // a second page on a radio dot (TWO PAGES)
      a value: { id, kind: 'value', icon, label, aria, get: () => n, set: (n) => {}, min: 0, max: 100, step: 1, fmt: n => '50%' }
        (Dimitry, 24 Oct 20:15: "where you drag and a number changes, that number could happen inside the button that you
@@ -162,7 +163,7 @@
     /* (Dimitry, 25 Oct 08:51: "it's not actually pulsing to the sound, so it could be a lot thinner … it needs to pump in
        and out with the sound, or change opacity with the sound, or both"): with a level, the edge is a thin line at rest
        and swells and brightens with every sound, so a beat reads as a beat without a word */
-    ".sr-ring.sr-lv .sr-dot.sr-live::after{animation:none;transform:scale(calc(1 + var(--lv,0) * .34));opacity:calc(.3 + var(--lv,0) * .7 - var(--lv,0) * var(--lv,0) * .5)}" +
+    ".sr-ring.sr-lv .sr-dot.sr-live::after,.sr-ring .sr-dot.sr-live.sr-lvd::after{animation:none;transform:scale(calc(1 + var(--lv,0) * .34));opacity:calc(.3 + var(--lv,0) * .7 - var(--lv,0) * var(--lv,0) * .5)}" +
     /* LABELS: they fade after the opening (learn), stay (always), or wait for a finger (never) */
     ".sr-ring.sr-labfade .sr-dot .sr-lab{animation:srHide .5s ease both}@keyframes srHide{from{opacity:1}to{opacity:0}}" +
     ".sr-ring.sr-labfade .sr-dot:hover .sr-lab,.sr-ring.sr-labfade .sr-dot:focus-visible .sr-lab,.sr-ring.sr-labfade .sr-dot:active .sr-lab,.sr-ring.sr-labfade .sr-dot.sr-busy .sr-lab{animation:none;opacity:1}" +
@@ -482,6 +483,8 @@
       if (it.icon && b._ic !== it.icon) { if (b._ic != null) { var sv = b.querySelector("svg:not(.sr-pg svg)"); if (sv) { var t = document.createElement("span"); t.innerHTML = it.icon; if (t.firstElementChild) sv.replaceWith(t.firstElementChild); } } b._ic = it.icon; }
       if (it.aria && !it.more) b.setAttribute("aria-label", it.aria);
       var p2 = !!(it.more && it.more.on); b.classList.toggle("sr-p2", p2); b.classList.toggle("sr-live", !!it.live || (p2 && !!it.on));
+      /* a dot's own level (review 7fb3afe3e2 r-1: the Input ring's mic level made the camera's dot pump with the mic) */
+      if (typeof it.level === "function" && !b._lvt) { b.classList.add("sr-lvd"); var dl = 0; b._lvt = function () { if (!b.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +it.level() || 0)); } catch (e) {} dl += (v - dl) * (v > dl ? .6 : .18); b.style.setProperty("--lv", dl.toFixed(3)); requestAnimationFrame(b._lvt); }; requestAnimationFrame(b._lvt); }
       if (it.more) b.setAttribute("aria-label", (it.aria || it.label || it.id) + (it.on ? (p2 ? ". Its second page is on: " : ". Tap again for its second page: ") + (it.more.aria || "") : ""));
     }
     function refresh() {

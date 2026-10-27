@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027120527";window.__VERSION__="0.33.75";window.__NOTES__=[{"v":"0.33.75","date":"27 Oct 2026","items":[{"kind":"fix","text":"a double tap (to open the ring) never zooms the screen, on the iPad too; if a zoom slips in, it goes back by itself"}]}]</script>
+<script>window.__BUILD__="20261027123015";window.__VERSION__="0.33.78";window.__NOTES__=[{"v":"0.33.78","date":"27 Oct 2026","items":[{"kind":"fix","text":"the camera can be turned off again: its ring has an off dot, bottom left, as the mic's has, and its flip says \"tap again to switch\""},{"kind":"change","text":"show and drive are smooth percentage dials on the Input ring, drag across the dot for any amount"},{"kind":"change","text":"a live mic is a small microphone on the sound button that fills with what it hears, and the Input ring's mic dot pulses with it"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,12 +66,12 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027120527"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027120527">
+<script src="claude-web.js?v=20261027123015"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027123015">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
-<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.verUpd{margin-left:6px;min-height:32px;padding:0 14px;border:0;border-radius:999px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 12px/1 var(--sans,system-ui);cursor:pointer}#verNew{display:flex;align-items:center;flex-wrap:wrap;gap:4px}#verNew[hidden]{display:none}
+<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.verUpd{margin-left:6px;min-height:32px;min-width:6.6em;padding:0 14px;border:0;border-radius:999px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:600 12px/1 var(--sans,system-ui);cursor:pointer}#verNew{display:flex;align-items:center;flex-wrap:wrap;gap:4px}#verNew[hidden]{display:none}
 #plItems .plInHead .plInAll{display:flex;align-items:center;gap:10px;cursor:pointer}#plItems .plInHead .plInAll input{margin:0;flex:none}
 /* THE TAP LABEL NEVER MOVES THE SHELF (Dimitry, 27 Oct 00:18: "TAP" becoming "TAP · 140" made the whole bar a few pixels
    wider): the label is always as wide as its widest form, a hidden "tap · 888" in the same grid cell, digits all one width */
@@ -169,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027120527"></script>
-<script src="surface/nozoom.js?v=20261027120527"></script><script src="surface/selftest.js?v=20261027120527"></script><script src="surface/size.js?v=20261027120527"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027120527"></script>
-<script src="surface/auto.js?v=20261027120527"></script>
-<script src="surface/toolpath.js?v=20261027120527"></script>
-<script src="surface/capture.js?v=20261027120527"></script>
-<script src="surface/pop.js?v=20261027120527"></script>
-<script src="surface/hints.js?v=20261027120527"></script>
-<script src="surface/paths.js?v=20261027120527"></script>
-<script src="surface/keys.js?v=20261027120527"></script>
-<script src="surface/reset.js?v=20261027120527"></script>
-<script src="surface/files.js?v=20261027120527"></script>
-<script src="surface/tabs.js?v=20261027120527"></script>
-<script src="surface/running.js?v=20261027120527"></script>
-<script src="surface/trim.js?v=20261027120527"></script>
-<script src="surface/audiowake.js?v=20261027120527"></script>
-<script src="surface/output.js?v=20261027120527"></script>
-<script src="surface/board.js?v=20261027120527"></script>
-<script src="surface/voice.js?v=20261027120527"></script>
-<script src="surface/voicelib.js?v=20261027120527"></script>
-<script src="surface/instruments.js?v=20261027120527"></script>
-<script src="surface/listview.js?v=20261027120527"></script>
-<script src="surface/beads.js?v=20261027120527"></script>
-<script src="surface/strip.js?v=20261027120527"></script>
-<script src="surface/sheetnav.js?v=20261027120527"></script>
-<script src="surface/twofinger.js?v=20261027120527"></script>
-<script src="surface/ring.js?v=20261027120527"></script>
-<script src="surface/shortlink.js?v=20261027120527"></script>
-<script src="surface/undo.js?v=20261027120527"></script>
-<script src="surface/pro.js?v=20261027120527"></script>
-<script src="surface/fresh.js?v=20261027120527"></script>
-<script src="surface/go.js?v=20261027120527"></script>
-<script src="surface/notice.js?v=20261027120527"></script>
-<script src="surface/perform.js?v=20261027120527"></script>
+<script src="vendor/opentype.min.js?v=20261027123015"></script>
+<script src="surface/nozoom.js?v=20261027123015"></script><script src="surface/steady.js?v=20261027123015"></script><script src="surface/selftest.js?v=20261027123015"></script><script src="surface/size.js?v=20261027123015"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027123015"></script>
+<script src="surface/auto.js?v=20261027123015"></script>
+<script src="surface/toolpath.js?v=20261027123015"></script>
+<script src="surface/capture.js?v=20261027123015"></script>
+<script src="surface/pop.js?v=20261027123015"></script>
+<script src="surface/hints.js?v=20261027123015"></script>
+<script src="surface/paths.js?v=20261027123015"></script>
+<script src="surface/keys.js?v=20261027123015"></script>
+<script src="surface/reset.js?v=20261027123015"></script>
+<script src="surface/files.js?v=20261027123015"></script>
+<script src="surface/tabs.js?v=20261027123015"></script>
+<script src="surface/running.js?v=20261027123015"></script>
+<script src="surface/trim.js?v=20261027123015"></script>
+<script src="surface/audiowake.js?v=20261027123015"></script>
+<script src="surface/output.js?v=20261027123015"></script>
+<script src="surface/board.js?v=20261027123015"></script>
+<script src="surface/voice.js?v=20261027123015"></script>
+<script src="surface/voicelib.js?v=20261027123015"></script>
+<script src="surface/instruments.js?v=20261027123015"></script>
+<script src="surface/listview.js?v=20261027123015"></script>
+<script src="surface/beads.js?v=20261027123015"></script>
+<script src="surface/strip.js?v=20261027123015"></script>
+<script src="surface/sheetnav.js?v=20261027123015"></script>
+<script src="surface/twofinger.js?v=20261027123015"></script>
+<script src="surface/ring.js?v=20261027123015"></script>
+<script src="surface/shortlink.js?v=20261027123015"></script>
+<script src="surface/undo.js?v=20261027123015"></script>
+<script src="surface/pro.js?v=20261027123015"></script>
+<script src="surface/fresh.js?v=20261027123015"></script>
+<script src="surface/go.js?v=20261027123015"></script>
+<script src="surface/notice.js?v=20261027123015"></script>
+<script src="surface/perform.js?v=20261027123015"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -225,14 +225,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027120527"></script>
-<script src="surface/rail.js?v=20261027120527"></script>
-<script src="surface/touchsound.js?v=20261027120527"></script>
-<script src="surface/water.js?v=20261027120527"></script>
-<script src="surface/ripple.js?v=20261027120527"></script>
-<script src="surface/material.js?v=20261027120527"></script>
-<script src="surface/float.js?v=20261027120527"></script>
-<script src="surface/manual.js?v=20261027120527"></script>
+<script src="surface/pack.js?v=20261027123015"></script>
+<script src="surface/rail.js?v=20261027123015"></script>
+<script src="surface/touchsound.js?v=20261027123015"></script>
+<script src="surface/water.js?v=20261027123015"></script>
+<script src="surface/ripple.js?v=20261027123015"></script>
+<script src="surface/material.js?v=20261027123015"></script>
+<script src="surface/float.js?v=20261027123015"></script>
+<script src="surface/manual.js?v=20261027123015"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1111,6 +1111,13 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 .apUnitBtn svg{width:22px;height:22px;margin-top:-5px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .apDots{position:absolute;left:50%;bottom:7px;transform:translateX(-50%);display:flex;gap:3px}
 .apDots i{width:4px;height:4px;border-radius:50%;box-shadow:inset 0 0 0 1px currentColor;opacity:.7}.apDots i.on{background:currentColor;opacity:1}
+/* THE UNIT, SAID BELOW (Dimitry, 27 Oct 08:08: the three dots under the icon "end up looking like an inverted Corinthian
+   column ... they should be below the dot completely where normally the text label would be ... and make them match the
+   ones that are on the sound bottom drawer"): under the circle, where EVERY and MORPH have their words, a small pill of the
+   three units, the current one filled, as the drawer's unit switch is */
+#plAuto .apUnitBtn{overflow:visible}#plAuto .apUnitBtn .apDots{top:calc(100% + 5px);bottom:auto;gap:0;padding:1px;border:1px solid rgb(var(--ui-hi) / .2);border-radius:999px;background:var(--ui-solid)}
+#plAuto .apUnitBtn .apDots i{width:13px;height:12px;border-radius:999px;box-shadow:none;opacity:.6;display:grid;place-items:center}#plAuto .apUnitBtn .apDots i.on{background:var(--ui-ink);color:rgb(var(--ui-g));opacity:1}
+#plAuto .apUnitBtn .apDots svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .apMoDial{border:1px solid rgb(var(--ui-hi) / .2);background:transparent;touch-action:none}
 .apMoDial .apArc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);pointer-events:none;overflow:visible}
 .apMoDial .apArc circle{fill:none;stroke-width:3;stroke-linecap:round}.apMoDial .apArc .t{stroke:currentColor;opacity:.14}.apMoDial .apArc .v{stroke:var(--acc,#55b8c9)}
@@ -1125,7 +1132,7 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
    measured with its beads shown, and when they would not fit the panel takes the dial form (.apTight), whatever its width */
 #plAuto.apTight .apEvW{display:grid}#plAuto.apTight .apEveryRow .apBeads .apBead:not(.rnd){display:none}#plAuto.apTight .apEveryRow .apBead.rnd{width:var(--s-bead,38px);height:var(--s-bead,38px);flex:none}
 .apCap{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);font:600 8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);pointer-events:none;white-space:nowrap}
-#plAuto .apEveryRow{padding-bottom:12px}
+#plAuto .apEveryRow{padding-bottom:20px}   /* the unit pill hangs 20 px under the circle centre line: inside the row, never over the next one (review 804b17f76b r-2) */
 .apMoNum{font:700 12px/1 var(--mono);font-variant-numeric:tabular-nums}
 .apMoTip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);padding:4px 7px;border-radius:7px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:700 11px/1 var(--mono);white-space:nowrap;pointer-events:none}
 .apUnitBtn:focus-visible,.apMoDial:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
@@ -1655,7 +1662,7 @@ body #pTrans>#pRand.on::before,body #playbar>#pRand.on::before{background:conic-
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.9px),#000 calc(100% - 2.9px),#000 calc(100% - 1px),transparent 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 3.9px),#000 calc(100% - 2.9px),#000 calc(100% - 1px),transparent 100%)}
 body #playbar>#pSnd.on::before{background:conic-gradient(var(--acc-ink,#04181c) calc(var(--vol,.6)*360deg),rgb(4 24 28 / .22) calc(var(--vol,.6)*360deg + .8deg))}
 body #playbar>#pSnd.on.muted::before{background:conic-gradient(var(--acc,#55b8c9) calc(var(--vol,.6)*360deg),rgb(var(--ui-hi) / .1) calc(var(--vol,.6)*360deg + .8deg))}
-body #playbar>#pSnd.vdrag::before{display:none}   /* while dragged the button fills as the volume itself */#pSndTag:empty,#pSndTag.clash{display:none}   /* its chip is the marks' rule, with #pRecTime above */
+body #playbar>#pSnd.vdrag::before{display:none}   /* while dragged the button fills as the volume itself */#pSndTag:empty,#pSndTag.clash{display:none}#pSndTag:has(svg){padding:0 4px;display:grid;place-items:center}#pSndTag svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}#pSndTag svg .mlv{fill:currentColor;stroke:none;clip-path:inset(calc((1 - var(--ml,0)) * 100%) 0 0 0)}   /* its chip is the marks' rule, with #pRecTime above */
 /* ONE ROW OF MARKS UNDER THE BAR (Dimitry, 21 Oct night: "MUTED" printed behind a ✓ and a badge): every mark under a
    bar button sits in one slot, the button's bottom 15 px, the same y for all: a Paths badge first, then a word (mic),
    then a caret (on hover). A word or caret that would touch a badge stands aside. Muted needs no word: the speaker
@@ -5007,7 +5014,7 @@ function buildPlist(){plTabsMount();
       const r=document.createElement('button');r.type='button';r.className='apBead rnd';r.setAttribute('role','radio');r.dataset.v='rand';r.title='at random';
       r.setAttribute('aria-label','A new scene at random, every few '+U.name);r.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>');   // the bar's Random dice, the same drawing (0.27.8)
       r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
-      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.innerHTML=TIME.ICON[UNIT_ORDER[i]]+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((_,k)=>'<i'+(k===i?' class="on"':'')+'></i>').join('')+'</span>';
+      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.innerHTML=TIME.ICON[UNIT_ORDER[i]]+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((u,k)=>'<i'+(k===i?' class="on"':'')+'>'+TIME.ICON[u]+'</i>').join('')+'</span>';   /* each unit's own mark, as on the drawer's switch */
         ub.title=AUTO_UNITS[UNIT_ORDER[i]].name;ub.setAttribute('aria-label','Every counts in '+AUTO_UNITS[UNIT_ORDER[i]].name+'. Tap for '+AUTO_UNITS[nx].name)}};
     drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
   /* THE GEAR ON EACH TILE (Dimitry, 22 Oct): a small gear in a Changes tile's lower-right corner goes to where that
@@ -5893,6 +5900,11 @@ function recAudio(){try{if(!AUD.ctx||!AUD.vol||AUD.src==='off')return[];const c=
   if(!RECDEST){RECDEST=c.createMediaStreamDestination();AUD.recMus=c.createGain();(AUD.mg||AUD.vol).connect(AUD.recMus);AUD.recMus.connect(RECDEST);AUD.recMic=c.createGain();AUD.recMic.connect(RECDEST)}
   if(AUD.mic&&!AUD.mic.rec){AUD.mic.node.connect(AUD.recMic);AUD.mic.rec=1}
   recMix();return RECDEST.stream.getAudioTracks()}catch(_){return[]}}
+/* THE LIVE MIC (Dimitry, 27 Oct 08:18: "maybe it's a live mic icon as opposed to the word mic"): the chip on the sound
+   button is a microphone whose body fills with what it hears, so a hot mic is never silent-looking; the Input ring's mic dot
+   pulses with the same level. Both: the bar is where you look when the ring is shut, the ring when it is open */
+function micTagTick(){const t=$('pSndTag');if(!t||t._raf)return;const f=()=>{let l=0;try{l=AUD.mic?Math.min(1,AUD.mic.lvl*4):-1}catch(_){l=-1}
+  if(l<0||!t.firstChild||t.firstChild.nodeType!==1){t._raf=0;return}t.style.setProperty('--ml',l.toFixed(2));t._raf=requestAnimationFrame(f)};t._raf=requestAnimationFrame(f)}
 function micLive(){try{return !!AUD.mic}catch(_){return false}}   // the capture panel can ask before AUD exists (a saved video mode at boot: 0.17.8 froze on it)
 /* THE MIC/MUSIC BLEND (0.16.4, Dimitry: "dial in a mixture, and afterwards it reverts"). CAP.snd runs 0 (music only)
    to 1 (mic only), 0.5 by default, an equal-power crossfade. While a video records, the music you hear and the music in
@@ -7921,7 +7933,7 @@ function syncAud(){bsSync();try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
     b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your track: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
   if(typeof sndVolRing==='function')sndVolRing();const on=audible(),sb=$('pSnd');sb.classList.toggle('vol0',volZero());sb.classList.toggle('on',on);sb.classList.toggle('wait',sounding()&&!on);sb.classList.toggle('muted',on&&!!AUD.muted);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.classList.toggle('micOn',!!AUD.mic);$('pSndTag').textContent=AUD.mic?'mic':'';sb.setAttribute('aria-label',(on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your track, the microphone and settings');
+  sb.classList.toggle('micOn',!!AUD.mic);{const t=$('pSndTag');if(AUD.mic){if(!t.firstChild||t.firstChild.nodeType!==1)t.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><rect class="mlv" x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>';micTagTick()}else t.textContent=''}sb.setAttribute('aria-label',(on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your track, the microphone and settings');
   try{mixSync()}catch(_){}
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, autoplay or boot
@@ -8853,7 +8865,7 @@ $('srCam').onclick=async()=>{
     try{const ns=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:SRC.facing},width:{ideal:1280}},audio:false});
       const old=SRC.stream;const aud=old?old.getAudioTracks():[];if(old)old.getVideoTracks().forEach(t=>t.stop());
       const st=new MediaStream([...ns.getVideoTracks(),...aud]);SRC.stream=st;bgVid.srcObject=st;await bgVid.play().catch(()=>{});
-      SRC.mirror=SRC.facing==='user';DRIVE.g=null;SRC.flipped=true;syncSrc();toast((SRC.facing==='user'?'front camera':'back camera')+' · tap again for off')}
+      SRC.mirror=SRC.facing==='user';DRIVE.g=null;SRC.flipped=true;syncSrc();toast((SRC.facing==='user'?'front camera':'back camera')+(SRC.ringFlip?' · tap again to switch':' · tap again for off'));SRC.ringFlip=false}   /* the ring's flip only flips, off is its own dot (27 Oct 08:27: the caption "adds to confusion") */
     catch(e){SRC.facing=prev;SRC.flipped=false;$('srOff').click();toast('camera off: the other camera did not open here')}
     return}
   const V={facingMode:SRC.facing,width:{ideal:1280}};let st=null,heard=false;audioSessionFor(true);
@@ -9122,7 +9134,7 @@ function inItems(){const ic=id=>{const b=$(id),v=b&&b.querySelector('svg');if(!v
     {id:'cam',kind:'check',on:camOn,live:camOn,label:'camera',aria:'The camera. With it on, a tap switches front and back',stay:false,icon:ic('srCam'),pick:go('srCam')},
     {id:'pic',kind:'go',label:'picture',aria:'A picture from this device',icon:ic('srPic'),pick:go('srPic')},
     {id:'vid',kind:'go',label:'video',aria:'A video from this device',icon:ic('srVid'),pick:go('srVid')},
-    {id:'mic',kind:'check',on:micOn,live:micOn,label:'mic',aria:'The microphone: the room moves the field',icon:ic('inMic'),pick:go('inMic')},
+    {id:'mic',kind:'check',on:micOn,live:micOn,level:()=>{try{return AUD.mic?Math.min(1,AUD.mic.lvl*4):0}catch(_){return 0}}   /* a live mic's dot pulses with what it hears, and only it (27 Oct 08:18; review 7fb3afe3e2 r-1) */,label:'mic',aria:'The microphone: the room moves the field',icon:ic('inMic'),pick:go('inMic')},
     {id:'file',kind:'go',label:'file',aria:'Import a file: G-code becomes the field; a pack zip opens as a pack',icon:ic('inG'),pick:go('inG')},
     {id:'snd',kind:'go',label:'sound',aria:'Bring in a sound: a recording, a track, a pack or a folder',icon:ic('inSnd'),pick:go('inSnd')},
     {id:'pack',kind:'go',label:'pack',aria:'Pack: the studio\'s library of sounds and your own packs',icon:ic('inPack'),pick:go('inPack')}];
@@ -9131,9 +9143,16 @@ function inItems(){const ic=id=>{const b=$(id),v=b&&b.querySelector('svg');if(!v
      Input shelf has to its right; picture and video the same treatments; the mic its gain, gate and heard. Each control is
      the shelf's own button, so the ring and the shelf never disagree; the ring stays open while you tune */
   const shelf=(id,o)=>{const b=$(id);if(!b||b.hidden)return null;const l=b.querySelector('.lab');return Object.assign({id:'s-'+id,kind:'go',stay:true,label:(l?l.textContent:'').trim().toLowerCase(),aria:b.getAttribute('aria-label')||'',icon:ic(id),pick:go(id)},o||{})};
-  const treat=()=>[shelf('srShow'),shelf('srGround'),shelf('srTrace',{kind:'check',on:on('srTrace')}),shelf('srInv'),shelf('srDrive',{kind:'check',on:on('srDrive')})];
+  /* show and drive are amounts, so on a ring they are smooth percentage dials, not the shelf's 0 · 25 · 50 · 100 steps
+     (Dimitry, 27 Oct 08:18: "those should be turned into smooth percentage dials now that they are ringing buttons") */
+  const pct=v=>Math.round(v)+'%',amt=(id,label,aria,get,set)=>{const b=$(id);if(!b||b.hidden)return null;return {id:'s-'+id,kind:'value',label,aria,icon:ic(id),min:0,max:100,step:1,fmt:v=>v?pct(v):'off',get:()=>Math.round((get()||0)*100),set:v=>set(Math.max(0,Math.min(1,v/100)))}};
+  const treat=()=>[amt('srShow','show','Show: how strongly the source shows under the particles',()=>SRC.show,v=>{SRC.show=v;syncSrc()}),shelf('srGround'),shelf('srTrace',{kind:'check',on:on('srTrace')}),shelf('srInv'),
+    amt('srDrive','drive','Drive: how much the picture steers the current; 0 is off',()=>S.drive,v=>{if(SRC.kind==='none')return;setDrive(v)})];
+  /* the camera's off (27 Oct 08:18, "we definitely need a way to turn off the camera"): its ring flips front and back, so off
+     is its own dot, bottom left, as the mic's is */
+  const camOff={id:'c-off',kind:'go',at:'bottom-left',stay:false,label:'off',aria:'Turn the camera off',icon:RING_I('<path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.3"/><path d="M3.5 4.5l17 16"/>')   /* the camera, struck through: not the flip's icon (review r-2) */,pick:()=>{if(SRC.kind==='camera'){SRC.flipped=false;$('srOff').click();toast('camera off')}}};
   const off=()=>shelf('srOff',{at:'bottom-left',stay:false,label:'remove'});
-  const sub={cam:{title:'Camera',items:()=>[shelf('srCam',{aria:'Switch between the front and back cameras',pick:async()=>{try{await countCams()}catch(_){}if(camCount&&camCount<2){toast('one camera on this device');return}SRC.flipped=false;$('srCam').click()}})   /* always a flip, never the shelf's third tap (off): off is remove (review cb6b74d5e3 r-4) */,shelf('srMir',{kind:'check',on:on('srMir')}),...treat()].filter(Boolean)},   /* remove lives on the picture and in its pad, not on a ring (27 Oct 07:41) */
+  const sub={cam:{title:'Camera',items:()=>[shelf('srCam',{aria:'Switch between the front and back cameras',pick:async()=>{try{await countCams()}catch(_){}if(camCount&&camCount<2){toast('one camera on this device');return}SRC.flipped=false;SRC.ringFlip=true;$('srCam').click()}})   /* always a flip, never the shelf's third tap (off): off is remove (review cb6b74d5e3 r-4) */,shelf('srMir',{kind:'check',on:on('srMir')}),...treat(),camOff].filter(Boolean)},   /* remove lives on the picture and in its pad, not on a ring (27 Oct 07:41) */
     pic:{title:'Picture',items:()=>[shelf('srPic',{label:'another',aria:'Choose another picture'}),...treat()].filter(Boolean)},
     vid:{title:'Video',items:()=>[shelf('srVid',{label:'another',aria:'Choose another video'}),...treat()].filter(Boolean)},
     mic:{title:'Mic',items:()=>[['gain',0,4,.05,v=>'×'+(+v).toFixed(1),'Input gain: lifts a quiet mic'],['gate',0,1,.01,v=>v?Math.round(v*100)+'':'off','Noise gate: only sound above this moves the field'],['heard',0,1,.01,v=>v?Math.round(v*100)+'%':'off','Heard: how much of the mic goes to the speakers']]
@@ -9688,7 +9707,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     c.onclick=()=>{if(BS.open&&BS.sec===sec&&id!=='pill')BS.hide();else BS.show(id==='pill'&&['robot','dice','scenes'].includes(BS.sec)?BS.sec:sec)};cr.appendChild(c)});
   const hit=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
   const badges=()=>[...document.querySelectorAll('.sp-bb')].filter(b=>b.offsetWidth&&getComputedStyle(b).visibility!=='hidden').map(b=>b.getBoundingClientRect());
-  function marks(){const B=badges();for(const t of [$('pSndTag'),$('pRecTime')]){if(!t)continue;t.classList.remove('clash');if(t.textContent&&!(t.id==='pRecTime'&&(REC||ENC))){const r=t.getBoundingClientRect();if(B.some(b=>hit(r,b)))t.classList.add('clash')}}
+  function marks(){const B=badges();for(const t of [$('pSndTag'),$('pRecTime')]){if(!t)continue;t.classList.remove('clash');if((t.textContent||t.firstElementChild)&&!(t.id==='pRecTime'&&(REC||ENC))){const r=t.getBoundingClientRect();if(B.some(b=>hit(r,b)))t.classList.add('clash')}}
     const up=!$('plist').hidden||!$('rlist').hidden||!$('shotPop').hidden||!!document.querySelector('.shelf.open')||($('mixPop')&&!$('mixPop').hidden)||($('colorPop')&&!$('colorPop').hidden);
     root.classList.toggle('panelUp',up);return B}
   /* the outline: a path with the peak at x, used as the fill's clip and as the stroke; tweened 240 ms to a new x */
@@ -10445,10 +10464,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027120527"></script>
-<script src="surface/links.js?v=20261027120527"></script>
-<script src="surface/tips.js?v=20261027120527"></script>
-<script src="surface/sections.js?v=20261027120527"></script>
+<script src="surface/install.js?v=20261027123015"></script>
+<script src="surface/links.js?v=20261027123015"></script>
+<script src="surface/tips.js?v=20261027123015"></script>
+<script src="surface/sections.js?v=20261027123015"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10629,7 +10648,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027120527"></script>
+<script src="surface/room.js?v=20261027123015"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10830,7 +10849,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027120527"></script>
+<script src="surface/touch.js?v=20261027123015"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11566,7 +11585,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.75';
+const APP_VERSION='0.33.78';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -11820,10 +11839,10 @@ function lead(row){if(!KI)return;var s=document.createElement("span");s.innerHTM
 function upBusy(b){if(!b||b.getAttribute("aria-busy")==="true")return;if(!document.getElementById("upd-css")){var st=document.createElement("style");st.id="upd-css";
  st.textContent="@keyframes updPulse{50%{opacity:.62}}@keyframes updBar{from{transform:scaleX(.04)}to{transform:scaleX(.92)}}"+
  ".upd-busy{position:relative;overflow:hidden;animation:updPulse 1s ease-in-out infinite}"+
- ".upd-busy::after,.upd-bar{content:'';position:absolute;left:0;bottom:0;width:100%;height:3px;background:currentColor;opacity:.85;transform-origin:left;animation:updBar 6s cubic-bezier(.1,.75,.2,1) forwards;pointer-events:none}"+
+ ".upd-bar{content:'';position:absolute;left:0;bottom:0;width:100%;height:3px;background:currentColor;opacity:.85;transform-origin:left;animation:updBar 6s cubic-bezier(.1,.75,.2,1) forwards;pointer-events:none}"+
  ".upd-bar{top:0;bottom:auto;height:2px;background:var(--accent,#55b8c9)}"+
  "@media (prefers-reduced-motion:reduce){.upd-busy{animation:none}}";document.head.appendChild(st)}
- b.textContent="Updating…";b.setAttribute("aria-busy","true");b.classList.add("upd-busy");
+ b.textContent="Updating";b.setAttribute("aria-busy","true");b.classList.add("upd-busy");
  var pill=document.querySelector("[data-upd=ready]");if(pill&&!pill.querySelector(".upd-bar")){var bar=document.createElement("i");bar.className="upd-bar";bar.setAttribute("aria-hidden","true");pill.appendChild(bar)}}
 var going=false;window.updateNow=function(ev){fresh(ev)};   /* the same Update, for a tool's own button (Current's Version section, 27 Oct) */
 function fresh(ev){var b=ev&&ev.currentTarget;if(b&&b.textContent)upBusy(b);
@@ -11850,7 +11869,7 @@ function pill(v){if(shown)return;if(held()){pend=v;return}shown=true;var notes=n
     tag.style.cssText="font:600 9px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:"+(k?k[1]:"#8a9396");tag.textContent=k?k[0]:"";var tx=document.createElement("span");tx.textContent=it.text;li.appendChild(tag);li.appendChild(tx);ul.appendChild(li)});
    list.appendChild(ul)});
   more.onclick=function(){var open=list.hidden;list.hidden=!open;more.setAttribute("aria-expanded",String(open));more.textContent=open?"What’s new ▴":"What’s new ▾"}}
- var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);
+ var up=mk("Update","padding:0 14px;border-radius:999px;background:"+acc+";color:#04181c");up.onclick=fresh;row.appendChild(up);try{var mc=document.createElement("canvas").getContext("2d");mc.font="600 12px system-ui,sans-serif";up.style.minWidth=Math.ceil(mc.measureText("Updating").width+30)+"px"}catch(e){}   /* as wide as Updating from the start: the pill never changes size (Dimitry, 27 Oct 08:14) */
  var x=mk("×","margin-left:auto;flex:none;width:32px;padding:0;background:none;color:#8a9396;font:16px/1 system-ui","Later");x.onclick=function(){d.remove();pd=null;shown=false};row.appendChild(x);
  d.appendChild(row);if(list)d.appendChild(list);document.body.appendChild(d);pd=d}
 /* PERFORMING (surface/v1/perform.js, 22 Oct): while a show is on, a newer version never reloads the page and its pill
