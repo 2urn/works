@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027180856";window.__VERSION__="0.33.83";window.__NOTES__=[{"v":"0.33.83","date":"27 Oct 2026","items":[{"kind":"new","text":"Autoplay's Order is now Which way: Forward, Back, Surprise, and with Pro Bounce, Deck (every scene once, shuffled, then a new deck) and Same surprise (a numbered shuffle that always plays the same order)"},{"kind":"new","text":"Loop or Stop at end: the robot can stop after the last scene"},{"kind":"change","text":"Built-in, Yours and Starred moved to Which scenes, with how many scenes each holds"},{"kind":"new","text":"the robot's face acts out the way it goes: left to right, right to left, there and back, or dealing like cards"}]}]</script>
+<script>window.__BUILD__="20261027212113";window.__VERSION__="0.33.84";window.__NOTES__=[{"v":"0.33.84","date":"27 Oct 2026","items":[{"kind":"change","text":"the ways are named Random, Shuffle (every scene once, like a deck of cards) and Seed"},{"kind":"new","text":"Seed grows its order from a few words you can type or roll again; the same words always play the same order"},{"kind":"new","text":"Autoplay's unit shows how it runs: a stopwatch whose hand goes round once per scene, beats that light in turn, a bar that pulses; a hand when the robot is stopped, with the row beside it dimmed"},{"kind":"new","text":"the robot's ears: a scene slips into one ear and out of the other at each change, the way it is going"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027180856"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027180856">
+<script src="claude-web.js?v=20261027212113"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027212113">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027180856"></script>
-<script src="surface/nozoom.js?v=20261027180856"></script><script src="surface/steady.js?v=20261027180856"></script><script src="surface/selftest.js?v=20261027180856"></script><script src="surface/size.js?v=20261027180856"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027180856"></script>
-<script src="surface/auto.js?v=20261027180856"></script>
-<script src="surface/toolpath.js?v=20261027180856"></script>
-<script src="surface/capture.js?v=20261027180856"></script>
-<script src="surface/pop.js?v=20261027180856"></script>
-<script src="surface/hints.js?v=20261027180856"></script>
-<script src="surface/paths.js?v=20261027180856"></script>
-<script src="surface/keys.js?v=20261027180856"></script>
-<script src="surface/reset.js?v=20261027180856"></script>
-<script src="surface/files.js?v=20261027180856"></script>
-<script src="surface/tabs.js?v=20261027180856"></script>
-<script src="surface/running.js?v=20261027180856"></script>
-<script src="surface/trim.js?v=20261027180856"></script>
-<script src="surface/audiowake.js?v=20261027180856"></script>
-<script src="surface/output.js?v=20261027180856"></script>
-<script src="surface/board.js?v=20261027180856"></script>
-<script src="surface/voice.js?v=20261027180856"></script>
-<script src="surface/voicelib.js?v=20261027180856"></script>
-<script src="surface/instruments.js?v=20261027180856"></script>
-<script src="surface/listview.js?v=20261027180856"></script>
-<script src="surface/beads.js?v=20261027180856"></script>
-<script src="surface/strip.js?v=20261027180856"></script>
-<script src="surface/sheetnav.js?v=20261027180856"></script>
-<script src="surface/twofinger.js?v=20261027180856"></script>
-<script src="surface/ring.js?v=20261027180856"></script>
-<script src="surface/shortlink.js?v=20261027180856"></script>
-<script src="surface/undo.js?v=20261027180856"></script>
-<script src="surface/pro.js?v=20261027180856"></script>
-<script src="surface/fresh.js?v=20261027180856"></script>
-<script src="surface/go.js?v=20261027180856"></script>
-<script src="surface/notice.js?v=20261027180856"></script>
-<script src="surface/perform.js?v=20261027180856"></script>
+<script src="vendor/opentype.min.js?v=20261027212113"></script>
+<script src="surface/nozoom.js?v=20261027212113"></script><script src="surface/steady.js?v=20261027212113"></script><script src="surface/selftest.js?v=20261027212113"></script><script src="surface/size.js?v=20261027212113"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027212113"></script>
+<script src="surface/auto.js?v=20261027212113"></script>
+<script src="surface/toolpath.js?v=20261027212113"></script>
+<script src="surface/capture.js?v=20261027212113"></script>
+<script src="surface/pop.js?v=20261027212113"></script>
+<script src="surface/hints.js?v=20261027212113"></script>
+<script src="surface/paths.js?v=20261027212113"></script>
+<script src="surface/keys.js?v=20261027212113"></script>
+<script src="surface/reset.js?v=20261027212113"></script>
+<script src="surface/files.js?v=20261027212113"></script>
+<script src="surface/tabs.js?v=20261027212113"></script>
+<script src="surface/running.js?v=20261027212113"></script>
+<script src="surface/trim.js?v=20261027212113"></script>
+<script src="surface/audiowake.js?v=20261027212113"></script>
+<script src="surface/output.js?v=20261027212113"></script>
+<script src="surface/board.js?v=20261027212113"></script>
+<script src="surface/voice.js?v=20261027212113"></script>
+<script src="surface/voicelib.js?v=20261027212113"></script>
+<script src="surface/instruments.js?v=20261027212113"></script>
+<script src="surface/listview.js?v=20261027212113"></script>
+<script src="surface/beads.js?v=20261027212113"></script>
+<script src="surface/strip.js?v=20261027212113"></script>
+<script src="surface/sheetnav.js?v=20261027212113"></script>
+<script src="surface/twofinger.js?v=20261027212113"></script>
+<script src="surface/ring.js?v=20261027212113"></script>
+<script src="surface/shortlink.js?v=20261027212113"></script>
+<script src="surface/undo.js?v=20261027212113"></script>
+<script src="surface/pro.js?v=20261027212113"></script>
+<script src="surface/fresh.js?v=20261027212113"></script>
+<script src="surface/go.js?v=20261027212113"></script>
+<script src="surface/notice.js?v=20261027212113"></script>
+<script src="surface/perform.js?v=20261027212113"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -210,7 +210,7 @@ window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 /* PRO IN BETA (Dimitry, 22 Oct): built Pro features are open to everyone while they are tested, marked with the open
    padlock; the version line lists them. Field and Scrub are not built yet, so they stay shut. Remove a line to close it. */
 try{SurfacePro.beta({
-  'autoplay.dir':{name:'Bounce, Deck and Same surprise',note:'more ways for the robot to go: there and back, every scene once like a deck of cards, and a numbered shuffle that always plays the same order'},   // 0.33.83, review bf95346c9c r-1: built, so in beta like the rest
+  'autoplay.dir':{name:'Bounce, Shuffle and Seed',note:'more ways for the robot to go: there and back, every scene once like a deck of cards, and a shuffle grown from words that always plays the same order'},   // 0.33.83, review bf95346c9c r-1: built, so in beta like the rest
   session:{name:'Room',note:'phones and laptops in one room play in time over the internet: one leads, its tempo or its scenes; Ableton Link'},
   blend:{name:'Blend',note:'how the lines lay onto what is drawn'},
   material:{name:'Water material',note:'what drives the water surface, and its colors'},
@@ -226,14 +226,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027180856"></script>
-<script src="surface/rail.js?v=20261027180856"></script>
-<script src="surface/touchsound.js?v=20261027180856"></script>
-<script src="surface/water.js?v=20261027180856"></script>
-<script src="surface/ripple.js?v=20261027180856"></script>
-<script src="surface/material.js?v=20261027180856"></script>
-<script src="surface/float.js?v=20261027180856"></script>
-<script src="surface/manual.js?v=20261027180856"></script>
+<script src="surface/pack.js?v=20261027212113"></script>
+<script src="surface/rail.js?v=20261027212113"></script>
+<script src="surface/touchsound.js?v=20261027212113"></script>
+<script src="surface/water.js?v=20261027212113"></script>
+<script src="surface/ripple.js?v=20261027212113"></script>
+<script src="surface/material.js?v=20261027212113"></script>
+<script src="surface/float.js?v=20261027212113"></script>
+<script src="surface/manual.js?v=20261027212113"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1020,6 +1020,17 @@ html.robo-sw-f .robo-f .f1,html.robo-sw-b .robo-f .f1{animation-delay:.1s!import
 html.robo-sw-f .robo-f .f2,html.robo-sw-b .robo-f .f0{animation-delay:.2s!important}
 html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!important}
 @media (prefers-reduced-motion:reduce){.robo-f rect{animation:none!important}}
+/* THE ROBOT'S EARS (Dimitry, 27 Oct 13:27, "small translucent rectangles coming into and out of the robot's ears to indicate
+   the scenes they are processing ... the direction could matter"; GO 17:08): at each change a scene slips into one ear and the
+   last one out of the other; Forward in at the left, Back in at the right, the random ways from either side */
+.robo-ears rect{fill:currentColor;opacity:0;transform-box:view-box}
+@keyframes earInL{0%{opacity:0;transform:translateX(-2.4px)}35%{opacity:.6}100%{opacity:0;transform:translateX(2.6px)}}
+@keyframes earOutR{0%{opacity:0;transform:translateX(-2.6px)}55%{opacity:.6}100%{opacity:0;transform:translateX(2.4px)}}
+@keyframes earInR{0%{opacity:0;transform:translateX(2.4px)}35%{opacity:.6}100%{opacity:0;transform:translateX(-2.6px)}}
+@keyframes earOutL{0%{opacity:0;transform:translateX(2.6px)}55%{opacity:.6}100%{opacity:0;transform:translateX(-2.4px)}}
+html.robo-ear-f .robo-ears .el{animation:earInL .75s ease-out both}html.robo-ear-f .robo-ears .er{animation:earOutR .75s .3s ease-out both}
+html.robo-ear-b .robo-ears .er{animation:earInR .75s ease-out both}html.robo-ear-b .robo-ears .el{animation:earOutL .75s .3s ease-out both}
+@media (prefers-reduced-motion:reduce){.robo-ears rect{animation:none!important}}
 .robo-e,.robo-l{transform-box:fill-box;transform-origin:center}
 #pAuto.on .robo-e,.apGo.robo.on .robo-e{animation:roboGlance calc(var(--robo-beat,1s) * 4) steps(1,end) infinite}
 #pAuto.on .robo-l,.apGo.robo.on .robo-l{fill:currentColor;animation:roboLight var(--robo-beat,1s) ease-out infinite}
@@ -1075,7 +1086,24 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 .apTiles{display:grid;gap:6px}
 .apTiles.every{grid-template-columns:repeat(5,minmax(0,1fr))}
 .apTiles.order{grid-template-columns:repeat(3,minmax(0,1fr))}.apTiles.order.dirs{grid-template-columns:repeat(4,minmax(0,1fr))}
-.apT.apEnd.dim{opacity:.45}   /* Surprise and Bounce have no last scene: the switch rests */
+.apT.apEnd.dim{opacity:.45}
+/* the seed's words (0.33.84): a label, the words to type, a button for new ones */
+.apSeedRow{display:flex;align-items:center;gap:8px;margin-top:8px}.apSeedRow.rest{opacity:.4}.apSeedRow.rest input::placeholder{color:var(--ui-dim)}
+.apSeedRow label{font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}
+.apSeedRow input{flex:1;min-width:0;height:36px;box-sizing:border-box;padding:0 12px;border-radius:99px;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);font:500 16px/1 var(--mono);letter-spacing:.02em}
+.apSeedRow input:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
+.apSeedRow button{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);display:grid;place-items:center;padding:0;cursor:pointer}.apSeedRow button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.apSeedTip{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* the scrub pad (0.33.84): glass over the bar, the scenes as slivers of their pictures, a bright frame on the one playing */
+.scrubPad{position:fixed;z-index:58;box-sizing:border-box;padding:8px 52px 10px 12px;border-radius:20px;background:rgb(var(--ui-g,12 14 16) / .82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 8px 30px rgb(0 0 0 / .4),inset 0 0 0 1px rgb(var(--ui-hi) / .12);color:var(--ui-ink)}
+.scrubPad[hidden]{display:none}
+.scrubPad .spName{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin:0 0 7px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:11px}
+.scrubPad .spTrack{position:relative;height:52px;border-radius:12px;overflow:hidden;touch-action:none;cursor:ew-resize;outline:none}
+.scrubPad .spTrack:focus-visible{box-shadow:0 0 0 2px var(--acc,#55b8c9)}
+.scrubPad .spStrip{position:absolute;inset:0;display:flex}.scrubPad .spStrip i{flex:1 1 0;min-width:0;background:rgb(var(--ui-hi) / .08) center/cover no-repeat;border-right:1px solid rgb(0 0 0 / .35)}
+.scrubPad .spThumb{position:absolute;top:0;bottom:0;transform:translateX(-50%);box-sizing:border-box;border:2px solid var(--acc,#55b8c9);border-radius:6px;box-shadow:0 0 0 2px rgb(0 0 0 / .45),0 0 14px rgb(var(--acc-rgb,85 184 201) / .6);pointer-events:none;transition:left .08s linear}
+.scrubPad .spX{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .18);background:rgb(var(--ui-hi) / .06);color:inherit;display:grid;place-items:center;padding:0;cursor:pointer}.scrubPad .spX svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+@media (prefers-reduced-motion:reduce){.scrubPad .spThumb{transition:none}}   /* Surprise and Bounce have no last scene: the switch rests */
 #plAuto .apWhich>.segs{padding:2px 0}#plAuto .apWhich .sg{display:inline-flex!important;align-items:center;gap:5px}#plAuto .apWhich .sg small.n{position:static;font-size:9px;opacity:.6}
 .apTiles.morph{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* CHANGES (Dimitry, 21 Oct): the whole scene across the column, its two halves under it; the whole lights both halves */
@@ -1123,6 +1151,14 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 .apUnitBtn{border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background:color-mix(in srgb,var(--acc,#55b8c9) 12%,transparent)}
 /* (Dimitry, 27 Oct 13:22: "the highlighted border on stopwatch should at least be gray when autoplay is OFF"): the unit's ring is the accent only while the robot runs, as the bar's dice is lit only while it rolls */
 #plAuto:not(.apRun) .apEveryRow .apUnitBtn{border-color:rgb(var(--ui-hi) / .22)}
+#plAuto:not(.apRun) .apEveryRow>:not(.apUnitBtn):not(.apBeads),#plAuto:not(.apRun) .apEveryRow .apBeads>*{opacity:.5;transition:opacity .2s}#plAuto.apRun .apEveryRow>*,#plAuto.apRun .apEveryRow .apBeads>*{transition:opacity .2s}
+.apUnitBtn .apHand{transform-box:view-box;transform-origin:12px 13.5px}
+#plAuto.apRun .apUnitBtn .apHand{animation:apHand var(--ap-step,15s) linear infinite}@keyframes apHand{to{transform:rotate(360deg)}}
+#plAuto.apRun .apUnitBtn .tk{opacity:.35;animation:apTk calc(var(--robo-beat,1s) * 3) steps(1,end) infinite}#plAuto.apRun .apUnitBtn .t1{animation-delay:var(--robo-beat,1s)}#plAuto.apRun .apUnitBtn .t2{animation-delay:calc(var(--robo-beat,1s) * 2)}
+@keyframes apTk{0%,30%{opacity:1}31%,100%{opacity:.35}}
+#plAuto.apRun .apUnitBtn .ln{animation:apLn calc(var(--robo-beat,1s) * 4) ease-out infinite}@keyframes apLn{0%{opacity:1}60%,100%{opacity:.35}}
+.apUnitBtn.apRe *{animation:none!important}
+@media (prefers-reduced-motion:reduce){#plAuto.apRun .apUnitBtn *{animation:none!important;opacity:1!important}}
 .apUnitBtn svg{width:22px;height:22px;margin-top:-5px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .apDots{position:absolute;left:50%;bottom:7px;transform:translateX(-50%);display:flex;gap:3px}
 .apDots i{width:4px;height:4px;border-radius:50%;box-shadow:inset 0 0 0 1px currentColor;opacity:.7}.apDots i.on{background:currentColor;opacity:1}
@@ -2913,7 +2949,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 <div id="playbar" role="toolbar" aria-label="Player controls">
   <div id="pTrans" role="group" aria-label="Scenes and autoplay">
     <button id="pPrev" type="button" aria-label="Previous scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button id="pAuto" type="button" data-drawer aria-pressed="false" aria-label="The robot: it plays the scenes by itself (autoplay). Hold for its options" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g id="pAutoGo" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-f" stroke="none"><rect class="f0" x="7.1" y="11.9" width="2.6" height="4" rx=".5"/><rect class="f1" x="10.7" y="10.9" width="2.6" height="6" rx=".5"/><rect class="f2" x="14.3" y="11.9" width="2.6" height="4" rx=".5"/></g></g><g id="pAutoStop"><rect x="7.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="13.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/></g></svg></button>
+    <button id="pAuto" type="button" data-drawer aria-pressed="false" aria-label="The robot: it plays the scenes by itself (autoplay). Hold for its options" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g id="pAutoGo" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-f" stroke="none"><rect class="f0" x="7.1" y="11.9" width="2.6" height="4" rx=".5"/><rect class="f1" x="10.7" y="10.9" width="2.6" height="6" rx=".5"/><rect class="f2" x="14.3" y="11.9" width="2.6" height="4" rx=".5"/></g><g class="robo-ears" stroke="none"><rect class="el" x="0.8" y="12.6" width="3" height="2.4" rx=".6"/><rect class="er" x="20.2" y="12.6" width="3" height="2.4" rx=".6"/></g></g><g id="pAutoStop"><rect x="7.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="13.2" y="6" width="3.6" height="12" rx="1" fill="currentColor"/></g></svg></button>
     <button id="pNext" type="button" aria-label="Next scene. Hold for the list" aria-haspopup="dialog" aria-controls="plist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button id="pRand" type="button" data-drawer aria-label="Random style. Drag left or right for how much each roll changes; drag down for how often it rolls by itself; drag up or hold for the random matrix" aria-haspopup="dialog" aria-controls="rlist"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><g class="pips" fill="currentColor"><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="15" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="9" cy="15" r="1.5"/></g></svg></button>
   </div>
@@ -4157,7 +4193,7 @@ function playIds(){const all=allPresets(),ord=orderedIds(),cs=colSet(),inc=ord.f
 // walk the ordered list from the current scene to the next one in play, either way
 function walk(ids,d){const ord=orderedIds(),set=new Set(ids);let p=ord.indexOf(presetIdx);if(p<0)p=d>0?-1:0;
   for(let s=1;s<=ord.length;s++){const i=ord[((p+d*s)%ord.length+ord.length)%ord.length];if(set.has(i))return i}return ids[0]}
-const AUTO={sec:15,order:'in order',dir:'forward',which:'all',end:'loop',seed:0,bag:null,bdir:1,morph:8,part:'all',unit:'sec',n:15,rand:false,parts:{pattern:true,style:true,sound:true,material:true},drawn:15,next:null,col:'all',moUnit:'sec',moN:2,moRand:false,moDrawn:null,lock:true,set:'pair',moSet:'pair',mPct:25};   // 15 s: the tour of eight in two minutes
+const AUTO={sec:15,order:'in order',dir:'forward',which:'all',end:'loop',seed:0,seedW:'',bag:null,bdir:1,morph:8,part:'all',unit:'sec',n:15,rand:false,parts:{pattern:true,style:true,sound:true,material:true},drawn:15,next:null,col:'all',moUnit:'sec',moN:2,moRand:false,moDrawn:null,lock:true,set:'pair',moSet:'pair',mPct:25};   // 15 s: the tour of eight in two minutes
 /* CHANGES ARE CHECKBOXES (0.27.8, Dimitry, 21 Oct: "it's not really a toggle, it's a checkbox ... when they're all
    selected, then it's the whole scene"). Pattern, Style and Sound, each in or out; all three is the Scene. The last one
    can't be unticked (with none, autoplay would change nothing). Sound: ticked, each scene brings its own beat or
@@ -4191,7 +4227,7 @@ function timeSnap(){try{const E=AUTO_UNITS[AUTO.unit].vals;if(!E.includes(AUTO.n
    than 50%, or it would morph over the next morph). The share follows Every in any unit, and a random Every too. */
 function autoMorph(){const v=Math.max(0,Math.min(50,+AUTO.mPct||0))/100*(+AUTO.sec||15);AUTO.moDrawn=v;return v}
 const morphFor=p=>{if(window.__roomMorph!=null)return window.__roomMorph;const m=morphOwn(p);return m==null?autoMorph():autoT?Math.min(m,(+AUTO.sec||15)*.5):m};   // a room's scene brings its leader's morph
-if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;{const o=AUTO.order,q=store.auto;AUTO.dir=['forward','back','bounce','surprise','deck','same'].includes(q.dir)?q.dir:o==='shuffle'?'surprise':'forward';AUTO.which=['all','built-in','yours only','starred only'].includes(q.which)?q.which:['built-in','yours only','starred only'].includes(o)?o:'all';AUTO.end=q.end==='stop'?'stop':'loop';AUTO.seed=+q.seed>0?(+q.seed|0):0}   /* ORDER SPLIT IN TWO (0.33.83): which way, and which scenes; a saved order becomes both */if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false,material:typeof q.material==='boolean'?q.material:q.style!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true,material:false};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true,material:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound&&!AUTO.parts.material)AUTO.parts={pattern:true,style:true,sound:true,material:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=migMorph(store.auto.morph);if(['sec','beat','bar'].includes(store.auto.moUnit))AUTO.moUnit=store.auto.moUnit;if(+store.auto.moN>0)AUTO.moN=+store.auto.moN;AUTO.moRand=store.auto.moRand===true}
+if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;{const o=AUTO.order,q=store.auto;AUTO.dir=['forward','back','bounce','surprise','deck','same'].includes(q.dir)?q.dir:o==='shuffle'?'surprise':'forward';AUTO.which=['all','built-in','yours only','starred only'].includes(q.which)?q.which:['built-in','yours only','starred only'].includes(o)?o:'all';AUTO.end=q.end==='stop'?'stop':'loop';AUTO.seed=+q.seed>0?(+q.seed|0):0;AUTO.seedW=typeof q.seedW!=='string'&&+q.seed>0?String(q.seed|0):typeof q.seedW==='string'?String(q.seedW).toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim().slice(0,48):''}   /* ORDER SPLIT IN TWO (0.33.83): which way, and which scenes; a saved order becomes both */if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false,material:typeof q.material==='boolean'?q.material:q.style!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true,material:false};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true,material:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound&&!AUTO.parts.material)AUTO.parts={pattern:true,style:true,sound:true,material:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=migMorph(store.auto.morph);if(['sec','beat','bar'].includes(store.auto.moUnit))AUTO.moUnit=store.auto.moUnit;if(+store.auto.moN>0)AUTO.moN=+store.auto.moN;AUTO.moRand=store.auto.moRand===true}
 /* EVERY (Dimitry, 21 Oct): a row of beads with the count inside, counted in seconds, beats or bars, or at random.
    Beats follow the beat that plays (or the tapped tempo, or 120). AUTO.sec stays the interval now running, in seconds. */
 const AUTO_UNITS={sec:{name:'seconds',one:'second',get vals(){return TIME.values(EVERY_RANGE,'sec',timeSet('every'))}},beat:{name:'beats',one:'beat',get vals(){return TIME.values(EVERY_RANGE,'beat',timeSet('every'))}},bar:{name:'bars',one:'bar',get vals(){return TIME.values(EVERY_RANGE,'bar',timeSet('every'))}}};
@@ -4901,7 +4937,39 @@ function flashBtn(b,txt,ms){if(!b)return;let n=null;for(const c of b.childNodes)
   b._flash=setTimeout(()=>{n.textContent=b._label;b.classList.remove('done');b._flash=null},ms||1800)}
 let nmT=0;function flashName(n){const el=$('playname');if(typeof placeName==='function')placeName();el.textContent=n;el.classList.add('show');clearTimeout(nmT);nmT=setTimeout(()=>el.classList.remove('show'),1600)}
 function roboSweep(d){const R=document.documentElement;R.classList.remove('robo-sw','robo-sw-f','robo-sw-b');void R.offsetWidth;R.classList.add('robo-sw',d<0?'robo-sw-b':'robo-sw-f');clearTimeout(roboSweep.t);roboSweep.t=setTimeout(()=>R.classList.remove('robo-sw','robo-sw-f','robo-sw-b'),560)}
-function stepPreset(d){if(!allPresets().length)return;roboSweep(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
+/* d: 1 in at the left ear, out at the right; -1 the other way (0.33.84) */
+function roboEar(d){const R=document.documentElement;R.classList.remove('robo-ear-f','robo-ear-b');void R.offsetWidth;R.classList.add(d<0?'robo-ear-b':'robo-ear-f');clearTimeout(roboEar.t);roboEar.t=setTimeout(()=>R.classList.remove('robo-ear-f','robo-ear-b'),1200)}
+/* SCRUB, FIRST TRY (Dimitry, 27 Oct 13:27: "scrub needs pop-up touch bar perhaps where the upper drawer is that acts as a
+   scrub pad. We haven't built that feature so we should temporarily unlock it to try"; GO 17:08). Open in the private preview
+   only (and with a Pro key); the public site keeps it shut until he says it is good. A pad over the bar holds every scene in
+   play as a sliver of its picture, in the order Which way gives (Back reversed, Seed its own order); a finger dragged across
+   it changes the scene under it at once, and the field follows. The robot waits while you scrub. */
+function scrubOK(){return !!window.__HOME__||isPro('scrub')}
+function scrubSeq(){const ids=autoIds(),d=autoDir();if(d==='same')return autoSeq(ids);const q=(()=>{const set=new Set(ids);return orderedIds().filter(i=>set.has(i))})();return d==='back'?q.reverse():q}
+function scrubOpen(){scrubOpen.back=document.activeElement;try{closePlist()}catch(_){}let p=$('scrubPad');
+  if(!p){p=document.createElement('div');p.id='scrubPad';p.className='scrubPad';
+    p.innerHTML='<div class="spName" aria-hidden="true"></div><div class="spTrack" role="slider" tabindex="0" aria-label="Scrub: drag across to move through the scenes"><div class="spStrip"></div><div class="spThumb"></div></div><button type="button" class="spX" aria-label="Close scrub">'+PLI('<path d="M7 7l10 10M17 7 7 17"/>')+'</button>';
+    document.body.appendChild(p);const tr=p.querySelector('.spTrack');let drag=false,last=0,tm=0,pend=-1;
+    const go=k=>{const S=p._seq||[];if(!S.length)return;k=Math.max(0,Math.min(S.length-1,k));if(k===p._k)return;p._k=k;scrubMark();
+      const now=performance.now(),run=()=>{pend=-1;last=performance.now();const id=S[p._k];if(id!=null&&id!==presetIdx){loadPreset(id,true,autoPart());try{bumpLook(id)}catch(_){}}};
+      clearTimeout(tm);if(now-last>90)run();else{pend=k;tm=setTimeout(run,90-(now-last))}};
+    const at=e=>{const r=tr.getBoundingClientRect(),S=p._seq||[];return Math.floor((e.clientX-r.left)/Math.max(1,r.width)*S.length)};
+    tr.addEventListener('pointerdown',e=>{drag=true;try{tr.setPointerCapture(e.pointerId)}catch(_){}if(autoT){setAuto(false,true);toast('scrubbing: the robot waits')}go(at(e));e.preventDefault()});
+    tr.addEventListener('pointermove',e=>{if(drag)go(at(e))});
+    const up=()=>{drag=false};tr.addEventListener('pointerup',up);tr.addEventListener('pointercancel',up);
+    tr.addEventListener('keydown',e=>{const k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(k){e.preventDefault();go((p._k||0)+k)}else if(e.key==='Home'){e.preventDefault();go(0)}else if(e.key==='End'){e.preventDefault();go(1e9)}});
+    p.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();scrubClose()}});
+    p.querySelector('.spX').onclick=scrubClose;addEventListener('resize',()=>{if(!p.hidden)scrubPlace()})}
+  p.hidden=false;p._seq=scrubSeq();p._k=Math.max(0,p._seq.indexOf(presetIdx));const st=p.querySelector('.spStrip'),all=allPresets();st.innerHTML='';
+  for(const id of p._seq){const c=document.createElement('i');st.appendChild(c);try{frameFor(all[id],u=>{if(u)c.style.backgroundImage='url("'+u+'")'})}catch(_){}}
+  scrubPlace();scrubMark();try{p.querySelector('.spTrack').focus({preventScroll:true})}catch(_){}if(window.cxCount)cxCount('scrub: open',1)}
+function scrubPlace(){const p=$('scrubPad'),b=$('playbar');if(!p||!b)return;const r=b.getBoundingClientRect(),w=Math.min(innerWidth-16,640);
+  p.style.width=w+'px';p.style.left=Math.max(8,(innerWidth-w)/2)+'px';p.style.bottom=(innerHeight-r.top+12)+'px'}
+function scrubMark(){const p=$('scrubPad');if(!p)return;const S=p._seq||[],n=S.length,k=p._k||0,all=allPresets(),t=p.querySelector('.spThumb'),tr=p.querySelector('.spTrack');
+  t.style.left=(n?(k+.5)/n*100:0)+'%';t.style.width='max(4px,'+(n?100/n:100)+'%)';const nm=all[S[k]]?all[S[k]].name:'';p.querySelector('.spName').textContent=nm;
+  tr.setAttribute('aria-valuemin','1');tr.setAttribute('aria-valuemax',String(n));tr.setAttribute('aria-valuenow',String(k+1));tr.setAttribute('aria-valuetext',(k+1)+' of '+n+': '+nm)}
+function scrubClose(){const p=$('scrubPad');if(!p||p.hidden)return;p.hidden=true;const b=scrubOpen.back;scrubOpen.back=null;try{if(b&&b.isConnected)b.focus({preventScroll:true});else $('pAuto').focus({preventScroll:true})}catch(_){}}   /* focus goes back (review f571aef472 r-4) */
+function stepPreset(d){if(!allPresets().length)return;roboSweep(d);roboEar(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
 let labT=0;
 function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=document.scrollingElement||document.documentElement;if(d.scrollTop||d.scrollLeft){d.scrollTop=0;d.scrollLeft=0}}   /* the stage is the page: never leave it scrolled (iPhone, #install, 18 Oct) */
   {const l=$('duckLab');if(l&&!quiet){l.textContent=v?'Index':'Close';if(!v){l.classList.remove('tucked');clearTimeout(labT);labT=setTimeout(()=>l.classList.add('tucked'),2600)}else{clearTimeout(labT);l.classList.add('tucked')}}}const d=$('duckBtn');d.setAttribute('aria-expanded',String(!v));d.setAttribute('aria-label',v?'Settings (Index). Opens the drawer on the left (p)':'Close the settings drawer (p)');
@@ -4924,14 +4992,20 @@ function autoIds(){const all=allPresets(),base=playIds();let ids=base;
 /* WHICH WAY (0.33.83, Dimitry, 27 Oct 13:35-13:44: "I want kids to understand this and delight in the interface. I am basing
    the order on what Resolume allows", Resolume's Autopilot: forward, backward, random as Other (never the same twice) and
    Bag ("you remove every scene once before starting over"), and loop or stop after the last; plus bounce, and the seeded,
-   scrubbable sequence of _____ American _____). Words a child says: Forward, Back, Bounce, Surprise, Deck, Same surprise.
-   Deck, Bounce and Same surprise are Pro; the private preview plays them all, to try. */
+   scrubbable sequence of _____ American _____). Words a child says: Forward, Back, Bounce, Random, Shuffle, Seed (17:10: "Surprise and Same surprise are too quirky as titles. Shuffle, Random, Seed, with seed enter list like words"; Shuffle is the bag, as in music players).
+   Shuffle, Bounce and Seed are Pro; the private preview plays them all, to try. */
 const DIR_PRO=d=>!!AUTO_PRO_DIR[d];
 function dirOK(d){return !DIR_PRO(d)||isPro('autoplay.dir')||!!window.__HOME__}
 function autoDir(){return dirOK(AUTO.dir)?AUTO.dir:AUTO.dir==='deck'?'surprise':'forward'}
 function seedPerm(a,seed){a=a.slice();let s=(seed>>>0)||1;const r=()=>{s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296};
   for(let i=a.length-1;i>0;i--){const j=(r()*(i+1))|0;const x=a[i];a[i]=a[j];a[j]=x}return a}
-function autoSeq(ids){const set=new Set(ids),ord=orderedIds().filter(i=>set.has(i));return autoDir()==='same'?seedPerm(ord,AUTO.seed||1):ord}
+/* SEED WORDS (17:10): a seed is a few words, as a person would say it ("blue fox moon"); the same words, cleaned of case
+   and spacing, always grow the same order */
+const SEED_WORDS='apple,blue,cloud,drum,egg,fox,green,hill,ice,jam,kite,leaf,moon,nest,owl,pear,quiet,rain,sun,tree,wave,yarn,zebra,bell,coral,dune,ember,fern,gold,honey,iris,jade,lake,mango,night,ocean,pine,river,salt,tide,violet,wind,amber,bird,comet,dawn,echo,frost,glow,harbor,island,lime,maple,north,orbit,pebble,reef,shell,storm,tiger,velvet,whale,yellow,zinc'.split(',');
+const seedClean=t=>String(t||'').toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim().slice(0,48);
+const seedNew=()=>{const w=[];while(w.length<3){const x=SEED_WORDS[(Math.random()*SEED_WORDS.length)|0];if(!w.includes(x))w.push(x)}return w.join(' ')};
+const seedHash=t=>{let h=2166136261;for(const c of seedClean(t)||'seed')h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
+function autoSeq(ids){const set=new Set(ids),ord=orderedIds().filter(i=>set.has(i));return autoDir()==='same'?seedPerm(ord,seedHash(AUTO.seedW)):ord}
 /* fresh: the robot is just starting, so a stop-at-the-end order that stands on its last scene starts again from the first */
 function autoPickNext(fresh){const ids=autoIds(),d=autoDir(),stop=AUTO.end==='stop'&&!fresh;let n=null;
   if(ids.length<2)n=ids[0]!==presetIdx?ids[0]:null;
@@ -4947,10 +5021,12 @@ function autoPickNext(fresh){const ids=autoIds(),d=autoDir(),stop=AUTO.end==='st
 function autoNext(){const all=allPresets(),ids=autoIds();
   let n=AUTO.next;if(n==null||!ids.includes(n)||n===presetIdx||!all[n])n=autoPickNext();
   if(n==null||!all[n]){if(AUTO.end==='stop'&&!['surprise','bounce'].includes(autoDir())){setAuto(false,true);toast('the end: the robot stopped after the last scene');try{syncAutoUI()}catch(_){}}return}
+  {const d=autoDir();roboEar(d==='back'?-1:d==='bounce'?(AUTO.bdir||1):d==='forward'?1:Math.random()<.5?-1:1)}
+  try{const u=document.querySelector('#plAuto .apUnitBtn');if(u){u.classList.add('apRe');void u.offsetWidth;u.classList.remove('apRe')}}catch(_){}
   autoAt=performance.now();loadPreset(n,false,autoPart());flashName(all[n].name);autoPickNext();randRestart();syncAutoUI()}
 /* who started the robot (0.29.56): 'boot' is a computer's opening play, 'person' a performance; studio notices wait only for a performance */
 function setAuto(v,quiet){const was=!!autoT;clearInterval(autoT);autoT=null;if(v&&!was)window.ROBOT_BY=window.__robotBoot?'boot':'person';if(!v)window.ROBOT_BY=null;
-  if(v){if(!was){AUTO.bag=null;AUTO.bdir=1}else if(AUTO.bag&&AUTO.next!=null&&!AUTO.bag.includes(AUTO.next))AUTO.bag.unshift(AUTO.next);autoPickNext(!was);const arm=()=>{autoT=setTimeout(()=>{autoNext();if(autoT)arm()},autoMs())};arm()}else AUTO.next=null;autoAt=performance.now();const b=$('pAuto');b.classList.toggle('on',v);b.setAttribute('aria-pressed',String(v));robotBeat();
+  if(v){if(!was){AUTO.bag=null;AUTO.bdir=1}else if(AUTO.bag&&AUTO.next!=null&&!AUTO.bag.includes(AUTO.next))AUTO.bag.unshift(AUTO.next);autoPickNext(!was);const arm=()=>{const ms=autoMs();document.documentElement.style.setProperty('--ap-step',ms+'ms');autoT=setTimeout(()=>{autoNext();if(autoT)arm()},ms)};arm()}else AUTO.next=null;autoAt=performance.now();const b=$('pAuto');b.classList.toggle('on',v);b.setAttribute('aria-pressed',String(v));robotBeat();
   if(v&&!quiet)toast('a new scene '+autoEveryWords()+(autoDir()==='forward'?'':', '+(AUTO_LOOK[autoDir()]||[autoDir()])[0].toLowerCase())+(AUTO.which==='all'?'':', '+(AUTO_LOOK[AUTO.which]||[AUTO.which])[0].toLowerCase()));syncPlist()}
 let plSegs=[];
 /* TWO TABS (Dimitry, 20 Oct: "two tabs, one for the presets and one for the autoplay settings ... more visual ... the
@@ -4959,7 +5035,7 @@ let plSegs=[];
    order and morph. Everything in the Auto tab is drawn from the live state by syncAutoUI(), so it can never lag the bar. */
 const PLI=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
 /* THE PANEL'S BIG BUTTON IS THE ROBOT (Dimitry, 21 Oct night): the bar's robot, drawn the same, tap = start or stop */
-const ROBOT_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="robo-g" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-f" stroke="none"><rect class="f0" x="7.1" y="11.9" width="2.6" height="4" rx=".5"/><rect class="f1" x="10.7" y="10.9" width="2.6" height="6" rx=".5"/><rect class="f2" x="14.3" y="11.9" width="2.6" height="4" rx=".5"/></g></g></svg>';
+const ROBOT_SVG='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="robo-g" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="8" width="15" height="11.5" rx="2.6"/><path d="M12 8V5.4"/><circle class="robo-l" cx="12" cy="4.2" r="1.15"/><g class="robo-w" stroke-width="1.3"><path class="r1" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r2" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/><path class="r3" vector-effect="non-scaling-stroke" d="M9.4 2.7A3 3 0 0 1 14.6 2.7"/></g><g class="robo-f" stroke="none"><rect class="f0" x="7.1" y="11.9" width="2.6" height="4" rx=".5"/><rect class="f1" x="10.7" y="10.9" width="2.6" height="6" rx=".5"/><rect class="f2" x="14.3" y="11.9" width="2.6" height="4" rx=".5"/></g><g class="robo-ears" stroke="none"><rect class="el" x="0.8" y="12.6" width="3" height="2.4" rx=".6"/><rect class="er" x="20.2" y="12.6" width="3" height="2.4" rx=".6"/></g></g></svg>';
 /* THE ROBOT DANCES WHILE IT RUNS (Dimitry, 21 Oct night): its eyes glance side to side and its antenna light pulses,
    one move per beat when it counts beats or bars, otherwise about once a second. Steady light under reduced motion. */
 function robotBeat(){let b=1;try{if(AUTO.unit!=='sec')b=Math.min(2,Math.max(.25,autoBeatSec()))}catch(_){}document.documentElement.style.setProperty('--robo-beat',b.toFixed(3)+'s')}
@@ -4972,10 +5048,18 @@ const AUTO_LOOK={'in order':['In order','<path d="M4 12h14M13 7l5 5-5 5"/>','eac
   'forward':['Forward','<path d="M4 12h14M13 7l5 5-5 5"/>','one scene after another, in your order'],
   'back':['Back','<path d="M20 12H6M11 7l-5 5 5 5"/>','the same order, backwards'],
   'bounce':['Bounce','<path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/>','forward to the last scene, then back to the first, and again'],
-  'surprise':['Surprise','<path d="M3 7h3c4 0 6 10 10 10h4M3 17h3c4 0 6-10 10-10h4M18 4l3 3-3 3M18 14l3 3-3 3"/>','any scene, never the same one twice in a row'],
-  'deck':['Deck','<rect x="8" y="3.5" width="11.5" height="15.5" rx="2"/><path d="M5 7v11.5A2.5 2.5 0 0 0 7.5 21H15"/>','like a deck of cards: every scene once, shuffled, then a new deck'],
-  'same':['Same surprise','<path d="M3 7h3c4 0 6 10 10 10h4M3 17h3c4 0 6-10 10-10h4"/><circle cx="12" cy="12" r="2.1" fill="currentColor" stroke="none"/>','a shuffled order with a number: the same number always plays the same order. Tap again for a new number']};
+  'surprise':['Random','<path d="M3 7h3c4 0 6 10 10 10h4M3 17h3c4 0 6-10 10-10h4M18 4l3 3-3 3M18 14l3 3-3 3"/>','any scene, never the same one twice in a row'],
+  'deck':['Shuffle','<rect x="8" y="3.5" width="11.5" height="15.5" rx="2"/><path d="M5 7v11.5A2.5 2.5 0 0 0 7.5 21H15"/>','like a deck of cards: every scene once, shuffled, then shuffled again'],
+  'same':['Seed','<path d="M12 21v-7.5"/><path d="M12 13.5c0-4.4 3.1-7.5 7.5-7.5 0 4.4-3.1 7.5-7.5 7.5z"/><path d="M12 15.5c0-3.3-2.6-5.9-5.9-5.9 0 3.3 2.6 5.9 5.9 5.9z"/>','a shuffle grown from a few words: the same words always play the same order. Type your own, or tap again for new ones']};
 const AUTO_DIRS=['forward','back','bounce','surprise','deck','same'];
+/* THE UNIT SAYS HOW IT RUNS (Dimitry, 27 Oct 13:22 and 13:30: "stop watch would be when running (sec). hand only for full
+   manual in which case everything to right could be dimmed... and maybe we animate the watch face? and the beats and the
+   bars when they are playing?"): while the robot runs, the stopwatch's hand goes round once per scene, the beat's ticks light
+   in turn on the beat, the bar's line pulses once a bar; stopped, a hand, the row beside it dimmed. The dots keep the unit. */
+const UNIT_LIVE={sec:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13.5" r="7"/><path d="M10 3.5h4M12 3.5v3M18 7l1.4-1.4"/><path class="apHand" d="M12 13.5V8.6"/></svg>',
+  beat:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="tk t0" d="M6 5v11" stroke-width="2.8"/><path class="tk t1" d="M12 5v11" stroke-width="2.8"/><path class="tk t2" d="M18 5v11" stroke-width="2.8"/><path d="M3.5 20h17" stroke-width="1.1"/></svg>',
+  bar:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 5v11M12 5v11M18 5v11" stroke-width="1.1"/><path class="ln" d="M3.5 20h17" stroke-width="2.8"/></svg>'};
+const UNIT_HAND='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15.5"/></svg>';
 const END_LOOK={loop:['Loop','<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>','after the last scene, start again'],stop:['Stop at end','<path d="M3.5 12h12M11 7.5l4.5 4.5-4.5 4.5M20 5.5v13"/>','after the last scene, the robot stops']};
 const MORPH_LOOK={0:'<path d="M3 17h9V7h9"/>',2.2:'<path d="M3 17C10 17 14 7 21 7"/>',6:'<path d="M3 17C17 17 7 7 21 7"/>'};
 let plTabs=null,autoAt=0,apRaf=0;
@@ -5063,8 +5147,9 @@ function buildPlist(){plTabsMount();
       const r=document.createElement('button');r.type='button';r.className='apBead rnd';r.setAttribute('role','radio');r.dataset.v='rand';r.title='at random';
       r.setAttribute('aria-label','A new scene at random, every few '+U.name);r.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>');   // the bar's Random dice, the same drawing (0.27.8)
       r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
-      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.innerHTML=TIME.ICON[UNIT_ORDER[i]]+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((u,k)=>'<i'+(k===i?' class="on"':'')+'></i>').join('')+'</span>';   /* each unit's own mark, as on the drawer's switch */
-        ub.title=AUTO_UNITS[UNIT_ORDER[i]].name;ub.setAttribute('aria-label','Every counts in '+AUTO_UNITS[UNIT_ORDER[i]].name+'. Tap for '+AUTO_UNITS[nx].name)}};
+      {const cur=AUTO.rand?'rand':String(AUTO.n);for(const x of g.children)if(x.getAttribute('role')==='radio')x.setAttribute('aria-checked',String(x.dataset.v===cur))}   /* a redraw keeps the lit bead (review f571aef472 r-1: syncAutoUI redraws after syncPlist marked them) */
+      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.classList.toggle('apHandOn',!autoT);ub.innerHTML=(autoT?UNIT_LIVE[UNIT_ORDER[i]]:UNIT_HAND)+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((u,k)=>'<i'+(k===i?' class="on"':'')+'></i>').join('')+'</span>';   /* each unit's own mark, as on the drawer's switch */
+        ub.title=(autoT?'':'by hand: the robot is stopped · ')+AUTO_UNITS[UNIT_ORDER[i]].name;ub.setAttribute('aria-label',(autoT?'':'By hand: the robot is stopped. ')+'Every counts in '+AUTO_UNITS[UNIT_ORDER[i]].name+'. Tap for '+AUTO_UNITS[nx].name)}};
     drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
   /* THE GEAR ON EACH TILE (Dimitry, 22 Oct): a small gear in a Changes tile's lower-right corner goes to where that
      thing is made. Pattern: the Pattern tool. Style: the Color tool. Sound: the sound drawer and its shelf (beats).
@@ -5121,9 +5206,9 @@ function buildPlist(){plTabsMount();
   plSegs=[
     changes(),
     beads(),
-    tiles('Which way','order dirs',AUTO_DIRS.map(o=>{const L=AUTO_LOOK[o];return {v:o,html:PLI(L[1])+'<span>'+L[0]+'</span>'+(o==='same'?'<small class="n apSeed"></small>':'')+(DIR_PRO(o)?'<em class="proB apDirPro"></em>':''),aria:L[0]+(DIR_PRO(o)?' (Pro)':'')+': '+L[2],title:L[2]}}),()=>autoDir(),v=>{
+    tiles('Which way','order dirs',AUTO_DIRS.map(o=>{const L=AUTO_LOOK[o];return {v:o,html:PLI(L[1])+'<span>'+L[0]+'</span>'+''+(DIR_PRO(o)?'<em class="proB apDirPro"></em>':''),aria:L[0]+(DIR_PRO(o)?' (Pro)':'')+': '+L[2],title:L[2]}}),()=>autoDir(),v=>{
       if(!dirOK(v)){dirPro(v);return}
-      if(v==='same'&&(AUTO.dir==='same'||!AUTO.seed)){AUTO.seed=1+((Math.random()*9999)|0);toast('same surprise #'+AUTO.seed+': this number always plays the same order')}
+      if(v==='same'&&(AUTO.dir==='same'||!AUTO.seedW)){AUTO.seedW=seedNew();toast('seed: '+AUTO.seedW+'. The same words always play the same order')}
       AUTO.dir=v;AUTO.bag=null;AUTO.bdir=1;if(autoT)setAuto(true,true)})];
   /* the Pro note under the row, for Deck, Bounce and Same surprise on the public site (the preview plays them) */
   function dirPro(v){const og=plSegs[2];let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
@@ -5132,13 +5217,19 @@ function buildPlist(){plTabsMount();
   /* SCRUB (Dimitry, 20 Oct; Pro, not built yet): a modifier, not an order. Your touch on the stage moves through the scenes
      as well as through the field, in the order lit beside it: scrub in order, scrub shuffled, scrub your starred ones.
      On its own it scrubs in order. Shown, disabled, marked Pro; a tap says what it will do. */
-  {const og=plSegs[2],sc=document.createElement('button');sc.type='button';sc.className='apT pro';sc.id='apScrub';sc.setAttribute('aria-pressed','false');sc.setAttribute('aria-disabled','true');
+  {const og=plSegs[2],sc=document.createElement('button');sc.type='button';const scOK=scrubOK();sc.className='apT'+(scOK?'':' pro');sc.id='apScrub';sc.setAttribute('aria-pressed','false');if(!scOK)sc.setAttribute('aria-disabled','true');
    sc.setAttribute('aria-label','Scrub, a Pro feature: your touch moves through the scenes, in the order you pick beside it');sc.title='Scrub (Pro): your touch moves through the scenes';
-   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg></em>';
-   sc.onclick=()=>{let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
+   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"'+(scOK?' hidden':'')+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg></em>';
+   sc.onclick=()=>{if(scrubOK()){scrubOpen();return}let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
      n.innerHTML=isPro()?'<p><b>Scrub</b> is coming to Pro: drag across the stage and the scenes follow your finger, in the order you pick with it. Your Pro key will switch it on here when it is built.</p>':'<p><b>Scrub</b> comes with Pro: drag across the stage and the scenes follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
      const fb=n.querySelector('button');if(fb)fb.onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
    og.appendChild(sc)}
+  /* THE SEED'S WORDS (17:10): under Which way while Seed is chosen; type words, or roll new ones */
+  {const og=plSegs[2],r=document.createElement('div');r.id='apSeedRow';r.className='apSeedRow rest';   /* always in its place, resting until Seed is chosen, so nothing below moves (review f571aef472 r-2) */
+   r.innerHTML='<label for="apSeedIn">Seed</label><input id="apSeedIn" type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-describedby="apSeedTip"><button type="button" class="apSeedNew" aria-label="New seed words">'+PLI('<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>')+'</button><span id="apSeedTip" class="apSeedTip">the same words, the same order</span>';
+   const inp=r.querySelector('input'),set=w=>{AUTO.seedW=seedClean(w)||seedNew();inp.value=AUTO.seedW;store.auto={...AUTO};persist();if(autoT)setAuto(true,true);syncPlist()};
+   inp.addEventListener('change',()=>set(inp.value));inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();inp.blur()}});
+   r.querySelector('button').onclick=()=>{set(seedNew());toast('seed: '+AUTO.seedW)};og.after(r)}
   /* LOOP OR STOP (Resolume's "loop after the last column", on or off): one tile that says what happens after the last scene.
      Surprise never ends; Bounce turns round; Forward, Back, Deck and Same surprise can stop. */
   {const og=plSegs[2],e=document.createElement('button');e.type='button';e.className='apT apEnd';e.id='apEnd';
@@ -5157,7 +5248,7 @@ function buildPlist(){plTabsMount();
       get:()=>({show:colSet()}),set:v=>setCols(v.show)});
     cb.classList.add('plBar','plCols','apCols');box.append(h,cb)}   /* last (Dimitry, 24 Oct: Morph sat under the fold below it; the same chips head Scenes) */
   buildLooks();syncPlist()}
-function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync();try{document.documentElement.dataset.roboOrder=autoDir()}catch(_){}try{const pa=$('plAuto');if(pa)pa.classList.toggle('apRun',!!autoT)}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
+function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync();try{document.documentElement.dataset.roboOrder=autoDir()}catch(_){}try{const pa=$('plAuto');if(pa){pa.classList.toggle('apRun',!!autoT);const u=pa.querySelector('.apUnitBtn');if(u&&u._run!==!!autoT){u._run=!!autoT;try{plSegs[1]._draw()}catch(_){}}}}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop autoplay':'Start autoplay');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
   /* one fixed line, whatever it says (21 Oct night): no countdown, the bar above shows it */
@@ -5165,7 +5256,7 @@ function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync
   for(const n of $('plAuto').querySelectorAll('small.n[data-o]'))n.textContent=autoPool(n.dataset.o==='all'?'in order':n.dataset.o);
   {const e=$('apEnd'),L=END_LOOK[AUTO.end==='stop'?'stop':'loop'],na=['surprise','bounce'].includes(autoDir());if(e){e.innerHTML=PLI(L[1])+'<span>'+L[0]+'</span>';e.setAttribute('aria-pressed',String(AUTO.end==='stop'));
     e.setAttribute('aria-label','After the last scene: '+L[0]+'. '+L[2][0].toUpperCase()+L[2].slice(1)+(na?'. '+AUTO_LOOK[autoDir()][0]+' has no last scene':'')+'. Tap to switch');e.title=L[2];e.classList.toggle('dim',na)}}
-  {const sd=$('plAuto').querySelector('.apSeed');if(sd)sd.textContent=AUTO.seed?'#'+AUTO.seed:''}
+  {const sr=$('apSeedRow'),on=autoDir()==='same';if(sr){sr.classList.toggle('rest',!on);sr.querySelectorAll('input,button').forEach(x=>x.disabled=!on);const i=$('apSeedIn');if(i)i.placeholder=on?'':'pick Seed to use words';if(i&&document.activeElement!==i){const v=on?AUTO.seedW:'';if(i.value!==v)i.value=v}}}
   for(const b of $('plAuto').querySelectorAll('.apDirPro')){const m=window.__HOME__?'':(window.SurfacePro&&SurfacePro.mark&&SurfacePro.mark('autoplay.dir'))||'';if(b._m!==m){b._m=m;b.innerHTML=m}b.hidden=!m}   /* the kit's padlock: open in beta, shut without a key; none in the private preview */
   {const w=$('apWhich');if(w)for(const y of w.querySelectorAll('.sg'))y.setAttribute('aria-checked',String(AUTO_WHICH[[...y.parentNode.children].indexOf(y)]===AUTO.which))}
   /* SCENES IN PLAY (0.27.3, Dimitry, 21 Oct: "[Scenes in Play(btn)] ## of ##"): a button that opens Scenes, where they
@@ -5333,7 +5424,7 @@ function morphUI(){const g=document.querySelector('#plAuto .apMoDial');if(!g)ret
   const all=allPresets(),cur=all[presetIdx],own=cur?morphOwn(cur):null,nt=$('apMoNote');
   if(nt){const t=own==null?'':'this scene: '+(own?fmtSec(own):'cut');if(nt.textContent!==t)nt.textContent=t;nt.classList.toggle('own',own!=null)}
   try{g._draw()}catch(_){}}
-function openPlist(tab){bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
+function openPlist(tab){try{scrubClose()}catch(_){}bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
   const on=$('plItems').querySelector('[aria-current="true"]');if(on)on.scrollIntoView({block:'center'});$('plClose').focus({preventScroll:true})}
 function closePlist(){if($('plist').hidden)return;$('plist').hidden=true;['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','false'))}
 /* where each Changes tile's gear goes (22 Oct): the shelf turns to that place too */
@@ -10556,10 +10647,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027180856"></script>
-<script src="surface/links.js?v=20261027180856"></script>
-<script src="surface/tips.js?v=20261027180856"></script>
-<script src="surface/sections.js?v=20261027180856"></script>
+<script src="surface/install.js?v=20261027212113"></script>
+<script src="surface/links.js?v=20261027212113"></script>
+<script src="surface/tips.js?v=20261027212113"></script>
+<script src="surface/sections.js?v=20261027212113"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10740,7 +10831,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027180856"></script>
+<script src="surface/room.js?v=20261027212113"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10941,7 +11032,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027180856"></script>
+<script src="surface/touch.js?v=20261027212113"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11685,7 +11776,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.83';
+const APP_VERSION='0.33.84';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
