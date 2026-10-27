@@ -26,7 +26,8 @@
      a host's "#list button{width:100%}" beat the kit's low-specificity segments). One row, always: the show filter as
      equal segments on the left, the sort as ONE compact button on the right ("Sort: Hand ▾") that opens a small real
      menu. The few properties that make it a row are !important, so no host rule for its own rows can stack it again. */
-  var CSS = ":where(.s-lvbar){display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:0 10px;position:relative;min-width:0}" +
+  var CSS = ":where(.s-lvbar[data-sedge]:not([data-sedge=\"\"])){-webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--slv-fl,0px),#000 calc(100% - var(--slv-fr,0px)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--slv-fl,0px),#000 calc(100% - var(--slv-fr,0px)),transparent)}" +
+    ":where(.s-lvbar){display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:0 10px;position:relative;min-width:0}" +
     ".s-lvbar>.segs{display:inline-flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:auto!important;flex:0 1 auto;min-width:0}" +
     ".s-lvbar>.segs>.sg{width:auto!important;flex:1 1 0!important;display:inline-grid!important;margin:0!important}" +
     ".s-lvsort{position:relative;flex:0 0 auto;margin-left:auto}" +
@@ -129,10 +130,22 @@
     };
     w.appendChild(b); w.appendChild(m); sync(); w.sync = sync; return w;
   }
+  /* MORE THIS WAY (Dimitry, 27 Oct 13:19, on a row of chips cut by the panel's edge): a bar that scrolls sideways fades
+     the edge where more lies, 28 px, and only that edge; nothing fades when it all fits. Read on scroll and on resize. */
+  function edges(b) {
+    var f = function () { var ox = getComputedStyle(b).overflowX, m = (ox === "auto" || ox === "scroll") ? b.scrollWidth - b.clientWidth : 0;   /* only a bar that scrolls: a mask would clip an open sort menu (review 06c4643dfc r-3) */
+      var l = m > 2 && b.scrollLeft > 2, r = m > 2 && b.scrollLeft < m - 2;
+      var k = (l ? "l" : "") + (r ? "r" : ""); if (b.getAttribute("data-sedge") === k) return; b.setAttribute("data-sedge", k);
+      if (k) { b.style.setProperty("--slv-fl", l ? "28px" : "0px"); b.style.setProperty("--slv-fr", r ? "28px" : "0px"); } };
+    b.addEventListener("scroll", f, { passive: true });
+    try { new ResizeObserver(f).observe(b); } catch (e) { addEventListener("resize", f); }
+    requestAnimationFrame(f);
+  }
   function bar(o) {
     css(); var b = document.createElement("div"); b.className = "s-lvbar";
     if (o.show && o.show.length) b.appendChild(group((o.label ? o.label + ": " : "") + "show", o.show, function () { return o.get().show; }, function (v) { o.set({ show: v }); }, !!o.multi));
     if (o.sort && o.sort.length) b.appendChild(o.sortAs === "segs" ? group((o.label ? o.label + ": " : "") + "sort", o.sort, function () { return o.get().sort; }, function (v) { o.set({ sort: v }); }) : sortMenu(o));
+    edges(b);
     return b;
   }
   function order(keys, o) {

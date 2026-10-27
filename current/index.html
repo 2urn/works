@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027164504";window.__VERSION__="0.33.81";window.__NOTES__=[{"v":"0.33.81","date":"27 Oct 2026","items":[{"kind":"change","text":"Autoplay's unit shows as three small dots under its circle, the lit one is the unit, and one line runs through the middle of the circles"},{"kind":"fix","text":"a panel's close keeps its highlight inside the panel's rounded corner"},{"kind":"new","text":"every panel has the ring between its ‹ and › at the bottom: on a phone the panel folds into its ring, on a bigger screen the ring opens beside the panel"}]}]</script>
+<script>window.__BUILD__="20261027173255";window.__VERSION__="0.33.82";window.__NOTES__=[{"v":"0.33.82","date":"27 Oct 2026","items":[{"kind":"fix","text":"volume at zero is silent, from the ring as from the bar"},{"kind":"fix","text":"the bar's speaker and the rings' volume show the same state: lit only when you can hear it; muted or at zero it goes dark with the X while its wave still moves"},{"kind":"change","text":"the ring button in a panel's band lights while its ring is open beside the panel, and a second tap closes it"},{"kind":"change","text":"a row of chips that runs past the panel's edge fades on that side, so you can see there is more"},{"kind":"change","text":"Autoplay's stopwatch ring is grey while the robot is stopped"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027164504"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027164504">
+<script src="claude-web.js?v=20261027173255"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027173255">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027164504"></script>
-<script src="surface/nozoom.js?v=20261027164504"></script><script src="surface/steady.js?v=20261027164504"></script><script src="surface/selftest.js?v=20261027164504"></script><script src="surface/size.js?v=20261027164504"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027164504"></script>
-<script src="surface/auto.js?v=20261027164504"></script>
-<script src="surface/toolpath.js?v=20261027164504"></script>
-<script src="surface/capture.js?v=20261027164504"></script>
-<script src="surface/pop.js?v=20261027164504"></script>
-<script src="surface/hints.js?v=20261027164504"></script>
-<script src="surface/paths.js?v=20261027164504"></script>
-<script src="surface/keys.js?v=20261027164504"></script>
-<script src="surface/reset.js?v=20261027164504"></script>
-<script src="surface/files.js?v=20261027164504"></script>
-<script src="surface/tabs.js?v=20261027164504"></script>
-<script src="surface/running.js?v=20261027164504"></script>
-<script src="surface/trim.js?v=20261027164504"></script>
-<script src="surface/audiowake.js?v=20261027164504"></script>
-<script src="surface/output.js?v=20261027164504"></script>
-<script src="surface/board.js?v=20261027164504"></script>
-<script src="surface/voice.js?v=20261027164504"></script>
-<script src="surface/voicelib.js?v=20261027164504"></script>
-<script src="surface/instruments.js?v=20261027164504"></script>
-<script src="surface/listview.js?v=20261027164504"></script>
-<script src="surface/beads.js?v=20261027164504"></script>
-<script src="surface/strip.js?v=20261027164504"></script>
-<script src="surface/sheetnav.js?v=20261027164504"></script>
-<script src="surface/twofinger.js?v=20261027164504"></script>
-<script src="surface/ring.js?v=20261027164504"></script>
-<script src="surface/shortlink.js?v=20261027164504"></script>
-<script src="surface/undo.js?v=20261027164504"></script>
-<script src="surface/pro.js?v=20261027164504"></script>
-<script src="surface/fresh.js?v=20261027164504"></script>
-<script src="surface/go.js?v=20261027164504"></script>
-<script src="surface/notice.js?v=20261027164504"></script>
-<script src="surface/perform.js?v=20261027164504"></script>
+<script src="vendor/opentype.min.js?v=20261027173255"></script>
+<script src="surface/nozoom.js?v=20261027173255"></script><script src="surface/steady.js?v=20261027173255"></script><script src="surface/selftest.js?v=20261027173255"></script><script src="surface/size.js?v=20261027173255"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027173255"></script>
+<script src="surface/auto.js?v=20261027173255"></script>
+<script src="surface/toolpath.js?v=20261027173255"></script>
+<script src="surface/capture.js?v=20261027173255"></script>
+<script src="surface/pop.js?v=20261027173255"></script>
+<script src="surface/hints.js?v=20261027173255"></script>
+<script src="surface/paths.js?v=20261027173255"></script>
+<script src="surface/keys.js?v=20261027173255"></script>
+<script src="surface/reset.js?v=20261027173255"></script>
+<script src="surface/files.js?v=20261027173255"></script>
+<script src="surface/tabs.js?v=20261027173255"></script>
+<script src="surface/running.js?v=20261027173255"></script>
+<script src="surface/trim.js?v=20261027173255"></script>
+<script src="surface/audiowake.js?v=20261027173255"></script>
+<script src="surface/output.js?v=20261027173255"></script>
+<script src="surface/board.js?v=20261027173255"></script>
+<script src="surface/voice.js?v=20261027173255"></script>
+<script src="surface/voicelib.js?v=20261027173255"></script>
+<script src="surface/instruments.js?v=20261027173255"></script>
+<script src="surface/listview.js?v=20261027173255"></script>
+<script src="surface/beads.js?v=20261027173255"></script>
+<script src="surface/strip.js?v=20261027173255"></script>
+<script src="surface/sheetnav.js?v=20261027173255"></script>
+<script src="surface/twofinger.js?v=20261027173255"></script>
+<script src="surface/ring.js?v=20261027173255"></script>
+<script src="surface/shortlink.js?v=20261027173255"></script>
+<script src="surface/undo.js?v=20261027173255"></script>
+<script src="surface/pro.js?v=20261027173255"></script>
+<script src="surface/fresh.js?v=20261027173255"></script>
+<script src="surface/go.js?v=20261027173255"></script>
+<script src="surface/notice.js?v=20261027173255"></script>
+<script src="surface/perform.js?v=20261027173255"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -225,14 +225,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027164504"></script>
-<script src="surface/rail.js?v=20261027164504"></script>
-<script src="surface/touchsound.js?v=20261027164504"></script>
-<script src="surface/water.js?v=20261027164504"></script>
-<script src="surface/ripple.js?v=20261027164504"></script>
-<script src="surface/material.js?v=20261027164504"></script>
-<script src="surface/float.js?v=20261027164504"></script>
-<script src="surface/manual.js?v=20261027164504"></script>
+<script src="surface/pack.js?v=20261027173255"></script>
+<script src="surface/rail.js?v=20261027173255"></script>
+<script src="surface/touchsound.js?v=20261027173255"></script>
+<script src="surface/water.js?v=20261027173255"></script>
+<script src="surface/ripple.js?v=20261027173255"></script>
+<script src="surface/material.js?v=20261027173255"></script>
+<script src="surface/float.js?v=20261027173255"></script>
+<script src="surface/manual.js?v=20261027173255"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1109,6 +1109,8 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 #plAuto .apEveryRow .apBeads .apBead.rnd{flex:none;width:var(--s-bead,38px);height:var(--s-bead,38px);min-width:var(--s-bead,38px);max-width:none}
 .apUnitBtn,.apMoDial{box-sizing:border-box;position:relative;flex:none;width:var(--s-bead,38px);height:var(--s-bead,38px);border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:var(--ui-ink);-webkit-tap-highlight-color:transparent}
 .apUnitBtn{border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background:color-mix(in srgb,var(--acc,#55b8c9) 12%,transparent)}
+/* (Dimitry, 27 Oct 13:22: "the highlighted border on stopwatch should at least be gray when autoplay is OFF"): the unit's ring is the accent only while the robot runs, as the bar's dice is lit only while it rolls */
+#plAuto:not(.apRun) .apEveryRow .apUnitBtn{border-color:rgb(var(--ui-hi) / .22)}
 .apUnitBtn svg{width:22px;height:22px;margin-top:-5px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .apDots{position:absolute;left:50%;bottom:7px;transform:translateX(-50%);display:flex;gap:3px}
 .apDots i{width:4px;height:4px;border-radius:50%;box-shadow:inset 0 0 0 1px currentColor;opacity:.7}.apDots i.on{background:currentColor;opacity:1}
@@ -4094,7 +4096,7 @@ function syncInside(){[...ins.children].forEach(b=>b.setAttribute('aria-pressed'
 
 /* PINNED PANELS (Dimitry, 24 Oct: "add a pin ... to keep a modal up for a while ... the pin is there to hold the position").
    The kit's pin (pop.js) marks the panel; every outside-tap close below asks this first, so the stage plays under it. */
-function pinnedUp(id){if(window.RING_BESIDE===id&&window.SurfaceRing&&SurfaceRing.isOpen())return true;   /* a panel with its ring open beside it stays (review c5fbc7aedc r-1) */
+function pinnedUp(id){if(besideOpen(id))return true;   /* a panel with its ring open beside it stays (review c5fbc7aedc r-1) */
   try{return !!(window.SurfacePop&&SurfacePop.pinned&&SurfacePop.pinned('#'+id))}catch(_){return false}}
 // ---------- Presets: built-in scenes + yours, morph, random, save ----------
 const LS='toolpath-field:v1';
@@ -5093,7 +5095,7 @@ function buildPlist(){plTabsMount();
       get:()=>({show:colSet()}),set:v=>setCols(v.show)});
     cb.classList.add('plBar','plCols','apCols');box.append(h,cb)}   /* last (Dimitry, 24 Oct: Morph sat under the fold below it; the same chips head Scenes) */
   buildLooks();syncPlist()}
-function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync();try{document.documentElement.dataset.roboOrder=AUTO.order==='shuffle'?'shuffle':''}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
+function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync();try{document.documentElement.dataset.roboOrder=AUTO.order==='shuffle'?'shuffle':''}catch(_){}try{const pa=$('plAuto');if(pa)pa.classList.toggle('apRun',!!autoT)}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop autoplay':'Start autoplay');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
   /* one fixed line, whatever it says (21 Oct night): no countdown, the bar above shows it */
@@ -5917,7 +5919,7 @@ function micLive(){try{return !!AUD.mic}catch(_){return false}}   // the capture
 function recLevels(v){v=Math.max(0,Math.min(1,+v||0));return [Math.cos(v*Math.PI/2),Math.sin(v*Math.PI/2)]}
 function recMix(){if(!AUD.recMus)return;const t=AUD.ctx.currentTime,live=micLive(),[m,k]=live?recLevels(CAP.snd):[1,0];
   AUD.recMus.gain.setTargetAtTime(1,t,.05);AUD.recMic.gain.setTargetAtTime(.7*k,t,.05);
-  if(AUD.vol)AUD.vol.gain.setTargetAtTime((+$('audVol').value)*(AUD.recOn?m:1),t,AUD.recOn?.12:.25)}
+  volGain((+$('audVol').value)*(AUD.recOn?m:1),AUD.recOn?.3:.6)}
 /* TITLES AND LENGTH (Dimitry, 19 Oct): a video or GIF can open on the name and the work's title, close on the
    duck-rabbit and the link, fade in and out, and stop by itself after a time or a number of bars (at the tapped tempo,
    the beat's, or 120). Composed into the recorded frames only: the stage itself never shows them. */
@@ -7928,7 +7930,7 @@ function hookMic(st,cam){
 $('audFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!ensureCtx()){toast('This browser has no Web Audio.');return}
   f.arrayBuffer().then(b=>AUD.ctx.decodeAudioData(b)).then(buf=>{AUD.fileBuf=buf;AUD.file=f.name;startFile();toast('playing '+f.name)})
    .catch(()=>toast('Could not read that file. Try an mp3, wav or m4a.'));e.target.value=''});
-$('audVol').addEventListener('input',e=>{if(+e.target.value>.02)VOL_LAST=+e.target.value;try{$('pSnd').classList.toggle('vol0',+e.target.value<=0)}catch(_){}if(typeof sndVolRing==='function')sndVolRing();$('audVolV').textContent=(+e.target.value).toFixed(2);if(AUD.vol)AUD.vol.gain.value=+e.target.value});
+$('audVol').addEventListener('input',e=>{if(+e.target.value>.02)VOL_LAST=+e.target.value;try{$('pSnd').classList.toggle('vol0',+e.target.value<=0)}catch(_){}if(typeof sndVolRing==='function')sndVolRing();$('audVolV').textContent=(+e.target.value).toFixed(2);volGain((+e.target.value)*(AUD.recOn&&micLive()?recLevels(CAP.snd)[0]:1));try{sndLit()}catch(_){}});
 $('audGain').addEventListener('input',e=>{AUD.gain=+e.target.value;$('audGainV').textContent=AUD.gain.toFixed(2)});
 const audSeg=$('audSrc');
 function syncAud(){bsSync();try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
@@ -7936,8 +7938,8 @@ function syncAud(){bsSync();try{bbBtns();bbList()}catch(_){}audSeg.innerHTML='';
   for(const o of opts){const b=document.createElement('button');b.type='button';b.textContent=o==='file'?(AUD.file||'file').slice(0,18):o.toLowerCase();
     b.setAttribute('aria-pressed',String(o==='off'?AUD.src==='off':isOn(o)));b.setAttribute('aria-label',o==='off'?'Stop the sound':o==='file'?'Play your track: '+AUD.file:o==='mic'?'Listen to the microphone: the room moves the field':isByte(o)?'Play the bytebeat '+o+': '+bbFormula(o):'Play the built-in beat '+o);
     b.onclick=()=>{if(o==='off'){AUD.userOff=true;stopAudio()}else if(o==='file')startFile();else if(o==='mic')startMic();else startBeat(o)};audSeg.appendChild(b)}
-  if(typeof sndVolRing==='function')sndVolRing();const on=audible(),sb=$('pSnd');sb.classList.toggle('vol0',volZero());sb.classList.toggle('on',on);sb.classList.toggle('wait',sounding()&&!on);sb.classList.toggle('muted',on&&!!AUD.muted);sb.setAttribute('aria-pressed',String(on));if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
-  sb.classList.toggle('micOn',!!AUD.mic);{const t=$('pSndTag');if(AUD.mic){if(!t.firstChild||t.firstChild.nodeType!==1)t.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><rect class="mlv" x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>';micTagTick()}else t.textContent=''}sb.setAttribute('aria-label',(on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your track, the microphone and settings');
+  if(typeof sndVolRing==='function')sndVolRing();sndLit();const sb=$('pSnd'),on=audible();if(typeof syncSndShelf==='function'&&sndOpen){if(AUD.fileBuf&&!$('sdLoad'))buildSndShelf();else syncSndShelf()}
+  sb.classList.toggle('micOn',!!AUD.mic);{const t=$('pSndTag');if(AUD.mic){if(!t.firstChild||t.firstChild.nodeType!==1)t.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="3.5" width="6" height="11" rx="3"/><rect class="mlv" x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>';micTagTick()}else t.textContent=''}sb.setAttribute('aria-label',(on&&!AUD.muted&&volZero()?'Volume at zero: it plays on, silent, and the field still moves to it. Tap to bring the volume back':on&&AUD.muted?'Sound muted: it plays on, silent, and the field still moves to it. Tap to hear it':on?(AUD.src==='mic'?(AUD.mic&&AUD.mic.cam?'Listening to the camera’s microphone. Tap to play music under it':'Listening to the microphone. Tap to mute'):AUD.mic?'Sound on, with the microphone. Tap to mute':'Sound on. Tap to mute'):'Sound off. Tap to play')+'. Hold for beats, your track, the microphone and settings');
   try{mixSync()}catch(_){}
   if(AUD.silent){if(on)AUD.silent.play().catch(()=>{});else AUD.silent.pause()}}
 /* Unlock: browsers keep audio suspended until a real gesture (a beat started by a preset, autoplay or boot
@@ -8671,6 +8673,17 @@ const audible=()=>sounding()&&!!AUD.ctx&&AUD.ctx.state==='running';
 const volZero=()=>{const v=$('audVol');return !!v&&+v.value<=0};
 const heard=()=>audible()&&!AUD.muted&&!volZero();
 let VOL_LAST=.6;
+/* ONE STATE, EVERY SPEAKER (Dimitry, 27 Oct 13:16-13:18: "sync of audio and sound on ring vs bar"; "the correct look for mute
+   is non-highlighted button but wave still moving"; "of course they should sync in terms of state"): the bar's speaker is
+   lit only when the sound is heard, as the rings' volume dots are. Muted or at zero while it plays: unlit, the X, the wave
+   still moving. Asleep: the soft outline (wait). Called on every volume change too, so a ring's drag to zero shows at once. */
+function sndLit(){const sb=$('pSnd');if(!sb)return;const a=audible(),h=heard();sb.classList.toggle('vol0',volZero());sb.classList.toggle('on',h);
+  sb.classList.toggle('wait',sounding()&&!a);sb.classList.toggle('muted',a&&!h);sb.setAttribute('aria-pressed',String(h))}
+/* ZERO IS SILENT (13:16: "sound is still playing after I turned volume to 0 in ring menu"): the master gain was set by .value
+   while recMix had scheduled a setTargetAtTime on it. WebKit ignores the .value setter while automation is on the timeline,
+   and a target curve only nears zero (-35 dB a second later). Every change now clears the timeline and ramps, linearly, to the
+   exact value. */
+function volGain(v,dur){if(!AUD.vol||!AUD.ctx)return;const g=AUD.vol.gain,t=AUD.ctx.currentTime;try{g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.linearRampToValueAtTime(Math.max(0,+v||0),t+(dur||.03))}catch(_){g.value=Math.max(0,+v||0)}}
 function volBack(){const v=$('audVol');if(!v)return;v.value=String(VOL_LAST>.02?VOL_LAST:.6);v.dispatchEvent(new Event('input'))}
 /* THE SPEAKER AND THE RING'S VOLUME SAY THE SAME THING (Dimitry, 25 Oct 09:19): lit (the accent) when the sound can be
    heard, dark with the wave still moving when it plays muted, and the volume as a ring round both, like the dice's.
@@ -9184,11 +9197,15 @@ function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" f
     min:0,max:100,step:5,get:()=>CFADE,set:v=>{CFADE=Math.max(0,Math.min(100,Math.round(v)));try{localStorage.setItem('current.colorFade',String(CFADE))}catch(_){}},fmt:v=>v?cfSecs(v)+'s':'cut'}]}
 try{SurfaceRing.define('color',{title:'Color',items:colorItems,center:'ball',icon:svgI('color')})}catch(e){console.warn('color ring',e)}
 try{SurfaceRing.define('in',{title:'Input',items:inItems,center:'ball',icon:RING_I('<path d="M12 3.5v11M7.5 10 12 14.5 16.5 10"/><path d="M4 14v5.5h16V14"/>')})}catch(e){console.warn('in ring',e)}
-function openTouchRing(x,y,ring,beside){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();if(!beside)window.RING_BESIDE=null;
+/* is the ring beside this panel still open? Pinned and open, not just remembered: a ring closed by hand leaves RING_BESIDE
+   set (review e4d6321ad8 r-1), and the band's ring button reads this to light (Dimitry, 27 Oct 13:19) */
+function besideOpen(id){try{return window.RING_BESIDE===id&&!!window.SurfaceRing&&SurfaceRing.isOpen()&&SurfaceRing.pinned()}catch(_){return false}}
+function besideClose(){const h=window.RING_BESIDE_H;window.RING_BESIDE=null;window.RING_BESIDE_H=null;try{h&&SurfaceRing.pinned()&&h.close()}catch(_){}}
+function openTouchRing(x,y,ring,beside){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();if(!beside)window.RING_BESIDE=null;const was=!!beside&&SurfaceRing.isOpen()&&SurfaceRing.pinned();   /* a ring already pinned elsewhere only flashes: it is not this panel's (review 06c4643dfc r-2) */
   const h=SurfaceRing.open({x:x==null?r.left+r.width/2:x,y:y==null?r.top+r.height/2:y,rings:['touch','play','sound','color','in'],ring,key:'current',pinned:!!beside,onSwitch:id=>{if(window.cxCount)cxCount('ring: '+id,1)}});
-  if(beside)window.RING_BESIDE_H=h}
+  if(beside){if(was)window.RING_BESIDE=null;else window.RING_BESIDE_H=h}}
 /* the ring beside a panel goes with it: when that panel closes or steps to the next (review a2f91bfd7e r-1, r-2) */
-try{const mo=new MutationObserver(()=>{const id=window.RING_BESIDE,el=id&&document.getElementById(id);if(id&&(!el||el.hidden)){window.RING_BESIDE=null;try{window.RING_BESIDE_H&&RING_BESIDE_H.close()}catch(_){}window.RING_BESIDE_H=null}});
+try{const mo=new MutationObserver(()=>{const id=window.RING_BESIDE,el=id&&document.getElementById(id);if(id&&(!el||el.hidden)){besideClose()}});
   ['plist','rlist','shotPop','mixPop','fieldPop'].forEach(i=>{const e=document.getElementById(i);if(e)mo.observe(e,{attributes:true,attributeFilter:['hidden']})})}catch(e){}   /* beside a panel the ring opens pinned: no veil over the panel, both stay */
 /* a double-tap on the stage opens it where the finger is (not while placing a frame, nor in steer, whose taps paint) */
 /* THE RING'S INVITATION (Dimitry, 24 Oct 20:21: "below the bug report icon … something that represents a really nifty new
@@ -10472,10 +10489,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027164504"></script>
-<script src="surface/links.js?v=20261027164504"></script>
-<script src="surface/tips.js?v=20261027164504"></script>
-<script src="surface/sections.js?v=20261027164504"></script>
+<script src="surface/install.js?v=20261027173255"></script>
+<script src="surface/links.js?v=20261027173255"></script>
+<script src="surface/tips.js?v=20261027173255"></script>
+<script src="surface/sections.js?v=20261027173255"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10656,7 +10673,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027164504"></script>
+<script src="surface/room.js?v=20261027173255"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10857,7 +10874,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027164504"></script>
+<script src="surface/touch.js?v=20261027173255"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11588,11 +11605,11 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
     openTouchRing(x,y,id(),true)};
   const soundRing=()=>MIX_ROOM_NOW==='in'?'in':MIX_ROOM_NOW==='touch'?'touch':'sound';   /* the room the panel shows, not its tab (review c5fbc7aedc r-2) */
   return SurfaceSheetNav.ring([
-    {id:'presets',name:'Scenes',el:$('plist'),isOpen:()=>vis('plist'),open:()=>openPlist(),close:closePlist,ring:ringFor(closePlist,()=>'play'),icon:I('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')},
-    {id:'random',name:'Random',el:$('rlist'),isOpen:()=>vis('rlist'),open:openRlist,close:closeRlist,ring:ringFor(closeRlist,()=>'play'),icon:I('<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r=".9"/><circle cx="15" cy="15" r=".9"/><circle cx="15" cy="9" r=".9"/><circle cx="9" cy="15" r=".9"/>')},
-    {id:'capture',name:'Capture',el:$('shotPop'),isOpen:()=>vis('shotPop'),open:openShotPop,close:closeShotPop,ring:ringFor(closeShotPop,()=>undefined),icon:I('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>')},
-    {id:'sound',name:'Sound',el:$('mixPop'),isOpen:()=>vis('mixPop'),open:()=>openMix(),close:closeMix,ring:ringFor(closeMix,soundRing),icon:I('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>')},
-    {id:'field',name:'Field',el:$('fieldPop'),isOpen:()=>vis('fieldPop'),open:openFieldPop,close:closeFieldPop,ring:ringFor(closeFieldPop,()=>'touch'),icon:I('<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>')}
+    {id:'presets',name:'Scenes',el:$('plist'),isOpen:()=>vis('plist'),open:()=>openPlist(),close:closePlist,ringOpen:()=>besideOpen('plist'),ringClose:besideClose,ring:ringFor(closePlist,()=>'play'),icon:I('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')},
+    {id:'random',name:'Random',el:$('rlist'),isOpen:()=>vis('rlist'),open:openRlist,close:closeRlist,ringOpen:()=>besideOpen('rlist'),ringClose:besideClose,ring:ringFor(closeRlist,()=>'play'),icon:I('<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r=".9"/><circle cx="15" cy="15" r=".9"/><circle cx="15" cy="9" r=".9"/><circle cx="9" cy="15" r=".9"/>')},
+    {id:'capture',name:'Capture',el:$('shotPop'),isOpen:()=>vis('shotPop'),open:openShotPop,close:closeShotPop,ringOpen:()=>besideOpen('shotPop'),ringClose:besideClose,ring:ringFor(closeShotPop,()=>undefined),icon:I('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>')},
+    {id:'sound',name:'Sound',el:$('mixPop'),isOpen:()=>vis('mixPop'),open:()=>openMix(),close:closeMix,ringOpen:()=>besideOpen('mixPop'),ringClose:besideClose,ring:ringFor(closeMix,soundRing),icon:I('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>')},
+    {id:'field',name:'Field',el:$('fieldPop'),isOpen:()=>vis('fieldPop'),open:openFieldPop,close:closeFieldPop,ringOpen:()=>besideOpen('fieldPop'),ringClose:besideClose,ring:ringFor(closeFieldPop,()=>'touch'),icon:I('<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>')}
   ],{keys:false,band:true,ringIcon:RING_IC})})();
 (function modalIcons(tries){const MAP={colorPick:'#pickTrack [data-tool=color] svg',fontList:'#pickTrack [data-tool=text] svg',wordList:'#pickTrack [data-tool=text] svg',batchPop:'#pShot svg',rlist:'#pRand svg'};
   let missing=0;for(const id in MAP){const pop=document.getElementById(id),h=pop&&pop.querySelector('.mxh');if(!h||h.querySelector('.mxIco'))continue;const src=document.querySelector(MAP[id]);if(!src){missing++;continue}
@@ -11601,7 +11618,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.81';
+const APP_VERSION='0.33.82';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
