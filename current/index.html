@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027050620";window.__VERSION__="0.33.69";window.__NOTES__=[{"v":"0.33.69","date":"27 Oct 2026","items":[{"kind":"fix","text":"every circle on the Every line is one size and always round; the numbered beads show only when they all fit, otherwise the Every dial"},{"kind":"fix","text":"the pair / fibo / prime pill keeps one width, so the line no longer shifts"},{"kind":"fix","text":"with the dice on, the Every circle shows the number the dice picked and a ring runs round it until the next scene"}]}]</script>
+<script>window.__BUILD__="20261027110641";window.__VERSION__="0.33.71";window.__NOTES__=[{"v":"0.33.71","date":"27 Oct 2026","items":[{"kind":"new","text":"dots that are rings: in the Input ring, the camera, a picture, a video and the mic each open a ring of their own. The dot swells into the middle and its controls bloom round it: front and back, mirror, show, ground, trace, ink, drive, remove; the mic's gain, gate and heard. The arrow at the top, or a tap on the middle, goes back"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027050620"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027050620">
+<script src="claude-web.js?v=20261027110641"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027110641">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -79,7 +79,9 @@
 /* ONE RULE FOR THE CIRCLES ON THE EVERY LINE (Dimitry, 27 Oct 00:49: "It's supposed to be a circle always a circle. ...
    the same diameter as all the other circles on the line ... basic CSS cascade"): unit, dials, numbered beads and the
    dice are all --s-bead round and never give way; when they do not fit, the row takes its dial form (.apTight, measured) */
-#plAuto .apEveryRow :is(.apUnitBtn,.s-dial,.apBead){flex:none!important;box-sizing:border-box!important;width:var(--s-bead,38px)!important;height:var(--s-bead,38px)!important;min-width:0!important;max-width:none!important;aspect-ratio:1!important;border-radius:50%!important}
+#plist #plAuto .apEveryRow :is(.apUnitBtn,.s-dial,.apBead),#plAuto .apEveryRow :is(.apUnitBtn,.s-dial,.apBead){flex:none!important;box-sizing:border-box!important;width:var(--s-bead,38px)!important;height:var(--s-bead,38px)!important;min-width:0!important;max-width:none!important;aspect-ratio:1!important;border-radius:50%!important}
+/* the numbers are one unit and shrink together to fit; the anchors (the unit, the dials, the pill, the dice) stay full size (Dimitry, 27 Oct 06:29) */
+#plist #plAuto .apEveryRow .apBead:not(.rnd),#plAuto .apEveryRow .apBead:not(.rnd){width:var(--ev-d,var(--s-bead,38px))!important;height:var(--ev-d,var(--s-bead,38px))!important;font-size:clamp(11px,calc(var(--ev-d,var(--s-bead,38px)) * .42),15px)!important}   /* beats the short-window 28 px rule (review a9c75fa1a2 r-1); digits never under 11 px (r-2) */
 /* THE PILL IS AS WIDE AS "PRIME" (Dimitry, 27 Oct 00:48: "it's shifting the relationship every time it hits the word
    prime"): pair, fibo and prime share one width, the widest word's, held by a hidden "prime" in the same grid cell */
 .apSet{display:inline-grid!important;place-items:center}.apSet>.apSetW,.apSet::after{grid-area:1/1}.apSet::after{content:'prime';visibility:hidden;white-space:nowrap}
@@ -148,40 +150,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027050620"></script>
-<script src="surface/selftest.js?v=20261027050620"></script><script src="surface/size.js?v=20261027050620"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027050620"></script>
-<script src="surface/auto.js?v=20261027050620"></script>
-<script src="surface/toolpath.js?v=20261027050620"></script>
-<script src="surface/capture.js?v=20261027050620"></script>
-<script src="surface/pop.js?v=20261027050620"></script>
-<script src="surface/hints.js?v=20261027050620"></script>
-<script src="surface/paths.js?v=20261027050620"></script>
-<script src="surface/keys.js?v=20261027050620"></script>
-<script src="surface/reset.js?v=20261027050620"></script>
-<script src="surface/files.js?v=20261027050620"></script>
-<script src="surface/tabs.js?v=20261027050620"></script>
-<script src="surface/running.js?v=20261027050620"></script>
-<script src="surface/trim.js?v=20261027050620"></script>
-<script src="surface/audiowake.js?v=20261027050620"></script>
-<script src="surface/output.js?v=20261027050620"></script>
-<script src="surface/board.js?v=20261027050620"></script>
-<script src="surface/voice.js?v=20261027050620"></script>
-<script src="surface/voicelib.js?v=20261027050620"></script>
-<script src="surface/instruments.js?v=20261027050620"></script>
-<script src="surface/listview.js?v=20261027050620"></script>
-<script src="surface/beads.js?v=20261027050620"></script>
-<script src="surface/strip.js?v=20261027050620"></script>
-<script src="surface/sheetnav.js?v=20261027050620"></script>
-<script src="surface/twofinger.js?v=20261027050620"></script>
-<script src="surface/ring.js?v=20261027050620"></script>
-<script src="surface/shortlink.js?v=20261027050620"></script>
-<script src="surface/undo.js?v=20261027050620"></script>
-<script src="surface/pro.js?v=20261027050620"></script>
-<script src="surface/fresh.js?v=20261027050620"></script>
-<script src="surface/go.js?v=20261027050620"></script>
-<script src="surface/notice.js?v=20261027050620"></script>
-<script src="surface/perform.js?v=20261027050620"></script>
+<script src="vendor/opentype.min.js?v=20261027110641"></script>
+<script src="surface/selftest.js?v=20261027110641"></script><script src="surface/size.js?v=20261027110641"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027110641"></script>
+<script src="surface/auto.js?v=20261027110641"></script>
+<script src="surface/toolpath.js?v=20261027110641"></script>
+<script src="surface/capture.js?v=20261027110641"></script>
+<script src="surface/pop.js?v=20261027110641"></script>
+<script src="surface/hints.js?v=20261027110641"></script>
+<script src="surface/paths.js?v=20261027110641"></script>
+<script src="surface/keys.js?v=20261027110641"></script>
+<script src="surface/reset.js?v=20261027110641"></script>
+<script src="surface/files.js?v=20261027110641"></script>
+<script src="surface/tabs.js?v=20261027110641"></script>
+<script src="surface/running.js?v=20261027110641"></script>
+<script src="surface/trim.js?v=20261027110641"></script>
+<script src="surface/audiowake.js?v=20261027110641"></script>
+<script src="surface/output.js?v=20261027110641"></script>
+<script src="surface/board.js?v=20261027110641"></script>
+<script src="surface/voice.js?v=20261027110641"></script>
+<script src="surface/voicelib.js?v=20261027110641"></script>
+<script src="surface/instruments.js?v=20261027110641"></script>
+<script src="surface/listview.js?v=20261027110641"></script>
+<script src="surface/beads.js?v=20261027110641"></script>
+<script src="surface/strip.js?v=20261027110641"></script>
+<script src="surface/sheetnav.js?v=20261027110641"></script>
+<script src="surface/twofinger.js?v=20261027110641"></script>
+<script src="surface/ring.js?v=20261027110641"></script>
+<script src="surface/shortlink.js?v=20261027110641"></script>
+<script src="surface/undo.js?v=20261027110641"></script>
+<script src="surface/pro.js?v=20261027110641"></script>
+<script src="surface/fresh.js?v=20261027110641"></script>
+<script src="surface/go.js?v=20261027110641"></script>
+<script src="surface/notice.js?v=20261027110641"></script>
+<script src="surface/perform.js?v=20261027110641"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -204,14 +206,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027050620"></script>
-<script src="surface/rail.js?v=20261027050620"></script>
-<script src="surface/touchsound.js?v=20261027050620"></script>
-<script src="surface/water.js?v=20261027050620"></script>
-<script src="surface/ripple.js?v=20261027050620"></script>
-<script src="surface/material.js?v=20261027050620"></script>
-<script src="surface/float.js?v=20261027050620"></script>
-<script src="surface/manual.js?v=20261027050620"></script>
+<script src="surface/pack.js?v=20261027110641"></script>
+<script src="surface/rail.js?v=20261027110641"></script>
+<script src="surface/touchsound.js?v=20261027110641"></script>
+<script src="surface/water.js?v=20261027110641"></script>
+<script src="surface/ripple.js?v=20261027110641"></script>
+<script src="surface/material.js?v=20261027110641"></script>
+<script src="surface/float.js?v=20261027110641"></script>
+<script src="surface/manual.js?v=20261027110641"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1098,7 +1100,7 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 #plAuto .apMoDial .s-dface svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
 #plAuto .s-dial.s-dbusy .s-dface{font:700 12px/1 var(--mono)}
 .apEvW{display:none}
-@container (max-width:460px){.apEvW{display:grid}#plAuto .apEveryRow .apBeads .apBead:not(.rnd){display:none}#plAuto .apEveryRow .apBead.rnd{width:var(--s-bead,38px);height:var(--s-bead,38px);flex:none}}
+/* (the 460 px container rule is gone: the measure decides, see .apTight) */
 /* THE ROW FITS BY MEASURE (Dimitry, 27 Oct 00:47, iPad: the same panel, the dice whole in one and pushed past the edge in
    the other, "Is this why we have a design system?"): 460 px was a guess at what the numbered beads need. Now the row is
    measured with its beads shown, and when they would not fit the panel takes the dial form (.apTight), whatever its width */
@@ -9042,6 +9044,20 @@ function inItems(){const ic=id=>{const b=$(id),v=b&&b.querySelector('svg');if(!v
     {id:'file',kind:'go',label:'file',aria:'Import a file: G-code becomes the field; a pack zip opens as a pack',icon:ic('inG'),pick:go('inG')},
     {id:'snd',kind:'go',label:'sound',aria:'Bring in a sound: a recording, a track, a pack or a folder',icon:ic('inSnd'),pick:go('inSnd')},
     {id:'pack',kind:'go',label:'pack',aria:'Pack: the studio\'s library of sounds and your own packs',icon:ic('inPack'),pick:go('inPack')}];
+  /* DOTS THAT ARE RINGS (Dimitry, 27 Oct 06:27-06:31; kit ring.js): every input with settings opens its own ring from its
+     dot, the camera's with front and back (stuck on the back camera from the ring, his iPad), mirror and the treatments the
+     Input shelf has to its right; picture and video the same treatments; the mic its gain, gate and heard. Each control is
+     the shelf's own button, so the ring and the shelf never disagree; the ring stays open while you tune */
+  const shelf=(id,o)=>{const b=$(id);if(!b||b.hidden)return null;const l=b.querySelector('.lab');return Object.assign({id:'s-'+id,kind:'go',stay:true,label:(l?l.textContent:'').trim().toLowerCase(),aria:b.getAttribute('aria-label')||'',icon:ic(id),pick:go(id)},o||{})};
+  const treat=()=>[shelf('srShow'),shelf('srGround'),shelf('srTrace',{kind:'check',on:on('srTrace')}),shelf('srInv'),shelf('srDrive',{kind:'check',on:on('srDrive')})];
+  const off=()=>shelf('srOff',{at:'bottom-left',stay:false,label:'remove'});
+  const sub={cam:{title:'Camera',items:()=>[shelf('srCam',{aria:'Switch between the front and back cameras',pick:async()=>{try{await countCams()}catch(_){}if(camCount&&camCount<2){toast('one camera on this device');return}SRC.flipped=false;$('srCam').click()}})   /* always a flip, never the shelf's third tap (off): off is remove (review cb6b74d5e3 r-4) */,shelf('srMir',{kind:'check',on:on('srMir')}),...treat(),off()].filter(Boolean)},
+    pic:{title:'Picture',items:()=>[shelf('srPic',{label:'another',aria:'Choose another picture'}),...treat(),off()].filter(Boolean)},
+    vid:{title:'Video',items:()=>[shelf('srVid',{label:'another',aria:'Choose another video'}),...treat(),off()].filter(Boolean)},
+    mic:{title:'Mic',items:()=>[['gain',0,4,.05,v=>'×'+(+v).toFixed(1),'Input gain: lifts a quiet mic'],['gate',0,1,.01,v=>v?Math.round(v*100)+'':'off','Noise gate: only sound above this moves the field'],['heard',0,1,.01,v=>v?Math.round(v*100)+'%':'off','Heard: how much of the mic goes to the speakers']]
+      .map(([k,mn,mx,st,fmt,aria])=>({id:'m-'+k,kind:'value',label:k,aria,icon:ic('inMic'),min:mn,max:mx,step:st,fmt,get:()=>+MIX[k],set:v=>{MIX[k]=+v;MIX.micPre=null;applyMix();mixSave();try{renderMic()}catch(_){}}}))
+      .concat([{id:'m-off',kind:'go',at:'bottom-left',label:'off',aria:'Turn the mic off',icon:ic('inMic'),pick:()=>{if(AUD.mic)go('inMic')()}}])}};
+  for(const x of it){if(sub[x.id]&&(x.id!=='pic'&&x.id!=='vid'||SRC.kind===({pic:'picture',vid:'video'})[x.id]))x.ring=Object.assign({icon:x.icon},sub[x.id])}   /* picture and video open their ring once one is in; before that the dot picks a file */
   try{if(SRC.kind!=='none')it.push({id:'off',kind:'go',at:'bottom-left',label:'remove',aria:'Remove the source and give the stage back to the field',icon:ic('srOff'),pick:go('srOff')})}catch(_){}
   return it}
 /* THE COLOR RING (Dimitry, 26 Oct 17:38, "more Ring menu options things like color"; 18:54, step 1 of the Codex Rings, wedges
@@ -10355,10 +10371,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027050620"></script>
-<script src="surface/links.js?v=20261027050620"></script>
-<script src="surface/tips.js?v=20261027050620"></script>
-<script src="surface/sections.js?v=20261027050620"></script>
+<script src="surface/install.js?v=20261027110641"></script>
+<script src="surface/links.js?v=20261027110641"></script>
+<script src="surface/tips.js?v=20261027110641"></script>
+<script src="surface/sections.js?v=20261027110641"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10539,7 +10555,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027050620"></script>
+<script src="surface/room.js?v=20261027110641"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10740,7 +10756,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027050620"></script>
+<script src="surface/touch.js?v=20261027110641"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11476,7 +11492,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.69';
+const APP_VERSION='0.33.71';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -11652,11 +11668,19 @@ BOARD=SurfaceBoard.mount({tool:'current',stage:'#stage',panels:PANELS,boards:BOA
 })();
 
 /* the Every row's form by measure (see .apTight): try the beads, keep them only if the row's content fits its box */
-(function(){let ro=null,on=null;const fit=()=>{const P=$('plAuto'),row=P&&P.querySelector('.apEveryRow');if(!row||!row.offsetParent)return;
-  /* watch the row that is there now: the panel builds it when it opens and builds it again on each redraw (review 36d66a2948 r-1) */
-  if(window.ResizeObserver&&on!==row){if(ro)ro.disconnect();ro=new ResizeObserver(()=>requestAnimationFrame(fit));ro.observe(row);ro.observe(P);on=row}
-  P.classList.remove('apTight');const rb=row.getBoundingClientRect(),over=row.scrollWidth>row.clientWidth+1||[...row.querySelectorAll('.apBead.rnd,.apUnitBtn')].some(e=>{const r=e.getBoundingClientRect();return r.right>rb.right+1});
-  P.classList.toggle('apTight',over)};
+(function(){let ro=null,on=null;const MIN=26;const fit=()=>{const P=$('plAuto'),row=P&&P.querySelector('.apEveryRow');if(!row||!row.offsetParent)return;
+  if(window.ResizeObserver&&on!==row){if(ro)ro.disconnect();ro=new ResizeObserver(()=>requestAnimationFrame(fit));ro.observe(P);on=row}
+  /* ONE DIAMETER THAT FITS (Dimitry, 27 Oct 06:23: "when they change in quantity they do change scale together to fit ...
+     that looked very elegant ... what we can't do is have the ovals"): every circle on the line takes the same diameter,
+     the largest that lets the whole bead form fit; below MIN px the row takes the dial form at full size instead */
+  P.classList.remove('apTight');row.style.removeProperty('--ev-d');
+  const cs=getComputedStyle(row),gap=parseFloat(cs.columnGap)||0,base=parseFloat(getComputedStyle(P).getPropertyValue('--s-bead'))||38;
+  const vis=[...row.children].flatMap(c=>getComputedStyle(c).display==='contents'?[...c.children]:[c]).filter(e=>e.offsetParent);
+  const nums=vis.filter(e=>e.matches('.apBead:not(.rnd)')),rest=vis.filter(e=>!nums.includes(e));
+  const fixed=rest.reduce((a,e)=>a+e.offsetWidth,0)+gap*Math.max(0,vis.length-1);   /* layout px, like clientWidth and the gap: the size dial zooms the panel, and a rect is in zoomed px (review 846421af26 r-1) */
+  const d=Math.min(base,Math.floor((row.clientWidth-fixed)/Math.max(1,nums.length)));
+  if(d<MIN){P.classList.add('apTight');return}if(d<base)row.style.setProperty('--ev-d',d+'px');
+  if(row.scrollWidth>row.clientWidth+1){row.style.removeProperty('--ev-d');P.classList.add('apTight')}};   /* the net: whatever a rule elsewhere does, a row that still overflows takes the dial form */
   window.apFit=fit})();
 </script>
 <style>

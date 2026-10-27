@@ -47,6 +47,8 @@
        (Dimitry, 24 Oct 20:15: "where you drag and a number changes, that number could happen inside the button that you
        pressed, or it could take over the name of the ring … like a 0 to 100 slider"): drag across the dot and the number
        shows inside it; tap it and the ring's name becomes that value's slider, with a tick to come back.
+     a dot may carry ring: 'id' (a defined ring) or { title, icon, items: () => [ … ] }: the dot is a door to its own ring
+       (DOTS THAT ARE RINGS, below); a check dot that is off is turned on (pick) on the way in
      SurfaceRing.labels() · SurfaceRing.labels('learn' | 'always' | 'never')   // the dots' words (LABELS); kept per device
      R.close() · SurfaceRing.isOpen() · SurfaceRing.close() · SurfaceRing.last(key) · SurfaceRing.MARK (the six-dot mark)
      SurfaceRing.doubleTap(el, (x, y, e) => {}, { ms: 320, px: 24, when: e => bool })   // a one-finger double-tap on el
@@ -73,6 +75,14 @@
    words as the ring opens, holds them, then lets them fade; the first five opens hold longer. always keeps them; never
    shows them only under a finger, a pointer or the focus. The name and any value never fade.
 
+   DOTS THAT ARE RINGS (Dimitry, 27 Oct 06:27: the camera "turns on, blinks ... then starts to get bigger and move downwards
+   to replace the original input central button, and as it does ... the ring buttons vanish ... when the camera icon replaces
+   the center its new ring buttons appear with all of its controls"; 06:30: "a return arrow ... at the top that indicates
+   that we are in a sub menu of a dot, but some of these menus could be full menus ... called the Camera menu"): a dot with
+   ring swells into the middle while the others fold, and its ring blooms from there with the dot's icon as its centre. A
+   ring reached this way has no switch; its top tab is a return arrow, and a tap on the centre also goes back up (he chose
+   it, 27 Oct). The same defined ring opened on its own keeps its caret to its panel: only how you arrived differs.
+
    Plain script, window.SurfaceRing, no dependencies. Loads its own styles; a tool's rules win (:where). */
 (function () {
   "use strict";
@@ -80,6 +90,7 @@
   var MARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.6" r="2"/><circle cx="18.4" cy="8.3" r="2"/><circle cx="18.4" cy="15.7" r="2"/><circle cx="12" cy="19.4" r="2"/><circle cx="5.6" cy="15.7" r="2"/><circle cx="5.6" cy="8.3" r="2"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>';
   var GRIP = '<svg viewBox="0 0 6 20" aria-hidden="true" focusable="false"><circle cx="1.5" cy="5" r="1.1"/><circle cx="1.5" cy="10" r="1.1"/><circle cx="1.5" cy="15" r="1.1"/><circle cx="4.5" cy="5" r="1.1"/><circle cx="4.5" cy="10" r="1.1"/><circle cx="4.5" cy="15" r="1.1"/></svg>';
   var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 5 3 3.5H7l3-3.5z"/><path d="M12 12v8.5"/></svg>';
+  var BACK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 7 6 11l4 4"/><path d="M6 11h8.5a4 4 0 0 1 4 4v2"/></svg>';
   var CARET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>';
   /* three pops: a third of the way, three quarters, home; each step overshoots a little and settles */
   var POP = "cubic-bezier(.2,1.7,.45,1)";
@@ -239,7 +250,7 @@
        time ... I wonder if the title bar should just become a circle") */
     ".sr-ring .sr-dot.sr-fold1{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transition-delay:var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0}" +
     ".sr-ring .sr-dot.sr-fold2{transition:transform .45s cubic-bezier(.5,0,.3,1) var(--fd,0ms),opacity .45s ease-in var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0;pointer-events:none}" +
-    ".sr-ring .sr-dot.sr-fold2.sr-live{animation:none}" +
+    ".sr-ring .sr-dot.sr-fold2.sr-live{animation:none}.sr-ring .sr-dot.sr-dive{z-index:3;transition:transform .42s cubic-bezier(.3,.7,.2,1);transform:translate(0,0) scale(1.7);pointer-events:none}.sr-ring .sr-dot.sr-dive .sr-lab{opacity:0}.sr-ring.sr-diving .sr-hub{transition:opacity .2s;opacity:0}" +
     ".sr-ring .sr-hub.sr-linger{transition:opacity 1.5s ease-in;opacity:0}" +
     ".sr-ring .sr-hub.sr-linger:hover{opacity:.6;transition:opacity .2s}" +
     ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
@@ -252,6 +263,7 @@
   var lastKey = function (k) { return "surface.ring.last." + (k || "tool"); };
   function last(k) { try { return localStorage.getItem(lastKey(k)) || null; } catch (e) { return null; } }
   function remember(k, id) { try { localStorage.setItem(lastKey(k), id); } catch (e) {} }
+  var REOPEN = -1e9;
   function define(id, def) { RINGS[id] = def; }
   var LABK = "surface.ring.labels", SEENK = "surface.ring.seen";
   function labels(v) { if (v === "learn" || v === "always" || v === "never") { try { localStorage.setItem(LABK, v); } catch (e) {} return v; }
@@ -307,14 +319,18 @@
        still replaces it. */
     if (cur && cur.pinned && !o._own) { flashPin(); return { close: function () { close("api"); }, el: cur.ring, ring: cur.id }; }
     css(); close("again");
-    var rings = (o.rings || []).filter(function (id) { return RINGS[id]; });
+    var PAR = o._parent || null;   /* DOTS THAT ARE RINGS: reached through a dot, this ring goes back up instead of switching */
+    var rings = PAR ? [] : (o.rings || []).filter(function (id) { return RINGS[id]; });
     var rid = o.ring && RINGS[o.ring] ? o.ring : rings.length ? (rings.indexOf(last(o.key)) >= 0 ? last(o.key) : rings[0]) : null;
-    var def = rid ? RINGS[rid] : { title: o.title, items: function () { return o.items || []; } };
+    var def = rid ? RINGS[rid] : { title: o.title, icon: o.icon, center: o.center, items: function () { return (typeof o.items === "function" ? o.items() : o.items) || []; } };
     var items = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean), n = items.length; if (!n) return null;
     var upIt = null; items = items.filter(function (it) { if (!upIt && it.at === "top" && it.kind === "go") { upIt = it; return false; } return true; }); n = items.length; if (!n && !upIt) return null;
+    var back = PAR ? function () { var bx = parseFloat(ring.style.left), by = parseFloat(ring.style.top), pn = !!(cur && cur.pinned);
+      open(Object.assign({}, PAR.o, { _own: true, x: bx, y: by, pinned: pn })); } : null;
+    if (PAR) upIt = { kind: "go", label: "back", aria: "Back to the " + (PAR.title || "first") + " ring", _back: true, pick: back };
     items = place(items); n = items.length;
-    if (rid) remember(o.key, rid);
-    var PW = def.power || (rid ? null : o.power) || null, LV = def.level || o.level || null;   // a defined ring brings its own switch and level
+    if (rid && !PAR) remember(o.key, rid);
+    var PW = PAR ? null : def.power || (rid ? null : o.power) || null, LV = def.level || o.level || null;   // a defined ring brings its own switch and level
     var d = Math.max(44, o.dot || 52), gap = 10;
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
     /* tighter (Dimitry, 25 Oct 08:06: "as long as there's space between the top button and the middle, that gap could be
@@ -324,7 +340,7 @@
     var clampX = function (v) { return Math.max(pad, Math.min(W - pad, v)); }, clampY = function (v) { return Math.max(pad, Math.min(H - pad, v)); };
     var x = clampX(o.x == null ? W / 2 : o.x), y = clampY(o.y == null ? H / 2 : o.y);
     var veil = document.createElement("div"); veil.className = "sr-veil";
-    var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() ? "" : " pop");
+    var ring = document.createElement("div"); ring.className = "sr-ring" + (calm() || o._quiet ? "" : " pop");
     /* the opening plays once: a later class change (sr-live off) let the pop animation start over, and the dot dived into the
        middle and came back (Dimitry, 25 Oct 09:09, "the push button still disappears behind the main button") */
     if (!calm()) setTimeout(function () { ring.classList.remove("pop"); }, 900); ring.setAttribute("role", "menu"); ring.setAttribute("aria-label", def.title || "Choices");
@@ -349,6 +365,9 @@
     if (!PW && typeof def.tap === "function") { name.setAttribute("role", "button"); name.tabIndex = 0; name.style.cursor = "pointer";
       var nt = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { def.tap(); } catch (er) { console.warn("[ring]", er); } };
       name.addEventListener("click", nt); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nt(e); } }); }   // the bar button the ring came from: its icon, its word small under it
+    if (PAR) { name.setAttribute("role", "button"); name.tabIndex = 0; name.style.cursor = "pointer"; name.setAttribute("aria-label", (def.title || "") + ". Back to the " + (PAR.title || "first") + " ring");
+      var nb = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; back(); };
+      name.addEventListener("click", nb); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nb(e); } }); }
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
       var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].menu || RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
@@ -370,9 +389,9 @@
       hub.appendChild(pin);
     }
     hub.appendChild(mid); hub.appendChild(grip); if (sw) hub.appendChild(sw);   // pin · name · grip, the switch a bump below
-    if (upIt) { var up = document.createElement("button"); up.type = "button"; up.className = "sr-up"; up.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 14l6-6 6 6"/></svg>';
+    if (upIt) { var up = document.createElement("button"); up.type = "button"; up.className = "sr-up" + (upIt._back ? " sr-back" : ""); up.innerHTML = upIt._back ? BACK : '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 14l6-6 6 6"/></svg>';
       up.setAttribute("aria-label", upIt.aria || upIt.label || "Panel"); up.title = upIt.aria || upIt.label || "Panel";
-      up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
+      up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; if (upIt._back) { back(); return; } try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
       hub.appendChild(up); }
     ring.appendChild(hub);
     function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
@@ -417,6 +436,9 @@
       b.addEventListener("click", function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return;   /* the click that ends the opening tap lands where the dots start, in the middle: not a choice */
         var keep = !!it.stay, I = b._it || it;
         if (I.kind === "go" || I.stay) { b.classList.remove("sr-hit", "sr-roll"); void b.offsetWidth; b.classList.add("sr-hit"); if (I.roll) b.classList.add("sr-roll"); setTimeout(function () { b.classList.remove("sr-hit", "sr-roll"); }, 600); }
+        if (I.ring) { var wasOn = b.getAttribute("aria-checked") === "true";
+          if (I.kind === "check" && !wasOn) { try { I.pick && I.pick(); } catch (er) { console.warn("[ring]", er); } }   /* a door dot goes in; only a check that is off is turned on (a go dot's own pick, a file picker, is not run: review cb6b74d5e3 r-1) */
+          if (I.kind === "check") b.setAttribute("aria-checked", "true"); dive(b, I); return; }
         /* TWO PAGES: the chosen dot, tapped again while the ring is on, turns its page */
         if (I.more && I.kind === "radio" && b.getAttribute("aria-checked") === "true" && !(PW && !PW.on())) {
           try { I.more.set(!I.more.on); } catch (er) { console.warn("[ring]", er); } refresh();
@@ -431,6 +453,16 @@
         if (!(keep && cur)) close("pick", b, it.kind === "go" ? 0 : 650); });   /* a switch lingers lit (or unlit) so its new state shows (Dimitry, 25 Oct 00:25: "you don't really know if you've actually triggered the button") */
       ring.appendChild(b); return b;
     });
+    /* DOTS THAT ARE RINGS: the dot swells into the middle, the others fold, then its ring blooms from there */
+    function dive(b, I) {
+      var x0 = parseFloat(ring.style.left), y0 = parseFloat(ring.style.top), pn = !!(cur && cur.pinned);
+      var sub = typeof I.ring === "string" ? { ring: I.ring } : { ring: null, title: I.ring.title || I.label, icon: I.ring.icon || I.icon, items: I.ring.items };
+      var go = function () { open(Object.assign({ key: o.key, hub: o.hub, pin: o.pin, onClose: o.onClose, onPin: o.onPin, dot: o.dot }, sub,
+        { _own: true, x: x0, y: y0, pinned: pn, center: "ball", _parent: { o: o, title: def.menu || def.title || "" } })); };
+      if (calm()) { go(); return; }
+      ring.classList.remove("pop"); void ring.offsetWidth; ring.classList.add("sr-diving");
+      var k = 0; dots.forEach(function (d) { if (d !== b) { d.style.setProperty("--fd", (k++ * 30) + "ms"); d.classList.add("sr-fold2"); } });
+      b.classList.add("sr-dive"); setTimeout(go, 430); }
     /* each dot's state from its item: chosen, its page, live; the centre's switch */
     function dress(b, it) {
       if (it.kind !== "go" && it.kind !== "value") b.setAttribute("aria-checked", String(!!it.on));
@@ -442,6 +474,14 @@
       if (it.more) b.setAttribute("aria-label", (it.aria || it.label || it.id) + (it.on ? (p2 ? ". Its second page is on: " : ". Tap again for its second page: ") + (it.more.aria || "") : ""));
     }
     function refresh() {
+      /* the set of dots can change while a ring is open (the camera comes on after its ring has opened, a source is removed):
+         then the ring opens again in place, quietly, with the new set (review cb6b74d5e3 r-2) */
+      try { var ids = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean).filter(function (x) { return !(x.at === "top" && x.kind === "go"); }).map(function (x) { return x.id || ""; }).sort().join("|");
+        var have = dots.map(function (b) { return b.dataset.id; }).sort().join("|");
+        if (ids !== have && cur && cur.ring === ring && !ring.querySelector(".sr-list,.sr-dial,.sr-val,.sr-busy") && !ring.classList.contains("sr-diving") && !ring.classList.contains("sr-mini") && performance.now() - REOPEN > 300) {
+          REOPEN = performance.now();   /* at most one quiet reopen per 300 ms: a ring whose ids differ on every call must not rebuild itself without end (review 7adcb0b543 r-2) */
+          if (!ids) { close("api"); return; }
+          open(Object.assign({}, o, { _own: true, _quiet: true, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!cur.pinned })); return; } } catch (er) {}
       if (!cur || cur.ring !== ring) return;
       if (rid || def.items) { var fresh = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean);
         dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } else if (b._arc) b._arc(); }); }
@@ -522,6 +562,7 @@
     veil.addEventListener("pointerdown", function (e) { stop(e); if (cur && performance.now() - cur.t0 < 250) return; close("outside"); });
     ["pointerup", "click", "touchstart", "touchend"].forEach(function (t) { veil.addEventListener(t, stop, { passive: false }); });
     var key = function (e) {
+      if (PAR && e.key === "Escape" && !ring.querySelector(".sr-list,.sr-dial,.sr-val")) { e.preventDefault(); e.stopPropagation(); back(); return; }   /* Escape in a ring reached through a dot goes back up one (review cb6b74d5e3 r-5) */
       if (!cur) return; if (cur.pinned && !ring.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); close("esc"); } return; }   // pinned, the app keeps its keys but Esc
       var L = ring.querySelector(".sr-list"); if (L && L.contains(document.activeElement)) { if (e.key === "Escape") { stop(e); L.remove(); try { sw.focus(); } catch (er) {} }
         else if (/^(ArrowUp|ArrowDown|Home|End)$/.test(e.key)) { stop(e); var bs = Array.prototype.slice.call(L.querySelectorAll("button")), k = bs.indexOf(document.activeElement);
@@ -550,7 +591,7 @@
     ring._refresh = refresh;
     /* THE PULSE with a level: the live dots follow it while the ring is open */
     if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * (v > lv ? .6 : .18); /* up fast with a hit, down slower: a pump, not a flicker */ ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
-    requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
+    if (!o._quiet) requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
     return { close: function () { close("api"); }, el: ring, ring: rid };
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
