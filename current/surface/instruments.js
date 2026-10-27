@@ -25,6 +25,7 @@
        grid:  () => ({ bpm, zero }) | null,        // zero: ctx time of a bar's first beat; null → 100 bpm from now
        cuts:  () => [[x0, y0, x1, y1], ...],       // the pattern's drawn segments, 0..1, in drawing order
        stage: element,                             // where a touch plays
+       now:   () => [{name, state, on, open, label}], // optional: the tool's own sound sources, shown first under Playing now
        onChange: (list) => {}
      });
      I.open()            the sheet: the sounds, each one's role, import
@@ -171,7 +172,7 @@
     try { kept = JSON.parse(localStorage.getItem(LS + ".set") || "null"); } catch (e) { kept = null; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
     function save() { try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
-    function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, every: x.every, on: x.on }; }); }
+    function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, every: x.every, on: x.on, pack: packOf(x) }; }); }
     function ctx() { try { return O.ctx && O.ctx(); } catch (e) { return null; } }
     function dest() { try { return O.dest && O.dest(); } catch (e) { return null; } }
     function soundOn() { try { return !!(O.on && O.on()); } catch (e) { return false; } }
@@ -351,7 +352,7 @@
         deliver(SurfacePack.zip(files), fn + ".zip");
       });
     }
-    function add(recipes, role, roles) {
+    function add(recipes, role, roles, pack) {
       var have = {}; list.forEach(function (x) { have[x.name + "|" + JSON.stringify(x.recipe).length] = 1; });
       var n = 0;
       recipes.forEach(function (r) {
@@ -359,7 +360,7 @@
         var k = (r.name || "sound") + "|" + JSON.stringify(r).length; if (have[k]) return; have[k] = 1;
         var R = roles && roles[r.name] || {}, rl = R.role && hasRole(R.role) ? R.role : role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
         if (r._level != null) { r = JSON.parse(JSON.stringify(r)); delete r._level; }
-        list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv }); n++;
+        list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv, pack: pack ? String(pack).slice(0, 60) : undefined }); n++;
       });
       resetBed(); save(); return n;
     }
@@ -416,6 +417,10 @@
       ".sin .lead{display:grid;gap:6px;padding-bottom:4px}.sin .lead .lt{font:600 19px/1.15 var(--sans,system-ui,sans-serif);color:var(--ui-ink,#eef1f2)}.sin .lead .ls{font:600 14px/1.3 var(--sans,system-ui,sans-serif);color:var(--ui-ink,#eef1f2)}" +
       ".sin .steps{margin:2px 0 0;padding-left:20px;display:grid;gap:4px;font-size:12.5px;line-height:1.4;color:rgb(var(--ui-hi,255 255 255) / .78)}.sin .steps b{color:var(--ui-ink,#eef1f2);font-weight:600}" +
       ".sin .hl{justify-self:start;margin-top:2px;padding:6px 0;border:0;background:none;color:var(--acc-tx,var(--acc,#55b8c9));font:600 10px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;cursor:pointer}" +
+      ".sin .pk{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;border-radius:12px;background:rgb(var(--ui-hi,255 255 255) / .07)}.sin .pk .pn{font:600 13px/1.2 var(--sans,system-ui);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
+      ".sin .pk small{flex:1;min-width:0;font:400 11.5px/1.2 var(--sans,system-ui);color:var(--ui-dim,#8a9396);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sin .pk.off .pn{opacity:.55}" +
+      ".sin .pk button{flex:none;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:var(--acc,#55b8c9);color:#04181c;cursor:pointer;display:grid;place-items:center}.sin .pk button[aria-pressed=false]{background:none;color:var(--ui-ink,#fff);box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}" +
+      ".sin .pk button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sin .pk .pko{width:auto;padding:0 12px;border-radius:16px;background:rgb(var(--ui-hi,255 255 255) / .1);color:var(--ui-ink,#fff);font:600 11px/1 var(--sans,system-ui)}" +
       ".sin .sh{margin:8px 0 0;font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}" +
       ".sin p{margin:0;color:rgb(var(--ui-hi,255 255 255) / .72);font-size:12px}.sin .st{font:500 10px/1.3 var(--mono,monospace);letter-spacing:.06em;color:rgb(var(--ui-hi,255 255 255) / .55)}" +
       ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgb(var(--ui-hi,255 255 255) / .1);color:var(--ui-ink,#fff);font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
@@ -540,18 +545,18 @@
       var last = null;
       vis.forEach(function (p) {
         if (sort === "kind" && p.kind !== last) { at.appendChild(el("p", "lbk", esc(p.kind))); last = p.kind; }
-        var here = typeof p.here === "function" && p.here();
+        var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name; });
         var by = p.by || (p.lib && O.libBy) || "";
         var r = el("div", "lb", '<span class="cv">' + (p.cover ? '<img alt="" src="' + esc(p.cover) + '">' : packIcon(p.type || O.packType || "sound")) + "</span>" +
           '<span class="t"><b>' + esc(p.name) + (p.tag ? '<span class="tag">' + esc(p.tag) + "</span>" : "") + "</b>" + (by ? '<small class="by">by ' + esc(by) + "</small>" : "") + (p.note ? "<small>" + esc(p.note) + "</small>" : "") + "</span>" +
-          '<button type="button" class="b"' + (here ? " disabled" : "") + ' aria-label="' + esc((p.label || "Add") + " " + p.name) + '">' + esc(here ? (p.hereLabel || "Here") : (p.label || "Add")) + "</button>");
+          '<button type="button" class="b"' + (here ? " disabled" : "") + ' aria-label="' + esc((p.label || "Add") + " " + p.name) + '">' + esc(here ? (p.hereLabel || "In use") : (p.label || "Add")) + "</button>");
         r.querySelector("button").onclick = function () { take(p, r.querySelector("button")); };
         at.appendChild(r);
       });
     }
     function take(p, btn) {
       var L = window.SurfaceVoiceLib;
-      if (p.lib && L) { var k = p.lib; pending = { name: k === "drums" ? "the studio’s drums" : "the studio’s glass and textures", recipes: JSON.parse(JSON.stringify(L[k])), live: 0, role: k === "drums" ? "beat" : "touch", groove: k === "drums" }; render(); box.scrollIntoView && box.scrollIntoView({ block: "start", behavior: "smooth" }); return; }
+      if (p.lib && L) { var k = p.lib; pending = { pack: p.name, name: k === "drums" ? "the studio’s drums" : "the studio’s glass and textures", recipes: JSON.parse(JSON.stringify(L[k])), live: 0, role: k === "drums" ? "beat" : "touch", groove: k === "drums" }; render(); box.scrollIntoView && box.scrollIntoView({ block: "start", behavior: "smooth" }); return; }
       if (typeof p.open === "function") { p.open(); return; }
       if (p.url) { if (btn) { btn.disabled = true; btn.textContent = "…"; }
         fetch(p.url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
@@ -563,6 +568,18 @@
       return '<p class="st">' + (P.recipes && P.recipes.length ? "And " : "") + L.length + " look" + (L.length > 1 ? "s" : "") + " for " + esc(L[0].material) + ": " + L.map(function (x) { return esc(x.name); }).join(" · ") + "</p>"; }
     function addLooks(P) { var L = (P.looks || []).filter(function (x) { return x && x.name && x.material; }); if (!L.length || !window.SurfaceMaterial) return 0;
       var by = {}; L.forEach(function (x) { (by[x.material] = by[x.material] || []).push(x); }); var n = 0; for (var m in by) n += SurfaceMaterial.add(m, by[m], P.by); return n; }
+    /* PLAYING NOW (Dimitry, 26 Oct 08:17: "my pack says glass, but the lower drawer says water ... I'm not sure how to
+       distinguish between the different packs and how to know which one is loaded"): packs stack, so the sheet says what is
+       in: the tool's own (O.now(), e.g. Current's water, on or dry), then each pack added, with its sounds under it and one
+       switch for all of them. A sound remembers the pack it came with; older ones are matched to the library by name. */
+    function packOf(x) {
+      if (x.pack) return x.pack;
+      var L = window.SurfaceVoiceLib, nm = x.recipe && x.recipe.name;
+      if (L && L.sounds && L.sounds.some(function (r) { return r.name === nm; })) return "Glass and textures";
+      if (L && L.drums && L.drums.some(function (r) { return r.name === nm; })) return "Drums";
+      return "Your own sounds";
+    }
+    function packs() { var o = [], by = {}; list.forEach(function (x) { var k = packOf(x); if (!by[k]) { by[k] = []; o.push(k); } by[k].push(x); }); return o.map(function (k) { return { name: k, sounds: by[k] }; }); }
     function render() {
       if (!box || box.hidden) return;
       var h = '<h2><span>' + esc(WD.title) + '</span><button type="button" class="x" aria-label="Close">✕</button></h2>';
@@ -594,12 +611,20 @@
         if (O.help && O.help.label) h += '<button type="button" class="hl">' + esc(O.help.label) + " \u2192</button>";
         h += "</div>";
       }
-      if (list.length && !pending) h += '<p class="sh">Your sounds</p>';
-      list.forEach(function (x) {
+      var NOW = !pending && typeof O.now === "function" ? (function () { try { return O.now() || []; } catch (e) { return []; } })() : [];
+      if ((list.length || NOW.length) && !pending) h += '<p class="sh">Playing now</p>';
+      NOW.forEach(function (t, i) { h += '<div class="pk tool' + (t.on ? "" : " off") + '"><span class="pn">' + esc(t.name) + '</span><small>' + esc(t.state || (t.on ? "on" : "off")) + "</small>" +
+        (t.open ? '<button type="button" class="pko" data-t="' + i + '">' + esc(t.label || "Open") + "</button>" : "") + "</div>"; });
+      var GR = pending ? [] : packs();
+      GR.forEach(function (g, gi) { var n = g.sounds.filter(function (x) { return x.on; }).length;
+        h += '<div class="pk' + (n ? "" : " off") + '" data-g="' + gi + '"><span class="pn">' + esc(g.name) + '</span><small>' + (n === g.sounds.length ? n + " sound" + (n > 1 ? "s" : "") + " on" : n ? n + " of " + g.sounds.length + " on" : "off") + "</small>" +
+          '<button type="button" class="pkt" aria-pressed="' + (n > 0) + '" aria-label="' + esc(g.name) + (n ? ": on. Tap to silence the whole pack" : ": off. Tap to play the whole pack") + '" title="' + (n ? "On: tap to silence the pack" : "Off: tap to play the pack") + '">' + (n ? ON : OFFI) + "</button></div>";
+        g.sounds.forEach(function (x) { h += row(x); }); });
+      function row(x) { var h = "";
         h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="' + (x.on ? "On: tap to silence it" : "Off: tap to play it") + '">' + (x.on ? ON : OFFI) + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
           (x.role === "beat" || x.role === "pattern" ? '<div class="evr"><span class="evl" aria-hidden="true">How often</span><button type="button" class="ev" aria-label="How often ' + esc(x.name) + ' strikes: ' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + '. Tap for the next" title="How often: tap for the next">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button></div>" : "") +
           (x.role === "pad" && PADO ? padBtn(x) : "") + "</div>";
-      });
+        return h; }
       var PS = PADO && padCall("presets");
       if (PS && PS.length) h += '<p class="st pst">' + esc(PADO.presetsTitle || "Ready on " + (PADO.surface || "the stage")) + proMk("pad") + "</p>" + '<div class="row">' + PS.map(function (p) { return '<button type="button" class="b pp" data-p="' + esc(p.name) + '" title="' + esc(p.note) + '">' + esc(p.name) + "</button>"; }).join("") + "</div>";
       h += '<div class="lbs"></div>' + (list.length ? '<div class="row"><button type="button" class="b sv">' + esc(WD.save) + "</button></div>" : "");
@@ -617,13 +642,15 @@
         if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
         var before = {}; list.forEach(function (y) { before[y.id] = 1; });
         var nl = addLooks(pending);
-        var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr));
+        var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr), pending.pack || pending.name);
         if (PADO) list.filter(function (y) { return !before[y.id] && y.role === "pad" && y.on; }).forEach(function (y, k, a) { padCall("add", y.id, a.length > 1 ? 0.2 + 0.6 * k / (a.length - 1) : 0.5, 0.5); });
         if (st) { var lean = JSON.parse(JSON.stringify(st)); delete lean.recipes; kept = lean; try { localStorage.setItem(LS + ".set", JSON.stringify(lean)); } catch (e) {} }
         pending = null; render();
         var said = (n ? n + " sound" + (n > 1 ? "s" : "") + " added" : nl ? "" : "already here") + (nl ? (n ? " · " : "") + nl + " look" + (nl > 1 ? "s" : "") + " added" : "");
         keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
+      box.querySelectorAll(".pk[data-g] .pkt").forEach(function (b) { b.onclick = function () { var g = GR[+b.parentNode.dataset.g]; if (!g) return; var on = !g.sounds.some(function (x) { return x.on; }); g.sounds.forEach(function (x) { x.on = on; }); resetBed(); save(); render(); }; });
+      box.querySelectorAll(".pko").forEach(function (b) { b.onclick = function () { var t = NOW[+b.dataset.t]; try { t && t.open(); } catch (e) {} }; });
       box.querySelectorAll(".snd").forEach(function (row) {
         var x = list.filter(function (y) { return y.id === row.dataset.id; })[0]; if (!x) return;
         row.querySelectorAll(".seg button").forEach(function (b) { b.onclick = function () { x.role = b.dataset.r; if (x.role === "pattern" && x.every === "beat") x.every = "eighth"; resetBed(); save();
@@ -653,7 +680,9 @@
       if (dirty) { resetBed(); save(); render(); }
       return ids;
     }
-    return { open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet, sound: sound, ensure: ensureSounds, render: function () { render(); },
+    /* set(id, {on}): a tool's own shelf switches a sound (Current's lower drawer lists pack sounds by when they play, 26 Oct) */
+    function setSound(id, p) { var x = list.filter(function (y) { return y.id === id; })[0]; if (!x || !p) return false; if ("on" in p) x.on = !!p.on; resetBed(); save(); render(); return true; }
+    return { set: setSound, open: open, close: close, import: importFile, list: pub, add: add, recipesIn: recipesIn, exportSet: exportSet, saveSet: saveSet, sound: sound, ensure: ensureSounds, render: function () { render(); },
       playing: function () { return LIVE.length > 0 || bed.h.length > 0; },
       samples: function () { var k = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (s) { k[s] = !!SurfaceVoice.sample(s); }); }); return k; } };
   }

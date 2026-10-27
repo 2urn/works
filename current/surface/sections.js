@@ -162,8 +162,12 @@
     const HEADS = (o.groups || []).map(g => { const h = document.createElement('div'); h.className = 'sfs-head'; h.setAttribute('role', 'heading'); h.setAttribute('aria-level', '2'); h.innerHTML = (g.icon || '') + '<span></span>'; h.lastChild.textContent = g.name; return { g: g, h: h }; });
     const shipped = id => { const x = HEADS.find(x => x.g.ids.indexOf(id) >= 0); return x ? x.g.name : null; };
     const groupOf = id => (st.grp && st.grp[id]) || shipped(id);
-    function regroup() { if (!HEADS.length) return; const ms = secs().filter(c => c.parentNode === root);
-      ms.forEach((c, i) => { const me = groupOf(c.id); if (!me) return; const pv = ms[i - 1] && groupOf(ms[i - 1].id), nx = ms[i + 1] && groupOf(ms[i + 1].id);
+    function regroup() { if (!HEADS.length || !Array.isArray(st.order)) return; const ms = secs().filter(c => c.parentNode === root);
+      /* only a section that was moved changes group: its neighbours now differ from its neighbours in the saved order
+         (both read over the sections present). A fold or a hide never regroups (review ab932d3-r-1) */
+      const ids = ms.map(c => c.id), old = st.order.filter(id => ids.indexOf(id) >= 0), nb = (arr, id) => { const i = arr.indexOf(id); return arr[i - 1] + '|' + arr[i + 1]; };
+      if (old.join() === ids.join()) return;
+      ms.forEach((c, i) => { const me = groupOf(c.id); if (!me || old.indexOf(c.id) < 0 || nb(old, c.id) === nb(ids, c.id)) return; const pv = ms[i - 1] && groupOf(ms[i - 1].id), nx = ms[i + 1] && groupOf(ms[i + 1].id);
         if (me !== pv && me !== nx && (pv || nx)) { const to = pv || nx; st.grp = st.grp || {}; if (to === shipped(c.id)) delete st.grp[c.id]; else st.grp[c.id] = to; } }); }
     function placeHeads() { if (!HEADS.length) return;
       for (const c of secs()) c.classList.toggle('sfs-sub', !!groupOf(c.id));   // one step in, under its heading

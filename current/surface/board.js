@@ -45,6 +45,7 @@
     ".sb-it:active{transform:scale(.97)}.sb-it svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}",
     ".sb-it.sb-rg{min-width:150px;grid-template-columns:1fr auto;align-items:center;justify-items:start;cursor:default}.sb-rg .sb-v{justify-self:end;color:var(--acc-tx,var(--acc,#55b8c9));letter-spacing:.04em}",
     ".sb-rg input{grid-column:1/-1;width:100%;margin:0;accent-color:var(--acc,#55b8c9)}",
+    ".sb-rl{display:inline-flex;align-items:center;gap:8px}.sb-rl svg{width:18px;height:18px}",
     ".sb-tool{flex:none;width:44px;display:grid;place-items:center;border:0;border-radius:10px;background:none;color:var(--ui-dim,#9aa3a6);cursor:pointer}.sb-tool:hover{color:var(--ui-ink,#fff)}.sb-tool svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}",
     ".sb-empty{align-self:center;padding:0 10px;font:400 12.5px/1.35 var(--sans,system-ui,sans-serif);color:var(--ui-dim,#9aa3a6)}",
     ".sb-strip.sb-ed .sb-it{animation:sbJig .26s ease-in-out infinite alternate;cursor:grab}.sb-strip.sb-ed .sb-it:nth-child(2n){animation-delay:-.13s}",
@@ -152,7 +153,7 @@
         var it;
         if (c.kind === "range") {
           it = document.createElement("div"); it.className = "sb-it sb-rg"; it.setAttribute("role", "group"); it.setAttribute("aria-label", c.label);
-          var lb = document.createElement("span"); lb.textContent = c.label; var vv = document.createElement("span"); vv.className = "sb-v";
+          var lb = document.createElement("span"); lb.className = "sb-rl"; lb.innerHTML = (c.icon || "") + "<span></span>"; lb.lastChild.textContent = c.label;   /* a slider wears its icon too (Dimitry, 26 Oct 06:52: "icons flow tap") */ var vv = document.createElement("span"); vv.className = "sb-v";
           var inp = document.createElement("input"); inp.type = "range"; inp.min = c.min; inp.max = c.max; inp.step = c.step || "any"; inp.setAttribute("aria-label", c.label);
           var show = function () { var x = +c.get(); if (document.activeElement !== inp) inp.value = x; vv.textContent = c.fmt ? c.fmt(x) : String(Math.round(x * 100) / 100); };
           inp.oninput = function () { c.set(+inp.value); show(); }; inp.onchange = function () { c.set(+inp.value, true); show(); };
