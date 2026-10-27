@@ -17,6 +17,10 @@
      SurfaceSheetNav.swipe(sheetEl, tabsApi)          tabsApi from SurfaceTabs.mount (needs .step)
      SurfaceSheetNav.ring([{ id, el, name, icon, isOpen(), open(), close() } …], {keys, band})   in the bar's order → {go(±1)}
        band: true puts ‹ › in each sheet's foot band (pop.js foot), left of its close, instead of beside the sheet
+       ringIcon: '<svg…>' with band: a ring button between ‹ and › on every sheet whose item has ring(rect) (the tool opens
+       its ring for that sheet; rect is the sheet's box, so a small screen can fold the sheet into its ring and a big one
+       open the ring beside it). Dimitry, 26-27 Oct: "a dedicated Ring menu icon … in the tab strip", "between the left
+       and right arrows" 
        keys:false when the tool registers [ and ] as named actions with keys.js (it should): they then call go(±1)
    Plain script, window.SurfaceSheetNav. Default looks at zero specificity. */
 (function () {
@@ -49,7 +53,7 @@
   var BAND_CSS = ".spop.spop-now{transition:none!important}" +   /* a step between panels: no rise, no slide down (go) */
     ":where(.s-snav-band){align-self:stretch;flex:none;width:38px;min-height:44px;padding:0;margin:0;border:0;border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;display:grid;place-items:center}" +
     ":where(.s-snav-band):hover{color:var(--ui-ink,#fff)}:where(.s-snav-band):focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}" +
-    ":where(.s-snav-band) svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}";
+    ":where(.s-snav-band) svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}:where(.s-snav-band.ring) svg{width:20px;height:20px}";
   function css() { if (!document.getElementById("snav-band-css")) { var t = document.createElement("style"); t.id = "snav-band-css"; t.textContent = BAND_CSS; (document.head || document.documentElement).prepend(t); }
     if (document.getElementById("snav-css")) return; var s = document.createElement("style"); s.id = "snav-css"; s.textContent = CSS; (document.head || document.documentElement).prepend(s); }
   function play(el, cls, v, name) { if (!el) return; el.classList.remove(cls); el.style.setProperty(name, v); void el.offsetWidth; el.classList.add(cls); setTimeout(function () { el.classList.remove(cls); }, 300); }
@@ -95,7 +99,14 @@
     if (o.band) items.forEach(function (it) {
       var head = it.el.querySelector(".spop-foot > .spop-head, .spop-head"); if (!head || !it.el.classList.contains("spop-foot")) return;
       var x = head.querySelector(".spop-vx, .s-vclose");
-      [-1, 1].forEach(function (d) {
+      [-1, 0, 1].forEach(function (d) {
+        if (d === 0) {   /* the ring, between the arrows: same size as they are, so nothing in the band moves from sheet to sheet */
+          if (!o.ringIcon || typeof it.ring !== "function") return;
+          var g = document.createElement("button"); g.type = "button"; g.className = "s-snav-band ring"; g.setAttribute("data-noswipe", "");
+          g.innerHTML = o.ringIcon; g.title = "Open the ring for " + it.name; g.setAttribute("aria-label", "Open the ring for " + it.name);
+          g.addEventListener("click", function (e) { e.stopPropagation(); try { it.ring(it.el.getBoundingClientRect()); } catch (er) { console.warn("[sheetnav] ring", er); } });
+          (x ? x.parentNode : head).insertBefore(g, x || null); return;
+        }
         var b = document.createElement("button"); b.type = "button"; b.className = "s-snav-band " + (d < 0 ? "prev" : "next"); b.setAttribute("data-noswipe", "");
         b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + (d < 0 ? "M14.5 6.5 9 12l5.5 5.5" : "M9.5 6.5 15 12l-5.5 5.5") + '"/></svg>';
         b.addEventListener("pointerdown", function (e) { held = openIdx(); heldAt = performance.now(); e.stopPropagation(); }, true);

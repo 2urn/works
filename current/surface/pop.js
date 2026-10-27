@@ -62,7 +62,7 @@
        Class .s-vclose (or .spop-vx, which dress() gives a panel's close). */
     ".spop-head .spop-vx,.spop-vx,.s-vclose{align-self:stretch;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;width:36px;min-height:44px;padding:0 0 4px;margin:0;border:0;",
     "  border-left:1px solid rgb(var(--ui-hi,255 255 255) / .1);border-radius:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;box-sizing:border-box}",
-    ".spop-vx:hover,.s-vclose:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible,.s-vclose:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
+    ".spop-foot>.spop-head .spop-vx,.spop-foot>.spop-head .s-vclose{border-bottom-right-radius:calc(var(--s-pane-radius,20px) - 1px)}.spop-vx:hover,.s-vclose:hover{color:var(--ui-ink,#fff)}.spop-vx:focus-visible,.s-vclose:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:-2px}",
     ".spop-head .spop-vx span,.spop-vx span,.s-vclose span{writing-mode:vertical-rl;transform:none;font:600 7.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase}",
     ".spop-vx svg,.s-vclose svg{flex:none;width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}",
     /* in a panel's band the word goes (Dimitry, 21 Oct 22:42: "CLOSE is unnecessary"): the ⌄ alone, centred, the word kept

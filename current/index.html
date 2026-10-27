@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027130443";window.__VERSION__="0.33.80";window.__NOTES__=[{"v":"0.33.80","date":"27 Oct 2026","items":[{"kind":"fix","text":"opening a dot's ring, a lit dot (the camera, when it is on) no longer swells into a big blue ball: it turns into the ring's dark middle as it grows"}]}]</script>
+<script>window.__BUILD__="20261027164504";window.__VERSION__="0.33.81";window.__NOTES__=[{"v":"0.33.81","date":"27 Oct 2026","items":[{"kind":"change","text":"Autoplay's unit shows as three small dots under its circle, the lit one is the unit, and one line runs through the middle of the circles"},{"kind":"fix","text":"a panel's close keeps its highlight inside the panel's rounded corner"},{"kind":"new","text":"every panel has the ring between its ‹ and › at the bottom: on a phone the panel folds into its ring, on a bigger screen the ring opens beside the panel"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027130443"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027130443">
+<script src="claude-web.js?v=20261027164504"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027164504">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027130443"></script>
-<script src="surface/nozoom.js?v=20261027130443"></script><script src="surface/steady.js?v=20261027130443"></script><script src="surface/selftest.js?v=20261027130443"></script><script src="surface/size.js?v=20261027130443"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027130443"></script>
-<script src="surface/auto.js?v=20261027130443"></script>
-<script src="surface/toolpath.js?v=20261027130443"></script>
-<script src="surface/capture.js?v=20261027130443"></script>
-<script src="surface/pop.js?v=20261027130443"></script>
-<script src="surface/hints.js?v=20261027130443"></script>
-<script src="surface/paths.js?v=20261027130443"></script>
-<script src="surface/keys.js?v=20261027130443"></script>
-<script src="surface/reset.js?v=20261027130443"></script>
-<script src="surface/files.js?v=20261027130443"></script>
-<script src="surface/tabs.js?v=20261027130443"></script>
-<script src="surface/running.js?v=20261027130443"></script>
-<script src="surface/trim.js?v=20261027130443"></script>
-<script src="surface/audiowake.js?v=20261027130443"></script>
-<script src="surface/output.js?v=20261027130443"></script>
-<script src="surface/board.js?v=20261027130443"></script>
-<script src="surface/voice.js?v=20261027130443"></script>
-<script src="surface/voicelib.js?v=20261027130443"></script>
-<script src="surface/instruments.js?v=20261027130443"></script>
-<script src="surface/listview.js?v=20261027130443"></script>
-<script src="surface/beads.js?v=20261027130443"></script>
-<script src="surface/strip.js?v=20261027130443"></script>
-<script src="surface/sheetnav.js?v=20261027130443"></script>
-<script src="surface/twofinger.js?v=20261027130443"></script>
-<script src="surface/ring.js?v=20261027130443"></script>
-<script src="surface/shortlink.js?v=20261027130443"></script>
-<script src="surface/undo.js?v=20261027130443"></script>
-<script src="surface/pro.js?v=20261027130443"></script>
-<script src="surface/fresh.js?v=20261027130443"></script>
-<script src="surface/go.js?v=20261027130443"></script>
-<script src="surface/notice.js?v=20261027130443"></script>
-<script src="surface/perform.js?v=20261027130443"></script>
+<script src="vendor/opentype.min.js?v=20261027164504"></script>
+<script src="surface/nozoom.js?v=20261027164504"></script><script src="surface/steady.js?v=20261027164504"></script><script src="surface/selftest.js?v=20261027164504"></script><script src="surface/size.js?v=20261027164504"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027164504"></script>
+<script src="surface/auto.js?v=20261027164504"></script>
+<script src="surface/toolpath.js?v=20261027164504"></script>
+<script src="surface/capture.js?v=20261027164504"></script>
+<script src="surface/pop.js?v=20261027164504"></script>
+<script src="surface/hints.js?v=20261027164504"></script>
+<script src="surface/paths.js?v=20261027164504"></script>
+<script src="surface/keys.js?v=20261027164504"></script>
+<script src="surface/reset.js?v=20261027164504"></script>
+<script src="surface/files.js?v=20261027164504"></script>
+<script src="surface/tabs.js?v=20261027164504"></script>
+<script src="surface/running.js?v=20261027164504"></script>
+<script src="surface/trim.js?v=20261027164504"></script>
+<script src="surface/audiowake.js?v=20261027164504"></script>
+<script src="surface/output.js?v=20261027164504"></script>
+<script src="surface/board.js?v=20261027164504"></script>
+<script src="surface/voice.js?v=20261027164504"></script>
+<script src="surface/voicelib.js?v=20261027164504"></script>
+<script src="surface/instruments.js?v=20261027164504"></script>
+<script src="surface/listview.js?v=20261027164504"></script>
+<script src="surface/beads.js?v=20261027164504"></script>
+<script src="surface/strip.js?v=20261027164504"></script>
+<script src="surface/sheetnav.js?v=20261027164504"></script>
+<script src="surface/twofinger.js?v=20261027164504"></script>
+<script src="surface/ring.js?v=20261027164504"></script>
+<script src="surface/shortlink.js?v=20261027164504"></script>
+<script src="surface/undo.js?v=20261027164504"></script>
+<script src="surface/pro.js?v=20261027164504"></script>
+<script src="surface/fresh.js?v=20261027164504"></script>
+<script src="surface/go.js?v=20261027164504"></script>
+<script src="surface/notice.js?v=20261027164504"></script>
+<script src="surface/perform.js?v=20261027164504"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -225,14 +225,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027130443"></script>
-<script src="surface/rail.js?v=20261027130443"></script>
-<script src="surface/touchsound.js?v=20261027130443"></script>
-<script src="surface/water.js?v=20261027130443"></script>
-<script src="surface/ripple.js?v=20261027130443"></script>
-<script src="surface/material.js?v=20261027130443"></script>
-<script src="surface/float.js?v=20261027130443"></script>
-<script src="surface/manual.js?v=20261027130443"></script>
+<script src="surface/pack.js?v=20261027164504"></script>
+<script src="surface/rail.js?v=20261027164504"></script>
+<script src="surface/touchsound.js?v=20261027164504"></script>
+<script src="surface/water.js?v=20261027164504"></script>
+<script src="surface/ripple.js?v=20261027164504"></script>
+<script src="surface/material.js?v=20261027164504"></script>
+<script src="surface/float.js?v=20261027164504"></script>
+<script src="surface/manual.js?v=20261027164504"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1089,7 +1089,8 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 .apSet svg .bolt{fill:var(--acc-tx,var(--acc,#55b8c9));stroke:none}
 .apEveryH .apTimeTools{margin-left:auto}
 .apEveryRow{display:flex;align-items:center;gap:8px;position:relative}
-#plAuto .apEveryRow::before{content:'';position:absolute;left:calc(var(--s-bead,38px) / 2);right:calc(var(--s-bead,38px) / 2);top:calc((100% - 12px) / 2);height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi) / .18);pointer-events:none}
+#plAuto .apEveryRow .apBeads::before{display:none}   /* one line, not two: the beads' own line came through the display:contents wrapper (Dimitry, 27 Oct 12:36: "a single line at mid circle") */
+#plAuto .apEveryRow::before{content:'';position:absolute;left:calc(var(--s-bead,38px) / 2);right:calc(var(--s-bead,38px) / 2);top:calc((100% - 14px) / 2);height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi) / .18);pointer-events:none}
 #plAuto .apEveryRow .apBeads{display:contents}
 #plAuto .apEveryRow>.apUnitBtn{order:0}#plAuto .apEveryRow>.apEvW{order:1}#plAuto .apEveryRow .apBead:not(.rnd){order:2}#plAuto .apEveryRow>.apRowSet{order:3}#plAuto .apEveryRow>.apDialW:not(.apEvW){order:4}#plAuto .apEveryRow .apBead.rnd{order:5}
 #plAuto .apEveryRow>*,#plAuto .apEveryRow .apBead,#plAuto .apEveryRow .s-dial{position:relative;z-index:1}
@@ -1115,8 +1116,8 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
    column ... they should be below the dot completely where normally the text label would be ... and make them match the
    ones that are on the sound bottom drawer"): under the circle, where EVERY and MORPH have their words, a small pill of the
    three units, the current one filled, as the drawer's unit switch is */
-#plAuto .apUnitBtn{overflow:visible}#plAuto .apUnitBtn .apDots{top:calc(100% + 5px);bottom:auto;gap:0;padding:1px;border:1px solid rgb(var(--ui-hi) / .2);border-radius:999px;background:var(--ui-solid)}
-#plAuto .apUnitBtn .apDots i{width:13px;height:12px;border-radius:999px;box-shadow:none;opacity:.6;display:grid;place-items:center}#plAuto .apUnitBtn .apDots i.on{background:var(--ui-ink);color:rgb(var(--ui-g));opacity:1}
+#plAuto .apUnitBtn{overflow:visible}#plAuto .apUnitBtn .apDots{top:calc(100% + 6px);bottom:auto;gap:5px;padding:0;border:0;background:none}   /* three dots, no pill; the lit one is the unit (Dimitry, 27 Oct 12:35) */
+#plAuto .apUnitBtn .apDots i{width:4px;height:4px;border-radius:50%;box-shadow:none;background:var(--ui-ink);opacity:.28}#plAuto .apUnitBtn .apDots i.on{opacity:1}
 #plAuto .apUnitBtn .apDots svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .apMoDial{border:1px solid rgb(var(--ui-hi) / .2);background:transparent;touch-action:none}
 .apMoDial .apArc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);pointer-events:none;overflow:visible}
@@ -1132,7 +1133,7 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
    measured with its beads shown, and when they would not fit the panel takes the dial form (.apTight), whatever its width */
 #plAuto.apTight .apEvW{display:grid}#plAuto.apTight .apEveryRow .apBeads .apBead:not(.rnd){display:none}#plAuto.apTight .apEveryRow .apBead.rnd{width:var(--s-bead,38px);height:var(--s-bead,38px);flex:none}
 .apCap{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);font:600 8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);pointer-events:none;white-space:nowrap}
-#plAuto .apEveryRow{padding-bottom:20px}   /* the unit pill hangs 20 px under the circle centre line: inside the row, never over the next one (review 804b17f76b r-2) */
+#plAuto .apEveryRow{padding-bottom:14px}   /* room for the three unit dots under the circle, inside the row, never over the next one (review 804b17f76b r-2; a2f91bfd7e r-3) */
 .apMoNum{font:700 12px/1 var(--mono);font-variant-numeric:tabular-nums}
 .apMoTip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);padding:4px 7px;border-radius:7px;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);font:700 11px/1 var(--mono);white-space:nowrap;pointer-events:none}
 .apUnitBtn:focus-visible,.apMoDial:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}
@@ -4093,7 +4094,8 @@ function syncInside(){[...ins.children].forEach(b=>b.setAttribute('aria-pressed'
 
 /* PINNED PANELS (Dimitry, 24 Oct: "add a pin ... to keep a modal up for a while ... the pin is there to hold the position").
    The kit's pin (pop.js) marks the panel; every outside-tap close below asks this first, so the stage plays under it. */
-function pinnedUp(id){try{return !!(window.SurfacePop&&SurfacePop.pinned&&SurfacePop.pinned('#'+id))}catch(_){return false}}
+function pinnedUp(id){if(window.RING_BESIDE===id&&window.SurfaceRing&&SurfaceRing.isOpen())return true;   /* a panel with its ring open beside it stays (review c5fbc7aedc r-1) */
+  try{return !!(window.SurfacePop&&SurfacePop.pinned&&SurfacePop.pinned('#'+id))}catch(_){return false}}
 // ---------- Presets: built-in scenes + yours, morph, random, save ----------
 const LS='toolpath-field:v1';
 let store={user:[],player:null,auto:null,morph:null};
@@ -5016,7 +5018,7 @@ function buildPlist(){plTabsMount();
       const r=document.createElement('button');r.type='button';r.className='apBead rnd';r.setAttribute('role','radio');r.dataset.v='rand';r.title='at random';
       r.setAttribute('aria-label','A new scene at random, every few '+U.name);r.innerHTML=PLI('<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.5" class="dt"/><circle cx="15" cy="15" r="1.5" class="dt"/><circle cx="15" cy="9" r="1.5" class="dt"/><circle cx="9" cy="15" r="1.5" class="dt"/>');   // the bar's Random dice, the same drawing (0.27.8)
       r.onclick=()=>{AUTO.rand=true;store.auto={...AUTO};persist();setAuto(true);syncPlist()};g.appendChild(r);
-      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.innerHTML=TIME.ICON[UNIT_ORDER[i]]+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((u,k)=>'<i'+(k===i?' class="on"':'')+'>'+TIME.ICON[u]+'</i>').join('')+'</span>';   /* each unit's own mark, as on the drawer's switch */
+      {const i=Math.max(0,UNIT_ORDER.indexOf(AUTO.unit)),nx=UNIT_ORDER[(i+1)%3];ub.innerHTML=TIME.ICON[UNIT_ORDER[i]]+'<span class="apDots" aria-hidden="true">'+UNIT_ORDER.map((u,k)=>'<i'+(k===i?' class="on"':'')+'></i>').join('')+'</span>';   /* each unit's own mark, as on the drawer's switch */
         ub.title=AUTO_UNITS[UNIT_ORDER[i]].name;ub.setAttribute('aria-label','Every counts in '+AUTO_UNITS[UNIT_ORDER[i]].name+'. Tap for '+AUTO_UNITS[nx].name)}};
     drawBeads();g._get=()=>AUTO.rand?'rand':String(AUTO.n);g._draw=drawBeads;return g};
   /* THE GEAR ON EACH TILE (Dimitry, 22 Oct): a small gear in a Changes tile's lower-right corner goes to where that
@@ -9182,8 +9184,12 @@ function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" f
     min:0,max:100,step:5,get:()=>CFADE,set:v=>{CFADE=Math.max(0,Math.min(100,Math.round(v)));try{localStorage.setItem('current.colorFade',String(CFADE))}catch(_){}},fmt:v=>v?cfSecs(v)+'s':'cut'}]}
 try{SurfaceRing.define('color',{title:'Color',items:colorItems,center:'ball',icon:svgI('color')})}catch(e){console.warn('color ring',e)}
 try{SurfaceRing.define('in',{title:'Input',items:inItems,center:'ball',icon:RING_I('<path d="M12 3.5v11M7.5 10 12 14.5 16.5 10"/><path d="M4 14v5.5h16V14"/>')})}catch(e){console.warn('in ring',e)}
-function openTouchRing(x,y,ring){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();
-  SurfaceRing.open({x:x==null?r.left+r.width/2:x,y:y==null?r.top+r.height/2:y,rings:['touch','play','sound','color','in'],ring,key:'current',onSwitch:id=>{if(window.cxCount)cxCount('ring: '+id,1)}})}
+function openTouchRing(x,y,ring,beside){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();if(!beside)window.RING_BESIDE=null;
+  const h=SurfaceRing.open({x:x==null?r.left+r.width/2:x,y:y==null?r.top+r.height/2:y,rings:['touch','play','sound','color','in'],ring,key:'current',pinned:!!beside,onSwitch:id=>{if(window.cxCount)cxCount('ring: '+id,1)}});
+  if(beside)window.RING_BESIDE_H=h}
+/* the ring beside a panel goes with it: when that panel closes or steps to the next (review a2f91bfd7e r-1, r-2) */
+try{const mo=new MutationObserver(()=>{const id=window.RING_BESIDE,el=id&&document.getElementById(id);if(id&&(!el||el.hidden)){window.RING_BESIDE=null;try{window.RING_BESIDE_H&&RING_BESIDE_H.close()}catch(_){}window.RING_BESIDE_H=null}});
+  ['plist','rlist','shotPop','mixPop','fieldPop'].forEach(i=>{const e=document.getElementById(i);if(e)mo.observe(e,{attributes:true,attributeFilter:['hidden']})})}catch(e){}   /* beside a panel the ring opens pinned: no veil over the panel, both stay */
 /* a double-tap on the stage opens it where the finger is (not while placing a frame, nor in steer, whose taps paint) */
 /* THE RING'S INVITATION (Dimitry, 24 Oct 20:21: "below the bug report icon … something that represents a really nifty new
    feature … the icon for the ring, and when you tap it, it brings up the ring and explains that you just have to double tap
@@ -10466,10 +10472,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027130443"></script>
-<script src="surface/links.js?v=20261027130443"></script>
-<script src="surface/tips.js?v=20261027130443"></script>
-<script src="surface/sections.js?v=20261027130443"></script>
+<script src="surface/install.js?v=20261027164504"></script>
+<script src="surface/links.js?v=20261027164504"></script>
+<script src="surface/tips.js?v=20261027164504"></script>
+<script src="surface/sections.js?v=20261027164504"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10650,7 +10656,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027130443"></script>
+<script src="surface/room.js?v=20261027164504"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10851,7 +10857,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027130443"></script>
+<script src="surface/touch.js?v=20261027164504"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11573,13 +11579,21 @@ document.addEventListener('pointerdown',e=>{const P=$('fieldPop');if(P.hidden||p
 const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
   try{if(window.MIX_TABS)SurfaceSheetNav.swipe($('mixPop'),MIX_TABS);if(typeof CM_TABS!=='undefined'&&CM_TABS)SurfaceSheetNav.swipe($('colorPop'),CM_TABS)}catch(_){}
   const I=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>',vis=id=>{const e=$(id);return !!e&&!e.hidden&&getComputedStyle(e).display!=='none'};
+  /* THE RING IN EVERY PANEL (Dimitry, 26 Oct, his choices: in the band, between ‹ and ›; 27 Oct 12:31 "where is the ring
+     menu?"): a small screen folds the panel into its ring where the panel was; a big one opens the ring beside it */
+  const ringFor=(close,id)=>r=>{const small=innerWidth<720||innerHeight<620;
+    if(small){try{close()}catch(_){}openTouchRing(r.left+r.width/2,Math.min(innerHeight-170,Math.max(170,r.top+r.height/2)),id());return}
+    const right=r.right+190<innerWidth,x=right?r.right+170:r.left-170,y=Math.min(innerHeight-170,Math.max(170,r.top+r.height/2));
+    const el=[...document.querySelectorAll('#plist,#rlist,#shotPop,#mixPop,#fieldPop')].find(e=>!e.hidden&&e.getBoundingClientRect().width&&Math.abs(e.getBoundingClientRect().left-r.left)<2);window.RING_BESIDE=el?el.id:null;
+    openTouchRing(x,y,id(),true)};
+  const soundRing=()=>MIX_ROOM_NOW==='in'?'in':MIX_ROOM_NOW==='touch'?'touch':'sound';   /* the room the panel shows, not its tab (review c5fbc7aedc r-2) */
   return SurfaceSheetNav.ring([
-    {id:'presets',name:'Scenes',el:$('plist'),isOpen:()=>vis('plist'),open:()=>openPlist(),close:closePlist,icon:I('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')},
-    {id:'random',name:'Random',el:$('rlist'),isOpen:()=>vis('rlist'),open:openRlist,close:closeRlist,icon:I('<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r=".9"/><circle cx="15" cy="15" r=".9"/><circle cx="15" cy="9" r=".9"/><circle cx="9" cy="15" r=".9"/>')},
-    {id:'capture',name:'Capture',el:$('shotPop'),isOpen:()=>vis('shotPop'),open:openShotPop,close:closeShotPop,icon:I('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>')},
-    {id:'sound',name:'Sound',el:$('mixPop'),isOpen:()=>vis('mixPop'),open:()=>openMix(),close:closeMix,icon:I('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>')},
-    {id:'field',name:'Field',el:$('fieldPop'),isOpen:()=>vis('fieldPop'),open:openFieldPop,close:closeFieldPop,icon:I('<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>')}
-  ],{keys:false,band:true})})();
+    {id:'presets',name:'Scenes',el:$('plist'),isOpen:()=>vis('plist'),open:()=>openPlist(),close:closePlist,ring:ringFor(closePlist,()=>'play'),icon:I('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')},
+    {id:'random',name:'Random',el:$('rlist'),isOpen:()=>vis('rlist'),open:openRlist,close:closeRlist,ring:ringFor(closeRlist,()=>'play'),icon:I('<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r=".9"/><circle cx="15" cy="15" r=".9"/><circle cx="15" cy="9" r=".9"/><circle cx="9" cy="15" r=".9"/>')},
+    {id:'capture',name:'Capture',el:$('shotPop'),isOpen:()=>vis('shotPop'),open:openShotPop,close:closeShotPop,ring:ringFor(closeShotPop,()=>undefined),icon:I('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>')},
+    {id:'sound',name:'Sound',el:$('mixPop'),isOpen:()=>vis('mixPop'),open:()=>openMix(),close:closeMix,ring:ringFor(closeMix,soundRing),icon:I('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>')},
+    {id:'field',name:'Field',el:$('fieldPop'),isOpen:()=>vis('fieldPop'),open:openFieldPop,close:closeFieldPop,ring:ringFor(closeFieldPop,()=>'touch'),icon:I('<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>')}
+  ],{keys:false,band:true,ringIcon:RING_IC})})();
 (function modalIcons(tries){const MAP={colorPick:'#pickTrack [data-tool=color] svg',fontList:'#pickTrack [data-tool=text] svg',wordList:'#pickTrack [data-tool=text] svg',batchPop:'#pShot svg',rlist:'#pRand svg'};
   let missing=0;for(const id in MAP){const pop=document.getElementById(id),h=pop&&pop.querySelector('.mxh');if(!h||h.querySelector('.mxIco'))continue;const src=document.querySelector(MAP[id]);if(!src){missing++;continue}
     const ic=src.cloneNode(true);ic.removeAttribute('id');ic.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));ic.setAttribute('class','mxIco');ic.setAttribute('aria-hidden','true');h.insertBefore(ic,h.firstChild)}
@@ -11587,7 +11601,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.80';
+const APP_VERSION='0.33.81';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
