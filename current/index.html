@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027043938";window.__VERSION__="0.33.68";window.__NOTES__=[{"v":"0.33.68","date":"27 Oct 2026","items":[{"kind":"change","text":"Updating shows it is working: the button pulses and a bar fills until the new version opens"},{"kind":"change","text":"one box heads the scenes' ticks: ticked when every scene is in play, a dash when some are; ALL / NONE are gone"},{"kind":"fix","text":"the Touch tab scrolls on a phone"},{"kind":"fix","text":"the tap button keeps one width, so the sound shelf no longer shifts when the tempo shows"},{"kind":"fix","text":"the band under an open shelf matches the shelf in light mode"}]}]</script>
+<script>window.__BUILD__="20261027050620";window.__VERSION__="0.33.69";window.__NOTES__=[{"v":"0.33.69","date":"27 Oct 2026","items":[{"kind":"fix","text":"every circle on the Every line is one size and always round; the numbered beads show only when they all fit, otherwise the Every dial"},{"kind":"fix","text":"the pair / fibo / prime pill keeps one width, so the line no longer shifts"},{"kind":"fix","text":"with the dice on, the Every circle shows the number the dice picked and a ring runs round it until the next scene"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027043938"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027043938">
+<script src="claude-web.js?v=20261027050620"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027050620">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -76,6 +76,15 @@
 /* THE TAP LABEL NEVER MOVES THE SHELF (Dimitry, 27 Oct 00:18: "TAP" becoming "TAP · 140" made the whole bar a few pixels
    wider): the label is always as wide as its widest form, a hidden "tap · 888" in the same grid cell, digits all one width */
 #sdTap .lab{display:inline-grid;justify-items:center;font-variant-numeric:tabular-nums}#sdTap .lab>span,#sdTap .lab::after{grid-area:1/1}#sdTap .lab::after{content:'tap · 888';visibility:hidden;white-space:nowrap}
+/* ONE RULE FOR THE CIRCLES ON THE EVERY LINE (Dimitry, 27 Oct 00:49: "It's supposed to be a circle always a circle. ...
+   the same diameter as all the other circles on the line ... basic CSS cascade"): unit, dials, numbered beads and the
+   dice are all --s-bead round and never give way; when they do not fit, the row takes its dial form (.apTight, measured) */
+#plAuto .apEveryRow :is(.apUnitBtn,.s-dial,.apBead){flex:none!important;box-sizing:border-box!important;width:var(--s-bead,38px)!important;height:var(--s-bead,38px)!important;min-width:0!important;max-width:none!important;aspect-ratio:1!important;border-radius:50%!important}
+/* THE PILL IS AS WIDE AS "PRIME" (Dimitry, 27 Oct 00:48: "it's shifting the relationship every time it hits the word
+   prime"): pair, fibo and prime share one width, the widest word's, held by a hidden "prime" in the same grid cell */
+.apSet{display:inline-grid!important;place-items:center}.apSet>.apSetW,.apSet::after{grid-area:1/1}.apSet::after{content:'prime';visibility:hidden;white-space:nowrap}
+/* the Every dial carries the same running ring as a bead (27 Oct 00:59) */
+#plAuto .apEvDial.ring::after{content:'';position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--acc,#55b8c9) calc(var(--p,0) * 1turn),rgb(var(--acc-rgb,85 184 201) / .14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}
 </style></head><body>
 
 <script>/* rangeFill (0.29.91): every slider carries --p, how far its knob is along, for the track's fill. Kept on input and on
@@ -139,40 +148,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027043938"></script>
-<script src="surface/selftest.js?v=20261027043938"></script><script src="surface/size.js?v=20261027043938"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027043938"></script>
-<script src="surface/auto.js?v=20261027043938"></script>
-<script src="surface/toolpath.js?v=20261027043938"></script>
-<script src="surface/capture.js?v=20261027043938"></script>
-<script src="surface/pop.js?v=20261027043938"></script>
-<script src="surface/hints.js?v=20261027043938"></script>
-<script src="surface/paths.js?v=20261027043938"></script>
-<script src="surface/keys.js?v=20261027043938"></script>
-<script src="surface/reset.js?v=20261027043938"></script>
-<script src="surface/files.js?v=20261027043938"></script>
-<script src="surface/tabs.js?v=20261027043938"></script>
-<script src="surface/running.js?v=20261027043938"></script>
-<script src="surface/trim.js?v=20261027043938"></script>
-<script src="surface/audiowake.js?v=20261027043938"></script>
-<script src="surface/output.js?v=20261027043938"></script>
-<script src="surface/board.js?v=20261027043938"></script>
-<script src="surface/voice.js?v=20261027043938"></script>
-<script src="surface/voicelib.js?v=20261027043938"></script>
-<script src="surface/instruments.js?v=20261027043938"></script>
-<script src="surface/listview.js?v=20261027043938"></script>
-<script src="surface/beads.js?v=20261027043938"></script>
-<script src="surface/strip.js?v=20261027043938"></script>
-<script src="surface/sheetnav.js?v=20261027043938"></script>
-<script src="surface/twofinger.js?v=20261027043938"></script>
-<script src="surface/ring.js?v=20261027043938"></script>
-<script src="surface/shortlink.js?v=20261027043938"></script>
-<script src="surface/undo.js?v=20261027043938"></script>
-<script src="surface/pro.js?v=20261027043938"></script>
-<script src="surface/fresh.js?v=20261027043938"></script>
-<script src="surface/go.js?v=20261027043938"></script>
-<script src="surface/notice.js?v=20261027043938"></script>
-<script src="surface/perform.js?v=20261027043938"></script>
+<script src="vendor/opentype.min.js?v=20261027050620"></script>
+<script src="surface/selftest.js?v=20261027050620"></script><script src="surface/size.js?v=20261027050620"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027050620"></script>
+<script src="surface/auto.js?v=20261027050620"></script>
+<script src="surface/toolpath.js?v=20261027050620"></script>
+<script src="surface/capture.js?v=20261027050620"></script>
+<script src="surface/pop.js?v=20261027050620"></script>
+<script src="surface/hints.js?v=20261027050620"></script>
+<script src="surface/paths.js?v=20261027050620"></script>
+<script src="surface/keys.js?v=20261027050620"></script>
+<script src="surface/reset.js?v=20261027050620"></script>
+<script src="surface/files.js?v=20261027050620"></script>
+<script src="surface/tabs.js?v=20261027050620"></script>
+<script src="surface/running.js?v=20261027050620"></script>
+<script src="surface/trim.js?v=20261027050620"></script>
+<script src="surface/audiowake.js?v=20261027050620"></script>
+<script src="surface/output.js?v=20261027050620"></script>
+<script src="surface/board.js?v=20261027050620"></script>
+<script src="surface/voice.js?v=20261027050620"></script>
+<script src="surface/voicelib.js?v=20261027050620"></script>
+<script src="surface/instruments.js?v=20261027050620"></script>
+<script src="surface/listview.js?v=20261027050620"></script>
+<script src="surface/beads.js?v=20261027050620"></script>
+<script src="surface/strip.js?v=20261027050620"></script>
+<script src="surface/sheetnav.js?v=20261027050620"></script>
+<script src="surface/twofinger.js?v=20261027050620"></script>
+<script src="surface/ring.js?v=20261027050620"></script>
+<script src="surface/shortlink.js?v=20261027050620"></script>
+<script src="surface/undo.js?v=20261027050620"></script>
+<script src="surface/pro.js?v=20261027050620"></script>
+<script src="surface/fresh.js?v=20261027050620"></script>
+<script src="surface/go.js?v=20261027050620"></script>
+<script src="surface/notice.js?v=20261027050620"></script>
+<script src="surface/perform.js?v=20261027050620"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -195,14 +204,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027043938"></script>
-<script src="surface/rail.js?v=20261027043938"></script>
-<script src="surface/touchsound.js?v=20261027043938"></script>
-<script src="surface/water.js?v=20261027043938"></script>
-<script src="surface/ripple.js?v=20261027043938"></script>
-<script src="surface/material.js?v=20261027043938"></script>
-<script src="surface/float.js?v=20261027043938"></script>
-<script src="surface/manual.js?v=20261027043938"></script>
+<script src="surface/pack.js?v=20261027050620"></script>
+<script src="surface/rail.js?v=20261027050620"></script>
+<script src="surface/touchsound.js?v=20261027050620"></script>
+<script src="surface/water.js?v=20261027050620"></script>
+<script src="surface/ripple.js?v=20261027050620"></script>
+<script src="surface/material.js?v=20261027050620"></script>
+<script src="surface/float.js?v=20261027050620"></script>
+<script src="surface/manual.js?v=20261027050620"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1090,6 +1099,10 @@ html.robo-sw-f .robo-f .f0,html.robo-sw-b .robo-f .f2{animation-delay:0s!importa
 #plAuto .s-dial.s-dbusy .s-dface{font:700 12px/1 var(--mono)}
 .apEvW{display:none}
 @container (max-width:460px){.apEvW{display:grid}#plAuto .apEveryRow .apBeads .apBead:not(.rnd){display:none}#plAuto .apEveryRow .apBead.rnd{width:var(--s-bead,38px);height:var(--s-bead,38px);flex:none}}
+/* THE ROW FITS BY MEASURE (Dimitry, 27 Oct 00:47, iPad: the same panel, the dice whole in one and pushed past the edge in
+   the other, "Is this why we have a design system?"): 460 px was a guess at what the numbered beads need. Now the row is
+   measured with its beads shown, and when they would not fit the panel takes the dial form (.apTight), whatever its width */
+#plAuto.apTight .apEvW{display:grid}#plAuto.apTight .apEveryRow .apBeads .apBead:not(.rnd){display:none}#plAuto.apTight .apEveryRow .apBead.rnd{width:var(--s-bead,38px);height:var(--s-bead,38px);flex:none}
 .apCap{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);font:600 8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);pointer-events:none;white-space:nowrap}
 #plAuto .apEveryRow{padding-bottom:12px}
 .apMoNum{font:700 12px/1 var(--mono);font-variant-numeric:tabular-nums}
@@ -4926,7 +4939,7 @@ function buildPlist(){plTabsMount();
     b.onclick=()=>{if(!isPro('dice.seq')){try{openBetaSheet()}catch(_){}return}AUTO.lock=AUTO.lock===false;
       if(AUTO.lock){AUTO.set=AUTO.moSet=RAND.set}else{AUTO.set=AUTO.moSet=RAND.set||'pair'}
       timeSnap();store.auto={...AUTO};persist();timeRedraw();toast(AUTO.lock?'locked: Every and the dice count the same way':'unlocked: Every and the dice count on their own',2600)};paintLock(b);return b};
-  const paintSet=b=>{const k=timeSet(b.dataset.row);b.innerHTML=TIME.SETS[k].name+(k!=='pair'&&SurfacePro.mark?SurfacePro.mark('dice.seq','bsSeqPro'):'');
+  const paintSet=b=>{const k=timeSet(b.dataset.row);b.innerHTML='<span class="apSetW">'+TIME.SETS[k].name+'</span>'+(k!=='pair'&&SurfacePro.mark?SurfacePro.mark('dice.seq','bsSeqPro'):'');
       b.setAttribute('aria-label','Every counts in '+TIME.SETS[k].long+'. Tap for '+TIME.SETS[TSET_NEXT[k]].long);b.title='pair · fibo · prime'};
   const paintLock=b=>{const L=timeLocked();b.innerHTML=L?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="5.5" y="11" width="13" height="9" rx="2"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V8a4 4 0 0 1 7.7-1.5"/><rect x="5.5" y="11" width="13" height="9" rx="2"/></svg>';
       b.setAttribute('aria-pressed',String(L));b.setAttribute('aria-label',L?'Locked: Every and the dice count the same way. Tap to unlock (Pro)':'Unlocked: Every and the dice count on their own. Tap to lock');b.title=L?'locked to the dice':'unlocked'};
@@ -4948,7 +4961,7 @@ function buildPlist(){plTabsMount();
   window.everyDial=redraw=>{const U=()=>AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;
     const d=SurfaceBeads.dial({cls:'apEvDial',label:'Every',stops:()=>U().vals,get:()=>AUTO.n,
       set:v=>{AUTO.n=v;AUTO.rand=false;store.auto={...AUTO};persist();setAuto(true);syncPlist();try{redraw()}catch(_){}},
-      face:v=>AUTO.rand?'?':beadLabel(AUTO.unit,v),busy:v=>beadLabel(AUTO.unit,v),tip:v=>AUTO.unit==='sec'?'':TIME.count(v,AUTO.unit),
+      face:v=>{window.__evFace=AUTO.rand?String(AUTO.drawn||''):'n'+v;return AUTO.rand?(AUTO.drawn?beadLabel(AUTO.unit,AUTO.drawn):'?'):beadLabel(AUTO.unit,v)},   /* __evFace: what the face shows, so the ring repaints it whenever the roll differs (review b45a9fb859 r-1) */   /* the dice's number, not a question mark (Dimitry, 27 Oct 00:59) */busy:v=>beadLabel(AUTO.unit,v),tip:v=>AUTO.unit==='sec'?'':TIME.count(v,AUTO.unit),
       aria:v=>'a new scene every '+(AUTO.unit==='sec'?fmtSec(v):TIME.count(v,AUTO.unit))});
     const cap=document.createElement('span');cap.className='apCap';cap.setAttribute('aria-hidden','true');cap.textContent='every';
     const w=document.createElement('div');w.className='apDialW apEvW';w.append(d,cap);w._sync=()=>d.sync();return w};
@@ -5048,7 +5061,7 @@ function buildPlist(){plTabsMount();
       get:()=>({show:colSet()}),set:v=>setCols(v.show)});
     cb.classList.add('plBar','plCols','apCols');box.append(h,cb)}   /* last (Dimitry, 24 Oct: Morph sat under the fold below it; the same chips head Scenes) */
   buildLooks();syncPlist()}
-function syncAutoUI(){bsSync();try{document.documentElement.dataset.roboOrder=AUTO.order==='shuffle'?'shuffle':''}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
+function syncAutoUI(){requestAnimationFrame(()=>{try{apFit()}catch(_){}});bsSync();try{document.documentElement.dataset.roboOrder=AUTO.order==='shuffle'?'shuffle':''}catch(_){}const go=$('plGo');if(!go)return;const on=!!autoT,all=allPresets();
   go.classList.toggle('on',on);go.setAttribute('aria-pressed',String(on));go.setAttribute('aria-label',on?'Stop autoplay':'Start autoplay');
   $('apState').textContent=on?'Playing':'Stopped';$('apLook').textContent=all[presetIdx]?all[presetIdx].name:'';
   /* one fixed line, whatever it says (21 Oct night): no countdown, the bar above shows it */
@@ -5062,9 +5075,16 @@ function syncAutoUI(){bsSync();try{document.documentElement.dataset.roboOrder=AU
   cancelAnimationFrame(apRaf);
   /* THE TIMING RING (0.27.8, Dimitry, 21 Oct): the bead that is timing the change wears a ring that fills to the next
      scene; bright when you picked it, dim when the dice drew it. Beats and bars fill a step per beat. */
-  const ring=f=>{const g=$('plAuto').querySelector('.apBeads');if(!g)return;const want=on?String(AUTO.rand?AUTO.drawn:AUTO.n):'';
-    for(const b of g.querySelectorAll('.apBead')){const is=on&&b.dataset.v===want;b.classList.toggle('ring',is);b.classList.toggle('dim',is&&AUTO.rand);
-      if(is){let k=f;if(AUTO.unit!=='sec'){const n=(AUTO.rand?AUTO.drawn:AUTO.n)*(AUTO.unit==='bar'?4:1);k=Math.floor(f*n+1e-6)/n}b.style.setProperty('--p',k.toFixed(4))}}};
+  /* WHEN THE NEXT SCENE COMES, ALWAYS (Dimitry, 27 Oct 00:59: with the dice on "You can't tell at all when the next scene is
+     arriving ... the dice is picking a number that number should appear in the box and it should also show with ... a ring
+     animation how far along it is"): the ring goes round the circle that shows the count now, the numbered bead or, in the
+     dial form, the Every dial (which shows the dice's number), at full strength with the dice on too; the dice stays lit */
+  const ring=f=>{const P=$('plAuto'),g=P.querySelector('.apBeads');if(!g)return;const cur=AUTO.rand?AUTO.drawn:AUTO.n,want=on?String(cur):'';
+    let k=f;if(on&&AUTO.unit!=='sec'){const n=cur*(AUTO.unit==='bar'?4:1);k=Math.floor(f*n+1e-6)/n}
+    const fb=g.querySelector('.apBead:not(.rnd)'),tight=!fb||!fb.offsetParent;
+    for(const b of g.querySelectorAll('.apBead')){const is=on&&!tight&&b.dataset.v===want;b.classList.toggle('ring',is);b.classList.remove('dim');if(is)b.style.setProperty('--p',k.toFixed(4))}
+    const d=P.querySelector('.apEvDial');if(d){const is=on&&tight;d.classList.toggle('ring',is);if(is){d.style.setProperty('--p',k.toFixed(4));
+      if(AUTO.rand&&window.__evFace!==String(AUTO.drawn)){try{d.sync()}catch(_){}}}}};
   ring(0);
   if(on){const tick=()=>{if($('plist').hidden||$('plAutoPane').hidden||!autoT)return;const f=Math.min(1,(performance.now()-autoAt)/(AUTO.sec*1000));ring(f);
       $('apProg').style.width=(f*100).toFixed(1)+'%';apRaf=requestAnimationFrame(tick)};tick()}
@@ -10335,10 +10355,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027043938"></script>
-<script src="surface/links.js?v=20261027043938"></script>
-<script src="surface/tips.js?v=20261027043938"></script>
-<script src="surface/sections.js?v=20261027043938"></script>
+<script src="surface/install.js?v=20261027050620"></script>
+<script src="surface/links.js?v=20261027050620"></script>
+<script src="surface/tips.js?v=20261027050620"></script>
+<script src="surface/sections.js?v=20261027050620"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10519,7 +10539,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027043938"></script>
+<script src="surface/room.js?v=20261027050620"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10720,7 +10740,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027043938"></script>
+<script src="surface/touch.js?v=20261027050620"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11456,7 +11476,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.68';
+const APP_VERSION='0.33.69';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -11630,6 +11650,14 @@ BOARD=SurfaceBoard.mount({tool:'current',stage:'#stage',panels:PANELS,boards:BOA
   add();new MutationObserver(add).observe(document.body,{childList:true,subtree:true});
   window.openCertificate=open;
 })();
+
+/* the Every row's form by measure (see .apTight): try the beads, keep them only if the row's content fits its box */
+(function(){let ro=null,on=null;const fit=()=>{const P=$('plAuto'),row=P&&P.querySelector('.apEveryRow');if(!row||!row.offsetParent)return;
+  /* watch the row that is there now: the panel builds it when it opens and builds it again on each redraw (review 36d66a2948 r-1) */
+  if(window.ResizeObserver&&on!==row){if(ro)ro.disconnect();ro=new ResizeObserver(()=>requestAnimationFrame(fit));ro.observe(row);ro.observe(P);on=row}
+  P.classList.remove('apTight');const rb=row.getBoundingClientRect(),over=row.scrollWidth>row.clientWidth+1||[...row.querySelectorAll('.apBead.rnd,.apUnitBtn')].some(e=>{const r=e.getBoundingClientRect();return r.right>rb.right+1});
+  P.classList.toggle('apTight',over)};
+  window.apFit=fit})();
 </script>
 <style>
 #certSheet{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgb(0 0 0 / .55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:16px;overflow:auto}
