@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027111637";window.__VERSION__="0.33.72";window.__NOTES__=[{"v":"0.33.72","date":"27 Oct 2026","items":[{"kind":"new","text":"when the Every line changes form (turn the device, resize the window), the numbers gather into the Every dial, or spring out of it to their places"}]}]</script>
+<script>window.__BUILD__="20261027114958";window.__VERSION__="0.33.73";window.__NOTES__=[{"v":"0.33.73","date":"27 Oct 2026","items":[{"kind":"new","text":"select the picture: hold it with the Input shelf open, or tap its thumbnail. Corner notches frame it; one finger moves it, two size and turn it"},{"kind":"new","text":"crop and frame: double-tap the selected picture, or Crop: drag inside to move the picture within its frame, drag a corner to crop"},{"kind":"change","text":"while a picture is selected, the Input shelf is its own pad (show, under, trace, ink, drive, auto, crop, done) and its caret points up at the picture"},{"kind":"change","text":"show and drive carry their amount as an arc round the icon"},{"kind":"change","text":"remove sits on the selected picture (a − on its corner) and in its pad, no longer on the Camera, Picture and Video rings"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027111637"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027111637">
+<script src="claude-web.js?v=20261027114958"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027114958">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -87,6 +87,25 @@
 .apSet{display:inline-grid!important;place-items:center}.apSet>.apSetW,.apSet::after{grid-area:1/1}.apSet::after{content:'prime';visibility:hidden;white-space:nowrap}
 /* the Every dial carries the same running ring as a bead (27 Oct 00:59) */
 #plAuto .apEvDial.ring::after{content:'';position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--acc,#55b8c9) calc(var(--p,0) * 1turn),rgb(var(--acc-rgb,85 184 201) / .14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}
+/* SELECTED PICTURE (27 Oct 07:30): corner notches that stay one size whatever the picture's scale; in crop, a dashed frame
+   and the whole picture's edge dotted; the Input shelf as the picture's pad, its notch pointing up */
+#picSel{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:3;transform-origin:50% 50%}#picSel[hidden]{display:none}
+#picSel .psBox{position:absolute}
+#picSel .psBox i{position:absolute;width:calc(18px * var(--ps-k,1));height:calc(18px * var(--ps-k,1));border:solid var(--acc,#55b8c9);border-width:0;filter:drop-shadow(0 0 2px rgba(0,0,0,.8))}
+#picSel .psBox .tl{left:0;top:0;border-left-width:calc(3px * var(--ps-k,1));border-top-width:calc(3px * var(--ps-k,1))}#picSel .psBox .tr{right:0;top:0;border-right-width:calc(3px * var(--ps-k,1));border-top-width:calc(3px * var(--ps-k,1))}
+#picSel .psBox .bl{left:0;bottom:0;border-left-width:calc(3px * var(--ps-k,1));border-bottom-width:calc(3px * var(--ps-k,1))}#picSel .psBox .br{right:0;bottom:0;border-right-width:calc(3px * var(--ps-k,1));border-bottom-width:calc(3px * var(--ps-k,1))}
+#picSel .psFull{position:absolute;inset:0;display:none;outline:calc(1.5px * var(--ps-k,1)) dotted rgb(255 255 255 / .55)}
+html.picCrop #picSel .psFull{display:block}html.picCrop #picSel .psBox{outline:calc(1.5px * var(--ps-k,1)) dashed var(--acc,#55b8c9)}html.picCrop #picSel .psBox i{width:calc(26px * var(--ps-k,1));height:calc(26px * var(--ps-k,1))}
+html.picSel #shelfSrc :is(#srPic,#srVid,#srCam,#inG,#inSnd,#inPack,#inMic){display:none}html.picSel #shelfSrc .track>.sep:first-of-type{display:none}
+#shelfSrc #srCrop,#shelfSrc #srDone{display:none}html.picSel #shelfSrc :is(#srCrop,#srDone){display:flex}
+html.picSel #drawerNotch{transform-origin:50% 50%}
+.shelf:not(.ovl) .track.notched.notchUp{-webkit-mask-position:0 0,calc(var(--nx,50%) - 9px) 0;mask-position:0 0,calc(var(--nx,50%) - 9px) 0}
+/* AMOUNTS ARE ARCS (27 Oct 07:30, his semicircles on the dots: "the things that have percentages ... should be draggable and
+   indicate the amount"): a ring round the icon of a button that holds an amount, filled to it; fill still means on, the
+   pulse still means driven. One meaning per signal, on the bar as on the rings */
+.amtW{position:relative;display:grid;place-items:center}.amtW>.amtR{position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--acc,#55b8c9) calc(var(--amt,0) * 1turn),rgb(var(--ui-hi,255 255 255) / .16) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}
+.si[aria-pressed=true] .amtW>.amtR{background:conic-gradient(currentColor calc(var(--amt,0) * 1turn),rgb(0 0 0 / .18) 0)}
+#picDel[hidden]{display:none}#picDel{position:absolute;z-index:4;width:30px;height:30px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c);pointer-events:auto;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5)}#picDel svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
 </style></head><body>
 
 <script>/* rangeFill (0.29.91): every slider carries --p, how far its knob is along, for the track's fill. Kept on input and on
@@ -150,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027111637"></script>
-<script src="surface/selftest.js?v=20261027111637"></script><script src="surface/size.js?v=20261027111637"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027111637"></script>
-<script src="surface/auto.js?v=20261027111637"></script>
-<script src="surface/toolpath.js?v=20261027111637"></script>
-<script src="surface/capture.js?v=20261027111637"></script>
-<script src="surface/pop.js?v=20261027111637"></script>
-<script src="surface/hints.js?v=20261027111637"></script>
-<script src="surface/paths.js?v=20261027111637"></script>
-<script src="surface/keys.js?v=20261027111637"></script>
-<script src="surface/reset.js?v=20261027111637"></script>
-<script src="surface/files.js?v=20261027111637"></script>
-<script src="surface/tabs.js?v=20261027111637"></script>
-<script src="surface/running.js?v=20261027111637"></script>
-<script src="surface/trim.js?v=20261027111637"></script>
-<script src="surface/audiowake.js?v=20261027111637"></script>
-<script src="surface/output.js?v=20261027111637"></script>
-<script src="surface/board.js?v=20261027111637"></script>
-<script src="surface/voice.js?v=20261027111637"></script>
-<script src="surface/voicelib.js?v=20261027111637"></script>
-<script src="surface/instruments.js?v=20261027111637"></script>
-<script src="surface/listview.js?v=20261027111637"></script>
-<script src="surface/beads.js?v=20261027111637"></script>
-<script src="surface/strip.js?v=20261027111637"></script>
-<script src="surface/sheetnav.js?v=20261027111637"></script>
-<script src="surface/twofinger.js?v=20261027111637"></script>
-<script src="surface/ring.js?v=20261027111637"></script>
-<script src="surface/shortlink.js?v=20261027111637"></script>
-<script src="surface/undo.js?v=20261027111637"></script>
-<script src="surface/pro.js?v=20261027111637"></script>
-<script src="surface/fresh.js?v=20261027111637"></script>
-<script src="surface/go.js?v=20261027111637"></script>
-<script src="surface/notice.js?v=20261027111637"></script>
-<script src="surface/perform.js?v=20261027111637"></script>
+<script src="vendor/opentype.min.js?v=20261027114958"></script>
+<script src="surface/selftest.js?v=20261027114958"></script><script src="surface/size.js?v=20261027114958"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027114958"></script>
+<script src="surface/auto.js?v=20261027114958"></script>
+<script src="surface/toolpath.js?v=20261027114958"></script>
+<script src="surface/capture.js?v=20261027114958"></script>
+<script src="surface/pop.js?v=20261027114958"></script>
+<script src="surface/hints.js?v=20261027114958"></script>
+<script src="surface/paths.js?v=20261027114958"></script>
+<script src="surface/keys.js?v=20261027114958"></script>
+<script src="surface/reset.js?v=20261027114958"></script>
+<script src="surface/files.js?v=20261027114958"></script>
+<script src="surface/tabs.js?v=20261027114958"></script>
+<script src="surface/running.js?v=20261027114958"></script>
+<script src="surface/trim.js?v=20261027114958"></script>
+<script src="surface/audiowake.js?v=20261027114958"></script>
+<script src="surface/output.js?v=20261027114958"></script>
+<script src="surface/board.js?v=20261027114958"></script>
+<script src="surface/voice.js?v=20261027114958"></script>
+<script src="surface/voicelib.js?v=20261027114958"></script>
+<script src="surface/instruments.js?v=20261027114958"></script>
+<script src="surface/listview.js?v=20261027114958"></script>
+<script src="surface/beads.js?v=20261027114958"></script>
+<script src="surface/strip.js?v=20261027114958"></script>
+<script src="surface/sheetnav.js?v=20261027114958"></script>
+<script src="surface/twofinger.js?v=20261027114958"></script>
+<script src="surface/ring.js?v=20261027114958"></script>
+<script src="surface/shortlink.js?v=20261027114958"></script>
+<script src="surface/undo.js?v=20261027114958"></script>
+<script src="surface/pro.js?v=20261027114958"></script>
+<script src="surface/fresh.js?v=20261027114958"></script>
+<script src="surface/go.js?v=20261027114958"></script>
+<script src="surface/notice.js?v=20261027114958"></script>
+<script src="surface/perform.js?v=20261027114958"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -206,14 +225,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027111637"></script>
-<script src="surface/rail.js?v=20261027111637"></script>
-<script src="surface/touchsound.js?v=20261027111637"></script>
-<script src="surface/water.js?v=20261027111637"></script>
-<script src="surface/ripple.js?v=20261027111637"></script>
-<script src="surface/material.js?v=20261027111637"></script>
-<script src="surface/float.js?v=20261027111637"></script>
-<script src="surface/manual.js?v=20261027111637"></script>
+<script src="surface/pack.js?v=20261027114958"></script>
+<script src="surface/rail.js?v=20261027114958"></script>
+<script src="surface/touchsound.js?v=20261027114958"></script>
+<script src="surface/water.js?v=20261027114958"></script>
+<script src="surface/ripple.js?v=20261027114958"></script>
+<script src="surface/material.js?v=20261027114958"></script>
+<script src="surface/float.js?v=20261027114958"></script>
+<script src="surface/manual.js?v=20261027114958"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -3648,7 +3667,7 @@ function frameXY(x,y){const cx=W/2,cy=H/2,a=FRAME.r*Math.PI/180,c=Math.cos(a)*FR
 const frameOn=()=>FRAME.x||FRAME.y||FRAME.s!==1||FRAME.r;
 // BGF: where the picture, video or camera sits under an untraced field: offset (fractions of the stage), scale, rotation.
 // With a source loaded, gestures move the picture and leave the pattern field alone; drive then reads the picture where it now sits.
-const BGF={x:0,y:0,s:1,r:0};let bgfT=0;   // BGF: where the untraced source sits (placed with the source shelf open)
+const BGF={x:0,y:0,s:1,r:0,cl:0,ct:0,cr:0,cb:0,ox:.5,oy:.5};let bgfT=0;   /* cl..cb: the crop, shares of the frame cut from each side; ox, oy: where the picture sits inside its frame (CSS object-position, .5 centred) (Dimitry, 27 Oct 07:30, "move the crop of the image ... and to position the image ... within its frame ... as in Canva") */   // BGF: where the untraced source sits (placed with the source shelf open)
 const srcAligned=()=>!!(SRC.gcode&&$('gcode').value===SRC.gcode&&FIT);
 function bgfChanged(final){layoutBg();const now=performance.now();
   if(final&&TRACE.on&&parsed){fitSegments();buildField()}   // the traced outlines follow the picture once it is placed
@@ -5298,7 +5317,13 @@ function stillCanvas(c){c=c||document.createElement('canvas');if(c.width!==cv.wi
   if(!TRANSP||!srcEl()){g.drawImage(stageSrc(),0,0);g.drawImage(ov,0,0);return c}
   g.fillStyle=stageBg();g.fillRect(0,0,c.width,c.height);
   const el=srcEl(),r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect(),iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;
-  if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG==='overlay')g.globalCompositeOperation='overlay';let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
+  if(iw&&ih&&el.style.objectFit==='cover'){   /* placed, cropped and panned as shown (review 659cc49d78 r-1: a still, a video, a card saved it uncropped and centred) */
+    g.save();g.scale(DPR,DPR);g.globalAlpha=picShow();if(SRCG==='overlay')g.globalCompositeOperation='overlay';
+    const B=bgfEff(),sc=Math.max(W/iw,H/ih),dw=iw*sc,dh=ih*sc;g.translate(W/2+B.x*W,H/2+B.y*H);g.rotate(B.r*Math.PI/180);g.scale(B.s,B.s);
+    if(bgL.classList.contains('mirror')&&el===bgVid)g.scale(-1,1);
+    if(BGF.cl||BGF.ct||BGF.cr||BGF.cb){g.beginPath();g.rect(-W/2+BGF.cl*W,-H/2+BGF.ct*H,W*(1-BGF.cl-BGF.cr),H*(1-BGF.ct-BGF.cb));g.clip()}
+    try{g.drawImage(el,-W/2+(W-dw)*BGF.ox,-H/2+(H-dh)*BGF.oy,dw,dh)}catch(_){}g.restore()}
+  else if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG==='overlay')g.globalCompositeOperation='overlay';let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
     g.beginPath();g.rect(x,y,w,h);g.clip();
     if(el.style.objectFit==='cover'){const k=Math.max(w/iw,h/ih);const dw=iw*k,dh=ih*k;x+=(w-dw)/2;y+=(h-dh)/2;w=dw;h=dh}
     if(bgL.classList.contains('mirror')&&el===bgVid){g.translate(2*x+w,0);g.scale(-1,1)}
@@ -6609,15 +6634,19 @@ function tfSlide(pr){if(!pr||!pr.tf)return 0;const [a,b]=[...ptrs.values()],k=pr
   if(k==='slide'){setFlow(SurfaceTwoFinger.logStep(pr.fm0,pr.tf.dy,{per:150,min:FLOW.MIN,max:FLOW.MAX}),'hold');return 1}return 0}
 stage.addEventListener('pointerdown',e=>{if(e.button>0)return;try{stage.setPointerCapture(e.pointerId)}catch(_){}
   const q=stagePt(e);ptrs.set(e.pointerId,{x:q.x,y:q.y,x0:q.x,y0:q.y});if(TFT)TFT.down(ptrs.size,[...ptrs.values()]);
+  if(PSEL&&PSEL.g&&ptrs.size>1){PSEL.g=null;bgfChanged(true)}   /* a second finger: the move becomes the two-finger size and turn, its lift is not a tap (review 659cc49d78 r-4) */
+  if(PSEL&&PSEL.on&&ptrs.size===1&&!STEER.on&&ACTIVE!=='frame'){if(picDown(q))return}
   if(ACTIVE==='frame'){frameGlideStop();FR.g={x0:FRAME.x,y0:FRAME.y,s0:FRAME.s,r0:FRAME.r,px:q.x,py:q.y};if(ptrs.size===2){const [a,b]=[...ptrs.values()];FR.g.d0=Math.hypot(b.x-a.x,b.y-a.y)||1;FR.g.a0=Math.atan2(b.y-a.y,b.x-a.x);FR.g.mx=(a.x+b.x)/2;FR.g.my=(a.y+b.y)/2}return}
   if(STEER.on){STEER.cur={x:q.x,y:q.y};if(ptrs.size===2){const [a,b]=[...ptrs.values()];pair=tfStart({d0:Math.hypot(b.x-a.x,b.y-a.y)||1,r0:STEER.r},a,b)}return}
   if(ptrs.size===1){TOUCH.on=true;TOUCH.x=q.x;TOUCH.y=q.y;TOUCH.vx=TOUCH.vy=0;clearTimeout(holdT);
-    holdT=setTimeout(()=>{const p=ptrs.get(e.pointerId);if(ptrs.size===1&&p&&Math.hypot(p.x-p.x0,p.y-p.y0)<8){sustain=true;flashName('sustain');toast('trails hold while you press')}},450)}
+    holdT=setTimeout(()=>{const p=ptrs.get(e.pointerId);if(ptrs.size===1&&p&&Math.hypot(p.x-p.x0,p.y-p.y0)<8&&srcOpen&&picHit(p.x,p.y)){TOUCH.on=false;picSelect();PSEL.g={mode:'move',x0:p.x,y0:p.y,bx:BGF.x,by:BGF.y,t:0};if(navigator.vibrate)navigator.vibrate(10);return}   /* hold on the picture with the Input shelf open: it is selected (Dimitry, 27 Oct 07:30, his choice); elsewhere hold still sustains */
+    if(ptrs.size===1&&p&&Math.hypot(p.x-p.x0,p.y-p.y0)<8){sustain=true;flashName('sustain');toast('trails hold while you press')}},450)}
   if(ptrs.size===2){clearTimeout(holdT);sustain=false;const [a,b]=[...ptrs.values()];
     pair={d0:Math.hypot(b.x-a.x,b.y-a.y)||1,a0:Math.atan2(b.y-a.y,b.x-a.x),f0:S.falloff,s0:S.strength,zoom:false,   /* zooming the field rebuilds it every step and hangs even on a fast phone: place the picture before tracing (trace keeps it where it is) */
       bg:gestBg(),bs0:BGF.s,bx0:BGF.x,by0:BGF.y,br0:BGF.r,fr0:FRAME.r,mag:ACTIVE==='magnet'&&Math.abs(S.magnet||0)>.004,r0:MAG.r,
       fs0:FRAME.s,fx0:FRAME.x,fy0:FRAME.y,mx0:(a.x+b.x)/2,my0:(a.y+b.y)/2,sized:false};if(!pair.bg)tfStart(pair,a,b)}});
 stage.addEventListener('pointermove',e=>{const p=ptrs.get(e.pointerId);if(!p)return;const q=stagePt(e);if(TFT)TFT.move([...ptrs.values()].map(v=>v===p?q:v));
+  if(PSEL&&PSEL.g&&ptrs.size===1){p.x=q.x;p.y=q.y;picMove(q);return}
   if(ACTIVE==='frame'&&FR.g){p.x=q.x;p.y=q.y;
     if(ptrs.size===1){FRAME.x=FR.g.x0+(q.x-FR.g.px)/W;FRAME.y=FR.g.y0+(q.y-FR.g.py)/H}
     else if(ptrs.size===2&&FR.g.d0){const [a,b]=[...ptrs.values()],d=Math.hypot(b.x-a.x,b.y-a.y),an=Math.atan2(b.y-a.y,b.x-a.x);
@@ -6653,7 +6682,7 @@ stage.addEventListener('pointermove',e=>{const p=ptrs.get(e.pointerId);if(!p)ret
     nudgeBase('strength',pair.s0+da*0.9);
     TOUCH.x=mx;TOUCH.y=my}});
 function fmtReach(){const[a,b]=RANGES.falloff;return Math.round((S.falloff-a)/(b-a)*100)+'%'}
-const ptrEnd=e=>{if(!ptrs.delete(e.pointerId))return;if(TFT&&TFT.up(ptrs.size)){setFlow(1);if(navigator.vibrate)navigator.vibrate(8)}
+const ptrEnd=e=>{if(!ptrs.delete(e.pointerId))return;if(PSEL&&PSEL.g){const g=PSEL.g;PSEL.g=null;picUp(g);if(!ptrs.size){TOUCH.on=false;clearTimeout(holdT)}return}if(TFT&&TFT.up(ptrs.size)){setFlow(1);if(navigator.vibrate)navigator.vibrate(8)}
   if(ptrs.size<2&&pair&&pair.tf&&pair.tf.kind==='slide')flowRdOff();
   if(ptrs.size<2){if(pair&&pair.mag)saveMagR();if(pair&&pair.sized)frameChanged(true);if(pair&&pair.bgMoved)bgfChanged(true);pair=null}
   if(ACTIVE==='frame'){if(ptrs.size){frameGlideStop();const [a]=[...ptrs.values()];FR.g={x0:FRAME.x,y0:FRAME.y,s0:FRAME.s,r0:FRAME.r,px:a.x,py:a.y}}else{FR.g=null;frameChanged(true)}}
@@ -6719,7 +6748,7 @@ function syncShelves(){
    drawer or panel opens and the shelf is out, the shelf turns to that button's controls, and its peak slides there */
 function bsFollow(sec){try{if(BS&&BS.ready&&BS.open&&BS.sec!==sec)BS.show(sec)}catch(_){}}
 function closeDrawers(){if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){srcOpen=sndOpen=pickOpen=false;if(ACTIVE)toolShown=false;syncSteer()}}
-function syncSteer(){bsSync();if(srcOpen)bsFollow('source');else if(sndOpen)bsFollow('sound');else if(pickOpen||(ACTIVE&&toolShown&&$('pSteer').classList.contains('drawerOpen')))bsFollow('tools');if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){try{if(!pinnedUp('plist'))closePlist();if(!pinnedUp('rlist'))closeRlist();if($('pShot').getAttribute('aria-expanded')==='true'&&!pinnedUp('shotPop'))closeShotPop()}catch(_){}   /* a shelf never shuts a pinned panel (26 Oct 23:54) */}try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
+function syncSteer(){if(typeof PSEL!=='undefined'&&PSEL&&PSEL.on&&(!srcOpen||!srcEl()))picDeselect();bsSync();if(srcOpen)bsFollow('source');else if(sndOpen)bsFollow('sound');else if(pickOpen||(ACTIVE&&toolShown&&$('pSteer').classList.contains('drawerOpen')))bsFollow('tools');if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){try{if(!pinnedUp('plist'))closePlist();if(!pinnedUp('rlist'))closeRlist();if($('pShot').getAttribute('aria-expanded')==='true'&&!pinnedUp('shotPop'))closeShotPop()}catch(_){}   /* a shelf never shuts a pinned panel (26 Oct 23:54) */}try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
   const main=$('pSteer');
   main.setAttribute('aria-pressed',String(STEER.on));main.classList.toggle('looping',!!STEER.loop);
   const rec=$('stRec');rec.setAttribute('aria-pressed',String(!!STEER.rec));
@@ -7289,7 +7318,8 @@ function buildDrive(){
     g.drawImage(el,(FIT.x-W/2)*k,(FIT.y-H/2)*k,FIT.w*k,FIT.h*k)}
   else{const sc=Math.max(W/iw,H/ih),dw=iw*sc*k,dh=ih*sc*k;   // cover, then wherever the gestures put it
     const B=bgfEff();g.translate(GW/2+B.x*W*k,GH/2+B.y*H*k);g.rotate(B.r*Math.PI/180);g.scale(B.s,B.s);
-    if(SRC.kind==='camera'&&SRC.mirror)g.scale(-1,1);g.drawImage(el,-dw/2,-dh/2,dw,dh)}
+    if(SRC.kind==='camera'&&SRC.mirror)g.scale(-1,1);const bw=W*k,bh=H*k;if(BGF.cl||BGF.ct||BGF.cr||BGF.cb){g.beginPath();g.rect(-bw/2+BGF.cl*bw,-bh/2+BGF.ct*bh,bw*(1-BGF.cl-BGF.cr),bh*(1-BGF.ct-BGF.cb));g.clip()}
+    g.drawImage(el,-bw/2+(bw-dw)*BGF.ox,-bh/2+(bh-dh)*BGF.oy,dw,dh)}   /* the crop and the pan, as shown */
   let d;try{d=g.getImageData(0,0,GW,GH).data}catch(_){return}
   let h=new Float32Array(GW*GH);const inv=SRC.invert;for(let i=0;i<GW*GH;i++){const v=(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114)/255;h[i]=inv?1-v:v}   // light ink: the picture read in negative, so drive turns the other way
   {const dd=picE('ddet'),r=Math.max(1,Math.round(dd*8)),n=dd<.08?1:3;for(let q=0;q<n;q++)h=boxBlur(h,GW,GH,r)}   // detail: 0 fine (one light pass) .. 1 broad
@@ -8680,10 +8710,52 @@ function layoutBg(){const el=srcEl();bgImg.style.display=el===bgImg?'block':'non
   if(!el)return;
   const aligned=SRC.gcode&&$('gcode').value===SRC.gcode&&FIT;
   const mir=SRC.kind==='camera'&&SRC.mirror?' scaleX(-1)':'';
-  for(const e of [bgImg,bgVid]){if(aligned){Object.assign(e.style,{left:FIT.x+'px',top:FIT.y+'px',width:FIT.w+'px',height:FIT.h+'px',objectFit:'fill',
+  for(const e of [bgImg,bgVid]){if(aligned){Object.assign(e.style,{left:FIT.x+'px',top:FIT.y+'px',width:FIT.w+'px',height:FIT.h+'px',objectFit:'fill',clipPath:'',objectPosition:'',
       transformOrigin:(W/2-FIT.x)+'px '+(H/2-FIT.y)+'px',transform:'translate('+FRAME.x*W+'px,'+FRAME.y*H+'px) rotate('+FRAME.r+'deg) scale('+FRAME.s+')'+(e===bgVid?mir:'')})}
     else{const B=bgfEff(),t=(B.x||B.y||B.s!==1||B.r)?'translate('+B.x*W+'px,'+B.y*H+'px) rotate('+B.r+'deg) scale('+B.s+')':'';
-      Object.assign(e.style,{left:'0px',top:'0px',width:'100%',height:'100%',objectFit:'cover',transform:(t+(e===bgVid?mir:'')).trim(),transformOrigin:''})}}}
+      Object.assign(e.style,{left:'0px',top:'0px',width:'100%',height:'100%',objectFit:'cover',objectPosition:(BGF.ox*100)+'% '+(BGF.oy*100)+'%',clipPath:(BGF.cl||BGF.ct||BGF.cr||BGF.cb)?'inset('+BGF.ct*100+'% '+BGF.cr*100+'% '+BGF.cb*100+'% '+BGF.cl*100+'%)':'',transform:(t+(e===bgVid?mir:'')).trim(),transformOrigin:''})}}
+  try{syncPicSel()}catch(_){}}
+/* SELECTING THE PICTURE (Dimitry, 27 Oct 07:30, on his iPad, drawing corner notches on the picture: "the image that I
+   placed is selected because it has little notches on the corner ... the top bar at this point actually becomes a
+   contextual horizontal menu for the image that is selected ... the little caret that pointed downwards towards the bar
+   menu now points upwards towards the screen"). Hold on the picture with the Input shelf open, or tap its thumbnail in
+   the strip: corner notches frame it, one finger moves it, two move, size and turn it, a double tap (or Crop) turns to
+   crop and frame: drag inside to move the picture within its frame, drag a corner to crop. The Input shelf becomes the
+   picture's own pad (its sources leave it) and its notch points up at the picture. A tap off it, Done or Esc lets go. */
+var PSEL={on:false,crop:false,g:null,tap:0};   /* var, read as PSEL&&: syncSteer and gestBg can run before this line at boot (the TDZ rule) */
+function picLocal(x,y){const B=bgfEff(),cx=W/2+B.x*W,cy=H/2+B.y*H,a=-B.r*Math.PI/180,dx=(x-cx)/(B.s||1),dy=(y-cy)/(B.s||1);
+  return {x:W/2+dx*Math.cos(a)-dy*Math.sin(a),y:H/2+dx*Math.sin(a)+dy*Math.cos(a)}}   /* stage px to the picture's own frame (W x H before it is moved) */
+function picHit(x,y){if(!srcEl()||srcAligned())return false;const L=picLocal(x,y);return L.x>=BGF.cl*W&&L.x<=(1-BGF.cr)*W&&L.y>=BGF.ct*H&&L.y<=(1-BGF.cb)*H}
+function picSelect(){if(!srcEl()||srcAligned()){toast('trace off first: a traced picture moves with the field');return}
+  PSEL.on=true;PSEL.crop=false;if(!srcOpen){srcOpen=true;sndOpen=false;pickOpen=false;try{syncSteer()}catch(_){}}
+  document.documentElement.classList.add('picSel');syncPicSel();toast('picture selected · drag to move, two fingers to size and turn, double-tap to crop')}
+function picDeselect(){if(!PSEL.on)return;PSEL.on=PSEL.crop=false;PSEL.g=null;document.documentElement.classList.remove('picSel','picCrop');syncPicSel();bgfChanged(true)}
+function picCropMode(v){PSEL.crop=v==null?!PSEL.crop:!!v;document.documentElement.classList.toggle('picCrop',PSEL.crop);syncPicSel();
+  const b=$('srCrop');if(b)b.setAttribute('aria-pressed',String(PSEL.crop));toast(PSEL.crop?'crop and frame · drag inside to move the picture in its frame, a corner to crop':'cropped')}
+function psCorner(q){const box=$('picSel')&&$('picSel').querySelector('.psBox');if(!box||!PSEL.crop)return null;const L=picLocal(q.x,q.y),B=bgfEff(),R=26/(B.s||1);
+  const xs={l:BGF.cl*W,r:(1-BGF.cr)*W},ys={t:BGF.ct*H,b:(1-BGF.cb)*H};for(const v of ['t','b'])for(const h of ['l','r'])if(Math.abs(L.x-xs[h])<R&&Math.abs(L.y-ys[v])<R)return v+h;return null}
+function picDown(q){const c=psCorner(q);if(c){PSEL.g={mode:'crop',c,cl:BGF.cl,ct:BGF.ct,cr:BGF.cr,cb:BGF.cb,L0:picLocal(q.x,q.y)};return true}
+  if(picHit(q.x,q.y)){PSEL.g={mode:PSEL.crop?'pan':'move',x0:q.x,y0:q.y,bx:BGF.x,by:BGF.y,ox:BGF.ox,oy:BGF.oy,L0:picLocal(q.x,q.y),t:performance.now()};return true}
+  picDeselect();return false}   /* a touch off the picture lets it go, and goes on to the field */
+function picMove(q){const g=PSEL.g;if(!g)return;
+  if(g.mode==='move'){BGF.x=g.bx+(q.x-g.x0)/W;BGF.y=g.by+(q.y-g.y0)/H;g.moved=g.moved||Math.hypot(q.x-g.x0,q.y-g.y0)>6;bgfChanged(false);return}
+  const L=picLocal(q.x,q.y),dx=(L.x-g.L0.x)/W,dy=(L.y-g.L0.y)/H;
+  if(g.mode==='pan'){const el=srcEl(),iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;if(!iw||!ih)return;const sc=Math.max(W/iw,H/ih),ow=iw*sc-W,oh=ih*sc-H;   /* object-position: dragging right shows more of the left */
+    if(ow>1)BGF.ox=Math.max(0,Math.min(1,g.ox-dx*W/ow));if(oh>1)BGF.oy=Math.max(0,Math.min(1,g.oy-dy*H/oh));g.moved=true;layoutBg();return}
+  if(g.mode==='crop'){const M=.05,cap=(v,o)=>Math.max(0,Math.min(1-o-M,v));
+    if(g.c[1]==='l')BGF.cl=cap(g.cl+dx,BGF.cr);else BGF.cr=cap(g.cr-dx,BGF.cl);if(g.c[0]==='t')BGF.ct=cap(g.ct+dy,BGF.cb);else BGF.cb=cap(g.cb-dy,BGF.ct);g.moved=true;layoutBg()}}
+function picUp(g){const now=performance.now();if(ptrs.size)g.moved=true;if(g.mode==='move'||g.mode==='pan'){if(!g.moved){if(now-PSEL.tap<320){PSEL.tap=0;picCropMode();return}PSEL.tap=now}}bgfChanged(true)}
+function syncPicSel(){let o=$('picSel');const on=PSEL.on&&srcEl()&&!srcAligned();
+  if(!o){if(!on)return;o=document.createElement('div');o.id='picSel';o.setAttribute('aria-hidden','true');o.innerHTML='<i class="psFull"></i><div class="psBox"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>';$('stage').appendChild(o);const dB=document.createElement('button');dB.type='button';dB.className='psDel';dB.id='picDel';dB.setAttribute('aria-label','Remove this picture');dB.title='Remove';dB.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg>';$('stage').appendChild(dB);
+    /* REMOVE ON THE PICTURE (Dimitry, 27 Oct 07:41: "the minus ... could also be on the image itself maybe on a corner ... a button that shouldn't be on the wheel but ... on the image or its toolbar") */
+    const del=$('picDel');['pointerdown','pointerup'].forEach(t=>del.addEventListener(t,e=>e.stopPropagation()));del.onclick=e=>{e.stopPropagation();picDeselect();$('srOff').click()}}
+  o.hidden=!on;{const d=$('picDel');if(d)d.hidden=!on||PSEL.crop}if(!on)return;const B=bgfEff();o.style.transform='translate('+B.x*W+'px,'+B.y*H+'px) rotate('+B.r+'deg) scale('+B.s+')';o.style.setProperty('--ps-k',String(1/(B.s||1)));
+  const bx=o.querySelector('.psBox');bx.style.inset=BGF.ct*100+'% '+BGF.cr*100+'% '+BGF.cb*100+'% '+BGF.cl*100+'%';
+  /* the − follows the picture's top-right corner, pulled in clear of the screen's edges and the chrome there (the duck,
+     the bug, the bars): a picture that fills the stage has its corners under them */
+  {const d=$('picDel');if(d&&!PSEL.crop){const a=B.r*Math.PI/180,lx=(1-BGF.cr)*W-W/2,ly=BGF.ct*H-H/2,cx=W/2+B.x*W+B.s*(lx*Math.cos(a)-ly*Math.sin(a)),cy=H/2+B.y*H+B.s*(lx*Math.sin(a)+ly*Math.cos(a));
+    d.style.left=Math.max(70,Math.min(W-100,cx-34))+'px';d.style.top=Math.max(90,Math.min(H-180,cy+4))+'px'}}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&PSEL.on){if(PSEL.crop)picCropMode(false);else picDeselect()}});
 /* the picture's placement as shown: your placement (BGF) plus the automation on top of it, when auto is on */
 const PICAUTO={on:true,last:'',t:0};try{const v=localStorage.getItem('current.picAuto');if(v==='0')PICAUTO.on=false}catch(_){}
 const picE=k=>PICAUTO.on?(E[k]||0):(S[k]||0);
@@ -8692,13 +8764,13 @@ function picShow(){return Math.max(0,Math.min(1,SRC.show+picE('pshow')))}
 function picTick(){if(SRC.kind==='none')return;const b=bgfEff(),key=[b.x,b.y,b.s,b.r,picShow(),picE('ddet')].map(v=>v.toFixed(4)).join();
   if(key===PICAUTO.last)return;PICAUTO.last=key;layoutBg();
   const now=performance.now();if((E.drive||0)>.005&&now-PICAUTO.t>90){PICAUTO.t=now;try{buildDrive()}catch(_){}}}
-function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0});DRIVE.g=null;DRIVE.t=0;if(typeof TRACE!=='undefined'&&TRACE.on){TRACE.on=false;TRACE.segs=[];if(parsed){fitSegments();buildField()}}   // the old picture's drive field goes with it (0.13.6: it used to linger and steer the next picture)
+function stopSource(){Object.assign(BGF,{x:0,y:0,s:1,r:0,cl:0,ct:0,cr:0,cb:0,ox:.5,oy:.5});DRIVE.g=null;DRIVE.t=0;if(typeof TRACE!=='undefined'&&TRACE.on){TRACE.on=false;TRACE.segs=[];if(parsed){fitSegments();buildField()}}   // the old picture's drive field goes with it (0.13.6: it used to linger and steer the next picture)
   if(AUD&&AUD.mic&&AUD.mic.cam){const alone=AUD.src==='mic';stopMic(true);if(alone)stopAudio();else syncAud()}if(SRC.stream){SRC.stream.getTracks().forEach(t=>t.stop());SRC.stream=null}
   try{bgVid.pause()}catch(_){}bgVid.removeAttribute('src');bgVid.srcObject=null;
   if(SRC.url){URL.revokeObjectURL(SRC.url);SRC.url=null}bgImg.removeAttribute('src')}
 function syncSrc(){bsSync();{const c=$('srCam'),on=SRC.kind==='camera';c.classList.toggle('flip',on);const l=$('srCamV');if(l)l.textContent=on?(SRC.facing==='user'?'front':'back'):'camera'}
   ['picture','video','camera'].forEach(k=>$({picture:'srPic',video:'srVid',camera:'srCam'}[k]).setAttribute('aria-pressed',String(SRC.kind===k)));
-  $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';
+  $('srShowV').textContent=SRC.show?'show '+Math.round(SRC.show*100)+'%':'hidden';try{syncAmts()}catch(_){}
   $('srMir').setAttribute('aria-pressed',String(SRC.mirror));$('srMir').hidden=SRC.kind!=='camera';
   ['srShow','srTrace','srInv','srDrive','srDriveMode','srDetail','srAuto'].forEach(k=>$(k).disabled=SRC.kind==='none');
   $('srTrace').disabled=SRC.kind!=='picture';   // trace takes one still frame: on a moving video or camera its outlines go stale at once (Dimitry, 18 Oct)
@@ -8714,7 +8786,7 @@ function syncSrc(){bsSync();{const c=$('srCam'),on=SRC.kind==='camera';c.classLi
 /* 0.13.4 (Dimitry, 18 Oct): no switch. Each mode has its own purpose: with the source shelf open, the gestures place the
    picture (zoom, move, turn); everywhere else they spread the field's Reach. Zooming the field itself hung (every step
    rebuilds the field), so it is gone from the open stage. */
-function gestBg(){return SRC.kind!=='none'&&!srcAligned()&&srcOpen}
+function gestBg(){return SRC.kind!=='none'&&!srcAligned()&&(srcOpen||!!(PSEL&&PSEL.on))}
 let capKind='',capT=0,capSeen=0;
 function gestCap(){const w=$('gestSw'),c=$('gestCap');if(!w)return;
   const on=gestBg();w.hidden=!on;if(!on){c.classList.remove('show');capKind='';return}
@@ -8830,10 +8902,12 @@ $('srOff').onclick=()=>{const traced=SRC.gcode&&$('gcode').value===SRC.gcode;sto
 const TRACE={on:false,segs:[]};
 function picToStage(u,v){const el=srcEl();if(!el)return null;const iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;if(!iw||!ih)return null;
   if(SRC.kind==='camera'&&SRC.mirror)u=1-u;
-  const sc=Math.max(W/iw,H/ih),lx=(u-.5)*iw*sc*BGF.s,ly=(v-.5)*ih*sc*BGF.s,a=BGF.r*Math.PI/180,c=Math.cos(a),sn=Math.sin(a);
+  const sc=Math.max(W/iw,H/ih),dw=iw*sc,dh=ih*sc,fx=(u-.5)*dw+(W-dw)*(BGF.ox-.5),fy=(v-.5)*dh+(H-dh)*(BGF.oy-.5);   /* in the frame, with the pan (review 659cc49d78 r-3) */
+  if(fx<-W/2+BGF.cl*W-.5||fx>W/2-BGF.cr*W+.5||fy<-H/2+BGF.ct*H-.5||fy>H/2-BGF.cb*H+.5)return false;   /* cropped away: no outline there */
+  const lx=fx*BGF.s,ly=fy*BGF.s,a=BGF.r*Math.PI/180,c=Math.cos(a),sn=Math.sin(a);
   return[W/2+BGF.x*W+lx*c-ly*sn,H/2+BGF.y*H+lx*sn+ly*c]}
 function traceLayer(fmax){if(!TRACE.on||SRC.kind==='none'||!TRACE.segs.length)return;
-  for(const q of TRACE.segs){const a=picToStage(q[0],q[1]),b=picToStage(q[2],q[3]);if(!a||!b)return;
+  for(const q of TRACE.segs){const a=picToStage(q[0],q[1]),b=picToStage(q[2],q[3]);if(a===null||b===null)return;if(!a||!b)continue;   /* false: an end in the cropped-away part */
     const o={x0:a[0],y0:a[1],x1:b[0],y1:b[1],travel:q[4],fw:1,i:segsPx.length,traced:true};
     o.dx=o.x1-o.x0;o.dy=o.y1-o.y0;o.len=Math.hypot(o.dx,o.dy)||1e-6;o.tx=o.dx/o.len;o.ty=o.dy/o.len;
     o.bx0=Math.min(o.x0,o.x1);o.bx1=Math.max(o.x0,o.x1);o.by0=Math.min(o.y0,o.y1);o.by1=Math.max(o.y0,o.y1);segsPx.push(o)}}
@@ -8868,13 +8942,21 @@ function traceSource(again){if(TRACE.on&&!again){traceOff();return}
 let DRIVE_LAST=.6;
 function setDrive(v){S.drive=Math.max(0,Math.min(1,v));MORPH=null;if(S.drive>.005)DRIVE_LAST=S.drive;const r=$('s-drive');if(r)r.value=S.drive;syncVals();syncDrive();
   if(S.drive>.005&&!DRIVE.g)buildDrive()}
-function syncDrive(){bsSync();const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.005;
+function syncDrive(){bsSync();try{syncAmts()}catch(_){}const b=$('srDrive');if(!b)return;const v=S.drive||0,on=v>.005;
   b.setAttribute('aria-pressed',String(on));b.querySelector('.lab').textContent=on?'drive '+Math.round(v*100)+'%':'drive';
   b.setAttribute('aria-label','Picture drive '+Math.round(v*100)+'%: tap to turn it '+(on?'off':'on')+', drag left or right for how much the picture steers the current');
   $('srDriveModeV').textContent=DRIVE.mode;{const tb=$('srTrace');if(tb&&typeof TRACE!=='undefined'){tb.setAttribute('aria-pressed',String(TRACE.on));tb.querySelector('.lab').textContent=TRACE.on?'traced':'trace'}}{const iv=$('srInvV');if(iv)iv.textContent=SRC.invert?'light ink':'dark ink'}const dv=$('srDetailV');if(dv){const M=Object.keys(DRIVE_DETAIL);dv.textContent=M.reduce((a,b)=>Math.abs(DRIVE_DETAIL[b]-S.ddet)<Math.abs(DRIVE_DETAIL[a]-S.ddet)?b:a)}}
 {let d0=0;wireTapHold($('srDrive'),{tap:()=>{if(SRC.kind==='none')return;setDrive((S.drive||0)>.005?0:DRIVE_LAST);
     toast((S.drive||0)>.005?'the picture steers the current · '+DRIVE.mode:'drive off · the pattern alone')},hold:()=>srSlider($('srDrive'),[['drive',0,1,.05,()=>S.drive||0,v=>setDrive(v)]]),
   drag:(ph,dx)=>{if(SRC.kind==='none')return;if(ph==='start')d0=S.drive||0;if(ph!=='end'){setDrive(Math.round((d0+dx/150)*20)/20)}else toast('drive '+Math.round((S.drive||0)*100)+'%')}})}
+/* the picture's pad (27 Oct 07:30): Crop and Done join the Input shelf while a picture is selected; show and drive carry
+   their amount as an arc round the icon */
+{const tr=$('srMir').parentNode,mk=(id,lab,aria,svg,fn)=>{const b=document.createElement('button');b.type='button';b.className='si';b.id=id;b.setAttribute('aria-label',aria);
+   b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+svg+'</svg><span class="lab">'+lab+'</span>';b.onclick=fn;tr.appendChild(b);return b};
+ mk('srCrop','crop','Crop and frame: drag inside to move the picture within its frame, drag a corner to crop','<path d="M6 2.5V18h15.5"/><path d="M2.5 6H18v15.5"/>',()=>picCropMode()).setAttribute('aria-pressed','false');
+ mk('srDone','done','Done: let the picture go; the shelf goes back to the inputs','<path d="M4.5 12.5l5 5L19.5 7"/>',()=>picDeselect());
+ for(const id of ['srShow','srDrive']){const b=$(id),v=b&&b.querySelector('svg');if(!v)continue;const w=document.createElement('span');w.className='amtW';v.replaceWith(w);w.append(v);const r=document.createElement('i');r.className='amtR';w.appendChild(r);b.classList.add('amt')}}
+function syncAmts(){try{$('srShow').style.setProperty('--amt',String(SRC.show||0));$('srDrive').style.setProperty('--amt',String(S.drive||0))}catch(_){}}
 $('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(TRACE.on)traceSource(true);DRIVE.g=null;try{if((S.drive||0)>.005)buildDrive()}catch(_){}
   toast(SRC.invert?'light ink: the light shapes trace, and drive reads the picture in negative':'dark ink: the dark shapes trace, and drive reads the picture as it is')};
 $('srTrace').onclick=()=>traceSource();
@@ -9051,14 +9133,14 @@ function inItems(){const ic=id=>{const b=$(id),v=b&&b.querySelector('svg');if(!v
   const shelf=(id,o)=>{const b=$(id);if(!b||b.hidden)return null;const l=b.querySelector('.lab');return Object.assign({id:'s-'+id,kind:'go',stay:true,label:(l?l.textContent:'').trim().toLowerCase(),aria:b.getAttribute('aria-label')||'',icon:ic(id),pick:go(id)},o||{})};
   const treat=()=>[shelf('srShow'),shelf('srGround'),shelf('srTrace',{kind:'check',on:on('srTrace')}),shelf('srInv'),shelf('srDrive',{kind:'check',on:on('srDrive')})];
   const off=()=>shelf('srOff',{at:'bottom-left',stay:false,label:'remove'});
-  const sub={cam:{title:'Camera',items:()=>[shelf('srCam',{aria:'Switch between the front and back cameras',pick:async()=>{try{await countCams()}catch(_){}if(camCount&&camCount<2){toast('one camera on this device');return}SRC.flipped=false;$('srCam').click()}})   /* always a flip, never the shelf's third tap (off): off is remove (review cb6b74d5e3 r-4) */,shelf('srMir',{kind:'check',on:on('srMir')}),...treat(),off()].filter(Boolean)},
-    pic:{title:'Picture',items:()=>[shelf('srPic',{label:'another',aria:'Choose another picture'}),...treat(),off()].filter(Boolean)},
-    vid:{title:'Video',items:()=>[shelf('srVid',{label:'another',aria:'Choose another video'}),...treat(),off()].filter(Boolean)},
+  const sub={cam:{title:'Camera',items:()=>[shelf('srCam',{aria:'Switch between the front and back cameras',pick:async()=>{try{await countCams()}catch(_){}if(camCount&&camCount<2){toast('one camera on this device');return}SRC.flipped=false;$('srCam').click()}})   /* always a flip, never the shelf's third tap (off): off is remove (review cb6b74d5e3 r-4) */,shelf('srMir',{kind:'check',on:on('srMir')}),...treat()].filter(Boolean)},   /* remove lives on the picture and in its pad, not on a ring (27 Oct 07:41) */
+    pic:{title:'Picture',items:()=>[shelf('srPic',{label:'another',aria:'Choose another picture'}),...treat()].filter(Boolean)},
+    vid:{title:'Video',items:()=>[shelf('srVid',{label:'another',aria:'Choose another video'}),...treat()].filter(Boolean)},
     mic:{title:'Mic',items:()=>[['gain',0,4,.05,v=>'×'+(+v).toFixed(1),'Input gain: lifts a quiet mic'],['gate',0,1,.01,v=>v?Math.round(v*100)+'':'off','Noise gate: only sound above this moves the field'],['heard',0,1,.01,v=>v?Math.round(v*100)+'%':'off','Heard: how much of the mic goes to the speakers']]
       .map(([k,mn,mx,st,fmt,aria])=>({id:'m-'+k,kind:'value',label:k,aria,icon:ic('inMic'),min:mn,max:mx,step:st,fmt,get:()=>+MIX[k],set:v=>{MIX[k]=+v;MIX.micPre=null;applyMix();mixSave();try{renderMic()}catch(_){}}}))
       .concat([{id:'m-off',kind:'go',at:'bottom-left',label:'off',aria:'Turn the mic off',icon:ic('inMic'),pick:()=>{if(AUD.mic)go('inMic')()}}])}};
   for(const x of it){if(sub[x.id]&&(x.id!=='pic'&&x.id!=='vid'||SRC.kind===({pic:'picture',vid:'video'})[x.id]))x.ring=Object.assign({icon:x.icon},sub[x.id])}   /* picture and video open their ring once one is in; before that the dot picks a file */
-  try{if(SRC.kind!=='none')it.push({id:'off',kind:'go',at:'bottom-left',label:'remove',aria:'Remove the source and give the stage back to the field',icon:ic('srOff'),pick:go('srOff')})}catch(_){}
+  /* remove is not on the wheel (27 Oct 07:41): it is on the selected picture and in its pad, and in the Input shelf */
   return it}
 /* THE COLOR RING (Dimitry, 26 Oct 17:38, "more Ring menu options things like color"; 18:54, step 1 of the Codex Rings, wedges
    and chips): the scene's own colors as dots (lines, second, ground, touch), each opening its tab in the Color panel;
@@ -9104,7 +9186,7 @@ setInterval(()=>{if(!document.hidden)try{placeRingHint()}catch(_){}},500);addEve
    ring where the pointer is. Only a mouse: a phone's long press also fires contextmenu, and there it holds the trails */
 {let lastPT='mouse';$('stage').addEventListener('pointerdown',e=>{lastPT=e.pointerType},true);$('stage').addEventListener('pointermove',e=>{window.__lastPtr={x:e.clientX,y:e.clientY}},{passive:true});
   $('stage').addEventListener('contextmenu',e=>{if(lastPT!=='mouse')return;e.preventDefault();ringGesture(e.clientX,e.clientY)})}
-try{SurfaceRing.doubleTap($('stage'),(x,y)=>ringGesture(x,y),{when:()=>!document.documentElement.classList.contains('inRoom')}   /* in steer and frame too (Dimitry, 25 Oct 00:26: steering, the double-tap no longer brought the ring back); two taps paint next to nothing */)}catch(e){console.warn('ring',e)}
+try{SurfaceRing.doubleTap($('stage'),(x,y)=>ringGesture(x,y),{when:e=>!document.documentElement.classList.contains('inRoom')&&!(PSEL&&PSEL.on&&e&&picHit(stagePt(e).x,stagePt(e).y))}   /* a double tap on a selected picture is its crop, not the ring (27 Oct) */   /* in steer and frame too (Dimitry, 25 Oct 00:26: steering, the double-tap no longer brought the ring back); two taps paint next to nothing */)}catch(e){console.warn('ring',e)}
 /* touch off: a finger on the stage reaches nothing but the ring's double-tap (frame, steer and magnet, chosen on purpose, still take it) */
 $('stage').addEventListener('pointerdown',e=>{if(!TOUCH_OFF||ACTIVE==='frame'||STEER.on||ACTIVE==='magnet')return;if(e.target&&e.target.closest&&e.target.closest('button,input,a,[role=button]'))return;
   /* touch off with touchable sound on (25 Oct, the plan: "the picture stays still, your finger still plays"): one finger is
@@ -9436,7 +9518,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       if(!MEDIA.items.length){box.appendChild(mk('p','bsNote','Pick a picture, a video or the camera above.'));return ()=>{}}
       const st=SurfaceStrip.make({name:'Your pictures and videos',ids:()=>MEDIA.items.map(x=>x.id),label:id=>{const x=MEDIA.items.find(y=>y.id===id);return x?(x.kind==='video'?'Video: ':'Picture: ')+x.name:''},
         draw:(el,id)=>{const x=MEDIA.items.find(y=>y.id===id);if(x&&x.thumb){el.style.backgroundImage='url('+x.thumb+')';el.style.backgroundSize='cover'}else if(x){el.style.backgroundImage="url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2399a3a6' stroke-width='1.6'%3E%3Crect x='3' y='6' width='13' height='12' rx='2'/%3E%3Cpath d='M16 10l5-3v10l-5-3'/%3E%3C/svg%3E\")";el.style.backgroundSize='26px';el.style.backgroundRepeat='no-repeat';el.style.backgroundPosition='center'}},   // a video whose frame could not be read: its glyph
-        current:()=>SRC.kind==='picture'||SRC.kind==='video'?MEDIA.cur:null,next:()=>null,pick:id=>mediaUse(id),remove:id=>mediaRemove(id)});
+        current:()=>SRC.kind==='picture'||SRC.kind==='video'?MEDIA.cur:null,next:()=>null,pick:id=>{if(id===MEDIA.cur&&(SRC.kind==='picture'||SRC.kind==='video')){picSelect();return}mediaUse(id)},   /* the one in use: a tap selects it (27 Oct 07:30) */remove:id=>mediaRemove(id)});
       box.appendChild(st.el);return ()=>st.sync()},key:()=>MEDIA.items.map(x=>x.id).join(',')},
     /* SOUND (21 Oct night: "at the bottom ... the 5 beats and the collection of bytes"): the sounds themselves in one row.
        Up top, the Sound drawer keeps the inputs (mic, your track, mix) and the modifiers (tap, eighth, dry, links, touch).
@@ -9713,10 +9795,12 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
         aim=w>=br-bl-2?(bl+br)/2:cb.left+cb.width/2,
         lo=dw+8+w/2,hi=innerWidth-8-w/2,x=lo>hi?(dw+innerWidth)/2:Math.max(lo,Math.min(hi,aim)),want=x.toFixed(1)+'px';
       if(e.style.left!==want)e.style.left=want}
-    const r=f.getBoundingClientRect(),c=b.getBoundingClientRect(),x=Math.max(r.left+22,Math.min(r.right-22,c.left+c.width/2));
+    /* SELECTED: the Input shelf is the picture's pad, so its notch leaves the bar button and points up at the picture (27 Oct 07:30) */
+    const up=!!(PSEL&&PSEL.on)&&e.id==='shelfSrc';let ux=0;if(up){const B=bgfEff(),sr=$('stage').getBoundingClientRect();ux=sr.left+W/2+B.x*W+((BGF.cl-BGF.cr)/2)*W*B.s*Math.cos(B.r*Math.PI/180)}
+    const r=f.getBoundingClientRect(),c=b.getBoundingClientRect(),x=Math.max(r.left+22,Math.min(r.right-22,up?ux:c.left+c.width/2));
     document.querySelectorAll('.notched').forEach(o=>{if(o!==f)o.classList.remove('notched')});
-    f.classList.add('notched');f.style.setProperty('--nx',(x-r.left).toFixed(1)+'px');
-    N.style.transform='translate('+(x-10).toFixed(1)+'px,'+(r.bottom-1).toFixed(1)+'px)';N.style.opacity=String(op);
+    f.classList.add('notched');f.classList.toggle('notchUp',up);f.style.setProperty('--nx',(x-r.left).toFixed(1)+'px');
+    N.style.transform='translate('+(x-10).toFixed(1)+'px,'+(up?r.top-9:r.bottom-1).toFixed(1)+'px)'+(up?' rotate(180deg)':'');N.style.opacity=String(op);
     raf=requestAnimationFrame(tick)};
   const kick=()=>{if(!raf)raf=requestAnimationFrame(tick)};
   for(const id in MAP)for(const q of MAP[id]){const e=document.querySelector(q);if(e)new MutationObserver(kick).observe(e,{attributes:true,attributeFilter:['class','hidden']})}
@@ -10371,10 +10455,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027111637"></script>
-<script src="surface/links.js?v=20261027111637"></script>
-<script src="surface/tips.js?v=20261027111637"></script>
-<script src="surface/sections.js?v=20261027111637"></script>
+<script src="surface/install.js?v=20261027114958"></script>
+<script src="surface/links.js?v=20261027114958"></script>
+<script src="surface/tips.js?v=20261027114958"></script>
+<script src="surface/sections.js?v=20261027114958"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10555,7 +10639,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027111637"></script>
+<script src="surface/room.js?v=20261027114958"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10756,7 +10840,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027111637"></script>
+<script src="surface/touch.js?v=20261027114958"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11492,7 +11576,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.72';
+const APP_VERSION='0.33.73';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
