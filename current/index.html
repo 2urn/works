@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027034732";window.__VERSION__="0.33.63";window.__NOTES__=[{"v":"0.33.63","date":"26 Oct 2026","items":[{"kind":"change","text":"the bar's Input button wears the ring: it opens the rings, Input first"},{"kind":"new","text":"Fade in the Color ring: how long a color you pick takes to blend in, from a jump to six seconds; it replaces \"mine\" (your colors stay in the Color panel)"},{"kind":"fix","text":"on the iPad home screen, an open shelf reaches the bottom edge of the screen"}]}]</script>
+<script>window.__BUILD__="20261027034912";window.__VERSION__="0.33.64";window.__NOTES__=[{"v":"0.33.64","date":"26 Oct 2026","items":[{"kind":"fix","text":"one solo at a time in the Mixer: soloing a sound moves the solo to it"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027034732"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027034732">
+<script src="claude-web.js?v=20261027034912"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027034912">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -134,40 +134,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027034732"></script>
-<script src="surface/selftest.js?v=20261027034732"></script><script src="surface/size.js?v=20261027034732"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027034732"></script>
-<script src="surface/auto.js?v=20261027034732"></script>
-<script src="surface/toolpath.js?v=20261027034732"></script>
-<script src="surface/capture.js?v=20261027034732"></script>
-<script src="surface/pop.js?v=20261027034732"></script>
-<script src="surface/hints.js?v=20261027034732"></script>
-<script src="surface/paths.js?v=20261027034732"></script>
-<script src="surface/keys.js?v=20261027034732"></script>
-<script src="surface/reset.js?v=20261027034732"></script>
-<script src="surface/files.js?v=20261027034732"></script>
-<script src="surface/tabs.js?v=20261027034732"></script>
-<script src="surface/running.js?v=20261027034732"></script>
-<script src="surface/trim.js?v=20261027034732"></script>
-<script src="surface/audiowake.js?v=20261027034732"></script>
-<script src="surface/output.js?v=20261027034732"></script>
-<script src="surface/board.js?v=20261027034732"></script>
-<script src="surface/voice.js?v=20261027034732"></script>
-<script src="surface/voicelib.js?v=20261027034732"></script>
-<script src="surface/instruments.js?v=20261027034732"></script>
-<script src="surface/listview.js?v=20261027034732"></script>
-<script src="surface/beads.js?v=20261027034732"></script>
-<script src="surface/strip.js?v=20261027034732"></script>
-<script src="surface/sheetnav.js?v=20261027034732"></script>
-<script src="surface/twofinger.js?v=20261027034732"></script>
-<script src="surface/ring.js?v=20261027034732"></script>
-<script src="surface/shortlink.js?v=20261027034732"></script>
-<script src="surface/undo.js?v=20261027034732"></script>
-<script src="surface/pro.js?v=20261027034732"></script>
-<script src="surface/fresh.js?v=20261027034732"></script>
-<script src="surface/go.js?v=20261027034732"></script>
-<script src="surface/notice.js?v=20261027034732"></script>
-<script src="surface/perform.js?v=20261027034732"></script>
+<script src="vendor/opentype.min.js?v=20261027034912"></script>
+<script src="surface/selftest.js?v=20261027034912"></script><script src="surface/size.js?v=20261027034912"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027034912"></script>
+<script src="surface/auto.js?v=20261027034912"></script>
+<script src="surface/toolpath.js?v=20261027034912"></script>
+<script src="surface/capture.js?v=20261027034912"></script>
+<script src="surface/pop.js?v=20261027034912"></script>
+<script src="surface/hints.js?v=20261027034912"></script>
+<script src="surface/paths.js?v=20261027034912"></script>
+<script src="surface/keys.js?v=20261027034912"></script>
+<script src="surface/reset.js?v=20261027034912"></script>
+<script src="surface/files.js?v=20261027034912"></script>
+<script src="surface/tabs.js?v=20261027034912"></script>
+<script src="surface/running.js?v=20261027034912"></script>
+<script src="surface/trim.js?v=20261027034912"></script>
+<script src="surface/audiowake.js?v=20261027034912"></script>
+<script src="surface/output.js?v=20261027034912"></script>
+<script src="surface/board.js?v=20261027034912"></script>
+<script src="surface/voice.js?v=20261027034912"></script>
+<script src="surface/voicelib.js?v=20261027034912"></script>
+<script src="surface/instruments.js?v=20261027034912"></script>
+<script src="surface/listview.js?v=20261027034912"></script>
+<script src="surface/beads.js?v=20261027034912"></script>
+<script src="surface/strip.js?v=20261027034912"></script>
+<script src="surface/sheetnav.js?v=20261027034912"></script>
+<script src="surface/twofinger.js?v=20261027034912"></script>
+<script src="surface/ring.js?v=20261027034912"></script>
+<script src="surface/shortlink.js?v=20261027034912"></script>
+<script src="surface/undo.js?v=20261027034912"></script>
+<script src="surface/pro.js?v=20261027034912"></script>
+<script src="surface/fresh.js?v=20261027034912"></script>
+<script src="surface/go.js?v=20261027034912"></script>
+<script src="surface/notice.js?v=20261027034912"></script>
+<script src="surface/perform.js?v=20261027034912"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -190,14 +190,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027034732"></script>
-<script src="surface/rail.js?v=20261027034732"></script>
-<script src="surface/touchsound.js?v=20261027034732"></script>
-<script src="surface/water.js?v=20261027034732"></script>
-<script src="surface/ripple.js?v=20261027034732"></script>
-<script src="surface/material.js?v=20261027034732"></script>
-<script src="surface/float.js?v=20261027034732"></script>
-<script src="surface/manual.js?v=20261027034732"></script>
+<script src="surface/pack.js?v=20261027034912"></script>
+<script src="surface/rail.js?v=20261027034912"></script>
+<script src="surface/touchsound.js?v=20261027034912"></script>
+<script src="surface/water.js?v=20261027034912"></script>
+<script src="surface/ripple.js?v=20261027034912"></script>
+<script src="surface/material.js?v=20261027034912"></script>
+<script src="surface/float.js?v=20261027034912"></script>
+<script src="surface/manual.js?v=20261027034912"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -7655,7 +7655,7 @@ const AUD={react:(()=>{try{return localStorage.getItem('current.react')!=='off'}
    moves the field and how much of it a video holds. */
 const MIX_CH=[['mic','mic'],['loop','loop'],['file','track'],['beat','beat'],['byte','bytebeat'],['water','water']];   // the sound shelf's order; the loop is the mic's phrase (Dimitry, 19 Oct)   // the sound shelf's order, left to right (Dimitry, 19 Oct)
 const MIX=(()=>{const d={beat:{v:1,m:0,s:0},byte:{v:.8,m:0,s:0},file:{v:1,m:0,s:0},mic:{v:1,m:0,s:0},loop:{v:1,m:0,s:0},water:{v:1,m:0,s:0},dev:'',voice:false,gain:1,gate:0,heard:0,len:'free',rev:false,micPre:null};
-  try{const o=JSON.parse(localStorage.getItem('current.mix')||'{}');for(const k of ['beat','byte','file','mic','loop','water'])if(o[k]&&typeof o[k]==='object')Object.assign(d[k],o[k]);if(!o.water&&typeof WATER==='object'&&WATER.bedLvl!==.5){d.water.v=Math.max(0,Math.min(1,WATER.bedLvl*2));WATER.bedLvl=.5;try{waterSave();localStorage.setItem('current.mix',JSON.stringify(Object.assign({},o,{water:d.water})))}catch(_){}}   /* the Water row's old bed level becomes the strip's level, once */for(const k of ['gain','gate','heard'])if(typeof o[k]==='number')d[k]=o[k];if(['free','1','2','4'].includes(o.len))d.len=o.len;d.rev=!!o.rev;if(typeof o.micPre==='string')d.micPre=o.micPre;if(typeof o.dev==='string')d.dev=o.dev;d.voice=!!o.voice}catch(_){}return d})();
+  try{const o=JSON.parse(localStorage.getItem('current.mix')||'{}');for(const k of ['beat','byte','file','mic','loop','water'])if(o[k]&&typeof o[k]==='object')Object.assign(d[k],o[k]);if(!o.water&&typeof WATER==='object'&&WATER.bedLvl!==.5){d.water.v=Math.max(0,Math.min(1,WATER.bedLvl*2));WATER.bedLvl=.5;try{waterSave();localStorage.setItem('current.mix',JSON.stringify(Object.assign({},o,{water:d.water})))}catch(_){}}   /* the Water row's old bed level becomes the strip's level, once */for(const k of ['gain','gate','heard'])if(typeof o[k]==='number')d[k]=o[k];if(['free','1','2','4'].includes(o.len))d.len=o.len;d.rev=!!o.rev;if(typeof o.micPre==='string')d.micPre=o.micPre;if(typeof o.dev==='string')d.dev=o.dev;d.voice=!!o.voice}catch(_){}{let one=false;for(const k of ['beat','byte','file','mic','loop','water'])if(d[k]&&d[k].s){if(one)d[k].s=0;one=true}}   /* one solo at most, also in old saves (Dimitry, 26 Oct 23:47) */return d})();
 function mixSave(){try{localStorage.setItem('current.mix',JSON.stringify(MIX))}catch(_){}}
 function mixEff(k){const solo=MIX_CH.some(([c])=>MIX[c].s);const c=MIX[k];return c.m||(solo&&!c.s)?0:c.v}
 function applyMix(){if(!AUD.ctx||!AUD.ch)return;const t=AUD.ctx.currentTime;for(const k of ['beat','byte','file','loop','water'])if(AUD.ch[k])AUD.ch[k].gain.setTargetAtTime(mixEff(k),t,.03);if(AUD.chV)AUD.chV.gain.setTargetAtTime(mixEff('water'),t,.03);
@@ -8115,7 +8115,7 @@ function renderMix(){const b=$('mixBody');if(!b)return;b.innerHTML='';
        hover (title) and, when tapped, in the caption at the top: what you will hear now, in plain words */
     const mb=(cls,t,key,aria)=>{const x=document.createElement('button');x.type='button';x.className='mb '+cls;x.textContent=t;x.setAttribute('aria-pressed',String(!!c[key]));x.setAttribute('aria-label',aria+' '+label);
       x.title=key==='m'?'Mute: silence '+label.toLowerCase()+'; the others play on':'Solo: hear only '+label.toLowerCase()+'; the others go quiet';
-      x.onclick=()=>{c[key]=c[key]?0:1;MIX.pre=null;applyMix();mixSave();renderMix();const L=label.toLowerCase();
+      x.onclick=()=>{c[key]=c[key]?0:1;if(key==='s'&&c.s)for(const [o] of MIX_CH)if(MIX[o]!==c)MIX[o].s=0;   /* ONE SOLO (Dimitry, 26 Oct 23:47: "Should not be possible to have two solos"): a new solo moves the solo, it never adds one */MIX.pre=null;applyMix();mixSave();renderMix();const L=label.toLowerCase();
         toast(key==='m'?(c.m?'mute: '+L+' is silent, the others play on':L+' plays again'):(c.s?'solo: only '+L+' plays, the others are quiet':'solo off: everything plays'),2600)};return x};
     row.append(nm,wv,mb('m','M','m','Mute'),mb('s','S','s','Solo'),pc);
     /* the mic's input, voice/raw, gain, gate and heard live in the Mic tab now, so every wave lines up (Dimitry, 19 Oct) */
@@ -10320,10 +10320,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027034732"></script>
-<script src="surface/links.js?v=20261027034732"></script>
-<script src="surface/tips.js?v=20261027034732"></script>
-<script src="surface/sections.js?v=20261027034732"></script>
+<script src="surface/install.js?v=20261027034912"></script>
+<script src="surface/links.js?v=20261027034912"></script>
+<script src="surface/tips.js?v=20261027034912"></script>
+<script src="surface/sections.js?v=20261027034912"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10504,7 +10504,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027034732"></script>
+<script src="surface/room.js?v=20261027034912"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -10705,7 +10705,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027034732"></script>
+<script src="surface/touch.js?v=20261027034912"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11441,7 +11441,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.63';
+const APP_VERSION='0.33.64';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
