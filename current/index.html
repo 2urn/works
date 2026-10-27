@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261027212113";window.__VERSION__="0.33.84";window.__NOTES__=[{"v":"0.33.84","date":"27 Oct 2026","items":[{"kind":"change","text":"the ways are named Random, Shuffle (every scene once, like a deck of cards) and Seed"},{"kind":"new","text":"Seed grows its order from a few words you can type or roll again; the same words always play the same order"},{"kind":"new","text":"Autoplay's unit shows how it runs: a stopwatch whose hand goes round once per scene, beats that light in turn, a bar that pulses; a hand when the robot is stopped, with the row beside it dimmed"},{"kind":"new","text":"the robot's ears: a scene slips into one ear and out of the other at each change, the way it is going"}]}]</script>
+<script>window.__BUILD__="20261027214032";window.__VERSION__="0.33.85";window.__NOTES__=[{"v":"0.33.85","date":"27 Oct 2026","items":[{"kind":"new","text":"Scrub is open to try, in Pro beta: a pad over the bar holds every scene in play as a slice of its picture; drag across it and the field follows your finger"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261027212113"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261027212113">
+<script src="claude-web.js?v=20261027214032"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261027214032">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,47 +169,48 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261027212113"></script>
-<script src="surface/nozoom.js?v=20261027212113"></script><script src="surface/steady.js?v=20261027212113"></script><script src="surface/selftest.js?v=20261027212113"></script><script src="surface/size.js?v=20261027212113"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261027212113"></script>
-<script src="surface/auto.js?v=20261027212113"></script>
-<script src="surface/toolpath.js?v=20261027212113"></script>
-<script src="surface/capture.js?v=20261027212113"></script>
-<script src="surface/pop.js?v=20261027212113"></script>
-<script src="surface/hints.js?v=20261027212113"></script>
-<script src="surface/paths.js?v=20261027212113"></script>
-<script src="surface/keys.js?v=20261027212113"></script>
-<script src="surface/reset.js?v=20261027212113"></script>
-<script src="surface/files.js?v=20261027212113"></script>
-<script src="surface/tabs.js?v=20261027212113"></script>
-<script src="surface/running.js?v=20261027212113"></script>
-<script src="surface/trim.js?v=20261027212113"></script>
-<script src="surface/audiowake.js?v=20261027212113"></script>
-<script src="surface/output.js?v=20261027212113"></script>
-<script src="surface/board.js?v=20261027212113"></script>
-<script src="surface/voice.js?v=20261027212113"></script>
-<script src="surface/voicelib.js?v=20261027212113"></script>
-<script src="surface/instruments.js?v=20261027212113"></script>
-<script src="surface/listview.js?v=20261027212113"></script>
-<script src="surface/beads.js?v=20261027212113"></script>
-<script src="surface/strip.js?v=20261027212113"></script>
-<script src="surface/sheetnav.js?v=20261027212113"></script>
-<script src="surface/twofinger.js?v=20261027212113"></script>
-<script src="surface/ring.js?v=20261027212113"></script>
-<script src="surface/shortlink.js?v=20261027212113"></script>
-<script src="surface/undo.js?v=20261027212113"></script>
-<script src="surface/pro.js?v=20261027212113"></script>
-<script src="surface/fresh.js?v=20261027212113"></script>
-<script src="surface/go.js?v=20261027212113"></script>
-<script src="surface/notice.js?v=20261027212113"></script>
-<script src="surface/perform.js?v=20261027212113"></script>
+<script src="vendor/opentype.min.js?v=20261027214032"></script>
+<script src="surface/nozoom.js?v=20261027214032"></script><script src="surface/steady.js?v=20261027214032"></script><script src="surface/selftest.js?v=20261027214032"></script><script src="surface/size.js?v=20261027214032"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261027214032"></script>
+<script src="surface/auto.js?v=20261027214032"></script>
+<script src="surface/toolpath.js?v=20261027214032"></script>
+<script src="surface/capture.js?v=20261027214032"></script>
+<script src="surface/pop.js?v=20261027214032"></script>
+<script src="surface/hints.js?v=20261027214032"></script>
+<script src="surface/paths.js?v=20261027214032"></script>
+<script src="surface/keys.js?v=20261027214032"></script>
+<script src="surface/reset.js?v=20261027214032"></script>
+<script src="surface/files.js?v=20261027214032"></script>
+<script src="surface/tabs.js?v=20261027214032"></script>
+<script src="surface/running.js?v=20261027214032"></script>
+<script src="surface/trim.js?v=20261027214032"></script>
+<script src="surface/audiowake.js?v=20261027214032"></script>
+<script src="surface/output.js?v=20261027214032"></script>
+<script src="surface/board.js?v=20261027214032"></script>
+<script src="surface/voice.js?v=20261027214032"></script>
+<script src="surface/voicelib.js?v=20261027214032"></script>
+<script src="surface/instruments.js?v=20261027214032"></script>
+<script src="surface/listview.js?v=20261027214032"></script>
+<script src="surface/beads.js?v=20261027214032"></script>
+<script src="surface/strip.js?v=20261027214032"></script>
+<script src="surface/sheetnav.js?v=20261027214032"></script>
+<script src="surface/twofinger.js?v=20261027214032"></script>
+<script src="surface/ring.js?v=20261027214032"></script>
+<script src="surface/shortlink.js?v=20261027214032"></script>
+<script src="surface/undo.js?v=20261027214032"></script>
+<script src="surface/pro.js?v=20261027214032"></script>
+<script src="surface/fresh.js?v=20261027214032"></script>
+<script src="surface/go.js?v=20261027214032"></script>
+<script src="surface/notice.js?v=20261027214032"></script>
+<script src="surface/perform.js?v=20261027214032"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 /* PRO IN BETA (Dimitry, 22 Oct): built Pro features are open to everyone while they are tested, marked with the open
-   padlock; the version line lists them. Field and Scrub are not built yet, so they stay shut. Remove a line to close it. */
+   padlock; the version line lists them. Field is not built yet, so it stays shut; Scrub opened 27 Oct 17:37 ("Scrub totally works even on my phone ... It works fantastically"). Remove a line to close it. */
 try{SurfacePro.beta({
+  scrub:{name:'Scrub',note:'a pad over the bar: drag across your scenes and the field follows your finger'},
   'autoplay.dir':{name:'Bounce, Shuffle and Seed',note:'more ways for the robot to go: there and back, every scene once like a deck of cards, and a shuffle grown from words that always plays the same order'},   // 0.33.83, review bf95346c9c r-1: built, so in beta like the rest
   session:{name:'Room',note:'phones and laptops in one room play in time over the internet: one leads, its tempo or its scenes; Ableton Link'},
   blend:{name:'Blend',note:'how the lines lay onto what is drawn'},
@@ -226,14 +227,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261027212113"></script>
-<script src="surface/rail.js?v=20261027212113"></script>
-<script src="surface/touchsound.js?v=20261027212113"></script>
-<script src="surface/water.js?v=20261027212113"></script>
-<script src="surface/ripple.js?v=20261027212113"></script>
-<script src="surface/material.js?v=20261027212113"></script>
-<script src="surface/float.js?v=20261027212113"></script>
-<script src="surface/manual.js?v=20261027212113"></script>
+<script src="surface/pack.js?v=20261027214032"></script>
+<script src="surface/rail.js?v=20261027214032"></script>
+<script src="surface/touchsound.js?v=20261027214032"></script>
+<script src="surface/water.js?v=20261027214032"></script>
+<script src="surface/ripple.js?v=20261027214032"></script>
+<script src="surface/material.js?v=20261027214032"></script>
+<script src="surface/float.js?v=20261027214032"></script>
+<script src="surface/manual.js?v=20261027214032"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4944,7 +4945,7 @@ function roboEar(d){const R=document.documentElement;R.classList.remove('robo-ea
    only (and with a Pro key); the public site keeps it shut until he says it is good. A pad over the bar holds every scene in
    play as a sliver of its picture, in the order Which way gives (Back reversed, Seed its own order); a finger dragged across
    it changes the scene under it at once, and the field follows. The robot waits while you scrub. */
-function scrubOK(){return !!window.__HOME__||isPro('scrub')}
+function scrubOK(){return !!window.__HOME__||isPro('scrub')}   /* in Pro beta since 0.33.85: open to everyone with the open padlock */
 function scrubSeq(){const ids=autoIds(),d=autoDir();if(d==='same')return autoSeq(ids);const q=(()=>{const set=new Set(ids);return orderedIds().filter(i=>set.has(i))})();return d==='back'?q.reverse():q}
 function scrubOpen(){scrubOpen.back=document.activeElement;try{closePlist()}catch(_){}let p=$('scrubPad');
   if(!p){p=document.createElement('div');p.id='scrubPad';p.className='scrubPad';
@@ -4968,7 +4969,7 @@ function scrubPlace(){const p=$('scrubPad'),b=$('playbar');if(!p||!b)return;cons
 function scrubMark(){const p=$('scrubPad');if(!p)return;const S=p._seq||[],n=S.length,k=p._k||0,all=allPresets(),t=p.querySelector('.spThumb'),tr=p.querySelector('.spTrack');
   t.style.left=(n?(k+.5)/n*100:0)+'%';t.style.width='max(4px,'+(n?100/n:100)+'%)';const nm=all[S[k]]?all[S[k]].name:'';p.querySelector('.spName').textContent=nm;
   tr.setAttribute('aria-valuemin','1');tr.setAttribute('aria-valuemax',String(n));tr.setAttribute('aria-valuenow',String(k+1));tr.setAttribute('aria-valuetext',(k+1)+' of '+n+': '+nm)}
-function scrubClose(){const p=$('scrubPad');if(!p||p.hidden)return;p.hidden=true;const b=scrubOpen.back;scrubOpen.back=null;try{if(b&&b.isConnected)b.focus({preventScroll:true});else $('pAuto').focus({preventScroll:true})}catch(_){}}   /* focus goes back (review f571aef472 r-4) */
+function scrubClose(){const p=$('scrubPad');if(!p||p.hidden)return;p.hidden=true;const b=scrubOpen.back;scrubOpen.back=null;try{if(b&&b.isConnected&&b.getClientRects().length)b.focus({preventScroll:true});else $('pAuto').focus({preventScroll:true})}catch(_){}   /* a hidden Scrub tile takes no focus (review d58bdb8788 r-1) */}   /* focus goes back (review f571aef472 r-4) */
 function stepPreset(d){if(!allPresets().length)return;roboSweep(d);roboEar(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
 let labT=0;
 function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=document.scrollingElement||document.documentElement;if(d.scrollTop||d.scrollLeft){d.scrollTop=0;d.scrollLeft=0}}   /* the stage is the page: never leave it scrolled (iPhone, #install, 18 Oct) */
@@ -5219,7 +5220,7 @@ function buildPlist(){plTabsMount();
      On its own it scrubs in order. Shown, disabled, marked Pro; a tap says what it will do. */
   {const og=plSegs[2],sc=document.createElement('button');sc.type='button';const scOK=scrubOK();sc.className='apT'+(scOK?'':' pro');sc.id='apScrub';sc.setAttribute('aria-pressed','false');if(!scOK)sc.setAttribute('aria-disabled','true');
    sc.setAttribute('aria-label','Scrub, a Pro feature: your touch moves through the scenes, in the order you pick beside it');sc.title='Scrub (Pro): your touch moves through the scenes';
-   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB"'+(scOK?' hidden':'')+'><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><rect x="4.5" y="10" width="15" height="11.5" rx="2.4"/><path class="bolt" d="M13.2 11.9 9.6 16.4h2.7l-1.4 3.4 3.9-4.8h-2.8z"/></svg></em>';
+   sc.innerHTML=PLI('<circle cx="12" cy="12" r="3.2"/><path d="M2.5 12h5M16.5 12h5M5 9.5 2.5 12 5 14.5M19 9.5l2.5 2.5-2.5 2.5"/>')+'<span>Scrub</span><em class="proB">'+((!window.__HOME__&&window.SurfacePro&&SurfacePro.mark&&SurfacePro.mark('scrub'))||'')+'</em>';
    sc.onclick=()=>{if(scrubOK()){scrubOpen();return}let n=$('apPro');if(!n){n=document.createElement('div');n.id='apPro';n.className='bgPro';n.setAttribute('role','status');og.after(n)}
      n.innerHTML=isPro()?'<p><b>Scrub</b> is coming to Pro: drag across the stage and the scenes follow your finger, in the order you pick with it. Your Pro key will switch it on here when it is built.</p>':'<p><b>Scrub</b> comes with Pro: drag across the stage and the scenes follow your finger, in the order you pick with it (in order, shuffled, yours, starred), as the field moves. The first 100 founders get Pro free.</p><button type="button" class="bgGo">join the Founders Club</button>';
      const fb=n.querySelector('button');if(fb)fb.onclick=()=>{try{openBetaSheet()}catch(_){}};try{n.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}if(window.cxCount)cxCount('pro: scrub looks',1)};
@@ -10647,10 +10648,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261027212113"></script>
-<script src="surface/links.js?v=20261027212113"></script>
-<script src="surface/tips.js?v=20261027212113"></script>
-<script src="surface/sections.js?v=20261027212113"></script>
+<script src="surface/install.js?v=20261027214032"></script>
+<script src="surface/links.js?v=20261027214032"></script>
+<script src="surface/tips.js?v=20261027214032"></script>
+<script src="surface/sections.js?v=20261027214032"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10831,7 +10832,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261027212113"></script>
+<script src="surface/room.js?v=20261027214032"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11032,7 +11033,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261027212113"></script>
+<script src="surface/touch.js?v=20261027214032"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11776,7 +11777,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.84';
+const APP_VERSION='0.33.85';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
