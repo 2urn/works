@@ -252,6 +252,7 @@
     ".sr-ring .sr-dot.sr-fold1{transition:transform .2s cubic-bezier(.5,0,.75,0),opacity .2s ease-in;transition-delay:var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0}" +
     ".sr-ring .sr-dot.sr-fold2{transition:transform .45s cubic-bezier(.5,0,.3,1) var(--fd,0ms),opacity .45s ease-in var(--fd,0ms);transform:translate(0,0) scale(.3);opacity:0;pointer-events:none}" +
     ".sr-ring .sr-dot.sr-fold2.sr-live{animation:none}.sr-ring .sr-dot.sr-dive{z-index:3;transition:transform .42s cubic-bezier(.3,.7,.2,1);transform:translate(0,0) scale(1.7);pointer-events:none}.sr-ring .sr-dot.sr-dive .sr-lab{opacity:0}.sr-ring.sr-diving .sr-hub{transition:opacity .2s;opacity:0}" +
+    ".sr-ring.sr-arrive .sr-dot[aria-checked]{background:rgb(var(--ui-g,12 14 16) / .86);color:var(--ui-ink,#eef1f2);box-shadow:0 0 0 1px rgb(var(--ui-hi,255 255 255) / .16),0 6px 20px rgb(0 0 0 / .35);outline:none}.sr-ring.sr-arrive .sr-dot::after{animation:none!important;opacity:0!important}" +
     ".sr-ring .sr-hub.sr-linger{transition:opacity 1.5s ease-in;opacity:0}" +
     ".sr-ring .sr-hub.sr-linger:hover{opacity:.6;transition:opacity .2s}" +
     ".sr-ring .sr-hub.sr-ball{transition:width .2s cubic-bezier(.4,0,.2,1),padding .2s,gap .2s;overflow:hidden;gap:0}" +
@@ -459,7 +460,7 @@
           b.classList.add("sr-tap"); setTimeout(function () { b.classList.remove("sr-tap"); }, 180); return; }
         if (it.kind === "check") b.setAttribute("aria-checked", String(b.getAttribute("aria-checked") !== "true")); else if (it.kind !== "go") dots.forEach(function (x) { if (x.getAttribute("role") === "menuitemradio") x.setAttribute("aria-checked", String(x === b)); });
         try { I.pick && I.pick(); } catch (er) { console.warn("[ring]", er); }
-        if (PW || I.more) refresh();
+        if (PW || I.more || keep) refresh();   /* a dot that stays (ground: under, overlay, ignore) shows its new label and icon at once */
         if (cur && cur.pinned) { b.classList.add("sr-tap"); setTimeout(function () { b.classList.remove("sr-tap"); }, 180); return; }
         if (!(keep && cur)) close("pick", b, it.kind === "go" ? 0 : 650); });   /* a switch lingers lit (or unlit) so its new state shows (Dimitry, 25 Oct 00:25: "you don't really know if you've actually triggered the button") */
       ring.appendChild(b); return b;
@@ -593,6 +594,10 @@
     document.addEventListener("keydown", key, true);
     document.body.append(veil, ring);
     cur = { o: o, veil: veil, ring: ring, key: key, back: o.back || document.activeElement, t0: performance.now(), id: rid, pinned: false };
+    /* ARRIVING (Dimitry, 27 Oct 08:39: back from the camera's ring, "the camera icon which I have not actually touched flashes
+       blue as if it has been touched and then moves to its ... position ... that blue highlight has to be suppressed for that
+       motion"): while the dots fly out, none is lit, pulsing or outlined; a lit dot takes its color once it has landed */
+    if (!o._quiet) { ring.classList.add("sr-arrive"); setTimeout(function () { ring.classList.remove("sr-arrive"); }, 480 + dots.length * 22); }   /* the pop takes .46 s plus 22 ms a dot: the last one lands first (review fa7b4d6a23 r-1) */
     if (o.pinned) setPin(true);
     refresh();
     /* LABELS: learn holds them longer for the first five opens, then briefly; never lets them go at once */
