@@ -27,7 +27,7 @@
      SurfaceWater.treat(ctx, input, {preset, depth}) → {input, output, air, depth(v?, still), stir(x, y, amount), bypass(bool?),
                                                          set({breath, wobble, wet, dark}), preset(id), stop()}
          put it between your sound and your speakers; input may be null (connect to t.input yourself)
-     SurfaceWater.bed(ctx, name, {level}) → {output, level(v), stop()}        name: surf | stream | hydrophone | rain
+     SurfaceWater.bed(ctx, name, {level}) → {output, level(v), stop()}        name: surf | stream | hose | lap | hydrophone | rain
      SurfaceWater.voice(ctx, out, kind, {pitch, pan, size, when, gain}) → end time
          kind: drop | bubbles | whale | porpoise | seagull; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer,
          lower; a longer click train, more gull calls). porpoise takes {whistle: bool}; seagull takes {air: t.air}
@@ -57,7 +57,9 @@
   ];
   var BEDS = [
     { id: "surf", name: "Surf", note: "waves arriving, slow and wide" },
-    { id: "stream", name: "Stream", note: "a brook over stones" },
+    { id: "stream", name: "Stream", note: "a little brook, bubbling over stones" },
+    { id: "hose", name: "Garden hose", note: "a hose spraying the inside of a bucket" },
+    { id: "lap", name: "Lapping waves", note: "tiny waves at a lakeshore, against a dock and the stones" },
     { id: "hydrophone", name: "Hydrophone", note: "the deep hum under a harbor" },
     { id: "rain", name: "Rain", note: "rain on a roof" }
   ];
@@ -138,6 +140,55 @@
     return (c[k] = b);
   }
 
+  /* A BROOK (Dimitry, 28 Oct 14:32: the old Stream "sounds more like air escaping underwater ... from a hose or a pressure
+     system ... stream suggests something more gentle ... a little bubbling stream"): many small bubbles, each a sine that
+     rises in pitch as it closes (the Minnaert bubble: smaller is higher), in runs, as water tumbles over stones */
+  function brookBuf(ctx, secs, seed, lo, hi, rate) {
+    var c = cache(ctx), k = "brook:" + secs + ":" + seed + ":" + lo; if (c[k]) return c[k];
+    var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
+    var t = 0;
+    while (t < secs) {
+      var run = 2 + Math.floor(r() * 6), at = t, pan = 0.2 + r() * 0.6;            // a little run of bubbles, then a pause
+      for (var q = 0; q < run; q++) {
+        var f = lo * Math.pow(hi / lo, r()), dur = 0.012 + 3 / f + r() * 0.02, amp = 0.05 + Math.pow(r(), 2) * 0.16, s0 = Math.floor(at * sr), len = Math.floor(dur * sr);
+        var ph = 0, p2 = Math.max(0, Math.min(1, pan + (r() - 0.5) * 0.3));
+        for (var i = 0; i < len; i++) {
+          var x = i / len, e = Math.exp(-x * 5) * Math.min(1, i / (sr * 0.0015)), fi = f * (1 + 0.9 * x);   // rises as it closes; a soft onset, no click
+          ph += 2 * Math.PI * fi / sr; var v = Math.sin(ph) * e * amp, j = (s0 + i) % n; L[j] += v * (1 - p2); R[j] += v * p2;
+        }
+        at += 0.02 + r() * 0.07;
+      }
+      t = at + (0.04 + r() * 0.35) / rate;
+    }
+    return (c[k] = b);
+  }
+  /* LAPPING WAVES (Dimitry, 28 Oct 14:35; 14:42 after the first try: "too much like the ocean ... tiny little lapping waves
+     like you're walking along a lakeshore or a dock ... the waves hitting the pylons and maybe the rocks ... a very quiet
+     sound, not necessarily rhythmic ... it's more about this gentleness"): small irregular laps, each a short slosh of
+     water, sometimes a soft hollow knock (a pylon) or a little clop on stone, now and then a drip; clustered, never on
+     a beat, and quiet */
+  function lapBuf(ctx, secs, seed) {
+    var c = cache(ctx), k = "lap2:" + secs + ":" + seed; if (c[k]) return c[k];
+    var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
+    var put = function (j, v, p) { j = j % n; L[j] += v * (1 - p); R[j] += v * p; };
+    var t = r() * 0.5;
+    while (t < secs) {
+      var s0 = Math.floor(t * sr), pan = 0.15 + r() * 0.7, amp = 0.12 + r() * 0.18;
+      /* the slosh: noise through a filter that opens with the lap and closes as it falls back */
+      var len = Math.floor(sr * (0.18 + r() * 0.35)), y = 0, cut = 0.025 + r() * 0.03;
+      for (var i = 0; i < len; i++) { var x = i / len, e = Math.min(1, i / (sr * 0.03)) * Math.pow(1 - x, 2.2), cc = cut * (0.4 + 0.6 * (1 - x));
+        y += cc * ((r() * 2 - 1) - y); put(s0 + i, y * e * amp * 2.2, pan); }
+      /* a knock on a pylon (hollow, low) or a clop on a stone (higher, shorter), not every lap */
+      if (r() < 0.45) { var stone = r() < 0.5, f = stone ? 380 + r() * 380 : 120 + r() * 140, kl = Math.floor(sr * (stone ? 0.05 : 0.14)), ka = amp * (stone ? 0.35 : 0.5), ks = s0 + Math.floor(sr * (0.02 + r() * 0.06)), ph = 0;
+        for (var q = 0; q < kl; q++) { var xq = q / kl; ph += 2 * Math.PI * f * (1 - 0.15 * xq) / sr; put(ks + q, Math.sin(ph) * Math.exp(-xq * 6) * Math.min(1, q / (sr * 0.002)) * ka, pan); } }
+      /* now and then a drip after it */
+      if (r() < 0.3) { var df = 900 + r() * 1300, dl = Math.floor(sr * 0.03), ds = s0 + len + Math.floor(sr * r() * 0.3), dp = 0;
+        for (var d = 0; d < dl; d++) { var xd = d / dl; dp += 2 * Math.PI * df * (1 + 0.8 * xd) / sr; put(ds + d, Math.sin(dp) * Math.exp(-xd * 5) * Math.min(1, d / (sr * 0.0015)) * 0.07, Math.min(1, Math.max(0, pan + (r() - 0.5) * 0.3))); } }
+      /* irregular: sometimes two or three close together, then a pause */
+      t += r() < 0.4 ? 0.22 + r() * 0.3 : 0.8 + r() * 2.2;
+    }
+    return (c[k] = b);
+  }
   function loop(ctx, buf, when) { var s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.start(when || ctx.currentTime); return s; }
   function lfo(ctx, hz, amt, target) { var o = ctx.createOscillator(); o.frequency.value = hz; var g = ctx.createGain(); g.gain.value = amt; o.connect(g); if (target) g.connect(target); o.start(); return { osc: o, gain: g }; }
   function ramp(p, v, ctx, tc) { try { p.cancelScheduledValues(ctx.currentTime); p.setTargetAtTime(v, ctx.currentTime, tc || 0.08); } catch (e) { p.value = v; } }
@@ -240,6 +291,15 @@
         n.connect(f); f.connect(g); if (p) { p.pan.value = s[2]; g.connect(p); p.connect(out); } else g.connect(out);
       });
     } else if (name === "stream") {
+      /* the brook: two layers of bubbling (small and high, larger and low), over a soft wash of water, low and quiet */
+      var wa = add(loop(ctx, noiseBuf(ctx, "pink", 7, 31))), wl = ctx.createBiquadFilter(); wl.type = "lowpass"; wl.frequency.value = 650; wl.Q.value = 0.3;
+      var wgn = ctx.createGain(); wgn.gain.value = 0.34; wa.connect(wl); wl.connect(wgn); wgn.connect(out); swell(0.07, 0.05, wgn.gain, 32);
+      [[7, 33, 700, 2200, 2.2, 2.6], [11, 34, 300, 900, 1.1, 3.4]].forEach(function (L) {
+        var bb = add(loop(ctx, brookBuf(ctx, L[0], L[1], L[2], L[3], L[4]))), bl = ctx.createBiquadFilter(); bl.type = "lowpass"; bl.frequency.value = 3800;
+        var bg2 = ctx.createGain(); bg2.gain.value = L[5]; bb.connect(bl); bl.connect(bg2); bg2.connect(out);
+      });
+    } else if (name === "hose") {
+      /* GARDEN HOSE (Dimitry, 28 Oct 14:33: "a pressure hose ... cleaning the inside of a bucket ... call it something like garden hose"): the old Stream, kept under the name of what it sounds like */
       var n = add(loop(ctx, noiseBuf(ctx, "white", 7, 31))), base = ctx.createBiquadFilter(); base.type = "lowpass"; base.frequency.value = 1400;
       var bg = ctx.createGain(); bg.gain.value = 0.45; n.connect(base); base.connect(bg); bg.connect(out);
       /* the babble: resonant bands that wander quickly, like water over stones */
@@ -250,6 +310,11 @@
         var p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
         n.connect(f); f.connect(g); if (p) { p.pan.value = (i % 2 ? 0.5 : -0.5) * (0.4 + i * 0.15); g.connect(p); p.connect(out); } else g.connect(out);
       });
+    } else if (name === "lap") {
+      /* two loops of laps that never line up, a faint stillness of water under them, and a soft low cut so it stays gentle */
+      var lp2 = ctx.createBiquadFilter(); lp2.type = "lowpass"; lp2.frequency.value = 2600; lp2.Q.value = 0.4; lp2.connect(out);
+      [[11, 61, 2.8], [17, 62, 2.0]].forEach(function (L) { var lb = add(loop(ctx, lapBuf(ctx, L[0], L[1]))), lg = ctx.createGain(); lg.gain.value = L[2]; lb.connect(lg); lg.connect(lp2); });
+      var st2 = add(loop(ctx, noiseBuf(ctx, "pink", 9, 63))), sl = ctx.createBiquadFilter(); sl.type = "lowpass"; sl.frequency.value = 420; var sg = ctx.createGain(); sg.gain.value = 0.08; st2.connect(sl); sl.connect(sg); sg.connect(out);
     } else if (name === "hydrophone") {
       var b1 = add(loop(ctx, noiseBuf(ctx, "brown", 6, 41))), l1 = ctx.createBiquadFilter(); l1.type = "lowpass"; l1.frequency.value = 170;
       var g1 = ctx.createGain(); g1.gain.value = 0.9; b1.connect(l1); l1.connect(g1); g1.connect(out);

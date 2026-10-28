@@ -36,7 +36,7 @@
      hidden with the pane, outside it, so a pane that redraws itself never loses its title. The small caption under the
      tabs (.sfTabCap) is not needed then. */
   var M = function (list,tabs,key,opt){const btns={};let cur=null,room=null;opt=opt||{};const vis=()=>tabs.filter(t=>!room||room.indexOf(t.id)>=0);
-  if(opt.heads)tabs.forEach(t=>{if(!t.pane||t.head)return;const h=document.createElement(opt.tag||'h2');h.className='sfPaneH';h.textContent=t.name;h.hidden=!!t.pane.hidden;t.pane.before(h);t.head=h;   /* the head follows its pane's hidden however the pane is shown */
+  if(opt.heads)tabs.forEach(t=>{if(!t.pane||t.head)return;const h=document.createElement(opt.tag||'h2');h.className='sfPaneH';h.textContent=typeof opt.head==='function'?opt.head(t):t.name;   /* opt.head(t): the heading's own words, 'Color · Ground' (28 Oct) */h.hidden=!!t.pane.hidden;t.pane.before(h);t.head=h;   /* the head follows its pane's hidden however the pane is shown */
     try{new MutationObserver(()=>{h.hidden=!!t.pane.hidden}).observe(t.pane,{attributes:true,attributeFilter:['hidden']})}catch(_){}});
   const cap=document.createElement('p');cap.className='sfTabCap';cap.setAttribute('aria-hidden','true');cap.hidden=true;(list.parentElement||list).after(cap);
   const fit=()=>{list.classList.remove('icons');const tight=list.scrollWidth>list.clientWidth+1;list.classList.toggle('icons',tight);const t=tabs.find(t=>t.id===cur);cap.textContent=t?t.name:'';if(opt.heads){cap.hidden=true;return}cap.hidden=!tight};

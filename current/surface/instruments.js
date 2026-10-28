@@ -199,8 +199,8 @@
     var LIVE = [], wasOn = false;
     function hush() { var c = ctx(), t = c ? c.currentTime + 0.04 : undefined; LIVE.splice(0).forEach(function (v) { try { v.stop(t); } catch (_) {} }); }
     try { if (window.SurfaceVoice && SurfaceVoice.live() === 0) SurfaceVoice.limit(O.limit || 24); } catch (e) {}
-    function strike(x, at, pan, holdFor) {
-      var c = ctx(), d = dest(); if (!c || !d || !V()) return null;
+    function strike(x, at, pan, holdFor, out) {
+      var c = ctx(), d = out || dest(); if (!c || !d || !V()) return null;
       var to = d;
       if (pan != null && c.createStereoPanner) { var p = c.createStereoPanner(); p.pan.value = Math.max(-1, Math.min(1, pan)); p.connect(d); to = p; }
       try {
@@ -264,18 +264,30 @@
 
     /* ---------- bed ---------- */
     var bed = { h: [], ids: "", t: 0 };
-    function bedStop() { var c = ctx(); bed.h.forEach(function (v) { try { v.release(c ? c.currentTime : undefined); } catch (_) {} }); bed.h = []; bed.ids = ""; }
+    /* A BED FADES (Dimitry, 28 Oct 14:30: "there should be a natural cross fade ... a fade down, similar to the one when we
+       turn off the volume, so that there isn't an abrupt end to the sounds that are meant to be ambient and bed oriented"):
+       each held bed plays through its own gain, which rises over about 1.5 s and falls over about 2 s when it stops */
+    var BED_IN = 0.45, BED_OUT = 0.6;   // time constants: ~95% in 1.4 s, out in 1.8 s
+    function fadeOut(v, c) { var g = v._bedG; c = c || ctx(); var t = c ? c.currentTime : 0;
+      if (g && c && v._ctx === c) { try { g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value, t); g.gain.setTargetAtTime(0, t, BED_OUT); } catch (_) {}
+        try { v.release(t + 2.4); } catch (_) {} setTimeout(function () { try { v.stop(); } catch (_) {} try { g.disconnect(); } catch (_) {} }, 3200); }
+      else { try { v.release(c ? c.currentTime : undefined); } catch (_) {} if (g) try { g.disconnect(); } catch (_) {} } }
+    function bedStop() { bed.h.forEach(function (v) { fadeOut(v); }); bed.h = []; bed.ids = ""; list.forEach(function (x) { x._bedOn = false; }); }
+    /* only what changed moves: a bed that keeps playing is left alone, one that stops fades out, a new one fades in */
     function bedSync(c) {
-      var B = list.filter(function (x) { return plays(x, "bed"); }), ids = B.map(function (x) { return x.id; }).join(",");
-      if (ids !== bed.ids) { bedStop(); bed.ids = ids; bed.t = 0; }
+      var B = list.filter(function (x) { return plays(x, "bed"); }), want = {}; B.forEach(function (x) { want[x.id] = 1; });
+      bed.h = bed.h.filter(function (h) { if (want[h._id] && h._ctx === c) return true; fadeOut(h, c); var y = list.filter(function (z) { return z.id === h._id; })[0]; if (y) y._bedOn = false; return false; });
+      bed.ids = B.map(function (x) { return x.id; }).join(",");
       if (!B.length) return;
       B.forEach(function (x) {
         var s = V() ? V().shape(x.recipe) : { held: true };
-        if (s.held) { if (!x._bedOn || x._bedCtx !== c) { x._bedOn = true; x._bedCtx = c; var h = strike(x, undefined, null, undefined); if (h) bed.h.push(h); } }
+        if (s.held) { if (!x._bedOn || x._bedCtx !== c || !bed.h.some(function (h) { return h._id === x.id; })) { x._bedOn = true; x._bedCtx = c; var g = null, d0 = dest();
+            try { g = c.createGain(); g.gain.setValueAtTime(0, c.currentTime); g.gain.setTargetAtTime(1, c.currentTime, BED_IN); g.connect(d0); } catch (_) { g = null; }
+            var h = strike(x, undefined, null, undefined, g || undefined); if (h) { h._bedG = g; h._id = x.id; h._ctx = c; bed.h.push(h); } else if (g) try { g.disconnect(); } catch (_) {} } }
         else { var len = Math.max(0.3, (s.start || 0) + (s.hold || 0) + (s.end || 0)); if (!x._bedNext || x._bedNext < c.currentTime) { x._bedNext = c.currentTime + len; strike(x, undefined, null, undefined); } }
       });
     }
-    function resetBed() { list.forEach(function (x) { x._bedOn = false; x._bedNext = 0; }); bedStop(); }
+    function resetBed() { list.forEach(function (x) { x._bedNext = 0; }); }   /* held beds are diffed by bedSync: the ones still lit keep playing (28 Oct) */
 
     /* ---------- import ---------- */
     var lastSet = null;
