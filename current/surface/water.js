@@ -168,19 +168,22 @@
      water, sometimes a soft hollow knock (a pylon) or a little clop on stone, now and then a drip; clustered, never on
      a beat, and quiet */
   function lapBuf(ctx, secs, seed) {
-    var c = cache(ctx), k = "lap2:" + secs + ":" + seed; if (c[k]) return c[k];
+    var c = cache(ctx), k = "lap3:" + secs + ":" + seed; if (c[k]) return c[k];
     var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
     var put = function (j, v, p) { j = j % n; L[j] += v * (1 - p); R[j] += v * p; };
     var t = r() * 0.5;
     while (t < secs) {
       var s0 = Math.floor(t * sr), pan = 0.15 + r() * 0.7, amp = 0.12 + r() * 0.18;
       /* the slosh: noise through a filter that opens with the lap and closes as it falls back */
-      var len = Math.floor(sr * (0.18 + r() * 0.35)), y = 0, cut = 0.025 + r() * 0.03;
-      for (var i = 0; i < len; i++) { var x = i / len, e = Math.min(1, i / (sr * 0.03)) * Math.pow(1 - x, 2.2), cc = cut * (0.4 + 0.6 * (1 - x));
-        y += cc * ((r() * 2 - 1) - y); put(s0 + i, y * e * amp * 2.2, pan); }
-      /* a knock on a pylon (hollow, low) or a clop on a stone (higher, shorter), not every lap */
-      if (r() < 0.45) { var stone = r() < 0.5, f = stone ? 380 + r() * 380 : 120 + r() * 140, kl = Math.floor(sr * (stone ? 0.05 : 0.14)), ka = amp * (stone ? 0.35 : 0.5), ks = s0 + Math.floor(sr * (0.02 + r() * 0.06)), ph = 0;
-        for (var q = 0; q < kl; q++) { var xq = q / kl; ph += 2 * Math.PI * f * (1 - 0.15 * xq) / sr; put(ks + q, Math.sin(ph) * Math.exp(-xq * 6) * Math.min(1, q / (sr * 0.002)) * ka, pan); } }
+      var len = Math.floor(sr * (0.3 + r() * 0.45)), y = 0, z = 0, cut = 0.03 + r() * 0.03;
+      for (var i = 0; i < len; i++) { var x = i / len, e = Math.sin(Math.min(1, i / (sr * 0.09)) * Math.PI / 2) * Math.pow(1 - x, 1.6), cc = cut * (0.5 + 0.5 * (1 - x));
+        y += cc * ((r() * 2 - 1) - y); z += 0.004 * (y - z); put(s0 + i, (y - z) * e * amp * 3.2, pan); }   // a soft rise (90 ms), and a band, so it is wet, never a slap
+      /* the water itself, not a knock (14:46: the knocks read as "windows slapping shut ... flapping in the wind"): as the
+         lap falls back it gurgles, a few low bubbles closing under the surface */
+      var gN = r() < 0.7 ? 1 + Math.floor(r() * 4) : 0, gt = s0 + Math.floor(len * (0.35 + r() * 0.3));
+      for (var gq = 0; gq < gN; gq++) { var gf = 260 + r() * 520, gl = Math.floor(sr * (0.025 + 2.5 / gf)), gp = 0, ga = amp * (0.18 + r() * 0.2);
+        for (var gi = 0; gi < gl; gi++) { var xg = gi / gl; gp += 2 * Math.PI * gf * (1 + 0.7 * xg) / sr; put(gt + gi, Math.sin(gp) * Math.exp(-xg * 4.5) * Math.min(1, gi / (sr * 0.004)) * ga, pan); }
+        gt += Math.floor(sr * (0.03 + r() * 0.08)); }
       /* now and then a drip after it */
       if (r() < 0.3) { var df = 900 + r() * 1300, dl = Math.floor(sr * 0.03), ds = s0 + len + Math.floor(sr * r() * 0.3), dp = 0;
         for (var d = 0; d < dl; d++) { var xd = d / dl; dp += 2 * Math.PI * df * (1 + 0.8 * xd) / sr; put(ds + d, Math.sin(dp) * Math.exp(-xd * 5) * Math.min(1, d / (sr * 0.0015)) * 0.07, Math.min(1, Math.max(0, pan + (r() - 0.5) * 0.3))); } }
