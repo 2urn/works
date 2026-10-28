@@ -178,7 +178,8 @@
        there be a minimum of one role assigned always? ... otherwise why even load a sound"): roles is what a sound is
        available as, one or more and never none; play is where it plays now, some of its roles or none. role and on are
        kept for older callers: the first role, and whether it plays anywhere. */
-    function norm(x) {
+    /* soundNorm, not norm: norm(dir, path) is the module's path helper, which import uses (shadowing it broke every pack zip, 0.33.98) */
+    function soundNorm(x) {
       var rs = (Array.isArray(x.roles) ? x.roles : [x.role]).filter(function (r, i, a) { return r && hasRole(r) && a.indexOf(r) === i; });
       if (!rs.length) rs = [x.role && hasRole(x.role) ? x.role : "touch"];
       var pl = Array.isArray(x.play) ? x.play : x.on === false ? [] : [rs[0]];
@@ -187,8 +188,8 @@
     }
     function plays(x, r) { return x.play.indexOf(r) >= 0; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
-    list.forEach(norm);
-    function save() { list.forEach(norm); try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
+    list.forEach(soundNorm);
+    function save() { list.forEach(soundNorm); try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
     function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, roles: x.roles.slice(), play: x.play.slice(), every: x.every, on: x.on, pack: packOf(x), own: packOf(x) === "Your own sounds" }; }); }   // own: a recording of yours, in no pack (packOf names it 'Your own sounds')
     function ctx() { try { return O.ctx && O.ctx(); } catch (e) { return null; } }
     function dest() { try { return O.dest && O.dest(); } catch (e) { return null; } }
@@ -378,12 +379,12 @@
         var k = (r.name || "sound") + "|" + JSON.stringify(r).length; if (have[k]) return; have[k] = 1;
         var R = roles && roles[r.name] || {}, rl = R.role && hasRole(R.role) ? R.role : role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
         if (r._level != null) { r = JSON.parse(JSON.stringify(r)); delete r._level; }
-        list.push(norm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, roles: Array.isArray(R.roles) ? R.roles.slice() : undefined, play: Array.isArray(R.play) ? R.play.slice() : undefined, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv, pack: pack ? String(pack).slice(0, 60) : undefined })); n++;
+        list.push(soundNorm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, roles: Array.isArray(R.roles) ? R.roles.slice() : undefined, play: Array.isArray(R.play) ? R.play.slice() : undefined, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv, pack: pack ? String(pack).slice(0, 60) : undefined })); n++;
       });
       resetBed(); save(); return n;
     }
     var pending = null;
-    function importFile(f) {
+    function importFile(f, restoreAs) {   // restoreAs: this file is a pack being put back as it came (no add screen)
       var nm = f && f.name != null ? f.name : (f && f.length ? (f[0].webkitRelativePath || "").split("/")[0] || f.length + " files" : "import");
       if (!f || (f.length === 0)) return Promise.resolve(0);
       return gather(f).then(function (g) {
@@ -391,6 +392,7 @@
         Object.keys(g.samples).forEach(function (k) { try { SurfaceVoice.sample(k, g.samples[k].buf); } catch (e) {} });
         var allSmp = ok.length && ok.every(function (r) { return samplesOf(r).length; }), allLong = allSmp && ok.every(function (r) { return r.hold; });
         pending = { name: g.name || nm, recipes: ok, live: rs.length - ok.length, role: allLong ? "bed" : "touch", set: lastSet, roles: g.roles, samples: g.samples, notes: g.notes, looks: g.looks, by: g.by };
+        if (restoreAs && !pending.error) { addPending(restoreAs); return ok.length; }
         open(); return ok.length;
       }, function (e) { pending = { name: nm, error: e && e.message || "could not be read" }; open(); return 0; });
     }
@@ -406,7 +408,7 @@
       }).catch(function () { return false; });
     }
     function gcSamples() {
-      var want = {}; list.forEach(function (x) { samplesOf(x.recipe).forEach(function (k) { want[k] = 1; }); });
+      var want = {}; list.concat(undo ? undo.items.map(function (a) { return a[1]; }) : []).forEach(function (x) { samplesOf(x.recipe).forEach(function (k) { want[k] = 1; }); });   // a removed sound waiting for Put it back keeps its recordings
       idb("readonly", function (st) { return st.getAllKeys(); }).then(function (ks) { (ks || []).forEach(function (k) { if (!want[k]) dropBytes(k); }); }).catch(function () {});
     }
     /* next visit: the recordings come back from this device before anything asks for them */
@@ -461,6 +463,8 @@
       /* the Pack row, read at a glance (Dimitry, 26 Oct 00:39: "What does this mean? … Is it for preset default of what?"): the
          switch is lit with a check when the sound plays and an empty ring when it is off; an off row dims its roles and timing (not Hear: you may listen before turning it on, review 61551ce-r-2);
          the timing pill says what it is */
+      ".sin .pk .pkr,.sin .pk .pkx{flex:none;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);cursor:pointer;display:grid;place-items:center}.sin .pk .pkr svg,.sin .pk .pkx svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}" +
+      ".sin .und{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgb(var(--ui-hi,255 255 255) / .1)}.sin .und span{flex:1;min-width:0;font:400 12.5px/1.35 var(--sans,system-ui)}" +
       ".sin .hd .nw{flex:none;width:8px;height:8px;border-radius:50%;background:var(--acc,#55b8c9);box-shadow:0 0 6px var(--acc,#55b8c9);margin-right:2px}"+
       ".sin .hd .tg[aria-pressed=false]{background:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}" +
       ".sin .evr{display:flex;align-items:center;gap:10px}.sin .evl{font:600 9px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--ui-hi,255 255 255) / .5)}" +
@@ -513,6 +517,7 @@
     var PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.2.7l10.3-6.4a.8.8 0 0 0 0-1.4L9.2 4.9A.8.8 0 0 0 8 5.6z" fill="currentColor" stroke="none"/></svg>';
     var BIN = '<svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/></svg>';
     var ON = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    var RESET = '<svg viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4 4.5v4h4"/></svg>';   // restore: back to how it came
     var OFFI = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/></svg>';   // off: an empty ring, never a check (26 Oct)
     /* a Pad sound's button: tap puts it on the stage, drag carries it there (PADO.drag hands the pointer to the pad) */
     function padBtn(x) { var n = padCall("count", x.id) || 0, c = padCall("color", x.id) || "#fff", on = (PADO && PADO.surface) || "the stage";
@@ -572,7 +577,7 @@
       var last = null;
       vis.forEach(function (p) {
         if (sort === "kind" && p.kind !== last) { at.appendChild(el("p", "lbk", esc(p.kind))); last = p.kind; }
-        var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name; });
+        var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name || (p.pack && g.name === p.pack); });
         var by = p.by || (p.lib && O.libBy) || "";
         var r = el("div", "lb", '<span class="cv">' + (p.cover ? '<img alt="" src="' + esc(p.cover) + '">' : packIcon(p.type || O.packType || "sound")) + "</span>" +
           '<span class="t"><b>' + esc(p.name) + (p.tag ? '<span class="tag">' + esc(p.tag) + "</span>" : "") + "</b>" + (by ? '<small class="by">by ' + esc(by) + "</small>" : "") + (p.note ? "<small>" + esc(p.note) + "</small>" : "") + "</span>" +
@@ -581,13 +586,13 @@
         at.appendChild(r);
       });
     }
-    function take(p, btn) {
+    function take(p, btn, restoreAs) {
       var L = window.SurfaceVoiceLib;
       if (p.lib && L) { var k = p.lib; pending = { pack: p.name, name: k === "drums" ? "the studio’s drums" : "the studio’s glass and textures", recipes: JSON.parse(JSON.stringify(L[k])), live: 0, role: k === "drums" ? "beat" : "touch", groove: k === "drums" }; render(); box.scrollIntoView && box.scrollIntoView({ block: "start", behavior: "smooth" }); return; }
       if (typeof p.open === "function") { p.open(); return; }
       if (p.url) { if (btn) { btn.disabled = true; btn.textContent = "…"; }
         fetch(p.url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
-          .then(function (b) { importFile(new File([b], (p.file || p.id || "pack") + ".zip", { type: "application/zip" })); })
+          .then(function (b) { importFile(new File([b], (p.file || p.id || "pack") + ".zip", { type: "application/zip" }), restoreAs); })
           .catch(function () { if (btn) { btn.disabled = false; btn.textContent = p.label || "Add"; } try { O.say && O.say(p.name + " could not be fetched: are you offline?"); } catch (e) {} }); }
     }
     /* the looks a pack brings, by material (SurfaceMaterial): named on the card, added with the sounds */
@@ -642,13 +647,16 @@
       if ((list.length || NOW.length) && !pending) h += '<p class="sh">Playing now</p>';
       NOW.forEach(function (t, i) { h += '<div class="pk tool' + (t.on ? "" : " off") + '"><span class="pn">' + esc(t.name) + '</span><small>' + esc(t.state || (t.on ? "on" : "off")) + "</small>" +
         (t.open ? '<button type="button" class="pko" data-t="' + i + '">' + esc(t.label || "Open") + "</button>" : "") + "</div>"; });
+      if (undo && !pending) h += '<div class="und" role="status"><span>' + esc(undo.label) + " removed from your sounds" + (undo.lib ? "; it stays in the library" : "") + '.</span><button type="button" class="b ud">Put it back</button></div>';
       var GR = pending ? [] : packs();
       GR.forEach(function (g, gi) { var n = g.sounds.filter(function (x) { return x.on; }).length;
         h += '<div class="pk' + (n ? "" : " off") + '" data-g="' + gi + '"><span class="pn">' + esc(g.name) + '</span><small>' + g.sounds.length + " sound" + (g.sounds.length > 1 ? "s" : "") + (n ? " · " + n + " playing" : "") + "</small>" +
+          (libItems().some(function (q) { return (q.name === g.name || q.pack === g.name) && (q.lib || q.url); }) ? '<button type="button" class="pkr" aria-label="Restore ' + esc(g.name) + ' as it came: its own parts, timing and levels" title="Restore: as the pack came">' + RESET + "</button>" : "") +
+          (g.name !== "Your own sounds" ? '<button type="button" class="pkx" aria-label="Remove ' + esc(g.name) + ' from your sounds (it stays in the library)" title="Remove the pack from your sounds">' + BIN + "</button>" : "") +
           "</div>";
         g.sounds.forEach(function (x) { h += row(x); }); });
       function row(x) { var h = "";
-        h += '<div class="snd' + (x.on ? " now" : "") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + "</span>" + (x.on ? '<i class="nw" role="img" aria-label="Playing now: ' + esc(x.play.map(function (r) { return (MY_ROLES.filter(function (m) { return m[0] === r; })[0] || [r, r])[1]; }).join(", ")) + '"></i>' : "") + '<button type="button" class="pv" aria-label="Listen to ' + esc(x.name) + ' (only you hear it; nothing changes)" title="Listen">' + PLAY + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + tog(x) +
+        h += '<div class="snd' + (x.on ? " now" : "") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + "</span>" + (x.on ? '<i class="nw" role="img" aria-label="Playing now: ' + esc(x.play.map(function (r) { return (MY_ROLES.filter(function (m) { return m[0] === r; })[0] || [r, r])[1]; }).join(", ")) + '"></i>' : "") + '<button type="button" class="pv" aria-label="Listen to ' + esc(x.name) + ' (only you hear it; nothing changes)" title="Listen">' + PLAY + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + ' from your sounds (a pack sound stays in the library; you can put it back)" title="Remove from your sounds">' + BIN + "</button></div>" + tog(x) +
           (x.roles.indexOf("beat") >= 0 || x.roles.indexOf("pattern") >= 0 ? '<div class="evr"><span class="evl" aria-hidden="true">How often</span><button type="button" class="ev" aria-label="How often ' + esc(x.name) + ' strikes: ' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + '. Tap for the next" title="How often: tap for the next">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button></div>" : "") +
           (x.roles.indexOf("pad") >= 0 && PADO ? padBtn(x) : "") + "</div>";
         return h; }
@@ -664,21 +672,34 @@
       var sv = q(".sv"); if (sv) sv.onclick = saveSet;
       var pd = q(".pd"); if (pd) pd.onclick = function () { pending = null; render(); };
       box.querySelectorAll(".pp").forEach(function (b) { b.onclick = function () { if (padCall("preset", b.dataset.p)) { render(); try { O.say && O.say(b.dataset.p + ": " + b.title); } catch (e) {} } }; });
-      var pa = q(".pa"); if (pa) pa.onclick = function () {
-        var st = pending.set, gr = null, smp = pending.samples;
-        if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
-        var before = {}; list.forEach(function (y) { before[y.id] = 1; });
-        var nl = addLooks(pending);
-        var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr), pending.pack || pending.name);
-        if (PADO) list.filter(function (y) { return !before[y.id] && y.role === "pad" && y.on; }).forEach(function (y, k, a) { padCall("add", y.id, a.length > 1 ? 0.2 + 0.6 * k / (a.length - 1) : 0.5, 0.5); });
-        if (st) { var lean = JSON.parse(JSON.stringify(st)); delete lean.recipes; kept = lean; try { localStorage.setItem(LS + ".set", JSON.stringify(lean)); } catch (e) {} }
-        pending = null; render();
-        var said = (n ? n + " sound" + (n > 1 ? "s" : "") + " added" : nl ? "" : "already here") + (nl ? (n ? " · " : "") + nl + " look" + (nl > 1 ? "s" : "") + " added" : "");
-        keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
+      var pa = q(".pa"); if (pa) pa.onclick = function () { addPending(false); };
+      var ud = q(".ud"); if (ud) ud.onclick = undoDrop;
+      box.querySelectorAll(".pk[data-g] .pkr").forEach(function (b) { b.onclick = function () { var g = GR[+b.parentNode.dataset.g]; if (g) restorePack(g.name); }; });
+      box.querySelectorAll(".pk[data-g] .pkx").forEach(function (b) { b.onclick = function () { var g = GR[+b.parentNode.dataset.g]; if (g) dropSounds(g.sounds.slice(), g.name); }; });
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
       box.querySelectorAll(".pko").forEach(function (b) { b.onclick = function () { var t = NOW[+b.dataset.t]; try { t && t.open(); } catch (e) {} }; });
       box.querySelectorAll(".snd").forEach(function (row) {
         var x = list.filter(function (y) { return y.id === row.dataset.id; })[0]; if (!x) return;
+        wireRow(row, x); });
+    }
+    /* ADD WHAT IS PENDING (the Add button), or, restoring, put a pack back as its author made it: its sounds go and come
+       back with the pack's own parts, timing and levels (Dimitry, 28 Oct 09:08: "is there a way to make the preset fit
+       what was already there as a default?") */
+    function addPending(restore) {
+        var st = pending.set, gr = null, smp = pending.samples, pending0 = pending.pack || pending.name;
+        if (pending.groove && pending.role === "beat") { gr = {}; Object.keys(GROOVE).forEach(function (k) { gr[k] = Object.assign({ role: "beat" }, GROOVE[k]); }); }
+        var before = {}; list.forEach(function (y) { before[y.id] = 1; });
+        var addName = pending.pack || pending.name;   /* that pack added again: its Put it back would double it (review abd441e r-2); another removal keeps its own (9e0da05 r-1) */
+        if (undo && undo.items.some(function (a) { var k = packOf(a[1]); return k === addName || k === restore; })) { clearTimeout(undoT); undo = null; }
+        var nl = restore ? 0 : addLooks(pending);
+        if (restore) { var nmR = pending.pack || pending.name; list = list.filter(function (y) { return packOf(y) !== nmR && packOf(y) !== restore; }); }
+        var n = add(pending.recipes, pending.role, pending.asSet === false ? null : (pending.roles || st && st.roles || gr), pending.pack || pending.name);
+        if (PADO) list.filter(function (y) { return !before[y.id] && y.role === "pad" && y.on; }).forEach(function (y, k, a) { padCall("add", y.id, a.length > 1 ? 0.2 + 0.6 * k / (a.length - 1) : 0.5, 0.5); });
+        if (st) { var lean = JSON.parse(JSON.stringify(st)); delete lean.recipes; kept = lean; try { localStorage.setItem(LS + ".set", JSON.stringify(lean)); } catch (e) {} }
+        pending = null; render(); try { gcSamples(); } catch (e) {}
+        var said = restore ? (pending0 || "the pack") + " is back as it came: " + n + " sound" + (n === 1 ? "" : "s") : (n ? n + " sound" + (n > 1 ? "s" : "") + " added" : nl ? "" : "already here") + (nl ? (n ? " · " : "") + nl + " look" + (nl > 1 ? "s" : "") + " added" : "");
+        keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
+    function wireRow(row, x) {
         row.querySelectorAll(".seg button").forEach(function (b) { b.onclick = function () { var r = b.dataset.r, i = x.roles.indexOf(r);
           /* O.edit {ok(), say}: changing where a pack's sounds can play is the tool's to allow (Current: Pro, 28 Oct 08:32 "customizing sound packs is def a pro feature") */
           if (O.edit && typeof O.edit.ok === "function") { var can = true; try { can = !!O.edit.ok(); } catch (e) {} if (!can) { try { O.edit.say ? O.edit.say(x, r) : O.say && O.say("Changing a pack is Pro"); } catch (e) {} return; } }
@@ -691,10 +712,30 @@
           if (r === "pad" && i < 0 && PADO && !padCall("count", x.id)) { x.play.push("pad"); save(); padCall("add", x.id, 0.5, 0.5); }   // chosen for the stage: it stands there at once
           render(); }; });
         var ps = row.querySelector(".ps"); if (ps) padWire(ps, x);
-        row.querySelector(".rm").onclick = function () { list = list.filter(function (y) { return y !== x; }); resetBed(); save(); render(); gcSamples(); };
+        row.querySelector(".rm").onclick = function () { dropSounds([x], x.name); };
         row.querySelector(".pv").onclick = function () { strike(x, undefined, null, oneShot(x) || 0.6); };
         var ev = row.querySelector(".ev"); if (ev) ev.onclick = function () { var i = EVERY.findIndex(function (e) { return e[0] === x.every; }); x.every = EVERY[(i + 1) % EVERY.length][0]; next[x.id + ":beat"] = next[x.id + ":pattern"] = null; save(); render(); };
-      });
+    }
+    /* REMOVE, AND PUT BACK (Dimitry, 28 Oct 09:08: "when I see the delete trashcan it sounds like ... the sound is gone
+       forever. Which is very scary"): removing takes a sound out of your sounds, not out of the library; for half a minute
+       the sheet offers to put it back, and its recordings are let go only after that */
+    var undo = null, undoT = 0;
+    function dropSounds(xs, label) {
+      var at = xs.map(function (x) { return [list.indexOf(x), x]; }).filter(function (a) { return a[0] >= 0; });
+      list = list.filter(function (y) { return xs.indexOf(y) < 0; });
+      var lib = xs.some(function (x) { return packOf(x) !== "Your own sounds"; });
+      if (undo) { clearTimeout(undoT); undo = { items: undo.items.concat(at), label: undo.label + ", " + label, lib: undo.lib || lib }; }   // a second removal joins the first: both can be put back
+      else undo = { items: at, label: label, lib: lib };
+      undoT = setTimeout(function () { undo = null; gcSamples(); try { var u = box && box.querySelector(".und"); if (u) { if (u.contains(document.activeElement)) { var nx = box.querySelector(".pk button, .snd button"); if (nx) nx.focus(); } u.remove(); } } catch (e) {} }, 30000);   /* only the bar goes: the rows stay put and focus stays (r-3) */
+      resetBed(); save(); render();
+    }
+    function undoDrop() { if (!undo) return; clearTimeout(undoT); undo.items.sort(function (a, b) { return a[0] - b[0]; }).forEach(function (a) { list.splice(Math.min(a[0], list.length), 0, a[1]); }); undo = null; resetBed(); save(); render(); }
+    /* put a library pack back as its author made it: fetch it again and add it over its own sounds */
+    function restorePack(name) {
+      var p = libItems().filter(function (q) { return (q.name === name || q.pack === name) && (q.lib || q.url); })[0];   /* p.pack: the name its sounds carry, when the library calls it otherwise */
+      if (!p) { try { O.say && O.say(name + " is not in the library, so there is nothing to restore it from"); } catch (e) {} return; }
+      take(p, null, name);   /* the restore rides with its own fetch, so a failed one leaves nothing behind (review abd441e r-1) */
+      if (p.lib && pending && !pending.error) addPending(name);
     }
     /* hosted, open() shows the tool's panel first (O.show), and close() asks the tool to close it (O.hide) */
     function open() { if (O.host && O.show && !open.busy) { open.busy = true; try { O.show(); } finally { open.busy = false; } }
@@ -708,7 +749,7 @@
       (recipes || []).forEach(function (r) { if (!isRecipe(r)) { ids.push(null); return; } var js = JSON.stringify(r);
         var x = list.filter(function (y) { return y.name === r.name && JSON.stringify(y.recipe) === js; })[0];
         if (x) { if (role && hasRole(role) && !plays(x, role)) { if (x.roles.indexOf(role) < 0) x.roles.push(role); x.play.push(role); dirty = true; } }
-        else { x = norm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: JSON.parse(js), role: role || "touch", every: "beat", on: true, level: 1 }); list.push(x); dirty = true; }
+        else { x = soundNorm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: JSON.parse(js), role: role || "touch", every: "beat", on: true, level: 1 }); list.push(x); dirty = true; }
         ids.push(x.id); });
       if (dirty) { resetBed(); save(); render(); }
       return ids;
@@ -721,10 +762,10 @@
       else if ("on" in p) { var r = p.as;
         if (r && hasRole(r)) { if (p.on) { if (x.roles.indexOf(r) < 0) x.roles.push(r); if (!plays(x, r)) x.play.push(r); } else x.play = x.play.filter(function (y) { return y !== r; }); }
         else x.play = p.on ? (x.play.length ? x.play : [x.roles[0]]) : []; }
-      norm(x); resetBed(); save(); render(); return true; }
+      soundNorm(x); resetBed(); save(); render(); return true; }
     /* THE LIBRARY FROM OUTSIDE (Dimitry, 26 Oct 22:43: switching water and glass from the shelf): a tool can list what the
        library offers ({id, name, kind, here, role}) and take one, which opens the panel on that pack's add screen */
-    function libPub() { return libItems().map(function (p) { var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name; });
+    function libPub() { return libItems().map(function (p) { var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name || (p.pack && g.name === p.pack); });
       return { id: p.id, name: p.name, kind: p.kind, here: !!here, role: p.lib === "drums" ? "beat" : p.lib === "sounds" ? "touch" : (p.role || null) }; }); }
     function libTake(id) { var p = libItems().filter(function (q) { return q.id === id; })[0]; if (!p) return false; open(); take(p, null); try { render(); } catch (e) {} return true; }
     /* remove(id): a tool takes a sound out of the list (26 Oct 23:04: sounds added from a library the public build no
