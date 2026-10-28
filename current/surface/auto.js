@@ -89,14 +89,15 @@
     ".sa-ed{border-left:1px solid var(--sa-acc);margin:2px 0 10px 4px;padding:6px 0 6px 10px;display:grid;gap:6px}",
     ".sa-ed[hidden]{display:none}",
     ".sa-fam{display:flex;flex-wrap:wrap;align-items:center;gap:2px}",
+    ".sa-fam:has(>.sa-ic){gap:6px}",
     ".sa-fam>i{font:500 9px/1 var(--sa-mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--sa-quiet,currentColor);opacity:.7;font-style:normal;width:46px;flex:none}",
     ".sa-fam button{font:12px var(--sa-mono,ui-monospace,monospace);padding:4px 7px;min-height:26px;background:transparent;border:0;border-radius:0;color:var(--sa-quiet,currentColor);cursor:pointer}",
     ".sa-fam button[aria-pressed=true]{color:var(--sa-acc)}",
     ".sa-fam button:hover{color:inherit}",
     /* a source with a picture: the icon over its word (28 Oct) */
-    ".sa-fam button.sa-ic{display:inline-grid;justify-items:center;align-content:center;gap:3px;min-width:44px;min-height:46px;padding:5px 4px;border-radius:10px}",
+    ".sa-fam button.sa-ic{display:inline-grid;justify-items:center;align-content:center;gap:5px;min-width:56px;min-height:52px;padding:7px 8px;border-radius:10px}",   /* room for the word (Dimitry, 28 Oct 07:18: tight labels) */
     ".sa-fam button.sa-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}",
-    ".sa-fam button.sa-ic span{font:600 9px/1 var(--sa-mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}",
+    ".sa-fam button.sa-ic span{font:600 9px/1.2 var(--sa-mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase}",
     ".sa-fam button.sa-ic[aria-pressed=true]{background:color-mix(in srgb,var(--sa-acc) 16%,transparent);box-shadow:inset 0 0 0 1px var(--sa-acc)}",
     ".sa-rm{justify-self:start;font:12px var(--sa-mono,ui-monospace,monospace);padding:4px 0;border:0;background:none;color:var(--sa-quiet,currentColor);cursor:pointer;text-decoration:underline;text-underline-offset:3px}",
     "@media (pointer:coarse){.sa-btn{width:40px;height:40px}.sa-fam button{min-height:36px;padding:6px 9px}}"
