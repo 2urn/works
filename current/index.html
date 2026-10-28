@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261028225901";window.__VERSION__="0.35.0";window.__NOTES__=[{"v":"0.35.0","date":"28 Oct 2026","items":[{"kind":"new","text":"palettes. The Color panel opens on the palette: one strip of its colors in order (Ink 1, Ink 2, mix, Touch, Ground, Arrows, Pattern); tap one to edit it below. Its name opens the palettes, eight from the studio and your own: a tap wears one"},{"kind":"new","text":"Follows: a color can be tied to another, the complement of Ink 1, a deep or pale version, lighter, darker, warmer, cooler; change that one and the tied ones move with it. One color, related is a palette made this way"},{"kind":"new","text":"Save palette keeps the colors and their ties; a scene saved with a palette points at it, so changing the palette changes every scene that uses it"}]}]</script>
+<script>window.__BUILD__="20261028231809";window.__VERSION__="0.35.1";window.__NOTES__=[{"v":"0.35.1","date":"28 Oct 2026","items":[{"kind":"change","text":"while the Color panel is open, the robot keeps changing scenes but leaves your colors, their mix and animation alone (it was bringing each scene's own mix); the strip says so"},{"kind":"change","text":"Ink mix sits under Ink 2, where its colors are, and its chip sits between Ink 1 and Ink 2 in the strip; its own tab is gone"},{"kind":"change","text":"an empty Ink 2 is a circle with an ×"},{"kind":"new","text":"palette tools: shuffle the colors among the slots, adjust hue, saturation and lightness of the whole palette, duplicate, delete"},{"kind":"fix","text":"the lit ring around a chosen swatch is no longer cut at the edge"},{"kind":"change","text":"the tempo goes down to 20 a minute (was 40); a pause of over three seconds between taps starts a new run"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261028225901"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261028225901">
+<script src="claude-web.js?v=20261028231809"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261028231809">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261028225901"></script>
-<script src="surface/nozoom.js?v=20261028225901"></script><script src="surface/steady.js?v=20261028225901"></script><script src="surface/selftest.js?v=20261028225901"></script><script src="surface/size.js?v=20261028225901"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261028225901"></script>
-<script src="surface/auto.js?v=20261028225901"></script>
-<script src="surface/toolpath.js?v=20261028225901"></script>
-<script src="surface/capture.js?v=20261028225901"></script>
-<script src="surface/pop.js?v=20261028225901"></script>
-<script src="surface/hints.js?v=20261028225901"></script>
-<script src="surface/paths.js?v=20261028225901"></script>
-<script src="surface/keys.js?v=20261028225901"></script>
-<script src="surface/reset.js?v=20261028225901"></script>
-<script src="surface/files.js?v=20261028225901"></script>
-<script src="surface/tabs.js?v=20261028225901"></script>
-<script src="surface/running.js?v=20261028225901"></script>
-<script src="surface/trim.js?v=20261028225901"></script>
-<script src="surface/audiowake.js?v=20261028225901"></script>
-<script src="surface/output.js?v=20261028225901"></script>
-<script src="surface/board.js?v=20261028225901"></script>
-<script src="surface/voice.js?v=20261028225901"></script>
-<script src="surface/voicelib.js?v=20261028225901"></script>
-<script src="surface/instruments.js?v=20261028225901"></script>
-<script src="surface/listview.js?v=20261028225901"></script>
-<script src="surface/beads.js?v=20261028225901"></script>
-<script src="surface/strip.js?v=20261028225901"></script>
-<script src="surface/sheetnav.js?v=20261028225901"></script>
-<script src="surface/twofinger.js?v=20261028225901"></script>
-<script src="surface/ring.js?v=20261028225901"></script>
-<script src="surface/shortlink.js?v=20261028225901"></script>
-<script src="surface/undo.js?v=20261028225901"></script>
-<script src="surface/pro.js?v=20261028225901"></script>
-<script src="surface/fresh.js?v=20261028225901"></script>
-<script src="surface/go.js?v=20261028225901"></script>
-<script src="surface/notice.js?v=20261028225901"></script>
-<script src="surface/perform.js?v=20261028225901"></script>
-<script src="surface/words.js?v=20261028225901"></script>
+<script src="vendor/opentype.min.js?v=20261028231809"></script>
+<script src="surface/nozoom.js?v=20261028231809"></script><script src="surface/steady.js?v=20261028231809"></script><script src="surface/selftest.js?v=20261028231809"></script><script src="surface/size.js?v=20261028231809"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261028231809"></script>
+<script src="surface/auto.js?v=20261028231809"></script>
+<script src="surface/toolpath.js?v=20261028231809"></script>
+<script src="surface/capture.js?v=20261028231809"></script>
+<script src="surface/pop.js?v=20261028231809"></script>
+<script src="surface/hints.js?v=20261028231809"></script>
+<script src="surface/paths.js?v=20261028231809"></script>
+<script src="surface/keys.js?v=20261028231809"></script>
+<script src="surface/reset.js?v=20261028231809"></script>
+<script src="surface/files.js?v=20261028231809"></script>
+<script src="surface/tabs.js?v=20261028231809"></script>
+<script src="surface/running.js?v=20261028231809"></script>
+<script src="surface/trim.js?v=20261028231809"></script>
+<script src="surface/audiowake.js?v=20261028231809"></script>
+<script src="surface/output.js?v=20261028231809"></script>
+<script src="surface/board.js?v=20261028231809"></script>
+<script src="surface/voice.js?v=20261028231809"></script>
+<script src="surface/voicelib.js?v=20261028231809"></script>
+<script src="surface/instruments.js?v=20261028231809"></script>
+<script src="surface/listview.js?v=20261028231809"></script>
+<script src="surface/beads.js?v=20261028231809"></script>
+<script src="surface/strip.js?v=20261028231809"></script>
+<script src="surface/sheetnav.js?v=20261028231809"></script>
+<script src="surface/twofinger.js?v=20261028231809"></script>
+<script src="surface/ring.js?v=20261028231809"></script>
+<script src="surface/shortlink.js?v=20261028231809"></script>
+<script src="surface/undo.js?v=20261028231809"></script>
+<script src="surface/pro.js?v=20261028231809"></script>
+<script src="surface/fresh.js?v=20261028231809"></script>
+<script src="surface/go.js?v=20261028231809"></script>
+<script src="surface/notice.js?v=20261028231809"></script>
+<script src="surface/perform.js?v=20261028231809"></script>
+<script src="surface/words.js?v=20261028231809"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261028225901"></script>
-<script src="surface/rail.js?v=20261028225901"></script>
-<script src="surface/touchsound.js?v=20261028225901"></script>
-<script src="surface/water.js?v=20261028225901"></script>
-<script src="surface/ripple.js?v=20261028225901"></script>
-<script src="surface/material.js?v=20261028225901"></script>
-<script src="surface/float.js?v=20261028225901"></script>
-<script src="surface/manual.js?v=20261028225901"></script>
+<script src="surface/pack.js?v=20261028231809"></script>
+<script src="surface/rail.js?v=20261028231809"></script>
+<script src="surface/touchsound.js?v=20261028231809"></script>
+<script src="surface/water.js?v=20261028231809"></script>
+<script src="surface/ripple.js?v=20261028231809"></script>
+<script src="surface/material.js?v=20261028231809"></script>
+<script src="surface/float.js?v=20261028231809"></script>
+<script src="surface/manual.js?v=20261028231809"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1781,9 +1781,9 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 /* the mixer at bar width (23 Oct): picker left, swatch rows right, animation in one row, Blend as a Pro preview */
 .cmGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 28px}.cmGrid>.cmAnim,.cmGrid>.cmBlend{grid-column:1/-1}
 @container (min-width:560px){.cmGrid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}#colorPop .cmPane{columns:auto!important}.cmSide .cmRow:first-child .cmL{margin-top:2px}}
-.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel .cmSeg{flex-basis:100%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
+.cmBig.cmNone{position:relative;box-shadow:inset 0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .35)}.cmBig.cmNone::before,.cmBig.cmNone::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cmBig.cmNone::after{transform:rotate(-45deg)}.cpS>i.none{position:relative;background:none}.cpS>i.none::before,.cpS>i.none::after{content:'';position:absolute;left:30%;right:30%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cpS>i.none::after{transform:rotate(-45deg)}.cmMixIn{padding:4px 16px 12px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08)}.cpTools{display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 8px}.cpTools .tb{min-height:30px}.cpTools .tb[data-a=del]{min-width:9.5em}.cpTools .tb[aria-expanded=true]{color:var(--acc-tx,var(--acc,#55b8c9))}.cpAdj{margin:0 0 10px}.cpAdj input{touch-action:none}.cpHeld{margin:0 0 8px;font:400 12px/1.35 var(--sans);color:var(--ui-dim)}.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel{flex-wrap:nowrap}.cmRel select{max-width:42%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
 .cmPick input[type=color]{width:34px;height:30px;padding:0;border:0;background:none;cursor:pointer}
-.cmRow[hidden]{display:none}.cmRow.across .cmSw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px 2px;margin:-4px -2px}.cmRow.across .cmSw::-webkit-scrollbar{display:none}.cmRow.across .cmSw button{flex:none}
+.cmRow[hidden]{display:none}.cmRow.across .cmSw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px}.cmRow.across .cmSw::-webkit-scrollbar{display:none}.cmRow.across .cmSw button{flex:none}
 .cmAnim{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--ui-line);min-width:0}.cmAnim>.cmL{margin:0;flex:none}.cmAnim .cmSeg{flex-wrap:nowrap;flex:none}.cmAnim .cmSp{flex:1;min-width:90px;margin:0}
 @container (max-width:420px){.cmAnim>.cmL{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.cmAnim .cmSeg button{padding:0 8px}.cmAnim .cmSp>span{display:none}}
 .cmBlend{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:12px;padding:10px 12px;border-radius:12px;border:1.5px solid transparent}
@@ -3042,7 +3042,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 <div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
   <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><span class="cmStkT">Sticker frame</span><button class="sfInfoBtn spop-right" id="cmInfoBtn" type="button" aria-expanded="false" aria-controls="cmInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
   <div id="cmPal" class="cmPal" role="region" aria-label="The palette"></div>
-  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmSticker" class="sfPane cmPane" role="region" aria-label="Sticker frame color" hidden></div>
+  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="cmPane cmMixIn" role="region" aria-label="Ink mix: how the two inks share the particles" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmSticker" class="sfPane cmPane" role="region" aria-label="Sticker frame color" hidden></div>
   <div class="sfInfo" id="cmInfo" role="region" aria-labelledby="cmInfoH" hidden><p class="sfInfoH" id="cmInfoH">How it works</p><div class="sfInfoTx"></div></div>
   <div hidden>
     <div class="sfInfoSrc" id="info-cmLine"><p><b>The palette</b> is the strip at the top: Ink 1, Ink 2, mix, Touch, Ground, Arrows, Pattern, in order. Tap a swatch to edit it below. Its name opens the palettes, the studio's and yours: a tap wears one. <b>Follows</b> ties a color to another (the complement of Ink 1, a deep version of it...): change that one and this one moves with it. <b>Save palette</b> keeps these colors and ties; save the scene and it points at the palette, so every scene that uses it changes with it.</p><p><b>Ink 1</b> is the color the particles draw with, as lines or as dots. A material (water's tint, glint, caustics) can borrow it.</p><p>The circle shows it; the code is its hex; tap the circle for your device's own color wheel. Lightness, chroma (how vivid) and hue set it by hand. The <b>on / off</b> switch shows or hides what the particles draw; the field keeps moving.</p><p>Swatches are ready colors; Related are its opposite, complement, lighter, darker, warmer and cooler; Recent and My colors are yours.</p></div>
@@ -4368,7 +4368,7 @@ try{const q=JSON.parse(localStorage.getItem('toolpath-quant'));if(QUANT_STEPS.so
 /* TAP TEMPO (Dimitry, 19 Oct): tap in time and everything timed follows: the built-in beats play at your tempo and
    line up with your taps (the first tap of a run is beat one), new scenes land on your grid, the word sequence's "bar"
    counts your beats, and with no beat playing the field gets a pulse on each of your beats. Two taps set a tempo, more
-   refine it (the last eight count); a pause of two seconds starts a new run. Hold the tap button (or shift+b) to let go:
+   refine it (the last eight count); a pause of over three seconds starts a new run. Hold the tap button (or shift+b) to let go:
    the beats return to their own tempo. Free: an outside clock (MIDI clock, OSC) is for Pro. */
 const TAP={bpm:null,taps:[],s0:0,n:0,lastK:-1,timer:0};
 const tapNow=()=>performance.now()/1000;
@@ -4376,9 +4376,9 @@ const tapNow=()=>performance.now()/1000;
 function tapBeatNow(){if(TAP.bpm)return{bpm:TAP.bpm,at:TAP.s0*1000,src:'tap'};
   try{if(AUD.ctx&&AUD.play.beat&&AUD.loopOn&&AUD.dur&&AUD.ctx.state==='running'&&!AUD.userOff)return{bpm:60/(AUD.dur*4),at:performance.now()-(AUD.ctx.currentTime-AUD.t0)*1000,src:'beat'}}catch(_){}return null}
 function tapTempo(at){const t=at&&tapNow()-at<.6?at:tapNow(),L=TAP.taps;TAP.down=0;
-  if(L.length&&t-L[L.length-1]>2){L.length=0;TAP.n=0}
+  if(L.length&&t-L[L.length-1]>3.2){L.length=0;TAP.n=0}   /* a pause of over 3.2 s starts a new run, so tempos down to 20 a minute can be tapped (Dimitry, 28 Oct 19:07: why never below 40?) */
   if(!L.length)TAP.s0=t;L.push(t);TAP.n++;if(L.length>8)L.shift();
-  if(L.length>=2){let sum=0;for(let i=1;i<L.length;i++)sum+=L[i]-L[i-1];const bpm=Math.max(40,Math.min(220,60/(sum/(L.length-1))));
+  if(L.length>=2){let sum=0;for(let i=1;i<L.length;i++)sum+=L[i]-L[i-1];const bpm=Math.max(20,Math.min(220,60/(sum/(L.length-1))));
     TAP.bpm=Math.round(bpm*10)/10;
     // the grid: beat one is the first tap of the run, spaced at the tempo, pinned to the latest tap
     const bl=60/TAP.bpm;TAP.s0=t-(TAP.n-1)*bl;TAP.lastK=Math.floor((tapNow()-TAP.s0)/bl);
@@ -4556,7 +4556,16 @@ function wxEnd(k0){const held=RIP_HOLD;RIP_HOLD=false;if(!held){return}
   if(k1===k0&&!busy){rippleSync();return}
   const r=want||RIP?ripple():null;if(!r||!r.ok||!r.handover||(!want&&!r.enabled())){rippleSync();return}
   r.handover({swap:()=>{RIP_HOLD=false;rippleSync()},ready:sceneSettled})}
-function applyLookNow(p,idx,instant,part){const k=wxBegin();try{applyLookNow0(p,idx,instant,part)}finally{wxEnd(k)}}
+/* THE ROBOT LEAVES THE COLORS WHILE YOU MIX THEM (Dimitry, 28 Oct 18:59: "selecting beat switches ... to motion from in
+   time"; it was the robot bringing the next scene's own mix, 19:0x): with the Color panel open, a scene the robot brings
+   changes everything but the palette, the mix and the color animation */
+function applyLookNow(p,idx,instant,part){const k=wxBegin();
+  let hold=null;try{if(typeof autoT!=='undefined'&&autoT&&part!==undefined&&!$('colorPop').hidden)hold={c:palNow(),lineOff:S.lineOff,lineAlpha:S.lineAlpha,alt:S.alt,altTime:S.altTime,altBy:S.altBy,canim:JSON.parse(JSON.stringify(S.canim||{})),pal:JSON.parse(JSON.stringify(S.pal||{name:null,rel:{}})),blend:S.blend}}catch(_){hold=null}
+  try{applyLookNow0(p,idx,instant,part)}finally{wxEnd(k)}
+  if(hold){PAL_BUSY=true;try{for(const [s] of PAL_SLOTS)palSet(s,hold.c[s]);if(CM&&CM.la){const la=hold.lineOff?0:hold.lineAlpha;CM.la[0]=la;CM.la[1]=la;CM.la[2]=hold.lineOff;CM.la[3]=hold.lineAlpha}   /* a morph running lands on the held Ink 1 too (review a2f5773 r-1) */
+    Object.assign(S,{lineOff:hold.lineOff,lineAlpha:hold.lineAlpha,alt:hold.alt,altTime:hold.altTime,altBy:hold.altBy,canim:hold.canim,pal:hold.pal,blend:hold.blend});syncLine()}finally{PAL_BUSY=false}
+    PAL_HELD=(p&&p.name)||'';palUI();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}}}
+let PAL_HELD='';
 function applyLookNow0(p,idx,instant,part){
   if(!(idx>=0)){const c=cleanLook(p);if(!c)return;const g0=p.gen;p=typeof c.gcode==='string'?{...c,gen:()=>c.gcode}:{...c,gen:typeof g0==='function'?()=>String(g0()||''):()=>''}}   // from outside: data only (cleanLook)
   if(part==='none'){presetIdx=idx;curName=p.name;sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();return}
@@ -5277,10 +5286,10 @@ function buildPlist(){plTabsMount();
     let hold=0,held=false;
     b.addEventListener('pointerdown',e=>{y0=e.clientY;v0=bpm()||120;moved=false;held=false;TAP.down=tapNow();clearTimeout(hold);hold=setTimeout(()=>{if(!moved){held=true;tapClear();sync()}},650);try{b.setPointerCapture(e.pointerId)}catch(_){}});   /* the beat is when the finger lands; a hold lets go, as the shelf's tap did */
     b.addEventListener('pointermove',e=>{if(y0==null)return;const d=Math.round((y0-e.clientY)/5);if(!moved&&Math.abs(y0-e.clientY)<8)return;moved=true;clearTimeout(hold);
-      const nv=Math.max(40,Math.min(220,v0+d));if(nv!==Math.round(TAP.bpm||0)){TAP.bpm=nv;TAP.taps=[];TAP.n=0;if(!TAP.s0)TAP.s0=tapNow();try{tapRate()}catch(_){}try{syncSndShelf()}catch(_){}sync()}});
+      const nv=Math.max(20,Math.min(220,v0+d));if(nv!==Math.round(TAP.bpm||0)){TAP.bpm=nv;TAP.taps=[];TAP.n=0;if(!TAP.s0)TAP.s0=tapNow();try{tapRate()}catch(_){}try{syncSndShelf()}catch(_){}sync()}});
     const up=()=>{clearTimeout(hold);if(y0==null)return;y0=null;if(held)return;if(moved){toast('tempo '+Math.round(TAP.bpm));try{tapAlign()}catch(_){}return}tapTempo(TAP.down);sync()};
     b.addEventListener('pointerup',up);b.addEventListener('pointercancel',()=>{y0=null;clearTimeout(hold)});
-    b.addEventListener('keydown',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();const nv=Math.max(40,Math.min(220,(bpm()||120)+(e.key==='ArrowUp'?1:-1)));TAP.bpm=nv;TAP.taps=[];TAP.n=0;if(!TAP.s0)TAP.s0=tapNow();try{tapRate()}catch(_){}try{syncSndShelf()}catch(_){}sync()}
+    b.addEventListener('keydown',e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();const nv=Math.max(20,Math.min(220,(bpm()||120)+(e.key==='ArrowUp'?1:-1)));TAP.bpm=nv;TAP.taps=[];TAP.n=0;if(!TAP.s0)TAP.s0=tapNow();try{tapRate()}catch(_){}try{syncSndShelf()}catch(_){}sync()}
       else if(e.key===' '||e.key==='Enter'){e.preventDefault();tapTempo();sync()}});
     w._sync=sync;sync();
     const iv=setInterval(()=>{if(!w.isConnected){clearInterval(iv);return}if(w.offsetParent)sync()},400);
@@ -8833,36 +8842,56 @@ const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3
   arrows:'<path d="M4 18 18 6M11 6h7v7"/>',toolpath:'<path d="M4 19V9h6v6h5V5h5"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/>'};
 /* THE MIX TAB (Dimitry, 19 Oct: how the two colors alternate got lost in the shelf): its own tab, after Second */
 const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const t={id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}};
-  return g==='second'?[t,{id:'mix',name:'Ink mix',title:'How the two inks share the particles',pane:$('cmMix'),icon:ICO(MIXI.grain),onShow:()=>{CM_ED=null;renderMixTab()}}]:[t]})),'current.cmTab',{heads:true,head:t=>'Color · '+t.name});   /* COLOR · GROUND (Dimitry, 28 Oct 14:30: "it doesn't actually say color in the top left ... first of all for it to say color and then what element is being colored"); Lines and Second became Ink 1 and Ink 2, Mix Ink mix (his pick, 28 Oct 16:42: particles draw lines or dots, and a material borrows them) */
+  return [t]})),'current.cmTab',{heads:true,head:t=>'Color · '+t.name});   /* COLOR · GROUND (Dimitry, 28 Oct 14:30: "it doesn't actually say color in the top left ... first of all for it to say color and then what element is being colored"); Lines and Second became Ink 1 and Ink 2, Mix Ink mix (his pick, 28 Oct 16:42: particles draw lines or dots, and a material borrows them) */
+/* INK MIX IS PART OF INK 2 (Dimitry, 28 Oct 18:59: "Mix Ink Panel should be part of Main"): it shows under Ink 2's editor whenever Ink 2 does */
+{const sec=$('cmSecond'),mx=$('cmMix');if(sec&&mx){const sync=()=>{mx.hidden=sec.hidden;if(!sec.hidden){setTimeout(()=>{sec.appendChild(mx);try{renderMixTab()}catch(_){}},0)}};try{new MutationObserver(sync).observe(sec,{attributes:true,attributeFilter:['hidden']})}catch(_){}sync()}}
 /* THE STRIP (palettes, 28 Oct): the palette's name and its slots in order, Ink 1 · Ink 2 · mix · Touch · Ground · Arrows ·
    Pattern, as swatches; a tap edits that slot below (the tabs work on, out of sight). The name opens the palettes: the
    studio's and yours, each a little strip; a tap wears it. */
-{const host=$('cmPal');let listOpen=false;const esc=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
+{const host=$('cmPal');let listOpen=false,toolsOpen=false,base=null,adj={h:0,c:100,l:0},delArm=0,adjHeld=false;
+  host.addEventListener('pointerdown',e=>{if(e.target.closest('.cpAdj'))adjHeld=true},true);addEventListener('pointerup',()=>{adjHeld=false},true);addEventListener('pointercancel',()=>{adjHeld=false},true);   /* held by a finger: iOS has no :active here (review 4a0dbfa r-1) */const esc=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
   const SW=(k)=>{const v=palNow()[k];return k==='second'&&!v?null:palHex(k,v)};
   let lastSig='';
-  window.PAL_PAINT=()=>{if(!host)return;const cur=CM_TABS.current(),P=S.pal||{},rel=P.rel||{};
+  window.PAL_PAINT=()=>{if(!host)return;   /* never rebuilt under a finger (review a2f5773 r-2) */const cur=CM_TABS.current(),P=S.pal||{},rel=P.rel||{};
     /* rebuilt only when what it shows changes; otherwise the swatches take their colors in place, so a tap never lands on a strip being rebuilt (review ade287a r-4) */
-    const sig=JSON.stringify([cur,P.name,!!P.edited,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
-    if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle('off',!col)});return}
-    lastSig=sig;
+    const sig=JSON.stringify([cur,P.name,!!P.edited,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
+    if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle(k==='second'?'none':'off',!col)});return}
+    if(adjHeld&&lastSig)return;   /* the full rebuild waits while a finger is on an Adjust slider; the swatches above still recolor in place (reviews 4a0dbfa r-1, 6fc54c2 r-1, r-2) */
+    const fk=document.activeElement&&host.contains(document.activeElement)&&document.activeElement.dataset?document.activeElement.dataset.k:null;   /* a focused Adjust slider gets its focus back after a rebuild (review 15f75a6 r-1) */
+    lastSig=sig;delArm=0;   /* a rebuilt strip is never armed to delete (r-2) */
     const nm=P.name?(P.name+(P.edited?' · edited':'')):'this scene’s own';
     let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><button type="button" class="tb cpSave" aria-label="Save these colors as a palette">save palette</button></div>';
+    h+='<div class="cpTools" role="toolbar" aria-label="Palette tools"><button type="button" class="tb cpT" data-a="shuffle" title="Shuffle the colors among the slots">shuffle</button><button type="button" class="tb cpT" data-a="adjust" aria-expanded="'+toolsOpen+'" title="Hue, saturation and lightness for the whole palette">adjust</button><button type="button" class="tb cpT" data-a="dup" title="A copy of this palette, as one of yours">duplicate</button>'+(P.name&&!(palFind(P.name)||{}).builtin?'<button type="button" class="tb cpT" data-a="del" title="Delete this palette of yours">delete</button>':'')+'</div>';
+    if(toolsOpen)h+='<div class="cpAdj">'+[['h','hue','-180','180','1'],['c','saturation','0','200','1'],['l','lightness','-40','40','1']].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" value="'+adj[k]+'" aria-label="Whole palette '+n+'"><output>'+(k==='c'?adj[k]+'%':adj[k])+'</output></label>').join('')+'</div>';
+    if(!autoT)PAL_HELD='';if(autoT)h+='<p class="cpHeld">The robot is changing scenes; while this panel is open your colors stay'+(PAL_HELD?' (now on <b>'+esc(PAL_HELD)+'</b>)':'')+'.</p>';
     h+='<div class="cpStrip" role="toolbar" aria-label="The palette\u2019s colors">';
-    const chip=(id,lab,col,tied)=>'<button type="button" class="cpS" data-t="'+id+'" aria-pressed="'+(cur===id)+'" aria-label="'+lab+(tied?', follows '+tied:'')+(col?'':', off')+'"><i style="'+(col?'background:'+col:'')+'"'+(col?'':' class="off"')+'></i><span>'+lab+'</span>'+(tied?'<em aria-hidden="true">↔</em>':'')+'</button>';
-    for(const [k,n] of PAL_SLOTS){const r=rel[k];h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-pressed="'+(cur==='mix')+'" aria-label="Ink mix: how the two inks share the particles"><i>'+ICO(MIXI.grain)+'</i><span>mix</span></button>'}
+    const chip=(id,lab,col,tied)=>'<button type="button" class="cpS" data-t="'+id+'" aria-pressed="'+(cur===id)+'" aria-label="'+lab+(tied?', follows '+tied:'')+(col?'':', off')+'"><i style="'+(col?'background:'+col:'')+'"'+(col?'':' class="'+(id==='second'?'none':'off')+'"')+'></i><span>'+lab+'</span>'+(tied?'<em aria-hidden="true">↔</em>':'')+'</button>';
+    for(const [k,n] of PAL_SLOTS){const r=rel[k];if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-label="Ink mix: how the two inks share the particles, now by '+({grain:'grain',time:'in time',motion:'motion'}[S.alt]||S.alt)+'"><i>'+ICO(MIXI[S.alt]||MIXI.grain)+'</i><span>mix</span></button>';h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
     h+='</div>';
     if(listOpen){h+='<div class="cpList" role="list">';for(const Q of palAll()){h+='<div class="cpRow" role="listitem"><button type="button" class="cpUse" data-n="'+esc(Q.name)+'" aria-pressed="'+(P.name===Q.name)+'"><span class="cpMini">'+PAL_SLOTS.map(([k])=>{const v=Q.colors[k];return '<i style="background:'+(v?palHex(k,v):'transparent')+'"></i>'}).join('')+'</span><span class="cpN">'+esc(Q.name)+(Q.builtin?'':' <small>yours</small>')+'</span></button>'+(Q.builtin?'':'<button type="button" class="cpDel" data-n="'+esc(Q.name)+'" aria-label="Delete the palette '+esc(Q.name)+'">×</button>')+'</div>'}h+='</div>'}
     host.innerHTML=h;
+    if(fk){const n=host.querySelector('.cpAdj input[data-k="'+fk+'"]');if(n)n.focus({preventScroll:true})}
     host.querySelector('.cpName').onclick=()=>{listOpen=!listOpen;PAL_PAINT()};
+    const after=()=>{for(const [k] of PAL_SLOTS)palFollow(k);palTouchedNoFree('line');clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}};
+    host.querySelectorAll('.cpT').forEach(b=>b.onclick=()=>{const a=b.dataset.a,now=palNow();
+      if(a==='shuffle'){const ks=PAL_SLOTS.map(x=>x[0]).filter(k=>now[k]),vs=ks.map(k=>palHex(k,now[k]));for(let i=vs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[vs[i],vs[j]]=[vs[j],vs[i]]}
+        PAL_BUSY=true;try{ks.forEach((k,i)=>palSet(k,vs[i]))}finally{PAL_BUSY=false}after();base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};lastSig='';toast('palette shuffled')}   /* Adjust starts again from the shuffled colors (r-3) */
+      else if(a==='adjust'){toolsOpen=!toolsOpen;base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};PAL_PAINT();return}
+      else if(a==='dup'){const nm=(P.name||'This scene')+' copy';palSave(nm);return}
+      else if(a==='del'){if(performance.now()-delArm>2500){delArm=performance.now();b.textContent='tap again to delete';setTimeout(()=>{if(b.isConnected)b.textContent='delete'},2500);return}delArm=0;const L=palMine(),i=L.findIndex(x=>x.name===P.name);if(i>=0){L.splice(i,1);try{persist()}catch(_){}toast('palette deleted · '+P.name);S.pal.name=null}}
+      PAL_PAINT()});
+    host.querySelectorAll('.cpAdj input').forEach(r=>r.oninput=()=>{if(!base)base=palNow();adj[r.dataset.k]=+r.value;const v=adj;
+      host.querySelectorAll('.cpAdj output').forEach((o,i)=>{const x=host.querySelectorAll('.cpAdj input')[i];o.textContent=x.dataset.k==='c'?x.value+'%':x.value});
+      PAL_BUSY=true;try{for(const [k] of PAL_SLOTS){const c=base[k];if(!c)continue;const hx=palHex(k,c);if(!hx||!/^#/.test(hx))continue;const [L,C,H]=OKC.lch(hx);palSet(k,OKC.hex([Math.max(0,Math.min(1,L+v.l/100)),Math.max(0,Math.min(.37,C*v.c/100)),H+v.h]))}}finally{PAL_BUSY=false}after()});
     host.querySelector('.cpSave').onclick=()=>{const own=P.name&&!(palFind(P.name)||{}).builtin?P.name:'';palSave(own||(curName?curName+' palette':''));};
-    host.querySelectorAll('.cpS').forEach(b=>b.onclick=()=>{CM_TABS.show(b.dataset.t);PAL_PAINT()});
-    host.querySelectorAll('.cpUse').forEach(b=>b.onclick=()=>{const Q=palFind(b.dataset.n);if(Q){palApply(Q);listOpen=false;try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}if(CM_TABS.current()==='mix')renderMixTab()}catch(_){}PAL_PAINT()}});
+    host.querySelectorAll('.cpS').forEach(b=>b.onclick=()=>{if(b.dataset.t==='mix'){CM_TABS.show('second');setTimeout(()=>{const m=$('cmMix');if(m)m.scrollIntoView({block:'start',behavior:'smooth'})},60)}else CM_TABS.show(b.dataset.t);PAL_PAINT()});
+    host.querySelectorAll('.cpUse').forEach(b=>b.onclick=()=>{const Q=palFind(b.dataset.n);if(Q){palApply(Q);listOpen=false;base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}PAL_PAINT()}});
     host.querySelectorAll('.cpDel').forEach(b=>b.onclick=()=>{const L=palMine(),i=L.findIndex(x=>x.name===b.dataset.n);if(i>=0){L.splice(i,1);try{persist()}catch(_){}if(S.pal&&S.pal.name===b.dataset.n)S.pal.name=null;toast('palette removed · '+b.dataset.n)}PAL_PAINT()})};
   $('cmTabs').addEventListener('sftab',()=>PAL_PAINT());
   setInterval(()=>{if(!$('colorPop').hidden)PAL_PAINT()},1000)}   // the swatches follow the scene as it plays
 function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
   const re=()=>{renderMixTab();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
-  const pair=el('div','cmHead');[['Ink 1',S.lineOff?null:S.line],['Ink 2',S.line2]].forEach(([n,c])=>{const b=document.createElement('span');b.className='cmBig';b.style.background=c||'transparent';if(!c)b.style.boxShadow='inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)';b.title=n;pair.appendChild(b)});
+  const pair=el('div','cmHead');[['Ink 1',S.lineOff?null:S.line],['Ink 2',S.line2]].forEach(([n,c])=>{const b=document.createElement('span');b.className='cmBig';b.style.background=c||'transparent';if(!c){b.classList.add('cmNone');b.setAttribute('aria-label',n+': none')}b.title=n;pair.appendChild(b)});
   const t=document.createElement('span');t.className='cmHex';t.textContent=S.line2?'two inks':'one ink';pair.appendChild(t);
   if(!S.line2){el('p','cmNote','The particles draw in one ink. Add a second and choose how the two share them.');
     const b=el('button','bgGo','add a second ink');b.type='button';b.onclick=()=>{S.line2=OKC.lch(S.line)[1]<.03?'#55b8c9':colorComp(S.line);syncLine();re()};return}   // a grey line has no complement worth seeing: teal
@@ -8931,10 +8960,10 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
       if(r){PAL_BUSY=true;try{G.set(G.get())}finally{PAL_BUSY=false}PAL_ON=g;try{palFollow(r.of)}finally{PAL_ON=null}palTouchedNoFree(g)}else G.set(G.get())}done()}}   /* on again, a tied slot keeps its tie and takes its tie's color (review 5306f3e r-2) */
   /* FOLLOWS (palettes, 28 Oct): this slot free, or tied to another (the complement of Ink 1...): it then moves with it */
   let relSel=null,relSeg=null,relOps=[];if(g!=='sticker'){const rw=mk('div','cmRel',null,pick);mk('span','cmL','follows',rw);relSel=mk('select',null,null,rw);relSel.setAttribute('aria-label',G.name+' follows');
-    relSel.innerHTML='<option value="">nothing: free</option>'+PAL_SLOTS.filter(([k])=>k!==g).map(([k,n])=>'<option value="'+k+'">'+n+'</option>').join('');
-    relSeg=mk('div','cmSeg',null,rw);relSeg.setAttribute('role','radiogroup');relSeg.setAttribute('aria-label',G.name+': how it follows');
-    relOps=PAL_OPS.map(([k,t])=>{const b=mk('button',null,null,relSeg);b.type='button';b.setAttribute('role','radio');b.textContent=t.replace(/ (as|of|than|from)$/,'');b.title=G.name+' is the '+t+' the one it follows';b.dataset.k=k;
-      b.onclick=()=>{const R=S.pal.rel,of=relSel.value;if(!of)return;R[g]={of,op:k};palFollow(of);palTouchedNoFree(g);update()};return b});
+    relSel.innerHTML='<option value="">free</option>'+PAL_SLOTS.filter(([k])=>k!==g).map(([k,n])=>'<option value="'+k+'">'+n+'</option>').join('');
+    /* how it follows: a second compact choice, so the editor keeps its height (one row, not nine buttons) */
+    relSeg=mk('select','cmRelHow',null,rw);relSeg.setAttribute('aria-label',G.name+': how it follows');relSeg.innerHTML=PAL_OPS.map(([k,t])=>'<option value="'+k+'">'+t.replace(/ (as|of|than|from)$/,'')+'</option>').join('');
+    relSeg.onchange=()=>{const R=S.pal.rel,of=relSel.value;if(!of)return;R[g]={of,op:relSeg.value};palFollow(of);palTouchedNoFree(g);update()};
     relSel.onchange=()=>{const R=S.pal.rel;if(!relSel.value){delete R[g]}else{R[g]={of:relSel.value,op:(R[g]&&R[g].op)||'comp'};palFollow(relSel.value)}palTouchedNoFree(g);update()}}
   const rs=[['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>{const l=mk('label','cmEdR','<span>'+n+'</span><input type="range" min="'+a+'" max="'+b+'" step="'+st+'"><output></output>',pick),r=l.querySelector('input');r.dataset.k=k;r.setAttribute('aria-label',G.name+' '+n);return r});
   const saveRow=mk('div','cmEdRow',null,pick),save=mk('button','tb cmEdSave',null,saveRow);save.type='button';
@@ -8961,7 +8990,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   row('Related',()=>{const [L,C,H]=OKC.lch(G.get());return [['Opposite',colorOpp(G.get())],['Complement',colorComp(G.get())],['Lighter',OKC.hex([L+.14,C,H])],['Darker',OKC.hex([L-.14,C,H])],['Warmer',OKC.hex([L,C,H-25])],['Cooler',OKC.hex([L,C,H+25])]]},'opposite','across');
   row('Recent',()=>{let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}return rec.slice(0,10).map(c=>['Recent',c])},null,'across');
   {const R=row('My colors',()=>cmMine().map(c=>['Mine',c]),null,'across');R.hideEmpty=true}
-  let note=null,noteT=null;if(g==='second'){note=mk('p','cmNote',null,side);noteT=document.createElement('span');note.appendChild(noteT);const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');note.appendChild(a)}
+  let note=null,noteT=null;if(false){note=mk('p','cmNote',null,side);noteT=document.createElement('span');note.appendChild(noteT);const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');note.appendChild(a)}
   let sgB=[];if(g==='ground'){const w=mk('div','cmRow',null,side);mk('p','cmL','With a camera, video or picture',w);const sg=mk('div','cmSeg',null,w);sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
     sgB=SRC_GROUND.map(([k,t,al])=>{const b=mk('button',null,null,sg);b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.dataset.k=k;b.onclick=()=>setSrcGround(k);return b})}
   /* the animation, one row: mode, then speed (greyed in place when off, Dimitry 22 Oct 23:33) */
@@ -8986,7 +9015,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     rs.forEach((r,i)=>{if(document.activeElement!==r||!r.matches(':active'))r.value=st[i];r.nextElementSibling.textContent=i===2?Math.round(st[2])+'°':i===0?Math.round(st[0]*100)+'%':st[1].toFixed(2)});
     {const f=fn=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>fn(i/8)).join(',')+')',[L,C,H]=st;rs[0].style.background=f(t=>OKC.hex([t,C,H]));rs[1].style.background=f(t=>OKC.hex([L,t*.37,H]));rs[2].style.background=f(t=>OKC.hex([L,Math.max(C,.08),t*360]))}
     if(offB){offB.innerHTML='<i aria-hidden="true"></i>'+(on?'on':'off');offB.setAttribute('role','switch');offB.setAttribute('aria-checked',String(on));offB.removeAttribute('aria-pressed');offB.setAttribute('aria-label',CM_OFF_SAY[g]?G.name+': '+(on?'on':'off')+'. '+CM_OFF_SAY[g]:G.name+(on?' is on: tap to turn it off':' is off: tap to turn it on'));offB.title=CM_OFF_SAY[g]||''}   /* the switch says the state, not the action (Dimitry, 28 Oct 14:30: "I'm not sure what I'm turning on or turning off") */
-    if(relSel){const r=(S.pal&&S.pal.rel||{})[g];relSel.value=r?r.of:'';relSeg.style.visibility=r?'':'hidden';for(const b of relOps)b.setAttribute('aria-checked',String(!!r&&r.op===b.dataset.k))}
+    if(relSel){const r=(S.pal&&S.pal.rel||{})[g];relSel.value=r?r.of:'';relSeg.style.visibility=r?'':'hidden';if(r)relSeg.value=r.op}
     if(autoB)autoB.setAttribute('aria-pressed',String(S.ground==='auto'));
     {const mine=cmMine().includes(cur.toLowerCase());save.textContent=mine?'saved · remove':'save to my colors';save.setAttribute('aria-pressed',String(mine))}
     for(const R of rows)drawRow(R,cur,on);
@@ -8997,6 +9026,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     sp.classList.toggle('off',off);spR.disabled=off;spR.setAttribute('aria-disabled',String(off));if(document.activeElement!==spR)spR.value=an.sp==null?.5:an.sp;
     const pro=isPro('blend');blend.classList.toggle('pro',!pro);blend.classList.toggle('proOpen',SurfacePro.state('blend')==='beta');join.hidden=pro;const bm=S.blend||'source-over';
     for(const b of blendB){b.setAttribute('aria-pressed',String(pro&&bm===b.dataset.k));if(pro)b.removeAttribute('aria-disabled');else b.setAttribute('aria-disabled','true');b.title=pro?'':'Blend comes with Pro'}}
+  if(g==='second'){const u0=update;let two0=null;update=function(){u0();const two=!!S.line2,mx=$('cmMix');if((two!==two0||!mx.contains(document.activeElement))&&!mx.hidden){two0=two;try{renderMixTab()}catch(_){}}}}   /* the mix under Ink 2 follows whether there is an Ink 2 */
   pane._cm={g,update};update()}
 document.addEventListener('surface:pro',()=>{try{for(const g of CG_ORDER){const p=$(CM_PANE[g]);if(p&&p._cm)p._cm.update()}}catch(_){}});
 document.addEventListener('surface:pro',()=>{try{rippleSync();bsSync()}catch(_){}});   // a key switches the material's colors and drivers on (or off) at once
@@ -10990,10 +11020,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261028225901"></script>
-<script src="surface/links.js?v=20261028225901"></script>
-<script src="surface/tips.js?v=20261028225901"></script>
-<script src="surface/sections.js?v=20261028225901"></script>
+<script src="surface/install.js?v=20261028231809"></script>
+<script src="surface/links.js?v=20261028231809"></script>
+<script src="surface/tips.js?v=20261028231809"></script>
+<script src="surface/sections.js?v=20261028231809"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11180,7 +11210,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261028225901"></script>
+<script src="surface/room.js?v=20261028231809"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11381,7 +11411,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261028225901"></script>
+<script src="surface/touch.js?v=20261028231809"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12126,7 +12156,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.35.0';
+const APP_VERSION='0.35.1';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
