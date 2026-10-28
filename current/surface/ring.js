@@ -638,7 +638,7 @@
     if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * (v > lv ? .6 : .18); /* up fast with a hit, down slower: a pump, not a flicker */ ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     if (!o._quiet) requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
     var me = cur;   /* each handle closes its own ring, in hand or parked (review 9dc4851 r-2) */
-    return { close: function () { closeOne(me); }, alive: function () { return !!me && (cur === me || PARK.indexOf(me) >= 0); }, el: ring, ring: rid };
+    return { close: function () { closeOne(me); }, alive: function () { return !!me && (cur === me || PARK.indexOf(me) >= 0); }, pinned: function () { return !!me && !!me.pinned && (cur === me || PARK.indexOf(me) >= 0); }, el: ring, ring: rid };
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
   /* a level as an arc (hoisted: the dots are built before the code that follows them) */
