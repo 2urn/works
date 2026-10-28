@@ -33,12 +33,38 @@
      SurfaceAuto.editor(host, opts)         renders the editor into host (see the function for opts)
      SurfaceAuto.button(label)              the row's Auto button (aria-pressed = running, aria-expanded = open)
      SurfaceAuto.lead(row, button)          puts it first in its row, left of the name (CONVENTIONS › Auto)
+     SurfaceAuto.icon(value)                a source's picture (sine, tri, square, saw, noise, random, bass, mid, high,
+                                            level, beat, fx, fy, touch, flow) as SVG markup, or '' when it has none
 */
 (function () {
   "use strict";
   var ICON = '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/></svg>';
   var MOTION = [["sine", "sin"], ["tri", "tri"], ["square", "sqr"], ["saw", "saw"], ["noise", "noise"], ["random", "rand"]];
   var MOTION_SET = { sine: 1, tri: 1, square: 1, saw: 1, noise: 1, random: 1 };
+  /* THE SOURCES AS PICTURES (Dimitry, 28 Oct 00:08-00:13: "icons for things like sine and cosine and square and sawtooth
+     and all of that stuff that's pretty common symbolism"; a child of two plays this and learns the words later; "bass, mid
+     and high … as equalizer bars … the frequency band would just be bolder, just like for the beats and bars"). One family:
+     24-unit strokes; the motions are their wave; the bands are three equalizer bars with theirs bold (level: all three), on
+     the baseline the beat and bar units use; beat is the beat unit's ticks; the finger is an arrow or the hand; flow is
+     the field's flow lines. A tool's own signal without a picture keeps its word. */
+  var B = ' stroke-width="2.8"', T = ' stroke-width="1.1"';
+  var EQ = function (k) { var h = ["M6 7v12", "M12 10v9", "M18 13v6"]; return h.map(function (d, i) { return '<path d="' + d + '"' + (k === i || k === 3 ? B : T) + "/>"; }).join(""); };
+  var AICON = {
+    sine: '<path d="M2.5 12C5 4.5 7.5 4.5 10 12s5 7.5 7.5 0 2.7-6 4-4"/>',
+    tri: '<path d="M2.5 16l4.75-8 4.75 8 4.75-8 4.75 8"/>',
+    square: '<path d="M2.5 16h3.5V8h6v8h6V8h3.5"/>',
+    saw: '<path d="M2.5 16l6-8v8l6-8v8l6-8v8"/>',
+    noise: '<path d="M2.5 13c1.6-4 3-4.5 4.3-1.5s2.4 3.5 3.8.5 2-6.5 3.9-5 1.8 6.5 3.7 6 2-3.5 3.3-4"/>',   /* a smooth wander, as noise moves (review 7f3ba62015 r-2) */
+    random: '<path d="M2.5 14h3.2V9h3.2v8h3.2v-6h3.2v4h3.2V8h2.5"/>',
+    bass: EQ(0), mid: EQ(1), high: EQ(2), level: EQ(3),
+    beat: '<path d="M6 5v11M12 5v11M18 5v11"' + B + '/><path d="M3.5 20h17"' + T + "/>",
+    fx: '<path d="M4 12h16M7.5 8.5 4 12l3.5 3.5M16.5 8.5 20 12l-3.5 3.5"/>',
+    fy: '<path d="M12 4v16M8.5 7.5 12 4l3.5 3.5M8.5 16.5 12 20l3.5-3.5"/>',
+    touch: '<path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15.5"/>',
+    flow: '<path d="M3 9c3-3 6 3 9 0s6 3 9 0M3 15c3-3 6 3 9 0s6 3 9 0"/>'
+  };
+  var AWORD = { sine: "sine", tri: "triangle", square: "square", saw: "saw", noise: "noise", random: "random", level: "level", fx: "across", fy: "up" };
+  function aIcon(v) { var d = AICON[v]; return d ? '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + d + "</svg>" : ""; }
 
   var CSS = [
     /* the symbol */
@@ -67,6 +93,11 @@
     ".sa-fam button{font:12px var(--sa-mono,ui-monospace,monospace);padding:4px 7px;min-height:26px;background:transparent;border:0;border-radius:0;color:var(--sa-quiet,currentColor);cursor:pointer}",
     ".sa-fam button[aria-pressed=true]{color:var(--sa-acc)}",
     ".sa-fam button:hover{color:inherit}",
+    /* a source with a picture: the icon over its word (28 Oct) */
+    ".sa-fam button.sa-ic{display:inline-grid;justify-items:center;align-content:center;gap:3px;min-width:44px;min-height:46px;padding:5px 4px;border-radius:10px}",
+    ".sa-fam button.sa-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}",
+    ".sa-fam button.sa-ic span{font:600 9px/1 var(--sa-mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}",
+    ".sa-fam button.sa-ic[aria-pressed=true]{background:color-mix(in srgb,var(--sa-acc) 16%,transparent);box-shadow:inset 0 0 0 1px var(--sa-acc)}",
     ".sa-rm{justify-self:start;font:12px var(--sa-mono,ui-monospace,monospace);padding:4px 0;border:0;background:none;color:var(--sa-quiet,currentColor);cursor:pointer;text-decoration:underline;text-underline-offset:3px}",
     "@media (pointer:coarse){.sa-btn{width:40px;height:40px}.sa-fam button{min-height:36px;padding:6px 9px}}"
   ].join("\n");
@@ -154,9 +185,10 @@
         row.setAttribute("aria-label", opts.label + " Auto, " + f[0]);
         var i = document.createElement("i"); i.textContent = f[0]; row.appendChild(i);
         f[1].forEach(function (p) {
-          var b = document.createElement("button"); b.type = "button"; b.textContent = p[1];
+          var b = document.createElement("button"); b.type = "button"; var ic = aIcon(p[0]);
+          if (ic) { b.className = "sa-ic"; b.innerHTML = ic + "<span>" + (AWORD[p[0]] || p[1]) + "</span>"; } else b.textContent = p[1];
           b.setAttribute("aria-pressed", String(!!m && m.shape === p[0]));
-          b.setAttribute("aria-label", opts.label + " Auto: " + (p[2] || p[0]));
+          b.setAttribute("aria-label", opts.label + " Auto: " + (p[2] || AWORD[p[0]] || p[0]));   /* says the word it shows (r-1) */
           b.onclick = function () {
             var was = opts.get() || stash, sigNow = !MOTION_SET[p[0]], sigWas = was && !MOTION_SET[was.shape];
             var n = was ? { shape: p[0], lo: was.lo, hi: was.hi, per: was.per || 4, ph: was.ph || 0, sp: was.sp || 0 } : { shape: p[0], lo: sigNow ? 0 : -0.25, hi: 0.25, per: 4, ph: 0, sp: 0 };
@@ -198,6 +230,6 @@
     return { redraw: draw };
   }
 
-  window.SurfaceAuto = { ICON: ICON, MOTION: MOTION, isMotion: function (s) { return !!MOTION_SET[s]; },
+  window.SurfaceAuto = { ICON: ICON, MOTION: MOTION, icon: aIcon, ICONS: AICON, isMotion: function (s) { return !!MOTION_SET[s]; },
     shape: shape, apply: apply, migrate: migrate, seed: seedOf, button: button, lead: lead, decorate: decorate, editor: editor, css: injectCSS };
 })();
