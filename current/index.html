@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261028003452";window.__VERSION__="0.33.87";window.__NOTES__=[{"v":"0.33.87","date":"27 Oct 2026","items":[{"kind":"new","text":"show mode: turn a phone sideways and the field keeps playing with a light bar (the robot, previous and next, capture, share); the panels wait until you turn it upright"}]}]</script>
+<script>window.__BUILD__="20261028005353";window.__VERSION__="0.33.88";window.__NOTES__=[{"v":"0.33.88","date":"27 Oct 2026","items":[{"kind":"change","text":"show mode has the sound button, the bug sits in the top right corner, and the share sheet is two columns sideways: your capture and a quick share; captures sideways are 16:9, like the screen"},{"kind":"fix","text":"a slow, sparse beat (Pulse at 40 bpm) no longer sets off the sound-lost alert between its hits"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261028003452"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261028003452">
+<script src="claude-web.js?v=20261028005353"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261028005353">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,40 +169,40 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261028003452"></script>
-<script src="surface/nozoom.js?v=20261028003452"></script><script src="surface/steady.js?v=20261028003452"></script><script src="surface/selftest.js?v=20261028003452"></script><script src="surface/size.js?v=20261028003452"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261028003452"></script>
-<script src="surface/auto.js?v=20261028003452"></script>
-<script src="surface/toolpath.js?v=20261028003452"></script>
-<script src="surface/capture.js?v=20261028003452"></script>
-<script src="surface/pop.js?v=20261028003452"></script>
-<script src="surface/hints.js?v=20261028003452"></script>
-<script src="surface/paths.js?v=20261028003452"></script>
-<script src="surface/keys.js?v=20261028003452"></script>
-<script src="surface/reset.js?v=20261028003452"></script>
-<script src="surface/files.js?v=20261028003452"></script>
-<script src="surface/tabs.js?v=20261028003452"></script>
-<script src="surface/running.js?v=20261028003452"></script>
-<script src="surface/trim.js?v=20261028003452"></script>
-<script src="surface/audiowake.js?v=20261028003452"></script>
-<script src="surface/output.js?v=20261028003452"></script>
-<script src="surface/board.js?v=20261028003452"></script>
-<script src="surface/voice.js?v=20261028003452"></script>
-<script src="surface/voicelib.js?v=20261028003452"></script>
-<script src="surface/instruments.js?v=20261028003452"></script>
-<script src="surface/listview.js?v=20261028003452"></script>
-<script src="surface/beads.js?v=20261028003452"></script>
-<script src="surface/strip.js?v=20261028003452"></script>
-<script src="surface/sheetnav.js?v=20261028003452"></script>
-<script src="surface/twofinger.js?v=20261028003452"></script>
-<script src="surface/ring.js?v=20261028003452"></script>
-<script src="surface/shortlink.js?v=20261028003452"></script>
-<script src="surface/undo.js?v=20261028003452"></script>
-<script src="surface/pro.js?v=20261028003452"></script>
-<script src="surface/fresh.js?v=20261028003452"></script>
-<script src="surface/go.js?v=20261028003452"></script>
-<script src="surface/notice.js?v=20261028003452"></script>
-<script src="surface/perform.js?v=20261028003452"></script>
+<script src="vendor/opentype.min.js?v=20261028005353"></script>
+<script src="surface/nozoom.js?v=20261028005353"></script><script src="surface/steady.js?v=20261028005353"></script><script src="surface/selftest.js?v=20261028005353"></script><script src="surface/size.js?v=20261028005353"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261028005353"></script>
+<script src="surface/auto.js?v=20261028005353"></script>
+<script src="surface/toolpath.js?v=20261028005353"></script>
+<script src="surface/capture.js?v=20261028005353"></script>
+<script src="surface/pop.js?v=20261028005353"></script>
+<script src="surface/hints.js?v=20261028005353"></script>
+<script src="surface/paths.js?v=20261028005353"></script>
+<script src="surface/keys.js?v=20261028005353"></script>
+<script src="surface/reset.js?v=20261028005353"></script>
+<script src="surface/files.js?v=20261028005353"></script>
+<script src="surface/tabs.js?v=20261028005353"></script>
+<script src="surface/running.js?v=20261028005353"></script>
+<script src="surface/trim.js?v=20261028005353"></script>
+<script src="surface/audiowake.js?v=20261028005353"></script>
+<script src="surface/output.js?v=20261028005353"></script>
+<script src="surface/board.js?v=20261028005353"></script>
+<script src="surface/voice.js?v=20261028005353"></script>
+<script src="surface/voicelib.js?v=20261028005353"></script>
+<script src="surface/instruments.js?v=20261028005353"></script>
+<script src="surface/listview.js?v=20261028005353"></script>
+<script src="surface/beads.js?v=20261028005353"></script>
+<script src="surface/strip.js?v=20261028005353"></script>
+<script src="surface/sheetnav.js?v=20261028005353"></script>
+<script src="surface/twofinger.js?v=20261028005353"></script>
+<script src="surface/ring.js?v=20261028005353"></script>
+<script src="surface/shortlink.js?v=20261028005353"></script>
+<script src="surface/undo.js?v=20261028005353"></script>
+<script src="surface/pro.js?v=20261028005353"></script>
+<script src="surface/fresh.js?v=20261028005353"></script>
+<script src="surface/go.js?v=20261028005353"></script>
+<script src="surface/notice.js?v=20261028005353"></script>
+<script src="surface/perform.js?v=20261028005353"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -227,14 +227,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261028003452"></script>
-<script src="surface/rail.js?v=20261028003452"></script>
-<script src="surface/touchsound.js?v=20261028003452"></script>
-<script src="surface/water.js?v=20261028003452"></script>
-<script src="surface/ripple.js?v=20261028003452"></script>
-<script src="surface/material.js?v=20261028003452"></script>
-<script src="surface/float.js?v=20261028003452"></script>
-<script src="surface/manual.js?v=20261028003452"></script>
+<script src="surface/pack.js?v=20261028005353"></script>
+<script src="surface/rail.js?v=20261028005353"></script>
+<script src="surface/touchsound.js?v=20261028005353"></script>
+<script src="surface/water.js?v=20261028005353"></script>
+<script src="surface/ripple.js?v=20261028005353"></script>
+<script src="surface/material.js?v=20261028005353"></script>
+<script src="surface/float.js?v=20261028005353"></script>
+<script src="surface/manual.js?v=20261028005353"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -5715,12 +5715,15 @@ function stkNorm(o){o=o&&typeof o==='object'?o:{};const e=o.edge==='white'?'#fff
   return {edge:e,mine:STK_HEX.test(o.mine||'')?String(o.mine).toLowerCase():null,x,text:typeof o.text==='string'?o.text.slice(0,32):null,mov:!!o.mov,fmt:['gif','apng','webp'].includes(o.fmt)?o.fmt:'gif'}}
 try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['still','video','gif','sticker'].includes(o.mode))CAP.mode=o.mode;if(o.stk&&typeof o.stk==='object')CAP.stk=stkNorm(o.stk);if(CAP_SHAPES.some(x=>x[0]===o.shape))CAP.shape=o.shape;if([3,5,8].includes(o.gif))CAP.gif=o.gif;if(typeof o.snd==='number'&&o.snd>=0&&o.snd<=1)CAP.snd=o.snd;else if(o.snd in{music:1,both:1,mic:1})CAP.snd={music:0,both:.5,mic:1}[o.snd]}catch(_){}
 try{const o=JSON.parse(localStorage.getItem('toolpath-capture')||'{}');if(['free',10,30,60,'4b','8b','16b'].includes(o.len))CAP.len=o.len;if([15,30,60,'open'].includes(o.vlen))CAP.vlen=o.vlen;for(const k of ['intro','outro','fade'])if(o[k]===0||o[k]===1)CAP[k]=o[k]}catch(_){}
+/* sideways on a phone (show mode) a capture matches the screen at 16:9; the saved shape is untouched and returns upright
+   (Dimitry, 27 Oct 20:49: "should switch to 16:9 to match screen in horz") */
+function capShape(){try{if(window.SHOWMODE&&SHOWMODE.on())return '16:9'}catch(_){}return CAP.shape}
 function capSave(){try{localStorage.setItem('toolpath-capture',JSON.stringify(CAP))}catch(_){}}
 // stills and video in a set shape come out at the sizes the platforms want: Full HD video, Instagram's 1080-wide stills
 const CAP_SIZES={'9:16':[1080,1920],'4:5':[1080,1350],'1:1':[1080,1080],'16:9':[1920,1080]};
-function capDims(side){if(side!==GIF_SIDE&&CAP_SIZES[CAP.shape])return CAP_SIZES[CAP.shape].slice();
+function capDims(side){if(side!==GIF_SIDE&&CAP_SIZES[capShape()])return CAP_SIZES[capShape()].slice();
   if(side===VID_SIDE){const a=cv.width/cv.height;return a>=1?[1920,Math.round(1920/a)&~1]:[Math.round(1920*a)&~1,1920]}   // this screen's shape, Full HD on its long side
-  const sw=cv.width,sh=cv.height,s=CAP_SHAPES.find(x=>x[0]===CAP.shape)||CAP_SHAPES[0],a=s[1]||sw/sh;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
+  const sw=cv.width,sh=cv.height,s=CAP_SHAPES.find(x=>x[0]===capShape())||CAP_SHAPES[0],a=s[1]||sw/sh;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
   const k=Math.min(1,side/Math.max(cw,ch));return[Math.max(2,Math.round(cw*k)&~1),Math.max(2,Math.round(ch*k)&~1)]}
 let capSrc=null,CAPBG='#000';
 function frameInto(dst,w,h,fill,keep){if(!keep)capSrc=stillCanvas(capSrc);const sw=capSrc.width,sh=capSrc.height,a=w/h;let cw=sw,ch=sw/a;if(ch>sh){ch=sh;cw=sh*a}
@@ -6038,7 +6041,7 @@ function hoverFly(){const e=RPV.el;if(!e||RPV.st!=='hover'||!e.classList.contain
    sharing"): with a mouse, resting on the capture button shows the same small window, the stage cropped to the chosen
    shape and its size under it; a still taken from there flies up from it as the share sheet opens. */
 const HPV={on:false};
-function hoverPrevFrame(){const v=(typeof cv!=='undefined'&&cv)||document.getElementById('cv');if(!v||!v.width)return null;const s=CAP_SHAPES.find(x=>x[0]===CAP.shape)||CAP_SHAPES[0],a=s[1]||v.width/v.height;
+function hoverPrevFrame(){const v=(typeof cv!=='undefined'&&cv)||document.getElementById('cv');if(!v||!v.width)return null;const s=CAP_SHAPES.find(x=>x[0]===capShape())||CAP_SHAPES[0],a=s[1]||v.width/v.height;
   let cw=v.width,ch=cw/a;if(ch>v.height){ch=v.height;cw=ch*a}return {src:v,sx:(v.width-cw)/2,sy:(v.height-ch)/2,sw:cw,sh:ch,a}}
 function recPrevTick(){const st=REC,want=!!(st&&(st.kind==='video'||st.kind==='gif')&&st.cv&&st.cv.width&&!document.documentElement.classList.contains('bare')&&!document.hidden);
   const H=document.documentElement;
@@ -6194,7 +6197,7 @@ const SHOT=SurfaceCapture.panel({host:'#shotPop',label:'Capture: shape and shari
   get:()=>CAP,set:(k,v)=>{CAP[k]=v;capSave();if(k==='snd'){recMix();return}syncShot()},busy:()=>!!(REC||ENC),
   dims:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE);return w+'×'+h},
   hint:()=>{const[w,h]=capDims(CAP.mode==='gif'?GIF_SIDE:CAP.mode==='video'?VID_SIDE:STILL_SIDE),m=pickMime();
-    return CAP.mode==='sticker'&&CAP.stk&&CAP.stk.mov?'A moving sticker: '+STK_MV.body+' seconds of the field inside the duck-rabbit at '+STK_MV.fps+' fps, looping, clear outside, '+STK_MV.side+' px. A GIF; APNG or WebP from the share sheet. Frame and extras are in the shelf below Capture.':CAP.mode==='sticker'?'A PNG sticker: the field inside the duck-rabbit, clear background. Frame and what goes under it are in the shelf below Capture.':CAP.mode==='still'?(CAP_SIZES[CAP.shape]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
+    return CAP.mode==='sticker'&&CAP.stk&&CAP.stk.mov?'A moving sticker: '+STK_MV.body+' seconds of the field inside the duck-rabbit at '+STK_MV.fps+' fps, looping, clear outside, '+STK_MV.side+' px. A GIF; APNG or WebP from the share sheet. Frame and extras are in the shelf below Capture.':CAP.mode==='sticker'?'A PNG sticker: the field inside the duck-rabbit, clear background. Frame and what goes under it are in the shelf below Capture.':CAP.mode==='still'?(CAP_SIZES[capShape()]?'A PNG at '+w+'×'+h+', the size Instagram and the others use.':'A PNG at full resolution.'):CAP.mode==='video'?(m?(m.includes('mp4')?'MP4':'WebM')+' at '+w+'×'+h+(Math.max(w,h)>=1920?' (Full HD)':'')+', 30 fps, with the sound when it is on. Tap the shutter again to stop.':'This browser cannot record video here. GIF still works.'):CAP.gif+' seconds at '+GIF_FPS+' fps, made on this device. Tap the shutter again to stop early.'},
   primary:{label:()=>REC?'stop':ENC?'making…':CAP.mode==='still'||CAP.mode==='sticker'&&!(CAP.stk&&CAP.stk.mov)?'save':'record',disabled:()=>ENC,run:()=>{closeShotPop();shutter()}},
   secondary:{label:'share',run:()=>{closeShotPop();openOut(false)}},
   onClose:()=>$('pShot').setAttribute('aria-expanded','false')});
@@ -8165,6 +8168,7 @@ function resumeNow(){try{sessionStorage.setItem('current.resume',JSON.stringify(
 let AWBUF=null;
 const AUDWAKE=window.SurfaceAudioWake?SurfaceAudioWake.watch({ctx:()=>AUD.ctx,playing:()=>!!AUD.ctx&&(AUD.src!=='off'||!!AUD.bed),rebuild:audRebuild,say:t=>toast(t,2600),
   level:()=>{const p=AUD.play||{};if(!AUD.an||!(p.beat||p.byte||p.loop))return null;if(!['beat','byte','loop','file','water'].some(k=>(k==='beat'?p.beat:k==='byte'?p.byte:k==='water'?AUD.bed:p[k])&&mixEff(k)>0))return null;   /* silence the mix chose (solo, mute, level 0) is not a lost sound: no chip (27 Oct 00:05) */const n=AUD.an.fftSize;if(!AWBUF||AWBUF.length!==n)AWBUF=new Uint8Array(n);AUD.an.getByteTimeDomainData(AWBUF);let m=0;for(let i=0;i<n;i++){const d=Math.abs(AWBUF[i]-128);if(d>m)m=d}return m/128},
+  silence:()=>{let b=.5;try{b=autoBeatSec()}catch(_){}return Math.max(6000,b*4*1000*2.5)},   /* two and a half bars: Pulse at 40 bpm hits once every 6 s (Dimitry's report 27 Oct 18:33) */
   alive:()=>!AUD.silent||!AUD.silent.paused,   // on a phone the silent loop must be playing too, or iOS has not given the sound back
   rescue:{reload:resumeNow,report:()=>{try{window.REPORT&&REPORT.open('button')}catch(_){}}},
   change:(on,why)=>{try{window.sndLog&&sndLog(on?'lost':'back',why)}catch(_){}if(on&&window.cxCount)cxCount('sound: lost ('+why+')',1)}}):null;
@@ -10652,10 +10656,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261028003452"></script>
-<script src="surface/links.js?v=20261028003452"></script>
-<script src="surface/tips.js?v=20261028003452"></script>
-<script src="surface/sections.js?v=20261028003452"></script>
+<script src="surface/install.js?v=20261028005353"></script>
+<script src="surface/links.js?v=20261028005353"></script>
+<script src="surface/tips.js?v=20261028005353"></script>
+<script src="surface/sections.js?v=20261028005353"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10836,7 +10840,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261028003452"></script>
+<script src="surface/room.js?v=20261028005353"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11037,7 +11041,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261028003452"></script>
+<script src="surface/touch.js?v=20261028005353"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11781,7 +11785,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.87';
+const APP_VERSION='0.33.88';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
@@ -12020,7 +12024,19 @@ function apMorph(row,tight,before,dialBefore){const rb=row.getBoundingClientRect
 html:not([data-showmode]) #pShare{display:none!important}
 html[data-showmode] body #playbar{bottom:calc(10px + env(safe-area-inset-bottom,0px))!important}   /* no shelf to sit above */
 html[data-showmode] #ringHint{display:none!important}
-html[data-showmode] #playbar>:not(#pTrans):not(#pShot):not(#pShare){display:none!important}
+/* THE SHEET SIDEWAYS (Dimitry, 20:43: "that share section (from record) is pared down for horizontal view"): two columns,
+   the capture on the left, on the right only what a quick share needs: the kind (still, video, GIF, sticker), save and
+   share, and send, link and QR. Cards, embed, scene, the address line and the social row wait for upright. */
+html[data-showmode] #imgwrap.show{display:grid!important;grid-template-columns:auto minmax(0,340px);grid-auto-rows:min-content;column-gap:22px;row-gap:12px;align-content:center;justify-content:center;align-items:start;justify-items:center;overflow-y:auto;padding:calc(12px + env(safe-area-inset-top,0px)) calc(64px + env(safe-area-inset-right,0px)) 12px calc(18px + env(safe-area-inset-left,0px))}
+html[data-showmode] #imgwrap>*{grid-column:2}
+html[data-showmode] #imgwrap>.owStage{grid-column:1;grid-row:1 / span 3;margin:0;align-self:center}
+html[data-showmode] #imgwrap .owStage :is(#imgout,#vidout){max-width:min(58vw,560px)!important;max-height:calc(100vh - 40px - env(safe-area-inset-top,0px) - var(--recRoom,0px))!important;width:auto;height:auto;object-fit:contain}
+html[data-showmode] #imgwrap.show.nomedia{grid-template-columns:minmax(0,420px)}
+html[data-showmode] #imgwrap.show.nomedia>*{grid-column:1}   /* the link sheet has no picture: one column */
+html[data-showmode] #imgwrap>:is(#owBand,#imgX){grid-column:auto}
+html[data-showmode] :is(#owScene,#owCard,#owEmbed,#owUrl,#owEmbedBox,#owCardBox,#owSoc,#owNote,#owHead,#owMeta,#owKind,#owFmt,#owStk){display:none!important}   /* no scrolling sideways (20:49): the kind and size lines wait for upright too */
+html[data-showmode] #playbar>:not(#pTrans):not(#pShot):not(#pShare):not(#pSnd){display:none!important}   /* the speaker too (Dimitry, 20:42: "add volume button"); its drags open shelves, which show the pill */
+html[data-showmode] body .srp{left:auto!important;right:max(12px,env(safe-area-inset-right,0px))!important;translate:none!important}   /* the sheet and the bug's frame move together, so the bug stays the sheet's close (review 7fb2926303 r-1) */   /* the bug in the top right corner, not over the middle (20:42) */
 html[data-showmode] #pTrans>:not(#pPrev):not(#pAuto):not(#pNext){display:none!important}
 html[data-showmode] :is(#plist,#rlist,#shotPop,#mixPop,#colorPop,#batchPop,#fontList,#wordList,#colorPick,#fieldPop,#scrubPad,#bshelf,#bsCarets,#panel,.shelf,.sr-ring,.sr-veil){display:none!important}   /* shelves and the ring's veil too (review 5a1b69f582 r-1, r-3) */
 html[data-showmode] body{--dw:0px!important;--dL:0px!important}   /* a hidden index never pushes the stage over (r-2) */

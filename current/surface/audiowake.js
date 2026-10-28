@@ -27,7 +27,7 @@
        away:    2000,                        // ms in the background before a return counts (iOS rule 2)
        level:   () => number,                // optional: the output's loudness 0..1 (an analyser's RMS); exact
                                              //   silence for `silence` ms while playing counts as dead (rule 4)
-       silence: 6000,
+       silence: 6000,                       // or a function returning ms, read each second (a slow, sparse beat needs longer)
        change:  (suspect, why) => void,      // optional: called when the sound is marked lost, and when it is back
        rescue:  { reload, report },          // optional: the rescue chip (rule 5)
        alive:   () => boolean                // optional: the tool's own word that sound really plays (rule 7)
@@ -172,7 +172,7 @@
       if (!c || !playing()) { still = 0; lastT = -1; quiet = 0; if (suspect && !playing()) setS(false); return; }
       if (c.state !== "running") { mark("context " + c.state); return; }
       var t = c.currentTime; if (lastT >= 0 && t === lastT) { if (++still >= 2) mark("clock stopped"); } else still = 0; lastT = t;
-      var l = null; if (o.level) { try { l = o.level(); } catch (e) {} if (l === 0) { quiet += 1000; if (quiet >= (o.silence || 6000)) mark("silent output"); } else quiet = 0; }
+      var l = null; if (o.level) { try { l = o.level(); } catch (e) {} if (l === 0) { quiet += 1000; var lim = 6000; try { lim = (typeof o.silence === "function" ? o.silence() : o.silence) || 6000; } catch (e) {} if (quiet >= lim) mark("silent output");   /* silence may be a function: a slow, sparse beat leaves long gaps (27 Oct, Dimitry: Pulse at 40 bpm, one kick every 6 s, read as lost) */ } else quiet = 0; }
       /* 6. it came back by itself (22 Oct, Dimitry: dictating in another app ducked the sound, it came back, the chip
          stayed, and tapping anything to clear it restarted the sound). Marked, but running, ticking and measurably
          playing for 2 s: the chip goes. Without `level` the page can't tell, so the chip stays. */
