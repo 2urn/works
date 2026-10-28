@@ -93,6 +93,9 @@
   var PIN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3.5h6l-1 5 3 3.5H7l3-3.5z"/><path d="M12 12v8.5"/></svg>';
   var BACK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 7 6 11l4 4"/><path d="M6 11h8.5a4 4 0 0 1 4 4v2"/></svg>';
   var CARET = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5"/></svg>';
+  /* the switch that lists the rings is a menu, not a caret (Dimitry, 28 Oct 00:06, drawn on the Input ring: "Menu"):
+     a down caret reads as collapse; three short lines say there are more rings here */
+  var MENU = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 8.5h10M7 12h10M7 15.5h10"/></svg>';
   /* three pops: a third of the way, three quarters, home; each step overshoots a little and settles */
   var POP = "cubic-bezier(.2,1.7,.45,1)";
   var CSS =
@@ -382,7 +385,7 @@
       name.addEventListener("click", nb); name.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); nb(e); } }); }
     var mid = document.createElement("span"); mid.className = "sr-mid"; mid.append(name);
     if (rings.length > 1) {
-      var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = CARET; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].menu || RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
+      var sw = document.createElement("button"); sw.type = "button"; sw.className = "sr-sw"; sw.innerHTML = MENU; sw.setAttribute("aria-haspopup", "menu"); sw.setAttribute("aria-label", "Switch ring: " + rings.map(function (r) { return RINGS[r].menu || RINGS[r].title; }).join(", ")); sw.title = "Switch ring";
       sw.onclick = function (e) { e.stopPropagation(); var L = ring.querySelector(".sr-list"); if (L) { L.remove(); return; }
         L = document.createElement("div"); L.className = "sr-list"; L.setAttribute("role", "menu"); L.setAttribute("aria-label", "Rings");
         var wh = document.createElement("div"); wh.className = "sr-wh"; L.appendChild(wh);
