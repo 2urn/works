@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261028122714";window.__VERSION__="0.33.97";window.__NOTES__=[{"v":"0.33.97","date":"28 Oct 2026","items":[{"kind":"change","text":"the Seed words row wears the Seed tile's sprout beside its word"},{"kind":"change","text":"the drawer under the bar is never empty: in Field and Touch it shows every source's sounds, grouped under each one's dot (Water, then your packs); a tap plays it and lights its source above"},{"kind":"new","text":"headings say the choice: Which way · Forward, Lands on · Beat, Every · 15 s, Moves · Breathe, Move · Sine"},{"kind":"change","text":"+ in the sound shelf is the pack's cube with a plus, and a pack's name sits in the normal ink"},{"kind":"new","text":"Settings › Words: Always, Learn or Never. Learn (the default) shows the words beside the icons and fades each one once you know that control; a finger brings it back. Never is icons only, for small children"}]}]</script>
+<script>window.__BUILD__="20261028124426";window.__VERSION__="0.33.98";window.__NOTES__=[{"v":"0.33.98","date":"28 Oct 2026","items":[{"kind":"change","text":"in Pack, each sound shows ▶ Listen (only you hear it) and its parts as switches: Field, Beat, Touch, Pattern. Light any of them: the same sound can play in the field and under your finger. A sound keeps one part at least; the round on/off switch is gone"},{"kind":"change","text":"what plays is chosen under the bar, and a scene you save remembers which pack sounds play and where; a lit dot beside a sound in Pack says it is playing now"},{"kind":"change","text":"the parts use the bar's names everywhere: Field (was Bed) and Beat (was On the beat)"},{"kind":"","text":"pro: changing where a pack's sounds play, and Pattern sounds, are Pro (open while in beta); adding and playing packs is for everyone","pro":"*"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261028122714"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261028122714">
+<script src="claude-web.js?v=20261028124426"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261028124426">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261028122714"></script>
-<script src="surface/nozoom.js?v=20261028122714"></script><script src="surface/steady.js?v=20261028122714"></script><script src="surface/selftest.js?v=20261028122714"></script><script src="surface/size.js?v=20261028122714"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261028122714"></script>
-<script src="surface/auto.js?v=20261028122714"></script>
-<script src="surface/toolpath.js?v=20261028122714"></script>
-<script src="surface/capture.js?v=20261028122714"></script>
-<script src="surface/pop.js?v=20261028122714"></script>
-<script src="surface/hints.js?v=20261028122714"></script>
-<script src="surface/paths.js?v=20261028122714"></script>
-<script src="surface/keys.js?v=20261028122714"></script>
-<script src="surface/reset.js?v=20261028122714"></script>
-<script src="surface/files.js?v=20261028122714"></script>
-<script src="surface/tabs.js?v=20261028122714"></script>
-<script src="surface/running.js?v=20261028122714"></script>
-<script src="surface/trim.js?v=20261028122714"></script>
-<script src="surface/audiowake.js?v=20261028122714"></script>
-<script src="surface/output.js?v=20261028122714"></script>
-<script src="surface/board.js?v=20261028122714"></script>
-<script src="surface/voice.js?v=20261028122714"></script>
-<script src="surface/voicelib.js?v=20261028122714"></script>
-<script src="surface/instruments.js?v=20261028122714"></script>
-<script src="surface/listview.js?v=20261028122714"></script>
-<script src="surface/beads.js?v=20261028122714"></script>
-<script src="surface/strip.js?v=20261028122714"></script>
-<script src="surface/sheetnav.js?v=20261028122714"></script>
-<script src="surface/twofinger.js?v=20261028122714"></script>
-<script src="surface/ring.js?v=20261028122714"></script>
-<script src="surface/shortlink.js?v=20261028122714"></script>
-<script src="surface/undo.js?v=20261028122714"></script>
-<script src="surface/pro.js?v=20261028122714"></script>
-<script src="surface/fresh.js?v=20261028122714"></script>
-<script src="surface/go.js?v=20261028122714"></script>
-<script src="surface/notice.js?v=20261028122714"></script>
-<script src="surface/perform.js?v=20261028122714"></script>
-<script src="surface/words.js?v=20261028122714"></script>
+<script src="vendor/opentype.min.js?v=20261028124426"></script>
+<script src="surface/nozoom.js?v=20261028124426"></script><script src="surface/steady.js?v=20261028124426"></script><script src="surface/selftest.js?v=20261028124426"></script><script src="surface/size.js?v=20261028124426"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261028124426"></script>
+<script src="surface/auto.js?v=20261028124426"></script>
+<script src="surface/toolpath.js?v=20261028124426"></script>
+<script src="surface/capture.js?v=20261028124426"></script>
+<script src="surface/pop.js?v=20261028124426"></script>
+<script src="surface/hints.js?v=20261028124426"></script>
+<script src="surface/paths.js?v=20261028124426"></script>
+<script src="surface/keys.js?v=20261028124426"></script>
+<script src="surface/reset.js?v=20261028124426"></script>
+<script src="surface/files.js?v=20261028124426"></script>
+<script src="surface/tabs.js?v=20261028124426"></script>
+<script src="surface/running.js?v=20261028124426"></script>
+<script src="surface/trim.js?v=20261028124426"></script>
+<script src="surface/audiowake.js?v=20261028124426"></script>
+<script src="surface/output.js?v=20261028124426"></script>
+<script src="surface/board.js?v=20261028124426"></script>
+<script src="surface/voice.js?v=20261028124426"></script>
+<script src="surface/voicelib.js?v=20261028124426"></script>
+<script src="surface/instruments.js?v=20261028124426"></script>
+<script src="surface/listview.js?v=20261028124426"></script>
+<script src="surface/beads.js?v=20261028124426"></script>
+<script src="surface/strip.js?v=20261028124426"></script>
+<script src="surface/sheetnav.js?v=20261028124426"></script>
+<script src="surface/twofinger.js?v=20261028124426"></script>
+<script src="surface/ring.js?v=20261028124426"></script>
+<script src="surface/shortlink.js?v=20261028124426"></script>
+<script src="surface/undo.js?v=20261028124426"></script>
+<script src="surface/pro.js?v=20261028124426"></script>
+<script src="surface/fresh.js?v=20261028124426"></script>
+<script src="surface/go.js?v=20261028124426"></script>
+<script src="surface/notice.js?v=20261028124426"></script>
+<script src="surface/perform.js?v=20261028124426"></script>
+<script src="surface/words.js?v=20261028124426"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -211,6 +211,8 @@ window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
 /* PRO IN BETA (Dimitry, 22 Oct): built Pro features are open to everyone while they are tested, marked with the open
    padlock; the version line lists them. Field is not built yet, so it stays shut; Scrub opened 27 Oct 17:37 ("Scrub totally works even on my phone ... It works fantastically"). Remove a line to close it. */
 try{SurfacePro.beta({
+  'pack.pattern':{name:'Pattern sounds',note:'a pack sound that follows the drawing, struck as the lines pass, panned where they are'},   // 0.33.98
+  'pack.custom':{name:'Change a pack',note:'choose where each of a pack\'s sounds can play: in the field, on the beat, under your finger, following the drawing; several at once'},   // 0.33.98
   scrub:{name:'Scrub',note:'a pad over the bar: drag across your scenes and the field follows your finger'},
   metronome:{name:'Metronome',note:'a click on the grid your scenes land on, from the end of Lands on in Autoplay'},   // 0.33.90
   'autoplay.dir':{name:'Bounce, Shuffle and Seed',note:'more ways for the robot to go: there and back, every scene once like a deck of cards, and a shuffle grown from words that always plays the same order'},   // 0.33.83, review bf95346c9c r-1: built, so in beta like the rest
@@ -229,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261028122714"></script>
-<script src="surface/rail.js?v=20261028122714"></script>
-<script src="surface/touchsound.js?v=20261028122714"></script>
-<script src="surface/water.js?v=20261028122714"></script>
-<script src="surface/ripple.js?v=20261028122714"></script>
-<script src="surface/material.js?v=20261028122714"></script>
-<script src="surface/float.js?v=20261028122714"></script>
-<script src="surface/manual.js?v=20261028122714"></script>
+<script src="surface/pack.js?v=20261028124426"></script>
+<script src="surface/rail.js?v=20261028124426"></script>
+<script src="surface/touchsound.js?v=20261028124426"></script>
+<script src="surface/water.js?v=20261028124426"></script>
+<script src="surface/ripple.js?v=20261028124426"></script>
+<script src="surface/material.js?v=20261028124426"></script>
+<script src="surface/float.js?v=20261028124426"></script>
+<script src="surface/manual.js?v=20261028124426"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4407,7 +4409,7 @@ function applyLook(p,idx,instant,part){
    the next scene was the problem): part 'style' brings a scene's style and keeps your pattern (your word, your G-code);
    part 'pattern' brings its pattern and keeps your style. Autoplay and ‹ › follow the choice in Autoplay; a tap in the
    list always loads the whole scene. */
-function sceneSound(p,part){if(part!==undefined&&!AUTO.parts.sound)return;try{sceneWater(p)}catch(e){console.warn('scene water',e)}if(!p.audio)return;
+function sceneSound(p,part){if(part!==undefined&&!AUTO.parts.sound)return;try{sceneWater(p)}catch(e){console.warn('scene water',e)}try{scenePack(p)}catch(e){console.warn('scene pack',e)}if(!p.audio)return;
   if(p.audio==='off'){if((AUD.play.beat||AUD.play.byte)&&!AUD.play.file&&!AUD.play.loop&&AUD.src!=='mic')stopAudio();return}   // silence: the beat and the bytebeat stop, the water bed and your own music stay
   if(!isOn(p.audio)&&!AUD.play.file&&AUD.src!=='mic')startBeat(p.audio,true)}   // a tap in the list brings the whole scene, its sound too
 /* WHAT A SCENE CAN SAY NOW (22 Oct, the curated scenes): its water, its water surface, silence, its word, its words in
@@ -4415,6 +4417,11 @@ function sceneSound(p,part){if(part!==undefined&&!AUTO.parts.sound)return;try{sc
    you alone (a performer keeps the bed). water:false dries the sound; surface:false takes the surface away. Water is
    sound, so it follows Sound in the robot's changes; the surface is seen, so it follows Style. */
 const SURF_IDS=['still','drip','rain','wake','glass'];
+/* a scene's pack sounds: each one it names plays in its parts, the rest stop; a sound it names that you no longer have is
+   skipped (replacing it is the next step, Dimitry 28 Oct 08:31). A scene without pack sounds leaves yours alone. */
+function scenePack(p){const P=p.pack;if(!Array.isArray(P)||!window.INSTR)return;const want={};for(const e of P)if(e&&e.n)want[e.n+'|'+(e.k||'')]=Array.isArray(e.as)?e.as:[];
+  for(const x of INSTR.list()){if(x.own)continue;   /* your own recordings are yours: a scene names and switches only pack sounds (review 450ebbf r-3) */const w=want[x.name+'|'+(x.pack||'')]||[],now=x.play||[];if(w.join()!==now.join())INSTR.set(x.id,{play:w})}
+  try{bsSync()}catch(_){}try{sndChooseSync()}catch(_){}}
 function sceneWater(p){const w=p.water;if(w===undefined)return;
   if(w===false||w===null){if(WATER.on){WATER.on=false;waterSave();rippleSync();waterRoute()}return}
   if(typeof w!=='object')return;const W=window.SurfaceWater,P=W&&W.preset(w.preset);if(!P)return;
@@ -4733,7 +4740,7 @@ function randRing(){cancelAnimationFrame(randRaf);const g=$('rlTempo');if(!g)ret
   const tick=()=>{if($('rlist').hidden)return;const T=RAND.tempo;
     for(const b of g.querySelectorAll('.apBead')){const is=!!T&&+b.dataset.v===T;b.classList.toggle('ring',is);if(is)b.style.setProperty('--p',Math.min(1,(performance.now()-randAt)/(T*1000)).toFixed(4))}
     if(T)randRaf=requestAnimationFrame(tick)};tick()}
-function openRlist(){bsFollow('dice');closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
+function openRlist(){bsFollow('dice');if(!pinnedUp('plist'))closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return Object.assign({name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
   blend:S.blend&&S.blend!=='source-over'?S.blend:undefined,flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))},snapExtras())}
@@ -4744,6 +4751,9 @@ function snapExtras(){const o={};try{o.water=WATER.on?{preset:WATER.preset,depth
   try{if(!AUD.play.file&&!AUD.play.loop&&AUD.src!=='mic'){const a=AUD.play.byte||AUD.play.beat;o.audio=a&&a!=='Byte yours'?a:a?undefined:'off';if(o.audio===undefined)delete o.audio}}catch(_){}
   try{if(onTypeField()){const w=$('word').value.trim();if(w)o.word=w.slice(0,WORD_MAX)}if(SEQ.on&&store.seq.length)Object.assign(o,{words:store.seq.slice(0,24),seq:{order:SEQ.order,every:SEQ.every,morph:+store.textMorph||0}})}catch(_){}
   try{if(RAND.tempo)o.dice={tempo:RAND.tempo}}catch(_){}
+  /* WHAT PLAYS IS THE SCENE'S (Dimitry, 28 Oct 08:28: "role (assign) - play (in scene)"): the pack sounds playing, by name
+     and pack, and in which parts; only when you have pack sounds, so a scene from before keeps your sounds as they are */
+  try{const L=window.INSTR?INSTR.list():[];if(L.some(x=>!x.own))o.pack=L.filter(x=>!x.own&&(x.play||[]).length).map(x=>({n:x.name,k:x.pack||'',as:x.play.slice()}))}catch(_){}
   return o}
 // AUTO NAMES: a scene names itself from what it is (its pattern, motion, colors, modulation); the name is prefilled
 // and selected, so typing replaces it.
@@ -4999,7 +5009,7 @@ function roboEar(d){const R=document.documentElement;R.classList.remove('robo-ea
    it changes the scene under it at once, and the field follows. The robot waits while you scrub. */
 function scrubOK(){return !!window.__HOME__||isPro('scrub')}   /* in Pro beta since 0.33.85: open to everyone with the open padlock */
 function scrubSeq(){const ids=autoIds(),d=autoDir();if(d==='same')return autoSeq(ids);const q=(()=>{const set=new Set(ids);return orderedIds().filter(i=>set.has(i))})();return d==='back'?q.reverse():q}
-function scrubOpen(){scrubOpen.back=document.activeElement;try{closePlist()}catch(_){}let p=$('scrubPad');
+function scrubOpen(){scrubOpen.back=document.activeElement;try{if(!pinnedUp('plist'))closePlist()}catch(_){}let p=$('scrubPad');
   if(!p){p=document.createElement('div');p.id='scrubPad';p.className='scrubPad';
     p.innerHTML='<div class="spName" aria-hidden="true"></div><div class="spTrack" role="slider" tabindex="0" aria-label="Scrub: drag across to move through the scenes"><div class="spStrip"></div><div class="spThumb"></div></div><button type="button" class="spX" aria-label="Close scrub">'+PLI('<path d="M7 7l10 10M17 7 7 17"/>')+'</button>';
     document.body.appendChild(p);const tr=p.querySelector('.spTrack');let drag=false,last=0,tm=0,pend=-1;
@@ -5551,7 +5561,9 @@ function wireTapHold(el,h){
   /* a keyboard or screen-reader click (detail 0) is a tap; one that follows a pointer tap within 700 ms is the same tap
      again (22 Oct: a touch tap on the speaker turned the sound on and at once began turning it off) */
   el.addEventListener('click',e=>{if(e.detail===0&&performance.now()-lastTap>700)h.tap()})}
-const togList=tab=>$('plist').hidden?openPlist(typeof tab==='string'?tab:undefined):closePlist();
+/* a pinned Autoplay stays (Dimitry, 28 Oct 08:36: "even when I pin the auto play panel if I hit some combination of the
+   play mode buttons the panel disappears"): a hold on ‹ › or the robot shows its tab; only an unpinned panel closes */
+const togList=tab=>{const t=typeof tab==='string'?tab:undefined;if($('plist').hidden)return openPlist(t);if(pinnedUp('plist')){if(t&&plTabs)try{plTabs.show(t)}catch(_){}return}closePlist()};
 wireTapHold($('pPrev'),{tap:()=>stepPreset(-1),hold:()=>togList('looks')});
 wireTapHold($('pNext'),{tap:()=>stepPreset(1),hold:()=>togList('looks')});
 wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'&&!AUD.userOff)soundOn()},hold:()=>togList('auto')});   // autoplay brings the sound with it unless you switched it off
@@ -6298,7 +6310,7 @@ const batchOpen=()=>{try{return window.top!==window.self||/(^|\.)claude(usercont
 function batchBtn(){const acts=$('shotPop').querySelector('.scap-acts');if(acts&&!acts.querySelector('.btOpen')){const x=document.createElement('button');x.type='button';x.className='scap-go ghost btOpen';
   if(!batchOpen()){x.disabled=true;x.classList.add('soon');x.title='Batch export comes with Pro'}
   x.innerHTML='batch'+(window.SurfacePro&&SurfacePro.mark?(SurfacePro.mark('batch','secPro')||''):'');   /* the padlock, not a pro pill (Dimitry, 24 Oct 16:44) */x.setAttribute('aria-label',x.disabled?'Batch export: coming with Pro':'Batch export: capture many scenes or texts in this mode, saved as one zip (Pro)');if(!x.disabled)x.onclick=openBatch;acts.appendChild(x)}}
-function openShotPop(tab){bsFollow('capture');if(typeof closePlist==='function')closePlist();try{closeDrawers()}catch(_){}if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();try{if(SHOT_TABS)SHOT_TABS.show(tab||'capture')}catch(_){}$('pShot').setAttribute('aria-expanded','true')}
+function openShotPop(tab){bsFollow('capture');if(typeof closePlist==='function'&&!pinnedUp('plist'))closePlist();try{closeDrawers()}catch(_){}if(typeof closeRlist==='function')closeRlist();SHOT.open();batchBtn();try{if(SHOT_TABS)SHOT_TABS.show(tab||'capture')}catch(_){}$('pShot').setAttribute('aria-expanded','true')}
 function closeShotPop(){SHOT.close();$('pShot').setAttribute('aria-expanded','false')}
 /* BATCH IS A TAB (Dimitry, 24 Oct 16:49: "once you get to that modal, there's no way back to the export modal. It's a dead
    end ... it needs to be ... a tab at the bottom"): the capture panel's band carries two tabs, Capture and Batch, and the
@@ -8922,7 +8934,7 @@ let SWV=null,SWT=0;
    (readAudio) and audio wake already did */
 /* THE KIT ALONE (0.29.54, for the Frost ensemble): a beat, bed or pattern instrument playing with every other source off is
    heard too, so the field moves to it and the speaker lights (touch-only sounds wait for a finger, so they do not count) */
-const kitOn=()=>{try{return!!(window.INSTR&&AUD.ctx&&!AUD.userOff&&INSTR.list().some(x=>x.on&&x.role!=='touch'))}catch(_){return false}};
+const kitOn=()=>{try{return!!(window.INSTR&&AUD.ctx&&!AUD.userOff&&INSTR.list().some(x=>(x.play||[]).some(r=>r!=='touch')))}catch(_){return false}};
 const sounding=()=>!!AUD&&(AUD.src!=='off'||!!AUD.bed||kitOn());
 /* HEARD, NOT JUST CHOSEN (Dimitry, 25 Oct 09:09: after an update "at launch there is no sound playing but the bar still shows
    that there is … no syncing between the volume ring and the sound and what was actually happening in the bar"): a sound can
@@ -9256,10 +9268,11 @@ $('srTrace').onclick=()=>traceSource();
 /* PICTURE AUTOMATION presets: named starting points, then each slider's Auto is yours to change */
 /* THE HEADING SAYS THE CHOICE (Dimitry, 28 Oct 08:0x: "above it there's the title and to the right of the title a mid dot
    and the name of the currently selected choice … a reinforcement that's there even if you just have the icons"):
-   'WHICH WAY · FORWARD'. One choice lit: its word; several: how many; none: nothing. The word is the control's own. */
+   'WHICH WAY · FORWARD'. One choice lit: its word; several: their words, 'Pattern + Color' (Dimitry, 08:36: 'I don't think we
+   need to have two on'), more than three: how many; none: nothing. The word is the control's own. */
 window.apEcho=(h,group,get)=>{if(!h||!group)return;let e=h.querySelector('.apEcho');if(!e){e=document.createElement('span');e.className='apEcho';h.appendChild(e)}
   const word=b=>{const w=b.querySelector(':scope>span:not(.proB):not(.sr),.lab');if(w&&w.textContent.trim())return w.textContent.trim();const c=b.cloneNode(true);c.querySelectorAll('small,svg,.proB,em,i').forEach(x=>x.remove());return (c.textContent||'').trim()||(b.getAttribute('aria-label')||'').replace(/:.*$/,'').trim()};   /* the word it shows, not its long label */
-  const paint=()=>{let t='';try{if(get)t=get();else{const lit=[...group.querySelectorAll('[aria-checked=true],[aria-pressed=true]')],vis=lit.filter(b=>b.getClientRects().length),on=vis.length||!lit.length?vis:lit;   /* a hidden pane still says its choice (r-2) */t=on.length===1?word(on[0]):on.length>1?(on.length===[...group.querySelectorAll('[aria-pressed],[aria-checked]')].length?'all':on.length+' on'):''}}catch(_){}
+  const paint=()=>{let t='';try{if(get)t=get();else{const lit=[...group.querySelectorAll('[aria-checked=true],[aria-pressed=true]')],vis=lit.filter(b=>b.getClientRects().length),on=vis.length||!lit.length?vis:lit;   /* a hidden pane still says its choice (r-2) */t=on.length===1?word(on[0]):on.length>1?(on.length===[...group.querySelectorAll('[aria-pressed],[aria-checked]')].length?'all':on.length<=3?on.map(word).join(' + '):on.length+' on'):''}}catch(_){}
     e.textContent=t?' · '+t:''};
   paint();try{new MutationObserver(paint).observe(group,{subtree:true,attributes:true,attributeFilter:['aria-checked','aria-pressed']})}catch(_){}return paint};
 const PIC_PRESETS=[
@@ -9681,14 +9694,17 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
   const RI=k=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+((window.SurfaceInstruments&&SurfaceInstruments.ROLE_ICONS||{})[k]||'')+'</svg>';
   /* the tabs wear the Pack panel's own role icons (one icon, one meaning): on the beat, the bed (underneath), touch */
   const SV_TABS=[['beats','Beats',RI('beat'),'Beats: what plays in time'],['field','Field',RI('bed'),'Field: what plays underneath, the water and pack beds'],['touch','Touch',RI('touch'),'Touch: what your finger plays']];
-  const packSig=()=>{try{return window.INSTR?INSTR.list().map(x=>x.id+(x.on?1:0)+x.role).join(','):''}catch(_){return ''}};
+  const packSig=()=>{try{return window.INSTR?INSTR.list().map(x=>x.id+':'+(x.play||[]).join('')+':'+(x.roles||[]).join('')).join(','):''}catch(_){return ''}};
   const pkShort=n=>String(n).replace(/[:,—–-].*$/,'').trim().split(/\s+/)[0]||n;
   const esc=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
-  const SRCROW=(roles,label,water,box,ups)=>{const L=window.INSTR?INSTR.list().filter(x=>roles.includes(x.role)):[],by={},order=[];
+  /* a sound can be available in several parts and play in some (kit instruments.js, 28 Oct): in these parts? playing in them? */
+  const inR=(x,roles)=>(x.roles||[x.role]).some(r=>roles.includes(r)),onR=(x,roles)=>(x.play||(x.on?[x.role]:[])).some(r=>roles.includes(r)),asR=(x,roles)=>roles.find(r=>(x.roles||[x.role]).includes(r));
+  const setR=(x,roles,on)=>{try{if(on)INSTR.set(x.id,{on:true,as:asR(x,roles)});else for(const r of roles)if((x.play||[]).includes(r))INSTR.set(x.id,{on:false,as:r})}catch(_){}};
+  const SRCROW=(roles,label,water,box,ups)=>{const L=window.INSTR?INSTR.list().filter(x=>inR(x,roles)):[],by={},order=[];
     for(const x of L){if(!by[x.pack]){by[x.pack]=[];order.push(x.pack)}by[x.pack].push(x)}
     const lib=window.INSTR&&INSTR.library?INSTR.library().filter(q=>!q.here&&q.role&&roles.includes(q.role)&&!by[q.name]):[];
-    const packOn=pk=>by[pk].some(x=>x.on),cur=()=>water.on()?'water':(order.find(packOn)||'');
-    const allOff=keep=>{for(const pk of order)for(const x of by[pk])if(x.on!==(pk===keep))try{INSTR.set(x.id,{on:pk===keep})}catch(_){}};
+    const packOn=pk=>by[pk].some(x=>onR(x,roles)),cur=()=>water.on()?'water':(order.find(packOn)||'');
+    const allOff=keep=>{for(const pk of order)for(const x of by[pk])if(onR(x,roles)!==(pk===keep))setR(x,roles,pk===keep)};
     if(!box)return {cur:cur(),by};   /* the drawer only needs the choice; the shelf above draws it */
     rule(box);const g=radios(label,'bsG bsSrc');
     const w=radio(g,'<i class="pkD" style="--pk:var(--acc,#55b8c9)" aria-hidden="true"></i>Water','Water'+(water.on()?', playing: tap to turn it off':''),'water',()=>{if(cur()==='water'){water.off();toast(water.offSay)}else{allOff(null);water.pick();toast(water.say)}bsSync();try{sndChooseSync()}catch(_){}});w.className='bsPill pkS';
@@ -9889,10 +9905,10 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       const v=sView();const ups=[];
       const door=(label,aria,fn)=>{if(box.children.length)rule(box);   /* no divider first (review b1168a48ec r-5) */const d=mk('button','bsPill',label+' ⌃');d.type='button';d.setAttribute('aria-label',aria);d.onclick=fn;box.appendChild(d)};
       /* the pack sounds that play this way: a pill each, its pack's dot first; tap to switch it */
-      const packs=(roles,only)=>{const L=window.INSTR?INSTR.list().filter(x=>roles.includes(x.role)&&(!only||x.pack===only)):[];if(!L.length)return;if(box.children.length)rule(box);
+      const packs=(roles,only)=>{const L=window.INSTR?INSTR.list().filter(x=>inR(x,roles)&&(!only||x.pack===only)):[];if(!L.length)return;if(box.children.length)rule(box);
         const g=mk('div','bsG');g.setAttribute('role','group');g.setAttribute('aria-label','Pack sounds');
         for(const x of L){const b=mk('button','bsPill pkS','<i class="pkD" style="--pk:'+packColor(x.pack)+'" aria-hidden="true"></i>');b.appendChild(document.createTextNode(x.name));b.type='button';b.setAttribute('role','switch');
-          b.setAttribute('aria-checked',String(!!x.on));b.setAttribute('aria-label',x.name+', from '+x.pack+': '+(x.on?'on':'off'));b.title=x.pack;b.onclick=()=>{try{INSTR.set(x.id,{on:!x.on})}catch(_){}};g.appendChild(b)}
+          const xo=onR(x,roles);b.setAttribute('aria-checked',String(xo));b.setAttribute('aria-label',x.name+', from '+x.pack+': '+(xo?'on':'off'));b.title=x.pack;b.onclick=()=>setR(x,roles,!xo);g.appendChild(b)}
         box.appendChild(g)};
       /* ONE CHOICE OF SOURCE (Dimitry, 26 Oct 22:36-22:44: "I could not figure out how to switch from water to glass … I don't
          see how to be able to switch it or where"; "when I want to select that group"): Field and Touch open with the
@@ -9904,14 +9920,14 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
          under its dot (Water, then each pack with sounds that play this way); a tap plays that sound and makes its source
          the one lit above, the others off. */
       const grpLab=(name,col)=>{if(box.children.length)rule(box);const l=mk('span','bsGrp','<i class="pkD" style="--pk:'+col+'" aria-hidden="true"></i>');l.appendChild(document.createTextNode(name));box.appendChild(l)};
-      const packGroups=(roles,waterOff)=>{const L=window.INSTR?INSTR.list().filter(x=>roles.includes(x.role)):[],by={},order=[];for(const x of L){if(!by[x.pack]){by[x.pack]=[];order.push(x.pack)}by[x.pack].push(x)}
+      const packGroups=(roles,waterOff)=>{const L=window.INSTR?INSTR.list().filter(x=>inR(x,roles)):[],by={},order=[];for(const x of L){if(!by[x.pack]){by[x.pack]=[];order.push(x.pack)}by[x.pack].push(x)}
         for(const pk of order){grpLab(pkShort(pk),packColor(pk));const g=mk('div','bsG');g.setAttribute('role','group');g.setAttribute('aria-label',pk);
           for(const x of by[pk]){const b=mk('button','bsPill',esc(x.name));b.type='button';b.setAttribute('role','switch');b.title=pk;
-            const sync=()=>{b.setAttribute('aria-checked',String(!!x.on));b.setAttribute('aria-label',x.name+', from '+pk+': '+(x.on?'playing':'off'))};sync();ups.push(()=>{const y=INSTR.list().find(z=>z.id===x.id);if(y){x.on=y.on;sync()}});
-            b.onclick=()=>{try{const turnOn=!x.on;if(turnOn){waterOff();for(const o of INSTR.list())if(roles.includes(o.role)&&o.pack!==pk&&o.on)INSTR.set(o.id,{on:false})}INSTR.set(x.id,{on:turnOn})}catch(_){}bsSync();try{sndChooseSync()}catch(_){}};g.appendChild(b)}
+            let xo=onR(x,roles);const sync=()=>{b.setAttribute('aria-checked',String(xo));b.setAttribute('aria-label',x.name+', from '+pk+': '+(xo?'playing':'off'))};sync();ups.push(()=>{const y=INSTR.list().find(z=>z.id===x.id);if(y){xo=onR(y,roles);sync()}});
+            b.onclick=()=>{try{const turnOn=!xo;if(turnOn){waterOff();for(const o of INSTR.list())if(o.pack!==pk&&onR(o,roles))setR(o,roles,false)}setR(x,roles,turnOn)}catch(_){}bsSync();try{sndChooseSync()}catch(_){}};g.appendChild(b)}
           box.appendChild(g)}
         return order.length};
-      const packsOff=roles=>{try{for(const o of INSTR.list())if(roles.includes(o.role)&&o.on)INSTR.set(o.id,{on:false})}catch(_){}};
+      const packsOff=roles=>{try{for(const o of INSTR.list())if(onR(o,roles))setR(o,roles,false)}catch(_){}};
       if(v==='field'){const W=window.SurfaceWater;
         if(W){grpLab('Water','var(--acc,#55b8c9)');const curP=()=>WATER.on?WATER.preset:'';
           const ps=oneOf(box,'The water. Tap the lit one for dry',W.PRESETS.map(P=>[P.id,P.name,P.name+': '+P.note]),curP,x=>{if(x){packsOff(['bed']);waterPreset(x)}else waterOff();try{sndChooseSync()}catch(_){}});ups.push(()=>check(ps,curP()))}
@@ -10657,6 +10673,13 @@ const BETA={url:'https://ofvwgdniibxpuncdzjhm.supabase.co/rest/v1/beta_signups',
 window.SESSION=null;
 window.INSTR=null;try{if(window.SurfaceInstruments&&window.SurfaceVoice)INSTR=SurfaceInstruments.mount({key:'current',lib:window.__HOME__?undefined:false,   /* (Dimitry, 26 Oct 22:46: the glass is his, for an unreleased piece; nothing of the studio's library in public. 22:46 "let's test them": the private preview, which alone carries __HOME__, keeps the library) */
   words:{title:'Pack',save:'Save as a pack',lead:'Bring in your own sounds'},host:()=>$('packBody'),
+  /* the parts by the bar's names (Dimitry, 28 Oct 08:18: the panel said Bed and On the beat, the bar Field and Beats) */
+  roleNames:{bed:'Field',beat:'Beat'},roleOrder:['beat','bed','touch','pattern','pad'],
+  /* CHANGING A PACK IS PRO (Dimitry, 28 Oct 08:32: "buying, playing a pack is for all versions, customizing sound packs is
+     def a pro feature"): where a sound can play; in beta it is open, marked with the open padlock */
+  /* PATTERN IS PRO (Dimitry, 28 Oct 08:39: "things like pattern are definitely pro features"): a sound that follows the drawing */
+  pro:{pattern:'pack.pattern'},
+  edit:{mark:'pack.custom',ok:()=>isPro('pack.custom'),say:()=>toast('Choosing where a pack\'s sounds can play is Pro',2600)},
   /* each pack credits its author (Dimitry, 25 Oct 23:07: "water by Dimitry Saïd Chamy … a credit for the author"); the studio's own are his */
   libBy:'Dimitry Saïd Chamy',
   /* PLAYING NOW's first row is the water (Dimitry, 26 Oct 08:17): which water, or dry, and the way to its tab */
@@ -10829,10 +10852,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261028122714"></script>
-<script src="surface/links.js?v=20261028122714"></script>
-<script src="surface/tips.js?v=20261028122714"></script>
-<script src="surface/sections.js?v=20261028122714"></script>
+<script src="surface/install.js?v=20261028124426"></script>
+<script src="surface/links.js?v=20261028124426"></script>
+<script src="surface/tips.js?v=20261028124426"></script>
+<script src="surface/sections.js?v=20261028124426"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11016,7 +11039,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261028122714"></script>
+<script src="surface/room.js?v=20261028124426"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11217,7 +11240,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261028122714"></script>
+<script src="surface/touch.js?v=20261028124426"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11925,7 +11948,7 @@ function fldSyncPre(){for(const b of $('fpPre').children){const v=FLD_PRESETS.fi
 function fldSync(){const on=fldOn(),P=$('fieldPop');P.classList.toggle('locked',!on);
   for(const k of FLD_KEYS){const i=$('fp-'+k);if(!i)continue;if(document.activeElement!==i)i.value=S[k];$('fpv-'+k).textContent=fldFmt(k,S[k]);i.setAttribute('aria-disabled',String(!on))}
   for(const b of $('fpPre').children)b.setAttribute('aria-disabled',String(!on));fldSyncPre()}
-function openFieldPop(){buildFieldPop();try{closePlist();closeRlist();closeShotPop();closeMix();closeColorMix();closeDrawers()}catch(_){}
+function openFieldPop(){buildFieldPop();try{if(!pinnedUp('plist'))closePlist();closeRlist();closeShotPop();closeMix();closeColorMix();closeDrawers()}catch(_){}
   $('fieldPop').hidden=false;fldSync();if(fldOn())fldSay('The field under this scene. Presets, or your own.');else fldLockedSay();
   clearInterval(FLD_T);FLD_T=setInterval(()=>{if($('fieldPop').hidden){clearInterval(FLD_T);return}fldSync()},300);
   try{$('fpClose').focus({preventScroll:true})}catch(_){}if(window.cxCount)cxCount('field: open'+(fldOn()?'':' (locked)'),1)}
@@ -11961,7 +11984,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.97';
+const APP_VERSION='0.33.98';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

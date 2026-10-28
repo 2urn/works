@@ -166,13 +166,30 @@
     var LS = "surface.instruments." + (O.key || "tool"), list = [], kept = null;
     var PADO = O.pad && typeof O.pad === "object" ? O.pad : null;
     var MY_ROLES = PADO ? ROLES.concat([[PAD_ROLE[0], PADO.name || PAD_ROLE[1], PADO.title || PAD_ROLE[2]]]) : ROLES;
+    /* O.roleNames {bed: "Field", ...}: a tool calls the parts by its own names, the ones its bar uses (Current, 28 Oct) */
+    /* O.roleOrder ["beat","bed",...]: the parts in the tool's own order (its bar's) */
+    if (Array.isArray(O.roleOrder)) MY_ROLES = MY_ROLES.slice().sort(function (a, b) { var i = O.roleOrder.indexOf(a[0]), j = O.roleOrder.indexOf(b[0]); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
+    if (O.roleNames && typeof O.roleNames === "object") MY_ROLES = MY_ROLES.map(function (r) { var n = O.roleNames[r[0]]; return typeof n === "string" && n ? [r[0], n, r[2]] : r; });
     /* a set made in a tool with a part this one lacks (a pad, say): that sound plays as the default part here (review a4eb318a1e r-1) */
     function hasRole(r) { return MY_ROLES.some(function (x) { return x[0] === r; }); }
     function padCall(fn) { if (!PADO || typeof PADO[fn] !== "function") return null; try { return PADO[fn].apply(null, [].slice.call(arguments, 1)); } catch (e) { try { console.warn("[instruments] pad." + fn, e); } catch (_) {} return null; } }
     try { kept = JSON.parse(localStorage.getItem(LS + ".set") || "null"); } catch (e) { kept = null; }
+    /* WHERE A SOUND CAN PLAY, AND WHERE IT PLAYS (Dimitry, 28 Oct 08:18-08:28: "install, listen, load, role, play"; "should
+       there be a minimum of one role assigned always? ... otherwise why even load a sound"): roles is what a sound is
+       available as, one or more and never none; play is where it plays now, some of its roles or none. role and on are
+       kept for older callers: the first role, and whether it plays anywhere. */
+    function norm(x) {
+      var rs = (Array.isArray(x.roles) ? x.roles : [x.role]).filter(function (r, i, a) { return r && hasRole(r) && a.indexOf(r) === i; });
+      if (!rs.length) rs = [x.role && hasRole(x.role) ? x.role : "touch"];
+      var pl = Array.isArray(x.play) ? x.play : x.on === false ? [] : [rs[0]];
+      x.roles = rs; x.play = pl.filter(function (r, i, a) { return rs.indexOf(r) >= 0 && a.indexOf(r) === i; });
+      x.role = rs[0]; x.on = x.play.length > 0; return x;
+    }
+    function plays(x, r) { return x.play.indexOf(r) >= 0; }
     try { list = JSON.parse(localStorage.getItem(LS) || "[]").filter(function (x) { return x && isRecipe(x.recipe); }); } catch (e) { list = []; }
-    function save() { try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
-    function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, every: x.every, on: x.on, pack: packOf(x) }; }); }
+    list.forEach(norm);
+    function save() { list.forEach(norm); try { localStorage.setItem(LS, JSON.stringify(list)); } catch (e) {} try { O.onChange && O.onChange(pub()); } catch (e) {} }
+    function pub() { return list.map(function (x) { return { id: x.id, name: x.name, role: x.role, roles: x.roles.slice(), play: x.play.slice(), every: x.every, on: x.on, pack: packOf(x), own: packOf(x) === "Your own sounds" }; }); }   // own: a recording of yours, in no pack (packOf names it 'Your own sounds')
     function ctx() { try { return O.ctx && O.ctx(); } catch (e) { return null; } }
     function dest() { try { return O.dest && O.dest(); } catch (e) { return null; } }
     function soundOn() { try { return !!(O.on && O.on()); } catch (e) { return false; } }
@@ -198,7 +215,7 @@
     if (O.stage) {
       O.stage.addEventListener("pointerdown", function (e) {
         if (e.button > 0 || !soundOn()) return;
-        var T = list.filter(function (x) { return x.on && x.role === "touch"; }); if (!T.length) return;
+        var T = list.filter(function (x) { return plays(x, "touch"); }); if (!T.length) return;
         var r = O.stage.getBoundingClientRect(), pan = r.width ? ((e.clientX - r.left) / r.width) * 2 - 1 : 0;
         held[e.pointerId] = T.map(function (x) { return strike(x, undefined, pan, undefined); }).filter(Boolean);
       }, { passive: true });
@@ -220,24 +237,25 @@
       if (!on) { if (wasOn) { bedStop(); hush(); resetBed(); } wasOn = false; next = {}; return; }
       wasOn = true;
       var g = grid(c), step = 60 / g.bpm / 4, now = c.currentTime, ahead = now + 0.12;
-      list.forEach(function (x) {
-        if (!x.on || (x.role !== "beat" && x.role !== "pattern")) return;
-        var E = EVERY.filter(function (e) { return e[0] === x.every; })[0] || (x.role === "pattern" ? EVERY[3] : EVERY[0]);
+      /* a sound can play on the beat and follow the drawing at once: each part keeps its own count */
+      var BP = []; list.forEach(function (x) { if (plays(x, "beat")) BP.push([x, "beat"]); if (plays(x, "pattern")) BP.push([x, "pattern"]); });
+      BP.forEach(function (xr) { var x = xr[0], role = xr[1], key = x.id + ":" + role;
+        var E = EVERY.filter(function (e) { return e[0] === x.every; })[0] || (role === "pattern" ? EVERY[3] : EVERY[0]);
         var every = E[2], off = x.every === "off" ? 2 : x.every === "back" ? 4 : 0;
-        var k = next[x.id]; if (k == null) k = Math.ceil((now + 0.03 - g.zero) / step);
+        var k = next[key]; if (k == null) k = Math.ceil((now + 0.03 - g.zero) / step);
         for (; ; k++) {
           var t = g.zero + k * step; if (t > ahead) break; if (t < now) continue;
           var m = ((k - off) % every + every) % every;
           if (x.every === "back" ? (m !== 0 && m !== 8) : m) continue;
-          if (x.role === "beat") strike(x, t, null, oneShot(x));
+          if (role === "beat") strike(x, t, null, oneShot(x));
           else {
             var C = []; try { C = (O.cuts && O.cuts()) || []; } catch (e) {}
             if (!C.length) { strike(x, t, null, oneShot(x)); continue; }
-            var i = (cutAt[x.id] || 0) % C.length; cutAt[x.id] = i + 1; var s = C[i];
+            var i = (cutAt[key] || 0) % C.length; cutAt[key] = i + 1; var s = C[i];
             strike(x, t, (s[0] + s[2]) - 1, oneShot(x));   // panned where the cut is: its middle, -1 left … 1 right
           }
         }
-        next[x.id] = k;
+        next[key] = k;
       });
       bedSync(c);
     }
@@ -247,7 +265,7 @@
     var bed = { h: [], ids: "", t: 0 };
     function bedStop() { var c = ctx(); bed.h.forEach(function (v) { try { v.release(c ? c.currentTime : undefined); } catch (_) {} }); bed.h = []; bed.ids = ""; }
     function bedSync(c) {
-      var B = list.filter(function (x) { return x.on && x.role === "bed"; }), ids = B.map(function (x) { return x.id; }).join(",");
+      var B = list.filter(function (x) { return plays(x, "bed"); }), ids = B.map(function (x) { return x.id; }).join(",");
       if (ids !== bed.ids) { bedStop(); bed.ids = ids; bed.t = 0; }
       if (!B.length) return;
       B.forEach(function (x) {
@@ -326,7 +344,7 @@
       var base = kept ? JSON.parse(JSON.stringify(kept)) : {};
       base.format = "instrument/1"; base.engine = O.key || "tool"; base.name = name || base.name || ((O.name || "My") + " instruments");
       base.recipes = list.map(function (x) { return x.recipe; });
-      base.roles = {}; list.forEach(function (x) { base.roles[x.name] = { role: x.role, every: x.every, on: x.on, level: x.level }; });
+      base.roles = {}; list.forEach(function (x) { base.roles[x.name] = { role: x.role, roles: x.roles.slice(), play: x.play.slice(), every: x.every, on: x.on, level: x.level }; });
       return base;
     }
     function deliver(blob, fn) {
@@ -360,7 +378,7 @@
         var k = (r.name || "sound") + "|" + JSON.stringify(r).length; if (have[k]) return; have[k] = 1;
         var R = roles && roles[r.name] || {}, rl = R.role && hasRole(R.role) ? R.role : role || "touch", lv = typeof R.level === "number" ? R.level : r._level != null ? r._level : 1;
         if (r._level != null) { r = JSON.parse(JSON.stringify(r)); delete r._level; }
-        list.push({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv, pack: pack ? String(pack).slice(0, 60) : undefined }); n++;
+        list.push(norm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: r, role: rl, roles: Array.isArray(R.roles) ? R.roles.slice() : undefined, play: Array.isArray(R.play) ? R.play.slice() : undefined, every: R.every || (rl === "pattern" ? "eighth" : "beat"), on: R.on == null ? true : !!R.on, level: lv, pack: pack ? String(pack).slice(0, 60) : undefined })); n++;
       });
       resetBed(); save(); return n;
     }
@@ -426,13 +444,15 @@
       ".sin button.b{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgb(var(--ui-hi,255 255 255) / .1);color:var(--ui-ink,#fff);font:600 10px/1 var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}" +
       ".sin button.go{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}.sin .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
       ".sin .seg{display:flex;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:11px;overflow:hidden}" +
+      /* switches, not one choice: each its own key with a gap, so several can be lit (28 Oct) */
+      ".sin .seg.tgl{border:0;border-radius:0;overflow:visible;gap:6px}.sin .seg.tgl button{border:1px solid rgb(var(--ui-hi,255 255 255) / .2)!important;border-radius:11px}.sin .seg.tgl button[aria-pressed=true]{border-color:transparent!important}" +
       ".sin .seg button{flex:1;min-width:0;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px;border:0;background:none;color:rgb(var(--ui-hi,255 255 255) / .75);font:600 9.5px/1.15 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
       ".sin .seg .ri{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sin .seg .ri .f{fill:currentColor;stroke:none}" +
       ".sin .seg button{position:relative}.sin .seg .proB{position:absolute;top:4px;right:5px;line-height:0;font-style:normal;color:var(--acc-tx,var(--acc,#55b8c9));pointer-events:none}.sin .seg .proB svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.sin .seg .proB svg .bolt{fill:currentColor;stroke:none}.sin .seg button[aria-checked=true] .proB{color:inherit}" +
       ".sin .ps{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px 0 8px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:16px;background:none;color:rgb(var(--ui-hi,255 255 255) / .85);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:grab;touch-action:none}" +
       ".sin .pst .proB{display:inline-block;margin-left:6px;vertical-align:-1px;line-height:0;color:var(--acc-tx,var(--acc,#55b8c9))}.sin .pst .proB svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.sin .pst .proB svg .bolt{fill:currentColor;stroke:none}" +
       ".sin .ps i{width:14px;height:14px;border-radius:50%;background:var(--c,#fff);box-shadow:0 0 8px var(--c,#fff);flex:none}.sin .pads{display:flex;flex-wrap:wrap;gap:6px}" +
-      ".sin .seg button+button{border-left:1px solid rgb(var(--ui-hi,255 255 255) / .2)}.sin .seg button[aria-checked=true]{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}" +
+      ".sin .seg button+button{border-left:1px solid rgb(var(--ui-hi,255 255 255) / .2)}.sin .seg button[aria-checked=true],.sin .seg button[aria-pressed=true]{background:var(--ui-ink,#fff);color:var(--ui-solid,#0b0f10)}" +
       ".sin .snd{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .1)}" +
       ".sin .hd{display:flex;align-items:center;gap:8px}.sin .hd .nm{flex:1;min-width:0;font:600 13px/1.2 var(--sans,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
       ".sin .hd button{width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgb(var(--ui-hi,255 255 255) / .08);color:var(--ui-ink,#fff);cursor:pointer;display:grid;place-items:center}" +
@@ -441,7 +461,8 @@
       /* the Pack row, read at a glance (Dimitry, 26 Oct 00:39: "What does this mean? … Is it for preset default of what?"): the
          switch is lit with a check when the sound plays and an empty ring when it is off; an off row dims its roles and timing (not Hear: you may listen before turning it on, review 61551ce-r-2);
          the timing pill says what it is */
-      ".sin .off .seg,.sin .off .evr{opacity:.45}.sin .hd .tg[aria-pressed=false]{background:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}" +
+      ".sin .hd .nw{flex:none;width:8px;height:8px;border-radius:50%;background:var(--acc,#55b8c9);box-shadow:0 0 6px var(--acc,#55b8c9);margin-right:2px}"+
+      ".sin .hd .tg[aria-pressed=false]{background:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .3)}" +
       ".sin .evr{display:flex;align-items:center;gap:10px}.sin .evl{font:600 9px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--ui-hi,255 255 255) / .5)}" +
       ".sin .ev{align-self:flex-start;height:28px;padding:0 10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);border-radius:14px;background:none;color:rgb(var(--ui-hi,255 255 255) / .8);font:600 9.5px/1 var(--mono,monospace);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}" +
       /* THE BROWSER (Dimitry, 24 Oct: the explanation behind an i beside the heading, import and folder as round buttons at the top right, the library a browser shown or grouped by kind like the scenes, Water in it as itself) */
@@ -466,6 +487,12 @@
     function el(t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
     function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function proMk(r) { var f = O.pro && O.pro[r]; return f && window.SurfacePro && SurfacePro.mark ? '<em class="proB">' + SurfacePro.mark(f) + "</em>" : ""; }
+    /* a sound's parts as switches: lit = it can play there (Dimitry, 28 Oct 08:18: "maybe they are toggles ... you could
+       play the same sound as a field and also ... with touch") */
+    function tog(x) { return '<div class="seg tgl" role="group" aria-label="Where ' + esc(x.name) + ' can play">' + MY_ROLES.map(function (r) { var on = x.roles.indexOf(r[0]) >= 0;
+      return '<button type="button" data-r="' + r[0] + '" aria-pressed="' + on + '" title="' + esc(r[1] + ": " + r[2]) + (on && x.roles.length === 1 ? " (its only part: a sound keeps one)" : "") + '">' + roleIcon(r[0]) + "<span>" + esc(r[1]) + "</span>" + (proMk(r[0]) || editMk()) + "</button>"; }).join("") + "</div>"; }
+    /* the tool's mark on switches it gates (O.edit.mark: a feature id for SurfacePro.mark), so a gated switch says so before a tap (review 450ebbf r-2) */
+    function editMk() { var f = O.edit && O.edit.mark; return f && window.SurfacePro && SurfacePro.mark ? '<em class="proB">' + SurfacePro.mark(f) + "</em>" : ""; }
     function seg(cur, label) { return '<div class="seg" role="radiogroup" aria-label="' + label + '">' + MY_ROLES.map(function (r) { return '<button type="button" role="radio" data-r="' + r[0] + '" aria-checked="' + (cur === r[0]) + '" title="' + r[2] + '">' + roleIcon(r[0]) + "<span>" + r[1] + "</span>" + proMk(r[0]) + "</button>"; }).join("") + "</div>"; }
     function ensure() {
       if (box) return;
@@ -617,13 +644,13 @@
         (t.open ? '<button type="button" class="pko" data-t="' + i + '">' + esc(t.label || "Open") + "</button>" : "") + "</div>"; });
       var GR = pending ? [] : packs();
       GR.forEach(function (g, gi) { var n = g.sounds.filter(function (x) { return x.on; }).length;
-        h += '<div class="pk' + (n ? "" : " off") + '" data-g="' + gi + '"><span class="pn">' + esc(g.name) + '</span><small>' + (n === g.sounds.length ? n + " sound" + (n > 1 ? "s" : "") + " on" : n ? n + " of " + g.sounds.length + " on" : "off") + "</small>" +
-          '<button type="button" class="pkt" aria-pressed="' + (n > 0) + '" aria-label="' + esc(g.name) + (n ? ": on. Tap to silence the whole pack" : ": off. Tap to play the whole pack") + '" title="' + (n ? "On: tap to silence the pack" : "Off: tap to play the pack") + '">' + (n ? ON : OFFI) + "</button></div>";
+        h += '<div class="pk' + (n ? "" : " off") + '" data-g="' + gi + '"><span class="pn">' + esc(g.name) + '</span><small>' + g.sounds.length + " sound" + (g.sounds.length > 1 ? "s" : "") + (n ? " · " + n + " playing" : "") + "</small>" +
+          "</div>";
         g.sounds.forEach(function (x) { h += row(x); }); });
       function row(x) { var h = "";
-        h += '<div class="snd' + (x.on ? "" : " off") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + '</span><button type="button" class="pv" aria-label="Hear ' + esc(x.name) + '" title="Hear it">' + PLAY + '</button><button type="button" class="tg" aria-pressed="' + x.on + '" aria-label="' + esc(x.name) + (x.on ? " plays" : " is off") + '" title="' + (x.on ? "On: tap to silence it" : "Off: tap to play it") + '">' + (x.on ? ON : OFFI) + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + seg(x.role, "How " + x.name + " plays") +
-          (x.role === "beat" || x.role === "pattern" ? '<div class="evr"><span class="evl" aria-hidden="true">How often</span><button type="button" class="ev" aria-label="How often ' + esc(x.name) + ' strikes: ' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + '. Tap for the next" title="How often: tap for the next">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button></div>" : "") +
-          (x.role === "pad" && PADO ? padBtn(x) : "") + "</div>";
+        h += '<div class="snd' + (x.on ? " now" : "") + '" data-id="' + x.id + '"><div class="hd"><span class="nm">' + esc(x.name) + "</span>" + (x.on ? '<i class="nw" role="img" aria-label="Playing now: ' + esc(x.play.map(function (r) { return (MY_ROLES.filter(function (m) { return m[0] === r; })[0] || [r, r])[1]; }).join(", ")) + '"></i>' : "") + '<button type="button" class="pv" aria-label="Listen to ' + esc(x.name) + ' (only you hear it; nothing changes)" title="Listen">' + PLAY + '</button><button type="button" class="rm" aria-label="Remove ' + esc(x.name) + '" title="Remove">' + BIN + "</button></div>" + tog(x) +
+          (x.roles.indexOf("beat") >= 0 || x.roles.indexOf("pattern") >= 0 ? '<div class="evr"><span class="evl" aria-hidden="true">How often</span><button type="button" class="ev" aria-label="How often ' + esc(x.name) + ' strikes: ' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + '. Tap for the next" title="How often: tap for the next">' + ((EVERY.filter(function (e) { return e[0] === x.every; })[0] || EVERY[0])[1]) + "</button></div>" : "") +
+          (x.roles.indexOf("pad") >= 0 && PADO ? padBtn(x) : "") + "</div>";
         return h; }
       var PS = PADO && padCall("presets");
       if (PS && PS.length) h += '<p class="st pst">' + esc(PADO.presetsTitle || "Ready on " + (PADO.surface || "the stage")) + proMk("pad") + "</p>" + '<div class="row">' + PS.map(function (p) { return '<button type="button" class="b pp" data-p="' + esc(p.name) + '" title="' + esc(p.note) + '">' + esc(p.name) + "</button>"; }).join("") + "</div>";
@@ -649,18 +676,24 @@
         var said = (n ? n + " sound" + (n > 1 ? "s" : "") + " added" : nl ? "" : "already here") + (nl ? (n ? " · " : "") + nl + " look" + (nl > 1 ? "s" : "") + " added" : "");
         keepSamples(smp).then(function (okd) { try { O.say && O.say(said + (okd ? "" : " · recordings kept for this visit only (no room on this device)")); } catch (e) {} }); };
       var nw = q(".new .seg"); if (nw) nw.querySelectorAll("button").forEach(function (b) { b.onclick = function () { pending.role = b.dataset.r; render(); }; });
-      box.querySelectorAll(".pk[data-g] .pkt").forEach(function (b) { b.onclick = function () { var g = GR[+b.parentNode.dataset.g]; if (!g) return; var on = !g.sounds.some(function (x) { return x.on; }); g.sounds.forEach(function (x) { x.on = on; }); resetBed(); save(); render(); }; });
       box.querySelectorAll(".pko").forEach(function (b) { b.onclick = function () { var t = NOW[+b.dataset.t]; try { t && t.open(); } catch (e) {} }; });
       box.querySelectorAll(".snd").forEach(function (row) {
         var x = list.filter(function (y) { return y.id === row.dataset.id; })[0]; if (!x) return;
-        row.querySelectorAll(".seg button").forEach(function (b) { b.onclick = function () { x.role = b.dataset.r; if (x.role === "pattern" && x.every === "beat") x.every = "eighth"; resetBed(); save();
-          if (x.role === "pad" && PADO && !padCall("count", x.id)) padCall("add", x.id, 0.5, 0.5);   // chosen for the stage: it stands there at once
+        row.querySelectorAll(".seg button").forEach(function (b) { b.onclick = function () { var r = b.dataset.r, i = x.roles.indexOf(r);
+          /* O.edit {ok(), say}: changing where a pack's sounds can play is the tool's to allow (Current: Pro, 28 Oct 08:32 "customizing sound packs is def a pro feature") */
+          if (O.edit && typeof O.edit.ok === "function") { var can = true; try { can = !!O.edit.ok(); } catch (e) {} if (!can) { try { O.edit.say ? O.edit.say(x, r) : O.say && O.say("Changing a pack is Pro"); } catch (e) {} return; } }
+          if (i >= 0) { if (x.roles.length === 1) { try { O.say && O.say(x.name + " keeps one part at least. To let it go, remove it."); } catch (e) {} return; }
+            x.roles.splice(i, 1); x.play = x.play.filter(function (y) { return y !== r; }); }
+          else { var pf = O.pro && O.pro[r];   /* a part the tool keeps for Pro (O.pro {pattern: id}) is offered, marked, and refused without it */
+            if (pf && window.SurfacePro && SurfacePro.is && !SurfacePro.is(pf)) { try { O.edit && O.edit.say ? O.edit.say(x, r) : O.say && O.say("That part is Pro"); } catch (e) {} return; }
+            x.roles.push(r); if (r === "pattern" && x.every === "beat" && x.roles.indexOf("beat") < 0) x.every = "eighth"; }
+          resetBed(); save();
+          if (r === "pad" && i < 0 && PADO && !padCall("count", x.id)) { x.play.push("pad"); save(); padCall("add", x.id, 0.5, 0.5); }   // chosen for the stage: it stands there at once
           render(); }; });
         var ps = row.querySelector(".ps"); if (ps) padWire(ps, x);
-        row.querySelector(".tg").onclick = function () { x.on = !x.on; resetBed(); save(); render(); };
         row.querySelector(".rm").onclick = function () { list = list.filter(function (y) { return y !== x; }); resetBed(); save(); render(); gcSamples(); };
         row.querySelector(".pv").onclick = function () { strike(x, undefined, null, oneShot(x) || 0.6); };
-        var ev = row.querySelector(".ev"); if (ev) ev.onclick = function () { var i = EVERY.findIndex(function (e) { return e[0] === x.every; }); x.every = EVERY[(i + 1) % EVERY.length][0]; next[x.id] = null; save(); render(); };
+        var ev = row.querySelector(".ev"); if (ev) ev.onclick = function () { var i = EVERY.findIndex(function (e) { return e[0] === x.every; }); x.every = EVERY[(i + 1) % EVERY.length][0]; next[x.id + ":beat"] = next[x.id + ":pattern"] = null; save(); render(); };
       });
     }
     /* hosted, open() shows the tool's panel first (O.show), and close() asks the tool to close it (O.hide) */
@@ -669,19 +702,26 @@
     function close() { if (!box) return; if (O.host) { box.hidden = true; if (O.hide) O.hide(); return; } box.classList.remove("on"); veil.classList.remove("on"); setTimeout(function () { box.hidden = veil.hidden = true; }, 300); }
     /* one sound, with its recipe (a pad reads what it plays); and "make sure these are here", for presets: each recipe that is
        already in the list (same name and recipe) is reused, the rest are added with the role; resolves their ids in order */
-    function sound(id) { var x = list.filter(function (y) { return y.id === id; })[0]; return x ? { id: x.id, name: x.name, recipe: x.recipe, role: x.role, on: x.on, level: x.level } : null; }
+    function sound(id) { var x = list.filter(function (y) { return y.id === id; })[0]; return x ? { id: x.id, name: x.name, recipe: x.recipe, role: x.role, roles: x.roles.slice(), play: x.play.slice(), on: x.on, level: x.level } : null; }
     function ensureSounds(recipes, role) {
       var ids = [], dirty = false;
       (recipes || []).forEach(function (r) { if (!isRecipe(r)) { ids.push(null); return; } var js = JSON.stringify(r);
         var x = list.filter(function (y) { return y.name === r.name && JSON.stringify(y.recipe) === js; })[0];
-        if (x) { if (role && (x.role !== role || !x.on)) { x.role = role; x.on = true; dirty = true; } }
-        else { x = { id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: JSON.parse(js), role: role || "touch", every: "beat", on: true, level: 1 }; list.push(x); dirty = true; }
+        if (x) { if (role && hasRole(role) && !plays(x, role)) { if (x.roles.indexOf(role) < 0) x.roles.push(role); x.play.push(role); dirty = true; } }
+        else { x = norm({ id: uid(), name: String(r.name || "sound").slice(0, 40), recipe: JSON.parse(js), role: role || "touch", every: "beat", on: true, level: 1 }); list.push(x); dirty = true; }
         ids.push(x.id); });
       if (dirty) { resetBed(); save(); render(); }
       return ids;
     }
     /* set(id, {on}): a tool's own shelf switches a sound (Current's lower drawer lists pack sounds by when they play, 26 Oct) */
-    function setSound(id, p) { var x = list.filter(function (y) { return y.id === id; })[0]; if (!x || !p) return false; if ("on" in p) x.on = !!p.on; resetBed(); save(); render(); return true; }
+    /* set(id, {on, as}): with as, plays it (or stops it) in that part, which it becomes available as if it wasn't; without,
+       on plays it in its first part when silent, off stops it everywhere. set(id, {play: [...]}) says the whole set (a scene). */
+    function setSound(id, p) { var x = list.filter(function (y) { return y.id === id; })[0]; if (!x || !p) return false;
+      if (Array.isArray(p.play)) { p.play.forEach(function (r) { if (hasRole(r) && x.roles.indexOf(r) < 0) x.roles.push(r); }); x.play = p.play.slice(); }
+      else if ("on" in p) { var r = p.as;
+        if (r && hasRole(r)) { if (p.on) { if (x.roles.indexOf(r) < 0) x.roles.push(r); if (!plays(x, r)) x.play.push(r); } else x.play = x.play.filter(function (y) { return y !== r; }); }
+        else x.play = p.on ? (x.play.length ? x.play : [x.roles[0]]) : []; }
+      norm(x); resetBed(); save(); render(); return true; }
     /* THE LIBRARY FROM OUTSIDE (Dimitry, 26 Oct 22:43: switching water and glass from the shelf): a tool can list what the
        library offers ({id, name, kind, here, role}) and take one, which opens the panel on that pack's add screen */
     function libPub() { return libItems().map(function (p) { var here = typeof p.here === "function" ? p.here() : !p.open && packs().some(function (g) { return g.name === p.name; });
