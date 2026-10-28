@@ -204,6 +204,7 @@
        a pulse of activity … it needs to go blue, and the dice could animate"): a one-shot dot flashes lit and swells, a
        roll item's icon turns over once. A value item may be lit (heard: the accent) and may paint a canvas behind its
        icon (a wave), so the ring's volume shows what the bar's speaker shows. */
+    ".sr-ring.sr-parked{opacity:.82;transition:opacity .2s}.sr-ring.sr-parked:hover{opacity:1}" +   /* parked: still there, a step back from the one in hand */
     ".sr-ring .sr-pin.sr-flash>svg{animation:srPinFlash .85s ease-in-out}@keyframes srPinFlash{0%,100%{transform:none;opacity:1}20%,60%{transform:scale(1.55);opacity:1;filter:drop-shadow(0 0 4px var(--acc,#55b8c9))}40%,80%{transform:scale(1.1)}}" +
     ".sr-ring:not(.pop) .sr-dot{transition:transform .35s cubic-bezier(.3,.7,.4,1),opacity .25s}" +
     ".sr-ring.sr-mini .sr-dot{transform:translate(0,0) scale(.3);opacity:0;pointer-events:none}" +
@@ -264,6 +265,23 @@
     "@media (prefers-reduced-motion:reduce){.sr-ring .sr-dot.sr-live::after{animation:none;transform:none;opacity:.6}.sr-ring.pop .sr-dot,.sr-ring.pop .sr-dot svg,.sr-ring.pop .sr-lab,.sr-ring.pop .sr-hub{animation:none}.sr-ring .sr-dot.sr-fold,.sr-ring .sr-dot.sr-chosen,.sr-ring .sr-hub.sr-gone{transition:none}}";
   function css() { if (document.getElementById("sring-css")) return; var st = document.createElement("style"); st.id = "sring-css"; st.textContent = CSS; (document.head || document.documentElement).prepend(st); }
   var RINGS = {}, cur = null;
+  /* MORE THAN ONE RING (Dimitry, 28 Oct 10:29: "if I'm on the desktop and there's plenty of room ... should I be able to
+     double tap another ring to come into being if the current ring has a pin on it ... Maybe this is a setting"; agreed
+     10:35): a pinned ring can be parked, still on the stage, while a new one opens; touching a parked ring makes it the
+     one in hand again (the one in hand, if pinned, is parked in its place). Setting 'surface.ring.more': 'auto' (a
+     computer with room), 'on', 'off' (the pin flashes, as before). At most three parked. */
+  var PARK = [], MOREK = "surface.ring.more";
+  function more(v) { if (v === "auto" || v === "on" || v === "off") { try { localStorage.setItem(MOREK, v); } catch (e) {} return v; }
+    var m; try { m = localStorage.getItem(MOREK); } catch (e) {} return m === "on" || m === "off" ? m : "auto"; }
+  function moreNow() { var m = more(); if (m !== "auto") return m === "on";
+    try { return matchMedia("(hover:hover) and (pointer:fine)").matches && innerWidth >= 1100; } catch (e) { return false; } }
+  function park() { var c = cur; if (!c) return; cur = null; document.removeEventListener("keydown", c.key, true); c.ring.classList.add("sr-parked"); PARK.push(c);
+    while (PARK.length > 3) { var old = PARK.shift(); try { old.ring.remove(); old.veil.remove(); } catch (e) {} try { old.o.onClose && old.o.onClose("api"); } catch (e) {} } }
+  function closeOne(c) { if (!c) return; if (cur === c) { close("api"); return; } var i = PARK.indexOf(c); if (i < 0) return; PARK.splice(i, 1);
+    try { c.ring.remove(); c.veil.remove(); } catch (e) {} try { c.o.onClose && c.o.onClose("api"); } catch (e) {} }
+  function wake(c) { var i = PARK.indexOf(c); if (i < 0) return; PARK.splice(i, 1);
+    if (cur) { if (cur.pinned) park(); else close("again"); }
+    cur = c; c.t0 = performance.now();   /* the tap that takes it in hand chooses nothing (r-3) */ c.ring.classList.remove("sr-parked"); document.addEventListener("keydown", c.key, true); try { c.ring._refresh && c.ring._refresh(); } catch (e) {} }
   var calm = function () { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
   var lastKey = function (k) { return "surface.ring.last." + (k || "tool"); };
   function last(k) { try { return localStorage.getItem(lastKey(k)) || null; } catch (e) { return null; } }
@@ -322,7 +340,7 @@
        defeats the purpose of pinning … instead the pin should flash, revealing that it's locked and has to be moved by hand"):
        while a ring is pinned, opening another (a double-tap, a key) only flashes its pin; switching rings from its own list
        still replaces it. */
-    if (cur && cur.pinned && !o._own) { flashPin(); return { close: function () { close("api"); }, el: cur.ring, ring: cur.id }; }
+    if (cur && cur.pinned && !o._own) { if (moreNow()) park(); else { flashPin(); return { close: function () { close("api"); }, el: cur.ring, ring: cur.id }; } }
     css(); close("again");
     var PAR = o._parent || null;   /* DOTS THAT ARE RINGS: reached through a dot, this ring goes back up instead of switching */
     /* THE LAST RING, EVEN A DOT'S (Dimitry, 27 Oct 07:51: a double tap "should return to the last menu that it was on ... it
@@ -500,7 +518,7 @@
           REOPEN = performance.now();   /* at most one quiet reopen per 300 ms: a ring whose ids differ on every call must not rebuild itself without end (review 7adcb0b543 r-2) */
           if (!ids) { close("api"); return; }
           open(Object.assign({}, o, { _own: true, _quiet: true, x: parseFloat(ring.style.left), y: parseFloat(ring.style.top), pinned: !!cur.pinned })); return; } } catch (er) {}
-      if (!cur || cur.ring !== ring) return;
+      if (!(cur && cur.ring === ring) && !PARK.some(function (p) { return p.ring === ring; })) return;   /* a parked ring still shows what is lit */
       if (rid || def.items) { var fresh = (typeof def.items === "function" ? def.items() : def.items || []).filter(Boolean);
         dots.forEach(function (b) { var f = fresh.filter(function (x) { return (x.id || "") === b.dataset.id; })[0]; if (f && f.kind !== "value") { b._it = f; dress(b, f); } else if (b._arc) b._arc(); }); }
       if (pow) { var on = !!PW.on(); pow.setAttribute("aria-pressed", String(on)); ring.classList.toggle("sr-off", !on);
@@ -577,7 +595,9 @@
       if (dx) hub.style.left = Math.round(dx) + "px";
     }
     var stop = function (e) { e.stopPropagation(); e.preventDefault(); };
-    veil.addEventListener("pointerdown", function (e) { stop(e); if (cur && performance.now() - cur.t0 < 250) return; close("outside"); });
+    veil.addEventListener("pointerdown", function (e) { stop(e); if (cur && performance.now() - cur.t0 < 250) return; close("outside");
+      /* the tap outside landed on a parked ring: that one is in hand now */
+      try { var hit = document.elementFromPoint(e.clientX, e.clientY), pr = hit && hit.closest && hit.closest(".sr-parked"); if (pr) for (var i = 0; i < PARK.length; i++) if (PARK[i].ring === pr) { wake(PARK[i]); break; } } catch (er) {} });
     ["pointerup", "click", "touchstart", "touchend"].forEach(function (t) { veil.addEventListener(t, stop, { passive: false }); });
     var key = function (e) {
       if (PAR && e.key === "Escape" && !ring.querySelector(".sr-list,.sr-dial,.sr-val")) { e.preventDefault(); e.stopPropagation(); back(); return; }   /* Escape in a ring reached through a dot goes back up one (review cb6b74d5e3 r-5) */
@@ -611,10 +631,14 @@
        bar, a key or a shelf shows here at once. SurfaceRing.refresh() does it on demand. */
     var syncT = setInterval(function () { if (!ring.isConnected) { clearInterval(syncT); return; } try { refresh(); } catch (e) {} }, 400);
     ring._refresh = refresh;
+    /* a touch on a parked ring takes it in hand before any of its own handlers run */
+    var wakeMe = function () { for (var i = 0; i < PARK.length; i++) if (PARK[i].ring === ring) { wake(PARK[i]); return; } };
+    ring.addEventListener("pointerdown", wakeMe, true); ring.addEventListener("focusin", wakeMe, true);
     /* THE PULSE with a level: the live dots follow it while the ring is open */
     if (typeof LV === "function") { ring.classList.add("sr-lv"); var lv = 0, tick = function () { if (!ring.isConnected) return; var v = 0; try { v = Math.max(0, Math.min(1, +LV() || 0)); } catch (e) {} lv += (v - lv) * (v > lv ? .6 : .18); /* up fast with a hit, down slower: a pump, not a flicker */ ring.style.setProperty("--lv", lv.toFixed(3)); requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     if (!o._quiet) requestAnimationFrame(function () { var f = dots.filter(function (b) { return b.getAttribute("aria-checked") === "true"; })[0] || dots[0]; try { f.focus({ preventScroll: true }); } catch (e) {} });
-    return { close: function () { close("api"); }, el: ring, ring: rid };
+    var me = cur;   /* each handle closes its own ring, in hand or parked (review 9dc4851 r-2) */
+    return { close: function () { closeOne(me); }, alive: function () { return !!me && (cur === me || PARK.indexOf(me) >= 0); }, el: ring, ring: rid };
   }
   /* a one-finger double-tap: two quick taps near each other, no drag between (the stage's own drag still pushes) */
   /* a level as an arc (hoisted: the dots are built before the code that follows them) */
@@ -658,5 +682,5 @@
     return out;
   }
   function flashPin() { if (!cur) return; var p = cur.ring.querySelector(".sr-pin"); if (!p) return; p.classList.remove("sr-flash"); void p.offsetWidth; p.classList.add("sr-flash"); setTimeout(function () { p.classList.remove("sr-flash"); }, 900); }
-  window.SurfaceRing = { refresh: function () { try { cur && cur.ring && cur.ring._refresh && cur.ring._refresh(); } catch (e) {} }, labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
+  window.SurfaceRing = { more: more, willPark: function () { return !!(cur && cur.pinned) && moreNow(); }, parked: function () { return PARK.length; }, refresh: function () { try { cur && cur.ring && cur.ring._refresh && cur.ring._refresh(); } catch (e) {} PARK.forEach(function (p) { try { p.ring._refresh && p.ring._refresh(); } catch (e) {} }); }, labels: labels, pinned: function () { return !!(cur && cur.pinned); }, open: open, define: define, last: last, MARK: MARK, close: function () { close("api"); }, isOpen: function () { return !!cur; }, current: function () { return cur && cur.id; }, doubleTap: doubleTap };
 })();
