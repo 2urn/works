@@ -90,7 +90,8 @@
     ".sa-ed[hidden]{display:none}",
     ".sa-fam{display:flex;flex-wrap:wrap;align-items:center;gap:2px}",
     ".sa-fam:has(>.sa-ic){gap:6px}",
-    ".sa-fam>i{font:500 9px/1 var(--sa-mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--sa-quiet,currentColor);opacity:.7;font-style:normal;width:46px;flex:none}",
+    ".sa-fam>i{font:500 9px/1 var(--sa-mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--sa-quiet,currentColor);opacity:.7;font-style:normal;min-width:46px;flex:none}",
+    ".sa-fam:has(>.sa-ic)>i{flex-basis:100%}",
     ".sa-fam button{font:12px var(--sa-mono,ui-monospace,monospace);padding:4px 7px;min-height:26px;background:transparent;border:0;border-radius:0;color:var(--sa-quiet,currentColor);cursor:pointer}",
     ".sa-fam button[aria-pressed=true]{color:var(--sa-acc)}",
     ".sa-fam button:hover{color:inherit}",
@@ -184,7 +185,8 @@
       fams.forEach(function (f) {
         var row = document.createElement("div"); row.className = "sa-fam"; row.setAttribute("role", "group");
         row.setAttribute("aria-label", opts.label + " Auto, " + f[0]);
-        var i = document.createElement("i"); i.textContent = f[0]; row.appendChild(i);
+        var i = document.createElement("i"); var on = m && f[1].filter(function (p) { return p[0] === m.shape; })[0];
+        i.textContent = f[0] + (on ? " · " + (AWORD[on[0]] || on[1]) : ""); row.appendChild(i);   /* the family says the choice (Dimitry, 28 Oct 08:0x) */
         f[1].forEach(function (p) {
           var b = document.createElement("button"); b.type = "button"; var ic = aIcon(p[0]);
           if (ic) { b.className = "sa-ic"; b.innerHTML = ic + "<span>" + (AWORD[p[0]] || p[1]) + "</span>"; } else b.textContent = p[1];

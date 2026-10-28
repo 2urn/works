@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261028115221";window.__VERSION__="0.33.96";window.__NOTES__=[{"v":"0.33.96","date":"28 Oct 2026","items":[{"kind":"change","text":"the Pro padlocks sit top right and quiet"},{"kind":"change","text":"choose above, play below: Beats, Field and Touch and the source (Water, your packs, +) sit in the sound shelf above the bar; the drawer under the bar holds only what plays"}]}]</script>
+<script>window.__BUILD__="20261028122714";window.__VERSION__="0.33.97";window.__NOTES__=[{"v":"0.33.97","date":"28 Oct 2026","items":[{"kind":"change","text":"the Seed words row wears the Seed tile's sprout beside its word"},{"kind":"change","text":"the drawer under the bar is never empty: in Field and Touch it shows every source's sounds, grouped under each one's dot (Water, then your packs); a tap plays it and lights its source above"},{"kind":"new","text":"headings say the choice: Which way · Forward, Lands on · Beat, Every · 15 s, Moves · Breathe, Move · Sine"},{"kind":"change","text":"+ in the sound shelf is the pack's cube with a plus, and a pack's name sits in the normal ink"},{"kind":"new","text":"Settings › Words: Always, Learn or Never. Learn (the default) shows the words beside the icons and fades each one once you know that control; a finger brings it back. Never is icons only, for small children"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261028115221"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261028115221">
+<script src="claude-web.js?v=20261028122714"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261028122714">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,40 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261028115221"></script>
-<script src="surface/nozoom.js?v=20261028115221"></script><script src="surface/steady.js?v=20261028115221"></script><script src="surface/selftest.js?v=20261028115221"></script><script src="surface/size.js?v=20261028115221"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261028115221"></script>
-<script src="surface/auto.js?v=20261028115221"></script>
-<script src="surface/toolpath.js?v=20261028115221"></script>
-<script src="surface/capture.js?v=20261028115221"></script>
-<script src="surface/pop.js?v=20261028115221"></script>
-<script src="surface/hints.js?v=20261028115221"></script>
-<script src="surface/paths.js?v=20261028115221"></script>
-<script src="surface/keys.js?v=20261028115221"></script>
-<script src="surface/reset.js?v=20261028115221"></script>
-<script src="surface/files.js?v=20261028115221"></script>
-<script src="surface/tabs.js?v=20261028115221"></script>
-<script src="surface/running.js?v=20261028115221"></script>
-<script src="surface/trim.js?v=20261028115221"></script>
-<script src="surface/audiowake.js?v=20261028115221"></script>
-<script src="surface/output.js?v=20261028115221"></script>
-<script src="surface/board.js?v=20261028115221"></script>
-<script src="surface/voice.js?v=20261028115221"></script>
-<script src="surface/voicelib.js?v=20261028115221"></script>
-<script src="surface/instruments.js?v=20261028115221"></script>
-<script src="surface/listview.js?v=20261028115221"></script>
-<script src="surface/beads.js?v=20261028115221"></script>
-<script src="surface/strip.js?v=20261028115221"></script>
-<script src="surface/sheetnav.js?v=20261028115221"></script>
-<script src="surface/twofinger.js?v=20261028115221"></script>
-<script src="surface/ring.js?v=20261028115221"></script>
-<script src="surface/shortlink.js?v=20261028115221"></script>
-<script src="surface/undo.js?v=20261028115221"></script>
-<script src="surface/pro.js?v=20261028115221"></script>
-<script src="surface/fresh.js?v=20261028115221"></script>
-<script src="surface/go.js?v=20261028115221"></script>
-<script src="surface/notice.js?v=20261028115221"></script>
-<script src="surface/perform.js?v=20261028115221"></script>
+<script src="vendor/opentype.min.js?v=20261028122714"></script>
+<script src="surface/nozoom.js?v=20261028122714"></script><script src="surface/steady.js?v=20261028122714"></script><script src="surface/selftest.js?v=20261028122714"></script><script src="surface/size.js?v=20261028122714"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261028122714"></script>
+<script src="surface/auto.js?v=20261028122714"></script>
+<script src="surface/toolpath.js?v=20261028122714"></script>
+<script src="surface/capture.js?v=20261028122714"></script>
+<script src="surface/pop.js?v=20261028122714"></script>
+<script src="surface/hints.js?v=20261028122714"></script>
+<script src="surface/paths.js?v=20261028122714"></script>
+<script src="surface/keys.js?v=20261028122714"></script>
+<script src="surface/reset.js?v=20261028122714"></script>
+<script src="surface/files.js?v=20261028122714"></script>
+<script src="surface/tabs.js?v=20261028122714"></script>
+<script src="surface/running.js?v=20261028122714"></script>
+<script src="surface/trim.js?v=20261028122714"></script>
+<script src="surface/audiowake.js?v=20261028122714"></script>
+<script src="surface/output.js?v=20261028122714"></script>
+<script src="surface/board.js?v=20261028122714"></script>
+<script src="surface/voice.js?v=20261028122714"></script>
+<script src="surface/voicelib.js?v=20261028122714"></script>
+<script src="surface/instruments.js?v=20261028122714"></script>
+<script src="surface/listview.js?v=20261028122714"></script>
+<script src="surface/beads.js?v=20261028122714"></script>
+<script src="surface/strip.js?v=20261028122714"></script>
+<script src="surface/sheetnav.js?v=20261028122714"></script>
+<script src="surface/twofinger.js?v=20261028122714"></script>
+<script src="surface/ring.js?v=20261028122714"></script>
+<script src="surface/shortlink.js?v=20261028122714"></script>
+<script src="surface/undo.js?v=20261028122714"></script>
+<script src="surface/pro.js?v=20261028122714"></script>
+<script src="surface/fresh.js?v=20261028122714"></script>
+<script src="surface/go.js?v=20261028122714"></script>
+<script src="surface/notice.js?v=20261028122714"></script>
+<script src="surface/perform.js?v=20261028122714"></script>
+<script src="surface/words.js?v=20261028122714"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -228,14 +229,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261028115221"></script>
-<script src="surface/rail.js?v=20261028115221"></script>
-<script src="surface/touchsound.js?v=20261028115221"></script>
-<script src="surface/water.js?v=20261028115221"></script>
-<script src="surface/ripple.js?v=20261028115221"></script>
-<script src="surface/material.js?v=20261028115221"></script>
-<script src="surface/float.js?v=20261028115221"></script>
-<script src="surface/manual.js?v=20261028115221"></script>
+<script src="surface/pack.js?v=20261028122714"></script>
+<script src="surface/rail.js?v=20261028122714"></script>
+<script src="surface/touchsound.js?v=20261028122714"></script>
+<script src="surface/water.js?v=20261028122714"></script>
+<script src="surface/ripple.js?v=20261028122714"></script>
+<script src="surface/material.js?v=20261028122714"></script>
+<script src="surface/float.js?v=20261028122714"></script>
+<script src="surface/manual.js?v=20261028122714"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1091,7 +1092,8 @@ html.robo-ear-b .robo-ears .er{animation:earInR .75s ease-out both}html.robo-ear
 .apT.apEnd.dim{opacity:.45}
 /* the seed's words (0.33.84): a label, the words to type, a button for new ones */
 .apSeedRow{display:flex;align-items:center;gap:8px;margin-top:8px}.apSeedRow.rest{opacity:.4}.apSeedRow.rest input::placeholder{color:var(--ui-dim)}
-.apSeedRow label{font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}
+.apSeedRow label svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.apSeedRow label{display:inline-flex;align-items:center;gap:5px;font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}
 .apSeedRow input{flex:1;min-width:0;height:36px;box-sizing:border-box;padding:0 12px;border-radius:99px;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);font:500 16px/1 var(--mono);letter-spacing:.02em}
 .apSeedRow input:focus-visible{outline:2px solid var(--acc,#55b8c9);outline-offset:1px}
 .apSeedRow button{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .2);background:rgb(var(--ui-hi) / .05);color:var(--ui-ink);display:grid;place-items:center;padding:0;cursor:pointer}.apSeedRow button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -1847,13 +1849,15 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 #beatBody,#bytesBody{overflow-y:auto;overscroll-behavior:contain;padding:6px 0 12px}
 #packBody{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:10px 16px 12px;color:var(--ui-ink)}
 /* THE WATER TAB (22 Oct): rows of a label and its pills, the shelf's pills restyled here */
-#sndChoose{display:flex;align-items:center;gap:8px;flex:none}#sndChoose .bsG{display:flex;align-items:center;gap:6px;flex:none}#sndChoose .bsRule{display:none}
+#sndChoose{display:flex;align-items:center;gap:8px;flex:none}#sndChoose .bsPill:not([aria-checked=true]){color:var(--ui-ink)!important}#sndChoose .bsAdd svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}   /* a pack's word in the ink, its dot carries its color (08:06: 'color wrong') */#sndChoose .bsG{display:flex;align-items:center;gap:6px;flex:none}#sndChoose .bsRule{display:none}
 #waterBody{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:10px 16px 14px;color:var(--ui-ink)}
 /* PICTURE'S CHROME (Dimitry, 28 Oct 00:03, iPad: the rows ran to both edges and the band fell below the panel): the pane
    scrolls inside the panel and keeps Water's margins, so the band stays under it */
 #picBody{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:10px 16px 14px;color:var(--ui-ink)}
 #picBody>#picL{padding:0;margin:0}
 /* THE PRESETS AS ICONS (same note: "make automation sub setting into icons"): one row of tiles, an icon over its word */
+.apEcho{font-weight:500;opacity:.75;letter-spacing:inherit}
+#bsBody .bsGrp{flex:none;display:inline-flex;align-items:center;gap:6px;padding:0 4px 0 2px;font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.pcH{margin:6px 0 4px;font:600 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)}
 #picPresets.pcIcons{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;overflow:visible!important;margin:4px 0 10px;-webkit-mask-image:none!important;mask-image:none!important}   /* no scroll fade: the grid never scrolls (review 848f220ff4 r-2) */
 #picPresets.pcIcons>button{display:grid;justify-items:center;align-content:center;gap:4px;min-width:0;margin:0!important;min-height:58px;height:auto;padding:8px 6px;border:1px solid rgb(var(--ui-hi) / .16);border-radius:12px;background:transparent;color:var(--ui-ink);font:600 9px/1.25 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;white-space:normal}
 #picPresets.pcIcons>button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -5130,7 +5134,7 @@ function buildPlist(){plTabsMount();
   box.appendChild(hero);
   $('plGo').onclick=()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'&&!AUD.userOff)soundOn()};   // exactly the bar's ▶
   hero.querySelector('.apInBtn').onclick=()=>plTabs&&plTabs.show('looks');
-  const tiles=(label,cls,list,get,set)=>{const h=document.createElement('p');h.className='apH';h.textContent=label;box.appendChild(h);
+  const tiles=(label,cls,list,get,set)=>{const h=document.createElement('p');h.className='apH';h.textContent=label;box.appendChild(h);setTimeout(()=>{try{apEcho(h,h.nextElementSibling)}catch(_){}},0);
     const g=document.createElement('div');g.className='apTiles '+cls;g.setAttribute('role','radiogroup');g.setAttribute('aria-label','Autoplay: '+label);
     for(const it of list){const b=document.createElement('button');b.type='button';b.className='apT';b.setAttribute('role','radio');b.dataset.v=String(it.v);b.innerHTML=it.html;b.setAttribute('aria-label',it.aria);if(it.title)b.title=it.title;
       b.onclick=()=>{set(it.v);store.auto={...AUTO};persist();syncPlist();try{syncMorphSeg()}catch(_){}};g.appendChild(b)}
@@ -5200,7 +5204,7 @@ function buildPlist(){plTabsMount();
     const cap=document.createElement('span');cap.className='apCap';cap.setAttribute('aria-hidden','true');cap.textContent='every';
     const w=document.createElement('div');w.className='apDialW apEvW';w.append(d,cap);w._sync=()=>d.sync();return w};
   /* the beads: a heading with the unit switch at its right, then the counts on a string, and a random bead */
-  const beads=()=>{const hd=document.createElement('div');hd.className='apEveryH';const h=document.createElement('p');h.className='apH';h.textContent='Every';
+  const beads=()=>{const hd=document.createElement('div');hd.className='apEveryH';const h=document.createElement('p');h.className='apH';h.textContent='Every';setTimeout(()=>{try{const pt=apEcho(h,(h.parentNode&&h.parentNode.parentNode&&h.parentNode.parentNode.querySelector('.apEveryRow'))||h,()=>AUTO.rand?'random':(AUTO.unit==='sec'?fmtSec(AUTO.n):TIME.count(AUTO.n,AUTO.unit)));const iv=setInterval(()=>{if(!h.isConnected){clearInterval(iv);return}if(h.offsetParent)pt()},700)}catch(_){}},0)   /* watches its own row and stops with its heading (review ff895cb92d r-1) */;
     /* THREE CONTROL CIRCLES (Dimitry, 26 Oct 22:05): the unit circle first, slightly bigger, cycling seconds, beats and bars
        with three dots at its foot; then the beads and the dice; then Morph, a round dial. The same parts wrap round a ring. */
     const UNIT_ORDER=['sec','beat','bar'],ub=document.createElement('button');ub.type='button';ub.className='apUnitBtn';
@@ -5218,7 +5222,7 @@ function buildPlist(){plTabsMount();
     if(window.SurfaceListView){try{const lh=document.createElement('p');lh.className='apH';lh.textContent='Lands on';
       const lb=SurfaceListView.bar({label:'Autoplay: new scenes land on',show:QUANT_STEPS.map(([v,t])=>[String(v),t==='half bar'?'½ bar':t,v?'A new scene waits for the next '+t+' of the tempo':'A new scene changes at once, off the grid']),
         get:()=>({show:String(QUANT)}),set:v=>{QUANT=+v.show;try{localStorage.setItem('toolpath-quant',JSON.stringify(QUANT))}catch(_){}try{syncQuant()}catch(_){}}});
-      lb.classList.add('plBar','plCols','apLands');lb.id='apLands';
+      lb.classList.add('plBar','plCols','apLands');lb.id='apLands';setTimeout(()=>{try{apEcho(lh,lb)}catch(_){}},0);
       /* THE METRONOME, AT THE ROW'S END (Dimitry, 27 Oct 22:50, from the tempo circle's dot): it clicks on the grid picked
          here, so you hear where the next scene will land; off clicks every beat. Pro, open in the beta. */
       const mc=document.createElement('button');mc.type='button';mc.className='apMetroChip';mc.id='apMetro';
@@ -5253,7 +5257,7 @@ function buildPlist(){plTabsMount();
     const w=SurfaceGo.wrap(tile,{label:GEAR_NAME[k],go:()=>apGearGo(k),cls:'apTW'+(k==='scene'?' apTWs':''),markCls:'apGear'});w.querySelector('.apGear').dataset.k=k;return w};
   /* Changes: SCENE across the top, lit when all four are in (a tap puts all four in), then Pattern, Style, Sound and
      Material (23 Oct: the water surface over the stage, its colors and what drives it) */
-  const changes=()=>{const h=document.createElement('p');h.className='apH';h.textContent='Changes';box.appendChild(h);
+  const changes=()=>{const h=document.createElement('p');h.className='apH';setTimeout(()=>{try{apEcho(h,h.nextElementSibling)}catch(_){}},0);h.textContent='Changes';box.appendChild(h);
     const g=document.createElement('div');g.className='apTiles part';g.setAttribute('role','group');g.setAttribute('aria-label','Autoplay changes');
     const ICN={scene:'<rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 15.5l4.5-4 3.5 3 3-2.5 5 4"/><circle cx="15.5" cy="9.5" r="1.4"/>',
       pattern:'<path d="M4 18c3-9 6-9 8-4s5 5 8-6"/><circle cx="4" cy="18" r="1.3"/><circle cx="20" cy="8" r="1.3"/>',
@@ -5317,7 +5321,7 @@ function buildPlist(){plTabsMount();
    og.appendChild(sc)}
   /* THE SEED'S WORDS (17:10): under Which way while Seed is chosen; type words, or roll new ones */
   {const og=plSegs[2],r=document.createElement('div');r.id='apSeedRow';r.className='apSeedRow rest';   /* always in its place, resting until Seed is chosen, so nothing below moves (review f571aef472 r-2) */
-   r.innerHTML='<label for="apSeedIn">Seed</label><input id="apSeedIn" type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-describedby="apSeedTip"><button type="button" class="apSeedNew" aria-label="New seed words">'+PLI('<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>')+'</button><span id="apSeedTip" class="apSeedTip">the same words, the same order</span>';
+   r.innerHTML='<label for="apSeedIn">'+PLI(AUTO_LOOK.same[1])+'<span>Seed</span></label><input id="apSeedIn" type="text" maxlength="48" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-describedby="apSeedTip"><button type="button" class="apSeedNew" aria-label="New seed words">'+PLI('<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>')+'</button><span id="apSeedTip" class="apSeedTip">the same words, the same order</span>';
    const inp=r.querySelector('input'),set=w=>{AUTO.seedW=seedClean(w)||seedNew();inp.value=AUTO.seedW;store.auto={...AUTO};persist();if(autoT)setAuto(true,true);syncPlist()};
    inp.addEventListener('change',()=>set(inp.value));inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();inp.blur()}});
    r.querySelector('button').onclick=()=>{set(seedNew());toast('seed: '+AUTO.seedW)};og.after(r)}
@@ -5332,7 +5336,7 @@ function buildPlist(){plTabsMount();
     const wb=SurfaceListView.bar({label:'Autoplay: which scenes',show:AUTO_WHICH.map(o=>[o,lab(o),o==='all'?'Every scene in play':(AUTO_LOOK[o]||['',''])[0]+': '+(AUTO_LOOK[o]||['','',''])[2]]),
       get:()=>({show:AUTO.which}),set:v=>{AUTO.which=v.show;AUTO.bag=null;store.auto={...AUTO};persist();if(autoT)setAuto(true,true);syncPlist()}});
     wb.classList.add('plBar','plCols','apWhich')   /* not apCols: that class is the Collection row's, read by setCols and Path 12 (review 3329043898 r-1, r-2) */
-    ;wb.id='apWhich';box.append(h,wb)}
+    ;wb.id='apWhich';box.append(h,wb);setTimeout(()=>{try{apEcho(h,wb)}catch(_){}},0)}
   /* the robot runs a collection (22 Oct): the same chips as the Scenes list, last on Autoplay since 24 Oct */
   if(window.SurfaceListView){const og=plSegs[2],h=document.createElement('p');h.className='apH';h.textContent='Collection';
     const cb=SurfaceListView.bar({label:'Autoplay: collection',multi:true,show:COLS.map(([v,t])=>[v,t,v==='all'?'The robot runs every collection':'The robot runs the '+t+' scenes too, or not']),
@@ -8703,8 +8707,8 @@ if(window.SurfaceTouchSound){SurfaceTouchSound.add({id:'tide',name:'Tide',note:'
        learn shows the words as the ring opens and lets them fade, always keeps them, never waits for a finger */
     const L=document.createElement('div');L.className='rdLab';L.setAttribute('role','radiogroup');L.setAttribute('aria-label','Ring labels');L.innerHTML='<span>ring labels</span>';
     [['learn','Learn: the words show as the ring opens, then fade'],['always','Always: the words stay'],['never','Never: only under your finger']].forEach(([v,t])=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=v;b.title=t;b.setAttribute('aria-label','Ring labels: '+t);
-      b.onclick=()=>{if(window.SurfaceRing&&SurfaceRing.labels)SurfaceRing.labels(v);paint();toast('ring labels: '+v)};L.appendChild(b)});
-    const paint=()=>{const m=window.SurfaceRing&&SurfaceRing.labels?SurfaceRing.labels():'learn';L.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.textContent===m)))};paint();
+      b.onclick=()=>{if(window.SurfaceWords)SurfaceWords.mode(v);else if(window.SurfaceRing&&SurfaceRing.labels)SurfaceRing.labels(v);paint();toast('words: '+v)};   /* one setting with Settings › Words */L.appendChild(b)});
+    const paint=()=>{const m=window.SurfaceRing&&SurfaceRing.labels?SurfaceRing.labels():'learn';L.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.textContent===m)))};paint();document.addEventListener('surface:words',paint);
     tb.before(h);h.after(L);h.hidden=L.hidden=!!tb.hidden;try{new MutationObserver(()=>{h.hidden=L.hidden=!!tb.hidden}).observe(tb,{attributes:true,attributeFilter:['hidden']})}catch(_){}}
   SurfaceTouchSound.picker($('touchBody'),{onPro:()=>{if(window.cxCount)cxCount('pro: touch mapping',1)},onChange:()=>{try{syncSndShelf()}catch(_){}if(window.cxCount)cxCount('touch sound: '+(SurfaceTouchSound.active().join(' + ')||'off'))}})}
 window.MIX_TABS=MIX_TABS;
@@ -9250,6 +9254,14 @@ $('srInv').onclick=()=>{SRC.invert=!SRC.invert;syncSrc();if(TRACE.on)traceSource
   toast(SRC.invert?'light ink: the light shapes trace, and drive reads the picture in negative':'dark ink: the dark shapes trace, and drive reads the picture as it is')};
 $('srTrace').onclick=()=>traceSource();
 /* PICTURE AUTOMATION presets: named starting points, then each slider's Auto is yours to change */
+/* THE HEADING SAYS THE CHOICE (Dimitry, 28 Oct 08:0x: "above it there's the title and to the right of the title a mid dot
+   and the name of the currently selected choice … a reinforcement that's there even if you just have the icons"):
+   'WHICH WAY · FORWARD'. One choice lit: its word; several: how many; none: nothing. The word is the control's own. */
+window.apEcho=(h,group,get)=>{if(!h||!group)return;let e=h.querySelector('.apEcho');if(!e){e=document.createElement('span');e.className='apEcho';h.appendChild(e)}
+  const word=b=>{const w=b.querySelector(':scope>span:not(.proB):not(.sr),.lab');if(w&&w.textContent.trim())return w.textContent.trim();const c=b.cloneNode(true);c.querySelectorAll('small,svg,.proB,em,i').forEach(x=>x.remove());return (c.textContent||'').trim()||(b.getAttribute('aria-label')||'').replace(/:.*$/,'').trim()};   /* the word it shows, not its long label */
+  const paint=()=>{let t='';try{if(get)t=get();else{const lit=[...group.querySelectorAll('[aria-checked=true],[aria-pressed=true]')],vis=lit.filter(b=>b.getClientRects().length),on=vis.length||!lit.length?vis:lit;   /* a hidden pane still says its choice (r-2) */t=on.length===1?word(on[0]):on.length>1?(on.length===[...group.querySelectorAll('[aria-pressed],[aria-checked]')].length?'all':on.length+' on'):''}}catch(_){}
+    e.textContent=t?' · '+t:''};
+  paint();try{new MutationObserver(paint).observe(group,{subtree:true,attributes:true,attributeFilter:['aria-checked','aria-pressed']})}catch(_){}return paint};
 const PIC_PRESETS=[
   ['Breathe','the picture swells and settles',{pzoom:{shape:'sine',per:8,depth:.3}}],
   ['Drift','it wanders across the stage',{pdx:{shape:'noise',per:11,depth:.35},pdy:{shape:'noise',per:14,depth:.35}}],
@@ -9277,7 +9289,7 @@ const PIC_ICON={   /* what each preset does to the picture, drawn (28 Oct 00:03)
   'Follow finger':'<path d="M10 12.5V5.8a1.6 1.6 0 0 1 3.2 0V11"/><path d="M13.2 10.5a1.6 1.6 0 0 1 3.2 0v1a1.6 1.6 0 0 1 3.1.4V15a5.5 5.5 0 0 1-5.5 5.5h-1A5.5 5.5 0 0 1 8.4 18l-2.6-3.6a1.6 1.6 0 0 1 2.5-2l1.7 1.8"/>',
   'Random':'<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/>',   /* the bar's dice */
   'Still':'<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M10 9.5v5M14 9.5v5"/>'};
-$('picPresets').classList.add('pcIcons');
+$('picPresets').classList.add('pcIcons');{const g=$('picPresets');let ph=g.previousElementSibling;if(!ph||!ph.classList.contains('apH')){ph=document.createElement('p');ph.className='apH pcH';ph.textContent='Moves';g.before(ph)}setTimeout(()=>{try{window.apEcho&&apEcho(ph,g)}catch(_){}},0)}   /* deferred and guarded: a throw at boot stops the page */
 $('picPresets').innerHTML=PIC_PRESETS.map(p=>'<button type="button" role="radio" aria-checked="false" data-p="'+p[0]+'" aria-label="'+p[0]+': '+p[1]+'" title="'+p[1]+'"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+(PIC_ICON[p[0]]||'')+'</svg><span>'+p[0]+'</span></button>').join('');
 $('picPresets').querySelectorAll('button').forEach(b=>b.onclick=()=>picPreset(b.dataset.p));
 {const r=$('picPresets'),f=()=>r.classList.toggle('end',r.scrollLeft+r.clientWidth>=r.scrollWidth-4);r.addEventListener('scroll',f,{passive:true});addEventListener('resize',f)}
@@ -9683,7 +9695,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
     for(const pk of order){const b=radio(g,'<i class="pkD" style="--pk:'+packColor(pk)+'" aria-hidden="true"></i>'+esc(pkShort(pk)),pk+(packOn(pk)?', playing: tap to turn it off':''),pk,()=>{
         if(cur()===pk){allOff(null);toast(pkShort(pk)+' off')}else{water.off(true);allOff(pk);toast(pkShort(pk)+': '+label.toLowerCase())}bsSync();try{sndChooseSync()}catch(_){}});b.className='bsPill pkS';b.title=pk}
     for(const q of lib){const b=radio(g,'<i class="pkD" style="--pk:'+packColor(q.name)+'" aria-hidden="true"></i>'+esc(pkShort(q.name))+' <small>+</small>','Add '+q.name+' from the library','lib:'+q.id,()=>{try{INSTR.take(q.id)}catch(_){}});b.className='bsPill pkS dim';b.title='Add '+q.name}
-    const plus=mk('button','bsPill bsAdd','+');plus.type='button';plus.setAttribute('aria-label','The library: add a pack');plus.title='library';plus.onclick=()=>openMix('pack');g.appendChild(plus);
+    const plus=mk('button','bsPill bsAdd','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8.5 11 5l7 3.5v8L11 20l-7-3.5z"/><path d="M4 8.5 11 12l7-3.5M11 12v8"/><path d="M19.5 15.5v5M17 18h5" stroke-width="2"/></svg>');plus.type='button';plus.setAttribute('aria-label','The library: add a pack');plus.title='add a pack';   /* the pack's own cube with a plus (Dimitry, 28 Oct 08:06) */plus.onclick=()=>openMix('pack');g.appendChild(plus);
     box.appendChild(g);check(g,cur());if(ups)ups.push(()=>check(g,cur()));return {cur:cur(),by}};
 
   const FIELD_W=()=>{const W=window.SurfaceWater;return {on:()=>!!WATER.on,pick:()=>waterPreset(WATER.preset||(W&&W.PRESETS[0].id)),off:quiet=>{if(WATER.on)waterOff()},say:'water in the field',offSay:'the field is dry'}};
@@ -9887,17 +9899,32 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
          sources that can play there, as one choice: Water, each pack with sounds in that role, and + for the library.
          Picking one turns the others off; tapping the lit one turns that role off. A pack not added yet still shows and
          opens its add screen. Below it, only the chosen source's own options. */
-      const srcRow=(roles,label,water,box)=>SRCROW(roles,label,water,box,ups);
+      /* EVERY SOURCE, GROUPED (Dimitry, 28 Oct 08:14-08:16: "I get completely different choices at the bottom … I'm not sure
+         what I'm doing wrong"; his pick: every source's sounds, grouped): the drawer is never empty. Each source is a group
+         under its dot (Water, then each pack with sounds that play this way); a tap plays that sound and makes its source
+         the one lit above, the others off. */
+      const grpLab=(name,col)=>{if(box.children.length)rule(box);const l=mk('span','bsGrp','<i class="pkD" style="--pk:'+col+'" aria-hidden="true"></i>');l.appendChild(document.createTextNode(name));box.appendChild(l)};
+      const packGroups=(roles,waterOff)=>{const L=window.INSTR?INSTR.list().filter(x=>roles.includes(x.role)):[],by={},order=[];for(const x of L){if(!by[x.pack]){by[x.pack]=[];order.push(x.pack)}by[x.pack].push(x)}
+        for(const pk of order){grpLab(pkShort(pk),packColor(pk));const g=mk('div','bsG');g.setAttribute('role','group');g.setAttribute('aria-label',pk);
+          for(const x of by[pk]){const b=mk('button','bsPill',esc(x.name));b.type='button';b.setAttribute('role','switch');b.title=pk;
+            const sync=()=>{b.setAttribute('aria-checked',String(!!x.on));b.setAttribute('aria-label',x.name+', from '+pk+': '+(x.on?'playing':'off'))};sync();ups.push(()=>{const y=INSTR.list().find(z=>z.id===x.id);if(y){x.on=y.on;sync()}});
+            b.onclick=()=>{try{const turnOn=!x.on;if(turnOn){waterOff();for(const o of INSTR.list())if(roles.includes(o.role)&&o.pack!==pk&&o.on)INSTR.set(o.id,{on:false})}INSTR.set(x.id,{on:turnOn})}catch(_){}bsSync();try{sndChooseSync()}catch(_){}};g.appendChild(b)}
+          box.appendChild(g)}
+        return order.length};
+      const packsOff=roles=>{try{for(const o of INSTR.list())if(roles.includes(o.role)&&o.on)INSTR.set(o.id,{on:false})}catch(_){}};
       if(v==='field'){const W=window.SurfaceWater;
-        const fsrc=srcRow(['bed'],'What plays in the field',FIELD_W());
-        if(W&&(fsrc.cur==='water'||!fsrc.cur)){   /* dry: the waters still wait here, a tap plays one (07:37) */const curP=()=>WATER.on?WATER.preset:'';const ps=oneOf(box,'The water. Tap the lit one for dry',W.PRESETS.map(P=>[P.id,P.name,P.name+': '+P.note]),curP,x=>x?waterPreset(x):waterOff());ups.push(()=>check(ps,curP()))}
-        else if(fsrc.cur)packs(['bed'],fsrc.cur);
+        if(W){grpLab('Water','var(--acc,#55b8c9)');const curP=()=>WATER.on?WATER.preset:'';
+          const ps=oneOf(box,'The water. Tap the lit one for dry',W.PRESETS.map(P=>[P.id,P.name,P.name+': '+P.note]),curP,x=>{if(x){packsOff(['bed']);waterPreset(x)}else waterOff();try{sndChooseSync()}catch(_){}});ups.push(()=>check(ps,curP()))}
+        packGroups(['bed'],()=>{if(WATER.on)waterOff()});
         door('water','The water settings: depth, bed, voices and the surface',()=>openMix('water'));
         return ()=>ups.forEach(f=>f())}
       if(v==='touch'){
         const W=window.SurfaceWater;
-        const tsrc=srcRow(['touch','pad'],'What your finger plays',TOUCH_W());
-        if(tsrc.cur&&tsrc.cur!=='water')packs(['touch','pad'],tsrc.cur);
+        if(W){grpLab('Water','var(--acc,#55b8c9)');const g=mk('div','bsG');g.setAttribute('role','group');g.setAttribute('aria-label','Water');
+          const b=mk('button','bsPill','drops');b.type='button';b.setAttribute('role','switch');
+          const on=()=>!!(WATER.on&&vGet(0)),sync=()=>{b.setAttribute('aria-checked',String(on()));b.setAttribute('aria-label','Water drops under your finger: '+(on()?'on':'off'))};sync();ups.push(sync);
+          b.onclick=()=>{if(on())vSet(0,false);else{packsOff(['touch','pad']);if(!WATER.on)waterPreset(WATER.preset||W.PRESETS[0].id);vSet(0,true)}bsSync();try{sndChooseSync()}catch(_){}};g.appendChild(b);box.appendChild(g)}
+        packGroups(['touch','pad'],()=>{if(WATER.on&&vGet(0))vSet(0,false)});
         door('pack','The Pack panel: your sounds, by pack, and how each plays',()=>openMix('pack'));
         return ()=>ups.forEach(f=>f())}
       const hush=k=>{stopCh(k);syncAud();syncSndShelf()};
@@ -10802,10 +10829,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261028115221"></script>
-<script src="surface/links.js?v=20261028115221"></script>
-<script src="surface/tips.js?v=20261028115221"></script>
-<script src="surface/sections.js?v=20261028115221"></script>
+<script src="surface/install.js?v=20261028122714"></script>
+<script src="surface/links.js?v=20261028122714"></script>
+<script src="surface/tips.js?v=20261028122714"></script>
+<script src="surface/sections.js?v=20261028122714"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -10917,12 +10944,15 @@ addEventListener('load',()=>{setTimeout(()=>{const d=document.getElementById('di
 <script>/* DISPLAY group in the index: drawer beside/over (wide windows), panes solid/frosted/sheer/clear. Kept per browser. */
 (function(){const idx=document.getElementById('idx');if(!idx)return;const H=document.documentElement;
   const gear='<svg class="dsp-gear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+  try{SurfaceWords.init({uses:5,rings:true,words:['#shelfPick .si .lab','#shelfSnd .si .lab','#bsBody .si:not(.bb) .lab','.apT>span','.apCap','#picPresets.pcIcons>button>span','.sa-fam button.sa-ic>span','#sndChoose .bsUnits button>span']})}catch(e){console.warn('words',e)}   /* the words that sit beside an icon */
   const ROWS=[
     {key:'drawer',lab:'Drawer',store:'current.drawer',wide:true,opts:[['beside','Beside','The drawer beside the stage: the stage moves over and both stay in view'],['over','Over','The drawer slides over the stage']]},
     {key:'theme',lab:'Theme',store:'surface.theme',opts:[['auto','Auto','Theme follows this device: light or dark as the system is set'],['light','Light','Light interface: ink on paper'],['dark','Dark','Dark interface']]},
     /* SIZE (24 Oct 2026, kit size.js): the controls' size on this device; the dial already follows the window, this is
        for zoom, a projector across a room, eyesight. Medium is the dial as measured */
     {key:'size',lab:'Size',store:'surface.size',opts:[['s','Small','Small controls: more of the stage, on this device'],['m','Medium','Medium controls: sized to this window'],['l','Large','Large controls: bigger buttons, shelves and panels, on this device']]},
+    /* WORDS (Dimitry, 28 Oct 07:39-07:41, kit words.js): how much the interface says beside its icons. Learn is the default */
+    {key:'words',lab:'Words',store:'surface.words',opts:[['always','Always','Always: every icon keeps its word'],['learn','Learn','Learn: words show at first and fade once a control is known; a finger brings them back'],['never','Never','Never: icons only, for small children or once you know them (screen readers still hear every word)']]},
     {key:'hand',lab:'Hand',store:'current.hand',opts:[['right','Right','Right hand: the scene controls left of Capture, source, sound and tools to its right'],['left','Left','Left hand: the bar mirrored around Capture']]},
     {key:'stats',lab:'Stats',store:'current.stats',opts:[['off','Off','No stats on the stage'],['on','On','Stats at the bottom left of the stage: the scene, its mode, cuts and travel moves, particles, frames per second']]},
     {key:'panes',lab:'Panes',store:'current.panes',opts:[['solid','Solid','The drawer solid'],['frosted','Frosted','The drawer frosted glass: the stage blurred behind it'],['see','Sheer','The drawer sheer: thinned, see-through'],['clear','Clear','The drawer clear: only its words and controls']]}];
@@ -10936,9 +10966,9 @@ addEventListener('load',()=>{setTimeout(()=>{const d=document.getElementById('di
   const wideQ=matchMedia('(min-width:900px)');
   const sync=()=>{ROWS.forEach(r=>{const v=H.dataset[r.key];sec.querySelectorAll('[data-k="'+r.key+'"]').forEach(b=>{const on=b.dataset.v===v;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1})});
     sec.querySelector('[data-row=drawer]').hidden=!wideQ.matches;sec.querySelector('.dsp-note').hidden=wideQ.matches};
-  sec.querySelectorAll('.dsp-seg button').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);if(r.key==='size'){try{SurfaceSize.set(b.dataset.v)}catch(e){}sync();return}H.dataset[r.key]=b.dataset.v;try{localStorage.setItem(r.store,b.dataset.v)}catch(e){}sync()};
+  sec.querySelectorAll('.dsp-seg button').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);if(r.key==='size'){try{SurfaceSize.set(b.dataset.v)}catch(e){}sync();return}if(r.key==='words'){try{SurfaceWords.mode(b.dataset.v)}catch(e){}sync();toast('words: '+b.dataset.v);return}H.dataset[r.key]=b.dataset.v;try{localStorage.setItem(r.store,b.dataset.v)}catch(e){}sync()};
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const bs=[...b.parentNode.children],i=bs.indexOf(b),n=bs[(i+(/Right|Down/.test(e.key)?1:bs.length-1))%bs.length];n.click();n.focus()}});
-  wideQ.addEventListener?.('change',sync);sync()})();
+  wideQ.addEventListener?.('change',sync);document.addEventListener('surface:words',sync);sync()})();   /* the ring labels row sets it too (review 59ff6b0af4 r-3) */
 /* PERFORMING (Dimitry's show safety, 22 Oct; kit perform.js, CONVENTIONS › Performing): a row of its own at the top of
    Settings. On: no update reloads the page and the "newer version" pill waits, and the screen stays awake. It is also on
    by itself while a room is joined, and while autoplay runs in fullscreen. Autoplay keeps the screen awake on its own. */
@@ -10986,7 +11016,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261028115221"></script>
+<script src="surface/room.js?v=20261028122714"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11187,7 +11217,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261028115221"></script>
+<script src="surface/touch.js?v=20261028122714"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -11931,7 +11961,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.33.96';
+const APP_VERSION='0.33.97';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
