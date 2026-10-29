@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261028231809";window.__VERSION__="0.35.1";window.__NOTES__=[{"v":"0.35.1","date":"28 Oct 2026","items":[{"kind":"change","text":"while the Color panel is open, the robot keeps changing scenes but leaves your colors, their mix and animation alone (it was bringing each scene's own mix); the strip says so"},{"kind":"change","text":"Ink mix sits under Ink 2, where its colors are, and its chip sits between Ink 1 and Ink 2 in the strip; its own tab is gone"},{"kind":"change","text":"an empty Ink 2 is a circle with an ×"},{"kind":"new","text":"palette tools: shuffle the colors among the slots, adjust hue, saturation and lightness of the whole palette, duplicate, delete"},{"kind":"fix","text":"the lit ring around a chosen swatch is no longer cut at the edge"},{"kind":"change","text":"the tempo goes down to 20 a minute (was 40); a pause of over three seconds between taps starts a new run"}]}]</script>
+<script>window.__BUILD__="20261029013815";window.__VERSION__="0.35.2";window.__NOTES__=[{"v":"0.35.2","date":"28 Oct 2026","items":[{"kind":"new","text":"the Color panel has two views at its foot: Palettes, every palette in one list (find by name, yours or the studio's, A–Z or newest; wear, rename, delete), and Editor"},{"kind":"new","text":"palettes can be renamed, in the list or with the pencil beside the name; renaming a studio palette makes it yours under the new name"},{"kind":"change","text":"new and duplicated palettes are numbered (Sea Green 2, My palette 3), never \"copy\""},{"kind":"change","text":"while the robot changes scenes, a small robot and the scene's name sit beside the palette's name, on one line that never moves the panel"},{"kind":"change","text":"Save palette, Save to my colors, Shuffle, Adjust, Duplicate and Delete have icons"},{"kind":"change","text":"Ink mix is three pills: grain, speed, tempo"},{"kind":"fix","text":"the Blend heading lines up with the rest"},{"kind":"change","text":"the Color panel's spacing, cleaned up: one gutter, one kind of label, the same space between every group, a line between the palette and the editor"},{"kind":"change","text":"the sliders are a groove with a small knob inside it, like the switches, with room between them; chroma reads 0–100%, like lightness"},{"kind":"change","text":"Follows is one choice (\"complement of Ink 1\") beside the hex code; Ground's Auto is a switch"},{"kind":"change","text":"Ground is last in the palette: Ink 1, mix, Ink 2, Touch, Arrows, Pattern, Ground"},{"kind":"change","text":"swatches sit on one row that slides sideways"},{"kind":"new","text":"Shuffle is an animation: on the beat a color takes another of the palette's (Speed: every 8, 4, 2 or 1 beats)"},{"kind":"new","text":"drag a color chip onto the palette to give that slot its color; drag one slot onto another to swap them (on a phone, hold a moment first, so a swipe still scrolls)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261028231809"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261028231809">
+<script src="claude-web.js?v=20261029013815"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029013815">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261028231809"></script>
-<script src="surface/nozoom.js?v=20261028231809"></script><script src="surface/steady.js?v=20261028231809"></script><script src="surface/selftest.js?v=20261028231809"></script><script src="surface/size.js?v=20261028231809"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261028231809"></script>
-<script src="surface/auto.js?v=20261028231809"></script>
-<script src="surface/toolpath.js?v=20261028231809"></script>
-<script src="surface/capture.js?v=20261028231809"></script>
-<script src="surface/pop.js?v=20261028231809"></script>
-<script src="surface/hints.js?v=20261028231809"></script>
-<script src="surface/paths.js?v=20261028231809"></script>
-<script src="surface/keys.js?v=20261028231809"></script>
-<script src="surface/reset.js?v=20261028231809"></script>
-<script src="surface/files.js?v=20261028231809"></script>
-<script src="surface/tabs.js?v=20261028231809"></script>
-<script src="surface/running.js?v=20261028231809"></script>
-<script src="surface/trim.js?v=20261028231809"></script>
-<script src="surface/audiowake.js?v=20261028231809"></script>
-<script src="surface/output.js?v=20261028231809"></script>
-<script src="surface/board.js?v=20261028231809"></script>
-<script src="surface/voice.js?v=20261028231809"></script>
-<script src="surface/voicelib.js?v=20261028231809"></script>
-<script src="surface/instruments.js?v=20261028231809"></script>
-<script src="surface/listview.js?v=20261028231809"></script>
-<script src="surface/beads.js?v=20261028231809"></script>
-<script src="surface/strip.js?v=20261028231809"></script>
-<script src="surface/sheetnav.js?v=20261028231809"></script>
-<script src="surface/twofinger.js?v=20261028231809"></script>
-<script src="surface/ring.js?v=20261028231809"></script>
-<script src="surface/shortlink.js?v=20261028231809"></script>
-<script src="surface/undo.js?v=20261028231809"></script>
-<script src="surface/pro.js?v=20261028231809"></script>
-<script src="surface/fresh.js?v=20261028231809"></script>
-<script src="surface/go.js?v=20261028231809"></script>
-<script src="surface/notice.js?v=20261028231809"></script>
-<script src="surface/perform.js?v=20261028231809"></script>
-<script src="surface/words.js?v=20261028231809"></script>
+<script src="vendor/opentype.min.js?v=20261029013815"></script>
+<script src="surface/nozoom.js?v=20261029013815"></script><script src="surface/steady.js?v=20261029013815"></script><script src="surface/selftest.js?v=20261029013815"></script><script src="surface/size.js?v=20261029013815"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029013815"></script>
+<script src="surface/auto.js?v=20261029013815"></script>
+<script src="surface/toolpath.js?v=20261029013815"></script>
+<script src="surface/capture.js?v=20261029013815"></script>
+<script src="surface/pop.js?v=20261029013815"></script>
+<script src="surface/hints.js?v=20261029013815"></script>
+<script src="surface/paths.js?v=20261029013815"></script>
+<script src="surface/keys.js?v=20261029013815"></script>
+<script src="surface/reset.js?v=20261029013815"></script>
+<script src="surface/files.js?v=20261029013815"></script>
+<script src="surface/tabs.js?v=20261029013815"></script>
+<script src="surface/running.js?v=20261029013815"></script>
+<script src="surface/trim.js?v=20261029013815"></script>
+<script src="surface/audiowake.js?v=20261029013815"></script>
+<script src="surface/output.js?v=20261029013815"></script>
+<script src="surface/board.js?v=20261029013815"></script>
+<script src="surface/voice.js?v=20261029013815"></script>
+<script src="surface/voicelib.js?v=20261029013815"></script>
+<script src="surface/instruments.js?v=20261029013815"></script>
+<script src="surface/listview.js?v=20261029013815"></script>
+<script src="surface/beads.js?v=20261029013815"></script>
+<script src="surface/strip.js?v=20261029013815"></script>
+<script src="surface/sheetnav.js?v=20261029013815"></script>
+<script src="surface/twofinger.js?v=20261029013815"></script>
+<script src="surface/ring.js?v=20261029013815"></script>
+<script src="surface/shortlink.js?v=20261029013815"></script>
+<script src="surface/undo.js?v=20261029013815"></script>
+<script src="surface/pro.js?v=20261029013815"></script>
+<script src="surface/fresh.js?v=20261029013815"></script>
+<script src="surface/go.js?v=20261029013815"></script>
+<script src="surface/notice.js?v=20261029013815"></script>
+<script src="surface/perform.js?v=20261029013815"></script>
+<script src="surface/words.js?v=20261029013815"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261028231809"></script>
-<script src="surface/rail.js?v=20261028231809"></script>
-<script src="surface/touchsound.js?v=20261028231809"></script>
-<script src="surface/water.js?v=20261028231809"></script>
-<script src="surface/ripple.js?v=20261028231809"></script>
-<script src="surface/material.js?v=20261028231809"></script>
-<script src="surface/float.js?v=20261028231809"></script>
-<script src="surface/manual.js?v=20261028231809"></script>
+<script src="surface/pack.js?v=20261029013815"></script>
+<script src="surface/rail.js?v=20261029013815"></script>
+<script src="surface/touchsound.js?v=20261029013815"></script>
+<script src="surface/water.js?v=20261029013815"></script>
+<script src="surface/ripple.js?v=20261029013815"></script>
+<script src="surface/material.js?v=20261029013815"></script>
+<script src="surface/float.js?v=20261029013815"></script>
+<script src="surface/manual.js?v=20261029013815"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1648,7 +1648,7 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 :is(#bshelf,#owStk) .bsStkX{display:flex;flex:none;align-items:center;gap:6px}:is(#bshelf,#owStk) .bsStkX .lab{flex:none;font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}:is(#bshelf,#owStk) .bsStkX .bsG{gap:6px}
 :is(#bshelf,#owStk) .bsStkTx{flex:none;height:var(--s-seg-h,36px);box-sizing:border-box;padding:0 12px;border-radius:calc(var(--s-seg-h,36px) / 2);border:1px solid rgb(var(--ui-hi) / .24);background:rgb(var(--ui-hi) / .06);color:var(--ui-ink);font:500 13px/1 var(--sans);min-width:0}
 :is(#bshelf,#owStk) .bsStkTx::placeholder{color:var(--ui-dim)}
-#colorPop #cmTabs{visibility:hidden;width:0;flex:0 0 0;overflow:hidden}#colorPop.stk #cmPal{display:none}#colorPop .cmStkT{display:none}#colorPop.stk .cmStkT{display:block;flex:1;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);align-self:center}#colorPop.stk #cmTabs,#colorPop.stk #cmInfoBtn,#colorPop.stk #cmInfo{display:none!important}
+#colorPop #cmTabs{visibility:hidden;width:0;flex:0 0 0;overflow:hidden}#colorPop.stk #cmPal{display:none}#colorPop .cmStkT{display:none}#colorPop.stk .cmStkT{display:block;flex:1;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);align-self:center}#colorPop.stk #cmTabs,#colorPop.stk #cmInfoBtn,#colorPop.stk #cmInfo,#colorPop.stk #cmViews,#colorPop.stk #cmLib{display:none!important}#colorPop.lib:not(.stk) .cmPane,#colorPop.lib:not(.stk) #cmPal,#colorPop.lib:not(.stk) #cmInfo,#colorPop.lib:not(.stk) .sfPaneH,#colorPop.lib:not(.stk) #cmInfoBtn{display:none!important}#colorPop .cmViews{flex:1;justify-content:flex-start}.cmViews .sfTab{display:inline-flex;align-items:center;gap:6px}.cmViews .sfTab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}.cmLib{padding:12px 16px;overflow:auto;min-height:0;flex:1}.clQ{width:100%;min-height:40px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 12px;box-sizing:border-box}.clBar{display:flex;justify-content:space-between;gap:8px;margin:8px 0;flex-wrap:wrap}.cmLib .cmSeg button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.clList{display:flex;flex-direction:column;gap:4px}.clRn{flex:1;min-width:0;min-height:40px;border-radius:10px;border:1px solid var(--acc,#55b8c9);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 10px}.cpLift{transform:scale(1.12);transition:transform .12s}.cpGhost{position:fixed;left:0;top:0;z-index:99;width:36px;height:36px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 2px #fff,0 6px 18px rgb(0 0 0/.45)}.cpS.cpDrop>i{box-shadow:0 0 0 3px var(--acc,#55b8c9);transform:scale(1.08)}.cpDragging,.cpDragging *{user-select:none;-webkit-user-select:none}.cpRen{width:32px;height:32px;flex:none;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer;display:grid;place-items:center;padding:0}.cpRen svg,.clRename svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}.clDel b{color:var(--acc-tx,var(--acc,#55b8c9))}
 /* THE STICKER PREVIEW (Dimitry, 22 Oct 13:43): the sticker as it will come out, live, on a frosted card centred above the
    bar (or above whatever opened above it), while Capture is on Sticker and its shelf is open. A tap makes it. */
 #stkPrev{position:fixed;z-index:31;left:0;top:0;padding:8px;border-radius:6px;border:1px solid #23292b;background:rgba(4,4,6,.72);
@@ -1683,7 +1683,7 @@ svg.proMk.secPro{display:inline-block;vertical-align:-.12em;width:.95em;height:.
 /* the open padlock (Pro in beta, 22 Oct): shown when it works for everyone during the test; no dotted edge, no dimming */
 .proMk .shO{display:none}.proOpen>.proMk .shO,.proOpen .proMk .shO,.proMk.proOpen .shO{display:inline}.proOpen>.proMk .shC,.proOpen .proMk .shC,.proMk.proOpen .shC{display:none}
 #bshelf .bsMat.proOpen .proMk{display:block;position:absolute;top:-2px;right:0;width:12px;height:12px;fill:none;stroke:var(--acc-tx);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#bshelf .bsMat.proOpen .proMk .bolt{fill:var(--acc-tx);stroke:none}
-.cmBlend.proOpen .proMk{display:block;position:absolute;top:8px;right:9px;width:13px;height:13px;fill:none;stroke:var(--acc-tx);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmBlend.proOpen .proMk .bolt{fill:var(--acc-tx);stroke:none}
+.cmBlend.proOpen .proMk{display:inline-block;position:static;margin:0 0 0 -4px;vertical-align:middle;width:13px;height:13px;fill:none;stroke:var(--acc-tx);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmBlend.proOpen .proMk .bolt{fill:var(--acc-tx);stroke:none}
 #bshelf .bsMat .proMk{display:none}#bshelf .bsMat.pro .proMk{display:block;position:absolute;top:-2px;right:0;width:12px;height:12px;fill:none;stroke:var(--acc-tx);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #bshelf .bsMat.pro .proMk .bolt{fill:var(--acc-tx);stroke:none}#bshelf .bsMat.pro>.bsPill:not(.bsJoin){opacity:.55}
 #bshelf .bsMat .bsMc{display:inline-flex;align-items:center;gap:6px}#bshelf .bsMat .bsMc i.sw{display:block!important;width:10px!important;height:10px!important;min-width:0!important;padding:0!important;margin:0!important;border-radius:50%;border:1px solid rgb(var(--ui-hi) / .4);flex:none;box-sizing:border-box}
@@ -1781,12 +1781,12 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 /* the mixer at bar width (23 Oct): picker left, swatch rows right, animation in one row, Blend as a Pro preview */
 .cmGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 28px}.cmGrid>.cmAnim,.cmGrid>.cmBlend{grid-column:1/-1}
 @container (min-width:560px){.cmGrid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}#colorPop .cmPane{columns:auto!important}.cmSide .cmRow:first-child .cmL{margin-top:2px}}
-.cmBig.cmNone{position:relative;box-shadow:inset 0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .35)}.cmBig.cmNone::before,.cmBig.cmNone::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cmBig.cmNone::after{transform:rotate(-45deg)}.cpS>i.none{position:relative;background:none}.cpS>i.none::before,.cpS>i.none::after{content:'';position:absolute;left:30%;right:30%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cpS>i.none::after{transform:rotate(-45deg)}.cmMixIn{padding:4px 16px 12px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08)}.cpTools{display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 8px}.cpTools .tb{min-height:30px}.cpTools .tb[data-a=del]{min-width:9.5em}.cpTools .tb[aria-expanded=true]{color:var(--acc-tx,var(--acc,#55b8c9))}.cpAdj{margin:0 0 10px}.cpAdj input{touch-action:none}.cpHeld{margin:0 0 8px;font:400 12px/1.35 var(--sans);color:var(--ui-dim)}.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel{flex-wrap:nowrap}.cmRel select{max-width:42%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
+.cmBig.cmNone{position:relative;box-shadow:inset 0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .35)}.cmBig.cmNone::before,.cmBig.cmNone::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cmBig.cmNone::after{transform:rotate(-45deg)}.cpS>i.none{position:relative;background:none}.cpS>i.none::before,.cpS>i.none::after{content:'';position:absolute;left:30%;right:30%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cpS>i.none::after{transform:rotate(-45deg)}.cmMixIn{padding:4px 16px 12px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08)}.cmAlts button{display:inline-flex;align-items:center;gap:6px}.cmAlts svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.cmAlts svg [fill=currentColor],.cmAlts svg circle{fill:currentColor}.cpBot{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--ui-dim);font:400 12px/1 var(--sans)}.cpRobo{display:inline-grid;width:20px;height:20px;place-items:center}.cpRobo svg{width:18px;height:18px}.cpBotN{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:16em}.cpIc{display:inline-flex;align-items:center;gap:6px}.cpIc svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}.cpTools{display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 8px}.cpTools .tb{min-height:30px}.cpTools .tb[data-a=del]{min-width:9.5em}.cpTools .tb[aria-expanded=true]{color:var(--acc-tx,var(--acc,#55b8c9))}.cpAdj{margin:0 0 10px}.cpAdj input{touch-action:none}.cpHeld{margin:0 0 8px;font:400 12px/1.35 var(--sans);color:var(--ui-dim)}.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px;height:36px;flex-wrap:nowrap;overflow:hidden}.cpTop .cpName{flex:0 0 auto;max-width:52%}.cpTop .cpName b{min-width:0}.cpBot~.cpSave .cpSvL{display:none}.cpBot{flex:0 1 auto;overflow:hidden}.cpIc svg .f{fill:currentColor;stroke:none}.cpTools .cpIc svg{width:15px;height:15px;stroke-width:1.8;stroke-linejoin:round}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel{flex-wrap:nowrap}.cmRel select{max-width:42%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
 .cmPick input[type=color]{width:34px;height:30px;padding:0;border:0;background:none;cursor:pointer}
 .cmRow[hidden]{display:none}.cmRow.across .cmSw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px}.cmRow.across .cmSw::-webkit-scrollbar{display:none}.cmRow.across .cmSw button{flex:none}
 .cmAnim{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--ui-line);min-width:0}.cmAnim>.cmL{margin:0;flex:none}.cmAnim .cmSeg{flex-wrap:nowrap;flex:none}.cmAnim .cmSp{flex:1;min-width:90px;margin:0}
 @container (max-width:420px){.cmAnim>.cmL{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.cmAnim .cmSeg button{padding:0 8px}.cmAnim .cmSp>span{display:none}}
-.cmBlend{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:12px;padding:10px 12px;border-radius:12px;border:1.5px solid transparent}
+.cmBlend{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:12px;padding:10px 0;border-radius:12px;border:1.5px solid transparent}.cmBlend.pro{padding:10px 12px}
 .cmBlend>.cmL{margin:0}.cmBlend .cmSeg{flex:1 1 100%}.cmBlend .proMk{display:none}
 .cmBlend.pro{border:1.5px dotted rgb(var(--acc-rgb,85 184 201) / .55);background:rgb(var(--acc-rgb,85 184 201) / .08)}
 .cmBlend.pro .proMk{display:block;position:absolute;top:8px;right:9px;width:13px;height:13px;fill:none;stroke:var(--acc-tx);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.cmBlend.pro .proMk .bolt{fill:var(--acc-tx);stroke:none}
@@ -2608,6 +2608,56 @@ body #playbar>#pSnd.on.muted.regrow:not(.offing){animation:sndRegrow 1.1s cubic-
 body.sndOffing #playbar>#pSnd::after{opacity:0!important;transition:none!important}
 body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 .sndShape .ol{stroke:var(--lit-edge)!important;stroke-width:2.5!important}
+
+/* COLOR PANEL RHYTHM (Dimitry, 28 Oct 21:26: "the spacing on this palette is pretty dreadful. Groups, the titles, everything"):
+   16 px gutter; a label sits 8 px over what it names; 8 px between controls of a group; 20 px and a hairline between groups.
+   Every label in the left column is the same small capitals, on one 76 px column, so Follows, the sliders and Speed line up.
+   Sliders (21:28): a 16 px groove with a 12 px knob inside it, like the switches, on a 32 px touch row. */
+#colorPop .cmPal{padding:14px 16px 14px;border-bottom:1px solid var(--ui-line)}
+#colorPop .cpTop{margin:0 0 8px}
+#colorPop .cpTools{margin:0 0 12px;gap:6px}
+#colorPop .cpTools .tb,#colorPop .cpSave,#colorPop .cmPick .tb.cpIc{min-height:30px;padding:0 11px 0 9px;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07)}
+#colorPop .cpStrip{margin:0 -2px}
+#colorPop .cmPane{padding:16px}
+#colorPop .sfPaneH{margin:0}
+#colorPop .cmAnim>.cmL,#colorPop .cmBlend>.cmL{margin:0}
+#colorPop .cmBlend{align-items:center}
+#colorPop .cmSide{padding-top:20px}@container (min-width:560px){#colorPop .cmSide{padding-top:0}}
+#colorPop .cmL{margin:20px 0 8px}
+#colorPop .cmSide .cmRow:first-child .cmL,#colorPop .cmPick>.cmL:first-child{margin-top:0}
+#colorPop .cmEdTop,#colorPop .cmPick .cmEdTop{margin:0 0 14px;gap:10px}
+#colorPop .cmPick .cmBig{width:44px;height:44px}
+#colorPop .cmRel{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:center;margin:0 0 10px}
+#colorPop .cmRel>.cmL{margin:0}
+#colorPop .cmRel select{max-width:none;width:100%;min-width:0;min-height:34px}
+#colorPop .cmRel select:only-of-type{grid-column:2/-1}
+#colorPop .cmEdR,#colorPop .cmSp{display:grid;grid-template-columns:76px minmax(0,1fr) 44px;gap:8px;align-items:center;margin:0}
+#colorPop .cmEdR>span,#colorPop .cmSp>span{font:600 9.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
+#colorPop .cmEdR input{-webkit-appearance:none;appearance:none;width:100%;height:32px;margin:0;background:transparent!important;cursor:ew-resize;touch-action:pan-y}
+#colorPop .cmEdR input::-webkit-slider-runnable-track{height:16px;border-radius:8px;background:var(--g,rgb(var(--ui-hi,255 255 255) / .16));box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .14)}
+#colorPop .cmEdR input::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;margin-top:2px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 1px rgb(0 0 0 / .35),0 1px 3px rgb(0 0 0 / .35)}
+#colorPop .cmEdR input::-moz-range-track{height:16px;border-radius:8px;background:var(--g,rgb(var(--ui-hi,255 255 255) / .16))}
+#colorPop .cmEdR input::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 1px rgb(0 0 0 / .35)}
+#colorPop .cmEdR input:focus-visible{outline:none}#colorPop .cmEdR input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--acc,#55b8c9)}
+#colorPop .cmPick .tb.cpIc{margin-top:12px}
+#colorPop .cmSw{gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px;scroll-snap-type:x proximity}#colorPop .cmSw::-webkit-scrollbar{display:none}#colorPop .cmSw button{flex:none}
+#colorPop .cmSw{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);padding-right:24px}
+#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:.04em;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}
+#colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"b h t" "b r r";gap:8px 12px;align-items:center}
+#colorPop .cmPick .cmEdTop>.cmBig{grid-area:b;width:64px;height:64px}#colorPop .cmEdTop>.cmEdHex{grid-area:h;min-width:0}#colorPop .cmEdTop>.cmTg{grid-area:t}
+#colorPop .cmRelTop{grid-area:r;display:flex;align-items:center;gap:10px;min-width:0;margin:0}#colorPop .cmRelTop select{flex:1}
+#colorPop .cmAnim{flex-wrap:wrap}#colorPop .cmAnim .cmSeg{flex-wrap:wrap;flex:1 1 auto}#colorPop .cmAnim .cmSp{flex:1 1 100%;min-width:0}#colorPop .cmRelK{font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
+#colorPop .cmRelTop select{width:100%;min-width:0;max-width:none;min-height:32px;text-overflow:ellipsis}#colorPop .cmRelTop select.tied{border-color:var(--acc,#55b8c9)}
+#colorPop .cmEdHex input{width:100%;max-width:7.2em;box-sizing:border-box}#colorPop .cmTg{margin-left:0;flex:none}
+#colorPop .cmGrid{gap:0 28px}
+#colorPop .cmAnim{margin-top:20px;padding-top:16px;gap:8px}
+#colorPop .cmBlend{margin-top:20px;padding:16px 0 0;border-top:1px solid var(--ui-line);border-radius:0}
+#colorPop .cmBlend.pro{padding:16px 0 0}
+#colorPop .cmMixIn{padding:16px 0 0;margin-top:20px;border-top:1px solid var(--ui-line)}
+#colorPop .cmMixIn>.cmL:first-of-type{margin-top:14px}
+#colorPop .cmNote{margin:8px 0 0}
+#colorPop .cmMixIn .tb:not(.cmSeg *){min-height:30px;margin-top:16px;padding:0 11px;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07)}
+#colorPop .cmTg .tb[role=switch]{background:none;padding:0 4px}
 </style>
 
 <div class="app">
@@ -3040,14 +3090,15 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
   <div id="batchBody"></div>
 </div>
 <div id="colorPop" role="dialog" aria-label="Color mixer" hidden>
-  <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><span class="cmStkT">Sticker frame</span><button class="sfInfoBtn spop-right" id="cmInfoBtn" type="button" aria-expanded="false" aria-controls="cmInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
+  <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><span class="cmStkT">Sticker frame</span><div class="sfTabs cmViews" id="cmViews" role="tablist" aria-label="Color"><button type="button" class="sfTab" role="tab" data-v="lib" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="4" rx="1.5"/><rect x="4" y="10.5" width="16" height="4" rx="1.5"/><rect x="4" y="16" width="16" height="4" rx="1.5"/></svg><span>palettes</span></button><button type="button" class="sfTab" role="tab" data-v="ed" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15M4.5 12h15" opacity=".5"/></svg><span>editor</span></button></div><button class="sfInfoBtn spop-right" id="cmInfoBtn" type="button" aria-expanded="false" aria-controls="cmInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
   <div id="cmPal" class="cmPal" role="region" aria-label="The palette"></div>
+  <div id="cmLib" class="cmLib" role="region" aria-label="All palettes" hidden></div>
   <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="cmPane cmMixIn" role="region" aria-label="Ink mix: how the two inks share the particles" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmSticker" class="sfPane cmPane" role="region" aria-label="Sticker frame color" hidden></div>
   <div class="sfInfo" id="cmInfo" role="region" aria-labelledby="cmInfoH" hidden><p class="sfInfoH" id="cmInfoH">How it works</p><div class="sfInfoTx"></div></div>
   <div hidden>
-    <div class="sfInfoSrc" id="info-cmLine"><p><b>The palette</b> is the strip at the top: Ink 1, Ink 2, mix, Touch, Ground, Arrows, Pattern, in order. Tap a swatch to edit it below. Its name opens the palettes, the studio's and yours: a tap wears one. <b>Follows</b> ties a color to another (the complement of Ink 1, a deep version of it...): change that one and this one moves with it. <b>Save palette</b> keeps these colors and ties; save the scene and it points at the palette, so every scene that uses it changes with it.</p><p><b>Ink 1</b> is the color the particles draw with, as lines or as dots. A material (water's tint, glint, caustics) can borrow it.</p><p>The circle shows it; the code is its hex; tap the circle for your device's own color wheel. Lightness, chroma (how vivid) and hue set it by hand. The <b>on / off</b> switch shows or hides what the particles draw; the field keeps moving.</p><p>Swatches are ready colors; Related are its opposite, complement, lighter, darker, warmer and cooler; Recent and My colors are yours.</p></div>
-    <div class="sfInfoSrc" id="info-cmSecond"><p><b>Ink 2</b> is a second ink. Off, the particles draw in one color; on, the two inks share them.</p><p><b>Ink mix</b> chooses how: by grain, by motion, or in time.</p></div>
-    <div class="sfInfoSrc" id="info-cmMix"><p><b>Ink mix</b>: how Ink 1 and Ink 2 share the particles. Grain: each particle keeps one. Motion: fast ones take Ink 2, slow ones Ink 1. In time: they swap with the tempo, on each beat or each bar (the same tempo as Autoplay and the metronome: tapped, or the beat that plays), or every few seconds if you set your own.</p></div>
+    <div class="sfInfoSrc" id="info-cmLine"><p><b>The palette</b> is the strip at the top: Ink 1, mix, Ink 2, Touch, Arrows, Pattern, Ground, in order. Tap a swatch to edit it below. Its name opens the palettes, the studio's and yours: a tap wears one. <b>Follows</b> ties a color to another (the complement of Ink 1, a deep version of it...): change that one and this one moves with it. <b>Save palette</b> keeps these colors and ties; save the scene and it points at the palette, so every scene that uses it changes with it.</p><p><b>Ink 1</b> is the color the particles draw with, as lines or as dots. A material (water's tint, glint, caustics) can borrow it.</p><p>The circle shows it; the code is its hex; tap the circle for your device's own color wheel. Lightness, chroma (how vivid) and hue set it by hand. The <b>on / off</b> switch shows or hides what the particles draw; the field keeps moving.</p><p>Swatches are ready colors; Related are its opposite, complement, lighter, darker, warmer and cooler; Recent and My colors are yours.</p></div>
+    <div class="sfInfoSrc" id="info-cmSecond"><p><b>Ink 2</b> is a second ink. Off, the particles draw in one color; on, the two inks share them.</p><p><b>Ink mix</b> chooses how: <b>grain</b>, <b>speed</b> or <b>tempo</b>.</p></div>
+    <div class="sfInfoSrc" id="info-cmMix"><p><b>Ink mix</b>: how Ink 1 and Ink 2 share the particles. <b>Grain</b>: each particle keeps one. <b>Speed</b>: fast ones take Ink 2, slow ones Ink 1. <b>Tempo</b>: they swap with the tempo, on each beat or each bar (the same tempo as Autoplay and the metronome: tapped, or the beat that plays), or every few seconds if you set your own.</p></div>
     <div class="sfInfoSrc" id="info-cmTouch"><p><b>Touch</b> is the color your finger paints into the field. Off, touching paints no color of its own.</p></div>
     <div class="sfInfoSrc" id="info-cmGround"><p><b>Ground</b> is the color behind everything. <b>Auto</b> keeps it in contrast with the lines.</p><p>With a camera, video or picture: <b>Under</b> puts the picture on the ground, <b>Overlay</b> lays the ground's color over it, <b>Ignore</b> leaves the ground as it is.</p></div>
     <div class="sfInfoSrc" id="info-cmArrows"><p><b>Arrows</b> show which way the field flows. This is their color; off hides them.</p></div>
@@ -3630,7 +3681,7 @@ const OKC={lin:v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)}
 const colorOpp=h=>'#'+(0xffffff^(parseInt(String(h).slice(1),16)||0)).toString(16).padStart(6,'0');
 const colorComp=h=>{const [L,C,H]=OKC.lch(h);return C<.025?OKC.hex([1-L,0,0]):OKC.hex([L,C,H+180])};
 const sameC=(a,b)=>String(a||'').toLowerCase()===String(b||'').toLowerCase();
-const CANIM_MODES=[['off','off','No animation'],['drift','drift','Drift: the hue slowly turns round the wheel'],['pulse','pulse','Pulse: a flash on every beat'],['breathe','breathe','Breathe: lightness rises and falls']];
+const CANIM_MODES=[['off','off','No animation'],['drift','drift','Drift: the hue slowly turns round the wheel'],['pulse','pulse','Pulse: a flash on every beat'],['breathe','breathe','Breathe: lightness rises and falls'],['shuffle','shuffle','Shuffle: on the beat it takes another of the palette’s colors (Speed: every 8, 4, 2 or 1 beats)']];   /* Dimitry, 28 Oct 21:31: "shuffle should be one of the animation methods ... It just shuffles the current palette" */
 const CG_LAST={second:'#55b8c9',touch:'#ff6fa5'};
 const CG={
   line:{name:'Ink 1',get:()=>S.line,on:()=>!S.lineOff,set:v=>{S.line=v;S.lineOff=false;syncLine()},off:()=>{S.lineOff=true;clearTrails()},sw:()=>LINE_COLORS},
@@ -3643,14 +3694,14 @@ const CG={
 CG.sticker={name:'Sticker frame',get:()=>{const e=CAP.stk&&CAP.stk.edge;return e&&e!=='none'?e:(CAP.stk&&CAP.stk.mine)||'#ffffff'},on:()=>true,off:null,
   set:v=>{const K=CAP.stk;if(!K||!STK_HEX.test(v||''))return;v=v.toLowerCase();K.edge=v;if(!sameC(v,'#ffffff')&&!sameC(v,'#000000'))K.mine=v;capSave();bsSync();try{stkPrevDirty()}catch(_){}},
   sw:()=>[['White','#ffffff'],['Black','#000000'],...LINE_COLORS]};
-const CG_ORDER=['line','second','touch','ground','arrows','toolpath'];   // the pattern: the G-code's own drawing (Dimitry, 19 Oct)
+const CG_ORDER=['line','second','touch','arrows','toolpath','ground'];   /* Ground last (Dimitry, 28 Oct 21:29: "ink one, ink two, touch, arrows, pattern, and then ground") */   // the pattern: the G-code's own drawing (Dimitry, 19 Oct)
 /* PALETTES (Dimitry, 28 Oct 18:41: "color palettes are what we're actually working on ... a set of these colors that are
    just a strip, kind of like the scrubbing strip ... ink one, ink two, ... touch ink, ground, etc. ... those palettes can
    be altered by parameters, and then they could be assigned to different scenes ... you happen to be able to define
    individual colors, but only in relation to each other"; his pick: strip + relations + scenes). A palette is the six
    colors in order; a slot can follow another (the complement of Ink 1, a deep version of it...), so changing one moves
    the ones tied to it; a scene can point at a palette by name, so many scenes share it. */
-const PAL_SLOTS=[['line','Ink 1'],['second','Ink 2'],['touch','Touch'],['ground','Ground'],['arrows','Arrows'],['toolpath','Pattern']];
+const PAL_SLOTS=[['line','Ink 1'],['second','Ink 2'],['touch','Touch'],['arrows','Arrows'],['toolpath','Pattern'],['ground','Ground']];
 const PAL_OPS=[['same','same as'],['comp','complement of'],['opp','opposite of'],['lighter','lighter than'],['darker','darker than'],['deep','deep from'],['pale','pale from'],['warmer','warmer than'],['cooler','cooler than']];
 function palOp(op,c){if(!c||!/^#[0-9a-f]{6}$/i.test(c))return null;const [L,C,H]=OKC.lch(c);
   switch(op){case 'same':return c.toLowerCase();case 'comp':return colorComp(c);case 'opp':return colorOpp(c);case 'lighter':return OKC.hex([Math.min(.98,L+.14),C,H]);case 'darker':return OKC.hex([Math.max(.04,L-.14),C,H]);
@@ -3687,11 +3738,18 @@ function palApply(P,quiet){if(!P)return;const c=P.colors||{};PAL_BUSY=true;try{f
 function palTouched(k){const R=(S.pal&&S.pal.rel)||{};if(R[k]&&!PAL_BUSY){delete R[k];toast(PAL_SLOTS.find(x=>x[0]===k)[1]+' set free')}
   palFollow(k);const P=S.pal&&palFind(S.pal.name);if(P&&!P.builtin){P.colors=palNow();P.rel=JSON.parse(JSON.stringify(R));palPersist()}
   else if(S.pal&&S.pal.name)S.pal.edited=true;palUI()}
-function palSave(name){name=(name||'').trim().slice(0,40)||((S.pal&&S.pal.name&&!palFind(S.pal.name)?.builtin?S.pal.name:'My palette '+(palMine().length+1)));
-  if(PALETTES.some(p=>p.name===name))name=name+' · mine';   // never the studio's name: yours would hide behind it
-  const L=palMine(),P={name,colors:palNow(),rel:JSON.parse(JSON.stringify((S.pal&&S.pal.rel)||{}))},i=L.findIndex(x=>x.name===name);if(i>=0)L[i]=P;else L.push(P);try{persist()}catch(_){}
+function palSave(name){name=(name||'').trim().slice(0,40)||((S.pal&&S.pal.name&&!palFind(S.pal.name)?.builtin?S.pal.name:palNextName('My palette')));
+  if(PALETTES.some(p=>p.name===name))name=palNextName(name);   // never the studio's name: yours would hide behind it
+  const L=palMine(),P={name,colors:palNow(),rel:JSON.parse(JSON.stringify((S.pal&&S.pal.rel)||{})),t:Date.now()},i=L.findIndex(x=>x.name===name);if(i>=0)L[i]=P;else L.push(P);try{persist()}catch(_){}
   S.pal={name,rel:P.rel};palUI();toast('palette saved · '+name+'. Save the scene to keep it on the scene')}
-function palUI(){try{if(window.PAL_PAINT)PAL_PAINT()}catch(_){}}
+function palUI(){try{if(window.PAL_PAINT)PAL_PAINT()}catch(_){}try{if(window.PAL_LIB)PAL_LIB()}catch(_){}}
+/* a free name: 'Sea Green 2', 'Sea Green 3'... (Dimitry, 28 Oct 21:14: "Don't name anything Copy just append 1 2 3 etc") */
+function palNextName(base){base=String(base||'My palette').replace(/\s+\d+$/,'').replace(/ · mine$/,'').trim().slice(0,36).trim()||'My palette';const taken=new Set(palAll().map(p=>p.name));let n=taken.has(base)?2:1;while(taken.has(base+' '+n))n++;return base+' '+n}
+function palRename(old,nw){nw=String(nw||'').trim().slice(0,40);if(!nw||nw===old)return false;if(palAll().some(p=>p.name===nw)){toast('there is a palette called '+nw+' already');return false}
+  let P=palMine().find(p=>p.name===old);
+  if(!P){const B=PALETTES.find(p=>p.name===old);if(!B)return false;P={name:old,colors:S.pal&&S.pal.name===old?palNow():JSON.parse(JSON.stringify(B.colors)),rel:JSON.parse(JSON.stringify(B.rel||{})),t:Date.now()};palMine().push(P);toast('a studio palette keeps its name: yours is '+nw);P.name=nw;if(S.pal&&S.pal.name===old){S.pal.name=nw;S.pal.edited=false}try{persist()}catch(_){}palUI();return true}   /* scenes wearing the studio palette keep it: only a palette of yours carries its scenes along (review 231ceac r-2) */   /* renaming a studio palette makes it yours under the new name ("palettes can be renamed", Dimitry 28 Oct 21:20) */
+  P.name=nw;if(S.pal&&S.pal.name===old)S.pal.name=nw;
+  try{for(const u of store.user)if(u.palette===old)u.palette=nw}catch(_){}try{persist()}catch(_){}palUI();return true}
 /* every way a color changes (the editor, the bar's color shelf, the ring's Opposite, Auto...) goes through its slot's
    setter, so the palette hears of it once, here (review ade287a r-1) */
 for(const [k] of PAL_SLOTS){const G=CG[k];if(!G)continue;for(const f of ['set','off','auto']){const o=G[f];if(typeof o!=='function')continue;G[f]=function(){const r=o.apply(this,arguments);if(!PAL_BUSY)try{f==='off'?palTouchedNoFree(k):palTouched(k)}catch(_){}return r}}}   /* off is the scene's: it keeps the tie (review 236cbc6 r-2) */
@@ -3755,20 +3813,25 @@ function cmEnd(){const c=CM;if(!c)return;CM=null;
   for(const g of CG_ORDER)LC[g]=animColor(CG[g].get(),(S.canim||{})[g]);
   if(!LC.ground){CGROUND=false;applyGround(true)}   // the ground lands where the morph took it: no wipe of the trails
   try{syncArrow()}catch(_){}morphUI()}
-function animColor(base,a){if(!base||!a||!a.m||a.m==='off')return null;const sp=a.sp==null?.5:+a.sp;let [L,C,H]=OKC.lch(base);
+function animColor(base,a,g){if(!base||!a||!a.m||a.m==='off')return null;if(a.m==='shuffle')return (g&&CSHUF[g])||null;const sp=a.sp==null?.5:+a.sp;let [L,C,H]=OKC.lch(base);
     if(a.m==='drift'){H+=CAT*360/(60-54*sp);C=Math.max(C,.09)}   // a grey has no hue to turn: it takes a little color first
     else if(a.m==='breathe')L+=Math.sin(CAT*2*Math.PI/(9-7.5*sp))*.17;
     else if(a.m==='pulse')L+=(L<.62?.34:-.34)*CBEAT*(.45+.55*sp);
     return OKC.hex([L,C,H])}
+let CSHN=0;const CSHUF={};
 function colorTick(dt){CAT+=dt;const A=S.canim||{};
   let hit=false;if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!CBHI){hit=true;CBHI=true}else if(SIGNALS.beat<.5)CBHI=false}else{CBT+=dt;if(CBT>.6){CBT=0;hit=true}}
   if(hit)CBEAT=1;CBEAT*=Math.exp(-dt*4);
+  /* shuffle: every n beats each shuffling color takes another of the palette's (its own colors, never one it shows now) */
+  if(hit){CSHN++;let pool=null;for(const g of CG_ORDER){const a=A[g];if(!a||a.m!=='shuffle'||!CG[g].get()){if(CSHUF[g])delete CSHUF[g];continue}const n=[8,4,2,1][Math.round((a.sp==null?.5:+a.sp)*3)];if(CSHN%n)continue;
+    if(!pool)pool=[...new Set(CG_ORDER.map(h=>CG[h].get()).filter(c=>c&&/^#/.test(c)).map(c=>c.toLowerCase()))];const now=(CSHUF[g]||CG[g].get()||'').toLowerCase(),gr=(CSHUF.ground||CG.ground.get()||'').toLowerCase(),inks=[CG.line.get(),CG.second&&CG.second.get(),CSHUF.line,CSHUF.second].filter(Boolean).map(c=>c.toLowerCase()),L=pool.filter(c=>c!==now&&(g==='ground'?!inks.includes(c):c!==gr));   /* an ink never takes the ground's color, nor the ground an ink's: the particles would vanish (review 6a3a082 r-2) */if(L.length)CSHUF[g]=L[Math.floor(Math.random()*L.length)]}}
+  for(const g in CSHUF)if(!A[g]||A[g].m!=='shuffle')delete CSHUF[g];
   const snap=CFD_SNAP||!!CM;CFD_SNAP=false;
   for(const g of CG_ORDER){const base=CG[g].get();let c=base;const F=CFD[g]||(CFD[g]={shown:base,from:base,to:base,t:1});
     if(snap||!CFADE||!base||!F.shown){F.shown=F.from=F.to=base;F.t=1}
     else{if(base!==F.to){F.from=F.shown;F.to=base;F.t=0}
       if(F.t<1){F.t=Math.min(1,F.t+dt/Math.max(.05,cfSecs(CFADE)));const e=F.t<.5?2*F.t*F.t:1-Math.pow(-2*F.t+2,2)/2;F.shown=okMix(F.from,F.to,e)}else F.shown=base;c=F.shown}
-    LC[g]=animColor(c,A[g])||(c!==base?c:null)}
+    LC[g]=animColor(c,A[g],g)||(c!==base?c:null)}
   if(CM)cmTick();
   if(LC.ground){document.documentElement.style.setProperty('--stage',LC.ground);CGROUND=true;if((CAT*4|0)!==(CGT|0)){CGT=CAT*4;uiGuard(LC.ground);document.documentElement.classList.toggle('paper',wcagLum(LC.ground)>.4)}}else if(CGROUND){CGROUND=false;applyGround(true)}
   else if(S.ground==='auto'){const h=autoGround();if(h!==CAUTO){CAUTO=h;document.documentElement.style.setProperty('--stage',h);document.documentElement.classList.toggle('paper',groundLight());uiGuard(h)}}}
@@ -4467,7 +4530,7 @@ function cleanLook(o){try{if(!o||typeof o!=='object'||Array.isArray(o))return nu
         for(const d in DEFAULTS)if(!(d in w)&&d in v){const x=num(v[d],-1e6,1e6);if(x!==undefined)w[d]=x}break}
       case 'flags':{if(!v||typeof v!=='object')break;w={};for(const f of Object.keys(v).slice(0,32))if(/^\w{1,24}$/.test(f)&&typeof v[f]==='boolean')w[f]=v[f];break}
       case 'canim':{if(!v||typeof v!=='object')break;w={};for(const g of Object.keys(v).slice(0,16)){const a=v[g];if(!/^\w{1,24}$/.test(g)||!a||typeof a!=='object')continue;
-          const m=one(a.m,['off','drift','pulse','breathe']);if(!m)continue;const e={m};const sp=num(a.sp,0,1);if(sp!==undefined)e.sp=sp;w[g]=e}break}
+          const m=one(a.m,['off','drift','pulse','breathe','shuffle']);if(!m)continue;const e={m};const sp=num(a.sp,0,1);if(sp!==undefined)e.sp=sp;w[g]=e}break}
       case 'maps':{if(!Array.isArray(v))break;w=v.slice(0,32).filter(m=>m&&typeof m==='object'&&typeof m.src==='string'&&typeof m.dst==='string'&&/^\w{1,24}$/.test(m.src)&&SLIDERS.some(s=>s[0]===m.dst))
           .map(m=>({src:m.src,dst:m.dst,how:m.how==='follow'?'follow':'push',amt:num(m.amt,-1,1)||0}));break}
       case 'mods':{if(!v||typeof v!=='object')break;w={};for(const s of Object.keys(v).slice(0,64)){if(!SLIDERS.some(x=>x[0]===s))continue;const m=inert(v[s],1);if(m&&typeof m==='object'&&!Array.isArray(m)&&(m.shape===undefined||/^\w{1,24}$/.test(m.shape)))w[s]=m}break}
@@ -8851,43 +8914,99 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
 {const host=$('cmPal');let listOpen=false,toolsOpen=false,base=null,adj={h:0,c:100,l:0},delArm=0,adjHeld=false;
   host.addEventListener('pointerdown',e=>{if(e.target.closest('.cpAdj'))adjHeld=true},true);addEventListener('pointerup',()=>{adjHeld=false},true);addEventListener('pointercancel',()=>{adjHeld=false},true);   /* held by a finger: iOS has no :active here (review 4a0dbfa r-1) */const esc=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
   const SW=(k)=>{const v=palNow()[k];return k==='second'&&!v?null:palHex(k,v)};
-  let lastSig='';
+  let lastSig='',edRen=false;
   window.PAL_PAINT=()=>{if(!host)return;   /* never rebuilt under a finger (review a2f5773 r-2) */const cur=CM_TABS.current(),P=S.pal||{},rel=P.rel||{};
     /* rebuilt only when what it shows changes; otherwise the swatches take their colors in place, so a tap never lands on a strip being rebuilt (review ade287a r-4) */
-    const sig=JSON.stringify([cur,P.name,!!P.edited,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
+    const sig=JSON.stringify([edRen,cur,P.name,!!P.edited,curName,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
     if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle(k==='second'?'none':'off',!col)});return}
-    if(adjHeld&&lastSig)return;   /* the full rebuild waits while a finger is on an Adjust slider; the swatches above still recolor in place (reviews 4a0dbfa r-1, 6fc54c2 r-1, r-2) */
+    if((adjHeld||(edRen&&document.activeElement&&document.activeElement.classList&&document.activeElement.classList.contains('cpRnIn')&&host.contains(document.activeElement)))&&lastSig)return;   /* nor while a name is being typed (r-5) */   /* the full rebuild waits while a finger is on an Adjust slider; the swatches above still recolor in place (reviews 4a0dbfa r-1, 6fc54c2 r-1, r-2) */
     const fk=document.activeElement&&host.contains(document.activeElement)&&document.activeElement.dataset?document.activeElement.dataset.k:null;   /* a focused Adjust slider gets its focus back after a rebuild (review 15f75a6 r-1) */
     lastSig=sig;delArm=0;   /* a rebuilt strip is never armed to delete (r-2) */
     const nm=P.name?(P.name+(P.edited?' · edited':'')):'this scene’s own';
-    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button><button type="button" class="tb cpSave" aria-label="Save these colors as a palette">save palette</button></div>';
-    h+='<div class="cpTools" role="toolbar" aria-label="Palette tools"><button type="button" class="tb cpT" data-a="shuffle" title="Shuffle the colors among the slots">shuffle</button><button type="button" class="tb cpT" data-a="adjust" aria-expanded="'+toolsOpen+'" title="Hue, saturation and lightness for the whole palette">adjust</button><button type="button" class="tb cpT" data-a="dup" title="A copy of this palette, as one of yours">duplicate</button>'+(P.name&&!(palFind(P.name)||{}).builtin?'<button type="button" class="tb cpT" data-a="del" title="Delete this palette of yours">delete</button>':'')+'</div>';
+    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>'+(P.name?'<button type="button" class="cpRen" aria-label="Rename this palette" title="Rename"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>':'')+(autoT?'<span class="cpBot" role="status" title="The robot is changing scenes; while this panel is open your colors stay"><span class="apGo robo on cpRobo">'+((($('pAuto')||{}).querySelector?($('pAuto').querySelector('svg')||{}).outerHTML||'':'').replace(/ id="[^"]*"/g,''))+'</span><span class="cpBotN">'+esc(curName||'')+'</span></span>':'')+'<button type="button" class="tb cpSave cpIc" aria-label="Save these colors as a palette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="cpSvL">save palette</span></button></div>';
+    const TI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';   /* icons on every tool (Dimitry, 28 Oct 21:19) */
+    h+='<div class="cpTools" role="toolbar" aria-label="Palette tools"><button type="button" class="tb cpT cpIc" data-a="shuffle" title="Shuffle the colors among the slots">'+TI('<path d="M4 7h3.5c4 0 5 10 9 10H20M4 17h3.5c1.6 0 2.7-1.6 3.6-3.5M20 7h-3.5c-1.6 0-2.7 1.6-3.6 3.5M17.5 4.5 20 7l-2.5 2.5M17.5 14.5 20 17l-2.5 2.5"/>')+'shuffle</button><button type="button" class="tb cpT cpIc" data-a="adjust" aria-expanded="'+toolsOpen+'" title="Hue, saturation and lightness for the whole palette">'+TI('<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2" class="f"/><circle cx="15" cy="12" r="2" class="f"/><circle cx="8" cy="17" r="2" class="f"/>')+'adjust</button><button type="button" class="tb cpT cpIc" data-a="dup" title="A copy of this palette, as one of yours, numbered">'+TI('<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>')+'duplicate</button>'+(P.name&&!(palFind(P.name)||{}).builtin?'<button type="button" class="tb cpT cpIc" data-a="del" title="Delete this palette of yours">'+TI('<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>')+'<span>delete</span></button>':'')+'</div>';
     if(toolsOpen)h+='<div class="cpAdj">'+[['h','hue','-180','180','1'],['c','saturation','0','200','1'],['l','lightness','-40','40','1']].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" value="'+adj[k]+'" aria-label="Whole palette '+n+'"><output>'+(k==='c'?adj[k]+'%':adj[k])+'</output></label>').join('')+'</div>';
-    if(!autoT)PAL_HELD='';if(autoT)h+='<p class="cpHeld">The robot is changing scenes; while this panel is open your colors stay'+(PAL_HELD?' (now on <b>'+esc(PAL_HELD)+'</b>)':'')+'.</p>';
+    if(!autoT)PAL_HELD='';
     h+='<div class="cpStrip" role="toolbar" aria-label="The palette\u2019s colors">';
     const chip=(id,lab,col,tied)=>'<button type="button" class="cpS" data-t="'+id+'" aria-pressed="'+(cur===id)+'" aria-label="'+lab+(tied?', follows '+tied:'')+(col?'':', off')+'"><i style="'+(col?'background:'+col:'')+'"'+(col?'':' class="'+(id==='second'?'none':'off')+'"')+'></i><span>'+lab+'</span>'+(tied?'<em aria-hidden="true">↔</em>':'')+'</button>';
-    for(const [k,n] of PAL_SLOTS){const r=rel[k];if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-label="Ink mix: how the two inks share the particles, now by '+({grain:'grain',time:'in time',motion:'motion'}[S.alt]||S.alt)+'"><i>'+ICO(MIXI[S.alt]||MIXI.grain)+'</i><span>mix</span></button>';h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
+    for(const [k,n] of PAL_SLOTS){const r=rel[k];if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-label="Ink mix: how the two inks share the particles, now by '+({grain:'grain',time:'tempo',motion:'speed'}[S.alt]||S.alt)+'"><i>'+ICO(MIXI[S.alt]||MIXI.grain)+'</i><span>mix</span></button>';h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
     h+='</div>';
     if(listOpen){h+='<div class="cpList" role="list">';for(const Q of palAll()){h+='<div class="cpRow" role="listitem"><button type="button" class="cpUse" data-n="'+esc(Q.name)+'" aria-pressed="'+(P.name===Q.name)+'"><span class="cpMini">'+PAL_SLOTS.map(([k])=>{const v=Q.colors[k];return '<i style="background:'+(v?palHex(k,v):'transparent')+'"></i>'}).join('')+'</span><span class="cpN">'+esc(Q.name)+(Q.builtin?'':' <small>yours</small>')+'</span></button>'+(Q.builtin?'':'<button type="button" class="cpDel" data-n="'+esc(Q.name)+'" aria-label="Delete the palette '+esc(Q.name)+'">×</button>')+'</div>'}h+='</div>'}
+    if(edRen&&P.name)h=h.replace(/<div class="cpTop">[\s\S]*?<\/button>(?=<button type="button" class="cpRen")/,'<div class="cpTop"><input class="clRn cpRnIn" type="text" maxlength="40" value="'+esc(P.name)+'" aria-label="New name for '+esc(P.name)+'">');
     host.innerHTML=h;
+    {const rb=host.querySelector('.cpRen'),ri=host.querySelector('.cpRnIn');if(rb)rb.onclick=()=>{if(ri){const v=ri.value;edRen=false;palRename(P.name,v);PAL_PAINT();return}edRen=true;PAL_PAINT();const i=host.querySelector('.cpRnIn');if(i){i.focus();i.select()}};
+      if(ri)ri.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();edRen=false;palRename(P.name,ri.value);PAL_PAINT()}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();edRen=false;PAL_PAINT()}}}
     if(fk){const n=host.querySelector('.cpAdj input[data-k="'+fk+'"]');if(n)n.focus({preventScroll:true})}
-    host.querySelector('.cpName').onclick=()=>{listOpen=!listOpen;PAL_PAINT()};
+    if(host.querySelector('.cpName'))host.querySelector('.cpName').onclick=()=>{listOpen=!listOpen;PAL_PAINT()};
     const after=()=>{for(const [k] of PAL_SLOTS)palFollow(k);palTouchedNoFree('line');clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}};
     host.querySelectorAll('.cpT').forEach(b=>b.onclick=()=>{const a=b.dataset.a,now=palNow();
       if(a==='shuffle'){const ks=PAL_SLOTS.map(x=>x[0]).filter(k=>now[k]),vs=ks.map(k=>palHex(k,now[k]));for(let i=vs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[vs[i],vs[j]]=[vs[j],vs[i]]}
         PAL_BUSY=true;try{ks.forEach((k,i)=>palSet(k,vs[i]))}finally{PAL_BUSY=false}after();base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};lastSig='';toast('palette shuffled')}   /* Adjust starts again from the shuffled colors (r-3) */
       else if(a==='adjust'){toolsOpen=!toolsOpen;base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};PAL_PAINT();return}
-      else if(a==='dup'){const nm=(P.name||'This scene')+' copy';palSave(nm);return}
-      else if(a==='del'){if(performance.now()-delArm>2500){delArm=performance.now();b.textContent='tap again to delete';setTimeout(()=>{if(b.isConnected)b.textContent='delete'},2500);return}delArm=0;const L=palMine(),i=L.findIndex(x=>x.name===P.name);if(i>=0){L.splice(i,1);try{persist()}catch(_){}toast('palette deleted · '+P.name);S.pal.name=null}}
+      else if(a==='dup'){palSave(palNextName(P.name||curName||'My palette'));return}
+      else if(a==='del'){if(performance.now()-delArm>2500){delArm=performance.now();const t=b.querySelector('span')||b;t.textContent='tap again';setTimeout(()=>{if(b.isConnected)t.textContent='delete'},2500);return}delArm=0;const L=palMine(),i=L.findIndex(x=>x.name===P.name);if(i>=0){L.splice(i,1);try{persist()}catch(_){}toast('palette deleted · '+P.name);S.pal.name=null}}
       PAL_PAINT()});
     host.querySelectorAll('.cpAdj input').forEach(r=>r.oninput=()=>{if(!base)base=palNow();adj[r.dataset.k]=+r.value;const v=adj;
       host.querySelectorAll('.cpAdj output').forEach((o,i)=>{const x=host.querySelectorAll('.cpAdj input')[i];o.textContent=x.dataset.k==='c'?x.value+'%':x.value});
       PAL_BUSY=true;try{for(const [k] of PAL_SLOTS){const c=base[k];if(!c)continue;const hx=palHex(k,c);if(!hx||!/^#/.test(hx))continue;const [L,C,H]=OKC.lch(hx);palSet(k,OKC.hex([Math.max(0,Math.min(1,L+v.l/100)),Math.max(0,Math.min(.37,C*v.c/100)),H+v.h]))}}finally{PAL_BUSY=false}after()});
-    host.querySelector('.cpSave').onclick=()=>{const own=P.name&&!(palFind(P.name)||{}).builtin?P.name:'';palSave(own||(curName?curName+' palette':''));};
+    host.querySelector('.cpSave').onclick=()=>{const own=P.name&&!(palFind(P.name)||{}).builtin?P.name:'';palSave(own||palNextName(curName||'My palette'));};
     host.querySelectorAll('.cpS').forEach(b=>b.onclick=()=>{if(b.dataset.t==='mix'){CM_TABS.show('second');setTimeout(()=>{const m=$('cmMix');if(m)m.scrollIntoView({block:'start',behavior:'smooth'})},60)}else CM_TABS.show(b.dataset.t);PAL_PAINT()});
     host.querySelectorAll('.cpUse').forEach(b=>b.onclick=()=>{const Q=palFind(b.dataset.n);if(Q){palApply(Q);listOpen=false;base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}PAL_PAINT()}});
     host.querySelectorAll('.cpDel').forEach(b=>b.onclick=()=>{const L=palMine(),i=L.findIndex(x=>x.name===b.dataset.n);if(i>=0){L.splice(i,1);try{persist()}catch(_){}if(S.pal&&S.pal.name===b.dataset.n)S.pal.name=null;toast('palette removed · '+b.dataset.n)}PAL_PAINT()})};
   $('cmTabs').addEventListener('sftab',()=>PAL_PAINT());
+  /* DRAG A COLOR ONTO THE PALETTE (Dimitry, 28 Oct 21:21: "color chips should be draggable over palette colors"): any chip
+     (Swatches, Related, Recent, my colors) dropped on a slot of the strip gives it that color; a slot dropped on another
+     swaps the two. A tap is still a tap: the drag starts only after the finger moves. */
+  {const pop=$('colorPop');let D=null;
+    const slotAt=(x,y)=>{const e=document.elementFromPoint(x,y);const t=e&&e.closest&&e.closest('#cmPal .cpS[data-t]');return t&&t.dataset.t!=='mix'?t:null};
+    const end=()=>{if(!D)return;try{D.src.classList.remove('cpLift')}catch(_){}if(D.ghost)D.ghost.remove();if(D.over)D.over.classList.remove('cpDrop');pop.classList.remove('cpDragging');D=null};
+    pop.addEventListener('pointerdown',e=>{if(e.button)return;const chip=e.target.closest('.cmSw button[data-c]'),slot=e.target.closest('#cmPal .cpS[data-t]');
+      let col=null,from=null;if(chip)col=chip.dataset.c;else if(slot&&slot.dataset.t!=='mix'){from=slot.dataset.t;col=SW(from)}
+      if(!col)return;const touch=e.pointerType!=='mouse';D={x:e.clientX,y:e.clientY,col,from,id:e.pointerId,on:false,src:chip||slot,touch,armed:!touch,t0:performance.now()};
+      /* a finger holds still for a moment to pick the color up; a swipe before that scrolls as ever (review 231ceac r-1) */
+      if(touch){const d=D;setTimeout(()=>{if(D===d&&!d.gone){d.armed=true;d.src.classList.add('cpLift');try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},260)}},true);
+    addEventListener('touchmove',e=>{if(D&&D.armed)e.preventDefault()},{passive:false,capture:true});
+    addEventListener('pointermove',e=>{if(!D||e.pointerId!==D.id)return;
+      if(!D.on){if(Math.hypot(e.clientX-D.x,e.clientY-D.y)<8)return;if(!D.armed){D.gone=true;D=null;return}D.on=true;const g=document.createElement('i');g.className='cpGhost';g.style.background=D.col;document.body.appendChild(g);D.ghost=g;pop.classList.add('cpDragging');try{D.src.releasePointerCapture&&D.src.releasePointerCapture(e.pointerId)}catch(_){}}
+      e.preventDefault();D.ghost.style.transform='translate('+(e.clientX-18)+'px,'+(e.clientY-18)+'px)';
+      const t=slotAt(e.clientX,e.clientY);if(t!==D.over){if(D.over)D.over.classList.remove('cpDrop');D.over=t;if(t)t.classList.add('cpDrop')}},{passive:false});
+    addEventListener('pointerup',e=>{if(!D||e.pointerId!==D.id)return;const d=D;if(!d.on){d.gone=true;try{d.src.classList.remove('cpLift')}catch(_){}D=null;return}
+      const t=slotAt(e.clientX,e.clientY);end();
+      /* the click that follows a drag is not a tap */
+      const eat=ev=>{ev.stopPropagation();ev.preventDefault()};addEventListener('click',eat,{capture:true,once:true});setTimeout(()=>removeEventListener('click',eat,true),350);
+      if(!t)return;const k=t.dataset.t;if(k===d.from)return;const nm=k2=>PAL_SLOTS.find(x=>x[0]===k2)[1];
+      if(d.from){const a=SW(d.from),b=SW(k);PAL_BUSY=true;try{palSet(k,a);if(b)palSet(d.from,b)}finally{PAL_BUSY=false}palTouched(k);palTouched(d.from);toast(b?nm(d.from)+' and '+nm(k)+' swapped':nm(k)+' takes '+nm(d.from)+'’s color')}
+      else{PAL_BUSY=true;try{palSet(k,d.col)}finally{PAL_BUSY=false}try{rememberColor(d.col)}catch(_){}palTouched(k);toast(nm(k)+' · '+d.col)}
+      clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}PAL_PAINT()},true);
+    addEventListener('pointercancel',e=>{if(D&&e.pointerId===D.id)end()},true)}
+  /* PALETTES · EDITOR (Dimitry, 28 Oct 21:14: "Panel Footer should have: Palettes (sortable filterable list of all palettes) with rename ... Editor (this page)") */
+  {const pop=$('colorPop'),lib=$('cmLib'),vt=$('cmViews');let q='',sort='az',who='all',renaming=null,libDel={n:'',t:0};
+    const view=v=>{const L=v==='lib';pop.classList.toggle('lib',L);lib.hidden=!L;vt.querySelectorAll('.sfTab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.v===v)));try{localStorage.setItem('current.cmView',v)}catch(_){}if(L)PAL_LIB(true)};
+    vt.querySelectorAll('.sfTab').forEach(b=>b.onclick=()=>view(b.dataset.v));window.CM_VIEW=view;
+    let libSig='';
+    window.PAL_LIB=(force)=>{if(lib.hidden)return;const all=palAll(),cur=(S.pal||{}).name;
+      const sig=JSON.stringify([q,sort,who,renaming,cur,all.map(p=>p.name+(p.t||'')+JSON.stringify(p.colors))]);if(!force&&sig===libSig)return;libSig=sig;
+      const fk=document.activeElement&&lib.contains(document.activeElement)?document.activeElement.className:'';
+      let L=all.map((p,i)=>({p,i})).filter(({p})=>(who==='all'||(who==='mine'?!p.builtin:p.builtin))&&(!q||p.name.toLowerCase().includes(q.toLowerCase())));
+      if(sort==='az')L.sort((a,b)=>a.p.name.localeCompare(b.p.name,undefined,{numeric:true}));else L.sort((a,b)=>(b.p.t||0)-(a.p.t||0)||a.i-b.i);
+      const seg=(k,v,opts)=>'<div class="cmSeg" role="radiogroup" aria-label="'+k+'">'+opts.map(([id,n])=>'<button type="button" role="radio" data-'+k+'="'+id+'" aria-checked="'+(v===id)+'">'+n+'</button>').join('')+'</div>';
+      let h='<div class="clTop"><input type="search" class="clQ" placeholder="find a palette" aria-label="Find a palette" value="'+esc(q)+'"></div><div class="clBar">'+seg('who',who,[['all','all'],['mine','yours'],['studio','studio']])+seg('sort',sort,[['az','A–Z'],['new','newest']])+'</div>';
+      h+='<div class="clList" role="list">';
+      if(!L.length)h+='<p class="cmNote">'+(who==='mine'&&!q?'None of yours yet. Save palette in the editor keeps the colors you have.':'Nothing called that.')+'</p>';
+      for(const {p} of L){const mine=!p.builtin;h+='<div class="cpRow" role="listitem">';
+        if(renaming===p.name)h+='<input class="clRn" type="text" maxlength="40" value="'+esc(p.name)+'" aria-label="New name for '+esc(p.name)+'"><button type="button" class="tb clOk">done</button>';
+        else h+='<button type="button" class="cpUse" data-n="'+esc(p.name)+'" aria-pressed="'+(cur===p.name)+'"><span class="cpMini">'+PAL_SLOTS.map(([k])=>{const v=p.colors[k];return '<i style="background:'+(v?palHex(k,v):'transparent')+'"></i>'}).join('')+'</span><span class="cpN">'+esc(p.name)+(mine?' <small>yours</small>':'')+'</span></button>'+'<button type="button" class="cpDel clRename" data-n="'+esc(p.name)+'" aria-label="Rename '+esc(p.name)+'" title="'+(mine?'Rename':'Rename: makes it yours')+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>'+(!mine?'<span class="cpDel" aria-hidden="true"></span>':'')+(mine?'<button type="button" class="cpDel clDel" data-n="'+esc(p.name)+'" aria-label="Delete '+esc(p.name)+'" title="Delete">'+(libDel.n===p.name&&performance.now()-libDel.t<2500?'<b>?</b>':'×')+'</button>':'');
+        h+='</div>'}
+      h+='</div>';lib.innerHTML=h;
+      const qi=lib.querySelector('.clQ');qi.oninput=()=>{q=qi.value;PAL_LIB();const n=lib.querySelector('.clQ');n.focus();n.setSelectionRange(n.value.length,n.value.length)};
+      if(/clQ/.test(fk)){qi.focus();qi.setSelectionRange(qi.value.length,qi.value.length)}
+      lib.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{who=b.dataset.who;PAL_LIB()});lib.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{sort=b.dataset.sort;PAL_LIB()});
+      lib.querySelectorAll('.cpUse').forEach(b=>b.onclick=()=>{const Q=palFind(b.dataset.n);if(!Q)return;palApply(Q);try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}palUI()});
+      lib.querySelectorAll('.clRename').forEach(b=>b.onclick=()=>{renaming=b.dataset.n;PAL_LIB();const i=lib.querySelector('.clRn');if(i){i.focus();i.select()}});
+      const rn=lib.querySelector('.clRn');if(rn){const fin=ok=>{const old=renaming;renaming=null;if(ok)palRename(old,rn.value);PAL_LIB(true)};rn.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();fin(true)}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();fin(false)}};lib.querySelector('.clOk').onclick=()=>fin(true)}
+      lib.querySelectorAll('.clDel').forEach(b=>b.onclick=()=>{const n=b.dataset.n;if(libDel.n!==n||performance.now()-libDel.t>2500){libDel={n,t:performance.now()};PAL_LIB(true);setTimeout(()=>PAL_LIB(true),2600);return}libDel={n:'',t:0};const M=palMine(),i=M.findIndex(x=>x.name===n);if(i>=0){M.splice(i,1);try{persist()}catch(_){}if(S.pal&&S.pal.name===n)S.pal.name=null;toast('palette deleted · '+n)}palUI()})};
+    let v0='ed';try{v0=localStorage.getItem('current.cmView')==='lib'?'lib':'ed'}catch(_){}view(v0)}
   setInterval(()=>{if(!$('colorPop').hidden)PAL_PAINT()},1000)}   // the swatches follow the scene as it plays
 function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
   const re=()=>{renderMixTab();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
@@ -8895,20 +9014,22 @@ function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';
   const t=document.createElement('span');t.className='cmHex';t.textContent=S.line2?'two inks':'one ink';pair.appendChild(t);
   if(!S.line2){el('p','cmNote','The particles draw in one ink. Add a second and choose how the two share them.');
     const b=el('button','bgGo','add a second ink');b.type='button';b.onclick=()=>{S.line2=OKC.lch(S.line)[1]<.03?'#55b8c9':colorComp(S.line);syncLine();re()};return}   // a grey line has no complement worth seeing: teal
-  el('p','cmL','How the two inks share the particles');
-  for(const k of ['grain','motion','time']){const nm={grain:'grain',time:'in time',motion:'motion'}[k],b=el('button','cmAlt');b.type='button';b.setAttribute('aria-pressed',String(S.alt===k));
-    b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[k]+'</svg><span><b>'+nm+'</b>'+ALTS[k].replace(/^[^:]*:\s*/,'')+'</span>';b.onclick=()=>{S.alt=k;syncLine();re()}}
+  el('p','cmL','mix');
+  /* THREE PILLS (Dimitry, 28 Oct 21:17: "in mixing needs 3 words in 3 pills: grain, speed, tempo (no long explanations)"); the sentences stay as their labels and in How it works */
+  {const sg=el('div','cmSeg cmAlts');sg.setAttribute('role','radiogroup');sg.setAttribute('aria-label','How the two inks share the particles');
+    for(const [k,nm] of [['grain','grain'],['motion','speed'],['time','tempo']]){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(S.alt===k));
+      b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+MIXI[k]+'</svg>'+nm;b.title=ALTS[k].replace(/^[^:]*:\s*/,'');b.setAttribute('aria-label',nm+': '+b.title);b.onclick=()=>{S.alt=k;syncLine();re()};sg.appendChild(b)}}
   /* in time's own settings, right under it: by the tempo's beat or bar, or seconds of your own (greyed in place when not in time) */
   {const off=S.alt!=='time',row=el('div','cmRow cmBy');row.classList.toggle('off',off);
     const lab=document.createElement('p');lab.className='cmL';lab.textContent='swap on';row.appendChild(lab);
     const sg=document.createElement('div');sg.className='cmSeg';sg.setAttribute('role','radiogroup');sg.setAttribute('aria-label','In time: the inks swap on');row.appendChild(sg);
     for(const [k,t,al] of [['beat','beat','each beat of the tempo'],['bar','bar','each bar of the tempo (four beats)'],['sec','own','every few seconds of your own, apart from the tempo']]){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(S.altBy===k));b.textContent=t;b.title=al;b.setAttribute('aria-label','Swap on '+al);b.disabled=off;b.onclick=()=>{S.altBy=k;syncLine();re()};sg.appendChild(b)}
     const tb=tapBeatNow(),say=S.altBy==='sec'?'Your own time, apart from the tempo.':tb?'Following the tempo: '+Math.round(tb.bpm)+' a minute, '+(tb.src==='tap'?'tapped':'from the beat that plays')+', as Autoplay and the metronome.':'No tempo yet: the beats heard, or 120 a minute. Tap one (Sound or Autoplay) to set it.';
-    const n=el('p','cmNote',say);n.classList.toggle('off',off);
+    const n=el('p','cmNote',say);n.classList.toggle('off',off);n.style.visibility=off?'hidden':'';   /* kept in place: a pill never changes the panel's height (review 231ceac r-3) */
     const sp=el('label','cmSp');const own=!off&&S.altBy==='sec';sp.classList.toggle('off',!own);sp.innerHTML='<span>every</span>';const r=document.createElement('input');r.type='range';r.min=.5;r.max=12;r.step=.1;r.value=S.altTime;r.setAttribute('aria-label','Seconds between swaps (your own time)');r.disabled=!own;r.setAttribute('aria-disabled',String(!own));
     const o=document.createElement('output');o.textContent=(+S.altTime).toFixed(1)+'s';r.oninput=()=>{S.altTime=+r.value;o.textContent=(+r.value).toFixed(1)+'s';syncLine()};sp.appendChild(r);sp.appendChild(o)}   // greyed in place, never hidden: the panel keeps its height
   const x=el('button','tb','one ink');x.type='button';x.style.marginTop='12px';x.setAttribute('aria-label','Remove the second ink');x.onclick=()=>{CG.second.off();re()}}
-function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}stkMixOff();CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
+function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}stkMixOff();if(typeof g==='string'&&window.CM_VIEW)CM_VIEW('ed');   /* asked for one color: its editor, not the list (r-4) */CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
 /* THE MIXER FOR THE STICKER'S FRAME: the same Color mixer, compact: no tabs, one pane, the picker and its rows */
 function openStickerMix(c){const K=CAP.stk;c=c||K.mine||(K.edge!=='none'?K.edge:'#ffffff');try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}
   CG.sticker.set(c);const p=$('colorPop');p.classList.add('stk');for(const id of Object.values(CM_PANE)){const e=$(id);if(e)e.hidden=id!=='cmSticker'}renderCM('sticker');p.hidden=false;
@@ -8954,17 +9075,17 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   const nat=mk('input','cmNatIn',null,big);nat.type='color';nat.setAttribute('aria-label',G.name+': the color wheel');
   const tg=mk('span','cmTg',null,top);
   let autoB=null,offB=null;
-  if(G.auto){autoB=mk('button','tb',null,tg);autoB.type='button';autoB.textContent='auto';autoB.setAttribute('aria-label','Ground auto: always contrasts with the lines');
+  if(G.auto){autoB=mk('button','tb',null,tg);autoB.type='button';autoB.innerHTML='<i aria-hidden="true"></i>auto';autoB.setAttribute('role','switch');autoB.setAttribute('aria-label','Ground auto: always contrasts with the lines');
     autoB.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();done()}}
   if(G.off){offB=mk('button','tb',null,tg);offB.type='button';offB.onclick=()=>{if(G.on())G.off();else{const r=g!=='sticker'&&(S.pal&&S.pal.rel||{})[g];
       if(r){PAL_BUSY=true;try{G.set(G.get())}finally{PAL_BUSY=false}PAL_ON=g;try{palFollow(r.of)}finally{PAL_ON=null}palTouchedNoFree(g)}else G.set(G.get())}done()}}   /* on again, a tied slot keeps its tie and takes its tie's color (review 5306f3e r-2) */
   /* FOLLOWS (palettes, 28 Oct): this slot free, or tied to another (the complement of Ink 1...): it then moves with it */
-  let relSel=null,relSeg=null,relOps=[];if(g!=='sticker'){const rw=mk('div','cmRel',null,pick);mk('span','cmL','follows',rw);relSel=mk('select',null,null,rw);relSel.setAttribute('aria-label',G.name+' follows');
-    relSel.innerHTML='<option value="">free</option>'+PAL_SLOTS.filter(([k])=>k!==g).map(([k,n])=>'<option value="'+k+'">'+n+'</option>').join('');
+  /* ONE CHOICE, IN THE TOP ROW (Dimitry, 28 Oct 21:31: "The color follows. Maybe that happens after the color number"): free, or
+     'complement of Ink 1'; the slots are the groups, so the two selects became one and the editor lost a row */
+  let relSel=null,relSeg=null,relOps=[];if(g!=='sticker'){const rw=mk('label','cmRel cmRelTop',null,null);top.insertBefore(rw,tg);mk('span','cmRelK','follows',rw);relSel=mk('select',null,null,rw);relSel.setAttribute('aria-label',G.name+' follows');relSel.title='Follows: tie this color to another, so it moves with it';
+    relSel.innerHTML='<option value="">free</option>'+PAL_SLOTS.filter(([k])=>k!==g).map(([k,n])=>'<optgroup label="'+n+'">'+PAL_OPS.map(([o,t])=>'<option value="'+k+'|'+o+'">'+t+' '+n+'</option>').join('')+'</optgroup>').join('');
     /* how it follows: a second compact choice, so the editor keeps its height (one row, not nine buttons) */
-    relSeg=mk('select','cmRelHow',null,rw);relSeg.setAttribute('aria-label',G.name+': how it follows');relSeg.innerHTML=PAL_OPS.map(([k,t])=>'<option value="'+k+'">'+t.replace(/ (as|of|than|from)$/,'')+'</option>').join('');
-    relSeg.onchange=()=>{const R=S.pal.rel,of=relSel.value;if(!of)return;R[g]={of,op:relSeg.value};palFollow(of);palTouchedNoFree(g);update()};
-    relSel.onchange=()=>{const R=S.pal.rel;if(!relSel.value){delete R[g]}else{R[g]={of:relSel.value,op:(R[g]&&R[g].op)||'comp'};palFollow(relSel.value)}palTouchedNoFree(g);update()}}
+    relSel.onchange=()=>{const R=S.pal.rel;if(!relSel.value){delete R[g]}else{const [of,op]=relSel.value.split('|');R[g]={of,op:op||'comp'};palFollow(of)}palTouchedNoFree(g);update()}}
   const rs=[['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>{const l=mk('label','cmEdR','<span>'+n+'</span><input type="range" min="'+a+'" max="'+b+'" step="'+st+'"><output></output>',pick),r=l.querySelector('input');r.dataset.k=k;r.setAttribute('aria-label',G.name+' '+n);return r});
   const saveRow=mk('div','cmEdRow',null,pick),save=mk('button','tb cmEdSave',null,saveRow);save.type='button';
   let st=null;   // the picker's own L C H, so a grey keeps its hue while you drag
@@ -9012,12 +9133,12 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     big.style.background=cur;big.style.opacity=on?'':.35;
     if(document.activeElement!==hex){hex.value=cur.slice(1).toUpperCase();hex.classList.remove('bad')}if(nat.value!==cur)nat.value=cur;
     if(!st||!sameC(OKC.hex(st),cur))st=lch(cur);
-    rs.forEach((r,i)=>{if(document.activeElement!==r||!r.matches(':active'))r.value=st[i];r.nextElementSibling.textContent=i===2?Math.round(st[2])+'°':i===0?Math.round(st[0]*100)+'%':st[1].toFixed(2)});
-    {const f=fn=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>fn(i/8)).join(',')+')',[L,C,H]=st;rs[0].style.background=f(t=>OKC.hex([t,C,H]));rs[1].style.background=f(t=>OKC.hex([L,t*.37,H]));rs[2].style.background=f(t=>OKC.hex([L,Math.max(C,.08),t*360]))}
+    rs.forEach((r,i)=>{if(document.activeElement!==r||!r.matches(':active'))r.value=st[i];r.nextElementSibling.textContent=i===2?Math.round(st[2])+'°':i===0?Math.round(st[0]*100)+'%':Math.round(st[1]/.37*100)+'%'});   /* chroma as 0–100% of the most a screen can show (OKLCH's 0.37), like lightness (Dimitry, 28 Oct 21:32: "it would be nice to have simple values") */
+    {const f=fn=>'linear-gradient(to right,'+Array.from({length:9},(_,i)=>fn(i/8)).join(',')+')',[L,C,H]=st;rs[0].style.setProperty('--g',f(t=>OKC.hex([t,C,H])));rs[1].style.setProperty('--g',f(t=>OKC.hex([L,t*.37,H])));rs[2].style.setProperty('--g',f(t=>OKC.hex([L,Math.max(C,.08),t*360])))}
     if(offB){offB.innerHTML='<i aria-hidden="true"></i>'+(on?'on':'off');offB.setAttribute('role','switch');offB.setAttribute('aria-checked',String(on));offB.removeAttribute('aria-pressed');offB.setAttribute('aria-label',CM_OFF_SAY[g]?G.name+': '+(on?'on':'off')+'. '+CM_OFF_SAY[g]:G.name+(on?' is on: tap to turn it off':' is off: tap to turn it on'));offB.title=CM_OFF_SAY[g]||''}   /* the switch says the state, not the action (Dimitry, 28 Oct 14:30: "I'm not sure what I'm turning on or turning off") */
-    if(relSel){const r=(S.pal&&S.pal.rel||{})[g];relSel.value=r?r.of:'';relSeg.style.visibility=r?'':'hidden';if(r)relSeg.value=r.op}
-    if(autoB)autoB.setAttribute('aria-pressed',String(S.ground==='auto'));
-    {const mine=cmMine().includes(cur.toLowerCase());save.textContent=mine?'saved · remove':'save to my colors';save.setAttribute('aria-pressed',String(mine))}
+    if(relSel){const r=(S.pal&&S.pal.rel||{})[g];relSel.value=r?r.of+'|'+r.op:'';relSel.classList.toggle('tied',!!r)}
+    if(autoB)autoB.setAttribute('aria-checked',String(S.ground==='auto'));
+    {const mine=cmMine().includes(cur.toLowerCase());save.innerHTML=mine?'saved · remove':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>save to my colors';save.classList.add('cpIc');save.setAttribute('aria-pressed',String(mine))}
     for(const R of rows)drawRow(R,cur,on);
     if(noteT){noteT.innerHTML='Alternating now by <b>'+({grain:'grain',time:'in time',motion:'motion'}[S.alt]||S.alt)+'</b>. ';note.classList.toggle('off',!on)}
     for(const b of sgB)b.setAttribute('aria-pressed',String(SRCG===b.dataset.k));
@@ -11020,10 +11141,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261028231809"></script>
-<script src="surface/links.js?v=20261028231809"></script>
-<script src="surface/tips.js?v=20261028231809"></script>
-<script src="surface/sections.js?v=20261028231809"></script>
+<script src="surface/install.js?v=20261029013815"></script>
+<script src="surface/links.js?v=20261029013815"></script>
+<script src="surface/tips.js?v=20261029013815"></script>
+<script src="surface/sections.js?v=20261029013815"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11210,7 +11331,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261028231809"></script>
+<script src="surface/room.js?v=20261029013815"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11411,7 +11532,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261028231809"></script>
+<script src="surface/touch.js?v=20261029013815"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12156,7 +12277,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.35.1';
+const APP_VERSION='0.35.2';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
