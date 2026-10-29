@@ -33,7 +33,8 @@
        wake: () => void (idle and touched: turns its sound on instead of changing the amount),
        bg: (canvas, lit) => void (painted behind its icon every frame, e.g. the sound's wave); a go item roll: true turns its icon over;
        items may carry at: "top" | "bottom-left" | "bottom-right" (the panel up top, back and next below),
-       center: "bar" | "ball" (the middle as a bar, the default, or a round button like the bar button the ring came from;
+       center: "bar" | "ball" | "none" (the middle as a bar, the default, or a round button like the bar button the ring came from,
+       or no middle at all: the thing it was opened on stays visible in the gap, the dots hug it; Current's left sounds, 29 Oct;
        with define({icon}) the ball shows that icon over a small name), per ring in define, or per open,
        define({icon, iconOff}): a round centre that is a switch shows iconOff while off;
        pin: true (the pin; false hides it), pinned: false (open pinned),
@@ -314,7 +315,7 @@
       others.forEach(function (d, i) { d.style.setProperty("--fd", (k - 1 - i) * step + "ms"); d.classList.add("sr-fold2"); });
       var foldEnd = (k ? (k - 1) * step : 0) + 450;
       if (chosen) { chosen.classList.add("sr-chosen"); var ch = Math.max(hold, 300); setTimeout(function () { chosen.style.setProperty("--fd", "0ms"); chosen.classList.add("sr-fold2"); }, ch); foldEnd = Math.max(foldEnd, ch + 450); }
-      if (!hub) { setTimeout(gone, foldEnd); }
+      if (!hub || hub.style.display === "none") { setTimeout(gone, foldEnd); }   /* no middle: nothing to linger on */
       else {
         var again = function (e) { e.stopPropagation(); e.preventDefault(); if (!c.ring.isConnected) return;
           var pinIt = !!(e.target && e.target.closest && e.target.closest(".sr-pin")), x = parseFloat(c.ring.style.left), y = parseFloat(c.ring.style.top);
@@ -368,7 +369,10 @@
     /* the radius: the dots sit round the circle with a gap between them, room for each label, clear of the hub */
     /* tighter (Dimitry, 25 Oct 08:06: "as long as there's space between the top button and the middle, that gap could be
        fairly smaller … so the ring in general can be quite a bit tighter"): the ball is 88, the top dot's word just clears it */
-    var R = Math.max(o.r || 0, (def.center || o.center) === "ball" ? 90 : 92, (n * (d + gap + 8)) / (2 * Math.PI));
+    /* NO MIDDLE (Dimitry, 29 Oct 17:17, a left sound's halo: "can you make it exactly like ring menu but no middle? … style
+       wise"): center "none" draws no hub; the ring keeps its dots, labels, pops and keys, tighter round what it opened on */
+    var NOHUB = (def.center || o.center) === "none";
+    var R = Math.max(o.r || 0, NOHUB ? 58 : (def.center || o.center) === "ball" ? 90 : 92, (n * (d + gap + 8)) / (2 * Math.PI));
     var lab = 14, pad = R + d / 2 + lab + 8, W = innerWidth, H = innerHeight;
     var clampX = function (v) { return Math.max(pad, Math.min(W - pad, v)); }, clampY = function (v) { return Math.max(pad, Math.min(H - pad, v)); };
     var x = clampX(o.x == null ? W / 2 : o.x), y = clampY(o.y == null ? H / 2 : o.y);
@@ -426,6 +430,7 @@
       up.setAttribute("aria-label", upIt.aria || upIt.label || "Panel"); up.title = upIt.aria || upIt.label || "Panel";
       up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; if (upIt._back) { back(); return; } try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
       hub.appendChild(up); }
+    if (NOHUB) { hub.style.display = "none"; hub.setAttribute("aria-hidden", "true"); }
     ring.appendChild(hub);
     function setPin(on) { if (!cur || cur.ring !== ring) return; cur.pinned = !!on; ring.classList.toggle("sr-pinned", cur.pinned); veil.style.display = cur.pinned ? "none" : "";
       if (pin) { pin.setAttribute("aria-pressed", String(cur.pinned)); pin.setAttribute("aria-label", cur.pinned ? "Unpin: the ring closes after a choice again" : "Pin the ring: it stays open while you play"); }
@@ -555,6 +560,9 @@
       var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); peek(); } };
       b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); rest(); });
       b.addEventListener("click", function (e) { e.stopPropagation(); if (b._woke && performance.now() - b._woke < 800) return; if (e.detail === 0) peek(); });
+      /* keys too (review 79b4932b2e r-3): a focused amount steps with + and − (or Page Up / Page Down), the number shown in it */
+      b.addEventListener("keydown", function (e) { var up = e.key === "+" || e.key === "=" || e.key === "PageUp", dn = e.key === "-" || e.key === "PageDown"; if (!up && !dn) return;
+        e.preventDefault(); e.stopPropagation(); var v = clampV(+it.get() + (up ? st : -st)); try { it.set(v); } catch (er) { console.warn("[ring]", er); } peek(); });
     }
     /* THE DIAL: the middle turns into the value's knob, its level round its edge, the number inside. Drag up or down
        anywhere (the dial keeps the finger), arrows step, a tap without a drag (or Enter, Esc) gives the middle back */
