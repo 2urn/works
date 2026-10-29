@@ -29,7 +29,7 @@
   var CSS =
     ":where(.s-strip){display:flex;align-items:center;gap:8px;flex:none}" +
     ":where(.s-strip-i){position:relative;flex:none;width:68px;height:40px;padding:0;margin:0;border-radius:7px;cursor:pointer;scroll-snap-align:start;" +
-    "border:1.5px solid rgb(var(--ui-hi,255 255 255) / .16);background:#0c0e11 center/contain no-repeat;-webkit-tap-highlight-color:transparent}" +
+    "border:1.5px solid rgb(var(--ui-hi,255 255 255) / .16);background:#0c0e11 center/cover no-repeat;background-clip:padding-box;-webkit-tap-highlight-color:transparent}" +   /* cover, clipped inside the border: no dark sliver or ring at the edge (Dimitry, 29 Oct 14:47: "crunchy with black edge") */
     ":where(.s-strip-i[aria-current=true]){border-color:var(--acc,#55b8c9);box-shadow:0 0 0 1.5px var(--acc,#55b8c9),inset 0 0 0 40px rgb(var(--acc-rgb,85 184 201) / .16)}" +
     ":where(.s-strip-i.next){border-style:dashed;border-color:var(--acc,#55b8c9)}" +
     ":where(.s-strip-i.next)::after{content:'';position:absolute;left:50%;top:-6px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--acc,#55b8c9);box-shadow:0 0 0 2px rgb(var(--ui-g,10 10 12))}" +
