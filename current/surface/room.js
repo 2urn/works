@@ -17,7 +17,7 @@
      room.on("hello", e => …)   // a peer arrived (the leader answers with its state: room.state(...))
      SurfaceRoom.join(code, { …, make: "take" })   // joins and takes the lead from whoever holds it
      SurfaceRoom.join(code, { …, noLead: true })   // never claims the lead when nobody leads: it waits for a leader
-     room.on("touch", e => …)   // { id, part, name, path: [[x, y, ms], …], up } a player's finger, sent with SurfaceRoom.post
+     room.on("touch", e => …)   // { id, part, name, path: [[x, y, ms], …], up, ev: [[slot, kind, size, ms], …], dr: [[x, y, slot], …] } a player's finger, sent with SurfaceRoom.post
      SurfaceRoom.post(code, type, payload, {url, key, prefix, from})   // send without joining (REST broadcast) → Promise<bool>
      room.tempo({ bpm, bar0, bpb, src })     // leader: announce (bar0 local ms); re-sent by the tool as a heartbeat
      room.scene(scene, atLocalMs, { morph, part })   // leader: a scene change landing at a local time
@@ -193,7 +193,7 @@
             if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, snap: true });
             if (m.scene) emit("scene", { scene: m.scene.scene, at: performance.now(), morph: 0, part: m.scene.part, n: m.scene.n, snap: true });
           } break;
-        case "touch": emit("touch", { id: String(m.f).slice(0, 16), part: String(m.part || "").slice(0, 16), name: String(m.name || "").slice(0, 24), path: Array.isArray(m.path) ? m.path.slice(0, 24) : [], up: !!m.up }); break;   // a player's finger, posted (SurfaceRoom.post)
+        case "touch": emit("touch", { id: String(m.f).slice(0, 16), part: String(m.part || "").slice(0, 16), name: String(m.name || "").slice(0, 24), path: Array.isArray(m.path) ? m.path.slice(0, 24) : [], up: !!m.up, ev: Array.isArray(m.ev) ? m.ev.slice(0, 16) : [], dr: Array.isArray(m.dr) ? m.dr.slice(0, 12) : [] }); break;   // a player's finger, posted (SurfaceRoom.post); ev: the sounds it played, dr: sounds left on its pad
         case "bye": if (peers[m.f]) { delete peers[m.f]; elect(); } break;
       }
     }

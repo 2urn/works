@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029191640";window.__VERSION__="0.37.5";window.__NOTES__=[{"v":"0.37.5","date":"29 Oct 2026","items":[{"kind":"fix","text":"the Ensemble section in the index folds shut when you tap its title, like every other section"}]}]</script>
+<script>window.__BUILD__="20261029195223";window.__VERSION__="0.38.0";window.__NOTES__=[{"v":"0.38.0","date":"29 Oct 2026","items":[{"kind":"new","text":"the ensemble's Player view: a part's player sees no field, only the sound: a 16:9 pad the shape of the screen's picture (where you touch here is where your sound lands there), and of the bar only sound, keys and full screen"},{"kind":"new","text":"a mixer of the part's voices: level, timbre, grain and pitch for each, and what plays it (tap, drag, hold, the whole touch, or off); the part's level, bed and mute; reset the part"},{"kind":"new","text":"the pad's map: up and across can play pitch, wetness, grain, timbre, pan or size, over a range you set; four maps to start from (Water, Grain, Timbre, Stage)"},{"kind":"new","text":"the pad is a Cartesian plane: two axes through the middle, A at the top and B at the bottom, C at the left and D at the right, E F H G in the corners; it can stand for a wall, a stage or a floor (the ends are named for it), with zero at the edge or in the middle"},{"kind":"new","text":"leave a sound on the pad: it plays there by itself on the room's beat, every 1, 2, 4 or 8 beats (tap it to change, hold it or drag it off to take it away)"},{"kind":"new","text":"keys for the part: 1 to 5 play its sounds, Space holds, arrows move, Z and X an octave, M mute, [ ] level, D leaves a sound, R Ready to perform, ? the list"},{"kind":"new","text":"on the screen, every sound a player plays lands as a ripple and a ring in the part's color where it was played"},{"kind":"change","text":"a drop that touches a pool joins it, and water meets water in a smooth bridge, never two edges side by side","pro":"water.fill"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029191640"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029191640">
+<script src="claude-web.js?v=20261029195223"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029195223">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029191640"></script>
-<script src="surface/nozoom.js?v=20261029191640"></script><script src="surface/steady.js?v=20261029191640"></script><script src="surface/selftest.js?v=20261029191640"></script><script src="surface/size.js?v=20261029191640"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029191640"></script>
-<script src="surface/auto.js?v=20261029191640"></script>
-<script src="surface/toolpath.js?v=20261029191640"></script>
-<script src="surface/capture.js?v=20261029191640"></script>
-<script src="surface/pop.js?v=20261029191640"></script>
-<script src="surface/hints.js?v=20261029191640"></script>
-<script src="surface/paths.js?v=20261029191640"></script>
-<script src="surface/keys.js?v=20261029191640"></script>
-<script src="surface/reset.js?v=20261029191640"></script>
-<script src="surface/files.js?v=20261029191640"></script>
-<script src="surface/tabs.js?v=20261029191640"></script>
-<script src="surface/running.js?v=20261029191640"></script>
-<script src="surface/trim.js?v=20261029191640"></script>
-<script src="surface/audiowake.js?v=20261029191640"></script>
-<script src="surface/output.js?v=20261029191640"></script>
-<script src="surface/board.js?v=20261029191640"></script>
-<script src="surface/voice.js?v=20261029191640"></script>
-<script src="surface/voicelib.js?v=20261029191640"></script>
-<script src="surface/instruments.js?v=20261029191640"></script>
-<script src="surface/listview.js?v=20261029191640"></script>
-<script src="surface/beads.js?v=20261029191640"></script>
-<script src="surface/strip.js?v=20261029191640"></script>
-<script src="surface/sheetnav.js?v=20261029191640"></script>
-<script src="surface/twofinger.js?v=20261029191640"></script>
-<script src="surface/ring.js?v=20261029191640"></script>
-<script src="surface/shortlink.js?v=20261029191640"></script>
-<script src="surface/undo.js?v=20261029191640"></script>
-<script src="surface/pro.js?v=20261029191640"></script>
-<script src="surface/fresh.js?v=20261029191640"></script>
-<script src="surface/go.js?v=20261029191640"></script>
-<script src="surface/notice.js?v=20261029191640"></script>
-<script src="surface/perform.js?v=20261029191640"></script>
-<script src="surface/words.js?v=20261029191640"></script>
+<script src="vendor/opentype.min.js?v=20261029195223"></script>
+<script src="surface/nozoom.js?v=20261029195223"></script><script src="surface/steady.js?v=20261029195223"></script><script src="surface/selftest.js?v=20261029195223"></script><script src="surface/size.js?v=20261029195223"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029195223"></script>
+<script src="surface/auto.js?v=20261029195223"></script>
+<script src="surface/toolpath.js?v=20261029195223"></script>
+<script src="surface/capture.js?v=20261029195223"></script>
+<script src="surface/pop.js?v=20261029195223"></script>
+<script src="surface/hints.js?v=20261029195223"></script>
+<script src="surface/paths.js?v=20261029195223"></script>
+<script src="surface/keys.js?v=20261029195223"></script>
+<script src="surface/reset.js?v=20261029195223"></script>
+<script src="surface/files.js?v=20261029195223"></script>
+<script src="surface/tabs.js?v=20261029195223"></script>
+<script src="surface/running.js?v=20261029195223"></script>
+<script src="surface/trim.js?v=20261029195223"></script>
+<script src="surface/audiowake.js?v=20261029195223"></script>
+<script src="surface/output.js?v=20261029195223"></script>
+<script src="surface/board.js?v=20261029195223"></script>
+<script src="surface/voice.js?v=20261029195223"></script>
+<script src="surface/voicelib.js?v=20261029195223"></script>
+<script src="surface/instruments.js?v=20261029195223"></script>
+<script src="surface/listview.js?v=20261029195223"></script>
+<script src="surface/beads.js?v=20261029195223"></script>
+<script src="surface/strip.js?v=20261029195223"></script>
+<script src="surface/sheetnav.js?v=20261029195223"></script>
+<script src="surface/twofinger.js?v=20261029195223"></script>
+<script src="surface/ring.js?v=20261029195223"></script>
+<script src="surface/shortlink.js?v=20261029195223"></script>
+<script src="surface/undo.js?v=20261029195223"></script>
+<script src="surface/pro.js?v=20261029195223"></script>
+<script src="surface/fresh.js?v=20261029195223"></script>
+<script src="surface/go.js?v=20261029195223"></script>
+<script src="surface/notice.js?v=20261029195223"></script>
+<script src="surface/perform.js?v=20261029195223"></script>
+<script src="surface/words.js?v=20261029195223"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029191640"></script>
-<script src="surface/rail.js?v=20261029191640"></script>
-<script src="surface/touchsound.js?v=20261029191640"></script>
-<script src="surface/water.js?v=20261029191640"></script>
-<script src="surface/ripple.js?v=20261029191640"></script>
-<script src="surface/material.js?v=20261029191640"></script>
-<script src="surface/float.js?v=20261029191640"></script>
-<script src="surface/manual.js?v=20261029191640"></script>
+<script src="surface/pack.js?v=20261029195223"></script>
+<script src="surface/rail.js?v=20261029195223"></script>
+<script src="surface/touchsound.js?v=20261029195223"></script>
+<script src="surface/water.js?v=20261029195223"></script>
+<script src="surface/ripple.js?v=20261029195223"></script>
+<script src="surface/material.js?v=20261029195223"></script>
+<script src="surface/float.js?v=20261029195223"></script>
+<script src="surface/manual.js?v=20261029195223"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4246,6 +4246,7 @@ function frame(now){requestAnimationFrame(frame);frameStep(now)}
 function frameStep(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
+  if(window.ENS&&ENS.pvOn()){tapTick();try{ENS.pvTick(dt)}catch(e){console.warn('pv tick',e)}try{SurfaceSelfTest.beat()}catch(_){}return}   /* the self-test still hears a frame (review 392d2e35d7 r-1) */   /* the player view: sound only, the field is not drawn (ENSEMBLE) */
   if(S.paused||!field){if(S.paused&&field)try{SurfaceSelfTest.beat('paused')}catch(_){}return}
   if(WM){const u=(performance.now()-WM.t0)/WM.dur;if(u>=1)WM=null;else WM.e=u*u*(3-2*u)}tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);try{colorTick(dt)}catch(_){}try{sndWave()}catch(_){}
@@ -11643,10 +11644,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029191640"></script>
-<script src="surface/links.js?v=20261029191640"></script>
-<script src="surface/tips.js?v=20261029191640"></script>
-<script src="surface/sections.js?v=20261029191640"></script>
+<script src="surface/install.js?v=20261029195223"></script>
+<script src="surface/links.js?v=20261029195223"></script>
+<script src="surface/tips.js?v=20261029195223"></script>
+<script src="surface/sections.js?v=20261029195223"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11836,7 +11837,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029191640"></script>
+<script src="surface/room.js?v=20261029195223"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12037,7 +12038,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029191640"></script>
+<script src="surface/touch.js?v=20261029195223"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12062,7 +12063,43 @@ const ROOMC=(function(){
 #ens .ens-legend dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0;font-size:13px;line-height:1.4}#ens .ens-legend dt{font:600 11px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}#ens .ens-legend dd{margin:0}
 #ens .ens-st{font:12px/1.4 var(--mono);color:var(--muted);margin:6px 0;min-height:1.4em}#ens .ens-note{font-size:12px;line-height:1.45;color:var(--muted);margin:8px 0 0;max-width:44ch}
 #partPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer}
-#partPill[hidden]{display:none}html.perfReady .sp-b,html.perfReady .sp-first,html.perfReady #hideHint{display:none!important}
+#partPill[hidden]{display:none}
+/* THE PLAYER VIEW (29 Oct 15:20): sound only, the pad the shape of the screen's picture; of the bar only sound, keys, full screen */
+#pv{position:fixed;inset:0;z-index:6;background:#07090b;color:#e8f1f2;display:flex;flex-direction:column;padding:calc(10px + env(safe-area-inset-top,0px)) 14px calc(92px + env(safe-area-inset-bottom,0px));box-sizing:border-box;font:13px/1.4 var(--sans,system-ui)}
+#pv[hidden]{display:none}html.pvOn #partPill,html.pvOn #stage,html.pvOn #playname,html.pvOn .hud{visibility:hidden}
+html.pvOn #playbar>*:not(#pSnd):not(#pKeys):not(#pFull){display:none!important}
+html.pvOn[data-pvshelf] #bshelf,html.pvOn .sp-first,html.pvOn .sp-b,html.pvOn .sp-nag{display:none!important}   /* only the sound shelf; no path cards over the pad */
+#pv .pv-slot .pv-r,#pv .pv-axis .pv-r{flex:none}
+#pv .pv-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:40px;padding-left:52px}
+#pv .pv-dot{width:12px;height:12px;border-radius:50%;background:var(--pc)}#pv .pv-nm{font:700 14px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+#pv .pv-st{font:11px/1.3 var(--mono);color:rgba(232,241,242,.62);flex:1;min-width:120px}
+#pv .pv-tabs{display:flex;gap:6px;flex-wrap:wrap}
+#pv button{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#e8f1f2;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:999px;min-height:36px;padding:0 13px;cursor:pointer}
+#pv button[aria-pressed=true],#pv button[aria-checked=true]{background:var(--pc);border-color:var(--pc);color:#071012}
+#pv button:focus-visible,#pv select:focus-visible,#pv input:focus-visible,#pv .pv-pad:focus-visible{outline:2px solid var(--pc);outline-offset:2px}
+#pv .pv-main{flex:1;min-height:0;display:flex;gap:16px;margin-top:10px}
+#pv .pv-padw{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#pv .pv-seg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}#pv .pv-seg>b{font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;min-width:92px}#pv .pv-seg>div{display:flex;gap:6px;flex-wrap:wrap}
+#pv .pv-padw .pv-note{margin-top:28px}
+#pv .pv-pad{position:relative;overflow:visible!important;width:min(100%,calc((100dvh - 190px) * 16 / 9));aspect-ratio:16/9;border:1.5px solid color-mix(in srgb,var(--pc) 55%,transparent);border-radius:10px;background:#0b0e11;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+#pv .pv-pad canvas{position:absolute;inset:0;width:100%;height:100%}
+#pv .pv-ax{position:absolute;font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(232,241,242,.55);pointer-events:none}
+#pv .pv-ax{display:none}#pv .pv-rdout{position:absolute;left:50%;translate:-50% 0;bottom:auto;top:calc(100% + 6px);white-space:nowrap;font:10.5px/1 var(--mono);color:rgba(232,241,242,.45);pointer-events:none}
+#pv .pv-arm{position:absolute;left:50%;top:10px;translate:-50% 0;background:var(--pc);color:#071012;font:600 11px/1.2 var(--mono);padding:6px 10px;border-radius:999px;pointer-events:none}#pv .pv-arm[hidden]{display:none}
+#pv .pv-note{font-size:12px;line-height:1.45;color:rgba(232,241,242,.6);margin:8px 0 0;max-width:60ch}
+#pv .pv-side{flex:0 0 330px;overflow:auto;overscroll-behavior:contain;padding-right:4px}
+#pv .pv-mst,#pv .pv-slot,#pv .pv-axis{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;margin:0 0 10px;display:flex;flex-direction:column;gap:6px}
+#pv .pv-mst{flex-direction:row;flex-wrap:wrap;align-items:center}#pv .pv-mst>b{width:100%;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+#pv .pv-sh{display:flex;align-items:center;gap:8px}#pv .pv-sh b{flex:1;font-weight:600}
+#pv .pv-play{width:36px;padding:0;border-radius:50%;background:var(--pc);color:#071012;border-color:var(--pc)}
+#pv select{font:12px var(--mono);color:#e8f1f2;background:#11161a;border:1px solid rgba(255,255,255,.2);border-radius:8px;min-height:34px;padding:0 6px}
+#pv .pv-r{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:8px;font:11px/1 var(--mono);color:rgba(232,241,242,.7);flex:1 1 200px}
+#pv input[type=range]{width:100%;accent-color:var(--pc);min-height:28px}
+#pv .pv-maps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}#pv .pv-maps button{height:auto;padding:9px 10px;border-radius:10px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-transform:none;letter-spacing:0;text-align:left}
+#pv .pv-maps small{font:400 11px/1.3 var(--sans,system-ui);opacity:.8}
+#pv .pv-keys{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0}#pv .pv-keys dd{margin:0;color:rgba(232,241,242,.8)}
+#pv kbd{font:600 11px/1 var(--mono);border:1px solid rgba(255,255,255,.3);border-bottom-width:2px;border-radius:5px;padding:4px 6px;white-space:nowrap}
+@media (max-width:899px){#pv .pv-main{flex-direction:column;overflow:auto}#pv .pv-side{flex:none;overflow:visible}#pv .pv-pad{width:min(100%,calc((100dvh - 150px) * 16 / 9))}#pv .pv-padw{flex:none}#pv .pv-h{padding-left:48px}}html.perfReady .sp-b,html.perfReady .sp-first,html.perfReady #hideHint{display:none!important}
 #ens #ensReady[aria-pressed=true]{background:var(--accent,#3fd0c9);border-color:var(--accent,#3fd0c9);color:#071012}html.inRoom #partPill{top:calc(52px + env(safe-area-inset-top,0px))}
 #partPill i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--pc,#fff)}
 #partPill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -12207,60 +12244,156 @@ const ENS=window.ENS=(function(){
   const LS='current.part',CODE='FEMEH2',SCREEN={id:'screen',name:'Screen',color:'#ffffff'};
   const CFG={url:'wss://ofvwgdniibxpuncdzjhm.supabase.co/realtime/v1/websocket',key:LOOKS_DB.key,prefix:'current-ens-'};
   const Q=(()=>{try{const u=new URL(location.href),p=u.searchParams.get('part');if(u.searchParams.has('part')){u.searchParams.delete('part');history.replaceState(history.state,'',u.pathname+u.search+u.hash)}return p}catch(_){return null}})();
-  let cur=null,screen=false,wet=.5,bedLv=0,sent={at:0,path:[],t0:0,on:false,ok:null,fail:0},me=Math.random().toString(36).slice(2,10);
-  const G={on:false,t0:0,dist:0,moved:0,lastDrag:0,holdOn:false,lastHold:0,bottle:null,rim:null,sus:null,upAt:-9,step:null,stepN:0,bar:null,wetAt:0,wetDone:-1,bedAt:0,loc0:0};
+  let cur=null,screen=false,sent={at:0,path:[],t0:0,on:false,ok:null,fail:0},me=Math.random().toString(36).slice(2,10);
   const $e=id=>document.getElementById(id),part=id=>PARTS.find(p=>p.id===id)||null;
-  /* ---------- the sound ---------- */
-  const lib=n=>{const V=window.SurfaceVoiceLib;return V&&(V.sounds||[]).find(r=>r&&r.name===n)||null};
-  const cents=y=>Math.round((y-.5)*2400);   // two octaves, the middle of the pad as written
-  function glass(n,y,pan,lvl){const r=lib(n),c=AUD.ctx,d=AUD.preV||AUD.wIn;if(!r||!c||!d||!window.SurfaceVoice)return null;
-    try{return SurfaceVoice.play(c,d,r,{pan,cents:cents(y),level:lvl==null?1:lvl})}catch(_){return null}}
-  function wv(kind,y,x,o){const P=cur;o=Object.assign({pitch:P&&P.low?y*.55:y,pan:x*2-1,size:.45,rx:x,ry:1-y},o||{});try{wVoice(kind,o)}catch(_){}}
-  function play(kind,y,x,o){if(kind==='crystal'||kind==='rubbed rim'||kind==='sustain')return glass(kind,y,x*2-1,o&&o.level);wv(kind,y,x,o);return null}
-  function rel(k){const h=G[k];G[k]=null;if(!h)return;const c=AUD.ctx;try{h.release?h.release(c?c.currentTime:undefined):h.stop&&h.stop()}catch(_){}}
+  /* ---------- the sound: voices in slots ----------
+     THE PLAYER VIEW (Dimitry, 29 Oct 15:20-15:23, "All of it now"): each part's 3-5 voices are slots a player can mix
+     and alter: level, timbre, grain, pitch, and which gesture plays it (tap, drag, hold, the whole touch, or off); the
+     pad's two axes can be mapped to pitch, wetness, grain, timbre, pan or size, with a range; sounds can be left on the
+     pad to play on by themselves. Each slot has its own small chain (level, a high-pass and a low-pass for timbre, a
+     grain gate) into the part's out, into the Water strip. A KIND says how a sound behaves under a gesture: a one-shot
+     (repeats every `rep` while held, every `gap` at most while dragged), on the bar or the beat, or held (lasts as long as
+     the finger). */
+  const KINDS={drop:{t:'one',gap:.12,rep:.6},bubbles:{t:'one',gap:.16,rep:.7},whale:{t:'one',gap:2.2,rep:3.2},seagull:{t:'one',gap:1.2,rep:2.4},
+    splash:{t:'one',gap:.32,rep:1},sand:{t:'one',gap:.25,rep:.6},wade:{t:'one',gap:.4,rep:.9},lap:{t:'one',gap:.6,rep:1.2},wash:{t:'one',gap:.9,rep:2.6},
+    kick:{t:'one',gap:.32,rep:1},crystal:{t:'glass',gap:.15,rep:1.4},lighthouse:{t:'bar'},steps:{t:'beat'},
+    'rubbed rim':{t:'held',glass:1},sustain:{t:'held',glass:1,phrase:1},bottle:{t:'held'}};
+  const NAMES={drop:'drop',bubbles:'bubbles',whale:'whale',seagull:'gull',splash:'splash',sand:'sand',wade:'wading',lap:'lap',wash:'wave',kick:'splash or sand',
+    crystal:'crystal',lighthouse:'lighthouse',steps:'steps','rubbed rim':'rubbed rim',sustain:'sustain',bottle:'bottle'};
+  const SLOTS={deep:[['bubbles','tap',{size:.4}],['bubbles','drag'],['whale','hold']],
+    surface:[['drop','tap'],['bubbles','drag'],['lap','hold']],
+    shore:[['seagull','tap'],['wash','drag'],['lighthouse','hold']],
+    walker:[['kick','tap',{size:.7}],['kick','drag'],['steps','touch']],
+    beachcomber:[['crystal','tap'],['bottle','drag'],['rubbed rim','hold'],['sustain','touch',{lvl:.55}]]};
+  const AXES=[['pitch','pitch'],['wet','wetness'],['grain','grain'],['tone','timbre'],['pan','pan'],['size','size']];
+  const MAPS=[{id:'water',name:'Water',x:['wet',0,1],y:['pitch',0,1],note:'pitch up, wetness across'},
+    {id:'grain',name:'Grain',x:['wet',0,1],y:['grain',0,1],note:'grain up, wetness across'},
+    {id:'timbre',name:'Timbre',x:['tone',.1,.9],y:['pitch',0,1],note:'pitch up, timbre across'},
+    {id:'stage',name:'Stage',x:['pan',0,1],y:['pitch',0,1],note:'pitch up, the stage across, left to right'}];
+  /* THE PAD AS A PLANE (Dimitry, 29 Oct 15:45, a drawing: Cartesian axes through the middle, A at the top and B at the
+     bottom, C at the left and D at the right, the corners E F (top) H G (bottom); "or A=0", "or C 100"; "the mapping pad
+     is a wall a stage a floor"): what the pad stands for names its ends, and the zero sits at an edge or in the middle */
+  const SURFS={wall:{name:'Wall',A:'top',B:'bottom',C:'left',D:'right'},stage:{name:'Stage',A:'upstage',B:'downstage',C:'stage right',D:'stage left'},floor:{name:'Floor',A:'far',B:'near',C:'left',D:'right'}};
+  const GESTS=[['tap','tap'],['drag','drag'],['hold','hold'],['touch','touch'],['off','off']];
+  let MIX=null;   // this part's slots, master and map: {slots:[{kind,g,lvl,tone,grain,semi,size}], lvl, bed, wet, map:{x,y}, drops:[]}
+  const mixKey=id=>'current.pv.mix.'+id;
+  function mixDefault(P){const s=(SLOTS[P.id]||[]).map(([k,g,o])=>Object.assign({kind:k,g,lvl:1,tone:.5,grain:0,semi:0,size:.45},o||{}));
+    return{slots:s,lvl:1,bed:1,wet:.5,map:{x:MAPS[0].x.slice(),y:MAPS[0].y.slice(),id:'water'},drops:[],surf:'wall',zero:'edge'}}
+  function mixLoad(P){let m=null;try{m=JSON.parse(localStorage.getItem(mixKey(P.id))||'null')}catch(_){}const d=mixDefault(P);
+    if(!m||!Array.isArray(m.slots)||m.slots.length!==d.slots.length)return d;
+    const n=(v,a,b,z)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):z};
+    m.slots=m.slots.map((s,i)=>({kind:d.slots[i].kind,g:GESTS.some(g=>g[0]===s.g)?s.g:d.slots[i].g,lvl:n(s.lvl,0,1.5,1),tone:n(s.tone,0,1,.5),grain:n(s.grain,0,1,0),semi:n(s.semi,-24,24,0),size:n(s.size,0,1,d.slots[i].size)}));
+    const ax=a=>Array.isArray(a)&&AXES.some(x=>x[0]===a[0])?[a[0],n(a[1],0,1,0),n(a[2],0,1,1)]:null;
+    return{surf:SURFS[m.surf]?m.surf:'wall',zero:m.zero==='centre'?'centre':'edge',slots:m.slots,lvl:n(m.lvl,0,1.5,1),bed:n(m.bed,0,1.5,1),wet:n(m.wet,0,1,.5),map:{x:ax(m.map&&m.map.x)||d.map.x,y:ax(m.map&&m.map.y)||d.map.y,id:String(m.map&&m.map.id||'')},
+      drops:Array.isArray(m.drops)?m.drops.slice(0,12).filter(q=>q&&isFinite(q.x)&&isFinite(q.y)&&isFinite(q.s)).map(q=>({x:n(q.x,0,1,.5),y:n(q.y,0,1,.5),s:Math.max(0,Math.min(d.slots.length-1,q.s|0)),every:[1,2,4,8].includes(+q.every)?+q.every:4})):[]}}
+  let mixT=0;function mixSave(){clearTimeout(mixT);mixT=setTimeout(()=>{if(cur&&MIX)try{localStorage.setItem(mixKey(cur.id),JSON.stringify(MIX))}catch(_){}},300)}
+  /* the chains: per slot level -> high-pass -> low-pass -> grain gate -> the part's out -> the Water strip */
+  let CH=null;
+  function chainDrop(){if(!CH)return;const C=CH;CH=null;try{C.out.gain.setTargetAtTime(0,C.c.currentTime,.03)}catch(_){}setTimeout(()=>{try{C.out.disconnect();C.srcs.forEach(s=>{try{s.stop()}catch(_){}})}catch(_){}},300)}   // the old chain goes, quietly (r-4)
+  function grainBuf(c){const sr=c.sampleRate,n=sr,b=c.createBuffer(1,n,sr),d=b.getChannelData(0);for(let i=0;i<n;){const len=Math.floor(sr*(.015+.045*Math.random())),gap=Math.floor(sr*(.006+.05*Math.random()));for(let k=0;k<len&&i+k<n;k++)d[i+k]=.5-.5*Math.cos(2*Math.PI*k/len);i+=len+gap}return b}
+  function chains(){const c=AUD.ctx,dst=AUD.preV||AUD.wIn;if(!c||!dst||!MIX)return null;if(CH&&CH.c===c&&CH.n===MIX.slots.length)return CH;
+    if(CH)try{CH.out.disconnect();CH.srcs.forEach(s=>{try{s.stop()}catch(_){}})}catch(_){}
+    const out=c.createGain();out.gain.value=MIX.lvl;out.connect(dst);const gb=grainBuf(c),srcs=[];
+    const S=MIX.slots.map(()=>{const i=c.createGain(),hp=c.createBiquadFilter(),lp=c.createBiquadFilter(),gate=c.createGain(),dep=c.createGain(),env=c.createBufferSource();
+      hp.type='highpass';lp.type='lowpass';hp.Q.value=.5;lp.Q.value=.5;env.buffer=gb;env.loop=true;env.connect(dep);dep.connect(gate.gain);dep.gain.value=0;gate.gain.value=1;
+      i.connect(hp);hp.connect(lp);lp.connect(gate);gate.connect(out);env.start(c.currentTime,Math.random());srcs.push(env);return{i,hp,lp,gate,dep}});
+    CH={c,out,S,n:MIX.slots.length,srcs,at:0};chainSet(true);return CH}
+  /* timbre: 0 dark (low-pass falls to 300 Hz), 0.5 open, 1 thin (high-pass rises to 2 kHz); grain: the gate's depth */
+  function chainSet(now){if(!CH||!MIX)return;const c=CH.c,t=c.currentTime,tc=now?.005:.04,M=mod();
+    CH.out.gain.setTargetAtTime(MUTE?0:MIX.lvl,t,tc);
+    MIX.slots.forEach((s,i)=>{const n=CH.S[i];if(!n)return;const tone=Math.max(0,Math.min(1,s.tone+(M.tone-.5))),gr=Math.max(0,Math.min(1,s.grain+M.grain));
+      n.i.gain.setTargetAtTime(s.g==='off'?0:s.lvl,t,tc);n.lp.frequency.setTargetAtTime(300*Math.pow(2,Math.min(1,tone*2)*6.06),t,tc);n.hp.frequency.setTargetAtTime(20*Math.pow(2,Math.max(0,tone*2-1)*6.64),t,tc);
+      n.gate.gain.setTargetAtTime(1-gr,t,tc);n.dep.gain.setTargetAtTime(gr,t,tc)})}
+  let MUTE=false,OCT=0;
+  /* the axes: where the finger is (x across, y up, 0..1), read through the map into the sound's own values */
+  const PAD={x:.5,y:.5};
+  function axisVal(a,v){return a[1]+(a[2]-a[1])*v}
+  function mod(){const m=MIX&&MIX.map,o={pitch:.5,wet:MIX?MIX.wet:.5,grain:0,tone:.5,pan:PAD.x,size:-1};if(!m)return o;
+    o[m.x[0]]=axisVal(m.x,PAD.x);o[m.y[0]]=axisVal(m.y,PAD.y);if(m.x[0]==='pan'||m.y[0]==='pan'){}else o.pan=PAD.x;return o}
+  function pitchOf(s,M){const P=cur;let p=M.pitch;if(P&&P.low)p*=.55;return Math.max(0,Math.min(1,p+(s.semi+OCT*12)/24))}
+  function dest(i){const C=chains();return C&&C.S[i]?C.S[i].i:(AUD.preV||AUD.wIn)}
+  const EV=[];   // what played since the last post: [slot, kind, size, ms], for the screen
+  function evNote(i,kind,size){if(EV.length<16)EV.push([i,kind,Math.round(size*100)/100,Math.round(performance.now()-(sent.t0||performance.now())),Math.round(PAD.x*1000)/1000,Math.round((1-PAD.y)*1000)/1000]);if(pvOn&&PRINGS.length<30)PRINGS.push({x:PAD.x,y:PAD.y,t:performance.now()})}   // where it played, the screen's y down (r-5)
+  function realKind(s,M){return s.kind==='kick'?(M.wet<.45?'sand':'splash'):s.kind}
+  /* one sound of slot i, now (or at `when`, ctx time); x, y where on the pad (for the ripple and the screen) */
+  function fire(i,o){const s=MIX&&MIX.slots[i],c=AUD.ctx;if(!s||!c||s.g==='off'&&!(o&&o.force))return null;const M=mod(),k=realKind(s,M),K=KINDS[s.kind]||{t:'one'};
+    const x=o&&o.x!=null?o.x:PAD.x,y=o&&o.y!=null?o.y:PAD.y,pan=(o&&o.pan!=null?o.pan:M.pan)*2-1,size=M.size>=0?M.size:(o&&o.size!=null?o.size:s.size);
+    if(K.glass){const r=lib(s.kind);if(!r||!window.SurfaceVoice)return null;let h=null;try{h=SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:1})}catch(_){}evNote(i,s.kind,.6);return h}
+    if(s.kind==='bottle'){let h=null;try{h=SurfaceWater.hold(c,dest(i),'bottle',{pitch:pitchOf(s,M),pan,gain:.9})}catch(_){}evNote(i,'bottle',.5);return h}
+    if(k==='crystal'){const r=lib('crystal');try{SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:1})}catch(_){}evNote(i,k,.5);return null}
+    const air=k==='seagull'&&AUD.water&&AUD.water.air;
+    try{SurfaceWater.voice(c,air?AUD.water.air:dest(i),k,{pitch:pitchOf(s,M),pan,size,when:o&&o.when,gain:(o&&o.gain||1)*(air?s.lvl*(MUTE?0:MIX.lvl):1)})}catch(_){}
+    if(!pvOn)try{WT.vsrc='touch';rippleVoice(k,{rx:x,ry:1-y,size})}catch(_){}evNote(i,k,size);return null}   // the player view draws no field (r-9)
   /* the beat: the Room's (or a tapped) tempo; alone, 76 a minute from the first touch */
   function grid(){if(TAP.bpm)return{bl:60/TAP.bpm,s0:TAP.s0};if(!G.loc0)G.loc0=tapNow();return{bl:60/76,s0:G.loc0}}
   function nextOn(t,step){const g=grid(),u=g.bl*step;return g.s0+Math.ceil((t-g.s0)/u-1e-6)*u}
   const atCtx=t=>AUD.ctx.currentTime+Math.max(0,t-tapNow());
-  function down(P,x,y,now){
-    if(P.under&&now-G.upAt>4)G.sus=glass(P.under,Math.min(y,.5),x*2-1,.55);   // a new phrase: the low note under it
-    if(P.id==='walker'){if(x<.45)wv('sand',y,x,{size:.95,gain:1.1});else wv('splash',y,x,{size:.35+.4*x});G.step=nextOn(tapNow()+.05,1);G.stepN=0}
-    else play(P.tap,y,x,{size:.4});
-    if(P.hold==='lighthouse')G.bar=null}
-  function steps(P,x,y,sp){const t=tapNow(),fast=sp>.3;if(G.step==null)G.step=nextOn(t+.05,fast?.5:1);
-    if(t<G.step-.1)return;const when=atCtx(G.step),dry=1-Math.max(0,Math.min(1,(x-.3)/.45)),foot=G.stepN++%2?.12:-.12;
-    try{SurfaceWater.voice(AUD.ctx,AUD.preV||AUD.wIn,Math.random()<dry?'sand':'wade',{pitch:y,pan:x*2-1+foot,size:fast?.35:.55,when,gain:.95})}catch(_){}
-    try{rippleVoice('sand',{rx:x+foot*.1,ry:1-y,size:.4})}catch(_){}
-    G.step=nextOn(G.step+.02,fast?.5:1)}
-  function lighthouse(x,y){const t=tapNow(),g=grid(),bar=g.bl*4;if(G.bar==null)G.bar=nextOn(t+.05,4);if(t<G.bar-.1)return;
-    try{SurfaceWater.voice(AUD.ctx,AUD.preV||AUD.wIn,'lighthouse',{pitch:y,pan:x*2-1,size:Math.min(1,Math.max(0,(bar-1.6)/2.2)),when:atCtx(G.bar),gain:.9})}catch(_){}
-    try{rippleVoice('lighthouse',{rx:x,ry:1-y,size:.6})}catch(_){}G.bar+=bar}
-  function wetApply(now,force){if(!AUD.water||(!force&&now-G.wetAt<.08))return;if(!force&&Math.abs(wet-G.wetDone)<.01)return;G.wetAt=now;G.wetDone=wet;try{AUD.water.set({wet:.05+.8*wet})}catch(_){}}
-  /* every frame from waterTick, while a part plays here: x across 0..1, y up 0..1, sp the finger's speed 0..1 */
-  function tick(dt,x,y,sp){const P=cur,c=AUD.ctx;if(!P||screen||!c||c.state!=='running'||!AUD.water)return;
-    const now=performance.now()/1000,on=!!TOUCH.on;if(on)wet=x;wetApply(now);
-    bedLv=on?bedLv+(1-bedLv)*Math.min(1,dt/1.5):bedLv*Math.max(0,1-dt/5);
-    if(AUD.bed&&now-G.bedAt>.12){G.bedAt=now;AUD.bed.level(WATER.bedLvl*bedLv)}
-    if(on&&!G.on){G.on=true;G.t0=now;G.dist=0;G.moved=0;G.lastDrag=now;G.holdOn=false;down(P,x,y,now);return}
-    if(!on){if(G.on){G.on=false;G.upAt=now;G.holdOn=false;G.step=null;G.bar=null;rel('bottle');rel('rim');rel('sus')}return}
-    G.dist+=sp*dt;G.moved+=sp*dt;
-    if(P.drag==='bottle'){if(!G.bottle&&G.moved>.12&&!G.rim){try{G.bottle=SurfaceWater.hold(c,AUD.preV||AUD.wIn,'bottle',{pitch:y,pan:x*2-1,gain:.9})}catch(_){}}
-      if(G.bottle)G.bottle.set({pitch:y,pan:x*2-1,breath:Math.min(1.5,.35+sp*3)})}
-    else{const gap=P.drag==='wash'?.9:P.drag==='splash'?.32:.16,need=P.drag==='wash'?1.2:.9;
-      if(G.dist>need&&now-G.lastDrag>gap){G.dist=0;G.lastDrag=now;play(P.id==='walker'&&x<.45?'sand':P.drag,y,x,{size:Math.min(1,.2+sp),gain:.8})}}   // Walker on the dry side scuffs the sand
-    if(P.hold==='steps'){steps(P,x,y,sp);return}
-    if(!G.holdOn&&now-G.t0>.7&&G.moved<.25&&!G.bottle){G.holdOn=true;G.lastHold=-9;if(P.hold==='rubbed rim')G.rim=glass('rubbed rim',y,x*2-1,.9)}
-    if(G.holdOn){if(G.rim){try{G.rim.set({cents:cents(y),pan:x*2-1})}catch(_){}}
-      else if(P.hold==='lighthouse')lighthouse(x,y);
-      else if(P.hold==='whale'&&now-G.lastHold>3.2){G.lastHold=now;wv('whale',y,x,{size:.55,gain:.9})}
-      else if(P.hold==='lap'&&now-G.lastHold>.9+Math.random()*.6){G.lastHold=now;wv('lap',y,x,{size:.3+.4*Math.random(),gain:.9})}}}
-  /* every held voice let go: from a lift, and whenever the sound stops under a held finger (review 61235c2e48 r-2) */
-  function lift(){if(!G.on&&!G.bottle&&!G.rim&&!G.sus)return;G.on=false;G.upAt=performance.now()/1000;G.holdOn=false;G.step=null;G.bar=null;rel('bottle');rel('rim');rel('sus')}
+  /* a slot that lives on the grid: steps on the beat (eighths when the finger hurries), the lighthouse once a bar */
+  function gridTick(i,st,fast){const s=MIX.slots[i],t=tapNow(),beat=s.kind==='steps',step=beat?(fast?.5:1):4;if(st.next==null)st.next=nextOn(t+.05,step);if(t<st.next-.1)return;
+    const M=mod(),when=atCtx(st.next);
+    if(beat){const foot=(st.n=(st.n||0)+1)%2?.12:-.12,dry=1-Math.max(0,Math.min(1,(M.wet-.3)/.45)),k=Math.random()<dry?'sand':'wade';
+      try{SurfaceWater.voice(AUD.ctx,dest(i),k,{pitch:pitchOf(s,M),pan:M.pan*2-1+foot,size:fast?.35:.55,when,gain:.95})}catch(_){}if(!pvOn)try{rippleVoice('sand',{rx:PAD.x+foot*.1,ry:1-PAD.y,size:.4})}catch(_){}evNote(i,k,.45)}
+    else{const g=grid();try{SurfaceWater.voice(AUD.ctx,dest(i),'lighthouse',{pitch:pitchOf(s,M),pan:M.pan*2-1,size:Math.min(1,Math.max(0,(g.bl*4-1.6)/2.2)),when,gain:.9})}catch(_){}if(!pvOn)try{rippleVoice('lighthouse',{rx:PAD.x,ry:1-PAD.y,size:.6})}catch(_){}evNote(i,'lighthouse',.7)}
+    st.next=nextOn(Math.max(t,st.next)+.02,step)}   // after a pause, the next beat from now: no burst of the missed ones (r-3)
+  /* the gesture state: one finger (the pad's, the stage's, or the keyboard's) */
+  const G={on:false,t0:0,dist:0,moved:0,still:false,upAt:-9,loc0:0,wetAt:0,wetDone:-1,bedAt:0,dpAt:0,S:[]};
+  const IN={pv:false,on:false,x:.5,y:.5,sp:0};
+  function slotState(i){return G.S[i]||(G.S[i]={h:null,last:-9,next:null,n:0})}
+  function relSlot(i){const st=G.S[i];if(!st)return;const h=st.h;st.h=null;st.key=false;st.next=null;if(!h)return;const c=AUD.ctx;try{h.release?h.release(c?c.currentTime:undefined):h.stop&&h.stop()}catch(_){}}
+  function relAll(){G.S.forEach((_,i)=>relSlot(i))}
+  function heldFollow(i){const st=G.S[i],s=MIX.slots[i];if(!st||!st.h)return;const M=mod(),p=pitchOf(s,M);
+    try{if(s.kind==='bottle')st.h.set({pitch:p,pan:M.pan*2-1,breath:Math.min(1.5,.35+IN.sp*3)});else st.h.set({cents:Math.round((p-.5)*2400),pan:M.pan*2-1})}catch(_){}}
+  function slotsTick(on,sp,now){if(!MIX)return;const moving=sp>.04;
+    MIX.slots.forEach((s,i)=>{const K=KINDS[s.kind]||{t:'one'},st=slotState(i),g=s.g;if(g==='off'){if(st.h&&!st.key)relSlot(i);return}
+      if(st.key)return;   // a key or a button holds it (r-2)
+      if(!on){if(st.h||st.next!=null)relSlot(i);return}
+      const isDown=G.just,held=G.still&&now-G.t0>.7,dragging=G.moved>.12&&moving;
+      if(K.t==='held'){let start=false;
+        if(g==='tap'||g==='touch')start=isDown&&(!K.phrase||now-G.upAt>4);else if(g==='drag')start=G.moved>.12;else if(g==='hold')start=held;
+        const other=G.S.some((x,j)=>j!==i&&x&&x.h&&KINDS[MIX.slots[j].kind]&&!KINDS[MIX.slots[j].kind].phrase&&KINDS[MIX.slots[j].kind].t==='held');   // a bottle and a rim never at once (the old rule)
+        if(start&&!st.h&&(K.phrase||!other))st.h=fire(i);
+        heldFollow(i);return}
+      if(K.t==='beat'||K.t==='bar'){const run=g==='touch'||(g==='hold'&&held)||(g==='drag'&&G.moved>.12)||(g==='tap'&&isDown);if(run)gridTick(i,st,sp>.3);else st.next=null;return}
+      if(g==='tap'){if(isDown)fire(i);return}
+      if(g==='touch'){if(isDown||now-st.last>K.rep){st.last=now;if(!isDown)fire(i,{size:.3+.4*Math.random(),gain:.9});else fire(i)}return}
+      if(g==='drag'){if(G.dist>(s.kind==='wash'?1.2:.9)&&now-st.last>K.gap){G.dist=0;st.last=now;fire(i,{size:Math.min(1,.2+sp),gain:.8})}return}
+      if(g==='hold'){if(held&&now-st.last>K.rep){st.last=now;fire(i,{size:.3+.4*Math.random(),gain:.9})}}})}
+  const lib=n=>{const V=window.SurfaceVoiceLib;return V&&(V.sounds||[]).find(r=>r&&r.name===n)||null};
+  function wetApply(now,force){if(!AUD.water||(!force&&now-G.wetAt<.08))return;const w=mod().wet;if(!force&&Math.abs(w-G.wetDone)<.01)return;G.wetAt=now;G.wetDone=w;try{AUD.water.set({wet:.05+.8*w})}catch(_){}}
+  let wet=.5,bedLv=0;
+  /* every frame (from waterTick, or the player view's own loop): x across 0..1, y up 0..1, sp the finger's speed 0..1 */
+  function tick(dt,x,y,sp){const P=cur,c=AUD.ctx;if(!P||screen||!c||c.state!=='running'||!AUD.water||!MIX)return;
+    const now=performance.now()/1000,on=IN.pv?IN.on:!!TOUCH.on;if(IN.pv){x=IN.x;y=IN.y;sp=IN.sp}
+    if(on){PAD.x=x;PAD.y=y;const M=mod();if(MIX.map.x[0]==='wet'||MIX.map.y[0]==='wet'){wet=M.wet}}
+    wetApply(now);chains();if(now-(CH&&CH.at||0)>.033){if(CH)CH.at=now;chainSet()}
+    bedLv=on||DR.length?bedLv+(1-bedLv)*Math.min(1,dt/1.5):bedLv*Math.max(0,1-dt/5);
+    if(AUD.bed&&now-G.bedAt>.12){G.bedAt=now;AUD.bed.level(WATER.bedLvl*bedLv*MIX.bed*(MUTE?0:1))}
+    G.just=false;
+    if(on&&!G.on){G.on=true;G.just=true;G.t0=now;G.dist=0;G.moved=0;G.still=true}
+    else if(!on&&G.on){G.on=false;G.upAt=now}
+    if(on){G.dist+=sp*dt;G.moved+=sp*dt;if(G.moved>.25)G.still=false}
+    slotsTick(on,sp,now);dropsTick(now)}
+  /* SOUNDS LEFT ON THE PAD (his "extra credit", 15:23: "dropable sounds they can leave on stage ... and delete when they
+     want"): a slot dropped on the pad plays there by itself, once every 1, 2, 4 or 8 beats, on the room's beat, at that
+     place's pitch and wetness, and the screen sees it there; tap it to change how often, hold it (or drag it off) to take
+     it away. At most twelve. */
+  const DR=[];   // live: {x, y, s, every, next}
+  function dropsSync(){DR.length=0;(MIX&&MIX.drops||[]).forEach(q=>DR.push(Object.assign({},q,{next:null})))}
+  function dropsTick(now){if(!DR.length||!AUD.ctx)return;const t=tapNow();
+    DR.forEach(d=>{const g=grid(),u=g.bl*d.every;if(d.next==null)d.next=nextOn(t+.05,d.every);if(t<d.next-.1)return;
+      const sx=PAD.x,sy=PAD.y;PAD.x=d.x;PAD.y=d.y;const s=MIX.slots[d.s],K=KINDS[s&&s.kind]||{t:'one'};
+      if(s&&K.t!=='held'){const k=s.kind==='steps'?'sand':s.kind==='lighthouse'?'lighthouse':null;
+        if(k){const M=mod();try{SurfaceWater.voice(AUD.ctx,dest(d.s),k,{pitch:pitchOf(s,M),pan:M.pan*2-1,size:.5,when:atCtx(d.next),gain:.9})}catch(_){}evNote(d.s,k,.5)}
+        else fire(d.s,{when:atCtx(d.next),x:d.x,y:d.y,force:true})}   // its ev carries its place: the screen draws it once
+      else if(s){const h=fire(d.s,{x:d.x,y:d.y,force:true});if(h)setTimeout(()=>{try{h.release(AUD.ctx.currentTime)}catch(_){}},Math.min(4000,u*500))}
+      PAD.x=sx;PAD.y=sy;d.next=nextOn(Math.max(t,d.next)+.02,d.every)});}
+  const DROPEV=[];   // where a left sound played: [x, y, slot], for the screen
+  function lift(){G.on=false;G.upAt=performance.now()/1000;G.S.forEach((st,i)=>{if(st&&!st.key)relSlot(i)});if(document.hidden)relAll()}   // a key still down keeps its voice, unless the page is hidden
   /* the field's depth follows the wetness, around the part's own depth */
-  function depth(base){return cur&&!screen?Math.max(0,Math.min(1,base*(.45+.9*wet))):base}
+  function depth(base){return cur&&!screen?Math.max(0,Math.min(1,base*(.45+.9*(MIX?mod().wet:wet)))):base}
   /* ---------- choosing a part ---------- */
   function set(id,quiet){if(id==='screen'){setScreen(true);return}
-    const P=part(id);rel('bottle');rel('rim');rel('sus');G.on=false;cur=P;if(P&&screen)setScreen(false,true);
+    const P=part(id);relAll();chainDrop();G.on=false;cur=P;MIX=P?mixLoad(P):null;G.S=[];dropsSync();if(P&&screen)setScreen(false,true);
     try{localStorage.setItem(LS,P?P.id:'')}catch(_){}
     if(P){WATER.on=true;WATER.preset=P.preset;const W=window.SurfaceWater&&SurfaceWater.preset(P.preset);if(W)WATER.depth=W.depth;WATER.bed=P.bed;WATER.voices='touch';
       if(SURF_IDS.includes(P.surf)){WATER.surf=P.surf;WATER.surfOn=true}waterSave();rippleSync();bedLv=0;G.wetDone=-1;
@@ -12279,14 +12412,15 @@ const ENS=window.ENS=(function(){
   function code(){try{const r=ROOMC.room();if(r)return r.code}catch(_){}return ''}
   function frame(dt){const now=performance.now();
     if(screen){marksTick(dt);return}
-    if(!cur)return;const c=code();if(!c)return;const on=!!TOUCH.on;
-    if(on){const x=W?Math.max(0,Math.min(1,TOUCH.x/W)):.5,y=H?Math.max(0,Math.min(1,TOUCH.y/H)):.5;
+    if(!cur)return;const c=code();if(!c){EV.length=0;DROPEV.length=0;return}const on=IN.pv?IN.on:!!TOUCH.on;
+    if(on){const cl=v=>Math.max(0,Math.min(1,v)),x=IN.pv?cl(IN.x):W?cl(TOUCH.x/W):.5,y=IN.pv?cl(1-IN.y):H?cl(TOUCH.y/H):.5;   // the screen's y runs down
       if(!sent.on){sent.on=true;sent.t0=now;sent.path=[];sent.at=0}
       const L=sent.path[sent.path.length-1];if(!L||now-sent.t0-L[2]>30)sent.path.push([+x.toFixed(3),+y.toFixed(3),Math.round(now-sent.t0)]);
       if(now-sent.at>=330&&(sent.path.length>1||now-sent.at>1000)){post(c,false);sent.t0=now;const k=sent.path[sent.path.length-1];sent.path=[[k[0],k[1],0]]}}
-    else if(sent.on){sent.on=false;post(c,true);sent.path=[]}}
-  function post(c,up){sent.at=performance.now();const path=sent.path.slice(-12);
-    SurfaceRoom.post(c,'touch',{part:cur.id,path,up},{url:CFG.url,key:CFG.key,prefix:CFG.prefix,from:me}).then(ok=>{const was=sent.ok;sent.ok=ok;sent.fail=ok?0:sent.fail+1;if(was!==ok)paint()})}
+    else if(sent.on){sent.on=false;post(c,true);sent.path=[]}
+    else if((EV.length||DROPEV.length)&&now-sent.at>=330){sent.t0=now;post(c,false)}}   // sounds without a finger (keys, sounds left on the pad)
+  function post(c,up){sent.at=performance.now();const path=sent.path.slice(-12),ev=EV.splice(0,16),dr=DROPEV.splice(0,12).map(q=>[+q[0].toFixed(3),+(1-q[1]).toFixed(3),q[2]]);
+    SurfaceRoom.post(c,'touch',{part:cur.id,path,up,ev,dr},{url:CFG.url,key:CFG.key,prefix:CFG.prefix,from:me}).then(ok=>{const was=sent.ok;sent.ok=ok;sent.fail=ok?0:sent.fail+1;if(was!==ok)paint()})}
   /* the screen: joins the fingers' room, plays each bundle back 400 ms late so the motion is smooth, and pulls the current */
   let RX=null;const marks=new Map(),F=[];
   function listen(){const c=code();if(!c){paint();return}if(RX&&RX.code===c)return;unlisten();
@@ -12296,7 +12430,15 @@ const ENS=window.ENS=(function(){
       m.color=P.color;m.part=P.id;m.seen=performance.now();
       const base=Math.max(t,m.q.length?m.q[m.q.length-1][2]:0);let last=base;
       (e.path||[]).forEach(p=>{if(!Array.isArray(p))return;const px=+p[0],py=+p[1],pt=+p[2]||0;if(!isFinite(px)||!isFinite(py))return;last=base+Math.max(0,Math.min(2000,pt));m.q.push([Math.max(0,Math.min(1,px)),Math.max(0,Math.min(1,py)),last])});
-      if(m.q.length>60)m.q.splice(0,m.q.length-60);if(e.up)m.q.push([null,null,last+30])})}
+      if(m.q.length>60)m.q.splice(0,m.q.length-60);if(e.up)m.q.push([null,null,last+30]);
+      /* THE SOUND MOVES THE SCREEN (15:20): each sound a player played lands here as its own ripple and a ring in the
+         part's color, where the finger was, 400 ms late like the finger; a sound left on a pad lands at its place */
+      (e.ev||[]).slice(0,16).forEach(v=>{if(!Array.isArray(v))return;const k=String(v[1]||'').slice(0,16),sz=Math.max(0,Math.min(1,+v[2]||.4)),ms=Math.max(0,Math.min(2000,+v[3]||0));const ex=+v[4],ey=+v[5];if(SE.length<80)SE.push({at:base+ms,id:e.id,k,sz,color:P.color,fx:isFinite(ex)?Math.max(0,Math.min(1,ex)):null,fy:isFinite(ey)?Math.max(0,Math.min(1,ey)):null})});
+      (e.dr||[]).slice(0,12).forEach(v=>{if(!Array.isArray(v))return;const x=+v[0],y=+v[1];if(!isFinite(x)||!isFinite(y))return;if(SE.length<80)SE.push({at:t,x:Math.max(0,Math.min(1,x)),y:Math.max(0,Math.min(1,y)),k:'drop',sz:.5,color:P.color,left:1})})})}
+  const SE=[],RINGS=[];
+  function seTick(now){for(let i=SE.length-1;i>=0;i--){const v=SE[i];if(v.at>now)continue;SE.splice(i,1);let x=v.x,y=v.y;
+      if(x==null){if(v.fx!=null){x=v.fx;y=v.fy}else{const m=marks.get(v.id);if(!m||m.x==null)continue;x=m.x/W;y=m.y/H}}   // where it was played (r-5, c743d357fd r-2)
+      try{WT.vsrc='touch';rippleVoice(v.k,{rx:x,ry:y,size:v.sz})}catch(_){}if(RINGS.length<40)RINGS.push({x:x*W,y:y*H,t0:now,color:v.color,big:v.k==='whale'||v.k==='lighthouse'||v.k==='wash'?1:0,left:v.left})}}
   function unlisten(){if(RX){try{RX.leave()}catch(_){}RX=null}marks.clear();F.length=0}
   function marksTick(dt){if(!RX){const c=code();if(c)listen();F.length=0;return}if(RX.code!==code()&&code())listen();
     const now=performance.now(),lag=Math.max(.2,E.lag||1.5);
@@ -12305,8 +12447,12 @@ const ENS=window.ENS=(function(){
         else if(px!=null){try{if(RIP&&RIP.enabled())RIP.stir(p[0],p[1],nx-px,ny-py)}catch(_){}}m.x=nx;m.y=ny}}
       if(m.live&&now-m.seen>3000&&!m.q.length)m.live=false;   // a player gone quiet mid-touch: lifted
       m.w=m.live?m.w+(1-m.w)*Math.min(1,dt*6):m.w*Math.exp(-dt/lag);if(!m.live&&m.w<.02&&!m.q.length)marks.delete(id)});
-    F.length=0;marks.forEach(m=>{if(m.x!=null)F.push(m)})}
-  function draw(g){if(!screen||!marks.size)return;const R=Math.min(W,H)*.04;g.save();g.globalCompositeOperation='lighter';
+    F.length=0;marks.forEach(m=>{if(m.x!=null)F.push(m)});seTick(now)}
+  function draw(g){if(!screen)return;
+    if(RINGS.length){const now=performance.now(),R0=Math.min(W,H);g.save();g.globalCompositeOperation='lighter';
+      for(let i=RINGS.length-1;i>=0;i--){const q=RINGS[i],u=(now-q.t0)/(q.big?2400:1300);if(u>=1){RINGS.splice(i,1);continue}
+        g.globalAlpha=(1-u)*(1-u)*.8;g.strokeStyle=q.color;g.lineWidth=q.left?1.5:2.5;g.beginPath();g.arc(q.x,q.y,R0*(q.big?.03+.22*u:.015+.09*u),0,7);g.stroke()}g.restore()}
+    if(!marks.size)return;const R=Math.min(W,H)*.04;g.save();g.globalCompositeOperation='lighter';
     marks.forEach(m=>{if(m.x==null||m.w<.02)return;const gr=g.createRadialGradient(m.x,m.y,0,m.x,m.y,R*2.4);gr.addColorStop(0,m.color);gr.addColorStop(1,'rgba(0,0,0,0)');
       g.globalAlpha=.5*m.w;g.fillStyle=gr;g.beginPath();g.arc(m.x,m.y,R*2.4,0,7);g.fill();g.globalAlpha=.9*m.w;g.fillStyle=m.color;g.beginPath();g.arc(m.x,m.y,R*.3,0,7);g.fill()});g.restore()}
   /* ---------- READY TO PERFORM (Dimitry, 29 Oct 11:24: "a button that turns off all of the paths and simplifies the
@@ -12332,13 +12478,165 @@ const ENS=window.ENS=(function(){
     if(!v)toast('ready to perform is off: paths, hints and notices are back as they were',3200);paint()}
   function projector(){if(!window.OUTPUT){toast('this browser cannot open a projector window: use Ready to perform (full screen, nothing on it)',4200);return}
     if(OUTPUT.isOpen())OUTPUT.close();else if(!OUTPUT.open())toast('The browser blocked the window: allow pop-ups for this site, then tap again',4200);setTimeout(paint,200)}
+  /* ---------- THE PLAYER VIEW (Dimitry, 29 Oct 15:20: "how could we design the player screens so they can access and
+     mix and alter timbre grain freq of their sound pack voices; see/alter sonic stage mapping coords on 16:9 pad matching
+     SCREEN HDMI output; learn keyboard shortcuts relevant for performance; No visuals for them just sound output that
+     affects shared SCREEN"; 15:23: "subset of BAR and shelves tools that relate to sound performing only"; his pick "All
+     of it now") ----------
+     A part's player sees no field (the field stops drawing; the sound runs on its own loop): a 16:9 pad, the shape of the
+     screen's picture, so a place on the pad is the same place on the projection; its axes, and what they play; a mixer
+     of the part's voices; the map; the keys; and of the bar only the sound, keys and full screen. Field puts the
+     ordinary Current back (the choice is kept). */
+  const PVK='current.pv';let pvWant=(()=>{try{return localStorage.getItem(PVK)!=='0'}catch(_){return true}})(),pvOn=false,pvEl=null,pvTab='mix',ARM=-1;
+  const TRAIL=[],PRINGS=[];
+  function pvSet(v){pvWant=!!v;try{localStorage.setItem(PVK,v?'1':'0')}catch(_){}pvApply();paint()}
+  function pvApply(){const on=!!(cur&&pvWant&&!screen);if(on!==pvOn){pvOn=on;IN.pv=on;IN.on=false;relAll();document.documentElement.classList.toggle('pvOn',on);if(on)document.documentElement.setAttribute('data-keys-own','');else document.documentElement.removeAttribute('data-keys-own');   /* the part's keys, not the tool's single keys (kit keys.js) */
+      if(on){pvBuild();pvEl.hidden=false;try{setPlayer(true)}catch(_){}}else if(pvEl)pvEl.hidden=true}
+    if(on)pvPaint()}
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const axName=k=>(AXES.find(a=>a[0]===k)||[k,k])[1];
+  function pvBuild(){if(pvEl)return;pvEl=document.createElement('div');pvEl.id='pv';pvEl.hidden=true;
+    pvEl.innerHTML='<header class="pv-h"><i class="pv-dot" aria-hidden="true"></i><b class="pv-nm"></b><span class="pv-st" role="status"></span>'+
+      '<nav class="pv-tabs" aria-label="Player panels">'+[['mix','Mix'],['map','Map'],['keys','Keys']].map(t=>'<button type="button" data-tab="'+t[0]+'" aria-pressed="false">'+t[1]+'</button>').join('')+
+      '<button type="button" class="pv-rd" aria-pressed="false">Ready</button><button type="button" class="pv-fd" title="Show the field again (the player view comes back from the Ensemble section)">Field</button></nav></header>'+
+      '<div class="pv-main"><div class="pv-padw"><div class="pv-pad" tabindex="0" role="application" aria-roledescription="pad" aria-label="Your part&rsquo;s pad: touch to play. Keys: 1 to 5 play a sound, Space holds, arrows move, ? lists them all">'+
+      '<canvas></canvas><span class="pv-ax pv-ay"></span><span class="pv-ax pv-axx"></span><span class="pv-rdout"></span><span class="pv-arm" hidden></span></div>'+
+      '<p class="pv-note">The pad is the screen&rsquo;s picture: where you touch here is where your sound lands there.</p></div>'+
+      '<aside class="pv-side"></aside></div>';
+    document.body.appendChild(pvEl);
+    pvEl.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{pvTab=b.dataset.tab;pvSide()});
+    pvEl.querySelector('.pv-rd').onclick=()=>ready(!RD.on);pvEl.querySelector('.pv-fd').onclick=()=>pvSet(false);
+    padWire(pvEl.querySelector('.pv-pad'));pvSide()}
+  function pvPaint(){if(!pvEl||!cur)return;const P=cur;pvEl.style.setProperty('--pc',P.color);pvEl.querySelector('.pv-nm').textContent=P.name;
+    const c=code();pvEl.querySelector('.pv-st').textContent=(c?'room '+c:'no room')+(MUTE?' · muted':'')+(OCT?' · octave '+(OCT>0?'+':'')+OCT:'')+(sent.ok===false?' · not reaching the screen':sent.ok?' · reaching the screen':'');
+    pvEl.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===pvTab)));
+    const rd=pvEl.querySelector('.pv-rd');rd.setAttribute('aria-pressed',String(RD.on));
+    const m=MIX&&MIX.map;if(m){pvEl.querySelector('.pv-ay').textContent=axName(m.y[0])+' ↑';pvEl.querySelector('.pv-axx').textContent=axName(m.x[0])+' →'}
+    const ar=pvEl.querySelector('.pv-arm');ar.hidden=ARM<0;if(ARM>=0)ar.textContent='tap the pad to leave '+NAMES[MIX.slots[ARM].kind]+' there · Esc to cancel'}
+  const rng=(lab,v,min,max,step,aria)=>'<label class="pv-r"><span>'+lab+'</span><input type="range" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'" aria-label="'+esc(aria)+'"></label>';
+  function pvSide(){if(!pvEl)return;const sd=pvEl.querySelector('.pv-side');if(!MIX){sd.innerHTML='';return}
+    if(pvTab==='mix'){
+      sd.innerHTML='<div class="pv-mst"><b>Part</b>'+rng('level',MIX.lvl,0,1.5,.01,'Part level')+(cur.bed?rng('bed',MIX.bed,0,1.5,.01,'Bed level: the sound under the playing'):'')+
+        ((MIX.map.x[0]==='wet'||MIX.map.y[0]==='wet')?'':rng('wet',MIX.wet,0,1,.01,'Wetness (not on an axis)'))+
+        '<button type="button" class="pv-mute" aria-pressed="'+MUTE+'">mute</button><button type="button" class="pv-reset">reset the part</button></div>'+
+        MIX.slots.map((s,i)=>'<div class="pv-slot" data-i="'+i+'"><div class="pv-sh"><button type="button" class="pv-play" aria-label="Play '+esc(NAMES[s.kind])+' ('+(i+1)+')">'+(i+1)+'</button><b>'+esc(NAMES[s.kind])+'</b>'+
+          '<select aria-label="'+esc(NAMES[s.kind])+' plays on">'+GESTS.map(g=>'<option value="'+g[0]+'"'+(g[0]===s.g?' selected':'')+'>'+g[1]+'</option>').join('')+'</select>'+
+          '<button type="button" class="pv-leave" aria-pressed="'+(ARM===i)+'" title="Leave this sound on the pad: it plays there by itself">leave</button></div>'+
+          rng('level',s.lvl,0,1.5,.01,NAMES[s.kind]+' level')+rng('timbre',s.tone,0,1,.01,NAMES[s.kind]+' timbre: dark to thin')+rng('grain',s.grain,0,1,.01,NAMES[s.kind]+' grain')+rng('pitch',s.semi,-12,12,1,NAMES[s.kind]+' pitch in semitones')+'</div>').join('')+
+        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or off. <b>Leave</b> puts a sound on the pad: it plays there on the beat; tap it for how often, hold it or drag it off the pad to take it away.</p>';
+      const ms=sd.querySelector('.pv-mst'),ins=ms.querySelectorAll('input');let k=0;
+      ins[k++].oninput=e=>{MIX.lvl=+e.target.value;chainSet();mixSave()};
+      if(cur.bed)ins[k++].oninput=e=>{MIX.bed=+e.target.value;mixSave()};
+      if(ins[k])ins[k].oninput=e=>{MIX.wet=+e.target.value;mixSave()};
+      ms.querySelector('.pv-mute').onclick=()=>{MUTE=!MUTE;chainSet(true);pvSide();pvPaint()};
+      ms.querySelector('.pv-reset').onclick=()=>{relAll();chainDrop();MIX=mixDefault(cur);G.S=[];dropsSync();mixSave();pvSide();pvPaint();toast(cur.name+': back as it was made',2000)};
+      sd.querySelectorAll('.pv-slot').forEach(el=>{const i=+el.dataset.i,s=MIX.slots[i],r=el.querySelectorAll('input');
+        r[0].oninput=e=>{s.lvl=+e.target.value;chainSet();mixSave()};r[1].oninput=e=>{s.tone=+e.target.value;chainSet();mixSave()};
+        r[2].oninput=e=>{s.grain=+e.target.value;chainSet();mixSave()};r[3].oninput=e=>{s.semi=+e.target.value;mixSave()};
+        el.querySelector('select').onchange=e=>{s.g=e.target.value;relSlot(i);chainSet();mixSave()};
+        el.querySelector('.pv-play').onclick=()=>audition(i);
+        el.querySelector('.pv-leave').onclick=()=>{ARM=ARM===i?-1:i;pvSide();pvPaint()}})}
+    else if(pvTab==='map'){const m=MIX.map,ax=(w,a)=>'<div class="pv-axis" data-w="'+w+'"><b>'+(w==='x'?'C → D':'B → A')+'</b><select aria-label="'+(w==='x'?'Across':'Up')+' plays">'+AXES.map(x=>'<option value="'+x[0]+'"'+(x[0]===a[0]?' selected':'')+'>'+x[1]+'</option>').join('')+'</select>'+
+        rng('from',a[1],0,1,.01,(w==='x'?'Across':'Up')+' starts at')+rng('to',a[2],0,1,.01,(w==='x'?'Across':'Up')+' ends at')+'</div>';
+      const seg=(lab,key,opts)=>'<div class="pv-seg"><b>'+lab+'</b><div role="radiogroup" aria-label="'+lab+'">'+opts.map(o=>'<button type="button" role="radio" data-'+key+'="'+o[0]+'" aria-checked="'+(MIX[key]===o[0])+'">'+o[1]+'</button>').join('')+'</div></div>';
+      sd.innerHTML=seg('The pad is a','surf',Object.keys(SURFS).map(k=>[k,SURFS[k].name]))+seg('Zero','zero',[['edge','at the edge (B, C)'],['centre','in the middle']])+'<div class="pv-maps" role="radiogroup" aria-label="Pad maps">'+MAPS.map(q=>'<button type="button" role="radio" data-map="'+q.id+'" aria-checked="'+(m.id===q.id)+'"><b>'+q.name+'</b><small>'+q.note+'</small></button>').join('')+'</div>'+ax('y',m.y)+ax('x',m.x)+
+        '<p class="pv-note">The pad&rsquo;s two directions can play any of these. <b>From</b> and <b>to</b> set the range: to above from runs one way, below it the other. Your map is kept for your part.</p>';
+      sd.querySelectorAll('[data-surf]').forEach(b=>b.onclick=()=>{MIX.surf=b.dataset.surf;mixSave();pvSide()});
+      sd.querySelectorAll('[data-zero]').forEach(b=>b.onclick=()=>{MIX.zero=b.dataset.zero;mixSave();pvSide()});
+      sd.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>{const q=MAPS.find(z=>z.id===b.dataset.map);MIX.map={x:q.x.slice(),y:q.y.slice(),id:q.id};mixSave();pvSide();pvPaint();G.wetDone=-1});
+      sd.querySelectorAll('.pv-axis').forEach(el=>{const w=el.dataset.w,a=MIX.map[w],r=el.querySelectorAll('input');
+        el.querySelector('select').onchange=e=>{a[0]=e.target.value;MIX.map.id='';mixSave();pvPaint();pvSideMaps()};
+        r[0].oninput=e=>{a[1]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()};r[1].oninput=e=>{a[2]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()}})}
+    else{sd.innerHTML='<dl class="pv-keys">'+[['1 – '+MIX.slots.length,'play a sound (held sounds last while the key is down)'],['Space','hold your finger where it is: play the touch, hold and drag sounds'],['← → ↑ ↓','move your place on the pad (Shift: a little)'],['Z  X','an octave down, up'],['M','mute your part'],['[  ]','your part quieter, louder'],['D','leave the last sound you played where you are'],['R','Ready to perform'],['?','these keys'],['Esc','cancel leaving a sound']].map(k=>'<dt><kbd>'+k[0]+'</kbd></dt><dd>'+k[1]+'</dd>').join('')+'</dl>'+
+      '<p class="pv-note">Keys play here even while the pad is not touched, and the screen sees them at your place on the pad.</p>'}
+    pvPaint()}
+  function pvSideMaps(){if(!pvEl)return;pvEl.querySelectorAll('[data-map]').forEach(b=>b.setAttribute('aria-checked',String(MIX.map.id===b.dataset.map)))}
+  /* a sound now, from its button or its key, at the pad's place */
+  function audition(i,down){const s=MIX.slots[i],K=KINDS[s.kind]||{t:'one'};if(!AUD.ctx)ensureCtx();try{if(AUD.ctx&&AUD.ctx.state!=='running')AUD.ctx.resume()}catch(_){}
+    if(!AUD.water||AUD.water.c!==AUD.ctx)waterRoute();LASTS=i;
+    if(K.t==='held'){const st=slotState(i);if(down===false){st.key=false;relSlot(i);return}if(!st.h){const h=fire(i,{force:true});st.h=h;if(h){st.key=true;if(down==null)setTimeout(()=>{const q=G.S[i];if(q&&q.h===h){q.key=false;relSlot(i)}},1500)}}return}   // only the voice it started (c743d357fd r-3)
+    if(down===false)return;if(K.t==='beat'||K.t==='bar'){const M=mod();try{SurfaceWater.voice(AUD.ctx,dest(i),K.t==='beat'?'sand':'lighthouse',{pitch:pitchOf(s,M),pan:M.pan*2-1,size:.5,gain:.9})}catch(_){}evNote(i,K.t==='beat'?'sand':'lighthouse',.5);return}
+    fire(i,{force:true})}
+  let LASTS=0;
+  /* the pad: a finger plays; with a sound armed, a tap leaves it; on a left sound, tap = how often, hold or drag off = gone */
+  function padWire(pad){const cv=pad.querySelector('canvas');let pid=null,lt=0,lx=0,ly=0,drop=null,dropT=0,moved=false;
+    const at=e=>{const r=pad.getBoundingClientRect();return[Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,1-(e.clientY-r.top)/r.height)),r]};
+    const hit=(x,y,r)=>DR.findIndex(d=>Math.hypot((d.x-x)*r.width,(d.y-y)*r.height)<22);
+    pad.addEventListener('pointerdown',e=>{if(pid!=null&&e.pointerType!=='mouse')return;const [x,y,r]=at(e);pid=e.pointerId;try{pad.setPointerCapture(pid)}catch(_){}e.preventDefault();pad.focus({preventScroll:true});
+      const c=ensureCtx();if(c&&c.state!=='running')try{c.resume()}catch(_){}if(!AUD.water||AUD.water.c!==c)waterRoute();
+      if(ARM>=0){const s=ARM;ARM=-1;if(DR.length<12){const d={x,y,s,every:4};MIX.drops.push({x,y,s,every:4});DR.push(Object.assign({},d,{next:null}));mixSave();toast(NAMES[MIX.slots[s].kind]+' left on the pad: every 4 beats · tap it for how often',2600)}else toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvSide();return}
+      const h=hit(x,y,r);if(h>=0){drop=h;moved=false;dropT=setTimeout(()=>{if(drop!=null){dropDel(drop);drop=null}},650);return}
+      IN.on=true;IN.x=x;IN.y=y;IN.sp=0;lt=performance.now();lx=x;ly=y;TRAIL.length=0},{passive:false});
+    pad.addEventListener('pointermove',e=>{if(e.pointerId!==pid)return;const [x,y,r]=at(e);
+      if(drop!=null){const d=DR[drop];if(!d)return;if(Math.hypot((x-d.x)*r.width,(y-d.y)*r.height)>8){moved=true;clearTimeout(dropT)}if(moved){d.x=x;d.y=y;MIX.drops[drop].x=x;MIX.drops[drop].y=y}return}
+      if(!IN.on)return;const now=performance.now(),dt=Math.max(1,now-lt)/1000,v=Math.hypot(x-lx,y-ly)/dt;IN.sp=Math.min(1,IN.sp*.5+.5*Math.min(1,v/2.5));IN.mt=now;IN.x=x;IN.y=y;lx=x;ly=y;lt=now},{passive:true});
+    const up=e=>{if(e.pointerId!==pid)return;pid=null;
+      if(drop!=null){clearTimeout(dropT);const d=DR[drop],r=pad.getBoundingClientRect(),out=e.clientX<r.left-4||e.clientX>r.right+4||e.clientY<r.top-4||e.clientY>r.bottom+4;
+        if(d&&out)dropDel(drop);else if(d&&!moved){const n=[1,2,4,8],k=(n.indexOf(d.every)+1)%n.length;d.every=n[k];d.next=null;MIX.drops[drop].every=n[k];toast(NAMES[MIX.slots[d.s].kind]+': every '+n[k]+' beat'+(n[k]>1?'s':''),1600)}mixSave();drop=null;return}
+      IN.on=false;IN.sp=0};
+    pad.addEventListener('pointerup',up);pad.addEventListener('pointercancel',up);pad.addEventListener('lostpointercapture',up);   /* a lost capture is a lift: never a finger stuck down */
+    const ro=new ResizeObserver(()=>{const r=pad.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);cv.width=Math.max(2,Math.round(r.width*d));cv.height=Math.max(2,Math.round(r.height*d))});ro.observe(pad)}
+  function dropDel(i){if(!DR[i])return;const n=NAMES[MIX.slots[DR[i].s].kind];DR.splice(i,1);MIX.drops.splice(i,1);mixSave();toast(n+' taken off the pad',1600)}
+  /* the pad's picture: a faint grid of thirds, your trail and finger in your part's color, a ring for each sound you play, the sounds you left */
+  /* the plane: tenths faint, the two axes through the middle with ticks, A B C D at their ends with what they are and
+     what they play there, E F H G in the corners */
+  function pvAxes(g,w,h){const d=Math.min(2,devicePixelRatio||1),S=SURFS[MIX&&MIX.surf]||SURFS.wall,m=MIX&&MIX.map,fs=Math.max(Math.round(11*d),Math.round(h/40)),pad=fs*.8;
+    g.strokeStyle='rgba(255,255,255,.05)';g.lineWidth=1;g.beginPath();for(let k=1;k<10;k++){if(k===5)continue;g.moveTo(w*k/10,0);g.lineTo(w*k/10,h);g.moveTo(0,h*k/10);g.lineTo(w,h*k/10)}g.stroke();
+    g.strokeStyle='rgba(255,255,255,.32)';g.lineWidth=Math.max(1,d);g.beginPath();g.moveTo(w/2,0);g.lineTo(w/2,h);g.moveTo(0,h/2);g.lineTo(w,h/2);g.stroke();
+    g.beginPath();for(let k=1;k<10;k++){const tx=w*k/10,ty=h*k/10,t=k===5?0:fs*.35;g.moveTo(tx,h/2-t);g.lineTo(tx,h/2+t);g.moveTo(w/2-t,ty);g.lineTo(w/2+t,ty)}g.stroke();
+    const val=(a,v)=>a?Math.round(axisVal(a,v)*100):0,cz=MIX&&MIX.zero==='centre',num=v=>cz?Math.round(v*200-100):Math.round(v*100);
+    g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.8)';g.textBaseline='top';
+    const lab=(t,sub,x,y,al,bl)=>{g.textAlign=al;g.textBaseline=bl;g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.85)';g.fillText(t,x,y);
+      if(sub){g.font='500 '+Math.round(fs*.82)+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.5)';g.fillText(sub,x,y+(bl==='bottom'?-fs*1.15:fs*1.15))}};
+    const yA=m?axName(m.y[0])+' '+val(m.y,1):'',yB=m?axName(m.y[0])+' '+val(m.y,0):'',xC=m?axName(m.x[0])+' '+val(m.x,0):'',xD=m?axName(m.x[0])+' '+val(m.x,1):'';
+    lab('A '+num(1)+' · '+S.A,yA,w/2+pad,pad,'left','top');lab('B '+num(0)+' · '+S.B,yB,w/2+pad,h-pad,'left','bottom');
+    lab('C '+num(0)+' · '+S.C,xC,pad,h/2+pad,'left','top');lab('D '+num(1)+' · '+S.D,xD,w-pad,h/2+pad,'right','top');
+    g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.4)';g.textBaseline='top';g.textAlign='left';g.fillText('E',pad,pad);g.textAlign='right';g.fillText('F',w-pad,pad);
+    g.textBaseline='bottom';g.textAlign='left';g.fillText('H',pad,h-pad);g.textAlign='right';g.fillText('G',w-pad,h-pad)}
+  let PVCV=null;function pvDraw(){if(!pvEl)return;const cv=PVCV||(PVCV=pvEl.querySelector('.pv-pad canvas')),g=cv.getContext('2d'),w=cv.width,h=cv.height,now=performance.now(),col=cur?cur.color:'#fff';if(!w)return;
+    g.clearRect(0,0,w,h);pvAxes(g,w,h);
+    if(IN.on){TRAIL.push([IN.x,IN.y,now]);if(TRAIL.length>90)TRAIL.shift()}while(TRAIL.length&&now-TRAIL[0][2]>1600)TRAIL.shift();
+    g.lineCap='round';for(let i=1;i<TRAIL.length;i++){const a=TRAIL[i-1],b=TRAIL[i];g.globalAlpha=Math.max(0,1-(now-b[2])/1600)*.7;g.strokeStyle=col;g.lineWidth=Math.max(2,h/90);g.beginPath();g.moveTo(a[0]*w,(1-a[1])*h);g.lineTo(b[0]*w,(1-b[1])*h);g.stroke()}
+    g.globalAlpha=1;for(let i=PRINGS.length-1;i>=0;i--){const q=PRINGS[i],u=(now-q.t)/1100;if(u>=1){PRINGS.splice(i,1);continue}g.globalAlpha=(1-u)*.8;g.strokeStyle=col;g.lineWidth=Math.max(1.5,h/220);g.beginPath();g.arc(q.x*w,(1-q.y)*h,h*(.03+.12*u),0,7);g.stroke()}
+    g.globalAlpha=1;DR.forEach((d,i)=>{const x=d.x*w,y=(1-d.y)*h,r=Math.max(9,h/36);g.fillStyle=col;g.globalAlpha=.25;g.beginPath();g.arc(x,y,r*1.6,0,7);g.fill();g.globalAlpha=.95;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+      g.fillStyle='#071012';g.font='700 '+Math.round(r*1.05)+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='middle';g.fillText(String(d.s+1),x,y+.5);
+      g.fillStyle=col;g.globalAlpha=.8;g.font='600 '+Math.round(r*.8)+'px ui-monospace,Menlo,monospace';g.fillText(d.every+(d.every>1?' beats':' beat'),x,y+r*2.1)});
+    g.globalAlpha=1;const fx=PAD.x*w,fy=(1-PAD.y)*h;g.strokeStyle=col;g.lineWidth=Math.max(1.5,h/260);g.globalAlpha=IN.on?1:.45;g.beginPath();g.arc(fx,fy,Math.max(10,h/30),0,7);g.stroke();
+    if(IN.on){g.fillStyle=col;g.beginPath();g.arc(fx,fy,Math.max(4,h/90),0,7);g.fill()}g.globalAlpha=1;
+    const M=MIX?mod():null,ro=pvEl.querySelector('.pv-rdout');if(M&&MIX){const cz=MIX.zero==='centre',q=v=>cz?Math.round(v*200-100):Math.round(v*100),t='x '+q(PAD.x)+'  y '+q(PAD.y)+'   '+axName(MIX.map.y[0])+' '+Math.round(axisVal(MIX.map.y,PAD.y)*100)+' · '+axName(MIX.map.x[0])+' '+Math.round(axisVal(MIX.map.x,PAD.x)*100);if(ro.textContent!==t)ro.textContent=t}}
+  /* the player view's own loop (the field is not drawn): the sound, the fingers to the screen, the pad */
+  function pvTick(dt){if(!pvOn)return;const now=performance.now()/1000;if((!IN.on&&!KEYHOLD)||performance.now()-(IN.mt||0)>70)IN.sp*=.75;   /* a still finger slows to still */
+    if(AUD.water&&AUD.ctx){if(IN.on)try{AUD.water.stir(IN.x,IN.y,IN.sp)}catch(_){}if(now-G.dpAt>.3){G.dpAt=now;try{AUD.water.depth(depth(WATER.depth),true)}catch(_){}}}
+    {const o=!!(window.BS&&BS.open&&BS.sec!=='sound'),de=document.documentElement;if(o!==de.hasAttribute('data-pvshelf'))de.toggleAttribute('data-pvshelf',o)}
+    tick(dt,IN.x,IN.y,IN.sp);frame(dt);pvDraw()}
+  /* the keys, while the player view is up (before the tool's own keys: these are the part's) */
+  let KEYHOLD=false;const KD={};
+  addEventListener('keydown',e=>{if(!pvOn||e.metaKey||e.ctrlKey||e.altKey)return;const tg=e.target;if(tg&&(tg.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName||''))&&e.key!=='Escape')return;
+    const k=e.key,n=/^[1-9]$/.test(k)?+k-1:-1;let done=true;
+    if(n>=0&&MIX&&n<MIX.slots.length){if(!e.repeat&&!KD[k]){KD[k]=1;audition(n,true)}}
+    else if(k===' '&&tg&&tg.closest&&tg.closest('button,select,a,input'))done=false;   // Space still presses a focused button (r-8)
+    else if(k===' '){if(!e.repeat){const c=ensureCtx();if(c&&c.state!=='running')try{c.resume()}catch(_){}if(!AUD.water||AUD.water.c!==c)waterRoute();KEYHOLD=true;IN.on=true;IN.x=PAD.x;IN.y=PAD.y;IN.sp=0}}
+    else if(k.startsWith('Arrow')){const d=e.shiftKey?.01:.05,dx=k==='ArrowRight'?d:k==='ArrowLeft'?-d:0,dy=k==='ArrowUp'?d:k==='ArrowDown'?-d:0;PAD.x=Math.max(0,Math.min(1,PAD.x+dx));PAD.y=Math.max(0,Math.min(1,PAD.y+dy));IN.x=PAD.x;IN.y=PAD.y;if(IN.on)IN.sp=Math.min(1,IN.sp+.35)}
+    else if(k==='z'||k==='Z'){OCT=Math.max(-2,OCT-1);pvPaint()}else if(k==='x'||k==='X'){OCT=Math.min(2,OCT+1);pvPaint()}
+    else if(k==='m'||k==='M'){MUTE=!MUTE;chainSet(true);if(pvTab==='mix')pvSide();pvPaint()}
+    else if(k==='['||k===']'){if(MIX){MIX.lvl=Math.max(0,Math.min(1.5,MIX.lvl+(k===']'?.1:-.1)));chainSet();mixSave();if(pvTab==='mix')pvSide();toast('part level '+Math.round(MIX.lvl*100)+'%',1200)}}
+    else if(k==='d'||k==='D'){if(MIX&&DR.length<12){MIX.drops.push({x:PAD.x,y:PAD.y,s:LASTS,every:4});DR.push({x:PAD.x,y:PAD.y,s:LASTS,every:4,next:null});mixSave();toast(NAMES[MIX.slots[LASTS].kind]+' left on the pad',1600)}}
+    else if(k==='r'||k==='R')ready(!RD.on);
+    else if(k==='?'){pvTab='keys';pvSide()}
+    else if(k==='Escape'&&ARM>=0){ARM=-1;pvSide()}
+    else done=false;
+    if(done){e.preventDefault();e.stopImmediatePropagation()}},true);
+  addEventListener('keyup',e=>{if(!pvOn)return;const k=e.key,n=/^[1-9]$/.test(k)?+k-1:-1;if(n>=0&&KD[k]){delete KD[k];if(MIX&&n<MIX.slots.length)audition(n,false);e.stopImmediatePropagation()}
+    if(k===' '&&KEYHOLD){KEYHOLD=false;IN.on=false;IN.sp=0;e.preventDefault();e.stopImmediatePropagation()}},true);
   /* ---------- the section and the pill ---------- */
   const SHOW=()=>!!(cur||screen||Q||/[?&]ensemble=1/.test(location.search)||(()=>{try{return !!localStorage.getItem(LS)}catch(_){return false}})());
   function linkFor(id,c){const base=/works\.chamy\.xyz/.test(location.host)?location.origin+location.pathname:'https://works.chamy.xyz/current/';return base+'?part='+id+'&room='+(c||CODE)}
   function links(){const c=code()||CODE;return 'Current · the ensemble · room '+c+'\n'+PARTS.map((p,i)=>(i+1)+'. '+p.name+': '+linkFor(p.id,c)).join('\n')+'\nThe screen (projector): '+linkFor('screen',c)}
   function paint(){const H_=document.documentElement;H_.classList.toggle('inPart',!!(cur||screen));
     const pill=$e('partPill');if(pill){const P=cur||(screen?SCREEN:null);pill.hidden=!P;if(P){pill.style.setProperty('--pc',P.color);$e('partPillTxt').textContent=P.name+(screen?' · '+[...marks.values()].filter(m=>m.live).length+' playing':'');pill.setAttribute('aria-label','Ensemble: you play '+P.name+'. Open the ensemble')}}
+    try{pvApply()}catch(e){console.warn('pv',e)}
     const s=$e('ens');if(!s)return;if(SHOW())s.hidden=false;
+    const pvb=$e('ensPV');if(pvb){pvb.hidden=!cur;pvb.setAttribute('aria-pressed',String(pvWant));pvb.textContent=pvWant?'Player view: on':'Player view: off'}
     s.querySelectorAll('[data-part]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.part===(screen?'screen':cur?cur.id:''))));
     const rr=$e('roomReady');if(rr){rr.setAttribute('aria-pressed',String(RD.on));rr.textContent=RD.on?'Ready: on (tap to undo)':'Ready to perform'}
     const rb=$e('ensReady');if(rb){rb.setAttribute('aria-pressed',String(RD.on));rb.textContent=RD.on?'Ready: on (tap to undo)':'Ready to perform'}
@@ -12352,6 +12650,7 @@ const ENS=window.ENS=(function(){
       '<div class="cx-gbody" id="ensL"><p class="cx-lead">Five players, one piece of water. Each laptop plays one part through its own speaker. Tap, drag and hold each play a sound of your part; <b>up is higher, right is wetter</b>.</p>'+
       '<div class="ens-parts" role="radiogroup" aria-label="Your part">'+PARTS.map((p,i)=>'<button type="button" role="radio" data-part="'+p.id+'" style="--pc:'+p.color+'"><i aria-hidden="true"></i><b>'+(i+1)+' · '+p.name+'</b><small>'+[p.say.tap,p.say.drag,p.say.hold.split(':')[0]].join(' · ')+'</small></button>').join('')+
       '<button type="button" role="radio" data-part="screen" style="--pc:#fff"><i aria-hidden="true"></i><b>The screen</b><small>for the projector: every player&rsquo;s finger, no sound</small></button><button type="button" role="radio" data-part=""><i aria-hidden="true"></i><b>No part</b><small>Current as usual</small></button></div>'+
+      '<div class="room-f"><button type="button" class="btn ghost" id="ensPV" aria-pressed="true" hidden>Player view</button></div><p class="ens-note"><b>Player view</b>: no field on a player&rsquo;s screen, only the sound: a 16:9 pad the shape of the screen&rsquo;s picture, a mixer of the part&rsquo;s voices (level, timbre, grain, pitch, what plays them), the pad&rsquo;s map, sounds left on the pad, and the keys. Off shows the field as usual.</p>'+
       '<div class="room-f"><button type="button" class="btn" id="ensReady" aria-pressed="false">Ready to perform</button><button type="button" class="btn ghost" id="ensOut" hidden>projector window</button></div>'+
       '<p class="ens-note">Ready to perform turns off the paths, hints and notices, keeps the screen awake, and nothing reloads. On the screen it also hides every control and goes full screen, for a clean picture to the projector. Tap it again to put everything back.</p>'+
       '<div class="ens-legend"></div><p class="ens-st" role="status"></p>'+
@@ -12361,7 +12660,7 @@ const ENS=window.ENS=(function(){
     sec.querySelector('.cx-grpbtn').onclick=()=>{const on=sec.classList.toggle('cx-shut');sec.querySelector('.cx-grpbtn').setAttribute('aria-expanded',String(!on))};
     sec.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const id=b.dataset.part;if(id==='screen')setScreen(true);else{if(screen)setScreen(false,true);set(id)}if(id&&!code()){try{ROOMC.join(CODE,id==='screen'?'take':false)}catch(_){}}});
     $e('ensCopy').onclick=e=>copyText(links(),'The six links',e.currentTarget);
-    $e('ensReady').onclick=()=>ready(!RD.on);$e('ensOut').onclick=projector;
+    $e('ensReady').onclick=()=>ready(!RD.on);$e('ensOut').onclick=projector;$e('ensPV').onclick=()=>pvSet(!pvWant);
     /* the same one button in Room, where a show starts */
     const rmL=$e('roomL')||$e('room');if(rmL){const f=document.createElement('div');f.className='room-f';f.innerHTML='<button type="button" class="btn ghost" id="roomReady" aria-pressed="false">Ready to perform</button>';rmL.appendChild(f);$e('roomReady').onclick=()=>ready(!RD.on)}
     const pl=document.createElement('button');pl.type='button';pl.id='partPill';pl.hidden=true;pl.innerHTML='<i aria-hidden="true"></i><span id="partPillTxt"></span>';document.body.appendChild(pl);
@@ -12378,7 +12677,7 @@ const ENS=window.ENS=(function(){
   document.addEventListener('visibilitychange',()=>{if(document.hidden)lift()});   // a hidden page's frames stop: nothing left held
   try{if(sessionStorage.getItem('current.ready')==='1')addEventListener('load',()=>setTimeout(()=>ready(true,true),1200))   // a rescue reload comes back ready
     else if(localStorage.getItem('current.ready.was'))addEventListener('load',()=>setTimeout(()=>{RD.on=true;RD.was=JSON.parse(localStorage.getItem('current.ready.was')||'{}');ready(false)},1200))}catch(_){}   // a new tab after a show: everything back as it was
-  return{tick,frame,draw,F,depth,set,lift,ready,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
+  return{tick,frame,draw,F,depth,set,lift,ready,pvOn:()=>pvOn,pvTick,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
 })();
 </script>
 <script>/* Surface · Sections: the index as a mini Codex. Drag a section by its grip, keep one open with its pin, fold all,
@@ -13005,7 +13304,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.37.5';
+const APP_VERSION='0.38.0';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

@@ -101,6 +101,9 @@
      bilinear taps, Sigg & Hadwiger 2005), used where the wave step decides wet or dry; the draw pass reads the same float
      floor bilinearly (the rim's line comes from that, at half a cell) and wetAt its nearest texel: all within half a cell */
   var GL_FLOOR = "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n" +
+    /* water meets water in a smooth union (a polynomial smooth max), so a bead near the pool's edge is joined to it by a
+       fillet, the way a meniscus bridges, never two outlines side by side */
+    "float wetMix(float f, float b){ float k = 0.2, h = max(k-abs(f-b), 0.0)/k; return max(f, b) + h*h*k*0.25; }\n" +
     "float floorAt(vec2 uv){ vec2 sz = vec2(textureSize(uFloor,0)), p = uv*sz-0.5, i = floor(p), f = p-i, f2 = f*f, f3 = f2*f;\n" +
     "  vec2 w0 = (1.0-3.0*f+3.0*f2-f3)/6.0, w1 = (4.0-6.0*f2+3.0*f3)/6.0, w2 = (1.0+3.0*f+3.0*f2-3.0*f3)/6.0, w3 = f3/6.0;\n" +
     "  vec2 g0 = w0+w1, g1 = w2+w3, h0 = (i-0.5+w1/g0)/sz, h1 = (i+1.5+w3/g1)/sz;\n" +
@@ -127,7 +130,7 @@
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
     "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
-    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(floorAt((vec2(p)+0.5)/vec2(n)), uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, wetMix(floorWet(floorAt((vec2(p)+0.5)/vec2(n)), uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
@@ -140,7 +143,7 @@
     "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor, uBeads;\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
-    "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,uv).r, uLevel), b*0.6)); }\n" +
+    "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, wetMix(floorWet(texture(uFloor,uv).r, uLevel), b*0.6)); }\n" +
     /* the waves where the water stands (hAt), and the meniscus at a puddle's rim (menAt), apart: the rim is read at half a
        field cell, so its line is as fine as the floor and the beads it comes from, not the field's steps (Dimitry, 29 Oct
        14:33: "water fill needs more resolution or a better formula") */
@@ -425,6 +428,7 @@
     var BGRID = new Map();
     function beadsStep(dt) {
       if (FLY.length) { for (var i = FLY.length - 1; i >= 0; i--) { var f = FLY[i]; f.t += dt / f.T; if (f.t >= 1) { bead(f.x1, f.y1, f.r); FLY.splice(i, 1); } } bdDirty = true; }
+      if (BEADS.length && FILL != null && Math.abs(FILL - (beadsStep.lf || 0)) > 0.004) { beadsStep.lf = FILL; bdDirty = true; }   // the pool rising reaches beads: look again
       if (!BEADS.length || !bdDirty) return;
       BGRID.clear(); var CS = 16, i2, j2;
       for (i2 = 0; i2 < BEADS.length; i2++) { var b = BEADS[i2], key = ((b.x / CS | 0) + 2000) * 8192 + ((b.y / CS | 0) + 2000), L = BGRID.get(key); if (!L) BGRID.set(key, L = []); L.push(i2); }
@@ -436,7 +440,12 @@
             if (dx * dx + dy * dy < rr2 * rr2) { var big = A.r >= B.r ? A : B, sm = big === A ? B : A, a1 = big.r * big.r, a2 = sm.r * sm.r, t = a2 / (a1 + a2);
               big.x += (sm.x - big.x) * t; big.y += (sm.y - big.y) * t; big.r = Math.sqrt(a1 + a2);
               if (big === A) dead[j2] = 1; else { dead[i2] = 1; continue outer; } } } } }
-      var keep = []; for (i2 = 0; i2 < BEADS.length; i2++) if (!dead[i2] && wetAt(BEADS[i2].x / bdCv.width, BEADS[i2].y / bdCv.height) < 0.92) keep.push(BEADS[i2]);
+      /* A BEAD THAT TOUCHES THE POOL JOINS IT (Dimitry, 29 Oct 15:27: dry and wet "cant share an edge without water creating a
+         smooth bridge across"): surface tension pulls a drop into the puddle it touches, so a bead goes as soon as its rim
+         meets standing water (its centre or any of four points on its edge), and the shader's smooth union draws the bridge */
+      var keep = [], W0 = bdCv.width, H0 = bdCv.height;
+      for (i2 = 0; i2 < BEADS.length; i2++) { if (dead[i2]) continue; var Bd = BEADS[i2], rr = Bd.r * 0.95, wet = wetAt(Bd.x / W0, Bd.y / H0) >= 0.5 || wetAt((Bd.x + rr) / W0, Bd.y / H0) >= 0.5 || wetAt((Bd.x - rr) / W0, Bd.y / H0) >= 0.5 || wetAt(Bd.x / W0, (Bd.y + rr) / H0) >= 0.5 || wetAt(Bd.x / W0, (Bd.y - rr) / H0) >= 0.5;
+        if (!wet) keep.push(Bd); }
       BEADS = keep;
     }
     function beadTex() {
