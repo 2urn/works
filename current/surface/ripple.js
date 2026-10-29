@@ -97,7 +97,14 @@
   /* THE FLOOR'S RELIEF is baked once per field size (floorBake, in JS: integer-hashed value noise, three octaves) into a
      byte texture the same size as the field, so the GPU reads one value where it would compute 36 hashes (review
      92666bcfcb r-1), and wetAt reads the same bytes: the CPU and the GPU agree on where the floor is dry */
-  var GL_FLOOR = "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n";
+  /* the floor read smoothly (29 Oct 14:33, "a better formula"): floorAt is a cubic B-spline over the baked relief (four
+     bilinear taps, Sigg & Hadwiger 2005), used where the wave step decides wet or dry; the draw pass reads the same float
+     floor bilinearly (the rim's line comes from that, at half a cell) and wetAt its nearest texel: all within half a cell */
+  var GL_FLOOR = "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n" +
+    "float floorAt(vec2 uv){ vec2 sz = vec2(textureSize(uFloor,0)), p = uv*sz-0.5, i = floor(p), f = p-i, f2 = f*f, f3 = f2*f;\n" +
+    "  vec2 w0 = (1.0-3.0*f+3.0*f2-f3)/6.0, w1 = (4.0-6.0*f2+3.0*f3)/6.0, w2 = (1.0+3.0*f+3.0*f2-3.0*f3)/6.0, w3 = f3/6.0;\n" +
+    "  vec2 g0 = w0+w1, g1 = w2+w3, h0 = (i-0.5+w1/g0)/sz, h1 = (i+1.5+w3/g1)/sz;\n" +
+    "  return g0.y*(g0.x*texture(uFloor,h0).r + g1.x*texture(uFloor,vec2(h1.x,h0.y)).r) + g1.y*(g0.x*texture(uFloor,vec2(h0.x,h1.y)).r + g1.x*texture(uFloor,h1).r); }\n";
   /* the wave step (Water Kit's FS_WAVE): r = height now, g = height a step ago; with the floor on (uFill), b = the beads
      of water a splash left (they stay), a = a splash's flash (it fades in a few frames) */
   var FS_WAVE = HEAD +
@@ -120,7 +127,7 @@
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
     "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
-    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,(vec2(p)+0.5)/vec2(n)).r, uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(floorAt((vec2(p)+0.5)/vec2(n)), uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
@@ -134,8 +141,11 @@
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
     "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,uv).r, uLevel), b*0.6)); }\n" +
-    "float hAt(vec2 uv){ vec4 s = texture(uWave,uv); if (uFill < 0.5) return s.r; float b = texture(uBeads,uv).r, m = wetM(uv, b);\n" +
-    "  return s.r*m + 0.5*m*(1.0-m); }\n" +
+    /* the waves where the water stands (hAt), and the meniscus at a puddle's rim (menAt), apart: the rim is read at half a
+       field cell, so its line is as fine as the floor and the beads it comes from, not the field's steps (Dimitry, 29 Oct
+       14:33: "water fill needs more resolution or a better formula") */
+    "float hAt(vec2 uv){ vec4 s = texture(uWave,uv); if (uFill < 0.5) return s.r; return s.r*wetM(uv, texture(uBeads,uv).r); }\n" +
+    "float menAt(vec2 uv){ float m = wetM(uv, texture(uBeads,uv).r); return 0.5*m*(1.0-m); }\n" +
     /* a bead's own lens, read at the beads' own resolution so a small drop is a clean dome, not a speckle */
     "vec2 beadGrad(vec2 uv){ vec2 t = 1.0/vec2(textureSize(uBeads,0)); float l = texture(uBeads,uv-vec2(t.x,0)).r, r = texture(uBeads,uv+vec2(t.x,0)).r, d = texture(uBeads,uv-vec2(0,t.y)).r, u = texture(uBeads,uv+vec2(0,t.y)).r;\n" +
     "  return vec2(r-l, u-d)*0.5*vec2(textureSize(uBeads,0))/vec2(textureSize(uWave,0)); }\n" +
@@ -146,7 +156,10 @@
     "  vec2 grad = vec2(hr-hl, hu-hd)*0.5*uQ;\n" +   /* uQ: per cell of the old field, so a finer field bends the light as much */
     /* the caustics' curvature with the diagonals too, so its light follows the rings, round, not the grid's squares */
     "  float lap = 0.5*(hl+hr+hd+hu-4.0*hc) + 0.125*(hAt(uv+t)+hAt(uv-t)+hAt(uv+vec2(t.x,-t.y))+hAt(uv+vec2(-t.x,t.y))-4.0*hc); lap *= uQ*uQ;\n" +
-    "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.3*(1.0-wetM(uv, b1)); }\n" +
+    "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.3*(1.0-wetM(uv, b1));\n" +
+    /* the rim at half a cell, read from the floor in floats at twice the field (a byte's steps were the dots): a clean line, as fine as the floor */
+    "    vec2 e = t*0.5; float mc = menAt(uv), ml = menAt(uv-vec2(e.x,0)), mr = menAt(uv+vec2(e.x,0)), md = menAt(uv-vec2(0,e.y)), mu = menAt(uv+vec2(0,e.y));\n" +
+    "    grad += vec2(mr-ml, mu-md)*uQ; lap += (ml+mr+md+mu-4.0*mc)*4.0*uQ*uQ; hc += mc; }\n" +
     "  vec2 ruv = clamp(uv - grad*uPx*uRefr, vec2(0.0), vec2(1.0));\n" +
     "  vec4 c = texture(uSrc, ruv);\n" +
     /* wet floor reads a touch darker than dry; a splash's flash is light thrown up off the floor */
@@ -352,19 +365,19 @@
       return (a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy; }
     function floorN(px, py) { px *= 5; py *= 5; var f = 0.55 * vn(px, py, 1) + 0.3 * vn(px * 2.1, py * 2.1, 2) + 0.15 * vn(px * 4.3, py * 4.3, 3); return Math.max(0, Math.min(1, (f - 0.2) / 0.6)); }
     function floorBake() {
-      /* baked at 1.5 times the field, so a puddle's rim is a smooth line, not the field's steps (Dimitry, 29 Oct 11:47: "the
+      /* baked at twice the field, in floats, so a puddle's rim is a smooth line, not the field's steps (Dimitry, 29 Oct 11:47: "the
          low resolution border on the water edges") */
-      if (!ok || !N[0]) return; var w = Math.round(N[0] * 1.5), h = Math.round(N[1] * 1.5); if (FLB && FLB.w === w && FLB.h === h) return;
-      var a = new Uint8Array(w * h);
-      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) a[y * w + x] = Math.round(255 * floorN((x + 0.5) / h, (y + 0.5) / h));
+      if (!ok || !N[0]) return; var w = Math.round(N[0] * 2), h = Math.round(N[1] * 2); if (FLB && FLB.w === w && FLB.h === h) return;
+      var a = new Float32Array(w * h);   // floats, not bytes: a byte's steps showed as dots along a rim
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) a[y * w + x] = floorN((x + 0.5) / h, (y + 0.5) / h);
       if (!flTex) { flTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
-      gl.bindTexture(gl.TEXTURE_2D, flTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, w, h, 0, gl.RED, gl.UNSIGNED_BYTE, a); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
+      gl.bindTexture(gl.TEXTURE_2D, flTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, w, h, 0, gl.RED, gl.FLOAT, a); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
       FLB = { w: w, h: h, a: a };
     }
     function sstep(a, b, v) { var t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
     function wetAt(x, y) { if (FILL == null) return 1; floorBake(); if (!FLB) return 1;
-      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix] / 255, L = FILL * 1.15 - 0.08;
+      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix], L = FILL * 1.15 - 0.08;
       return sstep(n - 0.06, n + 0.06, L); }
     /* the floor is on while it is filling, and while a full pool still has splashes to finish; a full, settled pool takes
        the old path (no floor reads at all) */
