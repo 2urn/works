@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029015343";window.__VERSION__="0.35.3";window.__NOTES__=[{"v":"0.35.3","date":"28 Oct 2026","items":[{"kind":"change","text":"every color animation keeps time with the tempo (tapped, or the beat that plays; 120 a minute until there is one). Speed is a choice of periods: Drift turns in 32, 16, 8 or 4 bars; Breathe breathes in 4 bars, 2 bars, a bar or 2 beats; Pulse and Shuffle come every 2 bars, bar, 2 beats or beat"},{"kind":"fix","text":"the little robot beside the palette's name shows the robot alone, and keeps animating while the scenes change"}]}]</script>
+<script>window.__BUILD__="20261029021716";window.__VERSION__="0.35.4";window.__NOTES__=[{"v":"0.35.4","date":"28 Oct 2026","items":[{"kind":"new","text":"Ground 2. The ground can have a second color: as a gradient from Ground 1 to Ground 2 (down, across, corner to corner, the other corner, or from the middle out; softness is how gently they meet), or taking turns on the tempo (every 2 bars, bar, 2 beats or beat; softness is how slowly one fades into the other). Its mix sits under Ground 2 and between the two in the palette, and scenes and palettes keep it"},{"kind":"new","text":"blend by layer. Ink 1, Ink 2 and Touch share one blend; Arrows and Pattern each have their own; the grounds blend only with a camera, video or picture, now with multiply, screen, soft light, difference and color besides under, overlay and ignore"},{"kind":"new","text":"the chosen color in the palette strip has an × on its top right: tap it to clear that color (Ink 1, Ink 2, Touch, Arrows, Pattern, Ground 2)"},{"kind":"new","text":"while the robot holds your colors, the scene's name beside the palette is a link: tap it to wear that scene's colors"},{"kind":"change","text":"the Palettes view has its title, Color · Palettes, top left"},{"kind":"change","text":"the Color and Sound panels glide to a new height instead of jumping"},{"kind":"change","text":"the color editor's head: the swatch on the left; beside it # hex, on/off, follows and save in one row, and lightness, chroma and hue under it; the chips and Animation follow as their own groups"},{"kind":"change","text":"Save to my colors is a plus on the big color circle; Save palette is a round plus"},{"kind":"change","text":"in the palette strip the grounds read Bg 1 and Bg 2, so every name fits"},{"kind":"change","text":"scroll bars follow the light or dark chrome, and a hairline like the foot's sits above the scrolling part"},{"kind":"change","text":"the ring's drift says its period (32 bars, 16, 8, 4) like the panel"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029015343"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029015343">
+<script src="claude-web.js?v=20261029021716"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029021716">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029015343"></script>
-<script src="surface/nozoom.js?v=20261029015343"></script><script src="surface/steady.js?v=20261029015343"></script><script src="surface/selftest.js?v=20261029015343"></script><script src="surface/size.js?v=20261029015343"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029015343"></script>
-<script src="surface/auto.js?v=20261029015343"></script>
-<script src="surface/toolpath.js?v=20261029015343"></script>
-<script src="surface/capture.js?v=20261029015343"></script>
-<script src="surface/pop.js?v=20261029015343"></script>
-<script src="surface/hints.js?v=20261029015343"></script>
-<script src="surface/paths.js?v=20261029015343"></script>
-<script src="surface/keys.js?v=20261029015343"></script>
-<script src="surface/reset.js?v=20261029015343"></script>
-<script src="surface/files.js?v=20261029015343"></script>
-<script src="surface/tabs.js?v=20261029015343"></script>
-<script src="surface/running.js?v=20261029015343"></script>
-<script src="surface/trim.js?v=20261029015343"></script>
-<script src="surface/audiowake.js?v=20261029015343"></script>
-<script src="surface/output.js?v=20261029015343"></script>
-<script src="surface/board.js?v=20261029015343"></script>
-<script src="surface/voice.js?v=20261029015343"></script>
-<script src="surface/voicelib.js?v=20261029015343"></script>
-<script src="surface/instruments.js?v=20261029015343"></script>
-<script src="surface/listview.js?v=20261029015343"></script>
-<script src="surface/beads.js?v=20261029015343"></script>
-<script src="surface/strip.js?v=20261029015343"></script>
-<script src="surface/sheetnav.js?v=20261029015343"></script>
-<script src="surface/twofinger.js?v=20261029015343"></script>
-<script src="surface/ring.js?v=20261029015343"></script>
-<script src="surface/shortlink.js?v=20261029015343"></script>
-<script src="surface/undo.js?v=20261029015343"></script>
-<script src="surface/pro.js?v=20261029015343"></script>
-<script src="surface/fresh.js?v=20261029015343"></script>
-<script src="surface/go.js?v=20261029015343"></script>
-<script src="surface/notice.js?v=20261029015343"></script>
-<script src="surface/perform.js?v=20261029015343"></script>
-<script src="surface/words.js?v=20261029015343"></script>
+<script src="vendor/opentype.min.js?v=20261029021716"></script>
+<script src="surface/nozoom.js?v=20261029021716"></script><script src="surface/steady.js?v=20261029021716"></script><script src="surface/selftest.js?v=20261029021716"></script><script src="surface/size.js?v=20261029021716"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029021716"></script>
+<script src="surface/auto.js?v=20261029021716"></script>
+<script src="surface/toolpath.js?v=20261029021716"></script>
+<script src="surface/capture.js?v=20261029021716"></script>
+<script src="surface/pop.js?v=20261029021716"></script>
+<script src="surface/hints.js?v=20261029021716"></script>
+<script src="surface/paths.js?v=20261029021716"></script>
+<script src="surface/keys.js?v=20261029021716"></script>
+<script src="surface/reset.js?v=20261029021716"></script>
+<script src="surface/files.js?v=20261029021716"></script>
+<script src="surface/tabs.js?v=20261029021716"></script>
+<script src="surface/running.js?v=20261029021716"></script>
+<script src="surface/trim.js?v=20261029021716"></script>
+<script src="surface/audiowake.js?v=20261029021716"></script>
+<script src="surface/output.js?v=20261029021716"></script>
+<script src="surface/board.js?v=20261029021716"></script>
+<script src="surface/voice.js?v=20261029021716"></script>
+<script src="surface/voicelib.js?v=20261029021716"></script>
+<script src="surface/instruments.js?v=20261029021716"></script>
+<script src="surface/listview.js?v=20261029021716"></script>
+<script src="surface/beads.js?v=20261029021716"></script>
+<script src="surface/strip.js?v=20261029021716"></script>
+<script src="surface/sheetnav.js?v=20261029021716"></script>
+<script src="surface/twofinger.js?v=20261029021716"></script>
+<script src="surface/ring.js?v=20261029021716"></script>
+<script src="surface/shortlink.js?v=20261029021716"></script>
+<script src="surface/undo.js?v=20261029021716"></script>
+<script src="surface/pro.js?v=20261029021716"></script>
+<script src="surface/fresh.js?v=20261029021716"></script>
+<script src="surface/go.js?v=20261029021716"></script>
+<script src="surface/notice.js?v=20261029021716"></script>
+<script src="surface/perform.js?v=20261029021716"></script>
+<script src="surface/words.js?v=20261029021716"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029015343"></script>
-<script src="surface/rail.js?v=20261029015343"></script>
-<script src="surface/touchsound.js?v=20261029015343"></script>
-<script src="surface/water.js?v=20261029015343"></script>
-<script src="surface/ripple.js?v=20261029015343"></script>
-<script src="surface/material.js?v=20261029015343"></script>
-<script src="surface/float.js?v=20261029015343"></script>
-<script src="surface/manual.js?v=20261029015343"></script>
+<script src="surface/pack.js?v=20261029021716"></script>
+<script src="surface/rail.js?v=20261029021716"></script>
+<script src="surface/touchsound.js?v=20261029021716"></script>
+<script src="surface/water.js?v=20261029021716"></script>
+<script src="surface/ripple.js?v=20261029021716"></script>
+<script src="surface/material.js?v=20261029021716"></script>
+<script src="surface/float.js?v=20261029021716"></script>
+<script src="surface/manual.js?v=20261029021716"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -303,7 +303,7 @@ body{background:var(--bg);color:var(--fg);font:14px/1.45 var(--sans);margin:0}
    stage's dark in either theme; the light page color stays for the tool's own layout. */
 body.player,[data-export=player] body{background:var(--stage)}
 .app{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:100%}
-.stage{position:relative;background:var(--stage);min-height:60vh}
+.stage{position:relative;background:var(--stage);background-image:var(--stage-img,none);min-height:60vh}
 canvas{display:block;width:100%;height:100%;position:absolute;inset:0}
 .hud{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:12px;font:11px var(--mono);color:#9fb0b4;letter-spacing:.02em;pointer-events:none;text-shadow:0 0 4px #000}
 .panel{background:var(--panel);border-left:1px solid var(--line);padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px;overflow:auto;max-height:100vh}
@@ -1648,7 +1648,7 @@ html[data-hand="left"] #bshelf .bsT{padding:0 max(12px,env(safe-area-inset-right
 :is(#bshelf,#owStk) .bsStkX{display:flex;flex:none;align-items:center;gap:6px}:is(#bshelf,#owStk) .bsStkX .lab{flex:none;font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}:is(#bshelf,#owStk) .bsStkX .bsG{gap:6px}
 :is(#bshelf,#owStk) .bsStkTx{flex:none;height:var(--s-seg-h,36px);box-sizing:border-box;padding:0 12px;border-radius:calc(var(--s-seg-h,36px) / 2);border:1px solid rgb(var(--ui-hi) / .24);background:rgb(var(--ui-hi) / .06);color:var(--ui-ink);font:500 13px/1 var(--sans);min-width:0}
 :is(#bshelf,#owStk) .bsStkTx::placeholder{color:var(--ui-dim)}
-#colorPop #cmTabs{visibility:hidden;width:0;flex:0 0 0;overflow:hidden}#colorPop.stk #cmPal{display:none}#colorPop .cmStkT{display:none}#colorPop.stk .cmStkT{display:block;flex:1;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);align-self:center}#colorPop.stk #cmTabs,#colorPop.stk #cmInfoBtn,#colorPop.stk #cmInfo,#colorPop.stk #cmViews,#colorPop.stk #cmLib{display:none!important}#colorPop.lib:not(.stk) .cmPane,#colorPop.lib:not(.stk) #cmPal,#colorPop.lib:not(.stk) #cmInfo,#colorPop.lib:not(.stk) .sfPaneH,#colorPop.lib:not(.stk) #cmInfoBtn{display:none!important}#colorPop .cmViews{flex:1;justify-content:flex-start}.cmViews .sfTab{display:inline-flex;align-items:center;gap:6px}.cmViews .sfTab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}.cmLib{padding:12px 16px;overflow:auto;min-height:0;flex:1}.clQ{width:100%;min-height:40px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 12px;box-sizing:border-box}.clBar{display:flex;justify-content:space-between;gap:8px;margin:8px 0;flex-wrap:wrap}.cmLib .cmSeg button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.clList{display:flex;flex-direction:column;gap:4px}.clRn{flex:1;min-width:0;min-height:40px;border-radius:10px;border:1px solid var(--acc,#55b8c9);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 10px}.cpLift{transform:scale(1.12);transition:transform .12s}.cpGhost{position:fixed;left:0;top:0;z-index:99;width:36px;height:36px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 2px #fff,0 6px 18px rgb(0 0 0/.45)}.cpS.cpDrop>i{box-shadow:0 0 0 3px var(--acc,#55b8c9);transform:scale(1.08)}.cpDragging,.cpDragging *{user-select:none;-webkit-user-select:none}.cpRen{width:32px;height:32px;flex:none;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer;display:grid;place-items:center;padding:0}.cpRen svg,.clRename svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}.clDel b{color:var(--acc-tx,var(--acc,#55b8c9))}
+#colorPop #cmTabs{visibility:hidden;width:0;flex:0 0 0;overflow:hidden}#colorPop.stk #cmPal{display:none}#colorPop .cmStkT{display:none}#colorPop.stk .cmStkT{display:block;flex:1;font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);align-self:center}#colorPop.stk #cmTabs,#colorPop.stk #cmInfoBtn,#colorPop.stk #cmInfo,#colorPop.stk #cmViews,#colorPop.stk #cmLib{display:none!important}#colorPop.lib:not(.stk) .cmPane,#colorPop.lib:not(.stk) #cmPal,#colorPop.lib:not(.stk) #cmInfo,#colorPop.lib:not(.stk) .sfPaneH:not(.cmLibH),#colorPop.lib:not(.stk) #cmInfoBtn{display:none!important}#colorPop .cmViews{flex:1;justify-content:flex-start}.cmViews .sfTab{display:inline-flex;align-items:center;gap:6px}.cmViews .sfTab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}.cmLib{padding:12px 16px;overflow:auto;min-height:0;flex:1}.clQ{width:100%;min-height:40px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 12px;box-sizing:border-box}.clBar{display:flex;justify-content:space-between;gap:8px;margin:8px 0;flex-wrap:wrap}.cmLib .cmSeg button[aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.clList{display:flex;flex-direction:column;gap:4px}.clRn{flex:1;min-width:0;min-height:40px;border-radius:10px;border:1px solid var(--acc,#55b8c9);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 10px}.cpLift{transform:scale(1.12);transition:transform .12s}.cpGhost{position:fixed;left:0;top:0;z-index:99;width:36px;height:36px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 2px #fff,0 6px 18px rgb(0 0 0/.45)}.cpS.cpDrop>i{box-shadow:0 0 0 3px var(--acc,#55b8c9);transform:scale(1.08)}.cpDragging,.cpDragging *{user-select:none;-webkit-user-select:none}.cpRen{width:32px;height:32px;flex:none;border:0;border-radius:50%;background:none;color:var(--ui-dim);cursor:pointer;display:grid;place-items:center;padding:0}.cpRen svg,.clRename svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}.clDel b{color:var(--acc-tx,var(--acc,#55b8c9))}
 /* THE STICKER PREVIEW (Dimitry, 22 Oct 13:43): the sticker as it will come out, live, on a frosted card centred above the
    bar (or above whatever opened above it), while Capture is on Sticker and its shelf is open. A tap makes it. */
 #stkPrev{position:fixed;z-index:31;left:0;top:0;padding:8px;border-radius:6px;border:1px solid #23292b;background:rgba(4,4,6,.72);
@@ -1755,7 +1755,7 @@ body #playbar>#pRand.dragging,body #pTrans>#pRand.dragging{transform:scale(1.12)
 #colorPop[hidden]{display:none}
 /* the ground with a camera, video or picture (Dimitry, 19 Oct): under (the ground shows through a faded source, as
    before), overlay (the source blends into the ground, CSS Compositing's overlay), ignore (the source sits on black) */
-html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background:#050708}#colorPop .mxh{padding-left:4px;gap:6px}
+html.srcOverlay #bgLayer{mix-blend-mode:var(--src-blend,overlay)}html.srcIgnore .stage{background:#050708}#colorPop .mxh{padding-left:4px;gap:6px}
 .cmPane{overflow-y:auto;padding:10px 14px 14px;overscroll-behavior:contain}
 .cmHead{display:flex;align-items:center;gap:10px;margin-bottom:4px}.cmBig{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}
 .cmHex{font:600 12px/1 var(--mono);letter-spacing:.08em;margin-right:auto}.cmHead .tb{min-height:30px}
@@ -2642,7 +2642,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmPick .tb.cpIc{margin-top:12px}
 #colorPop .cmSw{gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px;scroll-snap-type:x proximity}#colorPop .cmSw::-webkit-scrollbar{display:none}#colorPop .cmSw button{flex:none}
 #colorPop .cmSw{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);padding-right:24px}
-#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:.04em;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}
+#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}
 #colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"b h t" "b r r";gap:8px 12px;align-items:center}
 #colorPop .cmPick .cmEdTop>.cmBig{grid-area:b;width:64px;height:64px}#colorPop .cmEdTop>.cmEdHex{grid-area:h;min-width:0}#colorPop .cmEdTop>.cmTg{grid-area:t}
 #colorPop .cmRelTop{grid-area:r;display:flex;align-items:center;gap:10px;min-width:0;margin:0}#colorPop .cmRelTop select{flex:1}
@@ -2656,15 +2656,56 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmMixIn{padding:16px 0 0;margin-top:20px;border-top:1px solid var(--ui-line)}
 #colorPop .cmMixIn>.cmL:first-of-type{margin-top:14px}
 #colorPop .cmNote{margin:8px 0 0}
+#colorPop .cmGDir button{min-width:40px;font:400 15px/1 var(--sans);padding:0 10px}#colorPop .cmSeg.off{opacity:.4}#colorPop .cmGSoft{margin-top:16px}
 #colorPop .cmMixIn .tb:not(.cmSeg *){min-height:30px;margin-top:16px;padding:0 11px;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07)}
 #colorPop .cmTg .tb[role=switch]{background:none;padding:0 4px}
+
+/* the editor's head (21:55): swatch | [ # hex · switch · follows · save ] over [ lightness · chroma · hue ] */
+#colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr);grid-template-areas:none;gap:0 12px;align-items:start;margin:0}
+#colorPop .cmPick .cmEdTop>.cmBig{grid-area:auto;grid-column:1;grid-row:1;width:64px;height:64px}
+#colorPop .cmRC{grid-column:2;display:flex;flex-direction:column;gap:2px;min-width:0}
+#colorPop .cmR1{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:6px}
+#colorPop .cmR1 .cmEdHex{flex:0 1 auto;min-width:0;display:flex;align-items:center;gap:4px}#colorPop .cmR1 .cmEdHex input{width:5.6em;max-width:none;font-size:15px;min-height:34px;padding:0 6px}
+#colorPop .cmR1 .cmTg{flex:none;margin:0}#colorPop .cmR1 .cmTg .tb[role=switch]{font-size:0;gap:0;padding:0 2px}#colorPop .cmR1 .cmTg .tb[role=switch]>i{font-size:initial}
+#colorPop .cmR1 .cmRelTop select{min-width:58px}
+#colorPop .cmR1 .cmRelTop{flex:1 1 0;min-width:0}#colorPop .cmR1 .cmRelK{display:none}#colorPop .cmR1 .cmRelTop select{min-height:34px;width:100%;padding:0 4px 0 8px;font-size:13px}
+#colorPop .cmR1 .cmEdSave{flex:none;width:34px;height:34px;min-height:34px;padding:0;margin:0;border-radius:50%;display:grid;place-items:center}#colorPop .cmR1 .cmEdSave svg{width:15px;height:15px}
+#colorPop .cmR1 .cmEdSave[aria-pressed=true]{color:var(--acc-tx,var(--acc,#55b8c9))}
+#colorPop .cmRC .cmEdR{grid-template-columns:66px minmax(0,1fr) 38px;gap:6px}#colorPop .cmRC .cmEdR>span{font-size:8.5px;letter-spacing:.1em}
+
+#colorPop .cmR1 .cmEdSave{margin:0!important}
+#colorPop .cmR1 .cmEdHex input{font-size:14px;width:4.7em}#colorPop .cmR1{gap:6px}
+@container (min-width:560px){.cmGrid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)!important}}
+/* scroll bars follow the chrome (Dimitry, 28 Oct 21:57: "light scroll bar for light theme"), and a hairline like the foot's sits
+   on the edge above a scrolling pane */
+.sfPane,.cmPane,#cmLib{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ui-dim,#8a9396) 55%,transparent) transparent}
+.sfPane::-webkit-scrollbar,.cmPane::-webkit-scrollbar,#cmLib::-webkit-scrollbar{width:8px;background:transparent}
+.sfPane::-webkit-scrollbar-thumb,.cmPane::-webkit-scrollbar-thumb,#cmLib::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ui-dim,#8a9396) 55%,transparent);border-radius:4px;border:2px solid transparent;background-clip:padding-box}
+#colorPop .cmPal{border-bottom:1px solid var(--ui-line)}#colorPop .cmLib{border-top:0}
+
+#colorPop .cmPick .cmEdTop>.cmBigW{grid-column:1;grid-row:1;position:relative;width:64px;height:64px}
+#colorPop .cmBigW>.cmBig{display:block;width:64px;height:64px}
+#colorPop .cmBigW>.cmEdSave{position:absolute;right:0;bottom:0;width:28px;height:28px;min-height:28px;padding:0;margin:0!important;border-radius:50%;display:grid;place-items:center;background:var(--ui-solid,#0f1213);color:var(--ui-ink);box-shadow:0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .3),0 2px 6px rgb(0 0 0 / .3);z-index:1}
+#colorPop .cmBigW>.cmEdSave svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#colorPop .cmBigW>.cmEdSave[aria-pressed=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}
+/* Save palette is round (21:58): a plus, its words in its label */
+#colorPop .cpSave{width:34px;height:34px;min-height:34px;padding:0!important;border-radius:50%!important;display:grid;place-items:center}#colorPop .cpSave .cpSvL{display:none}#colorPop .cpSave svg{width:15px;height:15px}
+
+#colorPop .cmLibH{display:block;margin:0 0 12px;font:600 15px/1.2 var(--sans);color:var(--ui-ink)}
+#colorPop .cpWear{flex:0 1 auto;min-width:0;min-height:30px;border:0;background:none;color:inherit;display:inline-flex;align-items:center;gap:4px;padding:0;cursor:pointer;font:inherit}#colorPop .cpWear .cpBotN{text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);text-underline-offset:3px}#colorPop .cpWear svg{color:var(--acc-tx,var(--acc,#55b8c9));flex:none}
+#colorPop .cpWear svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+#colorPop .cpStrip{position:relative}#colorPop .cpS[aria-pressed=true]{position:relative}
+#colorPop .cpSW{position:relative;flex:1 1 0;min-width:0;display:flex}#colorPop .cpSW>.cpS{flex:1 1 auto;width:100%}/* small, inside the swatch, like the Pro lock; the target reaches past it (Dimitry, 28 Oct 22:13) */#colorPop .cpX{position:absolute;z-index:2;top:9px;right:max(4px,calc(50% - 26px));width:15px;height:15px;margin:0;border:0;border-radius:50%;padding:0;display:grid;place-items:center;background:rgb(0 0 0 / .55);color:#fff;box-shadow:none;cursor:pointer;flex:none}
+#colorPop .cpX svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round}
+#colorPop .cpX::after{content:'';position:absolute;inset:-12px}
 </style>
 
 <div class="app">
   <div class="stage" id="stage" role="main" aria-label="Stage">
     <div id="bgLayer" aria-hidden="true"><img id="bgImg" alt=""><video id="bgVid" muted playsinline loop></video></div>
     <canvas id="cv" aria-label="Particles flowing through a vector field built from the G-code pattern"></canvas>
-    <canvas id="ov" aria-hidden="true" style="pointer-events:none"></canvas>
+    <canvas id="ovP" aria-hidden="true" style="pointer-events:none"></canvas><canvas id="ov" aria-hidden="true" style="pointer-events:none"></canvas>
     <canvas id="fg" aria-hidden="true" style="pointer-events:none"></canvas>
     <div class="hud" id="hud"><span id="hudT"></span><button type="button" id="hudX" aria-label="Turn the stats off" title="Turn the stats off">&times;</button></div>
     
@@ -3093,7 +3134,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
   <div class="mxh"><div class="sfTabs" id="cmTabs" role="tablist" aria-label="Color groups"></div><span class="cmStkT">Sticker frame</span><div class="sfTabs cmViews" id="cmViews" role="tablist" aria-label="Color"><button type="button" class="sfTab" role="tab" data-v="lib" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="4" rx="1.5"/><rect x="4" y="10.5" width="16" height="4" rx="1.5"/><rect x="4" y="16" width="16" height="4" rx="1.5"/></svg><span>palettes</span></button><button type="button" class="sfTab" role="tab" data-v="ed" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15M4.5 12h15" opacity=".5"/></svg><span>editor</span></button></div><button class="sfInfoBtn spop-right" id="cmInfoBtn" type="button" aria-expanded="false" aria-controls="cmInfo" aria-label="How it works" title="How it works" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/></svg></button><button class="tb" id="cmClose" type="button" aria-label="Close the Color mixer">Close</button></div>
   <div id="cmPal" class="cmPal" role="region" aria-label="The palette"></div>
   <div id="cmLib" class="cmLib" role="region" aria-label="All palettes" hidden></div>
-  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="cmPane cmMixIn" role="region" aria-label="Ink mix: how the two inks share the particles" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmSticker" class="sfPane cmPane" role="region" aria-label="Sticker frame color" hidden></div>
+  <div id="cmLine" class="sfPane cmPane" role="tabpanel"></div><div id="cmSecond" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmMix" class="cmPane cmMixIn" role="region" aria-label="Ink mix: how the two inks share the particles" hidden></div><div id="cmTouch" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGround2" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmGMix" class="cmPane cmMixIn" role="region" aria-label="Ground mix: how the two grounds meet" hidden></div><div id="cmArrows" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmToolpath" class="sfPane cmPane" role="tabpanel" hidden></div><div id="cmSticker" class="sfPane cmPane" role="region" aria-label="Sticker frame color" hidden></div>
   <div class="sfInfo" id="cmInfo" role="region" aria-labelledby="cmInfoH" hidden><p class="sfInfoH" id="cmInfoH">How it works</p><div class="sfInfoTx"></div></div>
   <div hidden>
     <div class="sfInfoSrc" id="info-cmLine"><p><b>The palette</b> is the strip at the top: Ink 1, mix, Ink 2, Touch, Arrows, Pattern, Ground, in order. Tap a swatch to edit it below. Its name opens the palettes, the studio's and yours: a tap wears one. <b>Follows</b> ties a color to another (the complement of Ink 1, a deep version of it...): change that one and this one moves with it. <b>Save palette</b> keeps these colors and ties; save the scene and it points at the palette, so every scene that uses it changes with it.</p><p><b>Ink 1</b> is the color the particles draw with, as lines or as dots. A material (water's tint, glint, caustics) can borrow it.</p><p>The circle shows it; the code is its hex; tap the circle for your device's own color wheel. Lightness, chroma (how vivid) and hue set it by hand. The <b>on / off</b> switch shows or hides what the particles draw; the field keeps moving.</p><p>Swatches are ready colors; Related are its opposite, complement, lighter, darker, warmer and cooler; Recent and My colors are yours.</p></div>
@@ -3101,6 +3142,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
     <div class="sfInfoSrc" id="info-cmMix"><p><b>Ink mix</b>: how Ink 1 and Ink 2 share the particles. <b>Grain</b>: each particle keeps one. <b>Speed</b>: fast ones take Ink 2, slow ones Ink 1. <b>Tempo</b>: they swap with the tempo, on each beat or each bar (the same tempo as Autoplay and the metronome: tapped, or the beat that plays), or every few seconds if you set your own.</p></div>
     <div class="sfInfoSrc" id="info-cmTouch"><p><b>Touch</b> is the color your finger paints into the field. Off, touching paints no color of its own.</p></div>
     <div class="sfInfoSrc" id="info-cmGround"><p><b>Ground</b> is the color behind everything. <b>Auto</b> keeps it in contrast with the lines.</p><p>With a camera, video or picture: <b>Under</b> puts the picture on the ground, <b>Overlay</b> lays the ground's color over it, <b>Ignore</b> leaves the ground as it is.</p></div>
+    <div class="sfInfoSrc" id="info-cmGround2"><p><b>Ground 2</b> is a second ground. Off, the ground is one color.</p><p>On, <b>Gradient</b> runs from Ground 1 to Ground 2 in the direction you pick; <b>softness</b> is how gently they meet. <b>Turns</b> swaps them on the tempo; softness is how slowly one fades into the other.</p></div>
     <div class="sfInfoSrc" id="info-cmArrows"><p><b>Arrows</b> show which way the field flows. This is their color; off hides them.</p></div>
     <div class="sfInfoSrc" id="info-cmToolpath"><p><b>Pattern</b> is the G-code's own drawing, the path the field is made from. This is its color; off hides it.</p></div>
   </div>
@@ -3687,21 +3729,25 @@ const CG={
   line:{name:'Ink 1',get:()=>S.line,on:()=>!S.lineOff,set:v=>{S.line=v;S.lineOff=false;syncLine()},off:()=>{S.lineOff=true;clearTrails()},sw:()=>LINE_COLORS},
   second:{name:'Ink 2',get:()=>S.line2||CG_LAST.second,on:()=>!!S.line2,set:v=>{S.line2=v;CG_LAST.second=v;syncLine()},off:()=>{if(S.line2)CG_LAST.second=S.line2;S.line2=null;syncLine()},sw:()=>LINE_COLORS},
   touch:{name:'Touch',get:()=>S.touchColor||CG_LAST.touch,on:()=>!!S.touchColor,set:v=>{S.touchColor=v;CG_LAST.touch=v},off:()=>{if(S.touchColor)CG_LAST.touch=S.touchColor;S.touchColor=null},sw:()=>LINE_COLORS},
-  ground:{name:'Ground',get:()=>groundHex()||'#050708',on:()=>true,auto:()=>{S.ground='auto';CAUTO='';applyGround();syncLine();colorDid('auto')},set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
+  ground:{name:'Ground 1',get:()=>groundHex()||'#050708',on:()=>true,auto:()=>{S.ground='auto';CAUTO='';applyGround();syncLine();colorDid('auto')},set:v=>{const k=GROUND_COLORS.find(x=>sameC(x[2],v));S.ground=k?k[1]:v;applyGround();syncLine();colorDid('ground')},off:null,sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c])},
+  /* GROUND 2 (Dimitry, 28 Oct: "Split Ground like Inks: Background 1 Background 2"; how: "switchable from 1 with direction,
+     softness AND 2"): a second ground; with it the ground is a gradient from Ground 1 to Ground 2 (direction, softness) or
+     the two alternate on the tempo (softness is the crossfade). Off: one ground, as ever. */
+  ground2:{name:'Ground 2',get:()=>S.ground2||CG_LAST.ground2||'#1d2b3a',on:()=>!!S.ground2,set:v=>{S.ground2=v;CG_LAST.ground2=v;groundMixDirty();clearTrails();colorDid('ground')},off:()=>{if(S.ground2)CG_LAST.ground2=S.ground2;S.ground2=null;groundMixDirty();clearTrails()},sw:()=>GROUND_COLORS.map(([n,k,c])=>[n,c]).concat([['Ink 1',S.line]])},
   toolpath:{name:'Pattern',get:()=>S.pathColor||'#ff7a52',on:()=>!!S.flags.path,set:v=>{S.pathColor=v;if(!S.flags.path){S.flags.path=true;const c=$('c-path');if(c)c.checked=true}clearTrails()},off:()=>{S.flags.path=false;const c=$('c-path');if(c)c.checked=false;clearTrails()},sw:()=>[['Ember','#ff7a52'],...ARROW_SWATCHES.filter(x=>x[0]!=='Ember')]},
   arrows:{name:'Arrows',get:()=>S.arrowColor,on:()=>!!S.flags.arrows,set:v=>setArrow(v),off:()=>{S.flags.arrows=false;$('c-arrows').checked=false;clearTrails()},sw:()=>ARROW_SWATCHES}};
 /* the sticker's frame (22 Oct): a color group of its own, outside CG_ORDER, so only the sticker's chips open it */
 CG.sticker={name:'Sticker frame',get:()=>{const e=CAP.stk&&CAP.stk.edge;return e&&e!=='none'?e:(CAP.stk&&CAP.stk.mine)||'#ffffff'},on:()=>true,off:null,
   set:v=>{const K=CAP.stk;if(!K||!STK_HEX.test(v||''))return;v=v.toLowerCase();K.edge=v;if(!sameC(v,'#ffffff')&&!sameC(v,'#000000'))K.mine=v;capSave();bsSync();try{stkPrevDirty()}catch(_){}},
   sw:()=>[['White','#ffffff'],['Black','#000000'],...LINE_COLORS]};
-const CG_ORDER=['line','second','touch','arrows','toolpath','ground'];   /* Ground last (Dimitry, 28 Oct 21:29: "ink one, ink two, touch, arrows, pattern, and then ground") */   // the pattern: the G-code's own drawing (Dimitry, 19 Oct)
+const CG_ORDER=['line','second','touch','arrows','toolpath','ground','ground2'];   /* Ground last (Dimitry, 28 Oct 21:29: "ink one, ink two, touch, arrows, pattern, and then ground") */   // the pattern: the G-code's own drawing (Dimitry, 19 Oct)
 /* PALETTES (Dimitry, 28 Oct 18:41: "color palettes are what we're actually working on ... a set of these colors that are
    just a strip, kind of like the scrubbing strip ... ink one, ink two, ... touch ink, ground, etc. ... those palettes can
    be altered by parameters, and then they could be assigned to different scenes ... you happen to be able to define
    individual colors, but only in relation to each other"; his pick: strip + relations + scenes). A palette is the six
    colors in order; a slot can follow another (the complement of Ink 1, a deep version of it...), so changing one moves
    the ones tied to it; a scene can point at a palette by name, so many scenes share it. */
-const PAL_SLOTS=[['line','Ink 1'],['second','Ink 2'],['touch','Touch'],['arrows','Arrows'],['toolpath','Pattern'],['ground','Ground']];
+const PAL_SLOTS=[['line','Ink 1'],['second','Ink 2'],['touch','Touch'],['arrows','Arrows'],['toolpath','Pattern'],['ground','Ground 1'],['ground2','Ground 2']];
 const PAL_OPS=[['same','same as'],['comp','complement of'],['opp','opposite of'],['lighter','lighter than'],['darker','darker than'],['deep','deep from'],['pale','pale from'],['warmer','warmer than'],['cooler','cooler than']];
 function palOp(op,c){if(!c||!/^#[0-9a-f]{6}$/i.test(c))return null;const [L,C,H]=OKC.lch(c);
   switch(op){case 'same':return c.toLowerCase();case 'comp':return colorComp(c);case 'opp':return colorOpp(c);case 'lighter':return OKC.hex([Math.min(.98,L+.14),C,H]);case 'darker':return OKC.hex([Math.max(.04,L-.14),C,H]);
@@ -3720,13 +3766,13 @@ const palMine=()=>{try{return Array.isArray(store.palettes)?store.palettes:(stor
 const palAll=()=>PALETTES.map(p=>({...p,builtin:true})).concat(palMine());
 const palFind=n=>n?(palMine().find(p=>p.name===n)||PALETTES.find(p=>p.name===n)&&{...PALETTES.find(p=>p.name===n),builtin:true}):null;
 /* the colors now, as a palette's colors (ground may be dark, paper or auto) */
-function palNow(){return {line:S.line,second:S.line2||null,touch:S.touchColor||null,ground:S.ground,arrows:S.arrowColor,toolpath:S.pathColor||null}}
+function palNow(){return {line:S.line,second:S.line2||null,touch:S.touchColor||null,ground:S.ground,ground2:S.ground2||null,arrows:S.arrowColor,toolpath:S.pathColor||null}}
 const palHex=(k,v)=>k==='ground'?(v==='dark'?'#050708':v==='paper'?'#efeae0':v==='auto'?groundHex():v):v;
 let PAL_BUSY=false,PAL_ON=null;
 /* set one slot without the editor (a palette, a relation): through the slot's own setter, so every rule still holds */
 function palSet(k,v){if(k==='line'){if(v)S.line=v;syncLine()}   /* on or off is the scene's, not the palette's (review ade287a r-2) */
   else if(k==='second'){S.line2=v||null;syncLine()}else if(k==='touch'){S.touchColor=v||null}
-  else if(k==='ground'){S.ground=v||'dark';applyGround(true);syncLine()}else if(k==='arrows'){if(v)setArrow(v,false)}else if(k==='toolpath'){S.pathColor=v||null}}
+  else if(k==='ground'){S.ground=v||'dark';applyGround(true);syncLine()}else if(k==='arrows'){if(v)setArrow(v,false)}else if(k==='toolpath'){S.pathColor=v||null}else if(k==='ground2'){S.ground2=v||null;groundMixDirty();clearTrails()}}
 /* the slots that follow k move with it (two steps deep at most: Ink 1 -> Ink 2 -> Arrows) */
 function palFollow(k,depth){if(PAL_BUSY||(depth||0)>2)return;const R=(S.pal&&S.pal.rel)||{};PAL_BUSY=true;
   try{for(const [t,r] of Object.entries(R)){if(!r||r.of!==k||t===k)continue;if((t==='second'||t==='touch')&&!palNow()[t]&&PAL_ON!==t){const v0=palOp(r.op,palHex(k,palNow()[k]));if(v0&&typeof CG_LAST!=='undefined')CG_LAST[t]=v0;continue}   /* Ink 2 and Touch off stay off (their color is their on), keeping the tie's color for when they come on; Arrows and Pattern only hide, so they follow (reviews 5306f3e r-1, 93dd543 r-1) */const src=palHex(k,palNow()[k]),v=palOp(r.op,src);if(v){palSet(t,v);PAL_BUSY=false;palFollow(t,(depth||0)+1);PAL_BUSY=true}}}
@@ -3742,7 +3788,14 @@ function palSave(name){name=(name||'').trim().slice(0,40)||((S.pal&&S.pal.name&&
   if(PALETTES.some(p=>p.name===name))name=palNextName(name);   // never the studio's name: yours would hide behind it
   const L=palMine(),P={name,colors:palNow(),rel:JSON.parse(JSON.stringify((S.pal&&S.pal.rel)||{})),t:Date.now()},i=L.findIndex(x=>x.name===name);if(i>=0)L[i]=P;else L.push(P);try{persist()}catch(_){}
   S.pal={name,rel:P.rel};palUI();toast('palette saved · '+name+'. Save the scene to keep it on the scene')}
-function palUI(){try{if(window.PAL_PAINT)PAL_PAINT()}catch(_){}try{if(window.PAL_LIB)PAL_LIB()}catch(_){}}
+/* the scene the robot is on while your colors are held: its colors, one tap away (Dimitry, 28 Oct 22:07: "at end of robot
+   [current palette] add a short link icon to load that palette") */
+var HELD_SCENE=null;
+function wearScene(p){if(!p)return;const P=p.palette&&p.user&&palFind(p.palette);if(P){palApply(P);return}
+  const c={line:p.line||LINE_DEFAULT,second:p.line2||null,touch:p.touchColor||null,ground:p.ground||'dark',ground2:p.ground2||null,arrows:p.arrow||(ARROW_SWATCHES[0]&&ARROW_SWATCHES[0][1])||S.arrowColor,toolpath:p.pathColor||null};
+  S.gmix={...GMIX_DEF,...(p.gmix||{})};PAL_BUSY=true;try{for(const [k] of PAL_SLOTS)palSet(k,c[k])}finally{PAL_BUSY=false}
+  S.pal={name:null,rel:JSON.parse(JSON.stringify(p.palRel||{}))};groundMixDirty();clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}palUI();toast('colors of '+p.name)}
+function palUI(){try{if(window.PAL_PAINT)PAL_PAINT()}catch(_){}try{const m=$('cmGMix');if(m&&!m.hidden&&!m.contains(document.activeElement))renderGMix()}catch(_){}try{if(window.PAL_LIB)PAL_LIB()}catch(_){}}
 /* a free name: 'Sea Green 2', 'Sea Green 3'... (Dimitry, 28 Oct 21:14: "Don't name anything Copy just append 1 2 3 etc") */
 function palNextName(base){base=String(base||'My palette').replace(/\s+\d+$/,'').replace(/ · mine$/,'').trim().slice(0,36).trim()||'My palette';const taken=new Set(palAll().map(p=>p.name));let n=taken.has(base)?2:1;while(taken.has(base+' '+n))n++;return base+' '+n}
 function palRename(old,nw){nw=String(nw||'').trim().slice(0,40);if(!nw||nw===old)return false;if(palAll().some(p=>p.name===nw)){toast('there is a palette called '+nw+' already');return false}
@@ -3833,7 +3886,7 @@ function colorTick(dt){CAT+=dt;const A=S.canim||{},bpm=canimBpm();CBP+=dt*bpm/60
   if(hit){const n0=CSHN+1;for(const g of CG_ORDER){const a=A[g];if(a&&a.m==='pulse'&&!(n0%canimPer(a)))CPB[g]=1}}for(const g in CPB)CPB[g]*=Math.exp(-dt*4);
   /* shuffle: every n beats each shuffling color takes another of the palette's (its own colors, never one it shows now) */
   if(hit){CSHN++;let pool=null;for(const g of CG_ORDER){const a=A[g];if(!a||a.m!=='shuffle'||!CG[g].get()){if(CSHUF[g])delete CSHUF[g];continue}const n=canimPer(a);if(CSHN%n)continue;
-    if(!pool)pool=[...new Set(CG_ORDER.map(h=>CG[h].get()).filter(c=>c&&/^#/.test(c)).map(c=>c.toLowerCase()))];const now=(CSHUF[g]||CG[g].get()||'').toLowerCase(),gr=(CSHUF.ground||CG.ground.get()||'').toLowerCase(),inks=[CG.line.get(),CG.second&&CG.second.get(),CSHUF.line,CSHUF.second].filter(Boolean).map(c=>c.toLowerCase()),L=pool.filter(c=>c!==now&&(g==='ground'?!inks.includes(c):c!==gr));   /* an ink never takes the ground's color, nor the ground an ink's: the particles would vanish (review 6a3a082 r-2) */if(L.length)CSHUF[g]=L[Math.floor(Math.random()*L.length)]}}
+    if(!pool)pool=[...new Set(CG_ORDER.filter(h=>CG[h].on()).map(h=>CG[h].get()).filter(c=>c&&/^#/.test(c)).map(c=>c.toLowerCase()))];const now=(CSHUF[g]||CG[g].get()||'').toLowerCase(),gr=(CSHUF.ground||CG.ground.get()||'').toLowerCase(),gr2=S.ground2?(CSHUF.ground2||S.ground2).toLowerCase():'',inks=[CG.line.get(),CG.second&&CG.second.get(),CSHUF.line,CSHUF.second].filter(Boolean).map(c=>c.toLowerCase()),L=pool.filter(c=>c!==now&&(g==='ground'||g==='ground2'?!inks.includes(c):c!==gr&&c!==gr2));   /* an ink never takes the ground's color, nor the ground an ink's: the particles would vanish (review 6a3a082 r-2) */if(L.length)CSHUF[g]=L[Math.floor(Math.random()*L.length)]}}
   for(const g in CSHUF)if(!A[g]||A[g].m!=='shuffle')delete CSHUF[g];
   const snap=CFD_SNAP||!!CM;CFD_SNAP=false;
   for(const g of CG_ORDER){const base=CG[g].get();let c=base;const F=CFD[g]||(CFD[g]={shown:base,from:base,to:base,t:1});
@@ -3841,15 +3894,18 @@ function colorTick(dt){CAT+=dt;const A=S.canim||{},bpm=canimBpm();CBP+=dt*bpm/60
     else{if(base!==F.to){F.from=F.shown;F.to=base;F.t=0}
       if(F.t<1){F.t=Math.min(1,F.t+dt/Math.max(.05,cfSecs(CFADE)));const e=F.t<.5?2*F.t*F.t:1-Math.pow(-2*F.t+2,2)/2;F.shown=okMix(F.from,F.to,e)}else F.shown=base;c=F.shown}
     LC[g]=animColor(c,A[g],g)||(c!==base?c:null)}
+  if(S.ground2&&GMIX().m==='turns'&&!LC.ground&&!CM){const M=GMIX(),per=[8,4,2,1][Math.max(0,Math.min(3,Math.round((M.sp==null?.667:M.sp)*3)))],u=(CBP/per)%2,f=u<1?0:1,x=u%1,w=Math.max(.001,M.soft*.5);   /* hold, then fade over softness × half the period */
+    let e=f;if(x>1-w){const t=(x-(1-w))/w,s=t*t*(3-2*t);e=f?1-s:s}LC.ground=e<=0?null:okMix(groundHex()||'#050708',S.ground2,e);if(!LC.ground&&CGROUND){CGROUND=false;applyGround(true)}}
   if(CM)cmTick();
   if(LC.ground){document.documentElement.style.setProperty('--stage',LC.ground);CGROUND=true;if((CAT*4|0)!==(CGT|0)){CGT=CAT*4;uiGuard(LC.ground);document.documentElement.classList.toggle('paper',wcagLum(LC.ground)>.4)}}else if(CGROUND){CGROUND=false;applyGround(true)}
   else if(S.ground==='auto'){const h=autoGround();if(h!==CAUTO){CAUTO=h;document.documentElement.style.setProperty('--stage',h);document.documentElement.classList.toggle('paper',groundLight());uiGuard(h)}}}
 let CAUTO='',CGT=0;
-const SRC_GROUND=[['under','under','The ground shows through the faded source'],['overlay','overlay','The source blends into the ground (overlay)'],['ignore','ignore','The source sits on black; the ground waits until it is off']];
+const SRC_GROUND=[['under','under','The ground shows through the faded source'],['overlay','overlay','The source blends into the ground (overlay)'],['multiply','multiply','The source darkens the ground (multiply)'],['screen','screen','The source lightens the ground (screen)'],['soft-light','soft light','The source softly lights the ground (soft light)'],['difference','difference','The source inverts the ground where it is bright (difference)'],['color','color','The source takes the ground\u2019s color, keeping its own light (color)'],['ignore','ignore','The source sits on black; the ground waits until it is off']];
 let SRCG=(()=>{try{const v=localStorage.getItem('current.srcGround');return SRC_GROUND.some(x=>x[0]===v)?v:'under'}catch(_){return 'under'}})();
-function applySrcGround(){const on=typeof SRC!=='undefined'&&SRC.kind!=='none',R=document.documentElement.classList;R.toggle('srcOverlay',on&&SRCG==='overlay');R.toggle('srcIgnore',on&&SRCG==='ignore');
+const SRCG_BLEND=k=>k!=='under'&&k!=='ignore';
+function applySrcGround(){const on=typeof SRC!=='undefined'&&SRC.kind!=='none',R=document.documentElement.classList;R.toggle('srcOverlay',on&&SRCG_BLEND(SRCG));document.documentElement.style.setProperty('--src-blend',SRCG_BLEND(SRCG)?SRCG:'normal');R.toggle('srcIgnore',on&&SRCG==='ignore');
   {const g=document.getElementById('srGround'),v=g&&g.querySelector('svg');if(v&&v.dataset.g!==SRCG){v.dataset.g=SRCG;   /* the icon says which (Dimitry, 27 Oct 08:37: "you don't realize ... it's on"; as the camera's icon turns front and back): under, the ground's dot half seen through; overlay, the dot lit; ignore, an empty frame on black */
-    v.innerHTML='<rect x="3.5" y="3.5" width="17" height="17" rx="3"'+(SRCG==='ignore'?' fill="currentColor" fill-opacity=".22"':'')+'/>'+(SRCG==='overlay'?'<circle cx="12" cy="12" r="4.5" style="fill:var(--acc,#55b8c9);stroke:none"/>':SRCG==='ignore'?'<circle cx="12" cy="12" r="4.5" fill="none" stroke-dasharray="2 2.2"/>':'<circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none" opacity=".45"/>')}}
+    v.innerHTML='<rect x="3.5" y="3.5" width="17" height="17" rx="3"'+(SRCG==='ignore'?' fill="currentColor" fill-opacity=".22"':'')+'/>'+(SRCG_BLEND(SRCG)?'<circle cx="12" cy="12" r="4.5" style="fill:var(--acc,#55b8c9);stroke:none"/>':SRCG==='ignore'?'<circle cx="12" cy="12" r="4.5" fill="none" stroke-dasharray="2 2.2"/>':'<circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none" opacity=".45"/>')}}
   const l=document.getElementById('srGroundV');if(l)l.textContent=SRCG;const b=document.getElementById('srGround');if(b)b.setAttribute('aria-label','The ground under the camera, video or picture, now '+SRCG+'. Tap to change; hold for the Color mixer')}
 function setSrcGround(v){SRCG=v;try{localStorage.setItem('current.srcGround',v)}catch(_){}applySrcGround();try{if(!$('colorPop').hidden)renderCM()}catch(_){}}
 const stageBg=()=>document.documentElement.classList.contains('srcIgnore')?'#050708':css('--stage');
@@ -3864,9 +3920,9 @@ const wcagRatio=(a,b)=>{const x=wcagLum(a),y=wcagLum(b);return (Math.max(x,y)+.0
 function uiGuard(gh){gh=gh||groundHex()||'#050708';if(gh===UIG)return;UIG=gh;const R=document.documentElement.style,[L,C]=OKC.lch(gh);
   const plain=L<.24&&C<.05,glass=plain?0:.88;if(glass)R.setProperty('--ui-glass',glass);else R.removeProperty('--ui-glass')}
 const groundName=()=>{if(S.ground==='auto')return 'auto';const g=GROUND_COLORS.find(x=>x[1].toLowerCase()===String(S.ground).toLowerCase());return g?g[0].toLowerCase():'your own'};
-const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,alt:'grain',altTime:4,altBy:'bar',pal:{name:null,rel:{}},ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
+const S={lineAlpha:.55,lineOff:false,line:LINE_DEFAULT,line2:null,ground2:null,blendA:'source-over',blendP:'source-over',gmix:{m:'grad',d:'down',soft:1,sp:.667},alt:'grain',altTime:4,altBy:'bar',pal:{name:null,rel:{}},ground:'dark',inside:'same',mode:'along',lensMode:'off',blur:6,lensShow:false,arrowColor:ARROW_DEFAULT,arrowAlpha:.55,mods:{},maps:[],...DEFAULTS,flags:{arrows:false,path:false,travel:false,feed:false},paused:false};
 let baseline={...DEFAULTS};let presetIdx=0;
-const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d'),fg=document.getElementById('fg'),fctx=fg.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
+const cv=document.getElementById('cv'),ov=document.getElementById('ov'),octx=ov.getContext('2d'),ovP=document.getElementById('ovP'),opctx=ovP.getContext('2d'),fg=document.getElementById('fg'),fctx=fg.getContext('2d');let ctx=cv.getContext('2d');const tctx=ctx;
 let W=0,H=0,DPR=1,field=null,GW=0,GH=0,CELL=8,segsPx=[],parsed=null;
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
@@ -4038,11 +4094,27 @@ function spawn(p){
 function resetParticles(){P=[];for(let i=0;i<S.count;i++)P.push(spawn({}));}
 // with a source showing, trails fade to transparent so the picture shows through; otherwise to the stage color
 let TRANSP=false;
-function clearTrails(){if(TRANSP)ctx.clearRect(0,0,W,H);else{ctx.fillStyle=css('--stage');ctx.fillRect(0,0,W,H)}}
+/* THE GROUND'S FILL: one color, or (Ground 2 on, Gradient) a gradient from Ground 1 to Ground 2, cached until a color, the
+   direction, the softness or the size changes. The page under the canvas wears the same as a CSS gradient. */
+const GDIRS=[['down','↓','top to bottom',90],['right','→','left to right',0],['diag','↘','corner to corner',45],['up','↗','the other corner',-45],['round','◎','from the middle out',null]];
+const GMIX_DEF={m:'grad',d:'down',soft:1,sp:.667};const GMIX=()=>(S.gmix=S.gmix||{...GMIX_DEF});
+let GFILL=null,GFKEY='';function groundMixDirty(){GFKEY='';GFILL=null;try{syncStageImg()}catch(_){}}
+function gStops(soft){const a=.5-soft/2,b=.5+soft/2;return [Math.max(0,Math.min(.5,a)),Math.max(.5,Math.min(1,b))]}
+function stageFill(){const g1=css('--stage');if(!S.ground2||GMIX().m!=='grad'||TRANSP)return g1;const M=GMIX(),g2=(LC.ground2||S.ground2),k=[W,H,g1,g2,M.d,M.soft].join('|');if(k===GFKEY&&GFILL)return GFILL;
+  const D=GDIRS.find(x=>x[0]===M.d)||GDIRS[0];let gr;if(D[3]===null)gr=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.hypot(W,H)/2);else{const r=D[3]*Math.PI/180,cx=W/2,cy=H/2,L=(Math.abs(W*Math.cos(r))+Math.abs(H*Math.sin(r)))/2;gr=ctx.createLinearGradient(cx-Math.cos(r)*L,cy-Math.sin(r)*L,cx+Math.cos(r)*L,cy+Math.sin(r)*L)}
+  const [a,b]=gStops(M.soft);gr.addColorStop(0,g1);gr.addColorStop(a,g1);gr.addColorStop(b,g2);gr.addColorStop(1,g2);GFKEY=k;GFILL=gr;return gr}
+function syncStageImg(){const R=document.documentElement.style;if(!S.ground2||GMIX().m!=='grad'){R.removeProperty('--stage-img');return}const M=GMIX(),D=GDIRS.find(x=>x[0]===M.d)||GDIRS[0],[a,b]=gStops(M.soft),g2=LC.ground2||S.ground2;
+  R.setProperty('--stage-img',(D[3]===null?'radial-gradient(circle,':'linear-gradient('+(D[3]+90)+'deg,')+'var(--stage) '+(a*100)+'%,'+g2+' '+(b*100)+'%)')}
+function clearTrails(){if(TRANSP)ctx.clearRect(0,0,W,H);else{ctx.fillStyle=stageFill();ctx.fillRect(0,0,W,H)}}
 function fadeTrails(a){if(TRANSP){ctx.globalCompositeOperation='destination-out';ctx.globalAlpha=Math.max(a,.012);ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='source-over'}
-  else{ctx.globalAlpha=a;ctx.fillStyle=css('--stage');ctx.fillRect(0,0,W,H)}ctx.globalAlpha=1}
+  else{ctx.globalAlpha=a;ctx.fillStyle=stageFill();ctx.fillRect(0,0,W,H)}ctx.globalAlpha=1}
 
 // finger marks (magnet ring, steer brush, loop ghost, rec dot) live on their own canvas, which captures leave out
+/* each layer's blend: the canvases sit over the stage, so a layer blends with what is under it through CSS mix-blend-mode;
+   captures paste the same layers with the same operation */
+const CSS_BLEND=k=>!k||k==='source-over'?'normal':k==='lighter'?'plus-lighter':k;let LBK='';
+const layerOp=k=>k&&k!=='source-over'&&isPro('blend')?k:'source-over';
+function syncLayerBlend(){const a=layerOp(S.blendA),p=layerOp(S.blendP),k=a+'|'+p;if(k===LBK)return;LBK=k;ov.style.mixBlendMode=CSS_BLEND(a);ovP.style.mixBlendMode=CSS_BLEND(p)}
 function drawFingerMarks(){
   if((ACTIVE==='magnet'||MGR.loop)&&Math.abs(S.magnet||0)>.004){const sz=performance.now()-MAG.sizing<900,a=sz?.7:Math.min(.45,UN.magW*.45);
     if(a>.02){const R=Math.min(W,H)*MAG.r,x=sz?MAG.sx:UN.fx,y=sz?MAG.sy:UN.fy;ctx.save();ctx.globalAlpha=a;ctx.lineWidth=1.5;ctx.strokeStyle=UN.magSg<0?MAG_PUSH_STAGE:MAG_PULL;
@@ -4052,6 +4124,9 @@ function drawOverlay(){
   if(S.lensShow&&LENS_H&&S.lensMode!=='off'){ctx.fillStyle=css('--accent');
     for(let gy=0;gy<GH;gy+=2)for(let gx=0;gx<GW;gx+=2){const h=LENS_H[gy*GW+gx];if(h<.04)continue;ctx.globalAlpha=h*.05;ctx.fillRect(gx*CELL-CELL,gy*CELL-CELL,CELL*2,CELL*2)}
     ctx.globalAlpha=1}
+  /* BLEND BY LAYER (Dimitry, 28 Oct 18:59: "Blend Modes (by layer)"): Pattern and Arrows each lay on with their own */
+  const LB=k=>k&&k!=='source-over'&&isPro('blend')?k:'source-over';syncLayerBlend();
+  const oc=ctx;ctx=opctx;
   if(S.flags.path&&insideGrid&&loopsPx.length&&S.inside!=='same'){
     ctx.fillStyle=LC.toolpath||S.pathColor||css('--path');ctx.globalAlpha=.1*PATHA;
     for(let gy=0;gy<GH;gy++)for(let gx=0;gx<GW;gx++)if(insideGrid[gy*GW+gx])ctx.fillRect(gx*CELL-CELL/2,gy*CELL-CELL/2,CELL,CELL);
@@ -4063,6 +4138,7 @@ function drawOverlay(){
       ctx.beginPath();ctx.moveTo(s.x0,s.y0);ctx.lineTo(s.x1,s.y1);ctx.stroke()}
     ctx.globalAlpha=1;
   }
+  ctx=oc;
   if(S.flags.arrows||STEER.on){
     const step=Math.max(2,Math.round(26/CELL)),sg=STEER.any&&STEER.gw===GW&&STEER.gh===GH?STEER.g:null,dOn=driveOn();ctx.strokeStyle=LC.arrows||S.arrowColor;ctx.globalAlpha=Math.max(S.arrowAlpha,STEER.on?.5:0);ctx.lineWidth=1;
     for(let gy=0;gy<GH;gy+=step)for(let gx=0;gx<GW;gx+=step){
@@ -4144,7 +4220,7 @@ function frameStep(now){
   else{if(!S.lineOff){if(two){ctx.strokeStyle=LC.line||S.line;ctx.stroke(pA);ctx.strokeStyle=LC.second||S.line2;ctx.stroke(pB)}else ctx.stroke()}
     if(tcol){ctx.strokeStyle=tcol;ctx.globalAlpha=Math.max(S.lineOff?0:S.lineAlpha,.5);ctx.stroke(pC)}}ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
   SIGNALS.flow=SIGNALS.flow*.92+Math.min(1,mn?msum/(mn/8):0)*.08;
-  steerTick(dt,now);octx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();if(window.AUDN)AUDN.draw(ctx);ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
+  steerTick(dt,now);octx.clearRect(0,0,W,H);opctx.clearRect(0,0,W,H);fctx.clearRect(0,0,W,H);ctx=octx;try{drawOverlay();ctx.globalCompositeOperation='source-over';if(window.AUDN)AUDN.draw(ctx);ctx=fctx;drawFingerMarks()}finally{ctx=tctx}liveMarkers();drawMeters();
   if(!RIP&&WATER&&WATER.on&&WATER.surfOn)try{rippleSync()}catch(_){}
   if(RIP&&RIP.enabled())try{ripplePattern();RIP.tick(dt)}catch(_){}
   try{SurfaceSelfTest.beat()}catch(_){}
@@ -4157,7 +4233,7 @@ function hud(){
 // ---------- Build / resize ----------
 function resize(){
   const r=document.getElementById('stage').getBoundingClientRect();DPR=Math.min(2,devicePixelRatio||1);
-  W=Math.max(50,r.width);H=Math.max(50,r.height);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);ov.width=W*DPR;ov.height=H*DPR;octx.setTransform(DPR,0,0,DPR,0,0);fg.width=W*DPR;fg.height=H*DPR;fctx.setTransform(DPR,0,0,DPR,0,0);
+  W=Math.max(50,r.width);H=Math.max(50,r.height);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);ov.width=W*DPR;ov.height=H*DPR;octx.setTransform(DPR,0,0,DPR,0,0);ovP.width=W*DPR;ovP.height=H*DPR;opctx.setTransform(DPR,0,0,DPR,0,0);fg.width=W*DPR;fg.height=H*DPR;fctx.setTransform(DPR,0,0,DPR,0,0);
   if(parsed){buildField();resetParticles();clearTrails()}
 }
 function build(keep){
@@ -4521,10 +4597,12 @@ function cleanLook(o){try{if(!o||typeof o!=='object'||Array.isArray(o))return nu
       case 'line':case 'arrow':w=hex(v);break;
       case 'line2':case 'touchColor':case 'pathColor':w=v===null?null:hex(v);break;
       case 'ground':w=typeof v==='string'&&(['dark','paper','auto'].includes(v)||LOOK_HEX.test(v))?v:undefined;break;
+      case 'ground2':w=v===null?null:hex(v);break;
+      case 'gmix':{if(!v||typeof v!=='object')break;w={};const m=one(v.m,['grad','turns']);if(m)w.m=m;const d=one(v.d,GDIRS.map(x=>x[0]));if(d)w.d=d;const so=num(v.soft,0,1);if(so!==undefined)w.soft=so;const sp=num(v.sp,0,1);if(sp!==undefined)w.sp=sp;break}
       case 'mode':w=typeof v==='string'&&Object.prototype.hasOwnProperty.call(MODES,v)?v:undefined;break;
       case 'inside':w=one(v,['same','reverse','across','still','empty']);break;
       case 'lensMode':w=one(v,['off','in','out','swirl']);break;
-      case 'blend':w=one(v,['source-over','lighter','screen','multiply','overlay','difference']);break;
+      case 'blend':case 'blendA':case 'blendP':w=one(v,['source-over','lighter','screen','multiply','overlay','difference']);break;
       case 'alt':w=typeof v==='string'&&Object.prototype.hasOwnProperty.call(ALTS,v)?v:undefined;break;
       case 'magSound':w=one(v,MAG_SOUNDS);break;
       case 'lineAlpha':case 'arrowAlpha':w=num(v,0,1);break;
@@ -4632,18 +4710,18 @@ function wxEnd(k0){const held=RIP_HOLD;RIP_HOLD=false;if(!held){return}
    time"; it was the robot bringing the next scene's own mix, 19:0x): with the Color panel open, a scene the robot brings
    changes everything but the palette, the mix and the color animation */
 function applyLookNow(p,idx,instant,part){const k=wxBegin();
-  let hold=null;try{if(typeof autoT!=='undefined'&&autoT&&part!==undefined&&!$('colorPop').hidden)hold={c:palNow(),lineOff:S.lineOff,lineAlpha:S.lineAlpha,alt:S.alt,altTime:S.altTime,altBy:S.altBy,canim:JSON.parse(JSON.stringify(S.canim||{})),pal:JSON.parse(JSON.stringify(S.pal||{name:null,rel:{}})),blend:S.blend}}catch(_){hold=null}
+  let hold=null;try{if(typeof autoT!=='undefined'&&autoT&&part!==undefined&&!$('colorPop').hidden)hold={c:palNow(),blendA:S.blendA,blendP:S.blendP,gmix:JSON.parse(JSON.stringify(GMIX())),lineOff:S.lineOff,lineAlpha:S.lineAlpha,alt:S.alt,altTime:S.altTime,altBy:S.altBy,canim:JSON.parse(JSON.stringify(S.canim||{})),pal:JSON.parse(JSON.stringify(S.pal||{name:null,rel:{}})),blend:S.blend}}catch(_){hold=null}
   try{applyLookNow0(p,idx,instant,part)}finally{wxEnd(k)}
-  if(hold){PAL_BUSY=true;try{for(const [s] of PAL_SLOTS)palSet(s,hold.c[s]);if(CM&&CM.la){const la=hold.lineOff?0:hold.lineAlpha;CM.la[0]=la;CM.la[1]=la;CM.la[2]=hold.lineOff;CM.la[3]=hold.lineAlpha}   /* a morph running lands on the held Ink 1 too (review a2f5773 r-1) */
+  if(hold){HELD_SCENE=p;PAL_BUSY=true;try{S.gmix=hold.gmix;S.blendA=hold.blendA;S.blendP=hold.blendP;for(const [s] of PAL_SLOTS)palSet(s,hold.c[s]);if(CM&&CM.la){const la=hold.lineOff?0:hold.lineAlpha;CM.la[0]=la;CM.la[1]=la;CM.la[2]=hold.lineOff;CM.la[3]=hold.lineAlpha}   /* a morph running lands on the held Ink 1 too (review a2f5773 r-1) */
     Object.assign(S,{lineOff:hold.lineOff,lineAlpha:hold.lineAlpha,alt:hold.alt,altTime:hold.altTime,altBy:hold.altBy,canim:hold.canim,pal:hold.pal,blend:hold.blend});syncLine()}finally{PAL_BUSY=false}
     PAL_HELD=(p&&p.name)||'';palUI();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}}}
 let PAL_HELD='';
 function applyLookNow0(p,idx,instant,part){
   if(!(idx>=0)){const c=cleanLook(p);if(!c)return;const g0=p.gen;p=typeof c.gcode==='string'?{...c,gen:()=>c.gcode}:{...c,gen:typeof g0==='function'?()=>String(g0()||''):()=>''}}   // from outside: data only (cleanLook)
-  if(part==='none'){presetIdx=idx;curName=p.name;sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();return}
-  if(part==='pattern'){presetIdx=idx;curName=p.name;window.PAT_SRC=p;sceneWords(p);$('gcode').value=p.gen();sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();
+  if(part==='none'){presetIdx=idx;curName=p.name;HELD_SCENE=p;sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();return}
+  if(part==='pattern'){presetIdx=idx;curName=p.name;HELD_SCENE=p;window.PAT_SRC=p;sceneWords(p);$('gcode').value=p.gen();sceneSound(p,part);try{sceneMaterial(p,part)}catch(_){}syncPresetBtns();syncPlist();
     {const md=idx>=0?morphFor(p):autoMorph();if(!instant&&booted&&md>0.05)WM_PENDING=md*1000}build(!instant&&booted);return}
-  presetIdx=idx;curName=p.name;if(idx>=0&&PRESETS[idx]===p&&window.cxCount)cxCount('look: '+p.name,1);   // built-in scenes only, once a visit
+  presetIdx=idx;curName=p.name;HELD_SCENE=p;if(idx>=0&&PRESETS[idx]===p&&window.cxCount)cxCount('look: '+p.name,1);   // built-in scenes only, once a visit
   const to={...DEFAULTS,...p.p};for(const k of BB_SLIDERS)if(!(p.p&&k in p.p))to[k]=S[k];for(const k of PIC_MOVE)to[k]=S[k];
   const keepMods={};for(const k of PIC_MOVE)if(S.mods[k])keepMods[k]=S.mods[k];const keepMaps=S.maps.filter(m=>PIC_MOVE.includes(m.dst));
   const mdur=idx>=0?morphFor(p):autoMorph(),doMorph=!instant&&booted&&mdur>0.05;
@@ -4652,12 +4730,12 @@ function applyLookNow0(p,idx,instant,part){
   else{MORPH=null;CM=null;PATHA=1;Object.assign(S,to)}   // Cut: everything at once
   S.arrowColor=p.arrow||ARROW_DEFAULT;S.arrowAlpha=p.arrowAlpha||.55;
   baseline={...to};S.mode=p.mode;S.inside=p.inside||'same';S.flags={...p.flags};
-  CFD_SNAP=true;S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;S.altBy=p.altBy==='beat'||p.altBy==='sec'||p.altBy==='bar'?p.altBy:p.user&&p.alt==='time'?'sec':'bar';   /* a look of yours from before 0.34.6 keeps its seconds; the studio's scenes swap on the bar (review b157f85 r-2) */const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;if(!doMorph)applyGround()}syncLine();
+  CFD_SNAP=true;S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;S.altBy=p.altBy==='beat'||p.altBy==='sec'||p.altBy==='bar'?p.altBy:p.user&&p.alt==='time'?'sec':'bar';   /* a look of yours from before 0.34.6 keeps its seconds; the studio's scenes swap on the bar (review b157f85 r-2) */const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;if(!doMorph)applyGround()}S.ground2=p.ground2||null;S.gmix={...GMIX_DEF,...(p.gmix||{})};groundMixDirty();syncLine();
   S.canim=JSON.parse(JSON.stringify(p.canim||{}));S.pathColor=p.pathColor||null;
   /* a scene that points at a palette wears it (its colors over the scene's own); else its own colors and ties */
   {const PP=p.palette&&p.user&&palFind(p.palette);if(PP)palApply(PP,true);   /* only a scene of yours wears a palette by name: a shared link or a Room scene keeps the colors it carries (review ade287a r-3) */
   else S.pal={name:null,rel:p.palRel&&typeof p.palRel==='object'?JSON.parse(JSON.stringify(p.palRel)):{}};palUI()}try{if(!$('colorPop').hidden)renderCM()}catch(_){}
-  S.blend=p.blend||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
+  S.blend=p.blend||'source-over';S.blendA=p.blendA||'source-over';S.blendP=p.blendP||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
   if(doMorph){cmStart(mdur,cmFrom,old);WM_PENDING=mdur*1000}   // colors, alphas, lens, then the field
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
@@ -4904,7 +4982,7 @@ function randRing(){cancelAnimationFrame(randRaf);const g=$('rlTempo');if(!g)ret
 function openRlist(){bsFollow('dice');if(!pinnedUp('plist'))closePlist();try{closeDrawers()}catch(_){}buildRlist();$('rlist').hidden=false;randRing();$('pRand').setAttribute('aria-expanded','true');$('rlClose').focus({preventScroll:true})}
 function closeRlist(){if($('rlist').hidden)return;$('rlist').hidden=true;$('pRand').setAttribute('aria-expanded','false')}
 function snapshot(name){return Object.assign({name,gcode:$('gcode').value,mode:S.mode,inside:S.inside,lensMode:S.lensMode,blur:S.blur,rand:{amt:RAND.amt,keys:{...RAND.keys},shapes:{...RAND.shapes}},p:Object.fromEntries(SLIDERS.map(([k])=>[k,+(+S[k]).toFixed(4)])),
-  blend:S.blend&&S.blend!=='source-over'?S.blend:undefined,flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,altBy:S.altBy,palette:S.pal&&S.pal.name&&!S.pal.edited?S.pal.name:undefined,palRel:S.pal&&S.pal.rel&&Object.keys(S.pal.rel).length?JSON.parse(JSON.stringify(S.pal.rel)):undefined,ground:S.ground,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))},snapExtras())}
+  blend:S.blend&&S.blend!=='source-over'?S.blend:undefined,blendA:S.blendA&&S.blendA!=='source-over'?S.blendA:undefined,blendP:S.blendP&&S.blendP!=='source-over'?S.blendP:undefined,flags:{...S.flags},arrow:S.arrowColor,arrowAlpha:S.arrowAlpha,line:S.line,line2:S.line2,touchColor:S.touchColor||null,magSound:S.magSound||'off',lineAlpha:S.lineAlpha,lineOff:S.lineOff,alt:S.alt,altTime:S.altTime,altBy:S.altBy,palette:S.pal&&S.pal.name&&!S.pal.edited?S.pal.name:undefined,palRel:S.pal&&S.pal.rel&&Object.keys(S.pal.rel).length?JSON.parse(JSON.stringify(S.pal.rel)):undefined,ground:S.ground,ground2:S.ground2||null,gmix:S.ground2?{...GMIX()}:undefined,pathColor:S.pathColor||null,canim:JSON.parse(JSON.stringify(S.canim||{})),mods:JSON.parse(JSON.stringify(S.mods)),maps:JSON.parse(JSON.stringify(S.maps))},snapExtras())}
 /* what a scene says beyond its look (22 Oct): saved with yours, carried by a shared link. Water and its surface as they
    are (false when dry), the sound by name (off when silent; nothing while your own music or the mic plays), the word, the
    sequence while it plays, the dice's tempo while it rolls */
@@ -5753,21 +5831,22 @@ wireTapHold($('pAuto'),{tap:()=>{const v=!autoT;setAuto(v);if(v&&AUD.src==='off'
 /* the stage as seen: through the water surface when it is on (a sharp still redraws it at the new size first) */
 function stageSrc(){if(!RIP||!RIP.enabled())return cv;if(RIP.canvas.width!==cv.width||RIP.canvas.height!==cv.height)RIP.draw();return RIP.canvas}
 function stillCanvas(c){c=c||document.createElement('canvas');if(c.width!==cv.width||c.height!==cv.height){c.width=cv.width;c.height=cv.height}const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);
-  if(!TRANSP||!srcEl()){g.drawImage(stageSrc(),0,0);g.drawImage(ov,0,0);return c}
+  if(!TRANSP||!srcEl()){g.drawImage(stageSrc(),0,0);layersInto(g);return c}
   g.fillStyle=stageBg();g.fillRect(0,0,c.width,c.height);
   const el=srcEl(),r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect(),iw=el.naturalWidth||el.videoWidth,ih=el.naturalHeight||el.videoHeight;
   if(iw&&ih&&el.style.objectFit==='cover'){   /* placed, cropped and panned as shown (review 659cc49d78 r-1: a still, a video, a card saved it uncropped and centred) */
-    g.save();g.scale(DPR,DPR);g.globalAlpha=picShow();if(SRCG==='overlay')g.globalCompositeOperation='overlay';
+    g.save();g.scale(DPR,DPR);g.globalAlpha=picShow();if(SRCG_BLEND(SRCG))g.globalCompositeOperation=SRCG;
     const B=bgfEff(),sc=Math.max(W/iw,H/ih),dw=iw*sc,dh=ih*sc;g.translate(W/2+B.x*W,H/2+B.y*H);g.rotate(B.r*Math.PI/180);g.scale(B.s,B.s);
     if(bgL.classList.contains('mirror')&&el===bgVid)g.scale(-1,1);
     if(BGF.cl||BGF.ct||BGF.cr||BGF.cb){g.beginPath();g.rect(-W/2+BGF.cl*W,-H/2+BGF.ct*H,W*(1-BGF.cl-BGF.cr),H*(1-BGF.ct-BGF.cb));g.clip()}
     try{g.drawImage(el,-W/2+(W-dw)*BGF.ox,-H/2+(H-dh)*BGF.oy,dw,dh)}catch(_){}g.restore()}
-  else if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG==='overlay')g.globalCompositeOperation='overlay';let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
+  else if(iw&&ih){g.save();g.scale(DPR,DPR);g.globalAlpha=SRC.show;if(SRCG_BLEND(SRCG))g.globalCompositeOperation=SRCG;let x=r.left-sr.left,y=r.top-sr.top,w=r.width,h=r.height;
     g.beginPath();g.rect(x,y,w,h);g.clip();
     if(el.style.objectFit==='cover'){const k=Math.max(w/iw,h/ih);const dw=iw*k,dh=ih*k;x+=(w-dw)/2;y+=(h-dh)/2;w=dw;h=dh}
     if(bgL.classList.contains('mirror')&&el===bgVid){g.translate(2*x+w,0);g.scale(-1,1)}
     try{g.drawImage(el,x,y,w,h)}catch(_){}g.restore()}
-  g.drawImage(stageSrc(),0,0);g.drawImage(ov,0,0);return c}
+  g.drawImage(stageSrc(),0,0);layersInto(g);return c}
+function layersInto(g){g.save();g.globalCompositeOperation=layerOp(S.blendP);g.drawImage(ovP,0,0);g.globalCompositeOperation=layerOp(S.blendA);g.drawImage(ov,0,0);g.restore()}
 /* ---- QR encoder (byte mode, level M, versions 1–6), from _____ American _____ ---- */
 var QR_EXP=[], QR_LOG=[];
 (function(){ var x=1,i;
@@ -6886,7 +6965,7 @@ function denseCap(){const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navig
   return ios?16.7e6:mem>=8||(!mem&&matchMedia('(pointer:fine)').matches)?48e6:24e6}
 const densFor=need=>Math.max(DPR,Math.min(need,4,Math.sqrt(denseCap()/(W*H))));
 function cardDPR(){let need=DPR;for(const [sz,,cw,ch] of CARD_SIZES){const fr=CARD_FRAME[sz]||{};for(const st in fr)need=Math.max(need,Math.max(cw/W,ch/H)*fr[st][0])}return densFor(need)}
-function setDPR(d){DPR=d;cv.width=Math.round(W*d);cv.height=Math.round(H*d);tctx.setTransform(d,0,0,d,0,0);ov.width=cv.width;ov.height=cv.height;octx.setTransform(d,0,0,d,0,0);fg.width=cv.width;fg.height=cv.height;fctx.setTransform(d,0,0,d,0,0);clearTrails()}
+function setDPR(d){DPR=d;cv.width=Math.round(W*d);cv.height=Math.round(H*d);tctx.setTransform(d,0,0,d,0,0);ov.width=cv.width;ov.height=cv.height;octx.setTransform(d,0,0,d,0,0);ovP.width=cv.width;ovP.height=cv.height;opctx.setTransform(d,0,0,d,0,0);fg.width=cv.width;fg.height=cv.height;fctx.setTransform(d,0,0,d,0,0);clearTrails()}
 const waitFrames=(n,ms)=>new Promise(res=>{const t0=performance.now();let k=0;const f=()=>{if(++k>=n||performance.now()-t0>ms)res();else requestAnimationFrame(f)};requestAnimationFrame(f)});
 async function sharpLook(){const was=DPR,d=cardDPR();
   if(S.paused||!field||d<=was*1.05){const c=stillCanvas(document.createElement('canvas'));await freezeArrows();return c}
@@ -8907,14 +8986,15 @@ window.SurfaceInfo=window.SurfaceInfo||{mount(btn,drawer,tabsList){const tx=draw
 window.MIX_INFO=SurfaceInfo.mount($('mixInfoBtn'),$('mixInfo'),$('mixTabs'));
 window.CM_INFO=SurfaceInfo.mount($('cmInfoBtn'),$('cmInfo'),$('cmTabs'));   /* the Color panel's How it works (28 Oct 14:30) */
 /* WHAT EACH SWITCH TURNS ON OR OFF, said on the switch and in How it works */
-const CM_OFF_SAY={line:'Off hides what the particles draw; the field keeps moving',second:'Off: the particles draw in one ink; on: a second ink shares them (Ink mix)',touch:'Off: your finger paints no color of its own',arrows:'Off hides the arrows that show the field',toolpath:'Off hides the pattern, the G-code\'s own drawing'};
-const CM_PANE={sticker:'cmSticker',line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround',arrows:'cmArrows',toolpath:'cmToolpath'};
+const CM_OFF_SAY={ground2:'Off: one ground; on: Ground 1 and Ground 2 make a gradient, or take turns on the tempo',line:'Off hides what the particles draw; the field keeps moving',second:'Off: the particles draw in one ink; on: a second ink shares them (Ink mix)',touch:'Off: your finger paints no color of its own',arrows:'Off hides the arrows that show the field',toolpath:'Off hides the pattern, the G-code\'s own drawing'};
+const CM_PANE={sticker:'cmSticker',line:'cmLine',second:'cmSecond',touch:'cmTouch',ground:'cmGround',ground2:'cmGround2',arrows:'cmArrows',toolpath:'cmToolpath'};
 const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3 10c3-5 5-5 8 0s5 5 10-1"/><path d="M3 17c3-5 5-5 8 0s5 5 10-1" opacity=".55"/>',
-  touch:'<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7.5" opacity=".5"/>',ground:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 15l5-4 4 3 3-2 4 3" opacity=".6"/>',
+  touch:'<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7.5" opacity=".5"/>',ground:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 15l5-4 4 3 3-2 4 3" opacity=".6"/>',ground2:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 20 20 4" opacity=".6"/>',
   arrows:'<path d="M4 18 18 6M11 6h7v7"/>',toolpath:'<path d="M4 19V9h6v6h5V5h5"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/>'};
 /* THE MIX TAB (Dimitry, 19 Oct: how the two colors alternate got lost in the shelf): its own tab, after Second */
 const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const t={id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}};
   return [t]})),'current.cmTab',{heads:true,head:t=>'Color · '+t.name});   /* COLOR · GROUND (Dimitry, 28 Oct 14:30: "it doesn't actually say color in the top left ... first of all for it to say color and then what element is being colored"); Lines and Second became Ink 1 and Ink 2, Mix Ink mix (his pick, 28 Oct 16:42: particles draw lines or dots, and a material borrows them) */
+{const sec=$('cmGround2'),mx=$('cmGMix');if(sec&&mx){const sync=()=>{mx.hidden=sec.hidden;if(!sec.hidden){setTimeout(()=>{sec.appendChild(mx);try{renderGMix()}catch(_){}},0)}};try{new MutationObserver(sync).observe(sec,{attributes:true,attributeFilter:['hidden']})}catch(_){}sync()}}
 /* INK MIX IS PART OF INK 2 (Dimitry, 28 Oct 18:59: "Mix Ink Panel should be part of Main"): it shows under Ink 2's editor whenever Ink 2 does */
 {const sec=$('cmSecond'),mx=$('cmMix');if(sec&&mx){const sync=()=>{mx.hidden=sec.hidden;if(!sec.hidden){setTimeout(()=>{sec.appendChild(mx);try{renderMixTab()}catch(_){}},0)}};try{new MutationObserver(sync).observe(sec,{attributes:true,attributeFilter:['hidden']})}catch(_){}sync()}}
 /* THE STRIP (palettes, 28 Oct): the palette's name and its slots in order, Ink 1 · Ink 2 · mix · Touch · Ground · Arrows ·
@@ -8922,25 +9002,25 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
    studio's and yours, each a little strip; a tap wears it. */
 {const host=$('cmPal');let listOpen=false,toolsOpen=false,base=null,adj={h:0,c:100,l:0},delArm=0,adjHeld=false;
   host.addEventListener('pointerdown',e=>{if(e.target.closest('.cpAdj'))adjHeld=true},true);addEventListener('pointerup',()=>{adjHeld=false},true);addEventListener('pointercancel',()=>{adjHeld=false},true);   /* held by a finger: iOS has no :active here (review 4a0dbfa r-1) */const esc=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
-  const SW=(k)=>{const v=palNow()[k];return k==='second'&&!v?null:palHex(k,v)};
+  const SW=(k)=>{const v=palNow()[k];if((k==='second'||k==='ground2')&&!v)return null;if((k==='line'||k==='arrows'||k==='toolpath')&&CG[k]&&!CG[k].on())return null;return palHex(k,v||(k==='toolpath'?CG.toolpath.get():v))};   /* an off slot reads off, so its × goes (review 4cf14ab r-1) */
   let lastSig='',edRen=false;
   window.PAL_PAINT=()=>{if(!host)return;   /* never rebuilt under a finger (review a2f5773 r-2) */const cur=CM_TABS.current(),P=S.pal||{},rel=P.rel||{};
     /* rebuilt only when what it shows changes; otherwise the swatches take their colors in place, so a tap never lands on a strip being rebuilt (review ade287a r-4) */
-    const sig=JSON.stringify([edRen,cur,P.name,!!P.edited,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
+    const sig=JSON.stringify([edRen,cur,P.name,!!P.edited,!!S.ground2,GMIX().m,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
     {const bn=host.querySelector('.cpBotN');if(bn&&bn.textContent!==(curName||''))bn.textContent=curName||''}   /* the scene's name changes in place: a rebuild restarted the robot's animation (Dimitry, 28 Oct 21:47: "robot anim is broken") */
-    if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle(k==='second'?'none':'off',!col)});return}
+    if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix'||k==='gmix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle(k==='second'||k==='ground2'?'none':'off',!col)});return}
     if((adjHeld||(edRen&&document.activeElement&&document.activeElement.classList&&document.activeElement.classList.contains('cpRnIn')&&host.contains(document.activeElement)))&&lastSig)return;   /* nor while a name is being typed (r-5) */   /* the full rebuild waits while a finger is on an Adjust slider; the swatches above still recolor in place (reviews 4a0dbfa r-1, 6fc54c2 r-1, r-2) */
     const fk=document.activeElement&&host.contains(document.activeElement)&&document.activeElement.dataset?document.activeElement.dataset.k:null;   /* a focused Adjust slider gets its focus back after a rebuild (review 15f75a6 r-1) */
     lastSig=sig;delArm=0;   /* a rebuilt strip is never armed to delete (r-2) */
     const nm=P.name?(P.name+(P.edited?' · edited':'')):'this scene’s own';
-    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>'+(P.name?'<button type="button" class="cpRen" aria-label="Rename this palette" title="Rename"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>':'')+(autoT?'<span class="cpBot" role="status" title="The robot is changing scenes; while this panel is open your colors stay"><span class="apGo robo on cpRobo">'+'<svg viewBox="0 0 24 24" aria-hidden="true">'+((($('pAutoGo')||{}).outerHTML||'').replace(/ id="[^"]*"/g,''))+'</svg>'+'</span><span class="cpBotN">'+esc(curName||'')+'</span></span>':'')+'<button type="button" class="tb cpSave cpIc" aria-label="Save these colors as a palette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="cpSvL">save palette</span></button></div>';
+    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>'+(P.name?'<button type="button" class="cpRen" aria-label="Rename this palette" title="Rename"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>':'')+(autoT?'<span class="cpBot" role="status" title="The robot is changing scenes; while this panel is open your colors stay"><span class="apGo robo on cpRobo">'+'<svg viewBox="0 0 24 24" aria-hidden="true">'+((($('pAutoGo')||{}).outerHTML||'').replace(/ id="[^"]*"/g,''))+'</svg>'+'</span><button type="button" class="cpWear" aria-label="Wear this scene\u2019s colors" title="wear this scene’s colors"><span class="cpBotN">'+esc(curName||'')+'</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></button></span>':'')+'<button type="button" class="tb cpSave cpIc" aria-label="Save these colors as a palette" title="save palette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="cpSvL">save palette</span></button></div>';
     const TI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';   /* icons on every tool (Dimitry, 28 Oct 21:19) */
     h+='<div class="cpTools" role="toolbar" aria-label="Palette tools"><button type="button" class="tb cpT cpIc" data-a="shuffle" title="Shuffle the colors among the slots">'+TI('<path d="M4 7h3.5c4 0 5 10 9 10H20M4 17h3.5c1.6 0 2.7-1.6 3.6-3.5M20 7h-3.5c-1.6 0-2.7 1.6-3.6 3.5M17.5 4.5 20 7l-2.5 2.5M17.5 14.5 20 17l-2.5 2.5"/>')+'shuffle</button><button type="button" class="tb cpT cpIc" data-a="adjust" aria-expanded="'+toolsOpen+'" title="Hue, saturation and lightness for the whole palette">'+TI('<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2" class="f"/><circle cx="15" cy="12" r="2" class="f"/><circle cx="8" cy="17" r="2" class="f"/>')+'adjust</button><button type="button" class="tb cpT cpIc" data-a="dup" title="A copy of this palette, as one of yours, numbered">'+TI('<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>')+'duplicate</button>'+(P.name&&!(palFind(P.name)||{}).builtin?'<button type="button" class="tb cpT cpIc" data-a="del" title="Delete this palette of yours">'+TI('<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>')+'<span>delete</span></button>':'')+'</div>';
     if(toolsOpen)h+='<div class="cpAdj">'+[['h','hue','-180','180','1'],['c','saturation','0','200','1'],['l','lightness','-40','40','1']].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" value="'+adj[k]+'" aria-label="Whole palette '+n+'"><output>'+(k==='c'?adj[k]+'%':adj[k])+'</output></label>').join('')+'</div>';
     if(!autoT)PAL_HELD='';
     h+='<div class="cpStrip" role="toolbar" aria-label="The palette\u2019s colors">';
-    const chip=(id,lab,col,tied)=>'<button type="button" class="cpS" data-t="'+id+'" aria-pressed="'+(cur===id)+'" aria-label="'+lab+(tied?', follows '+tied:'')+(col?'':', off')+'"><i style="'+(col?'background:'+col:'')+'"'+(col?'':' class="'+(id==='second'?'none':'off')+'"')+'></i><span>'+lab+'</span>'+(tied?'<em aria-hidden="true">↔</em>':'')+'</button>';
-    for(const [k,n] of PAL_SLOTS){const r=rel[k];if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-label="Ink mix: how the two inks share the particles, now by '+({grain:'grain',time:'tempo',motion:'speed'}[S.alt]||S.alt)+'"><i>'+ICO(MIXI[S.alt]||MIXI.grain)+'</i><span>mix</span></button>';h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
+    const chip=(id,lab,col,tied)=>'<span class="cpSW"><button type="button" class="cpS" data-t="'+id+'" aria-pressed="'+(cur===id)+'" aria-label="'+lab+(tied?', follows '+tied:'')+(col?'':', off')+'"><i style="'+(col?'background:'+col:'')+'"'+(col?'':' class="'+(id==='second'||id==='ground2'?'none':'off')+'"')+'></i><span>'+({'Ground 1':'Bg 1','Ground 2':'Bg 2'}[lab]||lab)+'</span>'+(tied?'<em aria-hidden="true">↔</em>':'')+'</button>'+(cur===id&&col&&CG[id]&&CG[id].off&&CG[id].on()?'<button type="button" class="cpX" data-x="'+id+'" aria-label="Clear '+lab+'" title="clear '+lab+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></button>':'')+'</span>';   /* the chosen color can be cleared: an × on its top right (Dimitry, 28 Oct 22:10: "i still don't see how to clear ... an x in top right ... when selected") */
+    for(const [k,n] of PAL_SLOTS){const r=rel[k];if(k==='second')h+='<button type="button" class="cpS cpMix" data-t="mix" aria-label="Ink mix: how the two inks share the particles, now by '+({grain:'grain',time:'tempo',motion:'speed'}[S.alt]||S.alt)+'"><i>'+ICO(MIXI[S.alt]||MIXI.grain)+'</i><span>mix</span></button>';if(k==='ground2')h+='<button type="button" class="cpS cpMix" data-t="gmix" aria-label="Ground mix: how the two grounds meet, now '+(S.ground2?(GMIX().m==='turns'?'taking turns':'a gradient'):'one ground')+'"><i>'+ICO(GMIX().m==='turns'?'<path d="M4 12h5M15 12h5M9 8l3 4-3 4M15 8l-3 4 3 4"/>':'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 20 20 4" opacity=".6"/>')+'</i><span>mix</span></button>';h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
     h+='</div>';
     if(listOpen){h+='<div class="cpList" role="list">';for(const Q of palAll()){h+='<div class="cpRow" role="listitem"><button type="button" class="cpUse" data-n="'+esc(Q.name)+'" aria-pressed="'+(P.name===Q.name)+'"><span class="cpMini">'+PAL_SLOTS.map(([k])=>{const v=Q.colors[k];return '<i style="background:'+(v?palHex(k,v):'transparent')+'"></i>'}).join('')+'</span><span class="cpN">'+esc(Q.name)+(Q.builtin?'':' <small>yours</small>')+'</span></button>'+(Q.builtin?'':'<button type="button" class="cpDel" data-n="'+esc(Q.name)+'" aria-label="Delete the palette '+esc(Q.name)+'">×</button>')+'</div>'}h+='</div>'}
     if(edRen&&P.name)h=h.replace(/<div class="cpTop">[\s\S]*?<\/button>(?=<button type="button" class="cpRen")/,'<div class="cpTop"><input class="clRn cpRnIn" type="text" maxlength="40" value="'+esc(P.name)+'" aria-label="New name for '+esc(P.name)+'">');
@@ -8948,6 +9028,8 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
     {const rb=host.querySelector('.cpRen'),ri=host.querySelector('.cpRnIn');if(rb)rb.onclick=()=>{if(ri){const v=ri.value;edRen=false;palRename(P.name,v);PAL_PAINT();return}edRen=true;PAL_PAINT();const i=host.querySelector('.cpRnIn');if(i){i.focus();i.select()}};
       if(ri)ri.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();edRen=false;palRename(P.name,ri.value);PAL_PAINT()}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();edRen=false;PAL_PAINT()}}}
     if(fk){const n=host.querySelector('.cpAdj input[data-k="'+fk+'"]');if(n)n.focus({preventScroll:true})}
+    {const w=host.querySelector('.cpWear');if(w)w.onclick=()=>wearScene(HELD_SCENE)}
+    host.querySelectorAll('.cpX').forEach(x=>x.onclick=e=>{e.stopPropagation();const k=x.dataset.x,G=CG[k];if(!G||!G.off)return;G.off();try{palTouchedNoFree(k)}catch(_){}clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}toast((PAL_SLOTS.find(q=>q[0]===k)||[,k])[1]+' cleared');PAL_PAINT()});
     if(host.querySelector('.cpName'))host.querySelector('.cpName').onclick=()=>{listOpen=!listOpen;PAL_PAINT()};
     const after=()=>{for(const [k] of PAL_SLOTS)palFollow(k);palTouchedNoFree('line');clearTrails();try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}};
     host.querySelectorAll('.cpT').forEach(b=>b.onclick=()=>{const a=b.dataset.a,now=palNow();
@@ -8961,7 +9043,7 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
       host.querySelectorAll('.cpAdj output').forEach((o,i)=>{const x=host.querySelectorAll('.cpAdj input')[i];o.textContent=x.dataset.k==='c'?x.value+'%':x.value});
       PAL_BUSY=true;try{for(const [k] of PAL_SLOTS){const c=base[k];if(!c)continue;const hx=palHex(k,c);if(!hx||!/^#/.test(hx))continue;const [L,C,H]=OKC.lch(hx);palSet(k,OKC.hex([Math.max(0,Math.min(1,L+v.l/100)),Math.max(0,Math.min(.37,C*v.c/100)),H+v.h]))}}finally{PAL_BUSY=false}after()});
     host.querySelector('.cpSave').onclick=()=>{const own=P.name&&!(palFind(P.name)||{}).builtin?P.name:'';palSave(own||palNextName(curName||'My palette'));};
-    host.querySelectorAll('.cpS').forEach(b=>b.onclick=()=>{if(b.dataset.t==='mix'){CM_TABS.show('second');setTimeout(()=>{const m=$('cmMix');if(m)m.scrollIntoView({block:'start',behavior:'smooth'})},60)}else CM_TABS.show(b.dataset.t);PAL_PAINT()});
+    host.querySelectorAll('.cpS').forEach(b=>b.onclick=()=>{if(b.dataset.t==='mix'||b.dataset.t==='gmix'){const gm=b.dataset.t==='gmix';CM_TABS.show(gm?'ground2':'second');setTimeout(()=>{const m=$(gm?'cmGMix':'cmMix');if(m)m.scrollIntoView({block:'start',behavior:'smooth'})},60)}else CM_TABS.show(b.dataset.t);PAL_PAINT()});
     host.querySelectorAll('.cpUse').forEach(b=>b.onclick=()=>{const Q=palFind(b.dataset.n);if(Q){palApply(Q);listOpen=false;base=toolsOpen?palNow():null;adj={h:0,c:100,l:0};try{for(const g of CG_ORDER){const pn=$(CM_PANE[g]);if(pn&&pn._cm)pn._cm.update()}}catch(_){}PAL_PAINT()}});
     host.querySelectorAll('.cpDel').forEach(b=>b.onclick=()=>{const L=palMine(),i=L.findIndex(x=>x.name===b.dataset.n);if(i>=0){L.splice(i,1);try{persist()}catch(_){}if(S.pal&&S.pal.name===b.dataset.n)S.pal.name=null;toast('palette removed · '+b.dataset.n)}PAL_PAINT()})};
   $('cmTabs').addEventListener('sftab',()=>PAL_PAINT());
@@ -8969,10 +9051,10 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
      (Swatches, Related, Recent, my colors) dropped on a slot of the strip gives it that color; a slot dropped on another
      swaps the two. A tap is still a tap: the drag starts only after the finger moves. */
   {const pop=$('colorPop');let D=null;
-    const slotAt=(x,y)=>{const e=document.elementFromPoint(x,y);const t=e&&e.closest&&e.closest('#cmPal .cpS[data-t]');return t&&t.dataset.t!=='mix'?t:null};
+    const slotAt=(x,y)=>{const e=document.elementFromPoint(x,y);const t=e&&e.closest&&e.closest('#cmPal .cpS[data-t]');return t&&t.dataset.t!=='mix'&&t.dataset.t!=='gmix'?t:null};
     const end=()=>{if(!D)return;try{D.src.classList.remove('cpLift')}catch(_){}if(D.ghost)D.ghost.remove();if(D.over)D.over.classList.remove('cpDrop');pop.classList.remove('cpDragging');D=null};
     pop.addEventListener('pointerdown',e=>{if(e.button)return;const chip=e.target.closest('.cmSw button[data-c]'),slot=e.target.closest('#cmPal .cpS[data-t]');
-      let col=null,from=null;if(chip)col=chip.dataset.c;else if(slot&&slot.dataset.t!=='mix'){from=slot.dataset.t;col=SW(from)}
+      let col=null,from=null;if(chip)col=chip.dataset.c;else if(slot&&slot.dataset.t!=='mix'&&slot.dataset.t!=='gmix'){from=slot.dataset.t;col=SW(from)}
       if(!col)return;const touch=e.pointerType!=='mouse';D={x:e.clientX,y:e.clientY,col,from,id:e.pointerId,on:false,src:chip||slot,touch,armed:!touch,t0:performance.now()};
       /* a finger holds still for a moment to pick the color up; a swipe before that scrolls as ever (review 231ceac r-1) */
       if(touch){const d=D;setTimeout(()=>{if(D===d&&!d.gone){d.armed=true;d.src.classList.add('cpLift');try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}},260)}},true);
@@ -9001,7 +9083,7 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
       let L=all.map((p,i)=>({p,i})).filter(({p})=>(who==='all'||(who==='mine'?!p.builtin:p.builtin))&&(!q||p.name.toLowerCase().includes(q.toLowerCase())));
       if(sort==='az')L.sort((a,b)=>a.p.name.localeCompare(b.p.name,undefined,{numeric:true}));else L.sort((a,b)=>(b.p.t||0)-(a.p.t||0)||a.i-b.i);
       const seg=(k,v,opts)=>'<div class="cmSeg" role="radiogroup" aria-label="'+k+'">'+opts.map(([id,n])=>'<button type="button" role="radio" data-'+k+'="'+id+'" aria-checked="'+(v===id)+'">'+n+'</button>').join('')+'</div>';
-      let h='<div class="clTop"><input type="search" class="clQ" placeholder="find a palette" aria-label="Find a palette" value="'+esc(q)+'"></div><div class="clBar">'+seg('who',who,[['all','all'],['mine','yours'],['studio','studio']])+seg('sort',sort,[['az','A–Z'],['new','newest']])+'</div>';
+      let h='<p class="sfPaneH cmLibH">Color · Palettes</p><div class="clTop"><input type="search" class="clQ" placeholder="find a palette" aria-label="Find a palette" value="'+esc(q)+'"></div><div class="clBar">'+seg('who',who,[['all','all'],['mine','yours'],['studio','studio']])+seg('sort',sort,[['az','A–Z'],['new','newest']])+'</div>';
       h+='<div class="clList" role="list">';
       if(!L.length)h+='<p class="cmNote">'+(who==='mine'&&!q?'None of yours yet. Save palette in the editor keeps the colors you have.':'Nothing called that.')+'</p>';
       for(const {p} of L){const mine=!p.builtin;h+='<div class="cpRow" role="listitem">';
@@ -9018,6 +9100,26 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
       lib.querySelectorAll('.clDel').forEach(b=>b.onclick=()=>{const n=b.dataset.n;if(libDel.n!==n||performance.now()-libDel.t>2500){libDel={n,t:performance.now()};PAL_LIB(true);setTimeout(()=>PAL_LIB(true),2600);return}libDel={n:'',t:0};const M=palMine(),i=M.findIndex(x=>x.name===n);if(i>=0){M.splice(i,1);try{persist()}catch(_){}if(S.pal&&S.pal.name===n)S.pal.name=null;toast('palette deleted · '+n)}palUI()})};
     let v0='ed';try{v0=localStorage.getItem('current.cmView')==='lib'?'lib':'ed'}catch(_){}view(v0)}
   setInterval(()=>{if(!$('colorPop').hidden)PAL_PAINT()},1000)}   // the swatches follow the scene as it plays
+/* GROUND MIX: how Ground 1 and Ground 2 meet. Gradient (direction, softness) or Turns (on the tempo; softness is the
+   crossfade). Both rows always show, the one not in use greyed, so a choice never changes the panel's height. */
+function renderGMix(){const pane=$('cmGMix');if(!pane)return;pane.innerHTML='';const M=GMIX(),on=!!S.ground2;
+  const el=(tag,cls,html,par)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(par||pane).appendChild(e);return e};
+  const re=()=>{groundMixDirty();clearTrails();renderGMix();try{PAL_PAINT()}catch(_){}};
+  const head=el('div','cmHead');[['Ground 1',groundHex()||'#050708'],['Ground 2',on?S.ground2:null]].forEach(([n,c])=>{const b=el('span','cmBig',null,head);b.style.background=c||'transparent';if(!c){b.classList.add('cmNone');b.setAttribute('aria-label',n+': none')}b.title=n});
+  el('span','cmHex',on?'two grounds':'one ground',head);
+  if(!on){el('p','cmNote','The ground is one color. Add a second and choose how the two meet: a gradient, or taking turns on the tempo.');const b=el('button','bgGo','add a second ground');b.type='button';
+    b.onclick=()=>{const [L,C,H]=OKC.lch(groundHex()||'#050708');CG.ground2.set(OKC.hex([L<.5?Math.min(.95,L+.22):Math.max(.05,L-.22),Math.max(C,.04),H+30]));try{const pn=$('cmGround2');if(pn&&pn._cm)pn._cm.update()}catch(_){}re()};return}
+  el('p','cmL','mix');const how=el('div','cmSeg');how.setAttribute('role','radiogroup');how.setAttribute('aria-label','How the two grounds meet');
+  [['grad','gradient','Gradient: Ground 1 runs into Ground 2'],['turns','turns','Turns: the two grounds take turns, on the tempo']].forEach(([k,t,al])=>{const b=el('button',null,t,how);b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(M.m===k));b.title=al;b.setAttribute('aria-label',al);b.onclick=()=>{GMIX().m=k;re()}});
+  el('p','cmL','direction');const dir=el('div','cmSeg cmGDir'+(M.m==='grad'?'':' off'));dir.setAttribute('role','radiogroup');dir.setAttribute('aria-label','Gradient direction');
+  for(const [k,g,al] of GDIRS){const b=el('button',null,g,dir);b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(M.d===k));b.title=al;b.setAttribute('aria-label','Gradient '+al);b.disabled=M.m!=='grad';b.onclick=()=>{GMIX().d=k;re()}}
+  el('p','cmL','every');const per=el('div','cmSeg'+(M.m==='turns'?'':' off'));per.setAttribute('role','radiogroup');per.setAttribute('aria-label','The grounds take turns every');
+  const PL=CANIM_PER.pulse,pi=Math.max(0,Math.min(3,Math.round((M.sp==null?.667:M.sp)*3)));PL.forEach(([,t],i)=>{const b=el('button',null,t,per);b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(i===pi));b.disabled=M.m!=='turns';b.onclick=()=>{GMIX().sp=+(i/3).toFixed(3);re()}});
+  const sw=el('label','cmEdR cmGSoft','<span>softness</span><input type="range" min="0" max="100" step="1"><output></output>'),r=sw.querySelector('input'),o=sw.querySelector('output');r.value=Math.round(M.soft*100);o.textContent=r.value+'%';
+  r.style.setProperty('--g','linear-gradient(to right,'+(groundHex()||'#050708')+' 0 50%,'+S.ground2+' 50% 100%)');r.setAttribute('aria-label','Softness: how gently the two grounds meet');
+  r.oninput=()=>{const M=GMIX();M.soft=+r.value/100;o.textContent=r.value+'%';const k=M.soft;r.style.setProperty('--g','linear-gradient(to right,'+(groundHex()||'#050708')+' '+(50-k*50)+'%,'+S.ground2+' '+(50+k*50)+'%)');groundMixDirty();clearTrails()};
+  {const k=M.soft;r.style.setProperty('--g','linear-gradient(to right,'+(groundHex()||'#050708')+' '+(50-k*50)+'%,'+S.ground2+' '+(50+k*50)+'%)')}
+  const x=el('button','tb','one ground');x.type='button';x.onclick=()=>{CG.ground2.off();try{const pn=$('cmGround2');if(pn&&pn._cm)pn._cm.update()}catch(_){}re()}}
 function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
   const re=()=>{renderMixTab();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
   const pair=el('div','cmHead');[['Ink 1',S.lineOff?null:S.line],['Ink 2',S.line2]].forEach(([n,c])=>{const b=document.createElement('span');b.className='cmBig';b.style.background=c||'transparent';if(!c){b.classList.add('cmNone');b.setAttribute('aria-label',n+': none')}b.title=n;pair.appendChild(b)});
@@ -9085,7 +9187,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   const nat=mk('input','cmNatIn',null,big);nat.type='color';nat.setAttribute('aria-label',G.name+': the color wheel');
   const tg=mk('span','cmTg',null,top);
   let autoB=null,offB=null;
-  if(G.auto){autoB=mk('button','tb',null,tg);autoB.type='button';autoB.innerHTML='<i aria-hidden="true"></i>auto';autoB.setAttribute('role','switch');autoB.setAttribute('aria-label','Ground auto: always contrasts with the lines');
+  if(G.auto){autoB=mk('button','tb cmAutoW',null,tg);autoB.type='button';autoB.innerHTML='<i aria-hidden="true"></i>auto';autoB.setAttribute('role','switch');autoB.setAttribute('aria-label','Ground auto: always contrasts with the lines');autoB.title='Auto: the ground keeps in contrast with the lines';
     autoB.onclick=()=>{if(S.ground==='auto'){S.ground='dark';applyGround();syncLine()}else G.auto();done()}}
   if(G.off){offB=mk('button','tb',null,tg);offB.type='button';offB.onclick=()=>{if(G.on())G.off();else{const r=g!=='sticker'&&(S.pal&&S.pal.rel||{})[g];
       if(r){PAL_BUSY=true;try{G.set(G.get())}finally{PAL_BUSY=false}PAL_ON=g;try{palFollow(r.of)}finally{PAL_ON=null}palTouchedNoFree(g)}else G.set(G.get())}done()}}   /* on again, a tied slot keeps its tie and takes its tie's color (review 5306f3e r-2) */
@@ -9098,6 +9200,11 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     relSel.onchange=()=>{const R=S.pal.rel;if(!relSel.value){delete R[g]}else{const [of,op]=relSel.value.split('|');R[g]={of,op:op||'comp'};palFollow(of)}palTouchedNoFree(g);update()}}
   const rs=[['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>{const l=mk('label','cmEdR','<span>'+n+'</span><input type="range" min="'+a+'" max="'+b+'" step="'+st+'"><output></output>',pick),r=l.querySelector('input');r.dataset.k=k;r.setAttribute('aria-label',G.name+' '+n);return r});
   const saveRow=mk('div','cmEdRow',null,pick),save=mk('button','tb cmEdSave',null,saveRow);save.type='button';
+  /* HIS LAYOUT (Dimitry, 28 Oct 21:55): the swatch on the left; beside it one row of # hex | on/off | follows | save, and
+     under that row lightness, chroma, hue. The chips, then Animation, come after as their own groups. */
+  {const RC=document.createElement('div');RC.className='cmRC';const R1=document.createElement('div');R1.className='cmR1';
+    R1.appendChild(hexL);const fw=top.querySelector('.cmRelTop');R1.appendChild(tg);if(fw)R1.appendChild(fw);RC.appendChild(R1);{const bw=document.createElement('span');bw.className='cmBigW';top.insertBefore(bw,big);bw.appendChild(big);bw.appendChild(save)}   /* save is a plus on the big circle (Dimitry, 28 Oct 21:58) */
+    for(const r of rs)RC.appendChild(r.closest('label'));top.appendChild(RC);saveRow.remove()}
   let st=null;   // the picker's own L C H, so a grey keeps its hue while you drag
   const lch=c=>{const v=OKC.lch(c);v[2]=((v[2]%360)+360)%360;if(v[1]<.002&&st)v[2]=st[2];return v};
   const setC=(c,ev)=>{G.set(c);if(ev)stkDid(ev);CM_ED=g;update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
@@ -9122,7 +9229,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   row('Recent',()=>{let rec=[];try{rec=JSON.parse(localStorage.getItem('current.colors'))||[]}catch(_){}return rec.slice(0,10).map(c=>['Recent',c])},null,'across');
   {const R=row('My colors',()=>cmMine().map(c=>['Mine',c]),null,'across');R.hideEmpty=true}
   let note=null,noteT=null;if(false){note=mk('p','cmNote',null,side);noteT=document.createElement('span');note.appendChild(noteT);const a=document.createElement('button');a.type='button';a.className='tb';a.textContent='mix';a.setAttribute('aria-label','How the two colors alternate: the Mix tab');a.onclick=()=>CM_TABS.show('mix');note.appendChild(a)}
-  let sgB=[];if(g==='ground'){const w=mk('div','cmRow',null,side);mk('p','cmL','With a camera, video or picture',w);const sg=mk('div','cmSeg',null,w);sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
+  let sgB=[];if(g==='ground'){const w=mk('div','cmRow',null,side);mk('p','cmL','Blend · with a camera, video or picture',w);const sg=mk('div','cmSeg',null,w);sg.setAttribute('role','group');sg.setAttribute('aria-label','The ground under a camera, video or picture');
     sgB=SRC_GROUND.map(([k,t,al])=>{const b=mk('button',null,null,sg);b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.dataset.k=k;b.onclick=()=>setSrcGround(k);return b})}
   /* the animation, one row: mode, then speed (greyed in place when off, Dimitry 22 Oct 23:33) */
   mk('span','cmL',null,anim).textContent='Animation';
@@ -9135,9 +9242,10 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   /* BLEND, a Pro preview (Dimitry 00:08): the real controls, inert without a key; ONE lock-and-bolt framing the whole
      section, and one line to join. With a key they work: how the lines lay onto what is already drawn
      (canvas globalCompositeOperation, kept with the scene). */
-  mk('span','cmL',null,blend).textContent='Blend';blend.insertAdjacentHTML('beforeend',PRO_MARK);
+  const BK=g==='arrows'?'blendA':g==='toolpath'?'blendP':'blend';if(g==='ground'||g==='ground2'||g==='sticker')blend.hidden=true;   /* the grounds blend only with a picture: their row is above */
+  mk('span','cmL',null,blend).textContent='Blend · '+(BK==='blendA'?'arrows':BK==='blendP'?'pattern':'inks and touch');blend.insertAdjacentHTML('beforeend',PRO_MARK);
   const bseg=mk('div','cmSeg',null,blend);bseg.setAttribute('role','group');bseg.setAttribute('aria-label','Blend: how the lines lay onto what is drawn');
-  const blendB=CM_BLENDS.map(([k,t])=>{const b=mk('button',null,null,bseg);b.type='button';b.textContent=t;b.dataset.k=k;b.onclick=()=>{if(!isPro('blend')){try{openBetaSheet()}catch(_){}return}S.blend=k;clearTrails();update()};return b});
+  const blendB=CM_BLENDS.map(([k,t])=>{const b=mk('button',null,null,bseg);b.type='button';b.textContent=t;b.dataset.k=k;b.onclick=()=>{if(!isPro('blend')){try{openBetaSheet()}catch(_){}return}S[BK]=k;clearTrails();update()};return b});
   const join=mk('button','tb cmJoin',null,blend);join.type='button';join.textContent='Join the Founders Club';join.onclick=()=>{try{openBetaSheet()}catch(_){}};
   function done(){update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}}
   function update(){const cur=G.get(),on=G.on();
@@ -9149,17 +9257,30 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     if(offB){offB.innerHTML='<i aria-hidden="true"></i>'+(on?'on':'off');offB.setAttribute('role','switch');offB.setAttribute('aria-checked',String(on));offB.removeAttribute('aria-pressed');offB.setAttribute('aria-label',CM_OFF_SAY[g]?G.name+': '+(on?'on':'off')+'. '+CM_OFF_SAY[g]:G.name+(on?' is on: tap to turn it off':' is off: tap to turn it on'));offB.title=CM_OFF_SAY[g]||''}   /* the switch says the state, not the action (Dimitry, 28 Oct 14:30: "I'm not sure what I'm turning on or turning off") */
     if(relSel){const r=(S.pal&&S.pal.rel||{})[g];relSel.value=r?r.of+'|'+r.op:'';relSel.classList.toggle('tied',!!r)}
     if(autoB)autoB.setAttribute('aria-checked',String(S.ground==='auto'));
-    {const mine=cmMine().includes(cur.toLowerCase());save.innerHTML=mine?'saved · remove':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>save to my colors';save.classList.add('cpIc');save.setAttribute('aria-pressed',String(mine))}
+    {const mine=cmMine().includes(cur.toLowerCase());save.innerHTML=mine?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';save.classList.add('cpIc');save.setAttribute('aria-pressed',String(mine));save.setAttribute('aria-label',mine?'In my colors: tap to remove':'Save to my colors');save.title=mine?'saved to my colors · tap to remove':'save to my colors'}
     for(const R of rows)drawRow(R,cur,on);
     if(noteT){noteT.innerHTML='Alternating now by <b>'+({grain:'grain',time:'in time',motion:'motion'}[S.alt]||S.alt)+'</b>. ';note.classList.toggle('off',!on)}
     for(const b of sgB)b.setAttribute('aria-pressed',String(SRCG===b.dataset.k));
     const an=(S.canim||{})[g]||{m:'off',sp:.5},off=!an.m||an.m==='off';
     for(const b of modeB)b.setAttribute('aria-pressed',String((an.m||'off')===b.dataset.k));
     sp.classList.toggle('off',off);{const L=CANIM_PER[an.m]||CANIM_PER.breathe,ci=canimI(an);spK.textContent=CANIM_SAY[an.m]||'every';spB.forEach((b,i)=>{b.textContent=L[i][1];b.setAttribute('aria-checked',String(!off&&i===ci));b.disabled=off;b.title=(CANIM_SAY[an.m]||'every')+' '+L[i][1]+' of the tempo'})}
-    const pro=isPro('blend');blend.classList.toggle('pro',!pro);blend.classList.toggle('proOpen',SurfacePro.state('blend')==='beta');join.hidden=pro;const bm=S.blend||'source-over';
+    const pro=isPro('blend');blend.classList.toggle('pro',!pro);blend.classList.toggle('proOpen',SurfacePro.state('blend')==='beta');join.hidden=pro;const bm=S[BK]||'source-over';
     for(const b of blendB){b.setAttribute('aria-pressed',String(pro&&bm===b.dataset.k));if(pro)b.removeAttribute('aria-disabled');else b.setAttribute('aria-disabled','true');b.title=pro?'':'Blend comes with Pro'}}
+  if(g==='ground2'){const u0=update;let on0=null;update=function(){u0();const on=!!S.ground2,mx=$('cmGMix');if(on!==on0&&mx&&!mx.hidden){on0=on;try{renderGMix()}catch(_){}}}}   /* review 4430a9b r-1 */
   if(g==='second'){const u0=update;let two0=null;update=function(){u0();const two=!!S.line2,mx=$('cmMix');if((two!==two0||!mx.contains(document.activeElement))&&!mx.hidden){two0=two;try{renderMixTab()}catch(_){}}}}   /* the mix under Ink 2 follows whether there is an Ink 2 */
   pane._cm={g,update};update()}
+/* SMOOTH HEIGHT (Dimitry, 28 Oct 22:04: "when a palette changes height due to selecting a tab that is shorter or taller,
+   can we do a smooth transition, not jump?"): a panel that changes height glides there. The observer runs after layout and
+   before paint, so the old height is put back before anything shows, then eased to the new one. */
+function smoothHeight(el){if(!el||!window.ResizeObserver)return;let last=0,busy=false,tid=0;
+  const ro=new ResizeObserver(()=>{if(busy)return;const h=el.getBoundingClientRect().height;if(el.hidden||!h){last=0;return}
+    if(!last||Math.abs(h-last)<3||matchMedia('(prefers-reduced-motion: reduce)').matches){last=h;return}
+    busy=true;const from=last;last=h;el.style.transition='none';el.style.height=from+'px';el.style.overflow='hidden';void el.offsetHeight;
+    el.style.transition='height .24s cubic-bezier(.2,.8,.2,1)';el.style.height=h+'px';
+    const end=()=>{clearTimeout(tid);el.removeEventListener('transitionend',fin);el.style.transition='';el.style.height='';el.style.overflow='';requestAnimationFrame(()=>{last=el.getBoundingClientRect().height;busy=false})};
+    const fin=e=>{if(e.target===el&&e.propertyName==='height')end()};el.addEventListener('transitionend',fin);tid=setTimeout(end,400)});
+  ro.observe(el);for(const c of el.children)ro.observe(c)}
+try{smoothHeight($('colorPop'));smoothHeight($('mixPop'))}catch(_){}
 document.addEventListener('surface:pro',()=>{try{for(const g of CG_ORDER){const p=$(CM_PANE[g]);if(p&&p._cm)p._cm.update()}}catch(_){}});
 document.addEventListener('surface:pro',()=>{try{rippleSync();bsSync()}catch(_){}});   // a key switches the material's colors and drivers on (or off) at once
 $('cmClose').onclick=closeColorMix;
@@ -9779,7 +9900,7 @@ function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" f
   {id:'opp',kind:'go',label:'opposite',aria:'Opposite: lines, second and ground turn inside out (tap again to turn back)',icon:RING_I('<circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor"/>'),
     pick:()=>{const R=(S.pal&&S.pal.rel)||{};for(const g of ['line','second','ground']){const G=CG[g];if(G.on()&&!R[g])G.set(colorOpp(G.get()))}   /* a tied slot follows its own (review 236cbc6 r-1) */try{renderCM()}catch(_){}try{colorDid('opposite')}catch(_){}}},
   {id:'drift',kind:'value',label:'drift',aria:'Drift: the lines\' hue slowly turns round the wheel; 0 holds it still',icon:RING_I('<path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/>'),min:0,max:4,step:1,get:dr,
-    set:v=>{v=Math.round(v);if(v>0)A().line={m:'drift',sp:+((v-1)/3).toFixed(3)};else if(S.canim)delete S.canim.line;try{renderCM()}catch(_){}try{colorDid('drift')}catch(_){}},fmt:v=>{v=Math.round(v);return v?'a turn in '+CANIM_PER.drift[v-1][1]:'still'}},
+    set:v=>{v=Math.round(v);if(v>0)A().line={m:'drift',sp:+((v-1)/3).toFixed(3)};else if(S.canim)delete S.canim.line;try{renderCM()}catch(_){}try{colorDid('drift')}catch(_){}},fmt:v=>{v=Math.round(v);return v?CANIM_PER.drift[v-1][1]:'still'}},
   /* FADE (26 Oct 23:35): replaces "mine" (his saved colors already live in the Color panel): how long a color you pick takes to blend in */
   {id:'fade',kind:'value',label:'fade',aria:'Fade: how long a new color takes to blend in (0 jumps)',icon:RING_I('<circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5" stroke-dasharray="1.6 1.9"/>'),
     min:0,max:100,step:5,get:()=>CFADE,set:v=>{CFADE=Math.max(0,Math.min(100,Math.round(v)));try{localStorage.setItem('current.colorFade',String(CFADE))}catch(_){}},fmt:v=>v?cfSecs(v)+'s':'cut'}]}
@@ -11152,10 +11273,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029015343"></script>
-<script src="surface/links.js?v=20261029015343"></script>
-<script src="surface/tips.js?v=20261029015343"></script>
-<script src="surface/sections.js?v=20261029015343"></script>
+<script src="surface/install.js?v=20261029021716"></script>
+<script src="surface/links.js?v=20261029021716"></script>
+<script src="surface/tips.js?v=20261029021716"></script>
+<script src="surface/sections.js?v=20261029021716"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11342,7 +11463,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029015343"></script>
+<script src="surface/room.js?v=20261029021716"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11543,7 +11664,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029015343"></script>
+<script src="surface/touch.js?v=20261029021716"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12288,7 +12409,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.35.3';
+const APP_VERSION='0.35.4';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
