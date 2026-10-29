@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029034417";window.__VERSION__="0.36.0";window.__NOTES__=[{"v":"0.36.0","date":"28 Oct 2026","items":[{"kind":"new","text":"sequences, for shows. The Scenes panel has a Sequence tab: make a running order (+ new starts one from the scenes in play), and dress each entry on its own: a name, a palette, a deal of its colors, its morph and how many bars it stays. The same scene can come twice, dressed two ways; the scene itself never changes"},{"kind":"new","text":"▶ play a sequence: ‹ ›, the arrow keys and a remote walk its entries, the robot plays it on each entry's length, and the drawer under the bar shows its entries in order"},{"kind":"new","text":"select entries to give them one palette, or deal each its own arrangement of its colors (a deal stays until you deal again)"},{"kind":"new","text":"show files: save a sequence as a file, copy it, open one or paste one. A show file carries your own scenes and palettes inside it, so it opens the same on any computer; a name already taken gets a number, never an overwrite"}]}]</script>
+<script>window.__BUILD__="20261029040309";window.__VERSION__="0.36.1";window.__NOTES__=[{"v":"0.36.1","date":"29 Oct 2026","items":[{"kind":"new","text":"the show lock. While a sequence plays, Lock (or Shift+L) leaves only ‹ › and the robot: no panel, drawer, ring or other key can open by accident, and the screen stays awake. It lasts through a reload. A small lock shows top left; hold it for a second (or Shift+L) to unlock"},{"kind":"change","text":"in a sequence, duplicate and remove are buttons on each entry, and a grip on the right drags it to a new place (or arrow keys on the grip)"},{"kind":"fix","text":"Follows has its own line in the color editor, so its choice reads whole (\"complement of Ink 1\")"},{"kind":"fix","text":"every scroll bar follows the light or dark chrome, not only the Color panel's"},{"kind":"change","text":"a sequence's scene pictures are bigger, as tall as the entry's name and its settings together"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029034417"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029034417">
+<script src="claude-web.js?v=20261029040309"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029040309">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029034417"></script>
-<script src="surface/nozoom.js?v=20261029034417"></script><script src="surface/steady.js?v=20261029034417"></script><script src="surface/selftest.js?v=20261029034417"></script><script src="surface/size.js?v=20261029034417"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029034417"></script>
-<script src="surface/auto.js?v=20261029034417"></script>
-<script src="surface/toolpath.js?v=20261029034417"></script>
-<script src="surface/capture.js?v=20261029034417"></script>
-<script src="surface/pop.js?v=20261029034417"></script>
-<script src="surface/hints.js?v=20261029034417"></script>
-<script src="surface/paths.js?v=20261029034417"></script>
-<script src="surface/keys.js?v=20261029034417"></script>
-<script src="surface/reset.js?v=20261029034417"></script>
-<script src="surface/files.js?v=20261029034417"></script>
-<script src="surface/tabs.js?v=20261029034417"></script>
-<script src="surface/running.js?v=20261029034417"></script>
-<script src="surface/trim.js?v=20261029034417"></script>
-<script src="surface/audiowake.js?v=20261029034417"></script>
-<script src="surface/output.js?v=20261029034417"></script>
-<script src="surface/board.js?v=20261029034417"></script>
-<script src="surface/voice.js?v=20261029034417"></script>
-<script src="surface/voicelib.js?v=20261029034417"></script>
-<script src="surface/instruments.js?v=20261029034417"></script>
-<script src="surface/listview.js?v=20261029034417"></script>
-<script src="surface/beads.js?v=20261029034417"></script>
-<script src="surface/strip.js?v=20261029034417"></script>
-<script src="surface/sheetnav.js?v=20261029034417"></script>
-<script src="surface/twofinger.js?v=20261029034417"></script>
-<script src="surface/ring.js?v=20261029034417"></script>
-<script src="surface/shortlink.js?v=20261029034417"></script>
-<script src="surface/undo.js?v=20261029034417"></script>
-<script src="surface/pro.js?v=20261029034417"></script>
-<script src="surface/fresh.js?v=20261029034417"></script>
-<script src="surface/go.js?v=20261029034417"></script>
-<script src="surface/notice.js?v=20261029034417"></script>
-<script src="surface/perform.js?v=20261029034417"></script>
-<script src="surface/words.js?v=20261029034417"></script>
+<script src="vendor/opentype.min.js?v=20261029040309"></script>
+<script src="surface/nozoom.js?v=20261029040309"></script><script src="surface/steady.js?v=20261029040309"></script><script src="surface/selftest.js?v=20261029040309"></script><script src="surface/size.js?v=20261029040309"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029040309"></script>
+<script src="surface/auto.js?v=20261029040309"></script>
+<script src="surface/toolpath.js?v=20261029040309"></script>
+<script src="surface/capture.js?v=20261029040309"></script>
+<script src="surface/pop.js?v=20261029040309"></script>
+<script src="surface/hints.js?v=20261029040309"></script>
+<script src="surface/paths.js?v=20261029040309"></script>
+<script src="surface/keys.js?v=20261029040309"></script>
+<script src="surface/reset.js?v=20261029040309"></script>
+<script src="surface/files.js?v=20261029040309"></script>
+<script src="surface/tabs.js?v=20261029040309"></script>
+<script src="surface/running.js?v=20261029040309"></script>
+<script src="surface/trim.js?v=20261029040309"></script>
+<script src="surface/audiowake.js?v=20261029040309"></script>
+<script src="surface/output.js?v=20261029040309"></script>
+<script src="surface/board.js?v=20261029040309"></script>
+<script src="surface/voice.js?v=20261029040309"></script>
+<script src="surface/voicelib.js?v=20261029040309"></script>
+<script src="surface/instruments.js?v=20261029040309"></script>
+<script src="surface/listview.js?v=20261029040309"></script>
+<script src="surface/beads.js?v=20261029040309"></script>
+<script src="surface/strip.js?v=20261029040309"></script>
+<script src="surface/sheetnav.js?v=20261029040309"></script>
+<script src="surface/twofinger.js?v=20261029040309"></script>
+<script src="surface/ring.js?v=20261029040309"></script>
+<script src="surface/shortlink.js?v=20261029040309"></script>
+<script src="surface/undo.js?v=20261029040309"></script>
+<script src="surface/pro.js?v=20261029040309"></script>
+<script src="surface/fresh.js?v=20261029040309"></script>
+<script src="surface/go.js?v=20261029040309"></script>
+<script src="surface/notice.js?v=20261029040309"></script>
+<script src="surface/perform.js?v=20261029040309"></script>
+<script src="surface/words.js?v=20261029040309"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029034417"></script>
-<script src="surface/rail.js?v=20261029034417"></script>
-<script src="surface/touchsound.js?v=20261029034417"></script>
-<script src="surface/water.js?v=20261029034417"></script>
-<script src="surface/ripple.js?v=20261029034417"></script>
-<script src="surface/material.js?v=20261029034417"></script>
-<script src="surface/float.js?v=20261029034417"></script>
-<script src="surface/manual.js?v=20261029034417"></script>
+<script src="surface/pack.js?v=20261029040309"></script>
+<script src="surface/rail.js?v=20261029040309"></script>
+<script src="surface/touchsound.js?v=20261029040309"></script>
+<script src="surface/water.js?v=20261029040309"></script>
+<script src="surface/ripple.js?v=20261029040309"></script>
+<script src="surface/material.js?v=20261029040309"></script>
+<script src="surface/float.js?v=20261029040309"></script>
+<script src="surface/manual.js?v=20261029040309"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2669,7 +2669,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmR1 .cmEdHex{flex:0 1 auto;min-width:0;display:flex;align-items:center;gap:4px}#colorPop .cmR1 .cmEdHex input{width:5.6em;max-width:none;font-size:15px;min-height:34px;padding:0 6px}
 #colorPop .cmR1 .cmTg{flex:none;margin:0}#colorPop .cmR1 .cmTg .tb[role=switch]{font-size:0;gap:0;padding:0 2px}#colorPop .cmR1 .cmTg .tb[role=switch]>i{font-size:initial}
 #colorPop .cmR1 .cmRelTop select{min-width:58px}
-#colorPop .cmR1 .cmRelTop{flex:1 1 0;min-width:0}#colorPop .cmR1 .cmRelK{display:none}#colorPop .cmR1 .cmRelTop select{min-height:34px;width:100%;padding:0 4px 0 8px;font-size:13px}
+#colorPop .cmR1 .cmRelTop{flex:1 1 0;min-width:0}#colorPop .cmR1 .cmRelK{display:none}#colorPop .cmRC>.cmR2{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px;align-items:center;margin:0 0 6px}#colorPop .cmR2>.cmRelK{display:block;font:600 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}#colorPop .cmR2 select{width:100%;min-width:0;min-height:32px;font-size:13px;text-overflow:ellipsis}#colorPop .cmR1 .cmRelTop select{min-height:34px;width:100%;padding:0 4px 0 8px;font-size:13px}
 #colorPop .cmR1 .cmEdSave{flex:none;width:34px;height:34px;min-height:34px;padding:0;margin:0;border-radius:50%;display:grid;place-items:center}#colorPop .cmR1 .cmEdSave svg{width:15px;height:15px}
 #colorPop .cmR1 .cmEdSave[aria-pressed=true]{color:var(--acc-tx,var(--acc,#55b8c9))}
 #colorPop .cmRC .cmEdR{grid-template-columns:66px minmax(0,1fr) 38px;gap:6px}#colorPop .cmRC .cmEdR>span{font-size:8.5px;letter-spacing:.1em}
@@ -2723,16 +2723,30 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #plSeqPane .tb{min-height:34px;padding:0 12px;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07)}#plSeqPane .tb.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#plSeqPane .tb[disabled]{opacity:.4}
 .sqSelBar{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin:0 0 8px;font:400 12px var(--sans);color:var(--ui-dim)}.sqSelBar>span{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sqSelBar.on>span{color:var(--ui-ink)}
 .sqList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.sqE{display:grid;grid-template-columns:20px 16px 48px minmax(0,1fr);grid-template-areas:"c n t x" "c n t k";column-gap:8px;row-gap:4px;align-items:center;padding:6px 6px;border-radius:10px}
+.sqE{display:grid;grid-template-columns:20px 16px 48px minmax(0,1fr) 32px;grid-template-areas:"c n t x g" "c n t k g";column-gap:8px;row-gap:4px;align-items:center;padding:6px 6px;border-radius:10px}
 .sqE.cur{background:rgb(var(--acc-rgb,85 184 201) / .14);box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.sqE.miss{opacity:.5}
 .sqChk{grid-area:c;width:18px;height:18px;accent-color:var(--acc,#55b8c9)}.sqN{grid-area:n;font:600 11px/1 var(--mono);color:var(--ui-dim);text-align:right}
 .sqGo{grid-area:t;padding:0;border:0;background:none;cursor:pointer;border-radius:6px;overflow:hidden;width:48px;height:32px}.sqGo .th{display:block;width:48px;height:32px}
 .sqTx{grid-area:x;min-width:0;display:flex;align-items:baseline;gap:8px}.sqName{padding:0;border:0;background:none;color:var(--ui-ink);font:500 14px/1.3 var(--sans);text-align:left;cursor:text;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .sqTx small{font:400 11px var(--sans);color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sqNm{min-width:0;width:100%;border:0;border-bottom:1.5px solid var(--acc,#55b8c9);background:transparent;color:var(--ui-ink);font:500 14px/1.3 var(--sans);outline:0;padding:0 0 2px}
-.sqCtl{grid-area:k;display:flex;align-items:center;gap:4px;flex-wrap:nowrap}.sqCtl button{min-height:26px;min-width:26px;padding:0 7px;border:0;border-radius:7px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);font:500 10px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sqCtl button[disabled]{opacity:.3}.sqPal{display:inline-flex;align-items:center;gap:4px}.sqPal.set{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.sqPal i{font-style:normal;font-size:11px}.sqK{color:var(--ui-dim);font-size:8.5px}
+.sqCtl{grid-area:k;display:flex;align-items:stretch;gap:4px;flex-wrap:wrap}.sqCtl>*{flex:none}.sqCtl .sqMo,.sqCtl .sqSt{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:3px 7px;line-height:1}.sqK{display:block}.sqCtl button{min-height:26px;min-width:26px;padding:0 7px;border:0;border-radius:7px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);font:500 10px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sqCtl button[disabled]{opacity:.3}.sqPal{display:inline-flex;align-items:center;gap:4px}.sqPal.set{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.sqPal i{font-style:normal;font-size:11px}.sqGrip{grid-area:g;width:32px;height:40px;padding:0;border:0;background:none;color:#6b7578;cursor:grab;touch-action:none;display:grid;place-items:center}.sqE.dragging{opacity:.75;background:rgb(var(--ui-hi,255 255 255) / .08)}.sqCtl .sqDup svg,.sqCtl .sqDel svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.sqCtl .sqDup,.sqCtl .sqDel{display:grid;place-items:center;padding:0}.sqK{color:var(--ui-dim);font-size:8.5px}
 .sqAdd,.sqFile{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.sqFile{padding-top:12px;border-top:1px solid var(--ui-line)}
 .sqPasteBox{margin-top:10px;display:flex;flex-direction:column;gap:6px}.sqPasteBox textarea{width:100%;box-sizing:border-box;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12px/1.4 var(--mono);padding:8px}
+
+/* the show lock: only the show controls are left */
+html[data-locked] #playbar>*:not(#pTrans),html[data-locked] #pRand,html[data-locked] [class^=sh-],html[data-locked] [class*=' sh-'],html[data-locked] .sp-nag,html[data-locked] #bshelf,html[data-locked] .spop,html[data-locked] [role=dialog]:not(#launch),html[data-locked] #duckBtn,html[data-locked] #toolTrack,html[data-locked] .shelf,html[data-locked] #pBug{visibility:hidden!important;pointer-events:none!important}
+#plSeqPane .sqLkI{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;vertical-align:-2px}#lockMark{display:none}html[data-locked] #lockMark{display:grid;position:fixed;z-index:60;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));width:40px;height:40px;place-items:center;border:0;border-radius:50%;background:rgb(0 0 0 / .45);color:#fff;cursor:pointer;opacity:.55;transition:opacity .2s}
+#lockMark:hover,#lockMark.holding{opacity:1}#lockMark svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#lockMark i{position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(var(--acc,#55b8c9) 0turn,transparent 0);pointer-events:none}#lockMark.holding i{animation:lockHold 1s linear forwards}
+@keyframes lockHold{from{background:conic-gradient(var(--acc,#55b8c9) 0turn,transparent 0)}to{background:conic-gradient(var(--acc,#55b8c9) 1turn,transparent 0)}}
+#plSeqPane{container-type:inline-size}
+.sqGo{width:86px!important;height:58px!important;position:relative}.sqGo .th{width:86px!important;height:58px!important}.sqE{grid-template-columns:20px 86px minmax(0,1fr) 32px!important;grid-template-areas:"c t x g" "c t k g"!important}
+.sqN{position:absolute;left:4px;top:3px;z-index:1;padding:1px 4px;border-radius:4px;background:rgb(0 0 0 / .55);color:#fff!important;font:600 9px/1 var(--mono)!important;pointer-events:none}
+@container (max-width:440px){.sqGo,.sqGo .th{width:76px!important;height:52px!important}.sqE{grid-template-columns:20px 76px minmax(0,1fr) 28px!important}.sqCtl .sqK{display:none}.sqCtl{gap:3px;flex-wrap:nowrap}.sqCtl button{font-size:9px;letter-spacing:.02em;min-width:24px}.sqCtl .sqMo,.sqCtl .sqSt{padding:0 5px}.sqCtl .sqPal{padding:0 4px}.sqCtl .sqPal .plPalS b{width:5px}.sqGrip{width:28px!important}}
+/* every scroll bar follows the chrome, not only the Color panel's (Dimitry, 28 Oct 23:53: "scroll bar is wrong theme") */
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ui-dim,#8a9396) 55%,transparent) transparent}
+::-webkit-scrollbar{width:8px;height:8px;background:transparent}::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ui-dim,#8a9396) 55%,transparent);border-radius:4px;border:2px solid transparent;background-clip:padding-box}::-webkit-scrollbar-corner{background:transparent}
 </style>
 
 <div class="app">
@@ -5373,7 +5387,7 @@ async function seqCopy(s){const txt=JSON.stringify(seqExport(s),null,2);try{awai
 /* THE SEQUENCE TAB of the Scenes panel: pick or make a sequence, play it, and dress each entry: its name, palette (and a
    deal of it), morph and stay. Select many to give them one palette, or a deal each. One column, every name readable. */
 let SEQ_SEL=new Set(),SEQ_EDIT=null;
-function seqUI(){const pn=$('plSeqPane');if(pn&&!pn.hidden&&!pn.contains(document.activeElement&&document.activeElement.tagName==='INPUT'?document.activeElement:null))buildSeqPane()}
+function seqUI(){const pn=$('plSeqPane');if(pn&&pn.querySelector('.sqE.dragging'))return;   /* never under a dragging finger (r-3) */if(pn&&!pn.hidden&&!pn.contains(document.activeElement&&document.activeElement.tagName==='INPUT'?document.activeElement:null))buildSeqPane()}
 function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();let s=L.find(x=>x.name===(store.seqView||store.seqOn))||L[0]||null;if(s)store.seqView=s.name;
   const esc=x=>String(x==null?'':x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
   const mini=c=>'<span class="plPalS">'+c.filter(Boolean).slice(0,7).map(x=>'<b style="background:'+esc(x)+'"></b>').join('')+'</span>';
@@ -5381,7 +5395,7 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();
   let h='<div class="sqTop">';
   if(L.length){h+='<label class="sqPick"><span class="cmL">sequence</span><select aria-label="The sequence">'+L.map(x=>'<option'+(s&&x.name===s.name?' selected':'')+'>'+esc(x.name)+'</option>').join('')+'</select></label>';
     h+='<button type="button" class="tb sqPlay'+(playing?' on':'')+'" aria-pressed="'+playing+'">'+(playing?'■ stop':'▶ play')+'</button>'}
-  h+='<button type="button" class="tb sqNew" title="A new sequence from the scenes in play">+ new</button>'+(s?'<button type="button" class="tb sqMore" aria-haspopup="menu" aria-label="More for this sequence">⋯</button>':'')+'</div>';
+  h+='<button type="button" class="tb sqNew" title="A new sequence from the scenes in play">+ new</button>'+(playing?'<button type="button" class="tb sqLock" title="The show lock: only ‹ › and the robot answer (Shift+L)"><svg class="sqLkI" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> lock</button>':'')+(s?'<button type="button" class="tb sqMore" aria-haspopup="menu" aria-label="More for this sequence">⋯</button>':'')+'</div>';
   if(!s){h+='<p class="cmNote">A sequence is your own running order for a show: the same scene can come twice, each time with its own palette, morph and length. <b>+ new</b> starts one from the scenes in play; or bring in a show file.</p><div class="sqFile"><button type="button" class="tb sqImp">open a show file</button><button type="button" class="tb sqPaste">paste a show file</button></div>'}
   else{
     const all=allPresets(),nSel=[...SEQ_SEL].filter(id=>s.entries.some(e=>e.id===id)).length;
@@ -5390,12 +5404,12 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();
     s.entries.forEach((e,j)=>{const p=seqScene(e),P=e.pal&&palFind(e.pal),cur=playing&&SQ.at===j;
       const cols=P?PAL_SLOTS.map(([k])=>P.colors[k]?palHex(k,P.colors[k]):null):p?[p.line||LINE_DEFAULT,p.line2||null,p.touchColor||null,p.arrow||null,p.pathColor||null,sceneGround(p),p.ground2||null]:[];
       const mo=MORPH_CYCLE.find(m=>m[0]===(e.morph==null?null:e.morph))||MORPH_CYCLE[0],st=SEQ_STAY.find(m=>m[0]===(e.stay==null?null:e.stay))||SEQ_STAY[0];
-      h+='<li class="sqE'+(cur?' cur':'')+(p?'':' miss')+'" data-id="'+e.id+'"><input type="checkbox" class="sqChk" aria-label="Select '+esc(seqLabel(e))+'"'+(SEQ_SEL.has(e.id)?' checked':'')+'><b class="sqN">'+(j+1)+'</b>'+
-        '<button type="button" class="sqGo" aria-label="Play '+esc(seqLabel(e))+'"><span class="th" data-k="'+esc(e.k)+'"></span></button>'+
+      h+='<li class="sqE'+(cur?' cur':'')+(p?'':' miss')+'" data-id="'+e.id+'"><input type="checkbox" class="sqChk" aria-label="Select '+esc(seqLabel(e))+'"'+(SEQ_SEL.has(e.id)?' checked':'')+'>'+
+        '<button type="button" class="sqGo" aria-label="Play '+(j+1)+', '+esc(seqLabel(e))+'"><b class="sqN" aria-hidden="true">'+(j+1)+'</b><span class="th" data-k="'+esc(e.k)+'"></span></button>'+
         '<div class="sqTx">'+(SEQ_EDIT===e.id?'<input class="sqNm" maxlength="40" value="'+esc(e.name||'')+'" placeholder="'+esc(p?p.name:'name')+'" aria-label="Name for this entry">':'<button type="button" class="sqName" title="Tap to name this entry">'+esc(seqLabel(e))+'</button>')+(e.name&&p?'<small>'+esc(p.name)+'</small>':'')+'</div>'+
         '<div class="sqCtl"><button type="button" class="sqPal'+(P?' set':'')+(e.deal?' dealt':'')+'" aria-haspopup="menu" aria-label="Palette: '+esc(P?P.name:'the scene’s own')+(e.deal?', dealt':'')+'">'+mini(cols)+(e.deal?'<i>⤨</i>':'')+'</button>'+
         '<button type="button" class="sqMo" title="Morph into this entry: tap for auto, cut, 2 s, 8 s, 30 s"><span class="sqK">morph</span> '+esc(mo[1])+'</button><button type="button" class="sqSt" title="How long it stays, in bars of the tempo, when the robot plays the sequence; robot: the robot’s own timing"><span class="sqK">stays</span> '+esc(st[1])+'</button>'+
-        '<button type="button" class="sqRow" aria-haspopup="menu" aria-label="More for this entry: earlier, later, duplicate, remove">⋯</button></div></li>'});
+        '<button type="button" class="sqDup" aria-label="Duplicate this entry" title="duplicate"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg></button><button type="button" class="sqDel" aria-label="Remove this entry" title="remove"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></button></div><button type="button" class="sqGrip" aria-label="Move '+esc(seqLabel(e))+': drag, or arrow keys"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><g fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></g></svg></button></li>'});
     h+='</ol><div class="sqAdd"><button type="button" class="tb sqAddCur">+ the scene now playing</button><button type="button" class="tb sqAddPlay">+ all scenes in play</button></div>';
     h+='<div class="sqFile"><button type="button" class="tb sqSave">save show file</button><button type="button" class="tb sqCopy">copy</button><button type="button" class="tb sqImp">open</button><button type="button" class="tb sqPaste">paste</button></div>'}
   h+='<div class="sqPasteBox" hidden><textarea rows="5" aria-label="Paste a show file here" placeholder="paste a show file (JSON) here"></textarea><button type="button" class="tb sqPasteGo">bring it in</button></div><input type="file" class="sqFileIn" accept=".json,application/json" hidden>';
@@ -5404,6 +5418,7 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();
   const q=x=>pn.querySelector(x),entry=b=>{const li=b.closest('.sqE');return li&&s?s.entries.find(e=>e.id===li.dataset.id):null},save=()=>{persist();buildSeqPane();bsSync()};
   const sel=q('.sqPick select');if(sel)sel.onchange=()=>{store.seqView=sel.value;SEQ_SEL.clear();persist();buildSeqPane()};
   const pl=q('.sqPlay');if(pl)pl.onclick=()=>seqPlay(playing?null:s.name);
+  {const lk=q('.sqLock');if(lk)lk.onclick=()=>showLock(true)}
   q('.sqNew').onclick=()=>{const n=seqNew('Show',true);store.seqView=n.name;persist();buildSeqPane();toast('“'+n.name+'”: '+n.entries.length+' scenes, from the scenes in play')};
   const mo=q('.sqMore');if(mo)mo.onclick=()=>rowMenu(mo,[['ren','Rename',()=>{const v=prompt('Name for this sequence',s.name);if(v&&v.trim()&&v.trim()!==s.name){const nn=seqFree(v.trim(),new Set(L.filter(x=>x!==s).map(x=>x.name)));if(store.seqOn===s.name)store.seqOn=nn;s.name=nn;store.seqView=nn;save()}}],
     ['pic','Duplicate',()=>{const c=JSON.parse(JSON.stringify(s));c.name=seqName(s.name);c.t=Date.now();c.entries.forEach(e=>e.id=seqUid());L.push(c);store.seqView=c.name;save()}],
@@ -5423,9 +5438,17 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();
   {const i=q('.sqNm');if(i){const e=entry(i),fin=keep=>{SEQ_EDIT=null;if(keep&&e){const v=i.value.trim().slice(0,40);if(v)e.name=v;else delete e.name}save()};i.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();i.onblur=null;fin(true)}else if(ev.key==='Escape'){ev.preventDefault();ev.stopPropagation();i.onblur=null;fin(false)}};i.onblur=()=>{i.onblur=null;fin(true)}}}   /* the rebuild's blur no longer saves a cancelled name (r-3) */
   pn.querySelectorAll('.sqMo').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=MORPH_CYCLE.findIndex(m=>m[0]===(e.morph==null?null:e.morph)),n=MORPH_CYCLE[(j+1)%MORPH_CYCLE.length][0];if(n==null)delete e.morph;else e.morph=n;save()});
   pn.querySelectorAll('.sqSt').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=SEQ_STAY.findIndex(m=>m[0]===(e.stay==null?null:e.stay)),n=SEQ_STAY[(j+1)%SEQ_STAY.length][0];if(n==null)delete e.stay;else e.stay=n;save()});
-  pn.querySelectorAll('.sqRow').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=s.entries.indexOf(e),it=[];if(j>0)it.push(['pal','<em>earlier ↑</em>',()=>mv(b,-1)]);if(j<s.entries.length-1)it.push(['pal','<em>later ↓</em>',()=>mv(b,1)]);
-    it.push(['pic','<em>duplicate</em>',()=>dup(b)],['del','<em>remove</em>',()=>rem(b)]);rowMenu(b,it)});
-  const mv=(b,d)=>{const e=entry(b);if(!e)return;const j=s.entries.indexOf(e),k=j+d;if(k<0||k>=s.entries.length)return;const cur=seqEntryNow();s.entries.splice(j,1);s.entries.splice(k,0,e);if(playing&&cur)SQ.at=s.entries.indexOf(cur);save()};
+  pn.querySelectorAll('.sqDup').forEach(b=>b.onclick=()=>dup(b));pn.querySelectorAll('.sqDel').forEach(b=>b.onclick=()=>rem(b));
+  /* DRAG TO REORDER (Dimitry, 28 Oct 23:47: "grab bars ... on the right-hand side of every list item", as the Scenes list): the grip
+     carries its row; arrow keys move it one place */
+  const box=q('.sqList'),commit=()=>{const cur=seqEntryNow(),ids=[...box.querySelectorAll('.sqE')].map(li=>li.dataset.id);s.entries.sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));if(playing&&cur)SQ.at=s.entries.indexOf(cur);save()};
+  pn.querySelectorAll('.sqGrip').forEach(g=>{const row=g.closest('.sqE');
+    g.addEventListener('pointerdown',ev=>{if(ev.button>0)return;ev.preventDefault();row.classList.add('dragging');let moved=false;
+      const mvp=e2=>{const y=e2.clientY;for(const o of box.querySelectorAll('.sqE')){if(o===row)continue;const r=o.getBoundingClientRect();if(y>r.top&&y<r.bottom){if(y<r.top+r.height/2){if(o.previousElementSibling!==row)box.insertBefore(row,o)}else if(o.nextElementSibling!==row)box.insertBefore(row,o.nextSibling);moved=true;break}}
+        const sc=pn.getBoundingClientRect();if(y<sc.top+28)pn.scrollTop-=8;else if(y>sc.bottom-28)pn.scrollTop+=8};
+      const up=()=>{removeEventListener('pointermove',mvp);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);row.classList.remove('dragging');if(moved)commit()};
+      addEventListener('pointermove',mvp);addEventListener('pointerup',up);addEventListener('pointercancel',up)});
+    g.addEventListener('keydown',ev=>{if(ev.key!=='ArrowUp'&&ev.key!=='ArrowDown')return;ev.preventDefault();ev.stopPropagation();const id=row.dataset.id;if(ev.key==='ArrowUp'){const p0=row.previousElementSibling;if(p0)box.insertBefore(row,p0)}else{const n0=row.nextElementSibling;if(n0)box.insertBefore(row,n0.nextSibling)}commit();const ng=pn.querySelector('.sqE[data-id="'+id+'"] .sqGrip');if(ng)ng.focus()})});
   const dup=b=>{const e=entry(b);if(!e)return;const c={...JSON.parse(JSON.stringify(e)),id:seqUid()};const cur=seqEntryNow();s.entries.splice(s.entries.indexOf(e)+1,0,c);if(playing&&cur)SQ.at=s.entries.indexOf(cur);save()};
   const rem=b=>{const e=entry(b);if(!e)return;const cur=seqEntryNow();s.entries.splice(s.entries.indexOf(e),1);SEQ_SEL.delete(e.id);if(playing)SQ.at=cur&&cur!==e?s.entries.indexOf(cur):-1;save();toast('removed “'+seqLabel(e)+'”')};
   const ac=q('.sqAddCur');if(ac)ac.onclick=()=>{const p=allPresets()[presetIdx];if(!p){toast('no scene is playing');return}s.entries.push({id:seqUid(),k:lookKey(p)});save();toast('added “'+p.name+'”')};
@@ -5436,6 +5459,18 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();
   pn.querySelectorAll('.sqPaste').forEach(b=>b.onclick=()=>{const bx=q('.sqPasteBox');bx.hidden=!bx.hidden;if(!bx.hidden)bx.querySelector('textarea').focus()});
   q('.sqPasteGo').onclick=()=>{const t=q('.sqPasteBox textarea').value;const n=seqImport(t);if(n){store.seqView=n.name;persist();buildSeqPane()}}}
 
+/* THE SHOW LOCK (Dimitry, 28 Oct 23:48: "great 1-3"; the plan: "one switch that hides editing and stops a stray tap from
+   opening panels; next, previous and the number keys still work"): kit SurfacePerform.lock. While locked only ‹ ›, the
+   robot and the stage answer; the keys let through are the arrows, a, f, space, 1-9 and Shift+L. A hold of a second on
+   the lock mark unlocks. */
+function showLock(v){if(!window.SurfacePerform||!SurfacePerform.lock)return;if(v){try{closeColorMix()}catch(_){}try{closePlist()}catch(_){}try{closeMix()}catch(_){}try{if(window.SurfaceRing&&SurfaceRing.isOpen())SurfaceRing.close()}catch(_){}try{closeDrawers()}catch(_){}try{setPlayer(true,true)}catch(_){}}   /* the index drawer closes too: locked, nothing could close it (review 221fa14 r-1) */
+  SurfacePerform.lock(v);toast(v?'show lock on: ‹ › and the robot only. Hold the lock (or Shift+L) to unlock':'show lock off',3200)}
+(function(){const m=document.createElement('button');m.type='button';m.id='lockMark';m.setAttribute('aria-label','Show lock is on. Hold for a second to unlock');m.title='hold to unlock';
+  m.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><i></i>';document.body.appendChild(m);
+  let t=0;const go=()=>{clearTimeout(t);m.classList.add('holding');t=setTimeout(()=>{m.classList.remove('holding');showLock(false)},1000)},stop=()=>{clearTimeout(t);m.classList.remove('holding')};
+  m.addEventListener('pointerdown',e=>{e.preventDefault();go()});['pointerup','pointerleave','pointercancel'].forEach(k=>m.addEventListener(k,stop));m.addEventListener('contextmenu',e=>e.preventDefault());
+  addEventListener('keydown',e=>{if(!document.documentElement.hasAttribute('data-locked'))return;const k=e.key,ok=k==='ArrowLeft'||k==='ArrowRight'||k===' '||k==='a'||k==='f'||/^[1-9]$/.test(k)||(k==='L'&&e.shiftKey)||k==='Shift';
+    if(!ok){e.preventDefault();e.stopImmediatePropagation()}},true)})();
 function stepPreset(d){if(seqCur()){sqStep(d);return}if(!allPresets().length)return;roboSweep(d);roboEar(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
 let labT=0;
 function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=document.scrollingElement||document.documentElement;if(d.scrollTop||d.scrollLeft){d.scrollTop=0;d.scrollLeft=0}}   /* the stage is the page: never leave it scrolled (iPhone, #install, 18 Oct) */
@@ -5946,7 +5981,7 @@ function morphUI(){const g=document.querySelector('#plAuto .apMoDial');if(!g)ret
   const all=allPresets(),cur=all[presetIdx],own=cur?morphOwn(cur):null,nt=$('apMoNote');
   if(nt){const t=own==null?'':'this scene: '+(own?fmtSec(own):'cut');if(nt.textContent!==t)nt.textContent=t;nt.classList.toggle('own',own!=null)}
   try{g._draw()}catch(_){}}
-function openPlist(tab){try{scrubClose()}catch(_){}bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
+function openPlist(tab){if(document.documentElement.hasAttribute('data-locked'))return;   /* not while locked (r-2) */try{scrubClose()}catch(_){}bsFollow('robot');closeRlist();try{closeDrawers()}catch(_){}buildPlist();if(tab&&plTabs)plTabs.show(tab);$('plist').hidden=false;try{syncAutoUI()}catch(_){}['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','true'));
   const on=$('plItems').querySelector('[aria-current="true"]');if(on)on.scrollIntoView({block:'center'});$('plClose').focus({preventScroll:true})}
 function closePlist(){if($('plist').hidden)return;$('plist').hidden=true;['pPrev','pNext','pAuto'].forEach(i=>$(i).setAttribute('aria-expanded','false'))}
 /* where each Changes tile's gear goes (22 Oct): the shelf turns to that place too */
@@ -9396,7 +9431,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   /* HIS LAYOUT (Dimitry, 28 Oct 21:55): the swatch on the left; beside it one row of # hex | on/off | follows | save, and
      under that row lightness, chroma, hue. The chips, then Animation, come after as their own groups. */
   {const RC=document.createElement('div');RC.className='cmRC';const R1=document.createElement('div');R1.className='cmR1';
-    R1.appendChild(hexL);const fw=top.querySelector('.cmRelTop');R1.appendChild(tg);if(fw)R1.appendChild(fw);RC.appendChild(R1);{const bw=document.createElement('span');bw.className='cmBigW';top.insertBefore(bw,big);bw.appendChild(big);bw.appendChild(save)}   /* save is a plus on the big circle (Dimitry, 28 Oct 21:58) */
+    R1.appendChild(hexL);const fw=top.querySelector('.cmRelTop');R1.appendChild(tg);RC.appendChild(R1);if(fw){fw.classList.add('cmR2');RC.appendChild(fw)}   /* Follows on its own line, its words whole (Dimitry, 29 Oct 23:58, a screenshot: 'comple…' was "impossible") */{const bw=document.createElement('span');bw.className='cmBigW';top.insertBefore(bw,big);bw.appendChild(big);bw.appendChild(save)}   /* save is a plus on the big circle (Dimitry, 28 Oct 21:58) */
     for(const r of rs)RC.appendChild(r.closest('label'));top.appendChild(RC);saveRow.remove()}
   let st=null;   // the picker's own L C H, so a grey keeps its hue while you drag
   const lch=c=>{const v=OKC.lch(c);v[2]=((v[2]%360)+360)%360;if(v[1]<.002&&st)v[2]=st[2];return v};
@@ -10109,7 +10144,7 @@ try{SurfaceRing.define('in',{title:'Input',items:inItems,center:'ball',icon:RING
    set (review e4d6321ad8 r-1), and the band's ring button reads this to light (Dimitry, 27 Oct 13:19) */
 function besideOpen(id){try{const h=window.RING_BESIDE_H;return window.RING_BESIDE===id&&!!h&&(h.alive?h.alive():SurfaceRing.isOpen()&&SurfaceRing.pinned())}catch(_){return false}}   /* its own ring, in hand or parked (review 9dc4851 r-2) */
 function besideClose(){const h=window.RING_BESIDE_H;window.RING_BESIDE=null;window.RING_BESIDE_H=null;try{h&&(h.alive?h.alive():SurfaceRing.pinned())&&h.close()}catch(_){}}
-function openTouchRing(x,y,ring,beside,fromPanel){if(!window.SurfaceRing)return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();const parks=!!(SurfaceRing.willPark&&SurfaceRing.willPark());if(!beside&&!SurfaceRing.pinned())window.RING_BESIDE=null;   /* a pinned panel ring stays its panel's, flashed or parked (review bbc53da r-1) */   /* a panel's ring parked by a stage double tap still goes with its panel (r-2) */
+function openTouchRing(x,y,ring,beside,fromPanel){if(!window.SurfaceRing||document.documentElement.hasAttribute('data-locked'))return;window.__ringUsed=1;const r=$('stage').getBoundingClientRect();const parks=!!(SurfaceRing.willPark&&SurfaceRing.willPark());if(!beside&&!SurfaceRing.pinned())window.RING_BESIDE=null;   /* a pinned panel ring stays its panel's, flashed or parked (review bbc53da r-1) */   /* a panel's ring parked by a stage double tap still goes with its panel (r-2) */
   const was=!!beside&&SurfaceRing.isOpen()&&SurfaceRing.pinned()&&!parks;   /* a ring already pinned elsewhere only flashes: it is not this panel's (review 06c4643dfc r-2) */
   const h=SurfaceRing.open({x:x==null?r.left+r.width/2:x,y:y==null?r.top+r.height/2:y,rings:['touch','play','sound','color','in'],ring,key:beside||fromPanel?'current.panel':'current',pinned:!!beside,   /* a panel's ring is that panel's: the stage's double tap brings back your own last ring (Dimitry, 28 Oct 10:35) */
     onSwitch:id=>{if(window.cxCount)cxCount('ring: '+id,1)}});
@@ -11474,10 +11509,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029034417"></script>
-<script src="surface/links.js?v=20261029034417"></script>
-<script src="surface/tips.js?v=20261029034417"></script>
-<script src="surface/sections.js?v=20261029034417"></script>
+<script src="surface/install.js?v=20261029040309"></script>
+<script src="surface/links.js?v=20261029040309"></script>
+<script src="surface/tips.js?v=20261029040309"></script>
+<script src="surface/sections.js?v=20261029040309"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11498,6 +11533,7 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
        updated; anything else is saved as a new one with a name made for it. Shift adds the box, to name it. */
     {id:'sheet.prev',d:'The previous panel (when one is open)',keys:['['],run:()=>{if(SHEET_NAV)SHEET_NAV.go(-1)}},
     {id:'sheet.next',d:'The next panel (when one is open)',keys:[']'],run:()=>{if(SHEET_NAV)SHEET_NAV.go(1)}},
+    {id:'lock',d:'The show lock: only ‹ › and the robot answer; Shift+L again (or hold the lock) to unlock',keys:['L'],run:()=>showLock(!SurfacePerform.locked())},
     {id:'perform',d:'Performing on or off (nothing reloads, the screen stays awake)',keys:[],run:()=>{if(window.SurfacePerform){SurfacePerform.set(!SurfacePerform.manual());toast(SurfacePerform.manual()?'performing: nothing reloads, the screen stays awake':'performing off')}}},
     {id:'save',d:'Save this scene',keys:['mod+s'],run:()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:autoName())}},
     {id:'saveas',d:'Save as a new scene, and name it',keys:['shift+mod+s'],run:()=>saveAsBox()},
@@ -11523,6 +11559,8 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
     {id:'current.room',d:'Room: play in time with others (make, join, leave)',keys:['o'],run:()=>ROOMC.open()},
     {id:'current.drive',d:'Drive: the picture steers the current',keys:['d'],run:()=>{if(typeof SRC==='undefined'||SRC.kind==='none'){toast('drive needs a picture, a video or the camera');return}$('srDrive').click()}}];
   const GROUPS=[{name:'Every studio tool',actions:SH},{name:'Scenes',compact:true,d:'Go straight to scene 1 to 9',actions:PR},{name:'Current',actions:CU}];
+  /* while the show lock is on only these run, whatever key they wear (a key-typing remote included) */
+  {const OK=new Set(['prev','next','auto','hide','fullscreen','lock']);for(const g of GROUPS)for(const a of (g.actions||[])){if(typeof a.run!=='function'||/^look[1-9]$|^preset/.test(a.id))continue;const r0=a.run;a.run=(...x)=>{if(document.documentElement.hasAttribute('data-locked')&&!OK.has(a.id))return;return r0(...x)}}}
   try{SurfaceKeys.mount({button:'#pKeys',title:'Keys',groups:GROUPS});SurfaceKeys.toolbar('#playbar','Player')}catch(e){console.warn('keys',e)}
   const cap=k=>{const kb=document.createElement('kbd');kb.textContent=k;if(/[←→]/.test(k))kb.className='arr';if(k.length>2)kb.className='wide';return kb};
   const draw=()=>{const dl=document.getElementById('keysDl');if(dl){dl.textContent='';for(const g of GROUPS){if(g.compact){const ks=g.actions.map(a=>SurfaceKeys.keyFor(a.id)[0]).filter(Boolean);if(ks.length){const dt=document.createElement('dt');dt.append(cap(ks[0]+'\u2013'+ks[ks.length-1]));const dd=document.createElement('dd');dd.textContent=g.d+'.';dl.append(dt,dd)}continue}for(const a of g.actions){const ks=SurfaceKeys.keyFor(a.id);if(!ks.length)continue;
@@ -11664,7 +11702,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029034417"></script>
+<script src="surface/room.js?v=20261029040309"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11865,7 +11903,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029034417"></script>
+<script src="surface/touch.js?v=20261029040309"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12610,7 +12648,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.36.0';
+const APP_VERSION='0.36.1';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

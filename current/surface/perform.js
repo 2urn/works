@@ -22,23 +22,30 @@
      SurfacePerform.awake()            true while the wake lock is held
      SurfacePerform.why()              the reasons now, for a label ("room", "autoplay", "switch")
    Event: document "surfaceperform", detail {on, manual, awake}. The root carries data-performing while on.
+
+   THE SHOW LOCK (29 Oct 2026, for a performance): while locked, the tool hides its editing and lets only its show
+   controls through (the tool decides which, keyed off the root's data-locked). Locking also performs. It lasts for
+   the tab, like the switch, so a rescue reload comes back locked.
+     SurfacePerform.lock(on)           lock or unlock
+     SurfacePerform.locked()           true while locked
+   Event: document "surfaceperform" (detail.locked), as for the rest.
 */
 (function () {
   "use strict";
   if (window.SurfacePerform) return;
-  var KEY = "surface.performing", man = false, holds = {}, wakes = {}, lock = null, asking = false, wasOn = null;
-  try { man = sessionStorage.getItem(KEY) === "1"; } catch (e) {}
+  var KEY = "surface.performing", LKEY = "surface.locked", locked = false, man = false, holds = {}, wakes = {}, lock = null, asking = false, wasOn = null;
+  try { man = sessionStorage.getItem(KEY) === "1"; locked = sessionStorage.getItem(LKEY) === "1"; } catch (e) {}
   function any(o) { for (var k in o) if (o[k]) return true; return false; }
-  function on() { return man || any(holds); }
+  function on() { return man || locked || any(holds); }
   function wantAwake() { return on() || any(wakes); }
   function emit() {
     var h = on();
-    try { if (h) document.documentElement.setAttribute("data-performing", ""); else document.documentElement.removeAttribute("data-performing"); } catch (e) {}
+    try { if (h) document.documentElement.setAttribute("data-performing", ""); else document.documentElement.removeAttribute("data-performing"); if (locked) document.documentElement.setAttribute("data-locked", ""); else document.documentElement.removeAttribute("data-locked"); } catch (e) {}
     syncWake();
     if (h === wasOn) { tell(); return; }
     wasOn = h; tell();
   }
-  function tell() { try { document.dispatchEvent(new CustomEvent("surfaceperform", { detail: { on: on(), manual: man, awake: !!lock } })); } catch (e) {} }
+  function tell() { try { document.dispatchEvent(new CustomEvent("surfaceperform", { detail: { on: on(), manual: man, awake: !!lock, locked: locked } })); } catch (e) {} }
   function syncWake() {
     var want = wantAwake() && !document.hidden;
     if (want && !lock && !asking) take();
@@ -65,7 +72,9 @@
     hold: function (reason, v) { v = !!v; if (!!holds[reason] === v) return; if (v) holds[reason] = 1; else delete holds[reason]; emit(); },
     wake: function (reason, v) { v = !!v; if (!!wakes[reason] === v) return; if (v) wakes[reason] = 1; else delete wakes[reason]; syncWake(); },
     awake: function () { return !!lock; },
-    why: function () { var r = Object.keys(holds); if (man) r.unshift("switch"); return r; }
+    lock: function (v) { locked = !!v; try { sessionStorage.setItem(LKEY, locked ? "1" : "0"); } catch (e) {} wasOn = null; emit(); },
+    locked: function () { return locked; },
+    why: function () { var r = Object.keys(holds); if (man) r.unshift("switch"); if (locked) r.unshift("lock"); return r; }
   };
-  if (man) emit();
+  if (man || locked) emit();
 })();
