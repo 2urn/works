@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029111108";window.__VERSION__="0.36.7";window.__NOTES__=[{"v":"0.36.7","date":"29 Oct 2026","items":[{"kind":"fix","text":"every line in What's new says what it is (new, fix or change); some of today's did not"}]}]</script>
+<script>window.__BUILD__="20261029112647";window.__VERSION__="0.36.8";window.__NOTES__=[{"v":"0.36.8","date":"29 Oct 2026","items":[{"kind":"fix","text":"← and → turn a dial when it has focus, instead of also changing scene (Autoplay's Every dial too)"},{"kind":"change","text":"Follows and Adjust are drawers in the color editor: Follows shows its tie on its button and opens across the whole editor, both rows seen whole with nothing to scroll; Adjust holds this color's lightness, chroma and hue; the \"one ground\" and \"one ink\" buttons are gone (clear the slot on the strip)"},{"kind":"change","text":"the ground line's counts are one dial (drag round, as Autoplay's Every), so the line is short and the dice is never cut off; every bead's dots sit under it"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029111108"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029111108">
+<script src="claude-web.js?v=20261029112647"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029112647">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029111108"></script>
-<script src="surface/nozoom.js?v=20261029111108"></script><script src="surface/steady.js?v=20261029111108"></script><script src="surface/selftest.js?v=20261029111108"></script><script src="surface/size.js?v=20261029111108"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029111108"></script>
-<script src="surface/auto.js?v=20261029111108"></script>
-<script src="surface/toolpath.js?v=20261029111108"></script>
-<script src="surface/capture.js?v=20261029111108"></script>
-<script src="surface/pop.js?v=20261029111108"></script>
-<script src="surface/hints.js?v=20261029111108"></script>
-<script src="surface/paths.js?v=20261029111108"></script>
-<script src="surface/keys.js?v=20261029111108"></script>
-<script src="surface/reset.js?v=20261029111108"></script>
-<script src="surface/files.js?v=20261029111108"></script>
-<script src="surface/tabs.js?v=20261029111108"></script>
-<script src="surface/running.js?v=20261029111108"></script>
-<script src="surface/trim.js?v=20261029111108"></script>
-<script src="surface/audiowake.js?v=20261029111108"></script>
-<script src="surface/output.js?v=20261029111108"></script>
-<script src="surface/board.js?v=20261029111108"></script>
-<script src="surface/voice.js?v=20261029111108"></script>
-<script src="surface/voicelib.js?v=20261029111108"></script>
-<script src="surface/instruments.js?v=20261029111108"></script>
-<script src="surface/listview.js?v=20261029111108"></script>
-<script src="surface/beads.js?v=20261029111108"></script>
-<script src="surface/strip.js?v=20261029111108"></script>
-<script src="surface/sheetnav.js?v=20261029111108"></script>
-<script src="surface/twofinger.js?v=20261029111108"></script>
-<script src="surface/ring.js?v=20261029111108"></script>
-<script src="surface/shortlink.js?v=20261029111108"></script>
-<script src="surface/undo.js?v=20261029111108"></script>
-<script src="surface/pro.js?v=20261029111108"></script>
-<script src="surface/fresh.js?v=20261029111108"></script>
-<script src="surface/go.js?v=20261029111108"></script>
-<script src="surface/notice.js?v=20261029111108"></script>
-<script src="surface/perform.js?v=20261029111108"></script>
-<script src="surface/words.js?v=20261029111108"></script>
+<script src="vendor/opentype.min.js?v=20261029112647"></script>
+<script src="surface/nozoom.js?v=20261029112647"></script><script src="surface/steady.js?v=20261029112647"></script><script src="surface/selftest.js?v=20261029112647"></script><script src="surface/size.js?v=20261029112647"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029112647"></script>
+<script src="surface/auto.js?v=20261029112647"></script>
+<script src="surface/toolpath.js?v=20261029112647"></script>
+<script src="surface/capture.js?v=20261029112647"></script>
+<script src="surface/pop.js?v=20261029112647"></script>
+<script src="surface/hints.js?v=20261029112647"></script>
+<script src="surface/paths.js?v=20261029112647"></script>
+<script src="surface/keys.js?v=20261029112647"></script>
+<script src="surface/reset.js?v=20261029112647"></script>
+<script src="surface/files.js?v=20261029112647"></script>
+<script src="surface/tabs.js?v=20261029112647"></script>
+<script src="surface/running.js?v=20261029112647"></script>
+<script src="surface/trim.js?v=20261029112647"></script>
+<script src="surface/audiowake.js?v=20261029112647"></script>
+<script src="surface/output.js?v=20261029112647"></script>
+<script src="surface/board.js?v=20261029112647"></script>
+<script src="surface/voice.js?v=20261029112647"></script>
+<script src="surface/voicelib.js?v=20261029112647"></script>
+<script src="surface/instruments.js?v=20261029112647"></script>
+<script src="surface/listview.js?v=20261029112647"></script>
+<script src="surface/beads.js?v=20261029112647"></script>
+<script src="surface/strip.js?v=20261029112647"></script>
+<script src="surface/sheetnav.js?v=20261029112647"></script>
+<script src="surface/twofinger.js?v=20261029112647"></script>
+<script src="surface/ring.js?v=20261029112647"></script>
+<script src="surface/shortlink.js?v=20261029112647"></script>
+<script src="surface/undo.js?v=20261029112647"></script>
+<script src="surface/pro.js?v=20261029112647"></script>
+<script src="surface/fresh.js?v=20261029112647"></script>
+<script src="surface/go.js?v=20261029112647"></script>
+<script src="surface/notice.js?v=20261029112647"></script>
+<script src="surface/perform.js?v=20261029112647"></script>
+<script src="surface/words.js?v=20261029112647"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029111108"></script>
-<script src="surface/rail.js?v=20261029111108"></script>
-<script src="surface/touchsound.js?v=20261029111108"></script>
-<script src="surface/water.js?v=20261029111108"></script>
-<script src="surface/ripple.js?v=20261029111108"></script>
-<script src="surface/material.js?v=20261029111108"></script>
-<script src="surface/float.js?v=20261029111108"></script>
-<script src="surface/manual.js?v=20261029111108"></script>
+<script src="surface/pack.js?v=20261029112647"></script>
+<script src="surface/rail.js?v=20261029112647"></script>
+<script src="surface/touchsound.js?v=20261029112647"></script>
+<script src="surface/water.js?v=20261029112647"></script>
+<script src="surface/ripple.js?v=20261029112647"></script>
+<script src="surface/material.js?v=20261029112647"></script>
+<script src="surface/float.js?v=20261029112647"></script>
+<script src="surface/manual.js?v=20261029112647"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2644,12 +2644,12 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmPick .tb.cpIc{margin-top:12px}
 #colorPop .cmSw{gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px;scroll-snap-type:x proximity}#colorPop .cmSw::-webkit-scrollbar{display:none}#colorPop .cmSw button{flex:none}
 #colorPop .cmSw{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);padding-right:24px}
-#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}#colorPop .gLine{position:relative;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;padding:6px 4px 14px;margin:4px -4px 8px;overscroll-behavior-x:contain}#colorPop .gLine::-webkit-scrollbar{display:none}#colorPop .gLine::before{content:'';position:absolute;left:24px;right:24px;top:25px;height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .gB{position:relative;z-index:1;flex:none;box-sizing:border-box;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:var(--ui-solid,#1d2124);color:var(--ui-ink);font:600 12px/1 var(--mono);cursor:pointer}#colorPop .gB svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;margin-top:-6px}#colorPop .gB .apDots{bottom:6px;gap:3px}#colorPop .gB .apDots i{width:3px;height:3px}#colorPop .gB.gCol{box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}#colorPop .gB.gCol.on{box-shadow:0 0 0 2px var(--ui-bg,#1a1d1f),0 0 0 4px var(--acc,#55b8c9)}#colorPop .gB.gMix,#colorPop .gB.gUnit{border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent))}#colorPop .gB .gArr{display:inline-block;font:400 17px/1 var(--sans)}#colorPop .gB .gU{font:600 13px/1 var(--sans);margin-top:-6px}#colorPop .gB.gN.on,#colorPop .gB.gRnd.on{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#colorPop .gB.off,#colorPop .gB:disabled{opacity:.4;cursor:default}#colorPop .gB.gRnd svg{margin-top:0}#colorPop .cpBead{flex:0 0 38px;position:relative;overflow:visible}#colorPop .cpBead::before{content:'';position:absolute;left:-10px;right:-10px;top:22px;height:2px;margin-top:-1px;border-radius:2px;background:color-mix(in srgb,var(--acc,#55b8c9) 55%,transparent);z-index:0}#colorPop .cpBead.cpBeadOff::before{background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .cpBead>.cpBd{position:relative;z-index:1;box-sizing:border-box;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;margin:0 auto;border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background:var(--ui-solid,#1d2124);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent));color:var(--ui-ink)}#colorPop .cpBead.cpBeadOff>.cpBd{border-color:rgb(var(--ui-hi,255 255 255) / .22);background-image:none;opacity:.6}#colorPop .cpBead>.cpBd svg{width:14px;height:14px;margin-top:-5px;fill:none;stroke:currentColor;stroke-width:1.8}#colorPop .cpBead .apDots{bottom:5px;gap:3px}#colorPop .cpBead .apDots i{width:3px;height:3px}#colorPop .cpBead>span{margin-top:4px}
+#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}#colorPop .gLine{position:relative;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;padding:6px 4px 14px;margin:4px -4px 8px;overscroll-behavior-x:contain}#colorPop .gLine::-webkit-scrollbar{display:none}#colorPop .gLine::before{content:'';position:absolute;left:24px;right:24px;top:25px;height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .gB{position:relative;z-index:1;flex:none;box-sizing:border-box;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:var(--ui-solid,#1d2124);color:var(--ui-ink);font:600 12px/1 var(--mono);cursor:pointer}#colorPop .gB svg:not(.s-darc){width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;margin-top:-6px}#colorPop .gB .apDots{top:calc(100% + 5px);bottom:auto;gap:4px}#colorPop .gB .apDots i{width:4px;height:4px;box-shadow:none;background:var(--ui-ink);opacity:.28}#colorPop .gB .apDots i.on{opacity:1}#colorPop .gB svg:not(.s-darc){margin-top:0}#colorPop .gB.gDial{width:38px;height:38px}#colorPop .gB.gCol{box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}#colorPop .gB.gCol.on{box-shadow:0 0 0 2px var(--ui-bg,#1a1d1f),0 0 0 4px var(--acc,#55b8c9)}#colorPop .gB.gMix,#colorPop .gB.gUnit{border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent))}#colorPop .gB .gArr{display:inline-block;font:400 17px/1 var(--sans)}#colorPop .gB.gN.on,#colorPop .gB.gRnd.on{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#colorPop .gB.off,#colorPop .gB:disabled{opacity:.4;cursor:default}#colorPop .gB.gRnd svg{margin-top:0}#colorPop .cpBead{flex:0 0 38px;position:relative;overflow:visible}#colorPop .cpBead::before{content:'';position:absolute;left:-10px;right:-10px;top:22px;height:2px;margin-top:-1px;border-radius:2px;background:color-mix(in srgb,var(--acc,#55b8c9) 55%,transparent);z-index:0}#colorPop .cpBead.cpBeadOff::before{background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .cpBead>.cpBd{position:relative;z-index:1;box-sizing:border-box;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;margin:0 auto;border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background:var(--ui-solid,#1d2124);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent));color:var(--ui-ink)}#colorPop .cpBead.cpBeadOff>.cpBd{border-color:rgb(var(--ui-hi,255 255 255) / .22);background-image:none;opacity:.6}#colorPop .cpBead>.cpBd svg{width:15px;height:15px;margin-top:0;fill:none;stroke:currentColor;stroke-width:1.8}#colorPop .cpBead .apDots{top:calc(100% + 3px);bottom:auto;gap:3px}#colorPop .cpBead .apDots i{width:3px;height:3px;box-shadow:none;background:var(--ui-ink);opacity:.28}#colorPop .cpBead .apDots i.on{opacity:1}#colorPop .cpBead>span{margin-top:8px}
 #colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"b h t" "b r r";gap:8px 12px;align-items:center}
 #colorPop .cmPick .cmEdTop>.cmBig{grid-area:b;width:64px;height:64px}#colorPop .cmEdTop>.cmEdHex{grid-area:h;min-width:0}#colorPop .cmEdTop>.cmTg{grid-area:t}
 #colorPop .cmRelTop{grid-area:r;display:flex;align-items:center;gap:10px;min-width:0;margin:0}#colorPop .cmRelTop select{flex:1}
 #colorPop .cmAnim{flex-wrap:wrap}#colorPop .cmAnim .cmSeg{flex-wrap:wrap;flex:1 1 auto}#colorPop .cmAnim .cmSp{flex:1 1 100%;min-width:0}#colorPop .cmAnim .cmPer{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:8px 0 0}#colorPop .cmAnim .cmPer>span{display:block}#colorPop .cmPer .cmSeg{flex-wrap:wrap}#colorPop .cmPer.off{opacity:.4}#colorPop .cmRelK{font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
-#colorPop .cmFol{display:grid;gap:4px;min-width:0}#colorPop .cmFolOf,#colorPop .cmFolOp{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0;overflow-x:auto;scrollbar-width:none;padding:5px 4px;margin:0 -4px;overscroll-behavior-x:contain}#colorPop .cmFolOf::-webkit-scrollbar,#colorPop .cmFolOp::-webkit-scrollbar{display:none}#colorPop .cmFolOp.off .cmFolSw{opacity:.4}#colorPop .cmFolN{flex:none!important;padding:0 2px}#colorPop .cmFolSw{flex:none;width:28px;height:28px;border-radius:50%;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:transparent;cursor:pointer;position:relative}#colorPop .cmFolSw::after{content:'';position:absolute;inset:-6px -4px}#colorPop .cmFolSw.none{background-image:linear-gradient(135deg,transparent 46%,rgb(var(--ui-hi,255 255 255) / .4) 46% 54%,transparent 54%)}#colorPop .cmFolSw[aria-checked=true]{box-shadow:0 0 0 2px var(--ui-bg,#1a1d1f),0 0 0 4px var(--acc,#55b8c9)}#colorPop .cmFolSw:disabled{cursor:default}#colorPop .cmFolWho{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px 0 5px;border-radius:99px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;cursor:pointer}#colorPop .cmFolWho>i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}#colorPop .cmFolWho.none>i{background-image:linear-gradient(135deg,transparent 44%,rgb(var(--ui-hi,255 255 255) / .45) 44% 56%,transparent 56%)}#colorPop .cmFolWho[aria-checked=true]{border-color:var(--acc,#55b8c9);box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}#colorPop .cmFolFree{flex:none;min-height:28px;padding:0 10px;border-radius:99px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}#colorPop .cmFolFree[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#colorPop .cmFolN{font:400 12px/1.3 var(--sans);color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#colorPop .cmRelTop select{width:100%;min-width:0;max-width:none;min-height:32px;text-overflow:ellipsis}#colorPop .cmRelTop select.tied{border-color:var(--acc,#55b8c9)}
+#colorPop .cmFol{display:grid;gap:4px;min-width:0}#colorPop .cmDrwBar{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}#colorPop .cmDrw{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 8px 0 11px;border-radius:999px;border:0;background:rgb(var(--ui-hi,255 255 255) / .07);color:var(--ui-ink);cursor:pointer;max-width:100%}#colorPop .cmDrwK{font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim)}#colorPop .cmDrwV{font:400 12px/1.2 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#colorPop .cmDrwV:empty{display:none}#colorPop .cmDrw.tied{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}#colorPop .cmDrw svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .2s}#colorPop .cmDrw[aria-expanded=true] svg{transform:rotate(180deg)}#colorPop .cmAdjD[hidden],#colorPop .cmFolRow[hidden]{display:none!important}#colorPop .cmDrw{position:relative}#colorPop .cmDrw::after{content:'';position:absolute;inset:-5px 0}#colorPop .cmGrid>.cmFolRow{grid-column:1/-1;display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--ui-line)}#colorPop .cmFolRow>.cmRelK{display:block!important;font:600 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ui-dim);padding-top:10px}#colorPop .cmFolRow .cmFolOf,#colorPop .cmFolRow .cmFolOp{flex-wrap:wrap;overflow:visible;margin:0;padding:2px 0}#colorPop .cmFolOf,#colorPop .cmFolOp{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0;overflow-x:auto;scrollbar-width:none;padding:5px 4px;margin:0 -4px;overscroll-behavior-x:contain}#colorPop .cmFolOf::-webkit-scrollbar,#colorPop .cmFolOp::-webkit-scrollbar{display:none}#colorPop .cmFolOp.off .cmFolSw{opacity:.4}#colorPop .cmFolN{flex:none!important;padding:0 2px}#colorPop .cmFolSw{flex:none;width:28px;height:28px;border-radius:50%;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:transparent;cursor:pointer;position:relative}#colorPop .cmFolSw::after{content:'';position:absolute;inset:-6px -4px}#colorPop .cmFolSw.none{background-image:linear-gradient(135deg,transparent 46%,rgb(var(--ui-hi,255 255 255) / .4) 46% 54%,transparent 54%)}#colorPop .cmFolSw[aria-checked=true]{box-shadow:0 0 0 2px var(--ui-bg,#1a1d1f),0 0 0 4px var(--acc,#55b8c9)}#colorPop .cmFolSw:disabled{cursor:default}#colorPop .cmFolWho{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px 0 5px;border-radius:99px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;cursor:pointer}#colorPop .cmFolWho>i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}#colorPop .cmFolWho.none>i{background-image:linear-gradient(135deg,transparent 44%,rgb(var(--ui-hi,255 255 255) / .45) 44% 56%,transparent 56%)}#colorPop .cmFolWho[aria-checked=true]{border-color:var(--acc,#55b8c9);box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}#colorPop .cmFolFree{flex:none;min-height:28px;padding:0 10px;border-radius:99px;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:none;color:var(--ui-ink);font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}#colorPop .cmFolFree[aria-checked=true]{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#colorPop .cmFolN{font:400 12px/1.3 var(--sans);color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#colorPop .cmRelTop select{width:100%;min-width:0;max-width:none;min-height:32px;text-overflow:ellipsis}#colorPop .cmRelTop select.tied{border-color:var(--acc,#55b8c9)}
 #colorPop .cmEdHex input{width:100%;max-width:7.2em;box-sizing:border-box}#colorPop .cmTg{margin-left:0;flex:none}
 #colorPop .cmGrid{gap:0 28px}
 #colorPop .cmAnim{margin-top:20px;padding-top:16px;gap:8px}
@@ -7373,6 +7373,8 @@ $('panel').tabIndex=-1;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.body.classList.contains('player')&&!e.target.closest('input,select,textarea'))setPlayer(true)});
 window.addEventListener('keydown',e=>{
   if(e.target.closest&&e.target.closest('input,select,textarea'))return;
+  /* a dial or a slider keeps its arrows, as keys.js ownsArrows(): ← → stepped the scene as well, so turning Autoplay's or the ground's dial with the keys changed scene (review 42b760c, found in a test). Tabs and radio rows leave ← → to the scenes on purpose: a clicked pill keeps focus, and a presentation clicker sends arrows (review b4284b2 r-1) */
+  if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&e.target.closest&&e.target.closest('[role=slider],[role=spinbutton]'))return;
   const k=e.key;
   if(k==='p')setPlayer(!document.body.classList.contains('player'));
   else if(k==='ArrowRight')stepPreset(1);else if(k==='ArrowLeft')stepPreset(-1);
@@ -9379,6 +9381,7 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
   setInterval(()=>{if(!$('colorPop').hidden)PAL_PAINT()},1000)}   // the swatches follow the scene as it plays
 /* GROUND MIX: how Ground 1 and Ground 2 meet. Gradient (direction, softness) or Turns (on the tempo; softness is the
    crossfade). Both rows always show, the one not in use greyed, so a choice never changes the panel's height. */
+function cmDrawers(k,v){let D={};try{D=JSON.parse(localStorage.getItem('current.cmDrawers')||'{}')||{}}catch(_){}if(D.fol===undefined)D.fol=false;if(D.adj===undefined)D.adj=true;if(k){D[k]=!!v;try{localStorage.setItem('current.cmDrawers',JSON.stringify(D))}catch(_){}}return D}
 function renderGMix(){const pane=$('cmGMix');if(!pane)return;pane.innerHTML='';const M=GMIX(),on=!!S.ground2;
   const el=(tag,cls,html,par)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(par||pane).appendChild(e);return e};
   const re=()=>{groundMixDirty();clearTrails();renderGMix();try{PAL_PAINT()}catch(_){}};
@@ -9403,7 +9406,14 @@ function renderGMix(){const pane=$('cmGMix');if(!pane)return;pane.innerHTML='';c
     const UNITS=['hand','beat','bar'],ui=Math.max(0,UNITS.indexOf(X0.unit));
     B('gUnit',(X0.unit==='hand'?UNIT_HAND:UNIT_LIVE[X0.unit])+'<span class="apDots" aria-hidden="true">'+UNITS.map((u,k)=>'<i'+(k===ui?' class="on"':'')+'></i>').join('')+'</span>',
       'Timing: '+(X0.unit==='hand'?'by hand':'in '+X0.unit+'s')+'. Tap for '+(UNITS[(ui+1)%3]==='hand'?'by hand':UNITS[(ui+1)%3]+'s'),()=>{const X=GMIX(),L=gLineOf(X);X.unit=UNITS[(UNITS.indexOf(L.unit)+1)%3];if(!X.n)X.n=L.n||4;delete X.spin;delete X.sp;re()});
-    for(const n of [1,2,4,8,16,32]){const on=X0.unit!=='hand'&&X0.n===n;const b=B('gN'+(on?' on':'')+(X0.unit==='hand'?' off':''),String(n),(grad?'One full turn every ':'Swap every ')+n+' '+(X0.unit==='bar'?'bar':'beat')+(n>1?'s':''),()=>{const X=GMIX(),L=gLineOf(X);if(L.unit==='hand')return;X.unit=L.unit;X.n=n;delete X.spin;delete X.sp;re()});b.disabled=X0.unit==='hand';b.setAttribute('aria-pressed',String(on))}
+    /* ONE DIAL FOR THE COUNT (Dimitry, 29 Oct 07:12: "collapse those down to one ... with a ring that allows us to dial in the
+       one that we need", so the line is short and the dice is never cut): Autoplay's own dial (SurfaceBeads.dial) */
+    if(window.SurfaceBeads&&SurfaceBeads.dial){const hand=X0.unit==='hand',un=X0.unit==='bar'?'bar':'beat';
+      const dl=SurfaceBeads.dial({cls:'gB gDial'+(hand?' off':''),label:grad?'One full turn every':'Swap every',stops:()=>[1,2,4,8,16,32],get:()=>gLineOf(GMIX()).n,
+        set:v=>{const X=GMIX(),L=gLineOf(X);if(L.unit==='hand')return;X.unit=L.unit;X.n=v;delete X.spin;delete X.sp;groundMixDirty();clearTrails();try{PAL_PAINT()}catch(_){}try{dl.sync()}catch(_){}},   /* never rebuilds the line mid-drag (review 42b760c r-1): the pane is redrawn only when the gesture ends */
+        done:()=>{const had=document.activeElement===dl;re();if(had){const n=$('cmGMix').querySelector('.gDial');if(n)n.focus({preventScroll:true})}},face:v=>String(v),busy:v=>String(v),
+        aria:v=>(grad?'One full turn every ':'Swap every ')+v+' '+un+(v>1?'s':'')});
+      if(hand){dl.setAttribute('aria-disabled','true');dl.style.pointerEvents='none';dl.tabIndex=-1}line.appendChild(dl)}
     const dc=B('gRnd'+(M.rnd?' on':'')+(X0.unit==='hand'?' off':''),'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/></svg>','Random: each period a new length'+(grad?' and a new direction':'')+(M.rnd?' (on)':' (off)'),()=>{const X=GMIX(),L=gLineOf(X);if(L.unit==='hand')return;X.unit=L.unit;X.n=L.n;X.rnd=!X.rnd;delete X.spin;delete X.sp;re()});dc.disabled=X0.unit==='hand';dc.setAttribute('aria-pressed',String(!!M.rnd))}
   /* ONE SLIDER, TWO HANDLES: the line is where the grounds meet, the circle how gently (its distance from the line); the
      groove shows the gradient itself. Turns uses only the circle (the crossfade). */
@@ -9418,7 +9428,7 @@ function renderGMix(){const pane=$('cmGMix');if(!pane)return;pane.innerHTML='';c
   tr.addEventListener('pointermove',e=>{if(drag)setFrom(drag,e.clientX)});tr.addEventListener('pointerup',()=>{drag=null});tr.addEventListener('pointercancel',()=>{drag=null});
   const key=(which)=>e=>{const X=GMIX(),cur=which==='L'?(X.pos==null?.5:X.pos):X.soft;const st={ArrowLeft:-.01,ArrowDown:-.01,ArrowRight:.01,ArrowUp:.01,PageDown:-.1,PageUp:.1,Home:-cur,End:1-cur}[e.key];if(st==null)return;e.preventDefault();if(which==='L')X.pos=Math.max(0,Math.min(1,cur+st));else X.soft=Math.max(0,Math.min(1,cur+st));paint();groundMixDirty();clearTrails()};
   hL.addEventListener('keydown',key('L'));hC.addEventListener('keydown',key('C'));paint();
-  const x=el('button','tb','one ground');x.type='button';x.onclick=()=>{CG.ground2.off();try{const pn=$('cmGround2');if(pn&&pn._cm)pn._cm.update()}catch(_){}re()}}
+  /* no 'one ground' / 'one ink' button: the slot's own clear on the strip does it (Dimitry, 29 Oct 07:19: it "just adds depth to the panel") */}
 function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;pane.appendChild(e);return e};
   const re=()=>{renderMixTab();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
   /* the pair of inks and the three mix pills went to the strip's bead (Dimitry, 29 Oct 06:38); what stays here is what the
@@ -9434,7 +9444,7 @@ function renderMixTab(){const pane=$('cmMix');if(!pane)return;pane.innerHTML='';
     const n=el('p','cmNote',say);n.classList.toggle('off',off);n.style.visibility=off?'hidden':'';   /* kept in place: a pill never changes the panel's height (review 231ceac r-3) */
     const sp=el('label','cmSp');const own=!off&&S.altBy==='sec';sp.classList.toggle('off',!own);sp.innerHTML='<span>every</span>';const r=document.createElement('input');r.type='range';r.min=.5;r.max=12;r.step=.1;r.value=S.altTime;r.setAttribute('aria-label','Seconds between swaps (your own time)');r.disabled=!own;r.setAttribute('aria-disabled',String(!own));
     const o=document.createElement('output');o.textContent=(+S.altTime).toFixed(1)+'s';r.oninput=()=>{S.altTime=+r.value;o.textContent=(+r.value).toFixed(1)+'s';syncLine()};sp.appendChild(r);sp.appendChild(o)}   // greyed in place, never hidden: the panel keeps its height
-  const x=el('button','tb','one ink');x.type='button';x.style.marginTop='12px';x.setAttribute('aria-label','Remove the second ink');x.onclick=()=>{CG.second.off();re()}}
+  /* no 'one ground' / 'one ink' button: the slot's own clear on the strip does it (Dimitry, 29 Oct 07:19: it "just adds depth to the panel") */}
 function openColorMix(g){try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}stkMixOff();if(typeof g==='string'&&window.CM_VIEW)CM_VIEW('ed');   /* asked for one color: its editor, not the list (r-4) */CM_TABS.show(typeof g==='string'?g:CM_TABS.last());$('colorPop').hidden=false}
 /* THE MIXER FOR THE STICKER'S FRAME: the same Color mixer, compact: no tabs, one pane, the picker and its rows */
 function openStickerMix(c){const K=CAP.stk;c=c||K.mine||(K.edge!=='none'?K.edge:'#ffffff');try{closeMix()}catch(_){}try{closeWordList();closeFontList()}catch(_){}
@@ -9504,14 +9514,24 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
       for(const b of ofB){const c=hexOf(b.dataset.k),dot=b.firstChild;dot.style.background=c||'';b.classList.toggle('none',!c);b.setAttribute('aria-checked',String(!!r&&r.of===b.dataset.k))}
       const src=r?hexOf(r.of):null,srcN=r?(PAL_SLOTS.find(q=>q[0]===r.of)||[,''])[1]:'';fOp.classList.toggle('off',!r);
       for(const b of opB){const c=src?palOp(b.dataset.o,src):null,t=b.title;b.style.background=c||'';b.disabled=!r;b.setAttribute('aria-checked',String(!!r&&r.op===b.dataset.o));b.setAttribute('aria-label',r?t+' '+srcN:t)}
-      const on=r&&PAL_OPS.find(q=>q[0]===r.op);opN.textContent=r?(on?on[1]:'')+' '+srcN:'pick a color above, then how'}}}
+      const on=r&&PAL_OPS.find(q=>q[0]===r.op);opN.textContent=r?(on?on[1]:'')+' '+srcN:'pick a color above, then how';try{const fb=rw._btn;if(fb){fb.querySelector('.cmDrwV').textContent=r?(on?on[1]:'')+' '+srcN:'free';fb.classList.toggle('tied',!!r)}}catch(_){}}}}
   const rs=[['L','lightness',0,1,.005],['C','chroma',0,.37,.002],['H','hue',0,360,1]].map(([k,n,a,b,st])=>{const l=mk('label','cmEdR','<span>'+n+'</span><input type="range" min="'+a+'" max="'+b+'" step="'+st+'"><output></output>',pick),r=l.querySelector('input');r.dataset.k=k;r.setAttribute('aria-label',G.name+' '+n);return r});
   const saveRow=mk('div','cmEdRow',null,pick),save=mk('button','tb cmEdSave',null,saveRow);save.type='button';
   /* HIS LAYOUT (Dimitry, 28 Oct 21:55): the swatch on the left; beside it one row of # hex | on/off | follows | save, and
      under that row lightness, chroma, hue. The chips, then Animation, come after as their own groups. */
   {const RC=document.createElement('div');RC.className='cmRC';const R1=document.createElement('div');R1.className='cmR1';
-    R1.appendChild(hexL);const fw=top.querySelector('.cmRelTop');R1.appendChild(tg);RC.appendChild(R1);if(fw){fw.classList.add('cmR2');RC.appendChild(fw)}   /* Follows on its own line, its words whole (Dimitry, 29 Oct 23:58, a screenshot: 'comple…' was "impossible") */{const bw=document.createElement('span');bw.className='cmBigW';top.insertBefore(bw,big);bw.appendChild(big);bw.appendChild(save)}   /* save is a plus on the big circle (Dimitry, 28 Oct 21:58) */
-    for(const r of rs)RC.appendChild(r.closest('label'));top.appendChild(RC);saveRow.remove()}
+    R1.appendChild(hexL);const fw=top.querySelector('.cmRelTop');R1.appendChild(tg);RC.appendChild(R1);if(fw){fw.classList.add('cmFolRow');const gr=fw.closest('.cmGrid')||pane.querySelector('.cmGrid'),an=gr&&gr.querySelector(':scope>.cmAnim');if(gr&&an)gr.insertBefore(fw,an);else RC.appendChild(fw)}   /* Follows across the whole editor, seen whole, never scrolled (Dimitry, 29 Oct 07:19) */   /* Follows on its own line, its words whole (Dimitry, 29 Oct 23:58, a screenshot: 'comple…' was "impossible") */{const bw=document.createElement('span');bw.className='cmBigW';top.insertBefore(bw,big);bw.appendChild(big);bw.appendChild(save)}   /* save is a plus on the big circle (Dimitry, 28 Oct 21:58) */
+    /* TWO DRAWERS (Dimitry, 29 Oct 07:20: "a drawer that appears under the word follow and another one that appears under the
+       word adjust for that one color ... a full width interface inside the panel"): Follows (who and how, across the whole
+       editor) and Adjust (this color's lightness, chroma, hue). Each opens and shuts from its word; the state is kept. */
+    const AD=document.createElement('div');AD.className='cmAdjD';for(const r of rs)AD.appendChild(r.closest('label'));
+    if(fw){const bar=document.createElement('div');bar.className='cmDrwBar';
+      /* one state for every pane (review 9d3f06e r-1: each pane kept its own copy, and the last one toggled overwrote the rest) */
+      const DS=cmDrawers(),paint=(b,el2,v)=>{b.setAttribute('aria-expanded',String(v));el2.hidden=!v};
+      const tgl=(k,lab,el2)=>{const b=document.createElement('button');b.type='button';b.className='cmDrw';b.dataset.k=k;b._el=el2;b.innerHTML='<span class="cmDrwK">'+lab+'</span><span class="cmDrwV"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>';
+        paint(b,el2,!!DS[k]);b.onclick=()=>{const v=!cmDrawers()[k];cmDrawers(k,v);for(const o of document.querySelectorAll('#colorPop .cmDrw[data-k="'+k+'"]'))if(o._el)paint(o,o._el,v);if(v)setTimeout(()=>{try{el2.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(_){}},260)};bar.appendChild(b);return b};
+      const fb=tgl('fol','follows',fw);fw._btn=fb;tgl('adj','adjust',AD);RC.appendChild(bar)}
+    RC.appendChild(AD);top.appendChild(RC);saveRow.remove()}
   let st=null;   // the picker's own L C H, so a grey keeps its hue while you drag
   const lch=c=>{const v=OKC.lch(c);v[2]=((v[2]%360)+360)%360;if(v[1]<.002&&st)v[2]=st[2];return v};
   const setC=(c,ev)=>{G.set(c);if(ev)stkDid(ev);CM_ED=g;update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};
@@ -11598,10 +11618,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029111108"></script>
-<script src="surface/links.js?v=20261029111108"></script>
-<script src="surface/tips.js?v=20261029111108"></script>
-<script src="surface/sections.js?v=20261029111108"></script>
+<script src="surface/install.js?v=20261029112647"></script>
+<script src="surface/links.js?v=20261029112647"></script>
+<script src="surface/tips.js?v=20261029112647"></script>
+<script src="surface/sections.js?v=20261029112647"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11791,7 +11811,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029111108"></script>
+<script src="surface/room.js?v=20261029112647"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11992,7 +12012,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029111108"></script>
+<script src="surface/touch.js?v=20261029112647"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12737,7 +12757,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.36.7';
+const APP_VERSION='0.36.8';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
