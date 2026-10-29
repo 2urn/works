@@ -67,8 +67,8 @@
    Additive; nothing changes unless a host calls fill(). Seen from above: the floor is dry and hard, with a gentle relief
    (a fixed value noise, the same here and on the GPU) whose hollows fill first. level 0 is dry, 1 is a full pool.
      w.fill(level)                0..1 turns the floor on and sets how full it is (null: off, the surface as before).
-                                  Where the floor is dry a drop does not ring: it SPLASHES (a crown that flashes and
-                                  fades, and a spray of beads that stay where they land). Where the water stands, drops
+                                  Where the floor is dry a drop does not ring: it SPLASHES (a crown of droplets thrown
+                                  out in a ring that land and stay; beads that touch merge, as on glass). Where the water stands, drops
                                   ring as always; waves stop at the water's edge. As level rises, puddles open in the
                                   hollows, join, and at 1 the whole surface is water
      w.splash(x, y, size)         a splash where you say (x, y 0..1, y down), whatever is under it
@@ -102,7 +102,7 @@
      of water a splash left (they stay), a = a splash's flash (it fades in a few frames) */
   var FS_WAVE = HEAD +
     "uniform sampler2D uState, uCur; uniform float uC2, uDamp, uAdv; uniform vec4 uDrops[16]; uniform int uCount; uniform float uAsp;\n" +
-    "uniform float uFill, uLevel; uniform vec4 uWet[32]; uniform int uWetN; uniform sampler2D uFloor;\n" +
+    "uniform float uFill, uLevel; uniform sampler2D uFloor, uBeads;\n" +
     "out vec4 o;\n" + GL_FLOOR +
     "ivec2 cl(ivec2 p, ivec2 n){ return clamp(p, ivec2(0), n-1); }\n" +
     "void main(){\n" +
@@ -120,34 +120,35 @@
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
     "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
-    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texelFetch(uFloor,p,0).r, uLevel), ba.b*0.6));\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texelFetch(uFloor,p,0).r, uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
-    "  float w = ba.b, fl = ba.a*0.86;\n" +
-    "  if (uFill > 0.5) for (int i=0;i<32;i++){ if(i>=uWetN) break; vec4 d = uWet[i]; vec2 dd = c - d.xy*vec2(n); float g = exp(-dot(dd,dd)/(d.z*d.z));\n" +
-    "    if (d.w > 0.0) w = max(w, d.w*g); else fl = max(fl, -d.w*g); }\n" +
-    "  o = vec4(clamp(nh,-8.0,8.0), h, uFill > 0.5 ? w : 0.0, uFill > 0.5 ? fl : 0.0);\n" +
+    "  o = vec4(clamp(nh,-8.0,8.0), h, 0.0, 1.0);\n" +
     "}";
   /* the look: the source seen through the surface */
   var FS_SHOW = HEAD +
     "in vec2 vUv; out vec4 o;\n" +
     "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus; uniform vec2 uPx;\n" +
-    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor;\n" + GL_FLOOR +
+    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor, uBeads;\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
-    "float wetM(vec2 uv, vec4 s){ return smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,uv).r, uLevel), s.b*0.6)); }\n" +
-    "float hAt(vec2 uv){ vec4 s = texture(uWave,uv); if (uFill < 0.5) return s.r; float m = wetM(uv, s);\n" +
-    "  return s.r*m + 0.9*sqrt(clamp(s.b,0.0,1.0))*(1.0-m) + 0.5*m*(1.0-m) - 0.25*s.a; }\n" +
+    "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,uv).r, uLevel), b*0.6)); }\n" +
+    "float hAt(vec2 uv){ vec4 s = texture(uWave,uv); if (uFill < 0.5) return s.r; float b = texture(uBeads,uv).r, m = wetM(uv, b);\n" +
+    "  return s.r*m + 0.5*m*(1.0-m); }\n" +
+    /* a bead's own lens, read at the beads' own resolution so a small drop is a clean dome, not a speckle */
+    "vec2 beadGrad(vec2 uv){ vec2 t = 1.0/vec2(textureSize(uBeads,0)); float l = texture(uBeads,uv-vec2(t.x,0)).r, r = texture(uBeads,uv+vec2(t.x,0)).r, d = texture(uBeads,uv-vec2(0,t.y)).r, u = texture(uBeads,uv+vec2(0,t.y)).r;\n" +
+    "  return vec2(r-l, u-d)*0.5*vec2(textureSize(uBeads,0))/vec2(textureSize(uWave,0)); }\n" +
     "void main(){\n" +
     "  vec2 uv = vUv; vec2 t = 1.0/vec2(textureSize(uWave,0));\n" +
     "  float hc = hAt(uv), hl = hAt(uv-vec2(t.x,0)), hr = hAt(uv+vec2(t.x,0)),\n" +
     "        hd = hAt(uv-vec2(0,t.y)), hu = hAt(uv+vec2(0,t.y));\n" +
     "  vec2 grad = vec2(hr-hl, hu-hd)*0.5; float lap = hl+hr+hd+hu-4.0*hc;\n" +
+    "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.3*(1.0-wetM(uv, b1)); }\n" +
     "  vec2 ruv = clamp(uv - grad*uPx*uRefr, vec2(0.0), vec2(1.0));\n" +
     "  vec4 c = texture(uSrc, ruv);\n" +
     /* wet floor reads a touch darker than dry; a splash's flash is light thrown up off the floor */
-    "  float fla = 0.0; if (uFill > 0.5) { vec4 s0 = texture(uWave,uv); float wv = max(wetM(uv, s0), smoothstep(0.1, 0.5, s0.b)); c.rgb *= 1.0 - uDark*wv; fla = clamp(s0.a, 0.0, 1.0); }\n" +
+    "  if (uFill > 0.5) { float b0 = texture(uBeads,uv).r, wv = max(wetM(uv, b0), smoothstep(0.02, 0.25, b0)); c.rgb *= 1.0 - uDark*wv; }\n" +
     "  float caus = clamp(-lap*3.0, -0.5, 1.0)*uCaus;\n" +
     "  c.rgb *= 1.0 + caus*0.6*(1.0-uCausA);\n" +
     /* the material's colors: light gathered in the caustic's color; the depth color over troughs and crests */
@@ -156,7 +157,6 @@
     "  vec3 nrm = normalize(vec3(-grad*6.0, 1.0)); vec3 L = normalize(vec3(-0.45,0.55,1.0));\n" +
     "  float sp = pow(max(dot(reflect(-L,nrm),vec3(0,0,1)),0.0),60.0)*uSpec*0.9;\n" +
     "  sp *= smoothstep(0.004, 0.04, length(grad));\n" +
-    "  sp += fla*0.55;\n" +
     "  o = vec4(c.rgb + uGlint*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
   /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
@@ -185,7 +185,7 @@
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.5;
     var SW = 0, SH = 0, lastMove = null;
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
-    var FILL = null, wets = [], FLB = null, flTex = null, fullT = 0;
+    var FILL = null, FLB = null, flTex = null, fullT = 0, BEADS = [], FLY = [], bdCv = null, bdCx = null, bdTex = null, bdDirty = true, SPRB = null;
     var offFade = 0, fadeT = 0, sig = 1, sigT = 1, HO = null, enTex = null, enFbo = null, enBuf = new Uint8Array(16 * 16 * 4), enAt = -1e9, enVal = 0;
 
     function sh(type, s) { var x = gl.createShader(type); gl.shaderSource(x, s); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x)); return x; }
@@ -212,7 +212,7 @@
         if ((cbf || cbh) && testFmt(gl.RGBA16F, gl.HALF_FLOAT)) fmt = [gl.RGBA16F, gl.HALF_FLOAT];
         else if (cbf && gl.getExtension("OES_texture_float_linear") && testFmt(gl.RGBA32F, gl.FLOAT)) fmt = [gl.RGBA32F, gl.FLOAT];
         else return;
-        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW); try { prog.en = program(FS_EN); } catch (_) { prog.en = null; } enTex = enFbo = null;
+        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW); try { prog.en = program(FS_EN); } catch (_) { prog.en = null; } enTex = enFbo = null; bdTex = flTex = null; FLB = null; bdDirty = true;   /* a restored context owns none of the old textures (review bc62d0e r-1) */
         buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
         srcTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, srcTex);
@@ -260,8 +260,7 @@
       gl.uniform4fv(pw.u.uDrops, a); gl.uniform1i(pw.u.uCount, d.length);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(pw.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
       gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0);
-      var wd = wets.splice(0, 32), wa = new Float32Array(128); for (var j = 0; j < wd.length; j++) wa.set(wd[j], j * 4);
-      gl.uniform4fv(pw.u.uWet, wa); gl.uniform1i(pw.u.uWetN, wd.length);
+      if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(pw.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); cur = 1 - cur;
     }
     function draw() {
@@ -277,6 +276,7 @@
       gl.uniform1i(ps.u.uWave, 0); gl.uniform1i(ps.u.uSrc, 1);
       gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(ps.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
+      if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0);
       /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
       gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
@@ -328,7 +328,7 @@
         if (HO.at != null && HO.t - HO.at >= HO.delay) { HO = null; sigT = 1; }
       }
     }
-    function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; wets.length = 0; }
+    function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; }
     function addDrop(x, y, size, strength, own) {
       if (!ok || !on) return;
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
@@ -359,21 +359,76 @@
       return sstep(n - 0.06, n + 0.06, L); }
     /* the floor is on while it is filling, and while a full pool still has splashes to finish; a full, settled pool takes
        the old path (no floor reads at all) */
-    function floorOn() { return FILL != null && (FILL < 1 || wets.length > 0 || fullT < 0.6); }
-    /* A SPLASH ON A HARD FLOOR: a crown of light that flashes and fades, a bead where it struck, and a spray of smaller
-       beads thrown out in every direction, many more and farther than a ring would reach. The beads stay */
+    function floorOn() { return FILL != null && (FILL < 1 || FLY.length > 0 || fullT < 0.6); }
+    /* BEADS, AS RAIN ON GLASS HAS THEM (Dimitry, 29 Oct 07:32: the flashes "don't look like raindrops ... little individual
+       droplets that sort of explode out from a center in a radial formation ... those patterns should stay on the ground in
+       that sort of ring formation and just keep adding up"; "we do have ... a water on glass effect ... the water actually
+       gloms together at individual droplet level"). The method is Rain on Glass's (after Lucas Bebber's Codrops
+       experiments): every bead is a real drop on the CPU, {x, y, r} in bead pixels; two that touch merge into one with
+       their area added, so the floor's water gathers bead by bead into puddles; each is drawn as a small dome into a
+       height map the GPU bends the light through. A splash throws a crown of droplets out from where it struck, in a
+       ring, that fly for a moment and land, and stay. */
+    var BK = 2;   // bead pixels per field pixel
+    function beadCanvas() { var w = N[0] * BK, h = N[1] * BK; if (!bdCv) { bdCv = document.createElement("canvas"); bdCx = bdCv.getContext("2d"); }
+      if (bdCv.width !== w || bdCv.height !== h) { var ow = bdCv.width, oh = bdCv.height;
+        if (ow && oh) { var kx = w / ow, ky = h / oh, kr = Math.sqrt(kx * ky); BEADS.forEach(function (b) { b.x *= kx; b.y *= ky; b.r *= kr; }); FLY.forEach(function (f) { f.x0 *= kx; f.x1 *= kx; f.y0 *= ky; f.y1 *= ky; f.r *= kr; }); }   /* the beads keep their place when the field resizes (review r-2) */
+        bdCv.width = w; bdCv.height = h; bdDirty = true; } }
+    /* the dome: a little irregular at its edge, so a field of beads is not a field of circles; four variants */
+    function beadSprites() { if (SPRB) return SPRB; SPRB = []; var S = 48;
+      for (var v = 0; v < 4; v++) { var c = document.createElement("canvas"); c.width = c.height = S; var x = c.getContext("2d"), im = x.createImageData(S, S), d = im.data, ph = [], am = [];
+        for (var k = 0; k < 3; k++) { ph.push(Math.random() * 6.283); am.push((0.03 + Math.random() * 0.05) / (k + 1)); }
+        for (var py = 0; py < S; py++) for (var px = 0; px < S; px++) { var sx = (px + 0.5) / S * 2 - 1, sy = (py + 0.5) / S * 2 - 1, a = Math.atan2(sy, sx), irr = 0;
+          for (var k2 = 0; k2 < 3; k2++) irr += am[k2] * Math.sin((k2 + 2) * a + ph[k2]);
+          var q = Math.hypot(sx, sy) / (1 + irr), h = q < 1 ? Math.sqrt(1 - q * q) : 0, i4 = (py * S + px) * 4;
+          d[i4] = d[i4 + 1] = d[i4 + 2] = Math.round(h * 255); d[i4 + 3] = h > 0 ? 255 : 0; }
+        x.putImageData(im, 0, 0); SPRB.push(c); }
+      return SPRB; }
+    function bead(x, y, r) { if (BEADS.length >= 3500) { var mi = 0; for (var i = 1; i < BEADS.length; i += 7) if (BEADS[i].r < BEADS[mi].r) mi = i; BEADS.splice(mi, 1); }
+      BEADS.push({ x: x, y: y, r: r, v: Math.random() * 4 | 0 }); bdDirty = true; }
     function splash(x, y, size, strength) {
       if (!ok || !on || FILL == null) return;
-      var shortPx = Math.min(N[0], N[1]), sz = Math.max(0.004, size == null ? P.size : size), r = Math.max(2.4, sz * shortPx), k = Math.min(1.4, Math.max(0.4, strength == null ? 1 : strength));
-      var fy = 1 - y, ax = N[1] / N[0], push = function (q) { if (wets.length >= 96) wets.shift(); wets.push(q); };
-      push([x, fy, r * 2.6, -0.9 * k]);                    // the flash
-      push([x, fy, r * 1.1, 0.95]);                        // where it struck
-      var n = 6 + Math.round(Math.random() * 8 * k);
-      for (var i = 0; i < n; i++) { var a = Math.random() * 6.2832, d = r * (1.8 + Math.random() * Math.random() * 7 * k), rr = Math.max(1.6, r * (0.3 + Math.random() * 0.45));
-        var sx = x + Math.cos(a) * d / N[0], sy = fy + Math.sin(a) * d / N[1];
-        if (sx < 0 || sx > 1 || sy < 0 || sy > 1) continue;
-        push([sx, sy, rr, 0.7 + Math.random() * 0.3]); if (i < 5) push([sx, sy, rr * 1.8, -0.45 * k]); }
-      quiet = 0; void ax;
+      beadCanvas();
+      var W2 = bdCv.width, H2 = bdCv.height, sp = Math.min(W2, H2), sz = Math.max(0.004, size == null ? P.size : size), r = Math.max(3, sz * sp * 1.3), k = Math.min(1.4, Math.max(0.4, strength == null ? 1 : strength));
+      var cx = x * W2, cy = y * H2;
+      bead(cx, cy, r);                                                    // where it struck
+      /* the crown: droplets thrown out evenly round, a little uneven in angle, reach and size; a few go farther */
+      var n = 9 + Math.round(Math.random() * 7 * k), a0 = Math.random() * 6.283;
+      for (var i = 0; i < n; i++) { var a = a0 + i / n * 6.283 + (Math.random() - 0.5) * 0.35, far = Math.random() < 0.25, d = r * (far ? 4.5 + Math.random() * 4 : 2.2 + Math.random() * 1.6) * k, rr = r * (far ? 0.22 + Math.random() * 0.18 : 0.3 + Math.random() * 0.3);
+        FLY.push({ x0: cx, y0: cy, x1: cx + Math.cos(a) * d, y1: cy + Math.sin(a) * d, r: Math.max(0.9, rr), t: 0, T: 0.1 + Math.random() * 0.12 + (far ? 0.06 : 0), v: Math.random() * 4 | 0 }); }
+      if (FLY.length > 900) FLY.splice(0, FLY.length - 900);
+      quiet = 0; bdDirty = true;
+    }
+    /* droplets in the air land; beads that touch merge (area kept, the bigger one barely moves); beads under standing
+       water are taken in by it */
+    var BGRID = new Map();
+    function beadsStep(dt) {
+      if (FLY.length) { for (var i = FLY.length - 1; i >= 0; i--) { var f = FLY[i]; f.t += dt / f.T; if (f.t >= 1) { bead(f.x1, f.y1, f.r); FLY.splice(i, 1); } } bdDirty = true; }
+      if (!BEADS.length || !bdDirty) return;
+      BGRID.clear(); var CS = 16, i2, j2;
+      for (i2 = 0; i2 < BEADS.length; i2++) { var b = BEADS[i2], key = ((b.x / CS | 0) + 2000) * 8192 + ((b.y / CS | 0) + 2000), L = BGRID.get(key); if (!L) BGRID.set(key, L = []); L.push(i2); }
+      var dead = new Uint8Array(BEADS.length);
+      var maxR = 0; for (i2 = 0; i2 < BEADS.length; i2++) if (BEADS[i2].r > maxR) maxR = BEADS[i2].r;
+      outer: for (i2 = 0; i2 < BEADS.length; i2++) { if (dead[i2]) continue; var A = BEADS[i2], gx = A.x / CS | 0, gy = A.y / CS | 0, reach = Math.min(3, Math.ceil((A.r + maxR) * 0.8 / CS));   /* a big puddle meets a bead at its rim, cells away (review r-3) */
+        for (var ox = -reach; ox <= reach; ox++) for (var oy = -reach; oy <= reach; oy++) { var LL = BGRID.get((gx + ox + 2000) * 8192 + (gy + oy + 2000)); if (!LL) continue;
+          for (var q = 0; q < LL.length; q++) { j2 = LL[q]; if (j2 <= i2 || dead[j2]) continue; var B = BEADS[j2], dx = A.x - B.x, dy = A.y - B.y, rr2 = (A.r + B.r) * 0.8;
+            if (dx * dx + dy * dy < rr2 * rr2) { var big = A.r >= B.r ? A : B, sm = big === A ? B : A, a1 = big.r * big.r, a2 = sm.r * sm.r, t = a2 / (a1 + a2);
+              big.x += (sm.x - big.x) * t; big.y += (sm.y - big.y) * t; big.r = Math.sqrt(a1 + a2);
+              if (big === A) dead[j2] = 1; else { dead[i2] = 1; continue outer; } } } } }
+      var keep = []; for (i2 = 0; i2 < BEADS.length; i2++) if (!dead[i2] && wetAt(BEADS[i2].x / bdCv.width, BEADS[i2].y / bdCv.height) < 0.92) keep.push(BEADS[i2]);
+      BEADS = keep;
+    }
+    function beadTex() {
+      if (!bdTex) { bdTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); bdDirty = true; }
+      if (!bdDirty) return; var now = performance.now(); if (now - (beadTex.at || 0) < 33 && FLY.length) return; beadTex.at = now; bdDirty = false; beadCanvas();   /* at most 30 redraws a second while drops are in the air */
+      var x = bdCx, spr = beadSprites(); x.globalCompositeOperation = "source-over"; x.clearRect(0, 0, bdCv.width, bdCv.height); x.fillStyle = "#000"; x.fillRect(0, 0, bdCv.width, bdCv.height);
+      x.globalCompositeOperation = "lighten";
+      /* a big bead is flatter: a puddle is a film with a rounded edge, not a ball */
+      for (var i = 0; i < BEADS.length; i++) { var b = BEADS[i], R = b.r; x.globalAlpha = Math.min(1, 7 / Math.max(7, R)) * 0.95 + 0.05; x.drawImage(spr[b.v], b.x - R, b.y - R, R * 2, R * 2); }
+      for (var j = 0; j < FLY.length; j++) { var f = FLY[j], e = 1 - Math.pow(1 - Math.min(1, f.t), 2.2), fx = f.x0 + (f.x1 - f.x0) * e, fy = f.y0 + (f.y1 - f.y0) * e, fr = f.r * (0.7 + 0.3 * e);
+        x.globalAlpha = 0.9; x.drawImage(spr[f.v], fx - fr, fy - fr, fr * 2, fr * 2); }
+      x.globalAlpha = 1; x.globalCompositeOperation = "source-over";
+      gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bdCv); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
     }
     function tick(dt) {
       if (!ok || !on || destroyed) return;
@@ -386,7 +441,8 @@
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
       if (FILL != null && FILL >= 1) fullT += dt; else fullT = 0;
       if (floorOn()) quiet = Math.min(quiet, 19);   // a floor that is filling keeps its flashes moving
-      while (acc >= 1 / 60 && n < 4) { acc -= 1 / 60; if (quiet < 20 || drops.length || wets.length) step(); n++; }
+      if (FILL != null) beadsStep(dt);
+      while (acc >= 1 / 60 && n < 4) { acc -= 1 / 60; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
       if (n === 4) acc = 0;
       draw();
     }
@@ -426,8 +482,8 @@
     return {
       get ok() { return ok; }, canvas: cv,
       enabled: enabled, drop: addDrop, stir: stir,
-      fill: function (v) { if (v !== undefined) { FILL = v == null || v === false ? null : Math.max(0, Math.min(1, +v || 0)); if (FILL == null) wets.length = 0; quiet = 0; } return FILL; },
-      splash: splash, wetAt: wetAt, dry: function () { calm(); quiet = 0; },
+      fill: function (v) { if (v !== undefined) { var nf = v == null || v === false ? null : Math.max(0, Math.min(1, +v || 0)); if (nf !== FILL) bdDirty = true; FILL = nf; if (FILL == null) { BEADS = []; FLY = []; } quiet = 0; } return FILL; },
+      splash: splash, wetAt: wetAt, dry: function () { calm(); BEADS = []; FLY = []; bdDirty = true; quiet = 0; }, beads: function () { return BEADS.length; },
       rain: function (r) { P.rain = Math.max(0, +r || 0); },
       preset: setPreset,
       set: function (x) { Object.assign(P, x || {}); }, get: function () { return Object.assign({}, P); },
