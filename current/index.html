@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029032110";window.__VERSION__="0.35.8";window.__NOTES__=[{"v":"0.35.8","date":"28 Oct 2026","items":[{"kind":"change","text":"the Scenes list is one column at every width, so every scene's whole name can be read"}]}]</script>
+<script>window.__BUILD__="20261029034417";window.__VERSION__="0.36.0";window.__NOTES__=[{"v":"0.36.0","date":"28 Oct 2026","items":[{"kind":"new","text":"sequences, for shows. The Scenes panel has a Sequence tab: make a running order (+ new starts one from the scenes in play), and dress each entry on its own: a name, a palette, a deal of its colors, its morph and how many bars it stays. The same scene can come twice, dressed two ways; the scene itself never changes"},{"kind":"new","text":"▶ play a sequence: ‹ ›, the arrow keys and a remote walk its entries, the robot plays it on each entry's length, and the drawer under the bar shows its entries in order"},{"kind":"new","text":"select entries to give them one palette, or deal each its own arrangement of its colors (a deal stays until you deal again)"},{"kind":"new","text":"show files: save a sequence as a file, copy it, open one or paste one. A show file carries your own scenes and palettes inside it, so it opens the same on any computer; a name already taken gets a number, never an overwrite"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029032110"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029032110">
+<script src="claude-web.js?v=20261029034417"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029034417">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029032110"></script>
-<script src="surface/nozoom.js?v=20261029032110"></script><script src="surface/steady.js?v=20261029032110"></script><script src="surface/selftest.js?v=20261029032110"></script><script src="surface/size.js?v=20261029032110"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029032110"></script>
-<script src="surface/auto.js?v=20261029032110"></script>
-<script src="surface/toolpath.js?v=20261029032110"></script>
-<script src="surface/capture.js?v=20261029032110"></script>
-<script src="surface/pop.js?v=20261029032110"></script>
-<script src="surface/hints.js?v=20261029032110"></script>
-<script src="surface/paths.js?v=20261029032110"></script>
-<script src="surface/keys.js?v=20261029032110"></script>
-<script src="surface/reset.js?v=20261029032110"></script>
-<script src="surface/files.js?v=20261029032110"></script>
-<script src="surface/tabs.js?v=20261029032110"></script>
-<script src="surface/running.js?v=20261029032110"></script>
-<script src="surface/trim.js?v=20261029032110"></script>
-<script src="surface/audiowake.js?v=20261029032110"></script>
-<script src="surface/output.js?v=20261029032110"></script>
-<script src="surface/board.js?v=20261029032110"></script>
-<script src="surface/voice.js?v=20261029032110"></script>
-<script src="surface/voicelib.js?v=20261029032110"></script>
-<script src="surface/instruments.js?v=20261029032110"></script>
-<script src="surface/listview.js?v=20261029032110"></script>
-<script src="surface/beads.js?v=20261029032110"></script>
-<script src="surface/strip.js?v=20261029032110"></script>
-<script src="surface/sheetnav.js?v=20261029032110"></script>
-<script src="surface/twofinger.js?v=20261029032110"></script>
-<script src="surface/ring.js?v=20261029032110"></script>
-<script src="surface/shortlink.js?v=20261029032110"></script>
-<script src="surface/undo.js?v=20261029032110"></script>
-<script src="surface/pro.js?v=20261029032110"></script>
-<script src="surface/fresh.js?v=20261029032110"></script>
-<script src="surface/go.js?v=20261029032110"></script>
-<script src="surface/notice.js?v=20261029032110"></script>
-<script src="surface/perform.js?v=20261029032110"></script>
-<script src="surface/words.js?v=20261029032110"></script>
+<script src="vendor/opentype.min.js?v=20261029034417"></script>
+<script src="surface/nozoom.js?v=20261029034417"></script><script src="surface/steady.js?v=20261029034417"></script><script src="surface/selftest.js?v=20261029034417"></script><script src="surface/size.js?v=20261029034417"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029034417"></script>
+<script src="surface/auto.js?v=20261029034417"></script>
+<script src="surface/toolpath.js?v=20261029034417"></script>
+<script src="surface/capture.js?v=20261029034417"></script>
+<script src="surface/pop.js?v=20261029034417"></script>
+<script src="surface/hints.js?v=20261029034417"></script>
+<script src="surface/paths.js?v=20261029034417"></script>
+<script src="surface/keys.js?v=20261029034417"></script>
+<script src="surface/reset.js?v=20261029034417"></script>
+<script src="surface/files.js?v=20261029034417"></script>
+<script src="surface/tabs.js?v=20261029034417"></script>
+<script src="surface/running.js?v=20261029034417"></script>
+<script src="surface/trim.js?v=20261029034417"></script>
+<script src="surface/audiowake.js?v=20261029034417"></script>
+<script src="surface/output.js?v=20261029034417"></script>
+<script src="surface/board.js?v=20261029034417"></script>
+<script src="surface/voice.js?v=20261029034417"></script>
+<script src="surface/voicelib.js?v=20261029034417"></script>
+<script src="surface/instruments.js?v=20261029034417"></script>
+<script src="surface/listview.js?v=20261029034417"></script>
+<script src="surface/beads.js?v=20261029034417"></script>
+<script src="surface/strip.js?v=20261029034417"></script>
+<script src="surface/sheetnav.js?v=20261029034417"></script>
+<script src="surface/twofinger.js?v=20261029034417"></script>
+<script src="surface/ring.js?v=20261029034417"></script>
+<script src="surface/shortlink.js?v=20261029034417"></script>
+<script src="surface/undo.js?v=20261029034417"></script>
+<script src="surface/pro.js?v=20261029034417"></script>
+<script src="surface/fresh.js?v=20261029034417"></script>
+<script src="surface/go.js?v=20261029034417"></script>
+<script src="surface/notice.js?v=20261029034417"></script>
+<script src="surface/perform.js?v=20261029034417"></script>
+<script src="surface/words.js?v=20261029034417"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029032110"></script>
-<script src="surface/rail.js?v=20261029032110"></script>
-<script src="surface/touchsound.js?v=20261029032110"></script>
-<script src="surface/water.js?v=20261029032110"></script>
-<script src="surface/ripple.js?v=20261029032110"></script>
-<script src="surface/material.js?v=20261029032110"></script>
-<script src="surface/float.js?v=20261029032110"></script>
-<script src="surface/manual.js?v=20261029032110"></script>
+<script src="surface/pack.js?v=20261029034417"></script>
+<script src="surface/rail.js?v=20261029034417"></script>
+<script src="surface/touchsound.js?v=20261029034417"></script>
+<script src="surface/water.js?v=20261029034417"></script>
+<script src="surface/ripple.js?v=20261029034417"></script>
+<script src="surface/material.js?v=20261029034417"></script>
+<script src="surface/float.js?v=20261029034417"></script>
+<script src="surface/manual.js?v=20261029034417"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2715,6 +2715,24 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
    empty or off one keeps its hatching), and its name is smaller and sits lower */
 #colorPop .cpS>i{box-shadow:none}#colorPop .cpS>i.none,#colorPop .cpS>i.off{box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .18)}
 #colorPop .cpStrip .cpS{gap:9px}#colorPop .cpStrip .cpS>span{font-size:7.5px;letter-spacing:.06em;opacity:.85}#colorPop .cpStrip .cpS>i{box-shadow:none}#colorPop .cpStrip .cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}#colorPop .cpStrip .cpS>span{margin-top:3px;font-size:7px!important}#colorPop .cpStrip .cpS>i.none,#colorPop .cpStrip .cpS>i.off{box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .18)}
+
+/* the Sequence tab */
+#plSeqPane{overflow-y:auto;padding:12px 16px 16px;min-height:0;flex:1}
+.sqTop{display:flex;align-items:flex-end;gap:6px;flex-wrap:nowrap;margin-bottom:12px}.sqPick{display:flex;flex-direction:column;gap:6px;flex:1 1 auto;min-width:0}.sqPick .cmL{margin:0}
+.sqPick select{min-height:36px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 14px var(--sans);padding:0 8px}
+#plSeqPane .tb{min-height:34px;padding:0 12px;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07)}#plSeqPane .tb.on{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#plSeqPane .tb[disabled]{opacity:.4}
+.sqSelBar{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin:0 0 8px;font:400 12px var(--sans);color:var(--ui-dim)}.sqSelBar>span{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sqSelBar.on>span{color:var(--ui-ink)}
+.sqList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.sqE{display:grid;grid-template-columns:20px 16px 48px minmax(0,1fr);grid-template-areas:"c n t x" "c n t k";column-gap:8px;row-gap:4px;align-items:center;padding:6px 6px;border-radius:10px}
+.sqE.cur{background:rgb(var(--acc-rgb,85 184 201) / .14);box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.sqE.miss{opacity:.5}
+.sqChk{grid-area:c;width:18px;height:18px;accent-color:var(--acc,#55b8c9)}.sqN{grid-area:n;font:600 11px/1 var(--mono);color:var(--ui-dim);text-align:right}
+.sqGo{grid-area:t;padding:0;border:0;background:none;cursor:pointer;border-radius:6px;overflow:hidden;width:48px;height:32px}.sqGo .th{display:block;width:48px;height:32px}
+.sqTx{grid-area:x;min-width:0;display:flex;align-items:baseline;gap:8px}.sqName{padding:0;border:0;background:none;color:var(--ui-ink);font:500 14px/1.3 var(--sans);text-align:left;cursor:text;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sqTx small{font:400 11px var(--sans);color:var(--ui-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sqNm{min-width:0;width:100%;border:0;border-bottom:1.5px solid var(--acc,#55b8c9);background:transparent;color:var(--ui-ink);font:500 14px/1.3 var(--sans);outline:0;padding:0 0 2px}
+.sqCtl{grid-area:k;display:flex;align-items:center;gap:4px;flex-wrap:nowrap}.sqCtl button{min-height:26px;min-width:26px;padding:0 7px;border:0;border-radius:7px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);font:500 10px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sqCtl button[disabled]{opacity:.3}.sqPal{display:inline-flex;align-items:center;gap:4px}.sqPal.set{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.sqPal i{font-style:normal;font-size:11px}.sqK{color:var(--ui-dim);font-size:8.5px}
+.sqAdd,.sqFile{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.sqFile{padding-top:12px;border-top:1px solid var(--ui-line)}
+.sqPasteBox{margin-top:10px;display:flex;flex-direction:column;gap:6px}.sqPasteBox textarea{width:100%;box-sizing:border-box;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12px/1.4 var(--mono);padding:8px}
 </style>
 
 <div class="app">
@@ -3123,6 +3141,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 <div id="plist" role="dialog" aria-label="Scenes and autoplay" hidden>
   <div class="mxh"><div class="sfTabs" id="plTabs" role="tablist" aria-label="Scenes panels"></div><button class="tb" id="plClose" type="button" aria-label="Close the scene list">Close</button></div>
   <div id="plAutoPane" role="tabpanel" hidden><div id="plAuto"></div></div>
+  <div id="plSeqPane" role="tabpanel" hidden></div>
   <div id="plLooks" role="tabpanel"><div id="plItems"></div>
   <div id="plFoot" class="sheetFoot"><button id="plSave" class="saveScene" type="button" aria-label="Save the current scene"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Save this scene</span><kbd aria-hidden="true"></kbd></button></div></div>
 </div>
@@ -3818,7 +3837,7 @@ function palRename(old,nw){nw=String(nw||'').trim().slice(0,40);if(!nw||nw===old
   let P=palMine().find(p=>p.name===old);
   if(!P){const B=PALETTES.find(p=>p.name===old);if(!B)return false;P={name:old,colors:S.pal&&S.pal.name===old?palNow():JSON.parse(JSON.stringify(B.colors)),rel:JSON.parse(JSON.stringify(B.rel||{})),t:Date.now()};palMine().push(P);toast('a studio palette keeps its name: yours is '+nw);P.name=nw;if(S.pal&&S.pal.name===old){S.pal.name=nw;S.pal.edited=false}try{persist()}catch(_){}palUI();return true}   /* scenes wearing the studio palette keep it: only a palette of yours carries its scenes along (review 231ceac r-2) */   /* renaming a studio palette makes it yours under the new name ("palettes can be renamed", Dimitry 28 Oct 21:20) */
   P.name=nw;if(S.pal&&S.pal.name===old)S.pal.name=nw;
-  try{for(const u of store.user)if(u.palette===old)u.palette=nw}catch(_){}try{persist()}catch(_){}palUI();return true}
+  try{for(const u of store.user)if(u.palette===old)u.palette=nw}catch(_){}try{for(const sq of (store.seqs||[]))for(const e of sq.entries||[])if(e.pal===old)e.pal=nw}catch(_){}   /* sequence entries follow a renamed palette (review 6118b67 r-2) */try{persist()}catch(_){}palUI();return true}
 /* every way a color changes (the editor, the bar's color shelf, the ring's Opposite, Auto...) goes through its slot's
    setter, so the palette hears of it once, here (review ade287a r-1) */
 for(const [k] of PAL_SLOTS){const G=CG[k];if(!G)continue;for(const f of ['set','off','auto']){const o=G[f];if(typeof o!=='function')continue;G[f]=function(){const r=o.apply(this,arguments);if(!PAL_BUSY)try{f==='off'?palTouchedNoFree(k):palTouched(k)}catch(_){}return r}}}   /* off is the scene's: it keeps the tie (review 236cbc6 r-2) */
@@ -4506,7 +4525,7 @@ function timeSnap(){try{const E=AUTO_UNITS[AUTO.unit].vals;if(!E.includes(AUTO.n
    eight beats … that doesn't make sense … morph is a slider percentage, and zero obviously is not a morph"; never more
    than 50%, or it would morph over the next morph). The share follows Every in any unit, and a random Every too. */
 function autoMorph(){const v=Math.max(0,Math.min(50,+AUTO.mPct||0))/100*(+AUTO.sec||15);AUTO.moDrawn=v;return v}
-const morphFor=p=>{if(window.__roomMorph!=null)return window.__roomMorph;const m=morphOwn(p);return m==null?autoMorph():autoT?Math.min(m,(+AUTO.sec||15)*.5):m};   // a room's scene brings its leader's morph
+const morphFor=p=>{if(p&&p.__ov&&p.__ov.morph!=null)return migMorph(p.__ov.morph);if(window.__roomMorph!=null)return window.__roomMorph;const m=morphOwn(p);return m==null?autoMorph():autoT?Math.min(m,(+AUTO.sec||15)*.5):m};   // a room's scene brings its leader's morph
 if(store.auto&&typeof store.auto==='object'){if(+store.auto.sec>0)AUTO.sec=+store.auto.sec;if(typeof store.auto.order==='string')AUTO.order=AUTO_RENAMED[store.auto.order]||store.auto.order;{const o=AUTO.order,q=store.auto;AUTO.dir=['forward','back','bounce','surprise','deck','same'].includes(q.dir)?q.dir:o==='shuffle'?'surprise':'forward';AUTO.which=['all','built-in','yours only','starred only'].includes(q.which)?q.which:['built-in','yours only','starred only'].includes(o)?o:'all';AUTO.end=q.end==='stop'?'stop':'loop';AUTO.seed=+q.seed>0?(+q.seed|0):0;AUTO.seedW=typeof q.seedW!=='string'&&+q.seed>0?String(q.seed|0):typeof q.seedW==='string'?String(q.seedW).toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim().slice(0,48):''}   /* ORDER SPLIT IN TWO (0.33.83): which way, and which scenes; a saved order becomes both */if(['all','style','pattern'].includes(store.auto.part))AUTO.part=store.auto.part;if(store.auto.parts&&typeof store.auto.parts==='object'){const q=store.auto.parts;AUTO.parts={pattern:q.pattern!==false,style:q.style!==false,sound:q.sound!==false,material:typeof q.material==='boolean'?q.material:q.style!==false}}else if(AUTO.part==='pattern')AUTO.parts={pattern:true,style:false,sound:true,material:false};else if(AUTO.part==='style')AUTO.parts={pattern:false,style:true,sound:true,material:true};if(!AUTO.parts.pattern&&!AUTO.parts.style&&!AUTO.parts.sound&&!AUTO.parts.material)AUTO.parts={pattern:true,style:true,sound:true,material:true};AUTO.part=autoPart();if(store.auto.morph!=null&&+store.auto.morph>=0)AUTO.morph=migMorph(store.auto.morph);if(['sec','beat','bar'].includes(store.auto.moUnit))AUTO.moUnit=store.auto.moUnit;if(+store.auto.moN>0)AUTO.moN=+store.auto.moN;AUTO.moRand=store.auto.moRand===true}
 /* EVERY (Dimitry, 21 Oct): a row of beads with the count inside, counted in seconds, beats or bars, or at random.
    Beats follow the beat that plays (or the tapped tempo, or 120). AUTO.sec stays the interval now running, in seconds. */
@@ -4519,7 +4538,8 @@ if(store.auto&&typeof store.auto==='object'){if(AUTO_UNITS[store.auto.unit])AUTO
   AUTO.lock=store.auto.lock!==false;for(const k of ['set','moSet'])if(['pair','fibo','prime'].includes(store.auto[k]))AUTO[k]=store.auto[k];
   AUTO.rand=!!store.auto.rand;if(COLS.some(c=>c[0]===store.auto.col))AUTO.col=store.auto.col}   // after AUTO_UNITS: read before it, it stopped the page (TDZ)
 function autoBeatSec(){try{if(AUD.dur)return AUD.dur*4}catch(_){}try{if(TAP.bpm)return 60/TAP.bpm}catch(_){}return .5}
-function autoMs(){timeSnap();const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,v=AUTO.rand?U.vals[(Math.random()*U.vals.length)|0]:AUTO.n,b=autoBeatSec();AUTO.drawn=v;
+function autoMs(){timeSnap();{const s=seqCur();if(s&&s.entries.length){const st=(seqEntryNow()||{}).stay;if(st!=null){AUTO.sec=Math.max(.25,st*4*autoBeatSec());return AUTO.sec*1000}}}   /* an entry's own length, in bars of the tempo */
+  const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec,v=AUTO.rand?U.vals[(Math.random()*U.vals.length)|0]:AUTO.n,b=autoBeatSec();AUTO.drawn=v;
   AUTO.sec=Math.max(.25,AUTO.unit==='beat'?v*b:AUTO.unit==='bar'?v*4*b:v);return AUTO.sec*1000}
 function autoEveryWords(){const U=AUTO_UNITS[AUTO.unit]||AUTO_UNITS.sec;if(AUTO.rand)return 'every few '+U.name+', at random';
   return AUTO.unit==='sec'?'every '+fmtSec(AUTO.n):'every '+(AUTO.n===1?U.one:AUTO.n+' '+U.name)}
@@ -4754,8 +4774,8 @@ function applyLookNow0(p,idx,instant,part){
   CFD_SNAP=true;S.line=p.line||LINE_DEFAULT;S.line2=p.line2||null;S.touchColor=p.touchColor||null;S.magSound=p.magSound||'off';S.lineAlpha=p.lineAlpha||.55;S.lineOff=!!p.lineOff;S.alt=p.alt||'grain';S.altTime=p.altTime||4;S.altBy=p.altBy==='beat'||p.altBy==='sec'||p.altBy==='bar'?p.altBy:p.user&&p.alt==='time'?'sec':'bar';   /* a look of yours from before 0.34.6 keeps its seconds; the studio's scenes swap on the bar (review b157f85 r-2) */const gr=p.ground||'dark';if(String(gr).toLowerCase()!==String(S.ground).toLowerCase()){S.ground=gr;if(!doMorph)applyGround()}S.ground2=p.ground2||null;S.gmix={...GMIX_DEF,...(p.gmix||{})};groundMixDirty();syncLine();
   S.canim=JSON.parse(JSON.stringify(p.canim||{}));S.pathColor=p.pathColor||null;
   /* a scene that points at a palette wears it (its colors over the scene's own); else its own colors and ties */
-  {const LP=idx>=0&&lookCfg(p).palette,PP=(LP&&palFind(LP))||(p.palette&&p.user&&palFind(p.palette));if(PP)palApply(PP,true);   /* a palette you chose for the scene in its row wins (28 Oct 22:57) */   /* only a scene of yours wears a palette by name: a shared link or a Room scene keeps the colors it carries (review ade287a r-3) */
-  else S.pal={name:null,rel:p.palRel&&typeof p.palRel==='object'?JSON.parse(JSON.stringify(p.palRel)):{}};palUI()}try{if(!$('colorPop').hidden)renderCM()}catch(_){}
+  {const OV=p.__ov,LP=OV&&OV.pal?OV.pal:idx>=0&&lookCfg(p).palette,PP=(LP&&palFind(LP))||(p.palette&&p.user&&palFind(p.palette));if(PP)palApply(PP,true);   /* a palette you chose for the scene in its row wins (28 Oct 22:57) */   /* only a scene of yours wears a palette by name: a shared link or a Room scene keeps the colors it carries (review ade287a r-3) */
+  else S.pal={name:null,rel:p.palRel&&typeof p.palRel==='object'?JSON.parse(JSON.stringify(p.palRel)):{}};if(OV&&OV.deal)seqDealApply(OV.deal);palUI()}try{if(!$('colorPop').hidden)renderCM()}catch(_){}
   S.blend=p.blend||'source-over';S.blendA=p.blendA||'source-over';S.blendP=p.blendP||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
   if(doMorph){cmStart(mdur,cmFrom,old);WM_PENDING=mdur*1000}   // colors, alphas, lens, then the field
   syncLens();
@@ -5292,7 +5312,131 @@ function scrubMark(){const p=$('scrubPad');if(!p)return;const S=p._seq||[],n=S.l
   t.style.left=(n?(k+.5)/n*100:0)+'%';t.style.width='max(4px,'+(n?100/n:100)+'%)';const nm=all[S[k]]?all[S[k]].name:'';p.querySelector('.spName').textContent=nm;
   tr.setAttribute('aria-valuemin','1');tr.setAttribute('aria-valuemax',String(n));tr.setAttribute('aria-valuenow',String(k+1));tr.setAttribute('aria-valuetext',(k+1)+' of '+n+': '+nm)}
 function scrubClose(){const p=$('scrubPad');if(!p||p.hidden)return;p.hidden=true;const b=scrubOpen.back;scrubOpen.back=null;try{if(b&&b.isConnected&&b.getClientRects().length)b.focus({preventScroll:true});else $('pAuto').focus({preventScroll:true})}catch(_){}   /* a hidden Scrub tile takes no focus (review d58bdb8788 r-1) */}   /* focus goes back (review f571aef472 r-4) */
-function stepPreset(d){if(!allPresets().length)return;roboSweep(d);roboEar(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
+/* SEQUENCES AND THE SHOW FILE (Dimitry, 28 Oct 23:16–23:25, for his 5 Nov show: "custom sequences ... select, delete,
+   duplicate, and rearrange the scenes for a particular sequence ... change the parameters like the path and the palette
+   and the automorph timing ... pasting in JSON or exporting JSON or importing JSON for a whole sequence to be able to prep
+   for shows and share those files across computers and teams"; his answers: edits belong to the entry, stays in bars,
+   several named sequences, a dealt palette stays put). A sequence is a named list of entries; an entry points at a scene
+   (its lookKey) and carries its own name, palette, deal, morph and stay, so the same scene can come twice, dressed two
+   ways, and the scene itself never changes. When a sequence plays, ‹ › and the robot walk its entries. */
+const SQ={at:-1};
+const seqList=()=>(store.seqs=Array.isArray(store.seqs)?store.seqs:[]);
+function seqCur(){const n=store.seqOn;return n?seqList().find(s=>s.name===n)||null:null}
+const seqUid=()=>Math.random().toString(36).slice(2,10);
+const seqIdx=k=>{const all=allPresets();for(let i=0;i<all.length;i++)if(lookKey(all[i])===k)return i;return -1};
+const seqScene=e=>{const i=seqIdx(e.k);return i<0?null:allPresets()[i]};
+const seqLabel=e=>e.name||(seqScene(e)||{}).name||'(missing scene)';
+function seqFree(base,taken){base=String(base||'Show').replace(/\s+\d+$/,'').trim().slice(0,28)||'Show';if(!taken.has(base))return base;let n=2;while(taken.has(base+' '+n))n++;return base+' '+n}
+const seqName=b=>seqFree(b,new Set(seqList().map(s=>s.name)));
+function seqNew(name,fromPlay){const s={name:seqName(name||'Show'),t:Date.now(),entries:[]};if(fromPlay){const all=allPresets();for(const i of playIds())if(all[i])s.entries.push({id:seqUid(),k:lookKey(all[i])})}seqList().push(s);persist();return s}
+const SEQ_STAY=[[null,'robot'],[1,'1 bar'],[2,'2 bars'],[4,'4 bars'],[8,'8 bars'],[16,'16 bars'],[32,'32 bars']];
+/* a deal: the palette's colors shuffled among the slots that are not a ground, so an ink never lands on the ground */
+const SEQ_DEALT=['line','second','touch','arrows','toolpath'];
+function seqDealNew(){const a=SEQ_DEALT.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function seqDealApply(d){if(!Array.isArray(d)||d.length!==SEQ_DEALT.length)return;const now=palNow(),src=SEQ_DEALT.map(k=>now[k]);PAL_BUSY=true;try{SEQ_DEALT.forEach((k,i)=>{const v=src[d[i]];if(v&&now[k])palSet(k,v)})}finally{PAL_BUSY=false}S.pal={name:null,rel:{}}}   /* dealt colors belong to this entry: no palette is worn by name, so a later edit can never save the shuffle into a palette (review cae02e6 r-1) */
+function seqEntryNow(){const s=seqCur();return s&&SQ.at>=0?s.entries[SQ.at]||null:null}
+function seqGo(n,instant){const s=seqCur();if(!s||!s.entries.length)return;const L=s.entries.length;n=((n%L)+L)%L;const e=s.entries[n],i=seqIdx(e.k);
+  if(i<0){toast('“'+seqLabel(e)+'”: its scene is not on this device');SQ.at=n;seqUI();return}
+  SQ.at=n;const p=allPresets()[i];presetIdx=i;bumpLook(i);bsSync();applyLook({...p,__ov:e},i,instant,'all');   /* an entry is the whole scene, dressed (its palette and deal always come, review cae02e6 r-5); Autoplay's sound switch still holds (review 6118b67 r-1) */flashName(seqLabel(e));seqUI()}
+function sqStep(d){const s=seqCur();if(!s||!s.entries.length)return;try{roboSweep(d);roboEar(d)}catch(_){}seqGo(SQ.at<0?(d>0?0:s.entries.length-1):SQ.at+d)}
+function seqPlay(name){store.seqOn=name||null;persist();SQ.at=-1;if(name){toast('playing the sequence “'+name+'”: ‹ › walk it');seqGo(0)}else toast('back to the scenes in play');bsSync();seqUI();try{syncPlist()}catch(_){}}
+/* THE SHOW FILE: one sequence, self-contained. Studio scenes go by name; your own scenes and palettes travel inside it,
+   so it opens the same on any computer. Read back through cleanLook, the same check a shared link gets; a name already
+   taken by something different gets a number, never an overwrite. */
+function seqExport(s){const all=allPresets(),scenes={},palettes={};
+  for(const e of s.entries){const p=all[seqIdx(e.k)];if(p&&p.user&&!scenes[e.k]){const u={...p};delete u.gen;delete u.user;scenes[e.k]=JSON.parse(JSON.stringify(u))}
+    if(e.pal&&!palettes[e.pal]){const P=palFind(e.pal);if(P&&!P.builtin)palettes[e.pal]={colors:{...P.colors},rel:JSON.parse(JSON.stringify(P.rel||{}))}}}
+  return {format:'current.show',version:1,app:'Current '+APP_VERSION,name:s.name,saved:new Date().toISOString(),tempo:(typeof TAP!=='undefined'&&TAP.bpm)||null,
+    entries:s.entries.map(e=>{const o={scene:e.k};for(const f of ['name','pal','deal','morph','stay'])if(e[f]!=null&&e[f]!=='')o[f]=e[f];return o}),palettes,scenes}}
+function seqImport(src){let o=src;if(typeof src==='string'){try{o=JSON.parse(src)}catch(_){toast('that is not a show file (it does not read as JSON)');return null}}
+  if(!o||o.format!=='current.show'||!Array.isArray(o.entries)){toast('that is not a Current show file');return null}
+  if(+o.version>1)toast('made by a newer Current: anything it does not know is left out',3200);
+  const T=x=>typeof x==='string'?x.replace(/[\u0000-\u001f<>"'`]/g,'').trim().slice(0,40):'';
+  const kmap={},pmap={};let added=0,miss=0;
+  for(const [k,v] of Object.entries(o.scenes&&typeof o.scenes==='object'?o.scenes:{}).slice(0,200)){const c=cleanLook(v);if(!c||!c.name||typeof k!=='string')continue;
+    const same=store.user.find(u=>u.name===c.name&&JSON.stringify(cleanLook(u))===JSON.stringify(c));if(same){kmap[k]='u:'+same.name;continue}
+    {const taken=new Set(allPresets().map(p=>p.name));if(taken.has(c.name)){let n=2;const b=c.name.slice(0,28);while(taken.has(b+' '+n))n++;c.name=b+' '+n}}   /* a free name stays as it is (r-4) */store.user.push(c);kmap[k]='u:'+c.name;added++}
+  const HEX=/^#[0-9a-f]{6}$/i;
+  for(const [n,v] of Object.entries(o.palettes&&typeof o.palettes==='object'?o.palettes:{}).slice(0,100)){const nm=T(n);if(!nm||!v||typeof v.colors!=='object')continue;const col={};
+    for(const [k] of PAL_SLOTS){const x=v.colors[k];if(x==null)col[k]=null;else if(typeof x==='string'&&(HEX.test(x)||(k==='ground'&&['dark','paper','auto'].includes(x))))col[k]=x}
+    const ex=palFind(nm);if(ex&&JSON.stringify(ex.colors)===JSON.stringify(col)){pmap[n]=nm;continue}
+    const nn=ex?palNextName(nm):nm;palMine().push({name:nn,colors:col,rel:{},t:Date.now()});pmap[n]=nn}
+  const s={name:seqName(T(o.name)||'Show'),t:Date.now(),entries:[]};
+  for(const e of o.entries.slice(0,500)){if(!e||typeof e.scene!=='string')continue;const k=kmap[e.scene]||e.scene;if(seqIdx(k)<0){miss++;continue}
+    const x={id:seqUid(),k};const nm=T(e.name);if(nm)x.name=nm;const pn=e.pal!=null?(pmap[e.pal]||(palFind(e.pal)?e.pal:null)):null;if(pn)x.pal=pn;
+    if(Array.isArray(e.deal)&&e.deal.length===SEQ_DEALT.length&&[...e.deal].sort().join()===SEQ_DEALT.map((_,i)=>i).join())x.deal=e.deal.map(Number);
+    if(MORPH_CYCLE.some(m=>m[0]===e.morph&&m[0]!=null))x.morph=e.morph;if(SEQ_STAY.some(m=>m[0]===e.stay&&m[0]!=null))x.stay=e.stay;s.entries.push(x)}
+  seqList().push(s);persist();try{renderPresets()}catch(_){}try{palPersist()}catch(_){}
+  toast('“'+s.name+'”: '+s.entries.length+' entries'+(added?', '+added+' scene'+(added>1?'s':'')+' added':'')+(miss?', '+miss+' missing':''),3600);return s}
+async function seqSaveFile(s){const txt=JSON.stringify(seqExport(s),null,2),name=(s.name.replace(/[^\w.-]+/g,'-')||'show')+'.current-show.json';try{await saveBlob(name,new Blob([txt],{type:'application/json'}))}catch(_){toast('could not save the file')}}
+async function seqCopy(s){const txt=JSON.stringify(seqExport(s),null,2);try{await navigator.clipboard.writeText(txt);toast('the show file is copied: paste it anywhere')}catch(_){toast('copy is blocked here: use Save')}}
+/* THE SEQUENCE TAB of the Scenes panel: pick or make a sequence, play it, and dress each entry: its name, palette (and a
+   deal of it), morph and stay. Select many to give them one palette, or a deal each. One column, every name readable. */
+let SEQ_SEL=new Set(),SEQ_EDIT=null;
+function seqUI(){const pn=$('plSeqPane');if(pn&&!pn.hidden&&!pn.contains(document.activeElement&&document.activeElement.tagName==='INPUT'?document.activeElement:null))buildSeqPane()}
+function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;const L=seqList();let s=L.find(x=>x.name===(store.seqView||store.seqOn))||L[0]||null;if(s)store.seqView=s.name;
+  const esc=x=>String(x==null?'':x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;');
+  const mini=c=>'<span class="plPalS">'+c.filter(Boolean).slice(0,7).map(x=>'<b style="background:'+esc(x)+'"></b>').join('')+'</span>';
+  const playing=s&&store.seqOn===s.name;
+  let h='<div class="sqTop">';
+  if(L.length){h+='<label class="sqPick"><span class="cmL">sequence</span><select aria-label="The sequence">'+L.map(x=>'<option'+(s&&x.name===s.name?' selected':'')+'>'+esc(x.name)+'</option>').join('')+'</select></label>';
+    h+='<button type="button" class="tb sqPlay'+(playing?' on':'')+'" aria-pressed="'+playing+'">'+(playing?'■ stop':'▶ play')+'</button>'}
+  h+='<button type="button" class="tb sqNew" title="A new sequence from the scenes in play">+ new</button>'+(s?'<button type="button" class="tb sqMore" aria-haspopup="menu" aria-label="More for this sequence">⋯</button>':'')+'</div>';
+  if(!s){h+='<p class="cmNote">A sequence is your own running order for a show: the same scene can come twice, each time with its own palette, morph and length. <b>+ new</b> starts one from the scenes in play; or bring in a show file.</p><div class="sqFile"><button type="button" class="tb sqImp">open a show file</button><button type="button" class="tb sqPaste">paste a show file</button></div>'}
+  else{
+    const all=allPresets(),nSel=[...SEQ_SEL].filter(id=>s.entries.some(e=>e.id===id)).length;
+    h+='<div class="sqSelBar'+(nSel?' on':'')+'"><span>'+(nSel?nSel+' selected':'select to dress together')+'</span><button type="button" class="tb sqAll">'+(nSel===s.entries.length&&nSel?'none':'all')+'</button><button type="button" class="tb sqPalAll" aria-haspopup="menu"'+(nSel?'':' disabled')+'>palette ▾</button><button type="button" class="tb sqDealAll"'+(nSel?'':' disabled')+' title="Shuffle each selected entry’s palette among its inks, touch, arrows and pattern">deal</button></div>';
+    h+='<ol class="sqList" role="list">';
+    s.entries.forEach((e,j)=>{const p=seqScene(e),P=e.pal&&palFind(e.pal),cur=playing&&SQ.at===j;
+      const cols=P?PAL_SLOTS.map(([k])=>P.colors[k]?palHex(k,P.colors[k]):null):p?[p.line||LINE_DEFAULT,p.line2||null,p.touchColor||null,p.arrow||null,p.pathColor||null,sceneGround(p),p.ground2||null]:[];
+      const mo=MORPH_CYCLE.find(m=>m[0]===(e.morph==null?null:e.morph))||MORPH_CYCLE[0],st=SEQ_STAY.find(m=>m[0]===(e.stay==null?null:e.stay))||SEQ_STAY[0];
+      h+='<li class="sqE'+(cur?' cur':'')+(p?'':' miss')+'" data-id="'+e.id+'"><input type="checkbox" class="sqChk" aria-label="Select '+esc(seqLabel(e))+'"'+(SEQ_SEL.has(e.id)?' checked':'')+'><b class="sqN">'+(j+1)+'</b>'+
+        '<button type="button" class="sqGo" aria-label="Play '+esc(seqLabel(e))+'"><span class="th" data-k="'+esc(e.k)+'"></span></button>'+
+        '<div class="sqTx">'+(SEQ_EDIT===e.id?'<input class="sqNm" maxlength="40" value="'+esc(e.name||'')+'" placeholder="'+esc(p?p.name:'name')+'" aria-label="Name for this entry">':'<button type="button" class="sqName" title="Tap to name this entry">'+esc(seqLabel(e))+'</button>')+(e.name&&p?'<small>'+esc(p.name)+'</small>':'')+'</div>'+
+        '<div class="sqCtl"><button type="button" class="sqPal'+(P?' set':'')+(e.deal?' dealt':'')+'" aria-haspopup="menu" aria-label="Palette: '+esc(P?P.name:'the scene’s own')+(e.deal?', dealt':'')+'">'+mini(cols)+(e.deal?'<i>⤨</i>':'')+'</button>'+
+        '<button type="button" class="sqMo" title="Morph into this entry: tap for auto, cut, 2 s, 8 s, 30 s"><span class="sqK">morph</span> '+esc(mo[1])+'</button><button type="button" class="sqSt" title="How long it stays, in bars of the tempo, when the robot plays the sequence; robot: the robot’s own timing"><span class="sqK">stays</span> '+esc(st[1])+'</button>'+
+        '<button type="button" class="sqRow" aria-haspopup="menu" aria-label="More for this entry: earlier, later, duplicate, remove">⋯</button></div></li>'});
+    h+='</ol><div class="sqAdd"><button type="button" class="tb sqAddCur">+ the scene now playing</button><button type="button" class="tb sqAddPlay">+ all scenes in play</button></div>';
+    h+='<div class="sqFile"><button type="button" class="tb sqSave">save show file</button><button type="button" class="tb sqCopy">copy</button><button type="button" class="tb sqImp">open</button><button type="button" class="tb sqPaste">paste</button></div>'}
+  h+='<div class="sqPasteBox" hidden><textarea rows="5" aria-label="Paste a show file here" placeholder="paste a show file (JSON) here"></textarea><button type="button" class="tb sqPasteGo">bring it in</button></div><input type="file" class="sqFileIn" accept=".json,application/json" hidden>';
+  pn.innerHTML=h;
+  pn.querySelectorAll('.sqE .th').forEach(t=>{const i=seqIdx(t.dataset.k);if(i>=0)try{drawThumb(t,allPresets()[i])}catch(_){}});
+  const q=x=>pn.querySelector(x),entry=b=>{const li=b.closest('.sqE');return li&&s?s.entries.find(e=>e.id===li.dataset.id):null},save=()=>{persist();buildSeqPane();bsSync()};
+  const sel=q('.sqPick select');if(sel)sel.onchange=()=>{store.seqView=sel.value;SEQ_SEL.clear();persist();buildSeqPane()};
+  const pl=q('.sqPlay');if(pl)pl.onclick=()=>seqPlay(playing?null:s.name);
+  q('.sqNew').onclick=()=>{const n=seqNew('Show',true);store.seqView=n.name;persist();buildSeqPane();toast('“'+n.name+'”: '+n.entries.length+' scenes, from the scenes in play')};
+  const mo=q('.sqMore');if(mo)mo.onclick=()=>rowMenu(mo,[['ren','Rename',()=>{const v=prompt('Name for this sequence',s.name);if(v&&v.trim()&&v.trim()!==s.name){const nn=seqFree(v.trim(),new Set(L.filter(x=>x!==s).map(x=>x.name)));if(store.seqOn===s.name)store.seqOn=nn;s.name=nn;store.seqView=nn;save()}}],
+    ['pic','Duplicate',()=>{const c=JSON.parse(JSON.stringify(s));c.name=seqName(s.name);c.t=Date.now();c.entries.forEach(e=>e.id=seqUid());L.push(c);store.seqView=c.name;save()}],
+    ['del','Delete',()=>{if(!confirm('Delete the sequence “'+s.name+'”? Its scenes stay.'))return;L.splice(L.indexOf(s),1);if(store.seqOn===s.name)store.seqOn=null;store.seqView=null;save()}]]);
+  pn.querySelectorAll('.sqChk').forEach(c=>c.onchange=()=>{const e=entry(c);if(!e)return;if(c.checked)SEQ_SEL.add(e.id);else SEQ_SEL.delete(e.id);buildSeqPane()});
+  const al=q('.sqAll');if(al)al.onclick=()=>{const every=s.entries.every(e=>SEQ_SEL.has(e.id));SEQ_SEL=new Set(every?[]:s.entries.map(e=>e.id));buildSeqPane()};
+  const palMenu=(btn,targets,cur)=>{const items=[['pal','<em>the scene’s own'+(cur===undefined?' ✓':'')+'</em>',()=>{for(const e of targets){delete e.pal;delete e.deal}save()}]];
+    for(const Q of palAll())items.push(['pal',mini(PAL_SLOTS.map(([k])=>Q.colors[k]?palHex(k,Q.colors[k]):null))+'<em>'+esc(Q.name)+(cur===Q.name?' ✓':'')+'</em>',()=>{for(const e of targets){e.pal=Q.name}save();if(playing&&targets.includes(seqEntryNow()))seqGo(SQ.at,true)}]);
+    if(targets.length===1)items.push(['pic','<em>'+(targets[0].deal?'re-deal':'deal')+' its colors</em>',()=>{targets[0].deal=seqDealNew();save();if(playing&&seqEntryNow()===targets[0])seqGo(SQ.at,true)}]);
+    if(targets.length===1&&targets[0].deal)items.push(['del','<em>undeal</em>',()=>{delete targets[0].deal;save()}]);
+    items.push(['ren','<em>edit palettes…</em>',()=>{openColorMix();try{CM_VIEW('lib')}catch(_){}}]);rowMenu(btn,items)};
+  const pa=q('.sqPalAll');if(pa)pa.onclick=()=>palMenu(pa,s.entries.filter(e=>SEQ_SEL.has(e.id)),null);
+  const da=q('.sqDealAll');if(da)da.onclick=()=>{let n=0;for(const e of s.entries)if(SEQ_SEL.has(e.id)){e.deal=seqDealNew();n++}save();toast(n+' dealt: each its own arrangement of its colors');if(playing&&SEQ_SEL.has((seqEntryNow()||{}).id))seqGo(SQ.at,true)};
+  pn.querySelectorAll('.sqPal').forEach(b=>b.onclick=()=>{const e=entry(b);if(e)palMenu(b,[e],e.pal||undefined)});
+  pn.querySelectorAll('.sqGo').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;if(!playing){store.seqOn=s.name;persist()}seqGo(s.entries.indexOf(e))});
+  pn.querySelectorAll('.sqName').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;SEQ_EDIT=e.id;buildSeqPane();const i=pn.querySelector('.sqNm');if(i){i.focus();i.select()}});
+  {const i=q('.sqNm');if(i){const e=entry(i),fin=keep=>{SEQ_EDIT=null;if(keep&&e){const v=i.value.trim().slice(0,40);if(v)e.name=v;else delete e.name}save()};i.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();i.onblur=null;fin(true)}else if(ev.key==='Escape'){ev.preventDefault();ev.stopPropagation();i.onblur=null;fin(false)}};i.onblur=()=>{i.onblur=null;fin(true)}}}   /* the rebuild's blur no longer saves a cancelled name (r-3) */
+  pn.querySelectorAll('.sqMo').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=MORPH_CYCLE.findIndex(m=>m[0]===(e.morph==null?null:e.morph)),n=MORPH_CYCLE[(j+1)%MORPH_CYCLE.length][0];if(n==null)delete e.morph;else e.morph=n;save()});
+  pn.querySelectorAll('.sqSt').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=SEQ_STAY.findIndex(m=>m[0]===(e.stay==null?null:e.stay)),n=SEQ_STAY[(j+1)%SEQ_STAY.length][0];if(n==null)delete e.stay;else e.stay=n;save()});
+  pn.querySelectorAll('.sqRow').forEach(b=>b.onclick=()=>{const e=entry(b);if(!e)return;const j=s.entries.indexOf(e),it=[];if(j>0)it.push(['pal','<em>earlier ↑</em>',()=>mv(b,-1)]);if(j<s.entries.length-1)it.push(['pal','<em>later ↓</em>',()=>mv(b,1)]);
+    it.push(['pic','<em>duplicate</em>',()=>dup(b)],['del','<em>remove</em>',()=>rem(b)]);rowMenu(b,it)});
+  const mv=(b,d)=>{const e=entry(b);if(!e)return;const j=s.entries.indexOf(e),k=j+d;if(k<0||k>=s.entries.length)return;const cur=seqEntryNow();s.entries.splice(j,1);s.entries.splice(k,0,e);if(playing&&cur)SQ.at=s.entries.indexOf(cur);save()};
+  const dup=b=>{const e=entry(b);if(!e)return;const c={...JSON.parse(JSON.stringify(e)),id:seqUid()};const cur=seqEntryNow();s.entries.splice(s.entries.indexOf(e)+1,0,c);if(playing&&cur)SQ.at=s.entries.indexOf(cur);save()};
+  const rem=b=>{const e=entry(b);if(!e)return;const cur=seqEntryNow();s.entries.splice(s.entries.indexOf(e),1);SEQ_SEL.delete(e.id);if(playing)SQ.at=cur&&cur!==e?s.entries.indexOf(cur):-1;save();toast('removed “'+seqLabel(e)+'”')};
+  const ac=q('.sqAddCur');if(ac)ac.onclick=()=>{const p=allPresets()[presetIdx];if(!p){toast('no scene is playing');return}s.entries.push({id:seqUid(),k:lookKey(p)});save();toast('added “'+p.name+'”')};
+  const ap=q('.sqAddPlay');if(ap)ap.onclick=()=>{const all=allPresets();let n=0;for(const i of playIds())if(all[i]){s.entries.push({id:seqUid(),k:lookKey(all[i])});n++}save();toast(n+' scenes added')};
+  const sv=q('.sqSave');if(sv)sv.onclick=()=>seqSaveFile(s);const cp=q('.sqCopy');if(cp)cp.onclick=()=>seqCopy(s);
+  const fi=q('.sqFileIn');pn.querySelectorAll('.sqImp').forEach(b=>b.onclick=()=>fi.click());
+  fi.onchange=async()=>{const f=fi.files&&fi.files[0];if(!f)return;if(f.size>8e6){toast('that file is too big for a show file');return}const n=seqImport(await f.text());if(n){store.seqView=n.name;persist()}buildSeqPane()};
+  pn.querySelectorAll('.sqPaste').forEach(b=>b.onclick=()=>{const bx=q('.sqPasteBox');bx.hidden=!bx.hidden;if(!bx.hidden)bx.querySelector('textarea').focus()});
+  q('.sqPasteGo').onclick=()=>{const t=q('.sqPasteBox textarea').value;const n=seqImport(t);if(n){store.seqView=n.name;persist();buildSeqPane()}}}
+
+function stepPreset(d){if(seqCur()){sqStep(d);return}if(!allPresets().length)return;roboSweep(d);roboEar(d);const i=walk(playIds(),d);bumpLook(i);loadPreset(i,false,autoPart());flashName(allPresets()[i].name)}
 let labT=0;
 function setPlayer(v,quiet){document.body.classList.toggle('player',v);{const d=document.scrollingElement||document.documentElement;if(d.scrollTop||d.scrollLeft){d.scrollTop=0;d.scrollLeft=0}}   /* the stage is the page: never leave it scrolled (iPhone, #install, 18 Oct) */
   {const l=$('duckLab');if(l&&!quiet){l.textContent=v?'Index':'Close';if(!v){l.classList.remove('tucked');clearTimeout(labT);labT=setTimeout(()=>l.classList.add('tucked'),2600)}else{clearTimeout(labT);l.classList.add('tucked')}}}const d=$('duckBtn');d.setAttribute('aria-expanded',String(!v));d.setAttribute('aria-label',v?'Settings (Index). Opens the drawer on the left (p)':'Close the settings drawer (p)');
@@ -5341,7 +5485,8 @@ function autoPickNext(fresh){const ids=autoIds(),d=autoDir(),stop=AUTO.end==='st
     else if(d==='bounce'){if(p<0)n=q[0];else{let k=p+(AUTO.bdir||1);if(k<0||k>=L){AUTO.bdir=-(AUTO.bdir||1);k=p+AUTO.bdir}n=q[Math.max(0,Math.min(L-1,k))]}}
     else n=p<0?q[0]:p+1<L?q[p+1]:stop?null:q[0]}
   AUTO.next=n;return n}
-function autoNext(){const all=allPresets(),ids=autoIds();
+function autoNext(){if(seqCur()){autoAt=performance.now();sqStep(1);try{randRestart()}catch(_){}syncAutoUI();return}   /* a playing sequence: the robot walks its entries */
+  const all=allPresets(),ids=autoIds();
   let n=AUTO.next;if(n==null||!ids.includes(n)||n===presetIdx||!all[n])n=autoPickNext();
   if(n==null||!all[n]){if(AUTO.end==='stop'&&!['surprise','bounce'].includes(autoDir())){setAuto(false,true);toast('the end: the robot stopped after the last scene');try{syncAutoUI()}catch(_){}}return}
   {const d=autoDir();roboEar(d==='back'?-1:d==='bounce'?(AUTO.bdir||1):d==='forward'?1:Math.random()<.5?-1:1)}
@@ -5390,6 +5535,7 @@ function plTabsMount(){if(plTabs||!window.SurfaceTabs)return;
   plTabs=SurfaceTabs.mount($('plTabs'),[
     {id:'looks',name:'Scenes',title:'Your scenes: show, sort, star, reorder, save',pane:$('plLooks'),icon:PLI('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'),
      onShow:()=>{const on=$('plItems').querySelector('.lk.cur');if(on)on.scrollIntoView({block:'center'})}},
+    {id:'seq',name:'Sequence',title:'Your running orders for a show: each entry a scene with its own palette, morph and length; show files in and out',pane:$('plSeqPane'),icon:PLI('<path d="M4 6h10M4 12h16M4 18h12"/><circle cx="18" cy="6" r="2"/>'),onShow:()=>buildSeqPane()},
     {id:'auto',name:'Autoplay',title:'Autoplay: how often, in what order, how it morphs',pane:$('plAutoPane'),icon:ROBOT_SVG   /* the robot, not a play arrow (Dimitry, 26 Oct 22:32) */,onShow:()=>syncAutoUI()}],'current.plTab',{heads:true});
   if(window.SurfaceSheetNav)SurfaceSheetNav.swipe($('plist'),plTabs)}
 function autoPool(o){const all=allPresets(),ids=playIds();
@@ -5771,7 +5917,7 @@ function renameUser(old,v){let n=(v||'').trim().slice(0,32);if(!n||n===old)retur
   if(store.user.some(u=>u.name===n)){toast('you already have “'+n+'”');return null}
   const u=store.user.find(u=>u.name===old);if(!u)return null;u.name=n;const ok='u:'+old,nk='u:'+n;
   for(const m of [store.lookFav,store.lookUsed,store.looks])if(m&&ok in m){m[nk]=m[ok];delete m[ok]}
-  store.lookOrder=store.lookOrder.map(k=>k===ok?nk:k);if(curName===old)curName=n;persist();renderPresets();buildLooks();syncPlist();toast('renamed “'+n+'”');return n}
+  store.lookOrder=store.lookOrder.map(k=>k===ok?nk:k);try{for(const sq of (store.seqs||[]))for(const e of sq.entries||[])if(e.k===ok)e.k=nk}catch(_){}   /* its sequence entries follow (review cae02e6 r-2) */if(curName===old)curName=n;persist();renderPresets();buildLooks();syncPlist();toast('renamed “'+n+'”');return n}
 function renameScene(i,nm){const p=allPresets()[i];if(!p||!p.user||!nm)return;const old=p.name,inp=document.createElement('input');
   inp.className='nmEdit';inp.value=old;inp.maxLength=32;inp.setAttribute('aria-label','New name for '+old);inp.setAttribute('enterkeyhint','done');nm.replaceWith(inp);inp.focus();try{inp.setSelectionRange(0,old.length)}catch(_){}
   let done=false;const fin=keep=>{if(done)return;done=true;if(!keep||!renameUser(old,inp.value)){buildLooks();syncPlist()}};
@@ -10291,6 +10437,8 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
           if(tx){tx.hidden=!K.x.text;if(document.activeElement!==tx){const v=K.text!=null?K.text:'';if(tx.value!==v)tx.value=v}}}}}
       BS.stkChoices=stkChoices;
   const stripSect=box=>{const all=allPresets();
+    {const s=seqCur();if(s){const st=SurfaceStrip.make({name:'Sequence '+s.name,ids:()=>s.entries.map((_,j)=>j),label:j=>(j+1)+' '+seqLabel(s.entries[j]),draw:(el,j)=>{const p=seqScene(s.entries[j]);if(p)drawThumb(el,p)},
+      current:()=>SQ.at,next:()=>null,pick:j=>{seqGo(j);if(autoT)setAuto(true,true);bsSync()}});box.appendChild(st.el);return ()=>st.sync()}}   /* a playing sequence: its entries, in its order */
     const st=SurfaceStrip.make({name:'Scenes',ids:()=>playIds().filter(i=>all[i]),label:i=>all[i].name,draw:(el,i)=>drawThumb(el,all[i]),
       current:()=>presetIdx,next:()=>autoT?AUTO.next:null,
       pick:i=>{bumpLook(i);loadPreset(i,false,autoPart());flashName(all[i].name);if(autoT)setAuto(true,true);bsSync()}});
@@ -10298,7 +10446,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
   const SECT={
     /* THE ROBOT'S SHELF IS THE SCENES (Dimitry, 21 Oct night): small screens, no names (title and label only), the
        playing one lit, the robot's next one marked. A tap plays it now; a running robot keeps running from there. */
-    robot:{title:()=>'Robot',build(box){return stripSect(box)},key:()=>playIds().join(',')+'|'+allPresets().length},
+    robot:{title:()=>{const s=seqCur();return s?'Sequence · '+s.name:'Robot'},build(box){return stripSect(box)},key:()=>{const s=seqCur();return s?'seq|'+s.name+'|'+s.entries.map(e=>e.k).join(','):playIds().join(',')+'|'+allPresets().length}},
     /* the dice: how often it rolls by itself lives here, and only here (21 Oct night: "it doesn't need to appear in
        both places"); how much each roll changes stays in the random matrix, up top */
     dice:{title:()=>'Dice',build(box){
@@ -11326,10 +11474,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029032110"></script>
-<script src="surface/links.js?v=20261029032110"></script>
-<script src="surface/tips.js?v=20261029032110"></script>
-<script src="surface/sections.js?v=20261029032110"></script>
+<script src="surface/install.js?v=20261029034417"></script>
+<script src="surface/links.js?v=20261029034417"></script>
+<script src="surface/tips.js?v=20261029034417"></script>
+<script src="surface/sections.js?v=20261029034417"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11516,7 +11664,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029032110"></script>
+<script src="surface/room.js?v=20261029034417"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11717,7 +11865,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029032110"></script>
+<script src="surface/touch.js?v=20261029034417"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12462,7 +12610,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.35.8';
+const APP_VERSION='0.36.0';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
