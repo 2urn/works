@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029204242";window.__VERSION__="0.38.1";window.__NOTES__=[{"v":"0.38.1","date":"29 Oct 2026","items":[{"kind":"new","text":"every sound you leave on the pad carries its name on a tab (bigger while you drag it or hover it), the sound under your finger names itself where it plays, a tap plays a left sound once, and a double-tap opens its halo: which sound, how often, its level, play, take it off"},{"kind":"new","text":"on the screen part, the Room shelf has Clean screen (full screen, every control hidden, nothing reloads) beside Clean output (the stage in its own window)"},{"kind":"change","text":"Board in the Room shelf starts your part's player view, sound only (without a part it opens the Ensemble section to choose one)"},{"kind":"change","text":"water collects where it falls: rain from your finger pools there and runs only to the hollows nearby, never across the floor; the floor is full when most of it holds water","pro":"water.fill"},{"kind":"new","text":"the Corners map: a sound in each corner of the pad and the bed in the middle; while you touch they all play, each as loud as your finger is near it (choose which sound sits in which corner)"},{"kind":"new","text":"Field (or F) shows the field behind the see-through pad, the labels and panels kept, and your finger moves it; Field again is sound only"},{"kind":"change","text":"each of a part's sounds has its own color on the player's pad and in the mixer, and a sound left on the pad shows its name (the screen keeps the part's color)"},{"kind":"fix","text":"in Pro, Performing, the Performance board and Clean output each have a switch that turns them on and off right there, saying what they are now (the board says when the screen is too narrow)"},{"kind":"change","text":"Exit leaves the player view, up by the part's name, apart from the panels; tap the part's name on the field to come back"}]}]</script>
+<script>window.__BUILD__="20261029210726";window.__VERSION__="0.38.2";window.__NOTES__=[{"v":"0.38.2","date":"29 Oct 2026","items":[{"kind":"new","text":"every ensemble part has five sounds (Deep: a low drop and a slow wave; Surface: splash and wading; Shore: sand and splash; Walker: splash, sand and wading apart; Beachcomber: a bright drop); the added ones play from the keys, left sounds, the Corners map and the halo, and a gesture can be given to any of them in the mixer"},{"kind":"change","text":"the mixer's 'off' gesture is now called 'keys' (the keys, left sounds and corners still play it)"},{"kind":"new","text":"the ensemble guide, for the players and the screen: works.chamy.xyz/current/ensemble/"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029204242"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029204242">
+<script src="claude-web.js?v=20261029210726"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029210726">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029204242"></script>
-<script src="surface/nozoom.js?v=20261029204242"></script><script src="surface/steady.js?v=20261029204242"></script><script src="surface/selftest.js?v=20261029204242"></script><script src="surface/size.js?v=20261029204242"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029204242"></script>
-<script src="surface/auto.js?v=20261029204242"></script>
-<script src="surface/toolpath.js?v=20261029204242"></script>
-<script src="surface/capture.js?v=20261029204242"></script>
-<script src="surface/pop.js?v=20261029204242"></script>
-<script src="surface/hints.js?v=20261029204242"></script>
-<script src="surface/paths.js?v=20261029204242"></script>
-<script src="surface/keys.js?v=20261029204242"></script>
-<script src="surface/reset.js?v=20261029204242"></script>
-<script src="surface/files.js?v=20261029204242"></script>
-<script src="surface/tabs.js?v=20261029204242"></script>
-<script src="surface/running.js?v=20261029204242"></script>
-<script src="surface/trim.js?v=20261029204242"></script>
-<script src="surface/audiowake.js?v=20261029204242"></script>
-<script src="surface/output.js?v=20261029204242"></script>
-<script src="surface/board.js?v=20261029204242"></script>
-<script src="surface/voice.js?v=20261029204242"></script>
-<script src="surface/voicelib.js?v=20261029204242"></script>
-<script src="surface/instruments.js?v=20261029204242"></script>
-<script src="surface/listview.js?v=20261029204242"></script>
-<script src="surface/beads.js?v=20261029204242"></script>
-<script src="surface/strip.js?v=20261029204242"></script>
-<script src="surface/sheetnav.js?v=20261029204242"></script>
-<script src="surface/twofinger.js?v=20261029204242"></script>
-<script src="surface/ring.js?v=20261029204242"></script>
-<script src="surface/shortlink.js?v=20261029204242"></script>
-<script src="surface/undo.js?v=20261029204242"></script>
-<script src="surface/pro.js?v=20261029204242"></script>
-<script src="surface/fresh.js?v=20261029204242"></script>
-<script src="surface/go.js?v=20261029204242"></script>
-<script src="surface/notice.js?v=20261029204242"></script>
-<script src="surface/perform.js?v=20261029204242"></script>
-<script src="surface/words.js?v=20261029204242"></script>
+<script src="vendor/opentype.min.js?v=20261029210726"></script>
+<script src="surface/nozoom.js?v=20261029210726"></script><script src="surface/steady.js?v=20261029210726"></script><script src="surface/selftest.js?v=20261029210726"></script><script src="surface/size.js?v=20261029210726"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029210726"></script>
+<script src="surface/auto.js?v=20261029210726"></script>
+<script src="surface/toolpath.js?v=20261029210726"></script>
+<script src="surface/capture.js?v=20261029210726"></script>
+<script src="surface/pop.js?v=20261029210726"></script>
+<script src="surface/hints.js?v=20261029210726"></script>
+<script src="surface/paths.js?v=20261029210726"></script>
+<script src="surface/keys.js?v=20261029210726"></script>
+<script src="surface/reset.js?v=20261029210726"></script>
+<script src="surface/files.js?v=20261029210726"></script>
+<script src="surface/tabs.js?v=20261029210726"></script>
+<script src="surface/running.js?v=20261029210726"></script>
+<script src="surface/trim.js?v=20261029210726"></script>
+<script src="surface/audiowake.js?v=20261029210726"></script>
+<script src="surface/output.js?v=20261029210726"></script>
+<script src="surface/board.js?v=20261029210726"></script>
+<script src="surface/voice.js?v=20261029210726"></script>
+<script src="surface/voicelib.js?v=20261029210726"></script>
+<script src="surface/instruments.js?v=20261029210726"></script>
+<script src="surface/listview.js?v=20261029210726"></script>
+<script src="surface/beads.js?v=20261029210726"></script>
+<script src="surface/strip.js?v=20261029210726"></script>
+<script src="surface/sheetnav.js?v=20261029210726"></script>
+<script src="surface/twofinger.js?v=20261029210726"></script>
+<script src="surface/ring.js?v=20261029210726"></script>
+<script src="surface/shortlink.js?v=20261029210726"></script>
+<script src="surface/undo.js?v=20261029210726"></script>
+<script src="surface/pro.js?v=20261029210726"></script>
+<script src="surface/fresh.js?v=20261029210726"></script>
+<script src="surface/go.js?v=20261029210726"></script>
+<script src="surface/notice.js?v=20261029210726"></script>
+<script src="surface/perform.js?v=20261029210726"></script>
+<script src="surface/words.js?v=20261029210726"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029204242"></script>
-<script src="surface/rail.js?v=20261029204242"></script>
-<script src="surface/touchsound.js?v=20261029204242"></script>
-<script src="surface/water.js?v=20261029204242"></script>
-<script src="surface/ripple.js?v=20261029204242"></script>
-<script src="surface/material.js?v=20261029204242"></script>
-<script src="surface/float.js?v=20261029204242"></script>
-<script src="surface/manual.js?v=20261029204242"></script>
+<script src="surface/pack.js?v=20261029210726"></script>
+<script src="surface/rail.js?v=20261029210726"></script>
+<script src="surface/touchsound.js?v=20261029210726"></script>
+<script src="surface/water.js?v=20261029210726"></script>
+<script src="surface/ripple.js?v=20261029210726"></script>
+<script src="surface/material.js?v=20261029210726"></script>
+<script src="surface/float.js?v=20261029210726"></script>
+<script src="surface/manual.js?v=20261029210726"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -11659,10 +11659,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029204242"></script>
-<script src="surface/links.js?v=20261029204242"></script>
-<script src="surface/tips.js?v=20261029204242"></script>
-<script src="surface/sections.js?v=20261029204242"></script>
+<script src="surface/install.js?v=20261029210726"></script>
+<script src="surface/links.js?v=20261029210726"></script>
+<script src="surface/tips.js?v=20261029210726"></script>
+<script src="surface/sections.js?v=20261029210726"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11852,7 +11852,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029204242"></script>
+<script src="surface/room.js?v=20261029210726"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12053,7 +12053,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029204242"></script>
+<script src="surface/touch.js?v=20261029210726"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12263,7 +12263,7 @@ const ENS=window.ENS=(function(){
     {id:'shore',name:'Shore',color:'#f2c14e',preset:'harbor',surf:'wake',bed:'surf',tap:'seagull',drag:'wash',hold:'lighthouse',
       say:{tap:'a gull',drag:'a wave washing up',hold:'the lighthouse, once a bar',bed:'surf, under the playing'}},
     {id:'walker',name:'Walker',color:'#ff8a5b',preset:'shallows',surf:'wake',bed:'',tap:'splash',drag:'splash',hold:'steps',
-      say:{tap:'a splash (a kick of sand on the dry side)',drag:'splashes',hold:'steps on the beat while you touch: sand on the dry left, wading on the wet right; drag fast to hurry',bed:''}},
+      say:{tap:'a splash (a kick of sand on the dry side)',drag:'a splash',hold:'steps on the beat while you touch: sand on the dry left, wading on the wet right; drag fast to hurry',bed:''}},
     {id:'beachcomber',name:'Beachcomber',color:'#c9a2ff',preset:'shallows',surf:'glass',bed:'',tap:'crystal',drag:'bottle',hold:'rubbed rim',under:'sustain',
       say:{tap:'a crystal goblet',drag:'a bottle, blown (it follows your finger)',hold:'a wet finger round a glass rim',bed:'a low ringing note under each new phrase'}}];
   const LS='current.part',CODE='FEMEH2',SCREEN={id:'screen',name:'Screen',color:'#ffffff'};
@@ -12285,11 +12285,15 @@ const ENS=window.ENS=(function(){
     'rubbed rim':{t:'held',glass:1},sustain:{t:'held',glass:1,phrase:1},bottle:{t:'held'}};
   const NAMES={drop:'drop',bubbles:'bubbles',whale:'whale',seagull:'gull',splash:'splash',sand:'sand',wade:'wading',lap:'lap',wash:'wave',kick:'splash or sand',
     crystal:'crystal',lighthouse:'lighthouse',steps:'steps','rubbed rim':'rubbed rim',sustain:'sustain',bottle:'bottle'};
-  const SLOTS={deep:[['bubbles','tap',{size:.4}],['bubbles','drag'],['whale','hold']],
-    surface:[['drop','tap'],['bubbles','drag'],['lap','hold']],
-    shore:[['seagull','tap'],['wash','drag'],['lighthouse','hold']],
-    walker:[['kick','tap',{size:.7}],['kick','drag'],['steps','touch']],
-    beachcomber:[['crystal','tap'],['bottle','drag'],['rubbed rim','hold'],['sustain','touch',{lvl:.55}]]};
+  /* FIVE EACH (Dimitry, 29 Oct 16:55: "Yes build please so no one feels left out"): every part has five sounds, so keys 1–5,
+     the Corners map's four corners and the halo's ‹ › work for everyone. The first sounds keep their gestures; the added
+     ones are 'keys' (keys, left sounds, corners and the halo play them; the pad's touch stays as clear as it was): a
+     player gives one a gesture in the mixer. Walker's doubled splash-or-sand becomes splash and sand apart. */
+  const SLOTS={deep:[['bubbles','tap',{size:.4}],['bubbles','drag'],['whale','hold'],['drop','off',{semi:-12,size:.7}],['wash','off',{tone:.3,size:.8}]],
+    surface:[['drop','tap'],['bubbles','drag'],['lap','hold'],['splash','off'],['wade','off']],
+    shore:[['seagull','tap'],['wash','drag'],['lighthouse','hold'],['sand','off'],['splash','off',{size:.6}]],
+    walker:[['kick','tap',{size:.7}],['splash','drag'],['steps','touch'],['sand','off'],['wade','off']],
+    beachcomber:[['crystal','tap'],['bottle','drag'],['rubbed rim','hold'],['sustain','touch',{lvl:.55}],['drop','off',{tone:.8,semi:7}]]};
   /* each sound its own color on the player's pad and in the mixer (Dimitry, 29 Oct 16:01: "sounds on stage should be
      labelled or colored for performer even if on SCREEN they are all same color"); the screen keeps the part's one color */
   const SLOTC=['#ffd166','#4cc9f0','#ff70a6','#7bd389','#c3a6ff'];
@@ -12312,13 +12316,14 @@ const ENS=window.ENS=(function(){
      bottom, C at the left and D at the right, the corners E F (top) H G (bottom); "or A=0", "or C 100"; "the mapping pad
      is a wall a stage a floor"): what the pad stands for names its ends, and the zero sits at an edge or in the middle */
   const SURFS={wall:{name:'Wall',A:'top',B:'bottom',C:'left',D:'right'},stage:{name:'Stage',A:'upstage',B:'downstage',C:'stage right',D:'stage left'},floor:{name:'Floor',A:'far',B:'near',C:'left',D:'right'}};
-  const GESTS=[['tap','tap'],['drag','drag'],['hold','hold'],['touch','touch'],['off','off']];
+  const GESTS=[['tap','tap'],['drag','drag'],['hold','hold'],['touch','touch'],['off','keys']];   /* 'off' reads keys: the keys, left sounds and corners still play it */
   let MIX=null;   // this part's slots, master and map: {slots:[{kind,g,lvl,tone,grain,semi,size}], lvl, bed, wet, map:{x,y}, drops:[]}
   const mixKey=id=>'current.pv.mix.'+id;
   function mixDefault(P){const s=(SLOTS[P.id]||[]).map(([k,g,o])=>Object.assign({kind:k,g,lvl:1,tone:.5,grain:0,semi:0,size:.45},o||{}));
     return{slots:s,lvl:1,bed:1,wet:.5,map:{x:MAPS[0].x.slice(),y:MAPS[0].y.slice(),id:'water'},drops:[],surf:'wall',zero:'edge',corners:[0,1,2,3].map(k=>k<s.length?k:-1)}}
   function mixLoad(P){let m=null;try{m=JSON.parse(localStorage.getItem(mixKey(P.id))||'null')}catch(_){}const d=mixDefault(P);
-    if(!m||!Array.isArray(m.slots)||m.slots.length!==d.slots.length)return d;
+    if(!m||!Array.isArray(m.slots)||m.slots.length>d.slots.length)return d;
+    if(m.slots.length<d.slots.length)m.slots=m.slots.concat(d.slots.slice(m.slots.length).map(x=>Object.assign({},x)));   /* a part that gained sounds keeps its saved mix and adds the new ones (review 03f4 r-1) */
     const n=(v,a,b,z)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):z};
     m.slots=m.slots.map((s,i)=>({kind:d.slots[i].kind,g:GESTS.some(g=>g[0]===s.g)?s.g:d.slots[i].g,lvl:n(s.lvl,0,1.5,1),tone:n(s.tone,0,1,.5),grain:n(s.grain,0,1,0),semi:n(s.semi,-24,24,0),size:n(s.size,0,1,d.slots[i].size)}));
     const ax=a=>Array.isArray(a)&&AXES.some(x=>x[0]===a[0])?[a[0],n(a[1],0,1,0),n(a[2],0,1,1)]:null;
@@ -12341,7 +12346,7 @@ const ENS=window.ENS=(function(){
   function chainSet(now){if(!CH||!MIX)return;const c=CH.c,t=c.currentTime,tc=now?.005:.04,M=mod();
     CH.out.gain.setTargetAtTime(MUTE?0:MIX.lvl,t,tc);
     MIX.slots.forEach((s,i)=>{const n=CH.S[i];if(!n)return;const tone=Math.max(0,Math.min(1,s.tone+(M.tone-.5))),gr=Math.max(0,Math.min(1,s.grain+M.grain));
-      const ck=isCorners()?cornerOf(i):-1;n.i.gain.setTargetAtTime(s.g==='off'&&ck<0?0:s.lvl*(ck>=0&&G.on?cornerW(ck):1),t,tc);   /* keys, buttons and left sounds play at the slot's own level */n.lp.frequency.setTargetAtTime(300*Math.pow(2,Math.min(1,tone*2)*6.06),t,tc);n.hp.frequency.setTargetAtTime(20*Math.pow(2,Math.max(0,tone*2-1)*6.64),t,tc);
+      const ck=isCorners()?cornerOf(i):-1;n.i.gain.setTargetAtTime(s.lvl*(ck>=0&&G.on?cornerW(ck):1),t,tc);   /* 'keys' slots are not muted: the finger never plays them (slotsTick), the keys, left sounds and the halo do (review 03f4 r-2) */   /* keys, buttons and left sounds play at the slot's own level */n.lp.frequency.setTargetAtTime(300*Math.pow(2,Math.min(1,tone*2)*6.06),t,tc);n.hp.frequency.setTargetAtTime(20*Math.pow(2,Math.max(0,tone*2-1)*6.64),t,tc);
       n.gate.gain.setTargetAtTime(1-gr,t,tc);n.dep.gain.setTargetAtTime(gr,t,tc)})}
   let MUTE=false,OCT=0;
   /* the axes: where the finger is (x across, y up, 0..1), read through the map into the sound's own values */
@@ -12572,7 +12577,7 @@ const ENS=window.ENS=(function(){
           '<select aria-label="'+esc(NAMES[s.kind])+' plays on">'+GESTS.map(g=>'<option value="'+g[0]+'"'+(g[0]===s.g?' selected':'')+'>'+g[1]+'</option>').join('')+'</select>'+
           '<button type="button" class="pv-leave" aria-pressed="'+(ARM===i)+'" title="Leave this sound on the pad: it plays there by itself">leave</button></div>'+
           rng('level',s.lvl,0,1.5,.01,NAMES[s.kind]+' level')+rng('timbre',s.tone,0,1,.01,NAMES[s.kind]+' timbre: dark to thin')+rng('grain',s.grain,0,1,.01,NAMES[s.kind]+' grain')+rng('pitch',s.semi,-12,12,1,NAMES[s.kind]+' pitch in semitones')+'</div>').join('')+
-        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or off. <b>Leave</b> puts a sound on the pad: it plays there on the beat, its name beside it; tap it to hear it, double-tap it for its halo (which sound, how often, its level, take it off), hold it or drag it off the pad to take it away.</p>';
+        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or keys (only the number keys, left sounds, the corners and the halo play it). <b>Leave</b> puts a sound on the pad: it plays there on the beat, its name beside it; tap it to hear it, double-tap it for its halo (which sound, how often, its level, take it off), hold it or drag it off the pad to take it away.</p>';
       const ms=sd.querySelector('.pv-mst'),ins=ms.querySelectorAll('input');let k=0;
       ins[k++].oninput=e=>{MIX.lvl=+e.target.value;chainSet();mixSave()};
       if(cur.bed)ins[k++].oninput=e=>{MIX.bed=+e.target.value;mixSave()};
@@ -13401,7 +13406,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.38.1';
+const APP_VERSION='0.38.2';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
