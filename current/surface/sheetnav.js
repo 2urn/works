@@ -165,9 +165,9 @@
        interior crossfades and the height is set at once. */
     function stepIn(el, h0, d) {
       var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-      var h1 = el.getBoundingClientRect().height, E = "cubic-bezier(.2,.8,.2,1)", T = 220;
+      var E = "cubic-bezier(.2,.8,.2,1)", T = 220;
       if (!el.animate) return;
-      if (!reduce && Math.abs(h1 - h0) > 1) el.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: T, easing: E });
+      if (!reduce) glideHeight(el, h0);
       [].forEach.call(el.children, function (c) {
         if (c.classList.contains("spop-head") || !c.offsetHeight) return;
         c.animate(reduce ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: "translateX(" + (d < 0 ? -36 : 36) + "px)" }, { opacity: 1, transform: "none" }], { duration: reduce ? 160 : T, easing: E });
@@ -196,5 +196,32 @@
     });
     return { go: go, stop: function () { cancelAnimationFrame(raf); prev.remove(); next.remove(); } };
   }
-  window.SurfaceSheetNav = { swipe: swipe, ring: ring };
+  /* ONE GLIDE PER CHANGE OF HEIGHT (Current, 29 Oct: "the mic bounces twice"). glideHeight(el, from) eases a panel's frame
+     from the height it had to the one its content now gives it. A pane that settles a moment later (a device list, an editor
+     drawn on the next frame) does not end this glide and start another: for a short while each frame reads the panel's own
+     height under the glide, and when it has moved, the same glide is retargeted from where it is now. One glide per element
+     at a time (el.__glide); a tool's own height smoothing calls this too, so two animators never fight over one height.
+     el.__h is the height the frame came to rest at. Reduced motion: no glide. */
+  function glideHeight(el, h0) {
+    if (!el || !el.animate) return;
+    if (el.__glide) el.__glide.stop();
+    try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.__h = el.getBoundingClientRect().height; return; } } catch (e) {}
+    var E = "cubic-bezier(.2,.8,.2,1)", T = 220, t0 = performance.now(), stopped = false;
+    var to = el.getBoundingClientRect().height, anim = Math.abs(to - h0) > 1 ? el.animate([{ height: h0 + "px" }, { height: to + "px" }], { duration: T, easing: E }) : null;
+    var g = el.__glide = { stop: function () { stopped = true; if (anim) anim.cancel(); anim = null; if (el.__glide === g) el.__glide = null; } };
+    var watch = function () {
+      if (stopped) return;
+      if (el.hidden || performance.now() - t0 > T + 480) { g.stop(); el.__h = el.hidden ? 0 : el.getBoundingClientRect().height; return; }
+      var cur = el.getBoundingClientRect().height, t = anim ? anim.currentTime : null;
+      if (anim) anim.cancel();
+      var nat = el.getBoundingClientRect().height;
+      /* with no glide running, the frame is already at its new height: glide from where it rested (review efc7fa3be6 r-1) */
+      if (Math.abs(nat - to) > 2) { var from = anim ? cur : to; to = nat; anim = Math.abs(nat - from) > 1 ? el.animate([{ height: from + "px" }, { height: nat + "px" }], { duration: T, easing: E }) : null; }
+      else if (anim && t != null && t < T) { anim = el.animate(anim.effect.getKeyframes(), { duration: T, easing: E }); anim.currentTime = t; }
+      else anim = null;
+      requestAnimationFrame(watch);
+    };
+    requestAnimationFrame(watch);
+  }
+  window.SurfaceSheetNav = { swipe: swipe, ring: ring, glideHeight: glideHeight };
 })();
