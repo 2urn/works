@@ -129,7 +129,7 @@
   /* the look: the source seen through the surface */
   var FS_SHOW = HEAD +
     "in vec2 vUv; out vec4 o;\n" +
-    "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus; uniform vec2 uPx;\n" +
+    "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus, uQ; uniform vec2 uPx;\n" +
     "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor, uBeads;\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
@@ -143,7 +143,9 @@
     "  vec2 uv = vUv; vec2 t = 1.0/vec2(textureSize(uWave,0));\n" +
     "  float hc = hAt(uv), hl = hAt(uv-vec2(t.x,0)), hr = hAt(uv+vec2(t.x,0)),\n" +
     "        hd = hAt(uv-vec2(0,t.y)), hu = hAt(uv+vec2(0,t.y));\n" +
-    "  vec2 grad = vec2(hr-hl, hu-hd)*0.5; float lap = hl+hr+hd+hu-4.0*hc;\n" +
+    "  vec2 grad = vec2(hr-hl, hu-hd)*0.5*uQ;\n" +   /* uQ: per cell of the old field, so a finer field bends the light as much */
+    /* the caustics' curvature with the diagonals too, so its light follows the rings, round, not the grid's squares */
+    "  float lap = 0.5*(hl+hr+hd+hu-4.0*hc) + 0.125*(hAt(uv+t)+hAt(uv-t)+hAt(uv+vec2(t.x,-t.y))+hAt(uv+vec2(-t.x,t.y))-4.0*hc); lap *= uQ*uQ;\n" +
     "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.3*(1.0-wetM(uv, b1)); }\n" +
     "  vec2 ruv = clamp(uv - grad*uPx*uRefr, vec2(0.0), vec2(1.0));\n" +
     "  vec4 c = texture(uSrc, ruv);\n" +
@@ -182,7 +184,7 @@
       cv.style.cssText = "position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;visibility:hidden" + (o.zIndex != null ? ";z-index:" + o.zIndex : "");
       var par = o.parent || src.parentNode; if (par) { if (o.parent) par.appendChild(cv); else par.insertBefore(cv, src.nextSibling); }
     }
-    var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.5;
+    var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.7, CAP = o.max || 960, Q = 1, slowT = 0;   // finer than it was (0.5, 512): small drops rang as squares (Dimitry, 29 Oct: "very low rez")
     var SW = 0, SH = 0, lastMove = null;
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
     var FILL = null, FLB = null, flTex = null, fullT = 0, BEADS = [], FLY = [], bdCv = null, bdCx = null, bdTex = null, bdDirty = true, SPRB = null;
@@ -244,16 +246,21 @@
       var w = src.width || 1, h = src.height || 1;
       if (w === SW && h === SH) return; SW = w; SH = h;
       cv.width = w; cv.height = h;
-      /* the field: a share of the CSS pixels, at most 512 on its long side */
-      var css = src.clientWidth || w, cssH = src.clientHeight || h, k = Math.min(res, 512 / Math.max(css, cssH));
+      /* the field: a share of the CSS pixels, at most CAP (960) on its long side */
+      /* a small screen (a phone, a tablet held up) keeps a lower cap: the finer field is for the big ones (review cfd0d1b7fd r-3) */
+      var css = src.clientWidth || w, cssH = src.clientHeight || h, cap = o.max || (Math.max(css, cssH) < 1100 ? Math.min(640, CAP) : CAP), k = Math.min(res, cap / Math.max(css, cssH));
       var fw = Math.max(16, Math.round(css * k)), fh = Math.max(16, Math.round(cssH * k));
+      /* Q: how many cells this field has for each one the old field (half the CSS pixels, at most 512) had. A wave moves
+         a cell a step, so the field steps Q times as often, and damps and drifts 1/Q as much each step: the rings keep
+         the size, speed and life they had, only drawn finer. */
+      Q = Math.max(1, Math.max(fw, fh) / Math.max(16, Math.min(0.5 * Math.max(css, cssH), 512)));
       if (fw !== N[0] || fh !== N[1]) field(fw, fh);
     }
     function step() {
       var pw = prog.wave; gl.useProgram(pw.p); gl.viewport(0, 0, N[0], N[1]);
       gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[1 - cur]);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[cur]); gl.uniform1i(pw.u.uState, 0);
-      gl.uniform1f(pw.u.uC2, Math.min(0.5, P.c2)); gl.uniform1f(pw.u.uDamp, P.damp);
+      gl.uniform1f(pw.u.uC2, Math.min(0.5, P.c2)); gl.uniform1f(pw.u.uDamp, Math.pow(P.damp, 1 / Q));
       gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, curTex); gl.uniform1i(pw.u.uCur, 2); gl.uniform1f(pw.u.uAdv, curOk ? Math.max(0, +DRV.current || 0) : 0); gl.activeTexture(gl.TEXTURE0);
       var d = drops.splice(0, 16), a = new Float32Array(64);
       for (var i = 0; i < d.length; i++) a.set(d[i], i * 4);
@@ -274,7 +281,7 @@
       var ps = prog.show; gl.useProgram(ps.p);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[cur]);
       gl.uniform1i(ps.u.uWave, 0); gl.uniform1i(ps.u.uSrc, 1);
-      gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus);
+      gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus); gl.uniform1f(ps.u.uQ, Q);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(ps.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0);
@@ -300,7 +307,7 @@
       try { gl.readPixels(0, 0, 16, 16, gl.RGBA, gl.UNSIGNED_BYTE, enBuf); } catch (_) {}
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
       var s = 0; for (var i = 0; i < 256; i++) { var r = enBuf[i * 4], g = enBuf[i * 4 + 1], b = enBuf[i * 4 + 2]; s += b < 255 ? b / 255 / 1024 : g < 255 ? g / 255 / 64 : r / 255 / 4; }
-      enVal = s / 256; return enVal;
+      enVal = s / 256 * Q; return enVal;   // per old cell, so a calm threshold means what it meant (review cfd0d1b7fd r-4)
     }
     function rnd(d) { d = d || [0.5, 2]; return d[0] + Math.random() * (d[1] - d[0]); }
     function handover(h) {
@@ -332,7 +339,7 @@
     function addDrop(x, y, size, strength, own) {
       if (!ok || !on) return;
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
-      var shortPx = Math.min(N[0], N[1]), r = Math.max(1.2, (size == null ? P.size : size) * shortPx);
+      var shortPx = Math.min(N[0], N[1]), r = Math.max(2.6, (size == null ? P.size : size) * shortPx);   // under ~2.5 cells a drop's rings are finer than the grid can hold and read as a checkerboard
       if (FILL != null && wetAt(x, y) < 0.5) { splash(x, y, size, strength); return; }
       if (drops.length >= 48) drops.shift();
       /* field y runs up; the caller's y runs down */
@@ -437,13 +444,16 @@
       if (P.rain > 0 && sig > 0) { rainAcc += P.rain * sig * dt; while (rainAcc >= 1) { rainAcc -= 1; addDrop(Math.random(), Math.random(), P.size * (0.6 + Math.random() * 0.8), 0.6 + Math.random() * 0.6, true); } if (Math.random() < rainAcc) { rainAcc = 0; addDrop(Math.random(), Math.random(), P.size, 0.8, true); } }
       if (DRV.path > 0 && PTOT > 0 && sig > 0) { pathAcc += DRV.path * sig * (0.25 + FLOW) * dt; var k = 0; while (pathAcc >= 1 && k < 2) { pathAcc -= 1; k++; var pt = along(Math.random() * PTOT); addDrop(pt[0], pt[1], P.size * 0.6, 0.45 + Math.random() * 0.3, true); } if (pathAcc > 2) pathAcc = 2; }
       if (DRV.current > 0 && curOk) quiet = Math.min(quiet, 19);   // a current keeps the surface moving
+      /* a device that cannot keep up (frames slower than 30 a second for three seconds) goes back to the old field once */
+      if (!o.res && !o.max && res > 0.5) { slowT = dt > 1 / 30 && dt < 0.5 ? slowT + dt : Math.max(0, slowT - dt * 0.5); if (slowT > 3) { res = 0.5; CAP = 512; SW = SH = 0; slowT = 0; } }
       acc += dt; quiet += dt; var n = 0;
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
       if (FILL != null && FILL >= 1) fullT += dt; else fullT = 0;
       if (floorOn()) quiet = Math.min(quiet, 19);   // a floor that is filling keeps its flashes moving
       if (FILL != null) beadsStep(dt);
-      while (acc >= 1 / 60 && n < 4) { acc -= 1 / 60; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
-      if (n === 4) acc = 0;
+      var hz = 60 * Q, most = Math.min(5, Math.ceil(2 * Q));   // at most 5 steps in a slow frame; a slower device drops time, not frames
+      while (acc >= 1 / hz && n < most) { acc -= 1 / hz; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
+      if (n === most) acc = 0;
       draw();
     }
     /* a handover that ends in off lets what is left of the surface fade (.9 s) over the picture, instead of vanishing */

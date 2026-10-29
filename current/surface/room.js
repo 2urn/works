@@ -15,6 +15,8 @@
      room.on("leader", e => …)  // { id, me }
      room.on("sync", e => …)    // { offset, err, rtt } (followers): the clock estimate after each pong
      room.on("hello", e => …)   // a peer arrived (the leader answers with its state: room.state(...))
+     room.on("touch", e => …)   // { id, part, name, path: [[x, y, ms], …], up } a player's finger, sent with SurfaceRoom.post
+     SurfaceRoom.post(code, type, payload, {url, key, prefix, from})   // send without joining (REST broadcast) → Promise<bool>
      room.tempo({ bpm, bar0, bpb, src })     // leader: announce (bar0 local ms); re-sent by the tool as a heartbeat
      room.scene(scene, atLocalMs, { morph, part })   // leader: a scene change landing at a local time
      room.state({ to, tempo, scene })        // leader: everything at once, for a late joiner (lands at once)
@@ -189,6 +191,7 @@
             if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, snap: true });
             if (m.scene) emit("scene", { scene: m.scene.scene, at: performance.now(), morph: 0, part: m.scene.part, n: m.scene.n, snap: true });
           } break;
+        case "touch": emit("touch", { id: String(m.f).slice(0, 16), part: String(m.part || "").slice(0, 16), name: String(m.name || "").slice(0, 24), path: Array.isArray(m.path) ? m.path.slice(0, 24) : [], up: !!m.up }); break;   // a player's finger, posted (SurfaceRoom.post)
         case "bye": if (peers[m.f]) { delete peers[m.f]; elect(); } break;
       }
     }
@@ -269,5 +272,25 @@
     };
     return room;
   }
-  window.SurfaceRoom = { join: join, code: function (n) { return rnd(Math.max(6, n || 6)); }, link: link, clean: clean, COLORS: COLORS, version: "1.0.0" };
+  /* POST WITHOUT JOINING (29 Oct 2026, one screen that shows every player's finger): a message sent to a room over
+     Realtime's REST broadcast (POST /realtime/v1/api/broadcast), so the sender is not subscribed and is not sent
+     everyone else's. Realtime counts every message sent and every one delivered against the project's quota (Free: 100
+     a second), so fingers go to a room of their own that only the screen joins. o: {url (the wss:// or https://
+     address), key, prefix, from}. → a promise of true (sent) or false. */
+  function post(code, t, payload, o) {
+    o = o || {}; var base = String(o.url || "").replace(/^wss:/, "https:").replace(/\/realtime\/v1\/websocket.*$/, "");
+    var p = Object.assign({}, payload || {}, { v: 1, t: t, f: o.from || "post" });
+    if (!base || typeof fetch !== "function") return Promise.resolve(false);
+    var body = JSON.stringify({ messages: [{ topic: (o.prefix || "room-") + clean(code), event: "m", payload: p, private: false }] });
+    function go(bearer) { var h = { "Content-Type": "application/json", apikey: o.key || "" }; if (bearer) h.Authorization = "Bearer " + (o.key || "");
+      return fetch(base + "/realtime/v1/api/broadcast", { method: "POST", headers: h, body: body }); }
+    /* the gateway takes the key as apikey; if one is refused, the same post goes once more with the key as a bearer too,
+       and the bearer is kept only once it has worked (review 61235c2e48 r-3) */
+    return go(post.bearer).then(function (r) {
+      if (r.ok) return true;
+      if (r.status === 401 || r.status === 403) return go(!post.bearer).then(function (q) { if (q.ok) post.bearer = !post.bearer; return q.ok; }, function () { return false; });
+      return false;
+    }, function () { return false; });
+  }
+  window.SurfaceRoom = { join: join, post: post, code: function (n) { return rnd(Math.max(6, n || 6)); }, link: link, clean: clean, COLORS: COLORS, version: "1.0.0" };
 })();

@@ -29,8 +29,9 @@
          put it between your sound and your speakers; input may be null (connect to t.input yourself)
      SurfaceWater.bed(ctx, name, {level}) → {output, level(v), stop()}        name: surf | stream | hose | lap | hydrophone | rain
      SurfaceWater.voice(ctx, out, kind, {pitch, pan, size, when, gain}) → end time
-         kind: drop | bubbles | whale | porpoise | seagull; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer,
+         kind: drop | bubbles | whale | porpoise | seagull | sand | wade | splash | lap | wash | lighthouse; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer,
          lower; a longer click train, more gull calls). porpoise takes {whistle: bool}; seagull takes {air: t.air}
+     SurfaceWater.hold(ctx, out, "bottle", {pitch, pan, gain}) → {set({pitch, pan, gain, breath}), release()}  a voice held by a finger
      SurfaceWater.pick(presetId, ctx) → the voice the music plays (the preset's mix weights; gulls and porpoises keep a gap)
      SurfaceWater.tap(presetId, y) → the voice a tap plays (y 1 at the top; above the waterline a preset's sky voice)
      SurfaceWater.PRESETS, .BEDS, .VOICES   [{id, name, note, ...}] for pickers
@@ -68,7 +69,14 @@
     { id: "bubbles", name: "Bubbles", note: "a small scatter of bubbles" },
     { id: "whale", name: "Whale", note: "a slow slide, for long gestures" },
     { id: "porpoise", name: "Porpoise", note: "a click train that speeds up and slows, sometimes a whistle", gap: 0.5 },
-    { id: "seagull", name: "Seagull", note: "a gull's cry, sometimes laughing; above the water, so dry", gap: 1.6, air: true }
+    { id: "seagull", name: "Seagull", note: "a gull's cry, sometimes laughing; above the water, so dry", gap: 1.6, air: true },
+    { id: "sand", name: "Sand", note: "a step on dry crunchy sand: heel, toe, a crowd of grains" },
+    { id: "wade", name: "Wading", note: "a foot pushed through shallow water" },
+    { id: "splash", name: "Splash", note: "something breaking the surface, the spray falling back" },
+    { id: "lap", name: "Lap", note: "a small wave against a stone or a hull" },
+    { id: "wash", name: "Wash", note: "a wave running up the sand and drawing back", gap: 0.8 },
+    { id: "lighthouse", name: "Lighthouse", note: "one turn of the beam: a deep pulse that swells and passes", gap: 1 },
+    { id: "bottle", name: "Bottle", note: "breath across a bottle's mouth, held: hold() follows the finger", held: true }
   ];
   function byId(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -450,12 +458,152 @@
     o1.onended = function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); };
     return end;
   }
+  /* ---- 4. the shore (Dimitry, 29 Oct 2026, for an ensemble of five on the water: "walking on crunchy sand", wading,
+     "splashing sounds that intimate human interaction with the environment", a bottle found on the beach and blown,
+     "a low pulse that sounds a bit like a lighthouse spinning"). Steps, wading, splashes, laps and a wave washing up are
+     each drawn into one buffer (one node however many grains), so a walk costs no more than a drop. The bottle is held:
+     SurfaceWater.hold() lasts as long as the finger and follows it. */
+  function rbuf(ctx, dur) { var sr = ctx.sampleRate, n = Math.max(1, Math.floor(sr * dur)), b = ctx.createBuffer(1, n, sr); return { b: b, d: b.getChannelData(0), sr: sr, n: n }; }
+  function norm(d, peak) { var m = 0, i; for (i = 0; i < d.length; i++) { var a = d[i] < 0 ? -d[i] : d[i]; if (a > m) m = a; } if (m > peak) { var k = peak / m; for (i = 0; i < d.length; i++) d[i] *= k; } }
+  function playBuf(ctx, out, t, B, pan, amp, chain) {
+    var end = t + B.n / B.sr; if (!room(ctx, t, end)) return t;
+    var s = ctx.createBufferSource(), g = ctx.createGain(), head = s, nodes = [s, g]; s.buffer = B.b; g.gain.value = amp;
+    (chain || []).forEach(function (F) { var q = ctx.createBiquadFilter(); q.type = F[0]; q.frequency.value = F[1]; q.Q.value = F[2] || 0.7; head.connect(q); head = q; nodes.push(q); });
+    head.connect(g); nodes.push(panTo(ctx, g, pan, out));
+    s.onended = function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); };
+    s.start(t); return end;
+  }
+  /* a state-variable filter for drawing noise into a buffer: svf(fc, damping) → step(x) gives {lo, bd, hi} */
+  function svf(sr) { var lo = 0, bd = 0, o = { lo: 0, bd: 0, hi: 0 }; return function (x, fc, q) { var f = 2 * Math.sin(Math.PI * Math.min(0.24, fc / sr)), hi = x - lo - q * bd; bd += f * hi; lo += f * bd; o.lo = lo; o.bd = bd; o.hi = hi; return o; }; }
+  /* SAND: one step on dry crunchy sand. The heel, then the toe 50–90 ms later and lighter, each a crowd of tiny grains
+     (sand grains rubbing and breaking), over a soft thud of weight. Higher is brighter, finer sand; bigger is heavier. */
+  function sand(ctx, out, t, h, pan, size, amp) {
+    var dur = 0.24 + size * 0.16, B = rbuf(ctx, dur + 0.03), d = B.d, sr = B.sr, fc = 1500 + h * 3400;
+    [[0, 1], [0.05 + Math.random() * 0.04 + size * 0.03, 0.55 + Math.random() * 0.3]].forEach(function (c) {
+      var len = dur * (0.5 + Math.random() * 0.2), n = Math.floor((380 + size * 520) * c[1] * len);
+      for (var k = 0; k < n; k++) {
+        var u = Math.pow(Math.random(), 1.7), s0 = Math.floor((c[0] + u * len) * sr), gl = Math.floor(sr * (0.0005 + Math.random() * 0.002));
+        var a = c[1] * (1 - u) * (0.2 + Math.random() * 0.8), ff = fc * (0.55 + Math.random() * 1.1), ph = Math.random() * 6.283;
+        for (var i = 0; i < gl && s0 + i < B.n; i++) { var e = Math.exp(-i / (gl * 0.3)); d[s0 + i] += ((Math.random() * 2 - 1) * 0.6 + Math.sin(ph + 6.2832 * ff * i / sr) * 0.4) * e * a; }
+      }
+    });
+    for (var i = 0, z = 0, m = Math.min(B.n, Math.floor(sr * 0.09)); i < m; i++) { z += 0.02 * ((Math.random() * 2 - 1) - z); d[i] += z * 6 * Math.exp(-i / (sr * 0.022)) * (0.5 + size); }
+    norm(d, 0.95);
+    return playBuf(ctx, out, t, B, pan, amp * 1.5, [["highpass", 110, 0.7]]);
+  }
+  /* WADE: a foot pushed through shallow water: a slosh of low noise that swells and settles, a gurgle moving in it,
+     and a few bubbles let go as the foot lifts. */
+  function wade(ctx, out, t, h, pan, size, amp) {
+    var dur = 0.6 + size * 0.6, B = rbuf(ctx, dur), d = B.d, sr = B.sr, F = svf(sr), f0 = 320 + h * 650, rise = 0.16 + Math.random() * 0.1;
+    var wob = 4 + Math.random() * 5, ph = Math.random() * 6.283;
+    for (var i = 0; i < B.n; i++) {
+      var u = i / sr, env = u < rise ? Math.sin(u / rise * Math.PI / 2) : Math.exp(-(u - rise) / (dur * 0.3)), w = Math.sin(ph + 6.2832 * wob * u);
+      var o = F(Math.random() * 2 - 1, f0 * (1 + 0.55 * w * env), 0.3);
+      d[i] = (o.bd * 0.85 + o.lo * 0.4) * env * (0.75 + 0.25 * Math.sin(ph * 2 + 6.2832 * wob * 1.7 * u));
+    }
+    norm(d, 0.9);
+    var end = playBuf(ctx, out, t, B, pan, amp * 1.4, [["lowpass", 2200 + h * 1800, 0.6]]);
+    for (var k = 0, nb = 2 + Math.round(size * 3); k < nb; k++) { var fb = (480 + h * 900) * (0.7 + Math.random() * 0.8); chirp(ctx, out, t + rise + Math.random() * dur * 0.6, fb, fb * 1.8, 0.03 + Math.random() * 0.03, amp * 0.22, pan + (Math.random() - 0.5) * 0.4); }
+    return end;
+  }
+  /* SPLASH: something breaking the surface: a bright slap, the spray falling back hissing and thinning, and drops
+     landing all through the tail. Bigger is a bigger splash, longer. */
+  function splash(ctx, out, t, h, pan, size, amp) {
+    var dur = 0.5 + size * 0.6, B = rbuf(ctx, dur), d = B.d, sr = B.sr, F = svf(sr);
+    for (var i = 0; i < B.n; i++) {
+      var u = i / sr, slap = Math.exp(-u / 0.014) * Math.min(1, u / 0.0015), spray = Math.exp(-u / (0.09 + size * 0.18)) * 0.6 * Math.min(1, u / 0.03);
+      var o = F(Math.random() * 2 - 1, 900 + h * 1400 + 2600 * Math.exp(-u / 0.05), 0.6);
+      d[i] = o.lo * slap * 1.3 + o.hi * 0.3 * slap + o.bd * spray;
+    }
+    for (var k = 0, nd = 6 + Math.round(size * 14); k < nd; k++) {
+      var at = 0.04 + Math.pow(Math.random(), 0.8) * dur * 0.85, s0 = Math.floor(at * sr), ff = (900 + h * 2400) * (0.6 + Math.random()), gl = Math.floor(sr * (0.012 + Math.random() * 0.02)), a = 0.3 * (1 - at / dur);
+      for (var j = 0; j < gl && s0 + j < B.n; j++) { var v = j / gl; d[s0 + j] += Math.sin(6.2832 * ff * (j + 0.6 * j * v) / sr) * Math.sin(Math.PI * v) * a; }
+    }
+    norm(d, 0.92);
+    return playBuf(ctx, out, t, B, pan, amp * 1.6, [["highpass", 90, 0.7]]);
+  }
+  /* LAP: a small wave meeting a stone or a hull: a soft rush in, a hollow slap, a gurgle going back. */
+  function lap(ctx, out, t, h, pan, size, amp) {
+    var dur = 0.55 + size * 0.5, B = rbuf(ctx, dur), d = B.d, sr = B.sr, F = svf(sr), at = 0.12 + Math.random() * 0.08 + size * 0.06, f0 = 200 + h * 480;
+    for (var i = 0; i < B.n; i++) {
+      var u = i / sr, env = u < at ? Math.pow(u / at, 2) : Math.exp(-(u - at) / (dur * 0.24)), o = F(Math.random() * 2 - 1, f0 * (1 + 2.4 * Math.exp(-Math.abs(u - at) / 0.03)), 0.45);
+      d[i] = (o.lo * 0.7 + o.bd * 0.6) * env;
+    }
+    norm(d, 0.9);
+    var end = playBuf(ctx, out, t, B, pan, amp * 1.4, [["lowpass", 1500 + h * 1500, 0.7]]);
+    chirp(ctx, out, t + at, f0 * 0.95, f0 * 0.55, 0.13, amp * 0.4, pan, "sine");
+    return end;
+  }
+  /* WASH: a wave running up the sand and drawing back: the rush builds over a second, foam fizzes at its edge, and it
+     hisses away through the sand. Bigger is a longer wave. */
+  function wash(ctx, out, t, h, pan, size, amp) {
+    var dur = 1.8 + size * 1.8, B = rbuf(ctx, dur), d = B.d, sr = B.sr, F = svf(sr), pk = dur * (0.3 + Math.random() * 0.08), base = 420 + h * 900;
+    for (var i = 0; i < B.n; i++) {
+      var u = i / sr, back = u > pk ? (u - pk) / (dur - pk) : 0, env = u < pk ? Math.pow(Math.sin(u / pk * Math.PI / 2), 1.5) : Math.exp(-back * 3.2);
+      var o = F(Math.random() * 2 - 1, base * (0.5 + env * 1.5) * (1 + back * 2.2), 0.7), fizz = Math.random() < 0.03 * env ? (Math.random() * 2 - 1) * (u > pk * 0.7 ? 0.6 : 0.2) : 0;
+      d[i] = o.bd * env * 0.8 + o.lo * env * 0.35 + fizz;
+    }
+    norm(d, 0.9);
+    return playBuf(ctx, out, t, B, pan, amp * 1.5, [["highpass", 120, 0.7]]);
+  }
+  /* LIGHTHOUSE: one turn of the beam: a deep tone that swells as the light swings toward you and falls as it passes,
+     brighter at its height, a little Doppler in it and moving across. Its second and third harmonics carry it on small
+     speakers. Higher is a higher tone; bigger is a slower turn. */
+  function lighthouse(ctx, out, t, h, pan, size, amp) {
+    var dur = 1.6 + size * 2.2; if (!room(ctx, t, t + dur)) return t;
+    var f = 52 + h * 74, N = 32, gv = new Float32Array(N), fv = new Float32Array(N), dv = new Float32Array(N), pv = new Float32Array(N);
+    for (var k = 0; k < N; k++) { var v = k / (N - 1), b = Math.exp(-Math.pow((v - 0.45) / 0.17, 2)), win = Math.pow(Math.sin(Math.PI * v), 0.35);
+      gv[k] = Math.max(0.0001, amp * 0.85 * (0.05 + 0.95 * b) * win); fv[k] = f * (2.5 + 9 * b); dv[k] = 14 * Math.cos(Math.PI * Math.min(1, v / 0.9)); pv[k] = clamp(pan + 0.45 * (v - 0.5), -1, 1); }
+    var g = ctx.createGain(), lp = ctx.createBiquadFilter(), nodes = [g, lp], oscs = [];
+    lp.type = "lowpass"; lp.Q.value = 1.2; lp.frequency.setValueCurveAtTime(fv, t, dur); g.gain.setValueCurveAtTime(gv, t, dur);
+    [[f, "sine", 1], [f * 2.003, "triangle", 0.45], [f * 3.01, "sine", 0.18]].forEach(function (P) {
+      var o = ctx.createOscillator(), og = ctx.createGain(); o.type = P[1]; o.frequency.value = P[0]; og.gain.value = P[2]; o.detune.setValueCurveAtTime(dv, t, dur);
+      o.connect(og); og.connect(lp); o.start(t); o.stop(t + dur + 0.05); oscs.push(o); nodes.push(o, og);
+    });
+    lp.connect(g); var p = panTo(ctx, g, pan, out); if (p) { try { p.pan.setValueCurveAtTime(pv, t, dur); } catch (e) {} } nodes.push(p);
+    oscs[0].onended = function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); };
+    return t + dur;
+  }
+  var ONESHOT = { sand: sand, wade: wade, splash: splash, lap: lap, wash: wash, lighthouse: lighthouse };
+  /* BOTTLE, held: breath blown across a bottle's mouth. Breath noise through a narrow band at the bottle's note, a pure
+     tone under it, a little flutter; pitch 0..1 spans two octaves (a wine bottle to a small vial). The handle follows
+     the finger: set({pitch, pan, gain, breath}), and release() lets the breath go. */
+  function hold(ctx, out, kind, o) {
+    o = o || {}; if (kind !== "bottle") return null;
+    var t = ctx.currentTime + 0.005, h = clamp(o.pitch != null ? o.pitch : 0.5, 0, 1), amp = (o.gain != null ? o.gain : 1) * 0.35, br = 1;
+    var fq = function (x) { return 165 * Math.pow(2, x * 2); }, f = fq(h);
+    var nz = ctx.createBufferSource(); nz.buffer = noiseBuf(ctx, "white", 2, 73); nz.loop = true;
+    var bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = f; bp.Q.value = 28;
+    var bg = ctx.createGain(); bg.gain.value = 3.2;
+    var hs = ctx.createBiquadFilter(); hs.type = "bandpass"; hs.frequency.value = 1900; hs.Q.value = 1.1; var hg = ctx.createGain(); hg.gain.value = 0.05;
+    var os = ctx.createOscillator(); os.type = "sine"; os.frequency.value = f; var og = ctx.createGain(); og.gain.value = 0.32;
+    var vib = lfo(ctx, 4.6 + Math.random(), 9, os.detune), flu = lfo(ctx, 7 + Math.random() * 3, 0.18, null);
+    /* the flutter is a stage of its own (a 1 +/- 0.18 tremolo) before the envelope, so letting go fades it too (review 61235c2e48 r-4) */
+    var env = ctx.createGain(), tr = ctx.createGain(); env.gain.value = 0; tr.gain.value = 1; flu.gain.connect(tr.gain);
+    nz.connect(bp); bp.connect(bg); bg.connect(tr); nz.connect(hs); hs.connect(hg); hg.connect(tr); os.connect(og); og.connect(tr); tr.connect(env);
+    var p = panTo(ctx, env, o.pan || 0, out), nodes = [nz, bp, bg, hs, hg, os, og, vib.osc, vib.gain, flu.osc, flu.gain, tr, env, p];
+    env.gain.setValueAtTime(0, t); env.gain.linearRampToValueAtTime(amp * 0.25, t + 0.08); env.gain.setTargetAtTime(amp, t + 0.08, 0.12);
+    nz.start(t); os.start(t);
+    var gone = false;
+    return {
+      set: function (q) { if (gone || !q) return; var n = ctx.currentTime;
+        if (q.pitch != null) { h = clamp(+q.pitch, 0, 1); f = fq(h); bp.frequency.setTargetAtTime(f, n, 0.05); os.frequency.setTargetAtTime(f, n, 0.05); }
+        if (q.pan != null && p) p.pan.setTargetAtTime(clamp(+q.pan, -1, 1), n, 0.05);
+        if (q.gain != null) amp = Math.max(0, +q.gain) * 0.35;
+        if (q.breath != null) br = clamp(+q.breath, 0, 1.5);
+        if (q.gain != null || q.breath != null) { env.gain.cancelScheduledValues(n); env.gain.setTargetAtTime(amp * (0.55 + 0.45 * br), n, 0.08); hg.gain.setTargetAtTime(0.05 + 0.07 * br, n, 0.08); } },
+      release: function () { if (gone) return; gone = true; var n = ctx.currentTime; env.gain.cancelScheduledValues(n); env.gain.setTargetAtTime(0, n, 0.12);
+        [nz, os, vib.osc, flu.osc].forEach(function (x) { try { x.stop(n + 1.1); } catch (e) {} });   // 1.1 s: the fade (0.12 s a step) is at -80 dB by then
+        setTimeout(function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); }, 1300); }
+    };
+  }
   function voice(ctx, out, kind, o) {
     o = o || {};
     var t = o.when != null ? o.when : ctx.currentTime + 0.005, h = clamp(o.pitch != null ? o.pitch : 0.5, 0, 1), pan = o.pan || 0;
     var size = clamp(o.size != null ? o.size : 0.5, 0, 1), amp = (o.gain != null ? o.gain : 1) * 0.35;
     if (kind === "porpoise") return porpoise(ctx, out, t, h, pan, size, amp, o);
     if (kind === "seagull") return seagull(ctx, out, t, h, pan, size, amp, o);
+    if (ONESHOT[kind]) return ONESHOT[kind](ctx, out, t, h, pan, size, amp);
     if (kind === "bubbles") {
       var n = 3 + Math.round(size * 6), end = t;
       for (var i = 0; i < n; i++) {
@@ -490,7 +638,7 @@
   }
 
   window.SurfaceWater = {
-    treat: treat, bed: bed, voice: voice, PRESETS: PRESETS, BEDS: BEDS, VOICES: VOICES,
+    treat: treat, bed: bed, voice: voice, hold: hold, PRESETS: PRESETS, BEDS: BEDS, VOICES: VOICES,
     preset: function (id) { return byId(PRESETS, id); },
     /* which voice the music plays for a preset: by its mix weights, but a voice with a gap (a gull, a porpoise) never
        comes back sooner than that; then the preset's other voice plays instead. ctx gives the time. */
