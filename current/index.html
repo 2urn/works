@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029195223";window.__VERSION__="0.38.0";window.__NOTES__=[{"v":"0.38.0","date":"29 Oct 2026","items":[{"kind":"new","text":"the ensemble's Player view: a part's player sees no field, only the sound: a 16:9 pad the shape of the screen's picture (where you touch here is where your sound lands there), and of the bar only sound, keys and full screen"},{"kind":"new","text":"a mixer of the part's voices: level, timbre, grain and pitch for each, and what plays it (tap, drag, hold, the whole touch, or off); the part's level, bed and mute; reset the part"},{"kind":"new","text":"the pad's map: up and across can play pitch, wetness, grain, timbre, pan or size, over a range you set; four maps to start from (Water, Grain, Timbre, Stage)"},{"kind":"new","text":"the pad is a Cartesian plane: two axes through the middle, A at the top and B at the bottom, C at the left and D at the right, E F H G in the corners; it can stand for a wall, a stage or a floor (the ends are named for it), with zero at the edge or in the middle"},{"kind":"new","text":"leave a sound on the pad: it plays there by itself on the room's beat, every 1, 2, 4 or 8 beats (tap it to change, hold it or drag it off to take it away)"},{"kind":"new","text":"keys for the part: 1 to 5 play its sounds, Space holds, arrows move, Z and X an octave, M mute, [ ] level, D leaves a sound, R Ready to perform, ? the list"},{"kind":"new","text":"on the screen, every sound a player plays lands as a ripple and a ring in the part's color where it was played"},{"kind":"change","text":"a drop that touches a pool joins it, and water meets water in a smooth bridge, never two edges side by side","pro":"water.fill"}]}]</script>
+<script>window.__BUILD__="20261029204242";window.__VERSION__="0.38.1";window.__NOTES__=[{"v":"0.38.1","date":"29 Oct 2026","items":[{"kind":"new","text":"every sound you leave on the pad carries its name on a tab (bigger while you drag it or hover it), the sound under your finger names itself where it plays, a tap plays a left sound once, and a double-tap opens its halo: which sound, how often, its level, play, take it off"},{"kind":"new","text":"on the screen part, the Room shelf has Clean screen (full screen, every control hidden, nothing reloads) beside Clean output (the stage in its own window)"},{"kind":"change","text":"Board in the Room shelf starts your part's player view, sound only (without a part it opens the Ensemble section to choose one)"},{"kind":"change","text":"water collects where it falls: rain from your finger pools there and runs only to the hollows nearby, never across the floor; the floor is full when most of it holds water","pro":"water.fill"},{"kind":"new","text":"the Corners map: a sound in each corner of the pad and the bed in the middle; while you touch they all play, each as loud as your finger is near it (choose which sound sits in which corner)"},{"kind":"new","text":"Field (or F) shows the field behind the see-through pad, the labels and panels kept, and your finger moves it; Field again is sound only"},{"kind":"change","text":"each of a part's sounds has its own color on the player's pad and in the mixer, and a sound left on the pad shows its name (the screen keeps the part's color)"},{"kind":"fix","text":"in Pro, Performing, the Performance board and Clean output each have a switch that turns them on and off right there, saying what they are now (the board says when the screen is too narrow)"},{"kind":"change","text":"Exit leaves the player view, up by the part's name, apart from the panels; tap the part's name on the field to come back"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029195223"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029195223">
+<script src="claude-web.js?v=20261029204242"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029204242">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029195223"></script>
-<script src="surface/nozoom.js?v=20261029195223"></script><script src="surface/steady.js?v=20261029195223"></script><script src="surface/selftest.js?v=20261029195223"></script><script src="surface/size.js?v=20261029195223"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029195223"></script>
-<script src="surface/auto.js?v=20261029195223"></script>
-<script src="surface/toolpath.js?v=20261029195223"></script>
-<script src="surface/capture.js?v=20261029195223"></script>
-<script src="surface/pop.js?v=20261029195223"></script>
-<script src="surface/hints.js?v=20261029195223"></script>
-<script src="surface/paths.js?v=20261029195223"></script>
-<script src="surface/keys.js?v=20261029195223"></script>
-<script src="surface/reset.js?v=20261029195223"></script>
-<script src="surface/files.js?v=20261029195223"></script>
-<script src="surface/tabs.js?v=20261029195223"></script>
-<script src="surface/running.js?v=20261029195223"></script>
-<script src="surface/trim.js?v=20261029195223"></script>
-<script src="surface/audiowake.js?v=20261029195223"></script>
-<script src="surface/output.js?v=20261029195223"></script>
-<script src="surface/board.js?v=20261029195223"></script>
-<script src="surface/voice.js?v=20261029195223"></script>
-<script src="surface/voicelib.js?v=20261029195223"></script>
-<script src="surface/instruments.js?v=20261029195223"></script>
-<script src="surface/listview.js?v=20261029195223"></script>
-<script src="surface/beads.js?v=20261029195223"></script>
-<script src="surface/strip.js?v=20261029195223"></script>
-<script src="surface/sheetnav.js?v=20261029195223"></script>
-<script src="surface/twofinger.js?v=20261029195223"></script>
-<script src="surface/ring.js?v=20261029195223"></script>
-<script src="surface/shortlink.js?v=20261029195223"></script>
-<script src="surface/undo.js?v=20261029195223"></script>
-<script src="surface/pro.js?v=20261029195223"></script>
-<script src="surface/fresh.js?v=20261029195223"></script>
-<script src="surface/go.js?v=20261029195223"></script>
-<script src="surface/notice.js?v=20261029195223"></script>
-<script src="surface/perform.js?v=20261029195223"></script>
-<script src="surface/words.js?v=20261029195223"></script>
+<script src="vendor/opentype.min.js?v=20261029204242"></script>
+<script src="surface/nozoom.js?v=20261029204242"></script><script src="surface/steady.js?v=20261029204242"></script><script src="surface/selftest.js?v=20261029204242"></script><script src="surface/size.js?v=20261029204242"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029204242"></script>
+<script src="surface/auto.js?v=20261029204242"></script>
+<script src="surface/toolpath.js?v=20261029204242"></script>
+<script src="surface/capture.js?v=20261029204242"></script>
+<script src="surface/pop.js?v=20261029204242"></script>
+<script src="surface/hints.js?v=20261029204242"></script>
+<script src="surface/paths.js?v=20261029204242"></script>
+<script src="surface/keys.js?v=20261029204242"></script>
+<script src="surface/reset.js?v=20261029204242"></script>
+<script src="surface/files.js?v=20261029204242"></script>
+<script src="surface/tabs.js?v=20261029204242"></script>
+<script src="surface/running.js?v=20261029204242"></script>
+<script src="surface/trim.js?v=20261029204242"></script>
+<script src="surface/audiowake.js?v=20261029204242"></script>
+<script src="surface/output.js?v=20261029204242"></script>
+<script src="surface/board.js?v=20261029204242"></script>
+<script src="surface/voice.js?v=20261029204242"></script>
+<script src="surface/voicelib.js?v=20261029204242"></script>
+<script src="surface/instruments.js?v=20261029204242"></script>
+<script src="surface/listview.js?v=20261029204242"></script>
+<script src="surface/beads.js?v=20261029204242"></script>
+<script src="surface/strip.js?v=20261029204242"></script>
+<script src="surface/sheetnav.js?v=20261029204242"></script>
+<script src="surface/twofinger.js?v=20261029204242"></script>
+<script src="surface/ring.js?v=20261029204242"></script>
+<script src="surface/shortlink.js?v=20261029204242"></script>
+<script src="surface/undo.js?v=20261029204242"></script>
+<script src="surface/pro.js?v=20261029204242"></script>
+<script src="surface/fresh.js?v=20261029204242"></script>
+<script src="surface/go.js?v=20261029204242"></script>
+<script src="surface/notice.js?v=20261029204242"></script>
+<script src="surface/perform.js?v=20261029204242"></script>
+<script src="surface/words.js?v=20261029204242"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029195223"></script>
-<script src="surface/rail.js?v=20261029195223"></script>
-<script src="surface/touchsound.js?v=20261029195223"></script>
-<script src="surface/water.js?v=20261029195223"></script>
-<script src="surface/ripple.js?v=20261029195223"></script>
-<script src="surface/material.js?v=20261029195223"></script>
-<script src="surface/float.js?v=20261029195223"></script>
-<script src="surface/manual.js?v=20261029195223"></script>
+<script src="surface/pack.js?v=20261029204242"></script>
+<script src="surface/rail.js?v=20261029204242"></script>
+<script src="surface/touchsound.js?v=20261029204242"></script>
+<script src="surface/water.js?v=20261029204242"></script>
+<script src="surface/ripple.js?v=20261029204242"></script>
+<script src="surface/material.js?v=20261029204242"></script>
+<script src="surface/float.js?v=20261029204242"></script>
+<script src="surface/manual.js?v=20261029204242"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -3024,6 +3024,9 @@ html[data-locked] #playbar>*:not(#pTrans),html[data-locked] #pRand,html[data-loc
 {"group": "Foundations", "name": "WAI-ARIA tabs pattern", "by": "W3C, ARIA Authoring Practices Guide", "label": "Standard", "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/", "for": "the sound panel’s tabs (Surface · Tabs)"},
 {"group": "Foundations", "name": "Snapping windows to the screen's edges", "by": "desktop window managers, from Windows 7's Aero Snap (2009) onward", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Aero_Snap", "for": "popovers that snap to the window's edges"},
 {"group": "Foundations", "name": "Bubble resonance", "by": "Marcel Minnaert, 1933", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Minnaert_resonance", "for": "the water drop's rising ring: a bubble sings higher as it shrinks"},
+{"group": "Foundations", "name": "Vector synthesis", "by": "Sequential Circuits, the Prophet VS, 1986", "label": "Idea", "url": "https://en.wikipedia.org/wiki/Vector_synthesis", "for": "the ensemble pad's Corners map: four sounds at the corners, mixed by where the finger is"},
+{"group": "Methods", "name": "Smooth minimum", "by": "Inigo Quilez, the polynomial smooth min", "label": "Method", "url": "https://iquilezles.org/articles/smin/", "for": "water joining water: a drop that touches a pool is bridged to it"},
+{"group": "Methods", "name": "Fast bicubic texture filtering", "by": "Christian Sigg and Markus Hadwiger, GPU Gems 2, 2005", "label": "Method", "for": "the rain fill's floor read smoothly: four bilinear taps make a cubic B-spline"},
 {"group": "Methods", "name": "Douglas–Peucker", "by": "David Douglas and Thomas Peucker, 1973", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm", "for": "simplify, in the path editor"},
 {"group": "Methods", "name": "Corner cutting", "by": "George Chaikin, 1974", "label": "Algorithm", "url": "https://www.cs.unc.edu/~dm/UNC/COMP258/LECTURES/Chaikins-Algorithm.pdf", "for": "smooth, in the path editor"},
 {"group": "Methods", "name": "Marching squares", "by": "the 2D form of marching cubes, William Lorensen and Harvey Cline, 1987", "label": "Algorithm", "url": "https://en.wikipedia.org/wiki/Marching_squares", "for": "tracing pictures, and type by pixels"},
@@ -4100,7 +4103,7 @@ const MAG_PUSH='#0f5534',MAG_PUSH_STAGE='#2f8f5f',MAG_PULL='#ff5a52';
 const MAGS={f:1,flip:1},MAG_SOUNDS=['off','beat','bass','mid','high','level'];
 const UN={ghost:null,magSg:1,on:false,t:0,fx:0,fy:0,magW:0,pv:0,ps:1,beatHi:false,tick:0,wob:0,mag:0,pa:0};
 function unsteadyTick(dt){
-  UN.t+=dt;if(window.AUDN){AUDN.tick(dt);UN.apl=AUDN.pull()}if(window.ENS)try{ENS.frame(dt)}catch(_){}
+  UN.t+=dt;if(window.AUDN){AUDN.tick(dt);UN.apl=AUDN.pull()}if(window.ENS&&!ENS.pvOn())try{ENS.frame(dt)}catch(_){}
   let moving=TOUCH.on&&!STEER.on;
   if(MGR.rec&&MGR.rec.ev.length===9000&&!MGR.rec.full){MGR.rec.full=1;toast('the recording is full: the loop ends here')}if(MGR.rec&&MGR.rec.ev.length<9000)MGR.rec.ev.push([performance.now()-MGR.rec.t0,moving?1:0,TOUCH.x/W,TOUCH.y/H]);
   if(moving){UN.fx=TOUCH.x;UN.fy=TOUCH.y}
@@ -4246,7 +4249,8 @@ function frame(now){requestAnimationFrame(frame);frameStep(now)}
 function frameStep(now){
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
-  if(window.ENS&&ENS.pvOn()){tapTick();try{ENS.pvTick(dt)}catch(e){console.warn('pv tick',e)}try{SurfaceSelfTest.beat()}catch(_){}return}   /* the self-test still hears a frame (review 392d2e35d7 r-1) */   /* the player view: sound only, the field is not drawn (ENSEMBLE) */
+  if(window.ENS&&ENS.pvOn()&&ENS.pvBehind()){ENS.pvFeed();try{ENS.pvTick(dt)}catch(e){console.warn('pv tick',e)}}   /* the field behind the pad: drawn as usual, the pad and its sound on their own loop (review ff0a3a9fc9 r-1) */
+  else if(window.ENS&&ENS.pvOn()){tapTick();try{ENS.pvTick(dt)}catch(e){console.warn('pv tick',e)}try{SurfaceSelfTest.beat()}catch(_){}return}   /* the self-test still hears a frame (review 392d2e35d7 r-1) */   /* the player view: sound only, the field is not drawn (ENSEMBLE) */
   if(S.paused||!field){if(S.paused&&field)try{SurfaceSelfTest.beat('paused')}catch(_){}return}
   if(WM){const u=(performance.now()-WM.t0)/WM.dur;if(u>=1)WM=null;else WM.e=u*u*(3-2*u)}tapTick();seqTick(dt);try{driveTick(dt)}catch(_){}try{picTick()}catch(_){}try{magLive()}catch(_){}
   simT+=dt;stepMorph(dt);readAudio(dt);try{colorTick(dt)}catch(_){}try{sndWave()}catch(_){}
@@ -5332,7 +5336,7 @@ const pb=$('pause');pb.addEventListener('click',()=>{S.paused=!S.paused;pb.textC
 
 // ---------- Player (the studio's chrome): presets as scenes, auto, random, still, back to builder ----------
 /* READING TIME (Dimitry, 22 Oct 23:31: long hints at the top went in half a second, impossible to finish): a hint stays at least as long as it takes to read, about 15 characters a second plus a second to find it, up to 12 s */
-let toT=0;function toast(t,ms){if(document.documentElement.classList.contains('perfReady')&&!/lost|fail|error|offline|blocked|cannot|can.t|could not|couldn|did not|refused|busy|no microphone|no web audio|kept the window|allow|full|is off|three fingers/i.test(String(t)))return;   /* ready to perform: only trouble speaks */const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>el.classList.remove('show'),Math.max(ms||1600,Math.min(12000,1000+String(t).length*66)))}
+let toT=0;function toast(t,ms){if(document.documentElement.classList.contains('pvOn')&&/^\s*✓/.test(String(t)))return;   /* the player view: no path ticks over the pad */if(document.documentElement.classList.contains('perfReady')&&!/lost|fail|error|offline|blocked|cannot|can.t|could not|couldn|did not|refused|busy|no microphone|no web audio|kept the window|allow|full|is off|three fingers/i.test(String(t)))return;   /* ready to perform: only trouble speaks */const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>el.classList.remove('show'),Math.max(ms||1600,Math.min(12000,1000+String(t).length*66)))}
 /* CONFIRM ON THE BUTTON: the label itself says what happened ("copied"), for as long as it takes to read, so the answer
    is where the finger is, not only in a toast across the screen */
 function flashBtn(b,txt,ms){if(!b)return;let n=null;for(const c of b.childNodes)if(c.nodeType===3&&c.textContent.trim())n=c;if(!n){n=document.createTextNode('');b.append(n)}
@@ -7888,14 +7892,24 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     /* CLEAN OUTPUT (Dimitry, 22 Oct: "clean HDMI for performance session"): the stage alone in its own window, on the
        projector; the laptop keeps the controls. Phones and tablets mirror only, so there it is the bare stage. */
     if(window.OUTPUT){sep();const on=OUTPUT.isOpen();
-      btn(on?'output on':'output',ic('<rect x="3" y="4.5" width="18" height="12" rx="1.8"/><path d="M8.5 20h7M12 16.5V20"/>'),
+      btn(on?'clean output on':'clean output',ic('<rect x="3" y="4.5" width="18" height="12" rx="1.8"/><path d="M8.5 20h7M12 16.5V20"/>'),
         on?'The stage is showing in its own window. Tap to close it':'Show the stage alone in its own window, for a projector or second screen; this laptop keeps the controls',
         ()=>{if(OUTPUT.isOpen())OUTPUT.close();else if(!OUTPUT.open())toast('The browser blocked the window: allow pop-ups for this site, then tap again',4200);buildToolShelf()},on)}
     /* THE BOARD (22 Oct night): the stage in a corner at the output's shape, panels that stay, the pinned strip */
-    if(window.BOARD&&BOARD.fits()&&isPro('board')){const bo=BOARD.on();btn(bo?'board on':'board',ic('<rect x="3" y="4" width="11" height="8" rx="1.4"/><rect x="16" y="4" width="5" height="8" rx="1.2"/><rect x="3" y="14" width="18" height="5" rx="1.2"/>'),
-      bo?'The performance board is on: the stage in a corner, panels that stay, your pinned controls. Tap to turn it off':'Performance board: the stage in a corner at the output\'s shape, panels that stay open side by side, and a strip of the controls you pin',
-      ()=>{BOARD.toggle();buildToolShelf()},bo)}
-    else if(window.SurfaceOutput&&!SurfaceOutput.supported){sep();btn('output',ic('<rect x="3" y="4.5" width="18" height="12" rx="1.8"/><path d="M8.5 20h7M12 16.5V20"/>'),
+    /* BOARD IS THE PLAYER VIEW, FOR NOW (Dimitry, 29 Oct 16:12: "lets make the button called Board in room initiate the
+       audioonly performance mode for now"): with a part chosen it switches the ensemble's sound-only player view; without
+       one it opens the Ensemble section to pick a part. The performance board itself stays in Pro's row. */
+    /* THE SCREEN'S CLEAN OUTPUT (Dimitry, 29 Oct 16:13: "remember clean output button as well for whoever has screen
+       role"): on the screen the Board slot is Clean screen: full screen, every control hidden, nothing reloads (Ready to perform) */
+    if(window.ENS&&ENS.screen()){const on=document.documentElement.classList.contains('perfReady');btn(on?'clean screen on':'clean screen',ic('<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>'),
+      on?'Clean output is on: full screen, no controls. Tap to put them back':'Clean output for the projector: full screen, every control hidden, nothing reloads',()=>{try{ENS.ready(!on)}catch(_){}try{buildToolShelf()}catch(_){}},on)}
+    else{const E=window.ENS,on=!!(E&&E.pvOn());btn(on?'board on':'board',ic('<rect x="2.5" y="5.5" width="19" height="11" rx="1.6"/><circle cx="14" cy="10" r="2"/><path d="M8 20h8"/>'),
+      on?'The player view is on: sound only, your part\'s pad. Tap to show the field':'Board: your part\'s player view, sound only: the pad, its mixer, map and keys',
+      ()=>{if(!E)return;if(E.cur()){E.pv(!E.pvOn())}else{try{setPlayer(false)}catch(_){}setTimeout(()=>{try{SurfaceSections.open('ens')}catch(_){}const s=document.getElementById('ens');if(s){s.hidden=false;s.classList.remove('cx-shut');s.scrollIntoView({block:'start'})}},80);toast('choose your part: Board then plays it, sound only',2600)}try{buildToolShelf()}catch(_){}},on)}
+    /* the performance board stays reachable for a Pro key (review 47ee r-2), under its own name and icon */
+    if(window.BOARD&&isPro('board')&&!(window.ENS&&ENS.screen())){const on=BOARD.on();btn(on?'perf board on':'perf board',ic('<rect x="3" y="4" width="11" height="8" rx="1.4"/><rect x="16" y="4" width="5" height="8" rx="1.2"/><rect x="3" y="14" width="18" height="5" rx="1.2"/>'),
+      on?'The performance board is open. Tap to close it':'The performance board: the stage in a corner at the output\'s shape, panels that stay',()=>{if(!BOARD.fits()){toast('the performance board needs a wider screen',2400);return}BOARD.toggle();try{setPlayer(true)}catch(_){}buildToolShelf()},on)}
+    if(!window.OUTPUT&&window.SurfaceOutput&&!SurfaceOutput.supported){sep();btn('output',ic('<rect x="3" y="4.5" width="18" height="12" rx="1.8"/><path d="M8.5 20h7M12 16.5V20"/>'),
       'On a phone or tablet the cable mirrors the screen: hide the controls for a clean stage',()=>{try{setBare(true)}catch(_){}toast('clean stage: tap with three fingers to bring the controls back',4200)})}
     sep();const L=st.link;
     btn(L?(L.up?'link '+Math.round(L.bpm):'link …'):'link',ic('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
@@ -8489,8 +8503,9 @@ function fillTick(dt){if(!RIP||!RIP.enabled()||!RIP.fill)return;const m=isPro('w
   let rain=0;
   if(m==='time'){const bar=4*autoBeatSec();FILL.lv+=dt/Math.max(4,(WATER.fillBars||16)*bar);rain=3+40*FILL.lv}
   else if(m==='sound'){const L=Math.max(0,Math.min(1,SIGNALS.level||0));FILL.lv+=dt*L/25;rain=60*L*L+2*L}
-  else if(m==='finger'){if(TOUCH.on){FILL.acc+=dt*26;while(FILL.acc>=1){FILL.acc-=1;const a=Math.random()*6.283,d=Math.random()*.05;RIP.drop((W?TOUCH.x/W:.5)+Math.cos(a)*d,(H?TOUCH.y/H:.5)+Math.sin(a)*d,.008+.006*Math.random(),1)}FILL.lv+=dt/22}}
-  FILL.lv=Math.min(1,FILL.lv);RIP.fill(FILL.lv);RIP.rain(rain+(WATER.bed==='rain'&&drv('sound')?14*WATER.bedLvl:0))}
+  else if(m==='finger'){if(TOUCH.on){FILL.acc+=dt*26;while(FILL.acc>=1){FILL.acc-=1;const a=Math.random()*6.283,d=Math.random()*.05;RIP.drop((W?TOUCH.x/W:.5)+Math.cos(a)*d,(H?TOUCH.y/H:.5)+Math.sin(a)*d,.008+.006*Math.random(),1)}}
+    try{FILL.lv=Math.max(FILL.lv,Math.min(1,RIP.cover()*1.25))}catch(_){}}   /* the water stays where your finger rained it (Dimitry, 29 Oct 16:04: "not elsewhere"): full when most of the floor holds water */
+  FILL.lv=Math.min(1,FILL.lv);try{RIP.spread&&RIP.spread((k=>k+(1-k)*Math.max(0,Math.min(1,(FILL.lv-.7)/.3)))(m==='finger'?0:.6))}catch(_){}RIP.fill(FILL.lv);   /* rain everywhere still raises an everywhere level, a little */RIP.rain(rain+(WATER.bed==='rain'&&drv('sound')?14*WATER.bedLvl:0))}
 function fillDry(){FILL.lv=0;FILL.acc=0;try{if(RIP){RIP.dry();if(WATER.fill)RIP.fill(0)}}catch(_){}}
 function waterSave(){try{localStorage.setItem('current.water',JSON.stringify(WATER))}catch(_){}
   try{if(window.INSTR)INSTR.render()}catch(_){}try{if(window.BS&&BS.ready)bsSync()}catch(_){}}   // Playing now and the drawer's Water switch follow the water
@@ -8526,7 +8541,7 @@ function waterTick(dt,x,y,sp){WT.vsrc='touch';if(RIP&&RIP.enabled()&&TOUCH.on&&d
   const W=window.SurfaceWater,c=AUD.ctx,now=performance.now()/1000,tv=WATER.voices==='touch'||WATER.voices==='both',pan=x*2-1;
   /* the field moves the depth: a calm field sinks, a fast one rises toward the surface (a quarter at most) */
   WT.drift+=dt;if(WT.drift>.3){WT.drift=0;const f=Math.max(0,Math.min(1,SIGNALS.flow||0)),dp=window.ENS?ENS.depth(WATER.depth):WATER.depth;AUD.water.depth(Math.max(0,Math.min(1,dp+.25*(.45-f))),true)}
-  if(window.ENS&&ENS.cur()){if(TOUCH.on)AUD.water.stir(x,y,sp);ENS.tick(dt,x,y,sp);WT.was=TOUCH.on;return}   // a part of the ensemble plays its own sounds (ENSEMBLE)
+  if(window.ENS&&ENS.cur()){if(ENS.pvOn()){WT.was=TOUCH.on;return}if(TOUCH.on)AUD.water.stir(x,y,sp);ENS.tick(dt,x,y,sp);WT.was=TOUCH.on;return}   // the player view ticks its own sound   // a part of the ensemble plays its own sounds (ENSEMBLE)
   if(TOUCH.on){AUD.water.stir(x,y,sp);
     if(!WT.was){WT.t0=now;WT.dist=0;WT.whale=now;if(tv)wVoice(W.tap?W.tap(WATER.preset,y):'drop',{pitch:y,pan,size:.4})}   // the preset decides a tap: Pod clicks, Harbor's sky is gulls
     else if(tv){WT.dist+=sp*dt;if(WT.dist>.9&&now-WT.lastV>.16){WT.dist=0;WT.lastV=now;wVoice('bubbles',{pitch:y,pan,size:Math.min(1,.2+sp),gain:.8})}
@@ -11644,10 +11659,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029195223"></script>
-<script src="surface/links.js?v=20261029195223"></script>
-<script src="surface/tips.js?v=20261029195223"></script>
-<script src="surface/sections.js?v=20261029195223"></script>
+<script src="surface/install.js?v=20261029204242"></script>
+<script src="surface/links.js?v=20261029204242"></script>
+<script src="surface/tips.js?v=20261029204242"></script>
+<script src="surface/sections.js?v=20261029204242"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11837,7 +11852,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029195223"></script>
+<script src="surface/room.js?v=20261029204242"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12038,7 +12053,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029195223"></script>
+<script src="surface/touch.js?v=20261029204242"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12066,14 +12081,18 @@ const ROOMC=(function(){
 #partPill[hidden]{display:none}
 /* THE PLAYER VIEW (29 Oct 15:20): sound only, the pad the shape of the screen's picture; of the bar only sound, keys, full screen */
 #pv{position:fixed;inset:0;z-index:6;background:#07090b;color:#e8f1f2;display:flex;flex-direction:column;padding:calc(10px + env(safe-area-inset-top,0px)) 14px calc(92px + env(safe-area-inset-bottom,0px));box-sizing:border-box;font:13px/1.4 var(--sans,system-ui)}
-#pv[hidden]{display:none}html.pvOn #partPill,html.pvOn #stage,html.pvOn #playname,html.pvOn .hud{visibility:hidden}
+#pv[hidden]{display:none}html.pvOn #partPill,html.pvOn:not(.pvBehind) #stage,html.pvOn #playname,html.pvOn .hud{visibility:hidden}
+html.pvBehind #pv{background:transparent;pointer-events:none}html.pvBehind #pv .pv-h,html.pvBehind #pv .pv-main{pointer-events:auto}   /* the margins too: no stray touch reaches the stage mid-show (r-4) */
+html.pvBehind #pv .pv-pad{background:rgba(5,7,9,.18)}html.pvBehind #pv .pv-side{background:rgba(7,9,11,.82);border-radius:12px;padding:8px}html.pvBehind #pv .pv-h{background:rgba(7,9,11,.6);border-radius:12px;padding-right:8px}
 html.pvOn #playbar>*:not(#pSnd):not(#pKeys):not(#pFull){display:none!important}
 html.pvOn[data-pvshelf] #bshelf,html.pvOn .sp-first,html.pvOn .sp-b,html.pvOn .sp-nag{display:none!important}   /* only the sound shelf; no path cards over the pad */
-#pv .pv-slot .pv-r,#pv .pv-axis .pv-r{flex:none}
+#pv .pv-slot .pv-r,#pv .pv-axis .pv-r,#pv .pv-corn .pv-r{flex:none}
 #pv .pv-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:40px;padding-left:52px}
 #pv .pv-dot{width:12px;height:12px;border-radius:50%;background:var(--pc)}#pv .pv-nm{font:700 14px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
 #pv .pv-st{font:11px/1.3 var(--mono);color:rgba(232,241,242,.62);flex:1;min-width:120px}
-#pv .pv-tabs{display:flex;gap:6px;flex-wrap:wrap}
+#pv .pv-tabs{display:flex;gap:6px;flex-wrap:wrap;order:3;width:100%}   /* the panels on their own row; Exit stays up by the name */
+#pv .pv-h>.pv-fd{margin-left:auto;background:none;border:1px solid rgba(232,241,242,.28);color:rgba(232,241,242,.7);font-weight:500;min-height:32px;padding:0 12px}   /* Exit: apart from the panels, quieter (Dimitry, 29 Oct 15:57) */
+#pv .pv-h>.pv-fd:hover{color:#fff;border-color:rgba(232,241,242,.6)}
 #pv button{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#e8f1f2;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:999px;min-height:36px;padding:0 13px;cursor:pointer}
 #pv button[aria-pressed=true],#pv button[aria-checked=true]{background:var(--pc);border-color:var(--pc);color:#071012}
 #pv button:focus-visible,#pv select:focus-visible,#pv input:focus-visible,#pv .pv-pad:focus-visible{outline:2px solid var(--pc);outline-offset:2px}
@@ -12083,15 +12102,21 @@ html.pvOn[data-pvshelf] #bshelf,html.pvOn .sp-first,html.pvOn .sp-b,html.pvOn .s
 #pv .pv-padw .pv-note{margin-top:28px}
 #pv .pv-pad{position:relative;overflow:visible!important;width:min(100%,calc((100dvh - 190px) * 16 / 9));aspect-ratio:16/9;border:1.5px solid color-mix(in srgb,var(--pc) 55%,transparent);border-radius:10px;background:#0b0e11;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
 #pv .pv-pad canvas{position:absolute;inset:0;width:100%;height:100%}
+#pv .pv-halo{position:absolute;width:0;height:0;z-index:30;--hr:max(58px,calc(var(--s-ctl,44px) * 1.45))}
+#pv .pv-halo .ph-c{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 9px;border-radius:9px;background:#071012;border:1.5px solid var(--hc);color:var(--hc);font:700 13px ui-monospace,Menlo,monospace;white-space:nowrap;pointer-events:none}
+#pv .pv-halo .ph-c small{font:500 11px ui-monospace,Menlo,monospace;color:rgba(232,241,242,.75)}#pv .pv-halo .ph-k{position:absolute;top:calc(var(--hr) + 30px);transform:translateX(-50%);white-space:nowrap;padding:3px 7px;border-radius:6px;background:rgba(7,16,18,.9);font:500 11px ui-monospace,Menlo,monospace;color:rgba(232,241,242,.7);pointer-events:none}#pv .pv-halo .ph-c small{display:block}
+#pv .pv-halo button{position:absolute;left:calc(var(--hx) * var(--hr) * 1.45);top:calc(var(--hy) * var(--hr));transform:translate(-50%,-50%);min-width:44px;height:44px;padding:0 8px;border-radius:22px;border:1.5px solid var(--hc);background:rgba(7,16,18,.94);color:#e8f1f2;font:700 15px ui-monospace,Menlo,monospace;cursor:pointer;touch-action:manipulation}
+#pv .pv-halo button:hover,#pv .pv-halo button:focus-visible{background:var(--hc);color:#071012;outline:none}
+#pv .pv-halo button[data-h="del"]{border-color:#ff6b6b;color:#ff9b9b}
 #pv .pv-ax{position:absolute;font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(232,241,242,.55);pointer-events:none}
 #pv .pv-ax{display:none}#pv .pv-rdout{position:absolute;left:50%;translate:-50% 0;bottom:auto;top:calc(100% + 6px);white-space:nowrap;font:10.5px/1 var(--mono);color:rgba(232,241,242,.45);pointer-events:none}
 #pv .pv-arm{position:absolute;left:50%;top:10px;translate:-50% 0;background:var(--pc);color:#071012;font:600 11px/1.2 var(--mono);padding:6px 10px;border-radius:999px;pointer-events:none}#pv .pv-arm[hidden]{display:none}
 #pv .pv-note{font-size:12px;line-height:1.45;color:rgba(232,241,242,.6);margin:8px 0 0;max-width:60ch}
 #pv .pv-side{flex:0 0 330px;overflow:auto;overscroll-behavior:contain;padding-right:4px}
-#pv .pv-mst,#pv .pv-slot,#pv .pv-axis{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;margin:0 0 10px;display:flex;flex-direction:column;gap:6px}
+#pv .pv-mst,#pv .pv-slot,#pv .pv-axis,#pv .pv-corn{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;margin:0 0 10px;display:flex;flex-direction:column;gap:6px}
 #pv .pv-mst{flex-direction:row;flex-wrap:wrap;align-items:center}#pv .pv-mst>b{width:100%;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
 #pv .pv-sh{display:flex;align-items:center;gap:8px}#pv .pv-sh b{flex:1;font-weight:600}
-#pv .pv-play{width:36px;padding:0;border-radius:50%;background:var(--pc);color:#071012;border-color:var(--pc)}
+#pv .pv-play{width:36px;padding:0;border-radius:50%;background:var(--sc,var(--pc));color:#071012;border-color:var(--sc,var(--pc))}#pv .pv-slot{border-left:3px solid var(--sc,transparent)}
 #pv select{font:12px var(--mono);color:#e8f1f2;background:#11161a;border:1px solid rgba(255,255,255,.2);border-radius:8px;min-height:34px;padding:0 6px}
 #pv .pv-r{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:8px;font:11px/1 var(--mono);color:rgba(232,241,242,.7);flex:1 1 200px}
 #pv input[type=range]{width:100%;accent-color:var(--pc);min-height:28px}
@@ -12265,11 +12290,24 @@ const ENS=window.ENS=(function(){
     shore:[['seagull','tap'],['wash','drag'],['lighthouse','hold']],
     walker:[['kick','tap',{size:.7}],['kick','drag'],['steps','touch']],
     beachcomber:[['crystal','tap'],['bottle','drag'],['rubbed rim','hold'],['sustain','touch',{lvl:.55}]]};
+  /* each sound its own color on the player's pad and in the mixer (Dimitry, 29 Oct 16:01: "sounds on stage should be
+     labelled or colored for performer even if on SCREEN they are all same color"); the screen keeps the part's one color */
+  const SLOTC=['#ffd166','#4cc9f0','#ff70a6','#7bd389','#c3a6ff'];
   const AXES=[['pitch','pitch'],['wet','wetness'],['grain','grain'],['tone','timbre'],['pan','pan'],['size','size']];
   const MAPS=[{id:'water',name:'Water',x:['wet',0,1],y:['pitch',0,1],note:'pitch up, wetness across'},
     {id:'grain',name:'Grain',x:['wet',0,1],y:['grain',0,1],note:'grain up, wetness across'},
     {id:'timbre',name:'Timbre',x:['tone',.1,.9],y:['pitch',0,1],note:'pitch up, timbre across'},
-    {id:'stage',name:'Stage',x:['pan',0,1],y:['pitch',0,1],note:'pitch up, the stage across, left to right'}];
+    {id:'stage',name:'Stage',x:['pan',0,1],y:['pitch',0,1],note:'pitch up, the stage across, left to right'},
+    {id:'corners',name:'Corners',x:['wet',0,1],y:['pitch',.5,.5],note:'a sound in each corner, the bed in the middle: your finger mixes them'}];
+  /* CORNERS (Dimitry, 29 Oct 15:57: "each corner can also be a sound and center is the BED"): vector mixing, after the
+     Sequential Prophet VS (1986), whose joystick mixed four oscillators at the corners of a square. E F H G each hold one
+     of the part's sounds; while the finger is down they all play, each as loud as the finger is near its corner, and the
+     bed swells toward the middle. Across stays wetness. */
+  const CORNER_AT=[[0,1],[1,1],[0,0],[1,0]],CORNER_N=['E','F','H','G'];
+  const isCorners=()=>!!(MIX&&MIX.map&&MIX.map.id==='corners');
+  function cornerOf(i){const c=MIX&&MIX.corners;return c?c.indexOf(i):-1}
+  function cornerW(k){const p=CORNER_AT[k],d=Math.hypot(PAD.x-p[0],PAD.y-p[1]);return Math.pow(Math.max(0,1-d/1.05),1.6)}
+  function centreW(){return Math.max(0,1-Math.hypot(PAD.x-.5,PAD.y-.5)/.5)}
   /* THE PAD AS A PLANE (Dimitry, 29 Oct 15:45, a drawing: Cartesian axes through the middle, A at the top and B at the
      bottom, C at the left and D at the right, the corners E F (top) H G (bottom); "or A=0", "or C 100"; "the mapping pad
      is a wall a stage a floor"): what the pad stands for names its ends, and the zero sits at an edge or in the middle */
@@ -12278,15 +12316,16 @@ const ENS=window.ENS=(function(){
   let MIX=null;   // this part's slots, master and map: {slots:[{kind,g,lvl,tone,grain,semi,size}], lvl, bed, wet, map:{x,y}, drops:[]}
   const mixKey=id=>'current.pv.mix.'+id;
   function mixDefault(P){const s=(SLOTS[P.id]||[]).map(([k,g,o])=>Object.assign({kind:k,g,lvl:1,tone:.5,grain:0,semi:0,size:.45},o||{}));
-    return{slots:s,lvl:1,bed:1,wet:.5,map:{x:MAPS[0].x.slice(),y:MAPS[0].y.slice(),id:'water'},drops:[],surf:'wall',zero:'edge'}}
+    return{slots:s,lvl:1,bed:1,wet:.5,map:{x:MAPS[0].x.slice(),y:MAPS[0].y.slice(),id:'water'},drops:[],surf:'wall',zero:'edge',corners:[0,1,2,3].map(k=>k<s.length?k:-1)}}
   function mixLoad(P){let m=null;try{m=JSON.parse(localStorage.getItem(mixKey(P.id))||'null')}catch(_){}const d=mixDefault(P);
     if(!m||!Array.isArray(m.slots)||m.slots.length!==d.slots.length)return d;
     const n=(v,a,b,z)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):z};
     m.slots=m.slots.map((s,i)=>({kind:d.slots[i].kind,g:GESTS.some(g=>g[0]===s.g)?s.g:d.slots[i].g,lvl:n(s.lvl,0,1.5,1),tone:n(s.tone,0,1,.5),grain:n(s.grain,0,1,0),semi:n(s.semi,-24,24,0),size:n(s.size,0,1,d.slots[i].size)}));
     const ax=a=>Array.isArray(a)&&AXES.some(x=>x[0]===a[0])?[a[0],n(a[1],0,1,0),n(a[2],0,1,1)]:null;
-    return{surf:SURFS[m.surf]?m.surf:'wall',zero:m.zero==='centre'?'centre':'edge',slots:m.slots,lvl:n(m.lvl,0,1.5,1),bed:n(m.bed,0,1.5,1),wet:n(m.wet,0,1,.5),map:{x:ax(m.map&&m.map.x)||d.map.x,y:ax(m.map&&m.map.y)||d.map.y,id:String(m.map&&m.map.id||'')},
-      drops:Array.isArray(m.drops)?m.drops.slice(0,12).filter(q=>q&&isFinite(q.x)&&isFinite(q.y)&&isFinite(q.s)).map(q=>({x:n(q.x,0,1,.5),y:n(q.y,0,1,.5),s:Math.max(0,Math.min(d.slots.length-1,q.s|0)),every:[1,2,4,8].includes(+q.every)?+q.every:4})):[]}}
-  let mixT=0;function mixSave(){clearTimeout(mixT);mixT=setTimeout(()=>{if(cur&&MIX)try{localStorage.setItem(mixKey(cur.id),JSON.stringify(MIX))}catch(_){}},300)}
+    return{corners:Array.isArray(m.corners)&&m.corners.length===4?m.corners.map(v=>Number.isInteger(v)&&v>=-1&&v<d.slots.length?v:-1):d.corners,surf:SURFS[m.surf]?m.surf:'wall',zero:m.zero==='centre'?'centre':'edge',slots:m.slots,lvl:n(m.lvl,0,1.5,1),bed:n(m.bed,0,1.5,1),wet:n(m.wet,0,1,.5),map:{x:ax(m.map&&m.map.x)||d.map.x,y:ax(m.map&&m.map.y)||d.map.y,id:String(m.map&&m.map.id||'')},
+      drops:Array.isArray(m.drops)?m.drops.slice(0,12).filter(q=>q&&isFinite(q.x)&&isFinite(q.y)&&isFinite(q.s)).map(q=>({x:n(q.x,0,1,.5),y:n(q.y,0,1,.5),s:Math.max(0,Math.min(d.slots.length-1,q.s|0)),every:[1,2,4,8].includes(+q.every)?+q.every:4,g:isFinite(q.g)?n(q.g,0,1.5,1):1})):[]}}
+  let mixT=0;const mixPut=()=>{mixT=0;if(cur&&MIX)try{localStorage.setItem(mixKey(cur.id),JSON.stringify(MIX))}catch(_){}};function mixSave(){clearTimeout(mixT);mixT=setTimeout(mixPut,300)}
+  addEventListener('pagehide',()=>{if(mixT){clearTimeout(mixT);mixPut()}});   /* a change in the last 300 ms before the page goes is kept */
   /* the chains: per slot level -> high-pass -> low-pass -> grain gate -> the part's out -> the Water strip */
   let CH=null;
   function chainDrop(){if(!CH)return;const C=CH;CH=null;try{C.out.gain.setTargetAtTime(0,C.c.currentTime,.03)}catch(_){}setTimeout(()=>{try{C.out.disconnect();C.srcs.forEach(s=>{try{s.stop()}catch(_){}})}catch(_){}},300)}   // the old chain goes, quietly (r-4)
@@ -12302,7 +12341,7 @@ const ENS=window.ENS=(function(){
   function chainSet(now){if(!CH||!MIX)return;const c=CH.c,t=c.currentTime,tc=now?.005:.04,M=mod();
     CH.out.gain.setTargetAtTime(MUTE?0:MIX.lvl,t,tc);
     MIX.slots.forEach((s,i)=>{const n=CH.S[i];if(!n)return;const tone=Math.max(0,Math.min(1,s.tone+(M.tone-.5))),gr=Math.max(0,Math.min(1,s.grain+M.grain));
-      n.i.gain.setTargetAtTime(s.g==='off'?0:s.lvl,t,tc);n.lp.frequency.setTargetAtTime(300*Math.pow(2,Math.min(1,tone*2)*6.06),t,tc);n.hp.frequency.setTargetAtTime(20*Math.pow(2,Math.max(0,tone*2-1)*6.64),t,tc);
+      const ck=isCorners()?cornerOf(i):-1;n.i.gain.setTargetAtTime(s.g==='off'&&ck<0?0:s.lvl*(ck>=0&&G.on?cornerW(ck):1),t,tc);   /* keys, buttons and left sounds play at the slot's own level */n.lp.frequency.setTargetAtTime(300*Math.pow(2,Math.min(1,tone*2)*6.06),t,tc);n.hp.frequency.setTargetAtTime(20*Math.pow(2,Math.max(0,tone*2-1)*6.64),t,tc);
       n.gate.gain.setTargetAtTime(1-gr,t,tc);n.dep.gain.setTargetAtTime(gr,t,tc)})}
   let MUTE=false,OCT=0;
   /* the axes: where the finger is (x across, y up, 0..1), read through the map into the sound's own values */
@@ -12313,16 +12352,16 @@ const ENS=window.ENS=(function(){
   function pitchOf(s,M){const P=cur;let p=M.pitch;if(P&&P.low)p*=.55;return Math.max(0,Math.min(1,p+(s.semi+OCT*12)/24))}
   function dest(i){const C=chains();return C&&C.S[i]?C.S[i].i:(AUD.preV||AUD.wIn)}
   const EV=[];   // what played since the last post: [slot, kind, size, ms], for the screen
-  function evNote(i,kind,size){if(EV.length<16)EV.push([i,kind,Math.round(size*100)/100,Math.round(performance.now()-(sent.t0||performance.now())),Math.round(PAD.x*1000)/1000,Math.round((1-PAD.y)*1000)/1000]);if(pvOn&&PRINGS.length<30)PRINGS.push({x:PAD.x,y:PAD.y,t:performance.now()})}   // where it played, the screen's y down (r-5)
+  function evNote(i,kind,size){if(EV.length<16)EV.push([i,kind,Math.round(size*100)/100,Math.round(performance.now()-(sent.t0||performance.now())),Math.round(PAD.x*1000)/1000,Math.round((1-PAD.y)*1000)/1000]);if(pvOn&&PRINGS.length<30)PRINGS.push({x:PAD.x,y:PAD.y,t:performance.now(),c:SLOTC[i%SLOTC.length],n:MIX&&MIX.slots[i]?NAMES[MIX.slots[i].kind]:''})}   // where it played, the screen's y down (r-5)
   function realKind(s,M){return s.kind==='kick'?(M.wet<.45?'sand':'splash'):s.kind}
   /* one sound of slot i, now (or at `when`, ctx time); x, y where on the pad (for the ripple and the screen) */
   function fire(i,o){const s=MIX&&MIX.slots[i],c=AUD.ctx;if(!s||!c||s.g==='off'&&!(o&&o.force))return null;const M=mod(),k=realKind(s,M),K=KINDS[s.kind]||{t:'one'};
-    const x=o&&o.x!=null?o.x:PAD.x,y=o&&o.y!=null?o.y:PAD.y,pan=(o&&o.pan!=null?o.pan:M.pan)*2-1,size=M.size>=0?M.size:(o&&o.size!=null?o.size:s.size);
-    if(K.glass){const r=lib(s.kind);if(!r||!window.SurfaceVoice)return null;let h=null;try{h=SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:1})}catch(_){}evNote(i,s.kind,.6);return h}
-    if(s.kind==='bottle'){let h=null;try{h=SurfaceWater.hold(c,dest(i),'bottle',{pitch:pitchOf(s,M),pan,gain:.9})}catch(_){}evNote(i,'bottle',.5);return h}
-    if(k==='crystal'){const r=lib('crystal');try{SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:1})}catch(_){}evNote(i,k,.5);return null}
+    const og=o&&o.gain!=null&&isFinite(o.gain)?o.gain:1,x=o&&o.x!=null?o.x:PAD.x,y=o&&o.y!=null?o.y:PAD.y,pan=(o&&o.pan!=null?o.pan:M.pan)*2-1,size=M.size>=0?M.size:(o&&o.size!=null?o.size:s.size);
+    if(K.glass){const r=lib(s.kind);if(!r||!window.SurfaceVoice)return null;let h=null;try{h=SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:og})}catch(_){}evNote(i,s.kind,.6);return h}
+    if(s.kind==='bottle'){let h=null;try{h=SurfaceWater.hold(c,dest(i),'bottle',{pitch:pitchOf(s,M),pan,gain:.9*og})}catch(_){}evNote(i,'bottle',.5);return h}
+    if(k==='crystal'){const r=lib('crystal');try{SurfaceVoice.play(c,dest(i),r,{pan,cents:Math.round((pitchOf(s,M)-.5)*2400),level:og})}catch(_){}evNote(i,k,.5);return null}
     const air=k==='seagull'&&AUD.water&&AUD.water.air;
-    try{SurfaceWater.voice(c,air?AUD.water.air:dest(i),k,{pitch:pitchOf(s,M),pan,size,when:o&&o.when,gain:(o&&o.gain||1)*(air?s.lvl*(MUTE?0:MIX.lvl):1)})}catch(_){}
+    try{SurfaceWater.voice(c,air?AUD.water.air:dest(i),k,{pitch:pitchOf(s,M),pan,size,when:o&&o.when,gain:og*(air?s.lvl*(MUTE?0:MIX.lvl):1)})}catch(_){}
     if(!pvOn)try{WT.vsrc='touch';rippleVoice(k,{rx:x,ry:1-y,size})}catch(_){}evNote(i,k,size);return null}   // the player view draws no field (r-9)
   /* the beat: the Room's (or a tapped) tempo; alone, 76 a minute from the first touch */
   function grid(){if(TAP.bpm)return{bl:60/TAP.bpm,s0:TAP.s0};if(!G.loc0)G.loc0=tapNow();return{bl:60/76,s0:G.loc0}}
@@ -12344,18 +12383,18 @@ const ENS=window.ENS=(function(){
   function heldFollow(i){const st=G.S[i],s=MIX.slots[i];if(!st||!st.h)return;const M=mod(),p=pitchOf(s,M);
     try{if(s.kind==='bottle')st.h.set({pitch:p,pan:M.pan*2-1,breath:Math.min(1.5,.35+IN.sp*3)});else st.h.set({cents:Math.round((p-.5)*2400),pan:M.pan*2-1})}catch(_){}}
   function slotsTick(on,sp,now){if(!MIX)return;const moving=sp>.04;
-    MIX.slots.forEach((s,i)=>{const K=KINDS[s.kind]||{t:'one'},st=slotState(i),g=s.g;if(g==='off'){if(st.h&&!st.key)relSlot(i);return}
+    const cm=isCorners();MIX.slots.forEach((s,i)=>{const K=KINDS[s.kind]||{t:'one'},st=slotState(i),g=cm&&cornerOf(i)>=0?'touch':s.g;if(g==='off'){if(st.h&&!st.key)relSlot(i);return}
       if(st.key)return;   // a key or a button holds it (r-2)
       if(!on){if(st.h||st.next!=null)relSlot(i);return}
       const isDown=G.just,held=G.still&&now-G.t0>.7,dragging=G.moved>.12&&moving;
       if(K.t==='held'){let start=false;
         if(g==='tap'||g==='touch')start=isDown&&(!K.phrase||now-G.upAt>4);else if(g==='drag')start=G.moved>.12;else if(g==='hold')start=held;
         const other=G.S.some((x,j)=>j!==i&&x&&x.h&&KINDS[MIX.slots[j].kind]&&!KINDS[MIX.slots[j].kind].phrase&&KINDS[MIX.slots[j].kind].t==='held');   // a bottle and a rim never at once (the old rule)
-        if(start&&!st.h&&(K.phrase||!other))st.h=fire(i);
+        if(start&&!st.h&&(K.phrase||!other||cm))st.h=fire(i,cm?{force:true}:undefined);   /* in Corners every corner sound plays (r-3) */
         heldFollow(i);return}
       if(K.t==='beat'||K.t==='bar'){const run=g==='touch'||(g==='hold'&&held)||(g==='drag'&&G.moved>.12)||(g==='tap'&&isDown);if(run)gridTick(i,st,sp>.3);else st.next=null;return}
       if(g==='tap'){if(isDown)fire(i);return}
-      if(g==='touch'){if(isDown||now-st.last>K.rep){st.last=now;if(!isDown)fire(i,{size:.3+.4*Math.random(),gain:.9});else fire(i)}return}
+      if(g==='touch'){if(isDown||now-st.last>K.rep){st.last=now;if(!isDown)fire(i,{size:.3+.4*Math.random(),gain:.9,force:cm});else fire(i,cm?{force:true}:undefined)}return}
       if(g==='drag'){if(G.dist>(s.kind==='wash'?1.2:.9)&&now-st.last>K.gap){G.dist=0;st.last=now;fire(i,{size:Math.min(1,.2+sp),gain:.8})}return}
       if(g==='hold'){if(held&&now-st.last>K.rep){st.last=now;fire(i,{size:.3+.4*Math.random(),gain:.9})}}})}
   const lib=n=>{const V=window.SurfaceVoiceLib;return V&&(V.sounds||[]).find(r=>r&&r.name===n)||null};
@@ -12367,7 +12406,7 @@ const ENS=window.ENS=(function(){
     if(on){PAD.x=x;PAD.y=y;const M=mod();if(MIX.map.x[0]==='wet'||MIX.map.y[0]==='wet'){wet=M.wet}}
     wetApply(now);chains();if(now-(CH&&CH.at||0)>.033){if(CH)CH.at=now;chainSet()}
     bedLv=on||DR.length?bedLv+(1-bedLv)*Math.min(1,dt/1.5):bedLv*Math.max(0,1-dt/5);
-    if(AUD.bed&&now-G.bedAt>.12){G.bedAt=now;AUD.bed.level(WATER.bedLvl*bedLv*MIX.bed*(MUTE?0:1))}
+    if(AUD.bed&&now-G.bedAt>.12){G.bedAt=now;AUD.bed.level(WATER.bedLvl*bedLv*MIX.bed*(MUTE?0:1)*(isCorners()?.15+.85*centreW():1))}
     G.just=false;
     if(on&&!G.on){G.on=true;G.just=true;G.t0=now;G.dist=0;G.moved=0;G.still=true}
     else if(!on&&G.on){G.on=false;G.upAt=now}
@@ -12378,15 +12417,17 @@ const ENS=window.ENS=(function(){
      place's pitch and wetness, and the screen sees it there; tap it to change how often, hold it (or drag it off) to take
      it away. At most twelve. */
   const DR=[];   // live: {x, y, s, every, next}
-  function dropsSync(){DR.length=0;(MIX&&MIX.drops||[]).forEach(q=>DR.push(Object.assign({},q,{next:null})))}
+  function dropsSync(){haloClose();DR.length=0;(MIX&&MIX.drops||[]).forEach(q=>DR.push(Object.assign({},q,{next:null})))}
   function dropsTick(now){if(!DR.length||!AUD.ctx)return;const t=tapNow();
     DR.forEach(d=>{const g=grid(),u=g.bl*d.every;if(d.next==null)d.next=nextOn(t+.05,d.every);if(t<d.next-.1)return;
-      const sx=PAD.x,sy=PAD.y;PAD.x=d.x;PAD.y=d.y;const s=MIX.slots[d.s],K=KINDS[s&&s.kind]||{t:'one'};
+      dropFire(d,atCtx(d.next),u);d.next=nextOn(Math.max(t,d.next)+.02,d.every)});}
+  /* one left sound, once: at its place, at its own level (the halo's − +) */
+  function dropFire(d,when,u){if(!AUD.ctx||d.g===0)return;   /* at 0 % a left sound is silent, not sent */const sx=PAD.x,sy=PAD.y;PAD.x=d.x;PAD.y=d.y;const s=MIX.slots[d.s],K=KINDS[s&&s.kind]||{t:'one'},gl=d.g==null?1:d.g;
       if(s&&K.t!=='held'){const k=s.kind==='steps'?'sand':s.kind==='lighthouse'?'lighthouse':null;
-        if(k){const M=mod();try{SurfaceWater.voice(AUD.ctx,dest(d.s),k,{pitch:pitchOf(s,M),pan:M.pan*2-1,size:.5,when:atCtx(d.next),gain:.9})}catch(_){}evNote(d.s,k,.5)}
-        else fire(d.s,{when:atCtx(d.next),x:d.x,y:d.y,force:true})}   // its ev carries its place: the screen draws it once
-      else if(s){const h=fire(d.s,{x:d.x,y:d.y,force:true});if(h)setTimeout(()=>{try{h.release(AUD.ctx.currentTime)}catch(_){}},Math.min(4000,u*500))}
-      PAD.x=sx;PAD.y=sy;d.next=nextOn(Math.max(t,d.next)+.02,d.every)});}
+        if(k){const M=mod();try{SurfaceWater.voice(AUD.ctx,dest(d.s),k,{pitch:pitchOf(s,M),pan:M.pan*2-1,size:.5,when:when,gain:.9*gl})}catch(_){}evNote(d.s,k,.5)}
+        else fire(d.s,{when:when,x:d.x,y:d.y,force:true,gain:gl})}   // its ev carries its place: the screen draws it once
+      else if(s){const h=fire(d.s,{x:d.x,y:d.y,force:true,gain:gl});if(h)setTimeout(()=>{try{h.release(AUD.ctx.currentTime)}catch(_){}},Math.min(4000,(u||1)*500))}
+      PAD.x=sx;PAD.y=sy}
   const DROPEV=[];   // where a left sound played: [x, y, slot], for the screen
   function lift(){G.on=false;G.upAt=performance.now()/1000;G.S.forEach((st,i)=>{if(st&&!st.key)relSlot(i)});if(document.hidden)relAll()}   // a key still down keeps its voice, unless the page is hidden
   /* the field's depth follows the wetness, around the part's own depth */
@@ -12463,7 +12504,7 @@ const ENS=window.ENS=(function(){
      hides every control and goes full screen, so the HDMI out is the field alone (or Projector window for a second
      display). Tapping it again puts every one of those back as it was. It lasts for the tab, like Performing. */
   const RD={on:false,was:null};
-  function ready(v,boot){v=!!v;if(v===RD.on)return;RD.on=v;const de=document.documentElement;
+  function ready(v,boot){v=!!v;if(v===RD.on)return;RD.on=v;setTimeout(shelfSoon,0);const de=document.documentElement;
     if(v){let was=null;try{was=JSON.parse(localStorage.getItem('current.ready.was')||'null')}catch(_){}
       RD.was=was||{paths:window.SurfacePaths?SurfacePaths.on:null,hints:window.SurfaceHints?SurfaceHints.level:null,notice:window.SurfaceNotice?SurfaceNotice.enabled():null,perf:!!(window.SurfacePerform&&SurfacePerform.manual())};
       try{localStorage.setItem('current.ready.was',JSON.stringify(RD.was))}catch(_){}   // kept on the device: a tab closed while ready still gets its settings back (review cfd0d1b7fd r-1)
@@ -12487,30 +12528,38 @@ const ENS=window.ENS=(function(){
      screen's picture, so a place on the pad is the same place on the projection; its axes, and what they play; a mixer
      of the part's voices; the map; the keys; and of the bar only the sound, keys and full screen. Field puts the
      ordinary Current back (the choice is kept). */
+  const PVB='current.pv.behind';let pvBehind=(()=>{try{return localStorage.getItem(PVB)==='1'}catch(_){return false}})();
   const PVK='current.pv';let pvWant=(()=>{try{return localStorage.getItem(PVK)!=='0'}catch(_){return true}})(),pvOn=false,pvEl=null,pvTab='mix',ARM=-1;
   const TRAIL=[],PRINGS=[];
-  function pvSet(v){pvWant=!!v;try{localStorage.setItem(PVK,v?'1':'0')}catch(_){}pvApply();paint()}
-  function pvApply(){const on=!!(cur&&pvWant&&!screen);if(on!==pvOn){pvOn=on;IN.pv=on;IN.on=false;relAll();document.documentElement.classList.toggle('pvOn',on);if(on)document.documentElement.setAttribute('data-keys-own','');else document.documentElement.removeAttribute('data-keys-own');   /* the part's keys, not the tool's single keys (kit keys.js) */
-      if(on){pvBuild();pvEl.hidden=false;try{setPlayer(true)}catch(_){}}else if(pvEl)pvEl.hidden=true}
+  /* THE FIELD BEHIND THE PAD (Dimitry, 29 Oct 15:59: "has to be switchable instantly", "field should initially just
+     show visuals behind pad / sounds labels"): Field in the player view shows the field under a see-through pad, the
+     labels and panels kept; the pad's finger moves the field too. Field again is sound only. Exit leaves the view. */
+  function pvBehindSet(v){pvBehind=!!v;try{localStorage.setItem(PVB,v?'1':'0')}catch(_){}document.documentElement.classList.toggle('pvBehind',pvOn&&pvBehind);if(!v){TOUCH.on=false}pvPaint()}
+  function pvFeed(){if(!pvOn||!pvBehind)return;const px=IN.x*W,py=(1-IN.y)*H;if(IN.on){if(TOUCH.on){TOUCH.vx=px-TOUCH.x;TOUCH.vy=py-TOUCH.y}else{TOUCH.vx=TOUCH.vy=0}TOUCH.x=px;TOUCH.y=py;TOUCH.on=true}else if(TOUCH.on&&!ptrsDown())TOUCH.on=false}
+  const ptrsDown=()=>false;
+  function pvSet(v){pvWant=!!v;try{localStorage.setItem(PVK,v?'1':'0')}catch(_){}pvApply();paint();shelfSoon()}
+  function shelfSoon(){try{if(typeof ACTIVE!=='undefined'&&ACTIVE==='session')buildToolShelf()}catch(_){}}   /* the Room shelf's Board and Clean screen say what is true (review 47ee r-3) */
+  function pvApply(){const on=!!(cur&&pvWant&&!screen);if(on!==pvOn){pvOn=on;IN.pv=on;IN.on=false;relAll();document.documentElement.classList.toggle('pvOn',on);document.documentElement.classList.toggle('pvBehind',on&&pvBehind);if(on)document.documentElement.setAttribute('data-keys-own','');else document.documentElement.removeAttribute('data-keys-own');   /* the part's keys, not the tool's single keys (kit keys.js) */
+      if(on){pvBuild();pvEl.hidden=false;try{setPlayer(true)}catch(_){}}else{haloClose();if(pvEl)pvEl.hidden=true;if(pvBehind)TOUCH.on=false}}   /* closing over a held pad leaves no finger down, only when the view closes (r-2) */
     if(on)pvPaint()}
   const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const axName=k=>(AXES.find(a=>a[0]===k)||[k,k])[1];
   function pvBuild(){if(pvEl)return;pvEl=document.createElement('div');pvEl.id='pv';pvEl.hidden=true;
     pvEl.innerHTML='<header class="pv-h"><i class="pv-dot" aria-hidden="true"></i><b class="pv-nm"></b><span class="pv-st" role="status"></span>'+
       '<nav class="pv-tabs" aria-label="Player panels">'+[['mix','Mix'],['map','Map'],['keys','Keys']].map(t=>'<button type="button" data-tab="'+t[0]+'" aria-pressed="false">'+t[1]+'</button>').join('')+
-      '<button type="button" class="pv-rd" aria-pressed="false">Ready</button><button type="button" class="pv-fd" title="Show the field again (the player view comes back from the Ensemble section)">Field</button></nav></header>'+
+      '<button type="button" class="pv-rd" aria-pressed="false">Ready</button><button type="button" class="pv-bh" aria-pressed="false" title="The field behind the pad, or sound only">Field</button></nav><button type="button" class="pv-fd" title="Leave the player view and show the field; tap your part&rsquo;s name at the top to come back">Exit</button></header>'+
       '<div class="pv-main"><div class="pv-padw"><div class="pv-pad" tabindex="0" role="application" aria-roledescription="pad" aria-label="Your part&rsquo;s pad: touch to play. Keys: 1 to 5 play a sound, Space holds, arrows move, ? lists them all">'+
       '<canvas></canvas><span class="pv-ax pv-ay"></span><span class="pv-ax pv-axx"></span><span class="pv-rdout"></span><span class="pv-arm" hidden></span></div>'+
       '<p class="pv-note">The pad is the screen&rsquo;s picture: where you touch here is where your sound lands there.</p></div>'+
       '<aside class="pv-side"></aside></div>';
     document.body.appendChild(pvEl);
     pvEl.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{pvTab=b.dataset.tab;pvSide()});
-    pvEl.querySelector('.pv-rd').onclick=()=>ready(!RD.on);pvEl.querySelector('.pv-fd').onclick=()=>pvSet(false);
+    pvEl.querySelector('.pv-rd').onclick=()=>ready(!RD.on);pvEl.querySelector('.pv-bh').onclick=()=>pvBehindSet(!pvBehind);pvEl.querySelector('.pv-fd').onclick=()=>pvSet(false);
     padWire(pvEl.querySelector('.pv-pad'));pvSide()}
   function pvPaint(){if(!pvEl||!cur)return;const P=cur;pvEl.style.setProperty('--pc',P.color);pvEl.querySelector('.pv-nm').textContent=P.name;
     const c=code();pvEl.querySelector('.pv-st').textContent=(c?'room '+c:'no room')+(MUTE?' · muted':'')+(OCT?' · octave '+(OCT>0?'+':'')+OCT:'')+(sent.ok===false?' · not reaching the screen':sent.ok?' · reaching the screen':'');
     pvEl.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===pvTab)));
-    const rd=pvEl.querySelector('.pv-rd');rd.setAttribute('aria-pressed',String(RD.on));
+    const rd=pvEl.querySelector('.pv-rd');rd.setAttribute('aria-pressed',String(RD.on));pvEl.querySelector('.pv-bh').setAttribute('aria-pressed',String(pvBehind));
     const m=MIX&&MIX.map;if(m){pvEl.querySelector('.pv-ay').textContent=axName(m.y[0])+' ↑';pvEl.querySelector('.pv-axx').textContent=axName(m.x[0])+' →'}
     const ar=pvEl.querySelector('.pv-arm');ar.hidden=ARM<0;if(ARM>=0)ar.textContent='tap the pad to leave '+NAMES[MIX.slots[ARM].kind]+' there · Esc to cancel'}
   const rng=(lab,v,min,max,step,aria)=>'<label class="pv-r"><span>'+lab+'</span><input type="range" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'" aria-label="'+esc(aria)+'"></label>';
@@ -12519,11 +12568,11 @@ const ENS=window.ENS=(function(){
       sd.innerHTML='<div class="pv-mst"><b>Part</b>'+rng('level',MIX.lvl,0,1.5,.01,'Part level')+(cur.bed?rng('bed',MIX.bed,0,1.5,.01,'Bed level: the sound under the playing'):'')+
         ((MIX.map.x[0]==='wet'||MIX.map.y[0]==='wet')?'':rng('wet',MIX.wet,0,1,.01,'Wetness (not on an axis)'))+
         '<button type="button" class="pv-mute" aria-pressed="'+MUTE+'">mute</button><button type="button" class="pv-reset">reset the part</button></div>'+
-        MIX.slots.map((s,i)=>'<div class="pv-slot" data-i="'+i+'"><div class="pv-sh"><button type="button" class="pv-play" aria-label="Play '+esc(NAMES[s.kind])+' ('+(i+1)+')">'+(i+1)+'</button><b>'+esc(NAMES[s.kind])+'</b>'+
+        MIX.slots.map((s,i)=>'<div class="pv-slot" data-i="'+i+'" style="--sc:'+SLOTC[i%SLOTC.length]+'"><div class="pv-sh"><button type="button" class="pv-play" aria-label="Play '+esc(NAMES[s.kind])+' ('+(i+1)+')">'+(i+1)+'</button><b>'+esc(NAMES[s.kind])+'</b>'+
           '<select aria-label="'+esc(NAMES[s.kind])+' plays on">'+GESTS.map(g=>'<option value="'+g[0]+'"'+(g[0]===s.g?' selected':'')+'>'+g[1]+'</option>').join('')+'</select>'+
           '<button type="button" class="pv-leave" aria-pressed="'+(ARM===i)+'" title="Leave this sound on the pad: it plays there by itself">leave</button></div>'+
           rng('level',s.lvl,0,1.5,.01,NAMES[s.kind]+' level')+rng('timbre',s.tone,0,1,.01,NAMES[s.kind]+' timbre: dark to thin')+rng('grain',s.grain,0,1,.01,NAMES[s.kind]+' grain')+rng('pitch',s.semi,-12,12,1,NAMES[s.kind]+' pitch in semitones')+'</div>').join('')+
-        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or off. <b>Leave</b> puts a sound on the pad: it plays there on the beat; tap it for how often, hold it or drag it off the pad to take it away.</p>';
+        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or off. <b>Leave</b> puts a sound on the pad: it plays there on the beat, its name beside it; tap it to hear it, double-tap it for its halo (which sound, how often, its level, take it off), hold it or drag it off the pad to take it away.</p>';
       const ms=sd.querySelector('.pv-mst'),ins=ms.querySelectorAll('input');let k=0;
       ins[k++].oninput=e=>{MIX.lvl=+e.target.value;chainSet();mixSave()};
       if(cur.bed)ins[k++].oninput=e=>{MIX.bed=+e.target.value;mixSave()};
@@ -12540,14 +12589,16 @@ const ENS=window.ENS=(function(){
         rng('from',a[1],0,1,.01,(w==='x'?'Across':'Up')+' starts at')+rng('to',a[2],0,1,.01,(w==='x'?'Across':'Up')+' ends at')+'</div>';
       const seg=(lab,key,opts)=>'<div class="pv-seg"><b>'+lab+'</b><div role="radiogroup" aria-label="'+lab+'">'+opts.map(o=>'<button type="button" role="radio" data-'+key+'="'+o[0]+'" aria-checked="'+(MIX[key]===o[0])+'">'+o[1]+'</button>').join('')+'</div></div>';
       sd.innerHTML=seg('The pad is a','surf',Object.keys(SURFS).map(k=>[k,SURFS[k].name]))+seg('Zero','zero',[['edge','at the edge (B, C)'],['centre','in the middle']])+'<div class="pv-maps" role="radiogroup" aria-label="Pad maps">'+MAPS.map(q=>'<button type="button" role="radio" data-map="'+q.id+'" aria-checked="'+(m.id===q.id)+'"><b>'+q.name+'</b><small>'+q.note+'</small></button>').join('')+'</div>'+ax('y',m.y)+ax('x',m.x)+
+        (m.id==='corners'?'<div class="pv-corn"><b>Corners</b>'+CORNER_N.map((n,k)=>'<label class="pv-r"><span>'+n+'</span><select data-corner="'+k+'" aria-label="Corner '+n+' plays"><option value="-1">nothing</option>'+MIX.slots.map((s,i)=>'<option value="'+i+'"'+(MIX.corners[k]===i?' selected':'')+'>'+(i+1)+' · '+esc(NAMES[s.kind])+'</option>').join('')+'</select></label>').join('')+'<p class="pv-note">The middle is the part&rsquo;s bed'+(cur.bed?'':' (this part has none: the middle is quiet)')+'.</p></div>':'')+
         '<p class="pv-note">The pad&rsquo;s two directions can play any of these. <b>From</b> and <b>to</b> set the range: to above from runs one way, below it the other. Your map is kept for your part.</p>';
+      sd.querySelectorAll('[data-corner]').forEach(el=>el.onchange=()=>{MIX.corners[+el.dataset.corner]=+el.value;relAll();mixSave()});
       sd.querySelectorAll('[data-surf]').forEach(b=>b.onclick=()=>{MIX.surf=b.dataset.surf;mixSave();pvSide()});
       sd.querySelectorAll('[data-zero]').forEach(b=>b.onclick=()=>{MIX.zero=b.dataset.zero;mixSave();pvSide()});
-      sd.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>{const q=MAPS.find(z=>z.id===b.dataset.map);MIX.map={x:q.x.slice(),y:q.y.slice(),id:q.id};mixSave();pvSide();pvPaint();G.wetDone=-1});
+      sd.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>{const q=MAPS.find(z=>z.id===b.dataset.map);MIX.map={x:q.x.slice(),y:q.y.slice(),id:q.id};relAll();mixSave();pvSide();pvPaint();G.wetDone=-1});
       sd.querySelectorAll('.pv-axis').forEach(el=>{const w=el.dataset.w,a=MIX.map[w],r=el.querySelectorAll('input');
         el.querySelector('select').onchange=e=>{a[0]=e.target.value;MIX.map.id='';mixSave();pvPaint();pvSideMaps()};
         r[0].oninput=e=>{a[1]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()};r[1].oninput=e=>{a[2]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()}})}
-    else{sd.innerHTML='<dl class="pv-keys">'+[['1 – '+MIX.slots.length,'play a sound (held sounds last while the key is down)'],['Space','hold your finger where it is: play the touch, hold and drag sounds'],['← → ↑ ↓','move your place on the pad (Shift: a little)'],['Z  X','an octave down, up'],['M','mute your part'],['[  ]','your part quieter, louder'],['D','leave the last sound you played where you are'],['R','Ready to perform'],['?','these keys'],['Esc','cancel leaving a sound']].map(k=>'<dt><kbd>'+k[0]+'</kbd></dt><dd>'+k[1]+'</dd>').join('')+'</dl>'+
+    else{sd.innerHTML='<dl class="pv-keys">'+[['1 – '+MIX.slots.length,'play a sound (held sounds last while the key is down)'],['Space','hold your finger where it is: play the touch, hold and drag sounds'],['← → ↑ ↓','move your place on the pad (Shift: a little)'],['Z  X','an octave down, up'],['M','mute your part'],['[  ]','your part quieter, louder'],['D','leave the last sound you played where you are'],['R','Ready to perform'],['F','the field behind the pad, or sound only'],['?','these keys'],['Esc','cancel leaving a sound']].map(k=>'<dt><kbd>'+k[0]+'</kbd></dt><dd>'+k[1]+'</dd>').join('')+'</dl>'+
       '<p class="pv-note">Keys play here even while the pad is not touched, and the screen sees them at your place on the pad.</p>'}
     pvPaint()}
   function pvSideMaps(){if(!pvEl)return;pvEl.querySelectorAll('[data-map]').forEach(b=>b.setAttribute('aria-checked',String(MIX.map.id===b.dataset.map)))}
@@ -12559,24 +12610,55 @@ const ENS=window.ENS=(function(){
     fire(i,{force:true})}
   let LASTS=0;
   /* the pad: a finger plays; with a sound armed, a tap leaves it; on a left sound, tap = how often, hold or drag off = gone */
+  /* A LEFT SOUND, NAMED AND ADJUSTABLE (Dimitry, 29 Oct 16:20: "I have NO idea what sound I have dropped on the stage or
+     I am dragging when they all look the same and have NO labels… not even on hover. would be great to double tap them for
+     a halo menu to adjust them"): each shows its name on a dark tab, bigger while dragged or hovered; the sound under the
+     finger names itself in its ring; one tap plays it once, a double tap opens the halo around it: which sound, how
+     often, its level, play, take it off. Hold still takes it off too, dragging off the pad as well. */
+  let DRAGI=-1,HOVI=-1,HALO=-1,tapAt=0,tapI=-1;
+  /* the ring kept on screen near the pad's edges (review 5b72 r-4): the whole halo shifts in by what its buttons stick out */
+  function haloKeep(el){let mx=0,my=0;const vw=innerWidth,vh=innerHeight,M=6,hd=pvEl&&pvEl.querySelector('.pv-h'),T=Math.max(M,hd?hd.getBoundingClientRect().bottom+4:M);el.querySelectorAll('button,.ph-k').forEach(b=>{const r=b.getBoundingClientRect();if(r.left<M)mx=Math.max(mx,M-r.left);if(r.right>vw-M)mx=Math.min(mx,vw-M-r.right);if(r.top<T)my=Math.max(my,T-r.top);if(r.bottom>vh-M)my=Math.min(my,vh-M-r.bottom)});
+    el.style.translate=Math.round(mx)+'px '+Math.round(my)+'px'}
+  function haloClose(){try{HALO=-1;const e=pvEl&&pvEl.querySelector('.pv-halo');if(e)e.remove()}catch(_){}}   /* try: dropsSync can run at boot, before HALO and pvEl exist (TDZ) */
+  function haloOpen(i){haloClose();const d=DR[i];if(!d||!pvEl)return;HALO=i;const pad=pvEl.querySelector('.pv-pad'),el=document.createElement('div');el.className='pv-halo';el.setAttribute('role','dialog');
+    const paint=()=>{const D=DR[HALO];if(!D){haloClose();return}const nm=NAMES[MIX.slots[D.s].kind],c=SLOTC[D.s%SLOTC.length],g=D.g==null?1:D.g;el.style.setProperty('--hc',c);el.style.left=(D.x*100)+'%';el.style.top=((1-D.y)*100)+'%';el.style.translate='0 0';
+      el.setAttribute('aria-label',nm+', left on the pad');
+      el.innerHTML='<b class="ph-c">'+esc(nm)+'<small>×'+D.every+' · '+Math.round(g*100)+'%</small></b><small class="ph-k">‹ › sound · ×'+D.every+' how often · − + level</small>'+
+        [['prev','‹','the sound before'],['next','›','the next sound'],['every','×'+D.every,'how often: every 1, 2, 4 or 8 beats'],['down','−','softer'],['up','+','louder'],['play','▶','play it once'],['del','✕','take it off the pad'],['x','○','close']]
+        .map(([k,t,a],j,A)=>{const an=-Math.PI/2+j*2*Math.PI/A.length;return'<button type="button" data-h="'+k+'" aria-label="'+a+'" title="'+a+'" style="--hx:'+Math.cos(an).toFixed(3)+';--hy:'+Math.sin(an).toFixed(3)+'">'+t+'</button>'}).join('')};
+    const set=(k,v)=>{const D=DR[HALO];if(!D)return;D[k]=v;MIX.drops[HALO][k]=v;if(k==='every'||k==='s')D.next=null;mixSave();paint();haloKeep(el)};
+    el.addEventListener('pointerdown',e=>e.stopPropagation());
+    el.addEventListener('click',e=>{const b=e.target.closest('[data-h]');if(!b)return;e.stopPropagation();const D=DR[HALO];if(!D)return;const n=MIX.slots.length,k=b.dataset.h;
+      if(k==='prev')set('s',(D.s+n-1)%n);else if(k==='next')set('s',(D.s+1)%n);
+      else if(k==='every'){const E=[1,2,4,8];set('every',E[(E.indexOf(D.every)+1)%E.length])}
+      else if(k==='down')set('g',Math.max(0,Math.round(((D.g==null?1:D.g)-.1)*10)/10));else if(k==='up')set('g',Math.min(1.5,Math.round(((D.g==null?1:D.g)+.1)*10)/10));
+      else if(k==='play'){try{dropFire(D,AUD.ctx&&AUD.ctx.currentTime)}catch(_){}}
+      else if(k==='del'){const j=HALO;haloClose();dropDel(j);return}else haloClose();
+      if(k!=='x'){const f=el.querySelector('[data-h="'+k+'"]');if(f)f.focus()}});
+    el.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();haloClose();pad.focus({preventScroll:true})}});
+    el._paint=paint;paint();pad.appendChild(el);haloKeep(el);const f=el.querySelector('[data-h="next"]');if(f)f.focus({preventScroll:true})}
   function padWire(pad){const cv=pad.querySelector('canvas');let pid=null,lt=0,lx=0,ly=0,drop=null,dropT=0,moved=false;
     const at=e=>{const r=pad.getBoundingClientRect();return[Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,1-(e.clientY-r.top)/r.height)),r]};
     const hit=(x,y,r)=>DR.findIndex(d=>Math.hypot((d.x-x)*r.width,(d.y-y)*r.height)<22);
     pad.addEventListener('pointerdown',e=>{if(pid!=null&&e.pointerType!=='mouse')return;const [x,y,r]=at(e);pid=e.pointerId;try{pad.setPointerCapture(pid)}catch(_){}e.preventDefault();pad.focus({preventScroll:true});
       const c=ensureCtx();if(c&&c.state!=='running')try{c.resume()}catch(_){}if(!AUD.water||AUD.water.c!==c)waterRoute();
-      if(ARM>=0){const s=ARM;ARM=-1;if(DR.length<12){const d={x,y,s,every:4};MIX.drops.push({x,y,s,every:4});DR.push(Object.assign({},d,{next:null}));mixSave();toast(NAMES[MIX.slots[s].kind]+' left on the pad: every 4 beats · tap it for how often',2600)}else toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvSide();return}
-      const h=hit(x,y,r);if(h>=0){drop=h;moved=false;dropT=setTimeout(()=>{if(drop!=null){dropDel(drop);drop=null}},650);return}
+      if(ARM>=0){const s=ARM;ARM=-1;if(DR.length<12){const d={x,y,s,every:4};MIX.drops.push({x,y,s,every:4});DR.push(Object.assign({},d,{next:null}));mixSave();toast(NAMES[MIX.slots[s].kind]+' left on the pad: every 4 beats · tap plays it, double-tap adjusts it',2600)}else toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvSide();return}
+      const h=hit(x,y,r);if(h>=0){drop=h;DRAGI=h;moved=false;dropT=setTimeout(()=>{if(drop!=null){haloClose();dropDel(drop);drop=null;DRAGI=-1}},650);return}
+      haloClose();
       IN.on=true;IN.x=x;IN.y=y;IN.sp=0;lt=performance.now();lx=x;ly=y;TRAIL.length=0},{passive:false});
-    pad.addEventListener('pointermove',e=>{if(e.pointerId!==pid)return;const [x,y,r]=at(e);
-      if(drop!=null){const d=DR[drop];if(!d)return;if(Math.hypot((x-d.x)*r.width,(y-d.y)*r.height)>8){moved=true;clearTimeout(dropT)}if(moved){d.x=x;d.y=y;MIX.drops[drop].x=x;MIX.drops[drop].y=y}return}
+    pad.addEventListener('pointermove',e=>{if(pid==null&&e.pointerType==='mouse'){const [x,y,r]=at(e),hv=hit(x,y,r);if(hv!==HOVI){HOVI=hv;pad.style.cursor=hv>=0?'grab':''}return}
+      if(e.pointerId!==pid)return;const [x,y,r]=at(e);
+      if(drop!=null){const d=DR[drop];if(!d)return;if(Math.hypot((x-d.x)*r.width,(y-d.y)*r.height)>8){moved=true;clearTimeout(dropT)}if(moved){d.x=x;d.y=y;MIX.drops[drop].x=x;MIX.drops[drop].y=y;if(drop===HALO){const hl=pvEl.querySelector('.pv-halo');if(hl&&hl._paint){hl._paint();haloKeep(hl)}}}return}
       if(!IN.on)return;const now=performance.now(),dt=Math.max(1,now-lt)/1000,v=Math.hypot(x-lx,y-ly)/dt;IN.sp=Math.min(1,IN.sp*.5+.5*Math.min(1,v/2.5));IN.mt=now;IN.x=x;IN.y=y;lx=x;ly=y;lt=now},{passive:true});
     const up=e=>{if(e.pointerId!==pid)return;pid=null;
       if(drop!=null){clearTimeout(dropT);const d=DR[drop],r=pad.getBoundingClientRect(),out=e.clientX<r.left-4||e.clientX>r.right+4||e.clientY<r.top-4||e.clientY>r.bottom+4;
-        if(d&&out)dropDel(drop);else if(d&&!moved){const n=[1,2,4,8],k=(n.indexOf(d.every)+1)%n.length;d.every=n[k];d.next=null;MIX.drops[drop].every=n[k];toast(NAMES[MIX.slots[d.s].kind]+': every '+n[k]+' beat'+(n[k]>1?'s':''),1600)}mixSave();drop=null;return}
+        if(d&&out)dropDel(drop);else if(d&&!moved){const now=performance.now();if(now-tapAt<380&&tapI===drop){tapAt=0;haloOpen(drop)}else{tapAt=now;tapI=drop;try{dropFire(d,AUD.ctx&&AUD.ctx.currentTime)}catch(_){}}}
+        mixSave();drop=null;DRAGI=-1;return}
       IN.on=false;IN.sp=0};
+    pad.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&pid==null){HOVI=-1;pad.style.cursor=''}});
     pad.addEventListener('pointerup',up);pad.addEventListener('pointercancel',up);pad.addEventListener('lostpointercapture',up);   /* a lost capture is a lift: never a finger stuck down */
     const ro=new ResizeObserver(()=>{const r=pad.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);cv.width=Math.max(2,Math.round(r.width*d));cv.height=Math.max(2,Math.round(r.height*d))});ro.observe(pad)}
-  function dropDel(i){if(!DR[i])return;const n=NAMES[MIX.slots[DR[i].s].kind];DR.splice(i,1);MIX.drops.splice(i,1);mixSave();toast(n+' taken off the pad',1600)}
+  function dropDel(i){if(!DR[i])return;if(HALO===i)haloClose();else if(HALO>i)HALO--;const n=NAMES[MIX.slots[DR[i].s].kind];DR.splice(i,1);MIX.drops.splice(i,1);mixSave();toast(n+' taken off the pad',1600)}
   /* the pad's picture: a faint grid of thirds, your trail and finger in your part's color, a ring for each sound you play, the sounds you left */
   /* the plane: tenths faint, the two axes through the middle with ticks, A B C D at their ends with what they are and
      what they play there, E F H G in the corners */
@@ -12591,16 +12673,23 @@ const ENS=window.ENS=(function(){
     const yA=m?axName(m.y[0])+' '+val(m.y,1):'',yB=m?axName(m.y[0])+' '+val(m.y,0):'',xC=m?axName(m.x[0])+' '+val(m.x,0):'',xD=m?axName(m.x[0])+' '+val(m.x,1):'';
     lab('A '+num(1)+' · '+S.A,yA,w/2+pad,pad,'left','top');lab('B '+num(0)+' · '+S.B,yB,w/2+pad,h-pad,'left','bottom');
     lab('C '+num(0)+' · '+S.C,xC,pad,h/2+pad,'left','top');lab('D '+num(1)+' · '+S.D,xD,w-pad,h/2+pad,'right','top');
-    g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.4)';g.textBaseline='top';g.textAlign='left';g.fillText('E',pad,pad);g.textAlign='right';g.fillText('F',w-pad,pad);
-    g.textBaseline='bottom';g.textAlign='left';g.fillText('H',pad,h-pad);g.textAlign='right';g.fillText('G',w-pad,h-pad)}
+    const cn=k=>{if(!isCorners())return'';const i=MIX.corners[k];return i>=0&&MIX.slots[i]?' '+NAMES[MIX.slots[i].kind]+' '+Math.round(cornerW(k)*100):''};
+    g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.fillStyle=isCorners()?'rgba(232,241,242,.85)':'rgba(232,241,242,.4)';g.textBaseline='top';g.textAlign='left';g.fillText('E'+cn(0),pad,pad);g.textAlign='right';g.fillText('F'+cn(1),w-pad,pad);
+    g.textBaseline='bottom';g.textAlign='left';g.fillText('H'+cn(2),pad,h-pad);g.textAlign='right';g.fillText('G'+cn(3),w-pad,h-pad);
+    if(isCorners()){g.textAlign='center';g.textBaseline='middle';g.fillStyle='rgba(232,241,242,.7)';g.fillText(cur&&cur.bed?'bed '+Math.round(centreW()*100):'·',w/2,h/2-fs*1.2)}}
   let PVCV=null;function pvDraw(){if(!pvEl)return;const cv=PVCV||(PVCV=pvEl.querySelector('.pv-pad canvas')),g=cv.getContext('2d'),w=cv.width,h=cv.height,now=performance.now(),col=cur?cur.color:'#fff';if(!w)return;
     g.clearRect(0,0,w,h);pvAxes(g,w,h);
     if(IN.on){TRAIL.push([IN.x,IN.y,now]);if(TRAIL.length>90)TRAIL.shift()}while(TRAIL.length&&now-TRAIL[0][2]>1600)TRAIL.shift();
     g.lineCap='round';for(let i=1;i<TRAIL.length;i++){const a=TRAIL[i-1],b=TRAIL[i];g.globalAlpha=Math.max(0,1-(now-b[2])/1600)*.7;g.strokeStyle=col;g.lineWidth=Math.max(2,h/90);g.beginPath();g.moveTo(a[0]*w,(1-a[1])*h);g.lineTo(b[0]*w,(1-b[1])*h);g.stroke()}
-    g.globalAlpha=1;for(let i=PRINGS.length-1;i>=0;i--){const q=PRINGS[i],u=(now-q.t)/1100;if(u>=1){PRINGS.splice(i,1);continue}g.globalAlpha=(1-u)*.8;g.strokeStyle=col;g.lineWidth=Math.max(1.5,h/220);g.beginPath();g.arc(q.x*w,(1-q.y)*h,h*(.03+.12*u),0,7);g.stroke()}
-    g.globalAlpha=1;DR.forEach((d,i)=>{const x=d.x*w,y=(1-d.y)*h,r=Math.max(9,h/36);g.fillStyle=col;g.globalAlpha=.25;g.beginPath();g.arc(x,y,r*1.6,0,7);g.fill();g.globalAlpha=.95;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+    g.globalAlpha=1;for(let i=PRINGS.length-1;i>=0;i--){const q=PRINGS[i],u=(now-q.t)/1100;if(u>=1){PRINGS.splice(i,1);continue}g.globalAlpha=(1-u)*.8;g.strokeStyle=q.c||col;g.lineWidth=Math.max(1.5,h/220);g.beginPath();g.arc(q.x*w,(1-q.y)*h,h*(.03+.12*u),0,7);g.stroke();
+      if(q.n&&u<.7){const fs=Math.max(Math.round(12*Math.min(2,devicePixelRatio||1)),Math.round(h/34));g.globalAlpha=(1-u/.7)*.95;g.fillStyle=q.c||col;g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='bottom';g.fillText(q.n,q.x*w,(1-q.y)*h-h*(.05+.12*u))}}
+    g.globalAlpha=1;DR.forEach((d,i)=>{const big=i===DRAGI||i===HOVI||i===HALO,x=d.x*w,y=(1-d.y)*h,r=Math.max(9,h/36)*(big?1.35:1),col=SLOTC[d.s%SLOTC.length];g.fillStyle=col;g.globalAlpha=.25;g.beginPath();g.arc(x,y,r*1.6,0,7);g.fill();g.globalAlpha=.95;g.beginPath();g.arc(x,y,r,0,7);g.fill();
       g.fillStyle='#071012';g.font='700 '+Math.round(r*1.05)+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='middle';g.fillText(String(d.s+1),x,y+.5);
-      g.fillStyle=col;g.globalAlpha=.8;g.font='600 '+Math.round(r*.8)+'px ui-monospace,Menlo,monospace';g.fillText(d.every+(d.every>1?' beats':' beat'),x,y+r*2.1)});
+      if(i===HALO)return;const dp=Math.min(2,devicePixelRatio||1),fs=Math.max(Math.round(12*dp),Math.round(r*(big?.95:.85))),t=NAMES[MIX.slots[d.s].kind]+(big?' · every '+d.every+(d.g!=null&&d.g!==1?' · '+Math.round(d.g*100)+'%':''):''),
+        t2=big&&i===HOVI&&i!==DRAGI?'double-tap to adjust':'';g.font='700 '+fs+'px ui-monospace,Menlo,monospace';const tw=Math.max(g.measureText(t).width,t2?g.measureText(t2).width*.8:0)+fs*.9,ty=y+r*1.75,th=fs*1.45+(t2?fs*1.1:0);
+      g.globalAlpha=.88;g.fillStyle='#071012';if(g.roundRect){g.beginPath();g.roundRect(x-tw/2,ty,tw,th,fs*.4);g.fill()}else g.fillRect(x-tw/2,ty,tw,th);
+      g.globalAlpha=1;g.strokeStyle=col;g.lineWidth=Math.max(1,dp);if(g.roundRect){g.beginPath();g.roundRect(x-tw/2,ty,tw,th,fs*.4);g.stroke()}
+      g.fillStyle=col;g.textBaseline='top';g.fillText(t,x,ty+fs*.22);if(t2){g.font='500 '+Math.round(fs*.8)+'px ui-monospace,Menlo,monospace';g.fillStyle='rgba(232,241,242,.7)';g.fillText(t2,x,ty+fs*1.4)}});
     g.globalAlpha=1;const fx=PAD.x*w,fy=(1-PAD.y)*h;g.strokeStyle=col;g.lineWidth=Math.max(1.5,h/260);g.globalAlpha=IN.on?1:.45;g.beginPath();g.arc(fx,fy,Math.max(10,h/30),0,7);g.stroke();
     if(IN.on){g.fillStyle=col;g.beginPath();g.arc(fx,fy,Math.max(4,h/90),0,7);g.fill()}g.globalAlpha=1;
     const M=MIX?mod():null,ro=pvEl.querySelector('.pv-rdout');if(M&&MIX){const cz=MIX.zero==='centre',q=v=>cz?Math.round(v*200-100):Math.round(v*100),t='x '+q(PAD.x)+'  y '+q(PAD.y)+'   '+axName(MIX.map.y[0])+' '+Math.round(axisVal(MIX.map.y,PAD.y)*100)+' · '+axName(MIX.map.x[0])+' '+Math.round(axisVal(MIX.map.x,PAD.x)*100);if(ro.textContent!==t)ro.textContent=t}}
@@ -12622,6 +12711,7 @@ const ENS=window.ENS=(function(){
     else if(k==='['||k===']'){if(MIX){MIX.lvl=Math.max(0,Math.min(1.5,MIX.lvl+(k===']'?.1:-.1)));chainSet();mixSave();if(pvTab==='mix')pvSide();toast('part level '+Math.round(MIX.lvl*100)+'%',1200)}}
     else if(k==='d'||k==='D'){if(MIX&&DR.length<12){MIX.drops.push({x:PAD.x,y:PAD.y,s:LASTS,every:4});DR.push({x:PAD.x,y:PAD.y,s:LASTS,every:4,next:null});mixSave();toast(NAMES[MIX.slots[LASTS].kind]+' left on the pad',1600)}}
     else if(k==='r'||k==='R')ready(!RD.on);
+    else if(k==='f'||k==='F')pvBehindSet(!pvBehind);
     else if(k==='?'){pvTab='keys';pvSide()}
     else if(k==='Escape'&&ARM>=0){ARM=-1;pvSide()}
     else done=false;
@@ -12633,14 +12723,14 @@ const ENS=window.ENS=(function(){
   function linkFor(id,c){const base=/works\.chamy\.xyz/.test(location.host)?location.origin+location.pathname:'https://works.chamy.xyz/current/';return base+'?part='+id+'&room='+(c||CODE)}
   function links(){const c=code()||CODE;return 'Current · the ensemble · room '+c+'\n'+PARTS.map((p,i)=>(i+1)+'. '+p.name+': '+linkFor(p.id,c)).join('\n')+'\nThe screen (projector): '+linkFor('screen',c)}
   function paint(){const H_=document.documentElement;H_.classList.toggle('inPart',!!(cur||screen));
-    const pill=$e('partPill');if(pill){const P=cur||(screen?SCREEN:null);pill.hidden=!P;if(P){pill.style.setProperty('--pc',P.color);$e('partPillTxt').textContent=P.name+(screen?' · '+[...marks.values()].filter(m=>m.live).length+' playing':'');pill.setAttribute('aria-label','Ensemble: you play '+P.name+'. Open the ensemble')}}
+    const pill=$e('partPill');if(pill){const P=cur||(screen?SCREEN:null);pill.hidden=!P;if(P){pill.style.setProperty('--pc',P.color);$e('partPillTxt').textContent=P.name+(screen?' · '+[...marks.values()].filter(m=>m.live).length+' playing':'');pill.setAttribute('aria-label','Ensemble: you play '+P.name+(cur&&!pvWant?'. Back to the player view':'. Open the ensemble'))}}
     try{pvApply()}catch(e){console.warn('pv',e)}
     const s=$e('ens');if(!s)return;if(SHOW())s.hidden=false;
     const pvb=$e('ensPV');if(pvb){pvb.hidden=!cur;pvb.setAttribute('aria-pressed',String(pvWant));pvb.textContent=pvWant?'Player view: on':'Player view: off'}
     s.querySelectorAll('[data-part]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.part===(screen?'screen':cur?cur.id:''))));
     const rr=$e('roomReady');if(rr){rr.setAttribute('aria-pressed',String(RD.on));rr.textContent=RD.on?'Ready: on (tap to undo)':'Ready to perform'}
     const rb=$e('ensReady');if(rb){rb.setAttribute('aria-pressed',String(RD.on));rb.textContent=RD.on?'Ready: on (tap to undo)':'Ready to perform'}
-    const ob=$e('ensOut');if(ob){ob.hidden=!(screen&&window.OUTPUT);if(window.OUTPUT)ob.textContent=OUTPUT.isOpen()?'projector window: on':'projector window'}
+    const ob=$e('ensOut');if(ob){ob.hidden=!(screen&&window.OUTPUT);if(window.OUTPUT)ob.textContent=OUTPUT.isOpen()?'clean output window: on':'clean output window'}
     const P=cur,lg=s.querySelector('.ens-legend');
     lg.innerHTML=P?'<dl><dt>Tap</dt><dd>'+P.say.tap+'</dd><dt>Drag</dt><dd>'+P.say.drag+'</dd><dt>Hold</dt><dd>'+P.say.hold+'</dd>'+(P.say.bed?'<dt>Under it</dt><dd>'+P.say.bed+'</dd>':'')+'<dt>Your finger</dt><dd>up is higher, right is wetter</dd></dl>':screen?'<p class="ens-note">This screen plays no sound. Every player&rsquo;s finger pulls the current here, in the color of its part.</p>':'<p class="ens-note">Choose your part.</p>';
     const c=code(),st=s.querySelector('.ens-st');
@@ -12651,7 +12741,7 @@ const ENS=window.ENS=(function(){
       '<div class="ens-parts" role="radiogroup" aria-label="Your part">'+PARTS.map((p,i)=>'<button type="button" role="radio" data-part="'+p.id+'" style="--pc:'+p.color+'"><i aria-hidden="true"></i><b>'+(i+1)+' · '+p.name+'</b><small>'+[p.say.tap,p.say.drag,p.say.hold.split(':')[0]].join(' · ')+'</small></button>').join('')+
       '<button type="button" role="radio" data-part="screen" style="--pc:#fff"><i aria-hidden="true"></i><b>The screen</b><small>for the projector: every player&rsquo;s finger, no sound</small></button><button type="button" role="radio" data-part=""><i aria-hidden="true"></i><b>No part</b><small>Current as usual</small></button></div>'+
       '<div class="room-f"><button type="button" class="btn ghost" id="ensPV" aria-pressed="true" hidden>Player view</button></div><p class="ens-note"><b>Player view</b>: no field on a player&rsquo;s screen, only the sound: a 16:9 pad the shape of the screen&rsquo;s picture, a mixer of the part&rsquo;s voices (level, timbre, grain, pitch, what plays them), the pad&rsquo;s map, sounds left on the pad, and the keys. Off shows the field as usual.</p>'+
-      '<div class="room-f"><button type="button" class="btn" id="ensReady" aria-pressed="false">Ready to perform</button><button type="button" class="btn ghost" id="ensOut" hidden>projector window</button></div>'+
+      '<div class="room-f"><button type="button" class="btn" id="ensReady" aria-pressed="false">Ready to perform</button><button type="button" class="btn ghost" id="ensOut" hidden>clean output window</button></div>'+
       '<p class="ens-note">Ready to perform turns off the paths, hints and notices, keeps the screen awake, and nothing reloads. On the screen it also hides every control and goes full screen, for a clean picture to the projector. Tap it again to put everything back.</p>'+
       '<div class="ens-legend"></div><p class="ens-st" role="status"></p>'+
       '<div class="room-f"><button type="button" class="btn ghost" id="ensCopy">copy the six links</button></div>'+
@@ -12665,7 +12755,7 @@ const ENS=window.ENS=(function(){
     const rmL=$e('roomL')||$e('room');if(rmL){const f=document.createElement('div');f.className='room-f';f.innerHTML='<button type="button" class="btn ghost" id="roomReady" aria-pressed="false">Ready to perform</button>';rmL.appendChild(f);$e('roomReady').onclick=()=>ready(!RD.on)}
     const pl=document.createElement('button');pl.type='button';pl.id='partPill';pl.hidden=true;pl.innerHTML='<i aria-hidden="true"></i><span id="partPillTxt"></span>';document.body.appendChild(pl);
     ['pointerdown','touchstart','mousedown'].forEach(t=>pl.addEventListener(t,e=>e.stopPropagation()));
-    pl.onclick=()=>{setPlayer(false);setTimeout(()=>{try{if(window.SurfaceSections)SurfaceSections.open('ens')}catch(_){}const s=$e('ens');if(s){s.classList.remove('cx-shut');s.scrollIntoView({block:'start'})}},60)}})();
+    pl.onclick=()=>{if(cur&&!pvWant){pvSet(true);toast(cur.name+': the player view',1600);return}   /* from the field, one tap back to performing (Dimitry, 29 Oct 15:57) */setPlayer(false);setTimeout(()=>{try{if(window.SurfaceSections)SurfaceSections.open('ens')}catch(_){}const s=$e('ens');if(s){s.classList.remove('cx-shut');s.scrollIntoView({block:'start'})}},60)}})();
   /* a finger on the stage starts the sound (a browser lets sound start only inside a touch) */
   $e('stage').addEventListener('pointerdown',()=>{if(!cur)return;const c=ensureCtx();if(!c)return;if(c.state!=='running')try{c.resume()}catch(_){}if(!AUD.water||AUD.water.c!==c)waterRoute();setTimeout(()=>wetApply(0,true),80)},true);
   /* the link, or the part chosen last time */
@@ -12677,7 +12767,7 @@ const ENS=window.ENS=(function(){
   document.addEventListener('visibilitychange',()=>{if(document.hidden)lift()});   // a hidden page's frames stop: nothing left held
   try{if(sessionStorage.getItem('current.ready')==='1')addEventListener('load',()=>setTimeout(()=>ready(true,true),1200))   // a rescue reload comes back ready
     else if(localStorage.getItem('current.ready.was'))addEventListener('load',()=>setTimeout(()=>{RD.on=true;RD.was=JSON.parse(localStorage.getItem('current.ready.was')||'{}');ready(false)},1200))}catch(_){}   // a new tab after a show: everything back as it was
-  return{tick,frame,draw,F,depth,set,lift,ready,pvOn:()=>pvOn,pvTick,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
+  return{tick,frame,draw,F,depth,set,lift,ready,pv:v=>pvSet(v),pvOn:()=>pvOn,pvBehind:()=>pvOn&&pvBehind,pvFeed,pvDraw:()=>{try{pvDraw()}catch(_){}},pvTick,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
 })();
 </script>
 <script>/* Surface · Sections: the index as a mini Codex. Drag a section by its grip, keep one open with its pin, fold all,
@@ -12729,7 +12819,12 @@ try{const sa=document.querySelector('#srAuto svg');if(sa&&window.SurfaceAuto&&Su
   const ORDER=['session','audience','perform','board','output','pulse','dice.seq','instruments','material','blend','video.long','beats.more','beats.export'];
   const T2=T.slice().sort((a,b)=>(ORDER.indexOf(a.id)+99)%99-(ORDER.indexOf(b.id)+99)%99);
   const NAME={session:'Room'},MOVE={session:'room',audience:'aud'};
-  const SHOW={perform:()=>{try{SurfaceLinks.go('performRow')}catch(_){}},instruments:()=>openMix('pack'),material:()=>openMix('water'),'beats.more':()=>openMix('beat'),'beats.export':()=>openMix('beat')};
+  /* SWITCHES, NOT SHOW ME (Dimitry, 29 Oct 16:03: "show me just reloads index, no performance board initialize button"):
+     Performing, the board and the clean output switch on and off right here, their buttons saying what they are now */
+  const ACT={perform:{label:()=>window.SurfacePerform&&SurfacePerform.manual()?'Performing: on (tap to stop)':'Start performing',run:()=>{SurfacePerform.set(!SurfacePerform.manual());toast(SurfacePerform.manual()?'performing: nothing reloads, the screen stays awake':'performing is off',2400)}},
+    board:{label:()=>!window.BOARD?'not on this device':!BOARD.fits()?'needs a wider screen (a laptop or a tablet on its side)':BOARD.on()?'Board: on (tap to close)':'Open the performance board',run:()=>{if(!window.BOARD||!BOARD.fits()){toast('the performance board needs a wider screen',2400);return}if(!isPro('board')){try{openBetaSheet()}catch(_){}return}BOARD.toggle();try{setPlayer(true)}catch(_){}}},
+    output:{label:()=>!window.OUTPUT?'this browser cannot (on a phone or tablet, mirror the screen)':OUTPUT.isOpen()?'Clean output: on (tap to close)':'Open the clean output',run:()=>{if(!window.OUTPUT)return;if(OUTPUT.isOpen())OUTPUT.close();else if(!OUTPUT.open())toast('The browser blocked the window: allow pop-ups for this site, then tap again',4200)}}};
+  const SHOW={instruments:()=>openMix('pack'),material:()=>openMix('water'),'beats.more':()=>openMix('beat'),'beats.export':()=>openMix('beat')};
   const esc=x=>String(x).replace(/[&<]/g,c=>c==='&'?'&amp;':'&lt;');
   const sec=document.createElement('section');sec.className='cx-grp';sec.id='pro';
   sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="proL"><span>Pro</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="cx-gbody" id="proL">'+
@@ -12739,6 +12834,8 @@ try{const sa=document.querySelector('#srAuto svg');if(sa&&window.SurfaceAuto&&Su
     li.innerHTML='<button type="button" class="cx-go" aria-expanded="true"><i>'+String(++n).padStart(2,'0')+'</i><span>'+esc(nm)+secPro(f.id)+'</span><b class="cx-f" aria-hidden="true"></b></button><div class="cx-body"><p>'+esc(f.note.charAt(0).toUpperCase()+f.note.slice(1))+'.</p></div>';
     const body=li.querySelector('.cx-body'),old=MOVE[f.id]&&$(MOVE[f.id]);
     if(old&&old.classList.contains('cx-grp')){const gb=old.querySelector(':scope>.cx-gbody');if(gb){body.textContent='';while(gb.firstChild)body.appendChild(gb.firstChild)}old.remove();li.id=MOVE[f.id]}
+    else if(ACT[f.id]){const A=ACT[f.id],b=document.createElement('button');b.type='button';b.className='btn ghost';const lab=()=>{try{b.textContent=A.label()}catch(_){b.textContent='switch'}};lab();setTimeout(lab,1500);   /* the board mounts later */
+      b.onclick=()=>{try{A.run()}catch(e){console.warn('pro switch',e)}setTimeout(lab,150)};document.addEventListener('surfaceperform',lab);setInterval(()=>{if(b.isConnected&&b.offsetParent)lab()},1500);const p=document.createElement('p');p.appendChild(b);body.appendChild(p)}
     else if(SHOW[f.id]){const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent='Show me';b.onclick=()=>{try{SHOW[f.id]()}catch(_){}};const p=document.createElement('p');p.appendChild(b);body.appendChild(p)}
     li.querySelector('.cx-go').onclick=()=>{const on=li.classList.toggle('cx-shut');li.querySelector('.cx-go').setAttribute('aria-expanded',String(!on))};
     ol.appendChild(li)}
@@ -13304,7 +13401,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.38.0';
+const APP_VERSION='0.38.1';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

@@ -104,15 +104,21 @@
     /* water meets water in a smooth union (a polynomial smooth max), so a bead near the pool's edge is joined to it by a
        fillet, the way a meniscus bridges, never two outlines side by side */
     "float wetMix(float f, float b){ float k = 0.2, h = max(k-abs(f-b), 0.0)/k; return max(f, b) + h*h*k*0.25; }\n" +
-    "float floorAt(vec2 uv){ vec2 sz = vec2(textureSize(uFloor,0)), p = uv*sz-0.5, i = floor(p), f = p-i, f2 = f*f, f3 = f2*f;\n" +
+    "float bsamp(sampler2D T, vec2 uv){ vec2 sz = vec2(textureSize(T,0)), p = uv*sz-0.5, i = floor(p), f = p-i, f2 = f*f, f3 = f2*f;\n" +
     "  vec2 w0 = (1.0-3.0*f+3.0*f2-f3)/6.0, w1 = (4.0-6.0*f2+3.0*f3)/6.0, w2 = (1.0+3.0*f+3.0*f2-3.0*f3)/6.0, w3 = f3/6.0;\n" +
     "  vec2 g0 = w0+w1, g1 = w2+w3, h0 = (i-0.5+w1/g0)/sz, h1 = (i+1.5+w3/g1)/sz;\n" +
-    "  return g0.y*(g0.x*texture(uFloor,h0).r + g1.x*texture(uFloor,vec2(h1.x,h0.y)).r) + g1.y*(g0.x*texture(uFloor,vec2(h0.x,h1.y)).r + g1.x*texture(uFloor,h1).r); }\n";
+    "  return g0.y*(g0.x*texture(T,h0).r + g1.x*texture(T,vec2(h1.x,h0.y)).r) + g1.y*(g0.x*texture(T,vec2(h0.x,h1.y)).r + g1.x*texture(T,h1).r); }\n" +
+    "float floorAt(vec2 uv){ return bsamp(uFloor, uv); }\n" +
+    /* WATER WHERE IT FELL (Dimitry, 29 Oct 16:04: "water should accumulate where the water is being sprinkled…. not
+       elsewhere"): uPool holds the standing water's surface (the floor plus what has collected there, lower than the
+       floor where none has), read smoothly; a place is wet where that surface is above its floor. uGK is how much of the
+       old, everywhere-at-once level still counts (none when the water only falls where a finger is). */
+    "float wetAtF(vec2 uv, float n){ return max(floorWet(n, uLevel*uGK), smoothstep(n-0.012, n+0.012, bsamp(uPool, uv))); }\n";
   /* the wave step (Water Kit's FS_WAVE): r = height now, g = height a step ago; with the floor on (uFill), b = the beads
      of water a splash left (they stay), a = a splash's flash (it fades in a few frames) */
   var FS_WAVE = HEAD +
     "uniform sampler2D uState, uCur; uniform float uC2, uDamp, uAdv; uniform vec4 uDrops[16]; uniform int uCount; uniform float uAsp;\n" +
-    "uniform float uFill, uLevel; uniform sampler2D uFloor, uBeads;\n" +
+    "uniform float uFill, uLevel, uGK; uniform sampler2D uFloor, uBeads, uPool;\n" +
     "out vec4 o;\n" + GL_FLOOR +
     "ivec2 cl(ivec2 p, ivec2 n){ return clamp(p, ivec2(0), n-1); }\n" +
     "void main(){\n" +
@@ -130,7 +136,7 @@
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
     "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
-    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, wetMix(floorWet(floorAt((vec2(p)+0.5)/vec2(n)), uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, wetMix(wetAtF((vec2(p)+0.5)/vec2(n), floorAt((vec2(p)+0.5)/vec2(n))), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
@@ -140,10 +146,10 @@
   var FS_SHOW = HEAD +
     "in vec2 vUv; out vec4 o;\n" +
     "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus, uQ; uniform vec2 uPx;\n" +
-    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor, uBeads;\n" + GL_FLOOR +
+    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark, uGK; uniform sampler2D uFloor, uBeads, uPool;\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
-    "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, wetMix(floorWet(texture(uFloor,uv).r, uLevel), b*0.6)); }\n" +
+    "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, wetMix(wetAtF(uv, texture(uFloor,uv).r), b*0.6)); }\n" +
     /* the waves where the water stands (hAt), and the meniscus at a puddle's rim (menAt), apart: the rim is read at half a
        field cell, so its line is as fine as the floor and the beads it comes from, not the field's steps (Dimitry, 29 Oct
        14:33: "water fill needs more resolution or a better formula") */
@@ -203,6 +209,7 @@
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.7, CAP = o.max || 960, Q = 1, slowT = 0;   // finer than it was (0.5, 512): small drops rang as squares (Dimitry, 29 Oct: "very low rez")
     var SW = 0, SH = 0, lastMove = null;
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
+    var GK = 1, PL = null, plTex = null, plDirty = true, plAt = 0;   // the pool where the water fell (pourAt, poolStep)
     var FILL = null, FLB = null, flTex = null, fullT = 0, BEADS = [], FLY = [], bdCv = null, bdCx = null, bdTex = null, bdDirty = true, SPRB = null;
     var offFade = 0, fadeT = 0, sig = 1, sigT = 1, HO = null, enTex = null, enFbo = null, enBuf = new Uint8Array(16 * 16 * 4), enAt = -1e9, enVal = 0;
 
@@ -230,7 +237,7 @@
         if ((cbf || cbh) && testFmt(gl.RGBA16F, gl.HALF_FLOAT)) fmt = [gl.RGBA16F, gl.HALF_FLOAT];
         else if (cbf && gl.getExtension("OES_texture_float_linear") && testFmt(gl.RGBA32F, gl.FLOAT)) fmt = [gl.RGBA32F, gl.FLOAT];
         else return;
-        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW); try { prog.en = program(FS_EN); } catch (_) { prog.en = null; } enTex = enFbo = null; bdTex = flTex = null; FLB = null; bdDirty = true;   /* a restored context owns none of the old textures (review bc62d0e r-1) */
+        prog.wave = program(FS_WAVE); prog.show = program(FS_SHOW); try { prog.en = program(FS_EN); } catch (_) { prog.en = null; } enTex = enFbo = null; bdTex = flTex = null; FLB = null; plTex = null; poolUpload.need = true; bdDirty = true;   /* a restored context owns none of the old textures (review bc62d0e r-1) */
         buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
         srcTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, srcTex);
@@ -282,7 +289,7 @@
       for (var i = 0; i < d.length; i++) a.set(d[i], i * 4);
       gl.uniform4fv(pw.u.uDrops, a); gl.uniform1i(pw.u.uCount, d.length);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(pw.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
-      gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0);
+      if (fo) poolBind(pw, 5); gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0); gl.uniform1f(pw.u.uGK, GK);
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(pw.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); cur = 1 - cur;
     }
@@ -300,7 +307,7 @@
       gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus); gl.uniform1f(ps.u.uQ, Q);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(ps.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
-      gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0);
+      if (fo) poolBind(ps, 5); gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0); gl.uniform1f(ps.u.uGK, GK);
       /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
       gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
       var tc = rgb(COL.tint), gc = rgb(COL.glint), cc = rgb(COL.caustic);
@@ -357,6 +364,7 @@
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
       var shortPx = Math.min(N[0], N[1]), r = Math.max(2.6, (size == null ? P.size : size) * shortPx);   // under ~2.5 cells a drop's rings are finer than the grid can hold and read as a checkerboard
       if (FILL != null && wetAt(x, y) < 0.5) { splash(x, y, size, strength); return; }
+      if (FILL != null && FILL < 1) { var sz1 = size == null ? P.size : size; pourAt(x, y, 0.015 * Math.pow(Math.max(0.004, sz1) / 0.01, 2), sz1 * 2); }   // rain into a puddle feeds it
       if (drops.length >= 48) drops.shift();
       /* field y runs up; the caller's y runs down */
       drops.push([x, 1 - y, r, (strength == null ? 1 : strength) * 0.9]); quiet = 0;
@@ -373,17 +381,46 @@
       if (!ok || !N[0]) return; var w = Math.round(N[0] * 2), h = Math.round(N[1] * 2); if (FLB && FLB.w === w && FLB.h === h) return;
       var a = new Float32Array(w * h);   // floats, not bytes: a byte's steps showed as dots along a rim
       for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) a[y * w + x] = floorN((x + 0.5) / h, (y + 0.5) / h);
-      if (!flTex) { flTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      if (!flTex) { flTex = gl.createTexture(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
-      gl.bindTexture(gl.TEXTURE_2D, flTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, w, h, 0, gl.RED, gl.FLOAT, a); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
+      gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, w, h, 0, gl.RED, gl.FLOAT, a); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4); gl.activeTexture(gl.TEXTURE0);   /* uploads keep off unit 0, where the wave sits (review 47ee r-1) */
       FLB = { w: w, h: h, a: a };
     }
     function sstep(a, b, v) { var t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
     function wetAt(x, y) { if (FILL == null) return 1; floorBake(); if (!FLB) return 1;
-      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix], L = FILL * 1.15 - 0.08;
-      return sstep(n - 0.06, n + 0.06, L); }
+      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix], L = FILL * GK * 1.15 - 0.08;
+      return Math.max(sstep(n - 0.06, n + 0.06, L), sstep(n - 0.012, n + 0.012, poolSurf(x, y))); }
     /* the floor is on while it is filling, and while a full pool still has splashes to finish; a full, settled pool takes
        the old path (no floor reads at all) */
+    /* the pool: a coarse grid of how much water stands where, poured in by every drop and splash, running downhill on the
+       floor's relief to the hollows near where it fell, never across the room */
+    function poolInit() { if (!N[0]) return null; var w = Math.max(32, Math.round(N[0] / 8)), h = Math.max(18, Math.round(N[1] / 8));
+      if (PL && PL.w === w && PL.h === h) return PL; var old = PL;
+      var f = new Float32Array(w * h); for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) f[y * w + x] = floorN((x + 0.5) / h, (y + 0.5) / h);
+      PL = { w: w, h: h, d: new Float32Array(w * h), f: f, m: new Float32Array(w * h), up: new Float32Array(w * h) };
+      if (old) for (var y2 = 0; y2 < h; y2++) for (var x2 = 0; x2 < w; x2++) PL.d[y2 * w + x2] = old.d[Math.min(old.h - 1, Math.floor(y2 * old.h / h)) * old.w + Math.min(old.w - 1, Math.floor(x2 * old.w / w))];   /* a resize keeps the puddles (review 47ee r-4) */
+      plDirty = true; return PL; }
+    function pourAt(x, y, vol, rad) { var P2 = poolInit(); if (!P2 || !(vol > 0)) return; var cx = x * P2.w, cy = (1 - y) * P2.h, R = Math.max(0.8, rad * P2.h), R2 = 2 * R * R, sum = 0, i, j, c = Math.ceil(R * 2.2);
+      var x0 = Math.max(0, Math.floor(cx - c)), x1 = Math.min(P2.w - 1, Math.ceil(cx + c)), y0 = Math.max(0, Math.floor(cy - c)), y1 = Math.min(P2.h - 1, Math.ceil(cy + c));
+      for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) sum += Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2);
+      if (!(sum > 0)) return; for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) P2.d[j * P2.w + i] += vol * Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2) / sum;
+      plDirty = true; }
+    function poolStep() { var P2 = PL; if (!P2 || !plDirty) return; var w = P2.w, h = P2.h, d = P2.d, f = P2.f, m = P2.m, moved = 0;
+      for (var it = 0; it < 2; it++) { m.fill(0);
+        for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) { var c = y * w + x, dc = d[c]; if (dc <= 0.012) continue;   /* a film this thin holds (surface tension): water runs to hollows, not across the floor */ var hc = f[c] + dc, best = -1, hb = hc;
+          if (x > 0 && f[c - 1] + d[c - 1] < hb) { hb = f[c - 1] + d[c - 1]; best = c - 1; } if (x < w - 1 && f[c + 1] + d[c + 1] < hb) { hb = f[c + 1] + d[c + 1]; best = c + 1; }
+          if (y > 0 && f[c - w] + d[c - w] < hb) { hb = f[c - w] + d[c - w]; best = c - w; } if (y < h - 1 && f[c + w] + d[c + w] < hb) { hb = f[c + w] + d[c + w]; best = c + w; }
+          if (best < 0) continue; var mv = Math.min(dc - 0.012, (hc - hb) * 0.45); if (mv > 1e-6) { m[c] -= mv; m[best] += mv; moved += mv; } }
+        for (var k = 0; k < d.length; k++) d[k] = Math.max(0, d[k] + m[k]); }
+      if (moved < 1e-5) plDirty = false; poolUpload.need = true; }
+    function poolUpload() { var P2 = PL; if (!P2) return; var now = performance.now(); if (!poolUpload.need || now - plAt < 66) return; plAt = now; poolUpload.need = false;
+      for (var k = 0; k < P2.d.length; k++) P2.up[k] = P2.d[k] > 0.006 ? P2.f[k] + P2.d[k] : P2.f[k] - 0.06;   // no water: the surface sits below the floor
+      if (!plTex) { plTex = gl.createTexture(); gl.activeTexture(gl.TEXTURE5); gl.bindTexture(gl.TEXTURE_2D, plTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
+      gl.activeTexture(gl.TEXTURE5); gl.bindTexture(gl.TEXTURE_2D, plTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, P2.w, P2.h, 0, gl.RED, gl.FLOAT, P2.up); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4); gl.activeTexture(gl.TEXTURE0); }
+    function poolBind(pr, unit) { poolInit(); if (!plTex) { poolUpload.need = true; plAt = 0; poolUpload(); } gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, plTex); gl.uniform1i(pr.u.uPool, unit); gl.activeTexture(gl.TEXTURE0); }
+    function poolSurf(x, y) { var P2 = PL; if (!P2) return -1; var i = Math.max(0, Math.min(P2.w - 1, Math.floor(x * P2.w))), j = Math.max(0, Math.min(P2.h - 1, Math.floor((1 - y) * P2.h))), c = j * P2.w + i; return P2.d[c] > 0.006 ? P2.f[c] + P2.d[c] : -1; }
+    function cover() { var P2 = PL; if (!P2) return 0; var n = 0; for (var k = 0; k < P2.d.length; k++) if (P2.d[k] > 0.004) n++; return n / P2.d.length; }
     function floorOn() { return FILL != null && (FILL < 1 || FLY.length > 0 || fullT < 0.6); }
     /* BEADS, AS RAIN ON GLASS HAS THEM (Dimitry, 29 Oct 07:32: the flashes "don't look like raindrops ... little individual
        droplets that sort of explode out from a center in a radial formation ... those patterns should stay on the ground in
@@ -415,6 +452,7 @@
       beadCanvas();
       var W2 = bdCv.width, H2 = bdCv.height, sp = Math.min(W2, H2), sz = Math.max(0.004, size == null ? P.size : size), r = Math.max(3, sz * sp * 1.3), k = Math.min(1.4, Math.max(0.4, strength == null ? 1 : strength));
       var cx = x * W2, cy = y * H2;
+      pourAt(x, y, 0.03 * Math.pow(sz / 0.01, 2) * k, sz * 2.2);   // the water it brought stays here, and runs to the nearest hollow
       bead(cx, cy, r);                                                    // where it struck
       /* the crown: droplets thrown out evenly round, a little uneven in angle, reach and size; a few go farther */
       var n = 9 + Math.round(Math.random() * 7 * k), a0 = Math.random() * 6.283;
@@ -449,7 +487,7 @@
       BEADS = keep;
     }
     function beadTex() {
-      if (!bdTex) { bdTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      if (!bdTex) { bdTex = gl.createTexture(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); bdDirty = true; }
       if (!bdDirty) return; var now = performance.now(); if (now - (beadTex.at || 0) < 33 && FLY.length) return; beadTex.at = now; bdDirty = false; beadCanvas();   /* at most 30 redraws a second while drops are in the air */
       var x = bdCx, spr = beadSprites(); x.globalCompositeOperation = "source-over"; x.clearRect(0, 0, bdCv.width, bdCv.height); x.fillStyle = "#000"; x.fillRect(0, 0, bdCv.width, bdCv.height);
@@ -459,7 +497,7 @@
       for (var j = 0; j < FLY.length; j++) { var f = FLY[j], e = 1 - Math.pow(1 - Math.min(1, f.t), 2.2), fx = f.x0 + (f.x1 - f.x0) * e, fy = f.y0 + (f.y1 - f.y0) * e, fr = f.r * (0.7 + 0.3 * e);
         x.globalAlpha = 0.9; x.drawImage(spr[f.v], fx - fr, fy - fr, fr * 2, fr * 2); }
       x.globalAlpha = 1; x.globalCompositeOperation = "source-over";
-      gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bdCv); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bdCv); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.activeTexture(gl.TEXTURE0);
     }
     function tick(dt) {
       if (!ok || !on || destroyed) return;
@@ -474,7 +512,7 @@
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
       if (FILL != null && FILL >= 1) fullT += dt; else fullT = 0;
       if (floorOn()) quiet = Math.min(quiet, 19);   // a floor that is filling keeps its flashes moving
-      if (FILL != null) beadsStep(dt);
+      if (FILL != null) { beadsStep(dt); if (floorOn()) { poolStep(); poolUpload(); } }
       var hz = 60 * Q, most = Math.min(5, Math.ceil(2 * Q));   // at most 5 steps in a slow frame; a slower device drops time, not frames
       while (acc >= 1 / hz && n < most) { acc -= 1 / hz; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
       if (n === most) acc = 0;
@@ -517,7 +555,10 @@
       get ok() { return ok; }, canvas: cv,
       enabled: enabled, drop: addDrop, stir: stir,
       fill: function (v) { if (v !== undefined) { var nf = v == null || v === false ? null : Math.max(0, Math.min(1, +v || 0)); if (nf !== FILL) bdDirty = true; FILL = nf; if (FILL == null) { BEADS = []; FLY = []; } quiet = 0; } return FILL; },
-      splash: splash, wetAt: wetAt, dry: function () { calm(); BEADS = []; FLY = []; bdDirty = true; quiet = 0; }, beads: function () { return BEADS.length; },
+      splash: splash, wetAt: wetAt, dry: function () { calm(); BEADS = []; FLY = []; bdDirty = true; quiet = 0; if (PL) { PL.d.fill(0); plDirty = true; poolUpload.need = true; plAt = 0; } },
+      /* how much of the old everywhere-at-once level still counts, 0..1 (0: water only where it fell), and how much of the
+         floor holds water (0..1) */
+      spread: function (k) { if (k !== undefined) GK = Math.max(0, Math.min(1, +k || 0)); return GK; }, cover: cover, beads: function () { return BEADS.length; },
       rain: function (r) { P.rain = Math.max(0, +r || 0); },
       preset: setPreset,
       set: function (x) { Object.assign(P, x || {}); }, get: function () { return Object.assign({}, P); },
