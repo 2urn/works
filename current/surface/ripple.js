@@ -61,6 +61,20 @@
                                   switches the surface off lets what is left fade out over the picture (.9 s)
      w.weather()                  null, or {phase: 'calm' | 'gap', t, energy}
 
+   RAIN FILLS THE POOL (Dimitry, 29 Oct 00:18: "the first drops of water seemingly fall on solid ground, splash a lot
+   more ... a hard floor that leaves water drops everywhere until more and more water falls, eventually creating the pool
+   so that the entire surface is covered in water and it can then have the waves", "one setting, not a replacement").
+   Additive; nothing changes unless a host calls fill(). Seen from above: the floor is dry and hard, with a gentle relief
+   (a fixed value noise, the same here and on the GPU) whose hollows fill first. level 0 is dry, 1 is a full pool.
+     w.fill(level)                0..1 turns the floor on and sets how full it is (null: off, the surface as before).
+                                  Where the floor is dry a drop does not ring: it SPLASHES (a crown that flashes and
+                                  fades, and a spray of beads that stay where they land). Where the water stands, drops
+                                  ring as always; waves stop at the water's edge. As level rises, puddles open in the
+                                  hollows, join, and at 1 the whole surface is water
+     w.splash(x, y, size)         a splash where you say (x, y 0..1, y down), whatever is under it
+     w.wetAt(x, y)                0..1: is the floor under water here (the relief and the level; beads not counted)
+     w.dry()                      a dry floor again: no beads, no waves (the host sets the level back to 0)
+
    Cost: one small simulation (half the CSS pixels, at most 512 on a side) and one full-screen pass that samples the
    source canvas. Plain script, window.SurfaceRipple, no dependencies, loads nothing. */
 (function () {
@@ -78,10 +92,18 @@
 
   var VS = "#version 300 es\nin vec2 p; out vec2 vUv; void main(){ vUv = p*0.5+0.5; gl_Position = vec4(p,0.0,1.0); }";
   var HEAD = "#version 300 es\nprecision highp float; precision highp int; precision highp sampler2D;\n";
-  /* the wave step (Water Kit's FS_WAVE): r = height now, g = height a step ago */
+  /* THE FLOOR'S RELIEF: integer-hashed value noise, three octaves, identical in GLSL and in JS (floorJS) so the CPU
+     knows where a drop lands on dry floor. p is in field units: x across scaled by the aspect, y up, both 0..1 */
+  /* THE FLOOR'S RELIEF is baked once per field size (floorBake, in JS: integer-hashed value noise, three octaves) into a
+     byte texture the same size as the field, so the GPU reads one value where it would compute 36 hashes (review
+     92666bcfcb r-1), and wetAt reads the same bytes: the CPU and the GPU agree on where the floor is dry */
+  var GL_FLOOR = "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n";
+  /* the wave step (Water Kit's FS_WAVE): r = height now, g = height a step ago; with the floor on (uFill), b = the beads
+     of water a splash left (they stay), a = a splash's flash (it fades in a few frames) */
   var FS_WAVE = HEAD +
     "uniform sampler2D uState, uCur; uniform float uC2, uDamp, uAdv; uniform vec4 uDrops[16]; uniform int uCount; uniform float uAsp;\n" +
-    "out vec4 o;\n" +
+    "uniform float uFill, uLevel; uniform vec4 uWet[32]; uniform int uWetN; uniform sampler2D uFloor;\n" +
+    "out vec4 o;\n" + GL_FLOOR +
     "ivec2 cl(ivec2 p, ivec2 n){ return clamp(p, ivec2(0), n-1); }\n" +
     "void main(){\n" +
     "  ivec2 p = ivec2(gl_FragCoord.xy); ivec2 n = textureSize(uState,0);\n" +
@@ -97,21 +119,35 @@
     "  float nh = h + (h - hp)*uDamp + uC2*(sum - 4.0*h);\n" +
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
+    "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texelFetch(uFloor,p,0).r, uLevel), ba.b*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
-    "  o = vec4(clamp(nh,-8.0,8.0), h, 0.0, 1.0);\n" +
+    /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
+    "  nh *= m;\n" +
+    "  float w = ba.b, fl = ba.a*0.86;\n" +
+    "  if (uFill > 0.5) for (int i=0;i<32;i++){ if(i>=uWetN) break; vec4 d = uWet[i]; vec2 dd = c - d.xy*vec2(n); float g = exp(-dot(dd,dd)/(d.z*d.z));\n" +
+    "    if (d.w > 0.0) w = max(w, d.w*g); else fl = max(fl, -d.w*g); }\n" +
+    "  o = vec4(clamp(nh,-8.0,8.0), h, uFill > 0.5 ? w : 0.0, uFill > 0.5 ? fl : 0.0);\n" +
     "}";
   /* the look: the source seen through the surface */
   var FS_SHOW = HEAD +
     "in vec2 vUv; out vec4 o;\n" +
     "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus; uniform vec2 uPx;\n" +
-    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA;\n" +
+    "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark; uniform sampler2D uFloor;\n" + GL_FLOOR +
+    /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
+       and a meniscus at a puddle's rim */
+    "float wetM(vec2 uv, vec4 s){ return smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,uv).r, uLevel), s.b*0.6)); }\n" +
+    "float hAt(vec2 uv){ vec4 s = texture(uWave,uv); if (uFill < 0.5) return s.r; float m = wetM(uv, s);\n" +
+    "  return s.r*m + 0.9*sqrt(clamp(s.b,0.0,1.0))*(1.0-m) + 0.5*m*(1.0-m) - 0.25*s.a; }\n" +
     "void main(){\n" +
     "  vec2 uv = vUv; vec2 t = 1.0/vec2(textureSize(uWave,0));\n" +
-    "  float hc = texture(uWave,uv).r, hl = texture(uWave,uv-vec2(t.x,0)).r, hr = texture(uWave,uv+vec2(t.x,0)).r,\n" +
-    "        hd = texture(uWave,uv-vec2(0,t.y)).r, hu = texture(uWave,uv+vec2(0,t.y)).r;\n" +
+    "  float hc = hAt(uv), hl = hAt(uv-vec2(t.x,0)), hr = hAt(uv+vec2(t.x,0)),\n" +
+    "        hd = hAt(uv-vec2(0,t.y)), hu = hAt(uv+vec2(0,t.y));\n" +
     "  vec2 grad = vec2(hr-hl, hu-hd)*0.5; float lap = hl+hr+hd+hu-4.0*hc;\n" +
     "  vec2 ruv = clamp(uv - grad*uPx*uRefr, vec2(0.0), vec2(1.0));\n" +
     "  vec4 c = texture(uSrc, ruv);\n" +
+    /* wet floor reads a touch darker than dry; a splash's flash is light thrown up off the floor */
+    "  float fla = 0.0; if (uFill > 0.5) { vec4 s0 = texture(uWave,uv); float wv = max(wetM(uv, s0), smoothstep(0.1, 0.5, s0.b)); c.rgb *= 1.0 - uDark*wv; fla = clamp(s0.a, 0.0, 1.0); }\n" +
     "  float caus = clamp(-lap*3.0, -0.5, 1.0)*uCaus;\n" +
     "  c.rgb *= 1.0 + caus*0.6*(1.0-uCausA);\n" +
     /* the material's colors: light gathered in the caustic's color; the depth color over troughs and crests */
@@ -120,6 +156,7 @@
     "  vec3 nrm = normalize(vec3(-grad*6.0, 1.0)); vec3 L = normalize(vec3(-0.45,0.55,1.0));\n" +
     "  float sp = pow(max(dot(reflect(-L,nrm),vec3(0,0,1)),0.0),60.0)*uSpec*0.9;\n" +
     "  sp *= smoothstep(0.004, 0.04, length(grad));\n" +
+    "  sp += fla*0.55;\n" +
     "  o = vec4(c.rgb + uGlint*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
   /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
@@ -148,6 +185,7 @@
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.5;
     var SW = 0, SH = 0, lastMove = null;
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
+    var FILL = null, wets = [], FLB = null, flTex = null, fullT = 0;
     var offFade = 0, fadeT = 0, sig = 1, sigT = 1, HO = null, enTex = null, enFbo = null, enBuf = new Uint8Array(16 * 16 * 4), enAt = -1e9, enVal = 0;
 
     function sh(type, s) { var x = gl.createShader(type); gl.shaderSource(x, s); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x)); return x; }
@@ -220,6 +258,10 @@
       var d = drops.splice(0, 16), a = new Float32Array(64);
       for (var i = 0; i < d.length; i++) a.set(d[i], i * 4);
       gl.uniform4fv(pw.u.uDrops, a); gl.uniform1i(pw.u.uCount, d.length);
+      var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(pw.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
+      gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0);
+      var wd = wets.splice(0, 32), wa = new Float32Array(128); for (var j = 0; j < wd.length; j++) wa.set(wd[j], j * 4);
+      gl.uniform4fv(pw.u.uWet, wa); gl.uniform1i(pw.u.uWetN, wd.length);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); cur = 1 - cur;
     }
     function draw() {
@@ -234,6 +276,10 @@
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex[cur]);
       gl.uniform1i(ps.u.uWave, 0); gl.uniform1i(ps.u.uSrc, 1);
       gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus);
+      var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(ps.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
+      gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0);
+      /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
+      gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
       var tc = rgb(COL.tint), gc = rgb(COL.glint), cc = rgb(COL.caustic);
       gl.uniform3fv(ps.u.uTint, tc || [1, 1, 1]); gl.uniform1f(ps.u.uTintA, tc ? Math.max(0, Math.min(1, +COL.tintAmt || 0)) : 0);
       gl.uniform3fv(ps.u.uGlint, gc || [1, 1, 1]); gl.uniform3fv(ps.u.uCausC, cc || [1, 1, 1]); gl.uniform1f(ps.u.uCausA, cc ? 1 : 0);
@@ -282,14 +328,52 @@
         if (HO.at != null && HO.t - HO.at >= HO.delay) { HO = null; sigT = 1; }
       }
     }
-    function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; }
+    function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; wets.length = 0; }
     function addDrop(x, y, size, strength, own) {
       if (!ok || !on) return;
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
       var shortPx = Math.min(N[0], N[1]), r = Math.max(1.2, (size == null ? P.size : size) * shortPx);
+      if (FILL != null && wetAt(x, y) < 0.5) { splash(x, y, size, strength); return; }
       if (drops.length >= 48) drops.shift();
       /* field y runs up; the caller's y runs down */
       drops.push([x, 1 - y, r, (strength == null ? 1 : strength) * 0.9]); quiet = 0;
+    }
+    /* the floor's relief, baked: one byte a field cell, x across scaled by the aspect, y up */
+    function hsh(x, y, sd) { var h = (Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(sd, 2246822519 | 0)) >>> 0; h = Math.imul((h ^ (h >>> 13)) >>> 0, 1274126177) >>> 0; return (h ^ (h >>> 16)) >>> 0; }
+    function vn(px, py, sd) { var ix = Math.floor(px), iy = Math.floor(py), fx = px - ix, fy = py - iy; fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy); ix += 4096; iy += 4096;
+      var a = (hsh(ix, iy, sd) & 65535) / 65535, b = (hsh(ix + 1, iy, sd) & 65535) / 65535, c = (hsh(ix, iy + 1, sd) & 65535) / 65535, d = (hsh(ix + 1, iy + 1, sd) & 65535) / 65535;
+      return (a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy; }
+    function floorN(px, py) { px *= 5; py *= 5; var f = 0.55 * vn(px, py, 1) + 0.3 * vn(px * 2.1, py * 2.1, 2) + 0.15 * vn(px * 4.3, py * 4.3, 3); return Math.max(0, Math.min(1, (f - 0.2) / 0.6)); }
+    function floorBake() {
+      if (!ok || !N[0]) return; if (FLB && FLB.w === N[0] && FLB.h === N[1]) return;
+      var w = N[0], h = N[1], a = new Uint8Array(w * h);
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) a[y * w + x] = Math.round(255 * floorN((x + 0.5) / h, (y + 0.5) / h));
+      if (!flTex) { flTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
+      gl.bindTexture(gl.TEXTURE_2D, flTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, w, h, 0, gl.RED, gl.UNSIGNED_BYTE, a); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
+      FLB = { w: w, h: h, a: a };
+    }
+    function sstep(a, b, v) { var t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+    function wetAt(x, y) { if (FILL == null) return 1; floorBake(); if (!FLB) return 1;
+      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix] / 255, L = FILL * 1.15 - 0.08;
+      return sstep(n - 0.06, n + 0.06, L); }
+    /* the floor is on while it is filling, and while a full pool still has splashes to finish; a full, settled pool takes
+       the old path (no floor reads at all) */
+    function floorOn() { return FILL != null && (FILL < 1 || wets.length > 0 || fullT < 0.6); }
+    /* A SPLASH ON A HARD FLOOR: a crown of light that flashes and fades, a bead where it struck, and a spray of smaller
+       beads thrown out in every direction, many more and farther than a ring would reach. The beads stay */
+    function splash(x, y, size, strength) {
+      if (!ok || !on || FILL == null) return;
+      var shortPx = Math.min(N[0], N[1]), sz = Math.max(0.004, size == null ? P.size : size), r = Math.max(2.4, sz * shortPx), k = Math.min(1.4, Math.max(0.4, strength == null ? 1 : strength));
+      var fy = 1 - y, ax = N[1] / N[0], push = function (q) { if (wets.length >= 96) wets.shift(); wets.push(q); };
+      push([x, fy, r * 2.6, -0.9 * k]);                    // the flash
+      push([x, fy, r * 1.1, 0.95]);                        // where it struck
+      var n = 6 + Math.round(Math.random() * 8 * k);
+      for (var i = 0; i < n; i++) { var a = Math.random() * 6.2832, d = r * (1.8 + Math.random() * Math.random() * 7 * k), rr = Math.max(1.6, r * (0.3 + Math.random() * 0.45));
+        var sx = x + Math.cos(a) * d / N[0], sy = fy + Math.sin(a) * d / N[1];
+        if (sx < 0 || sx > 1 || sy < 0 || sy > 1) continue;
+        push([sx, sy, rr, 0.7 + Math.random() * 0.3]); if (i < 5) push([sx, sy, rr * 1.8, -0.45 * k]); }
+      quiet = 0; void ax;
     }
     function tick(dt) {
       if (!ok || !on || destroyed) return;
@@ -300,7 +384,9 @@
       if (DRV.current > 0 && curOk) quiet = Math.min(quiet, 19);   // a current keeps the surface moving
       acc += dt; quiet += dt; var n = 0;
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
-      while (acc >= 1 / 60 && n < 4) { acc -= 1 / 60; if (quiet < 20 || drops.length) step(); n++; }
+      if (FILL != null && FILL >= 1) fullT += dt; else fullT = 0;
+      if (floorOn()) quiet = Math.min(quiet, 19);   // a floor that is filling keeps its flashes moving
+      while (acc >= 1 / 60 && n < 4) { acc -= 1 / 60; if (quiet < 20 || drops.length || wets.length) step(); n++; }
       if (n === 4) acc = 0;
       draw();
     }
@@ -340,6 +426,8 @@
     return {
       get ok() { return ok; }, canvas: cv,
       enabled: enabled, drop: addDrop, stir: stir,
+      fill: function (v) { if (v !== undefined) { FILL = v == null || v === false ? null : Math.max(0, Math.min(1, +v || 0)); if (FILL == null) wets.length = 0; quiet = 0; } return FILL; },
+      splash: splash, wetAt: wetAt, dry: function () { calm(); quiet = 0; },
       rain: function (r) { P.rain = Math.max(0, +r || 0); },
       preset: setPreset,
       set: function (x) { Object.assign(P, x || {}); }, get: function () { return Object.assign({}, P); },
