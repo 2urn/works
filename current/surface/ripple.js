@@ -120,7 +120,7 @@
     "  nh *= 0.9995 + 0.0005*uDamp;\n" +
     "  vec2 c = vec2(p)+0.5;\n" +
     "  vec4 ba = texelFetch(uState,p,0); float m = 1.0;\n" +
-    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texelFetch(uFloor,p,0).r, uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
+    "  if (uFill > 0.5) m = smoothstep(0.45, 0.9, max(floorWet(texture(uFloor,(vec2(p)+0.5)/vec2(n)).r, uLevel), texture(uBeads,(vec2(p)+0.5)/vec2(n)).r*0.6));\n" +
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
@@ -352,8 +352,10 @@
       return (a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy; }
     function floorN(px, py) { px *= 5; py *= 5; var f = 0.55 * vn(px, py, 1) + 0.3 * vn(px * 2.1, py * 2.1, 2) + 0.15 * vn(px * 4.3, py * 4.3, 3); return Math.max(0, Math.min(1, (f - 0.2) / 0.6)); }
     function floorBake() {
-      if (!ok || !N[0]) return; if (FLB && FLB.w === N[0] && FLB.h === N[1]) return;
-      var w = N[0], h = N[1], a = new Uint8Array(w * h);
+      /* baked at 1.5 times the field, so a puddle's rim is a smooth line, not the field's steps (Dimitry, 29 Oct 11:47: "the
+         low resolution border on the water edges") */
+      if (!ok || !N[0]) return; var w = Math.round(N[0] * 1.5), h = Math.round(N[1] * 1.5); if (FLB && FLB.w === w && FLB.h === h) return;
+      var a = new Uint8Array(w * h);
       for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) a[y * w + x] = Math.round(255 * floorN((x + 0.5) / h, (y + 0.5) / h));
       if (!flTex) { flTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }

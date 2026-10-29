@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029153555";window.__VERSION__="0.37.0";window.__NOTES__=[{"v":"0.37.0","date":"29 Oct 2026","items":[{"kind":"new","text":"Ensemble: five players, one piece of water. Each laptop plays one part through its own speaker: Deep (low bubbles, a whale, the hydrophone), Surface (drops, small bubbles, lapping), Shore (gulls, a wave washing up, a lighthouse's low pulse once a bar, surf), Walker (steps on the beat, crunchy sand on the dry side and wading on the wet, splashes) and Beachcomber (a crystal goblet, a bottle blown that follows your finger, a wet finger round a glass rim, a low ringing note). Tap, drag and hold each play a sound of the part; up is higher, right is wetter"},{"kind":"new","text":"a part's link opens Current with that part and joins one room, so the parts share a tempo; the screen's link shows every player's finger on one field, in its part's color, for a projector"},{"kind":"new","text":"Ready to perform, one button in Ensemble and in Room: the paths, hints and notices go quiet, the screen stays awake and nothing reloads; on the screen it also hides every control and goes full screen, a clean picture for the projector (or open the projector window for a second display). Tap again and everything is back as it was"},{"kind":"change","text":"the water surface is drawn finer: small splashes ring round instead of in squares"},{"kind":"new","text":"six water sounds: a step on sand, wading, a splash, a lap, a wave washing up, a lighthouse's turn; and a bottle you blow for as long as you hold"}]}]</script>
+<script>window.__BUILD__="20261029161725";window.__VERSION__="0.37.1";window.__NOTES__=[{"v":"0.37.1","date":"29 Oct 2026","items":[{"kind":"change","text":"in the Ensemble the screen leads the room: the scene it shows, picked by hand or played by the robot or a sequence, lands on every player's screen, so everyone sees the same field and each player sees their own touch and plays their own sound; players never take the lead themselves"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029153555"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029153555">
+<script src="claude-web.js?v=20261029161725"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029161725">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029153555"></script>
-<script src="surface/nozoom.js?v=20261029153555"></script><script src="surface/steady.js?v=20261029153555"></script><script src="surface/selftest.js?v=20261029153555"></script><script src="surface/size.js?v=20261029153555"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029153555"></script>
-<script src="surface/auto.js?v=20261029153555"></script>
-<script src="surface/toolpath.js?v=20261029153555"></script>
-<script src="surface/capture.js?v=20261029153555"></script>
-<script src="surface/pop.js?v=20261029153555"></script>
-<script src="surface/hints.js?v=20261029153555"></script>
-<script src="surface/paths.js?v=20261029153555"></script>
-<script src="surface/keys.js?v=20261029153555"></script>
-<script src="surface/reset.js?v=20261029153555"></script>
-<script src="surface/files.js?v=20261029153555"></script>
-<script src="surface/tabs.js?v=20261029153555"></script>
-<script src="surface/running.js?v=20261029153555"></script>
-<script src="surface/trim.js?v=20261029153555"></script>
-<script src="surface/audiowake.js?v=20261029153555"></script>
-<script src="surface/output.js?v=20261029153555"></script>
-<script src="surface/board.js?v=20261029153555"></script>
-<script src="surface/voice.js?v=20261029153555"></script>
-<script src="surface/voicelib.js?v=20261029153555"></script>
-<script src="surface/instruments.js?v=20261029153555"></script>
-<script src="surface/listview.js?v=20261029153555"></script>
-<script src="surface/beads.js?v=20261029153555"></script>
-<script src="surface/strip.js?v=20261029153555"></script>
-<script src="surface/sheetnav.js?v=20261029153555"></script>
-<script src="surface/twofinger.js?v=20261029153555"></script>
-<script src="surface/ring.js?v=20261029153555"></script>
-<script src="surface/shortlink.js?v=20261029153555"></script>
-<script src="surface/undo.js?v=20261029153555"></script>
-<script src="surface/pro.js?v=20261029153555"></script>
-<script src="surface/fresh.js?v=20261029153555"></script>
-<script src="surface/go.js?v=20261029153555"></script>
-<script src="surface/notice.js?v=20261029153555"></script>
-<script src="surface/perform.js?v=20261029153555"></script>
-<script src="surface/words.js?v=20261029153555"></script>
+<script src="vendor/opentype.min.js?v=20261029161725"></script>
+<script src="surface/nozoom.js?v=20261029161725"></script><script src="surface/steady.js?v=20261029161725"></script><script src="surface/selftest.js?v=20261029161725"></script><script src="surface/size.js?v=20261029161725"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029161725"></script>
+<script src="surface/auto.js?v=20261029161725"></script>
+<script src="surface/toolpath.js?v=20261029161725"></script>
+<script src="surface/capture.js?v=20261029161725"></script>
+<script src="surface/pop.js?v=20261029161725"></script>
+<script src="surface/hints.js?v=20261029161725"></script>
+<script src="surface/paths.js?v=20261029161725"></script>
+<script src="surface/keys.js?v=20261029161725"></script>
+<script src="surface/reset.js?v=20261029161725"></script>
+<script src="surface/files.js?v=20261029161725"></script>
+<script src="surface/tabs.js?v=20261029161725"></script>
+<script src="surface/running.js?v=20261029161725"></script>
+<script src="surface/trim.js?v=20261029161725"></script>
+<script src="surface/audiowake.js?v=20261029161725"></script>
+<script src="surface/output.js?v=20261029161725"></script>
+<script src="surface/board.js?v=20261029161725"></script>
+<script src="surface/voice.js?v=20261029161725"></script>
+<script src="surface/voicelib.js?v=20261029161725"></script>
+<script src="surface/instruments.js?v=20261029161725"></script>
+<script src="surface/listview.js?v=20261029161725"></script>
+<script src="surface/beads.js?v=20261029161725"></script>
+<script src="surface/strip.js?v=20261029161725"></script>
+<script src="surface/sheetnav.js?v=20261029161725"></script>
+<script src="surface/twofinger.js?v=20261029161725"></script>
+<script src="surface/ring.js?v=20261029161725"></script>
+<script src="surface/shortlink.js?v=20261029161725"></script>
+<script src="surface/undo.js?v=20261029161725"></script>
+<script src="surface/pro.js?v=20261029161725"></script>
+<script src="surface/fresh.js?v=20261029161725"></script>
+<script src="surface/go.js?v=20261029161725"></script>
+<script src="surface/notice.js?v=20261029161725"></script>
+<script src="surface/perform.js?v=20261029161725"></script>
+<script src="surface/words.js?v=20261029161725"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029153555"></script>
-<script src="surface/rail.js?v=20261029153555"></script>
-<script src="surface/touchsound.js?v=20261029153555"></script>
-<script src="surface/water.js?v=20261029153555"></script>
-<script src="surface/ripple.js?v=20261029153555"></script>
-<script src="surface/material.js?v=20261029153555"></script>
-<script src="surface/float.js?v=20261029153555"></script>
-<script src="surface/manual.js?v=20261029153555"></script>
+<script src="surface/pack.js?v=20261029161725"></script>
+<script src="surface/rail.js?v=20261029161725"></script>
+<script src="surface/touchsound.js?v=20261029161725"></script>
+<script src="surface/water.js?v=20261029161725"></script>
+<script src="surface/ripple.js?v=20261029161725"></script>
+<script src="surface/material.js?v=20261029161725"></script>
+<script src="surface/float.js?v=20261029161725"></script>
+<script src="surface/manual.js?v=20261029161725"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4753,7 +4753,7 @@ function sceneMaterial(p,part){if(part!==undefined&&!AUTO.parts.material)return;
      always starts on a dry floor, so each time it comes round the rain fills it again; one saved without the key leaves
      the fill as it is */
   if(m.fill!==undefined){const f=m.fill&&typeof m.fill==='object'&&['time','sound','finger'].includes(m.fill.by)?m.fill:null;
-    WATER.fill=f?f.by:'';if(f&&[8,16,32,64].includes(f.bars))WATER.fillBars=f.bars;try{fillDry()}catch(_){}}   /* FILL is declared further down: a scene applied at boot must not reach it (TDZ); the first fillTick starts dry anyway */
+    WATER.fill=f?f.by:'';if(f&&[8,16,32,64].includes(f.bars))WATER.fillBars=f.bars;if(f)try{fillDry()}catch(_){}}   /* only a scene WITH a fill starts dry: a scene without one (fill:false, every scene saved since 0.36.4) no longer flattens the water on each change (Dimitry, 29 Oct 11:47: "the existing ripples disappear instantly") */   /* FILL is declared further down: a scene applied at boot must not reach it (TDZ); the first fillTick starts dry anyway */
   waterSave();rippleSync()}
 function sceneSurface(p){const v=p.surface;if(v===undefined)return;
   if(v===false||v===null||v==='off'){if(WATER.surfOn){WATER.surfOn=false;waterSave();rippleSync()}return}
@@ -11631,10 +11631,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029153555"></script>
-<script src="surface/links.js?v=20261029153555"></script>
-<script src="surface/tips.js?v=20261029153555"></script>
-<script src="surface/sections.js?v=20261029153555"></script>
+<script src="surface/install.js?v=20261029161725"></script>
+<script src="surface/links.js?v=20261029161725"></script>
+<script src="surface/tips.js?v=20261029161725"></script>
+<script src="surface/sections.js?v=20261029161725"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11824,7 +11824,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029153555"></script>
+<script src="surface/room.js?v=20261029161725"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11958,7 +11958,7 @@ const ROOMC=(function(){
   function join(code,make){code=SurfaceRoom.clean(code);if(code.length<4){toast('a room code has 6 letters');return false}
     if(room)leave(true);
     const nm=(P.name||'').trim()||'player '+((Math.random()*90+10)|0);
-    room=SurfaceRoom.join(code,{name:nm,make:!!make,url:CFG.url,key:CFG.key,prefix:CFG.prefix});
+    room=SurfaceRoom.join(code,{name:nm,make:make==='take'?'take':!!make,url:CFG.url,key:CFG.key,prefix:CFG.prefix,noLead:!!(window.ENS&&ENS.cur())});   // an ensemble player never leads: the screen does
     try{sessionStorage.setItem('current.room.code',code)}catch(_){}
     room.on('state',s=>{S_.state=s;paint();if(s==='joined')sent={bpm:null,bar0:null,at:0}});
     room.on('peers',L=>{S_.peers=L;paint();try{if(ACTIVE==='session')buildToolShelf()}catch(_){}});
@@ -12007,7 +12007,7 @@ const ROOMC=(function(){
   /* a link with ?room=CODE joins it; a reload rejoins the room you were in */
   addEventListener('load',()=>setTimeout(()=>{let c=ROOM_Q;
     if(!c)try{c=sessionStorage.getItem('current.room.code')}catch(_){}
-    if(c&&SurfaceRoom.clean(c).length>=4)join(c,false)},600));
+    if(c&&SurfaceRoom.clean(c).length>=4)join(c,window.ENS&&ENS.screen()?'take':false)},600));   // the ensemble's screen leads its room
   if(P.link)setLink(true);
   /* ABLETON LINK (kept from Session): the helper on this laptop gives Link's tempo and beat; leading (or alone, or not
      following the room's tempo) this laptop plays on Link's beat itself, and leading, the room gets it */
@@ -12025,7 +12025,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029153555"></script>
+<script src="surface/touch.js?v=20261029161725"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12256,7 +12256,12 @@ const ENS=window.ENS=(function(){
       if(!quiet)toast(P.name+': tap '+P.say.tap+' · drag '+P.say.drag+' · hold '+P.say.hold.split(':')[0]+' · up is higher, right is wetter',5200);
       if(window.cxCount)cxCount('ensemble: '+P.id,1)}
     paint()}
-  function setScreen(on,quiet){screen=!!on;if(on){cur=null;try{localStorage.setItem(LS,'screen')}catch(_){}listen();if(!quiet)toast('the screen: every player’s finger shows here, in its part’s color',3600)}
+  /* THE SCREEN LEADS (Dimitry, 29 Oct 11:44: "it makes more sense for me to set the scene and for them to play it … It
+     could also be on a automatic sequence"): the projection laptop leads the room in Scenes: what it shows (picked, or
+     the robot or a sequence playing) lands on every player's screen; each player's sound and touch stay their own, and
+     players never take the lead themselves. */
+  function setScreen(on,quiet){screen=!!on;if(on){cur=null;try{localStorage.setItem(LS,'screen')}catch(_){}listen();
+      try{ROOMC.setMode('scenes');const r=ROOMC.room();if(r&&!r.isLeader()&&!quiet)ROOMC.join(r.code,'take')}catch(_){}   /* takes the lead from whoever holds it (review 6fd927e87e r-1) */if(!quiet)toast('the screen: every player’s finger shows here, in its part’s color',3600)}
     else{unlisten();try{if(localStorage.getItem(LS)==='screen')localStorage.setItem(LS,'')}catch(_){}}paint()}
   /* ---------- fingers to the screen ---------- */
   function code(){try{const r=ROOMC.room();if(r)return r.code}catch(_){}return ''}
@@ -12329,7 +12334,7 @@ const ENS=window.ENS=(function(){
     const P=cur,lg=s.querySelector('.ens-legend');
     lg.innerHTML=P?'<dl><dt>Tap</dt><dd>'+P.say.tap+'</dd><dt>Drag</dt><dd>'+P.say.drag+'</dd><dt>Hold</dt><dd>'+P.say.hold+'</dd>'+(P.say.bed?'<dt>Under it</dt><dd>'+P.say.bed+'</dd>':'')+'<dt>Your finger</dt><dd>up is higher, right is wetter</dd></dl>':screen?'<p class="ens-note">This screen plays no sound. Every player&rsquo;s finger pulls the current here, in the color of its part.</p>':'<p class="ens-note">Choose your part.</p>';
     const c=code(),st=s.querySelector('.ens-st');
-    st.textContent=!c?'not in a room yet: a part link joins room '+CODE+', or join one in Room':screen?('room '+c+' · '+(RX&&RX.state()==='joined'?'listening':'connecting')+' · '+[...marks.values()].filter(m=>m.live).length+' fingers down'):cur?('room '+c+' · '+(sent.ok===false?'your finger does not reach the screen (no internet?)':sent.ok?'your finger reaches the screen':'your finger goes to the screen when you play')):''}
+    st.textContent=!c?'not in a room yet: a part link joins room '+CODE+', or join one in Room':screen?('room '+c+' · '+(RX&&RX.state()==='joined'?'listening':'connecting')+' · '+[...marks.values()].filter(m=>m.live).length+' fingers down'):cur?('room '+c+' · '+((()=>{try{const r=ROOMC.room();return r&&r.state()==='joined'&&!r.leader()}catch(_){return false}})()?'waiting for the screen to lead (no shared tempo yet) · ':'')+(sent.ok===false?'your finger does not reach the screen (no internet?)':sent.ok?'your finger reaches the screen':'your finger goes to the screen when you play')):''}
   (function(){const idx=$e('idx');if(!idx)return;const sec=document.createElement('section');sec.className='cx-grp';sec.id='ens';sec.hidden=true;
     sec.innerHTML='<button type="button" class="cx-grpbtn" aria-expanded="true" aria-controls="ensL"><svg class="dsp-gear sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="5" cy="12" r="1.8"/><circle cx="9.5" cy="7" r="1.8"/><circle cx="14.5" cy="7" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="12" cy="17" r="1.8"/></svg><span>Ensemble</span><svg class="cx-ch" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>'+
       '<div id="ensL"><p class="cx-lead">Five players, one piece of water. Each laptop plays one part through its own speaker. Tap, drag and hold each play a sound of your part; <b>up is higher, right is wetter</b>.</p>'+
@@ -12339,10 +12344,10 @@ const ENS=window.ENS=(function(){
       '<p class="ens-note">Ready to perform turns off the paths, hints and notices, keeps the screen awake, and nothing reloads. On the screen it also hides every control and goes full screen, for a clean picture to the projector. Tap it again to put everything back.</p>'+
       '<div class="ens-legend"></div><p class="ens-st" role="status"></p>'+
       '<div class="room-f"><button type="button" class="btn ghost" id="ensCopy">copy the six links</button></div>'+
-      '<p class="ens-note">Each link opens Current with its part and joins the same room, so the parts share one tempo (Walker&rsquo;s steps and Shore&rsquo;s lighthouse land on its beat). Whoever leads the room sets the tempo: tap it in, or play a beat.</p></div>';
+      '<p class="ens-note">Each link opens Current with its part and joins the same room. <b>The screen leads</b>: the scene it shows, picked by hand or played by the robot or a sequence, lands on every player&rsquo;s screen, while each player&rsquo;s sound and touch stay their own. Its tempo is the room&rsquo;s too (Walker&rsquo;s steps and Shore&rsquo;s lighthouse land on its beat): tap it in, or play a beat.</p></div>';
     const rm=$e('aud')||$e('room');if(rm&&rm.parentNode===idx)idx.insertBefore(sec,rm.nextSibling);else idx.appendChild(sec);
     sec.querySelector('.cx-grpbtn').onclick=()=>{const on=sec.classList.toggle('cx-shut');sec.querySelector('.cx-grpbtn').setAttribute('aria-expanded',String(!on))};
-    sec.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const id=b.dataset.part;if(id==='screen')setScreen(true);else{if(screen)setScreen(false,true);set(id)}if(id&&!code()){try{ROOMC.join(CODE,false)}catch(_){}}});
+    sec.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const id=b.dataset.part;if(id==='screen')setScreen(true);else{if(screen)setScreen(false,true);set(id)}if(id&&!code()){try{ROOMC.join(CODE,id==='screen'?'take':false)}catch(_){}}});
     $e('ensCopy').onclick=e=>copyText(links(),'The six links',e.currentTarget);
     $e('ensReady').onclick=()=>ready(!RD.on);$e('ensOut').onclick=projector;
     /* the same one button in Room, where a show starts */
@@ -12355,7 +12360,7 @@ const ENS=window.ENS=(function(){
   /* the link, or the part chosen last time */
   {let id=Q;if(!id)try{id=localStorage.getItem(LS)||''}catch(_){}
     if(id==='screen')setScreen(true,true);else if(part(id))set(id,!Q);
-    if(Q&&(part(Q)||Q==='screen'))addEventListener('load',()=>setTimeout(()=>{try{if(!ROOMC.room())ROOMC.join(ROOM_Q||CODE,false)}catch(_){}
+    if(Q&&(part(Q)||Q==='screen'))addEventListener('load',()=>setTimeout(()=>{try{if(!ROOMC.room())ROOMC.join(ROOM_Q||CODE,Q==='screen'?'take':false)}catch(_){}
       if(cur)toast(cur.name+' · touch the field to begin: up is higher, right is wetter',5200)},900))}
   setInterval(()=>{if(screen||cur)paint()},1000);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)lift()});   // a hidden page's frames stop: nothing left held
@@ -12986,7 +12991,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.37.0';
+const APP_VERSION='0.37.1';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's

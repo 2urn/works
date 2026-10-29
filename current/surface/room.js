@@ -15,6 +15,8 @@
      room.on("leader", e => …)  // { id, me }
      room.on("sync", e => …)    // { offset, err, rtt } (followers): the clock estimate after each pong
      room.on("hello", e => …)   // a peer arrived (the leader answers with its state: room.state(...))
+     SurfaceRoom.join(code, { …, make: "take" })   // joins and takes the lead from whoever holds it
+     SurfaceRoom.join(code, { …, noLead: true })   // never claims the lead when nobody leads: it waits for a leader
      room.on("touch", e => …)   // { id, part, name, path: [[x, y, ms], …], up } a player's finger, sent with SurfaceRoom.post
      SurfaceRoom.post(code, type, payload, {url, key, prefix, from})   // send without joining (REST broadcast) → Promise<bool>
      room.tempo({ bpm, bar0, bpb, src })     // leader: announce (bar0 local ms); re-sent by the tool as a heartbeat
@@ -123,7 +125,7 @@
       else if (id === me.id && top && top.id !== me.id && top.lead > me.lead) { me.lead = 0; track(); id = top.id; }   // the room moved on while I was away
       else if (!id || !here(id)) {
         id = top ? top.id : null;
-        if (!id && st === "joined" && !settleT) {   // nobody leads: wait 1.5 s (a handover's claim may be on its way), then claim
+        if (!id && st === "joined" && !settleT && !o.noLead) {   // o.noLead: a player who only ever follows (29 Oct: the ensemble, led by its screen)   // nobody leads: wait 1.5 s (a handover's claim may be on its way), then claim
           if (!claimAt) { claimAt = performance.now() + 1500; setTimeout(elect, 1600); }
           else if (performance.now() >= claimAt) {
             var first = a.slice().sort(function (x, y) { return x.joined - y.joined; })[0];
@@ -218,7 +220,11 @@
         if (m.event === "phx_reply" && m.ref === jref) {
           if (m.payload && m.payload.status === "ok") {
             back = 1000; track(); setState("joined");
-            clearTimeout(settleT); settleT = setTimeout(function () { settleT = 0; elect(); }, 1400);   // wait for who is here before claiming the lead
+            clearTimeout(settleT); settleT = setTimeout(function () { settleT = 0;
+              /* make: "take" (29 Oct, the ensemble's screen): once it has seen who is here, claim an epoch above every one,
+                 so a sitting leader steps down on every peer (the "room moved on" rule in elect) */
+              if (o.make === "take" && !leading()) { var mx = me.lead || 0; for (var k in peers) mx = Math.max(mx, peers[k].lead || 0); me.lead = mx + 1; track(); }
+              elect(); }, 1400);   // wait for who is here before claiming the lead
             send("hello", { name: me.name, color: me.color });
             if (leaderId && !leading()) burst();
           } else { try { sock.close(); } catch (x) {} }
