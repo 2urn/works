@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261029013815";window.__VERSION__="0.35.2";window.__NOTES__=[{"v":"0.35.2","date":"28 Oct 2026","items":[{"kind":"new","text":"the Color panel has two views at its foot: Palettes, every palette in one list (find by name, yours or the studio's, A–Z or newest; wear, rename, delete), and Editor"},{"kind":"new","text":"palettes can be renamed, in the list or with the pencil beside the name; renaming a studio palette makes it yours under the new name"},{"kind":"change","text":"new and duplicated palettes are numbered (Sea Green 2, My palette 3), never \"copy\""},{"kind":"change","text":"while the robot changes scenes, a small robot and the scene's name sit beside the palette's name, on one line that never moves the panel"},{"kind":"change","text":"Save palette, Save to my colors, Shuffle, Adjust, Duplicate and Delete have icons"},{"kind":"change","text":"Ink mix is three pills: grain, speed, tempo"},{"kind":"fix","text":"the Blend heading lines up with the rest"},{"kind":"change","text":"the Color panel's spacing, cleaned up: one gutter, one kind of label, the same space between every group, a line between the palette and the editor"},{"kind":"change","text":"the sliders are a groove with a small knob inside it, like the switches, with room between them; chroma reads 0–100%, like lightness"},{"kind":"change","text":"Follows is one choice (\"complement of Ink 1\") beside the hex code; Ground's Auto is a switch"},{"kind":"change","text":"Ground is last in the palette: Ink 1, mix, Ink 2, Touch, Arrows, Pattern, Ground"},{"kind":"change","text":"swatches sit on one row that slides sideways"},{"kind":"new","text":"Shuffle is an animation: on the beat a color takes another of the palette's (Speed: every 8, 4, 2 or 1 beats)"},{"kind":"new","text":"drag a color chip onto the palette to give that slot its color; drag one slot onto another to swap them (on a phone, hold a moment first, so a swipe still scrolls)"}]}]</script>
+<script>window.__BUILD__="20261029015343";window.__VERSION__="0.35.3";window.__NOTES__=[{"v":"0.35.3","date":"28 Oct 2026","items":[{"kind":"change","text":"every color animation keeps time with the tempo (tapped, or the beat that plays; 120 a minute until there is one). Speed is a choice of periods: Drift turns in 32, 16, 8 or 4 bars; Breathe breathes in 4 bars, 2 bars, a bar or 2 beats; Pulse and Shuffle come every 2 bars, bar, 2 beats or beat"},{"kind":"fix","text":"the little robot beside the palette's name shows the robot alone, and keeps animating while the scenes change"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261029013815"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261029013815">
+<script src="claude-web.js?v=20261029015343"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261029015343">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261029013815"></script>
-<script src="surface/nozoom.js?v=20261029013815"></script><script src="surface/steady.js?v=20261029013815"></script><script src="surface/selftest.js?v=20261029013815"></script><script src="surface/size.js?v=20261029013815"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261029013815"></script>
-<script src="surface/auto.js?v=20261029013815"></script>
-<script src="surface/toolpath.js?v=20261029013815"></script>
-<script src="surface/capture.js?v=20261029013815"></script>
-<script src="surface/pop.js?v=20261029013815"></script>
-<script src="surface/hints.js?v=20261029013815"></script>
-<script src="surface/paths.js?v=20261029013815"></script>
-<script src="surface/keys.js?v=20261029013815"></script>
-<script src="surface/reset.js?v=20261029013815"></script>
-<script src="surface/files.js?v=20261029013815"></script>
-<script src="surface/tabs.js?v=20261029013815"></script>
-<script src="surface/running.js?v=20261029013815"></script>
-<script src="surface/trim.js?v=20261029013815"></script>
-<script src="surface/audiowake.js?v=20261029013815"></script>
-<script src="surface/output.js?v=20261029013815"></script>
-<script src="surface/board.js?v=20261029013815"></script>
-<script src="surface/voice.js?v=20261029013815"></script>
-<script src="surface/voicelib.js?v=20261029013815"></script>
-<script src="surface/instruments.js?v=20261029013815"></script>
-<script src="surface/listview.js?v=20261029013815"></script>
-<script src="surface/beads.js?v=20261029013815"></script>
-<script src="surface/strip.js?v=20261029013815"></script>
-<script src="surface/sheetnav.js?v=20261029013815"></script>
-<script src="surface/twofinger.js?v=20261029013815"></script>
-<script src="surface/ring.js?v=20261029013815"></script>
-<script src="surface/shortlink.js?v=20261029013815"></script>
-<script src="surface/undo.js?v=20261029013815"></script>
-<script src="surface/pro.js?v=20261029013815"></script>
-<script src="surface/fresh.js?v=20261029013815"></script>
-<script src="surface/go.js?v=20261029013815"></script>
-<script src="surface/notice.js?v=20261029013815"></script>
-<script src="surface/perform.js?v=20261029013815"></script>
-<script src="surface/words.js?v=20261029013815"></script>
+<script src="vendor/opentype.min.js?v=20261029015343"></script>
+<script src="surface/nozoom.js?v=20261029015343"></script><script src="surface/steady.js?v=20261029015343"></script><script src="surface/selftest.js?v=20261029015343"></script><script src="surface/size.js?v=20261029015343"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261029015343"></script>
+<script src="surface/auto.js?v=20261029015343"></script>
+<script src="surface/toolpath.js?v=20261029015343"></script>
+<script src="surface/capture.js?v=20261029015343"></script>
+<script src="surface/pop.js?v=20261029015343"></script>
+<script src="surface/hints.js?v=20261029015343"></script>
+<script src="surface/paths.js?v=20261029015343"></script>
+<script src="surface/keys.js?v=20261029015343"></script>
+<script src="surface/reset.js?v=20261029015343"></script>
+<script src="surface/files.js?v=20261029015343"></script>
+<script src="surface/tabs.js?v=20261029015343"></script>
+<script src="surface/running.js?v=20261029015343"></script>
+<script src="surface/trim.js?v=20261029015343"></script>
+<script src="surface/audiowake.js?v=20261029015343"></script>
+<script src="surface/output.js?v=20261029015343"></script>
+<script src="surface/board.js?v=20261029015343"></script>
+<script src="surface/voice.js?v=20261029015343"></script>
+<script src="surface/voicelib.js?v=20261029015343"></script>
+<script src="surface/instruments.js?v=20261029015343"></script>
+<script src="surface/listview.js?v=20261029015343"></script>
+<script src="surface/beads.js?v=20261029015343"></script>
+<script src="surface/strip.js?v=20261029015343"></script>
+<script src="surface/sheetnav.js?v=20261029015343"></script>
+<script src="surface/twofinger.js?v=20261029015343"></script>
+<script src="surface/ring.js?v=20261029015343"></script>
+<script src="surface/shortlink.js?v=20261029015343"></script>
+<script src="surface/undo.js?v=20261029015343"></script>
+<script src="surface/pro.js?v=20261029015343"></script>
+<script src="surface/fresh.js?v=20261029015343"></script>
+<script src="surface/go.js?v=20261029015343"></script>
+<script src="surface/notice.js?v=20261029015343"></script>
+<script src="surface/perform.js?v=20261029015343"></script>
+<script src="surface/words.js?v=20261029015343"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -231,14 +231,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261029013815"></script>
-<script src="surface/rail.js?v=20261029013815"></script>
-<script src="surface/touchsound.js?v=20261029013815"></script>
-<script src="surface/water.js?v=20261029013815"></script>
-<script src="surface/ripple.js?v=20261029013815"></script>
-<script src="surface/material.js?v=20261029013815"></script>
-<script src="surface/float.js?v=20261029013815"></script>
-<script src="surface/manual.js?v=20261029013815"></script>
+<script src="surface/pack.js?v=20261029015343"></script>
+<script src="surface/rail.js?v=20261029015343"></script>
+<script src="surface/touchsound.js?v=20261029015343"></script>
+<script src="surface/water.js?v=20261029015343"></script>
+<script src="surface/ripple.js?v=20261029015343"></script>
+<script src="surface/material.js?v=20261029015343"></script>
+<script src="surface/float.js?v=20261029015343"></script>
+<script src="surface/manual.js?v=20261029015343"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1781,7 +1781,7 @@ html.srcOverlay #bgLayer{mix-blend-mode:overlay}html.srcIgnore .stage{background
 /* the mixer at bar width (23 Oct): picker left, swatch rows right, animation in one row, Blend as a Pro preview */
 .cmGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 28px}.cmGrid>.cmAnim,.cmGrid>.cmBlend{grid-column:1/-1}
 @container (min-width:560px){.cmGrid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}#colorPop .cmPane{columns:auto!important}.cmSide .cmRow:first-child .cmL{margin-top:2px}}
-.cmBig.cmNone{position:relative;box-shadow:inset 0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .35)}.cmBig.cmNone::before,.cmBig.cmNone::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cmBig.cmNone::after{transform:rotate(-45deg)}.cpS>i.none{position:relative;background:none}.cpS>i.none::before,.cpS>i.none::after{content:'';position:absolute;left:30%;right:30%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cpS>i.none::after{transform:rotate(-45deg)}.cmMixIn{padding:4px 16px 12px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08)}.cmAlts button{display:inline-flex;align-items:center;gap:6px}.cmAlts svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.cmAlts svg [fill=currentColor],.cmAlts svg circle{fill:currentColor}.cpBot{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--ui-dim);font:400 12px/1 var(--sans)}.cpRobo{display:inline-grid;width:20px;height:20px;place-items:center}.cpRobo svg{width:18px;height:18px}.cpBotN{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:16em}.cpIc{display:inline-flex;align-items:center;gap:6px}.cpIc svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}.cpTools{display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 8px}.cpTools .tb{min-height:30px}.cpTools .tb[data-a=del]{min-width:9.5em}.cpTools .tb[aria-expanded=true]{color:var(--acc-tx,var(--acc,#55b8c9))}.cpAdj{margin:0 0 10px}.cpAdj input{touch-action:none}.cpHeld{margin:0 0 8px;font:400 12px/1.35 var(--sans);color:var(--ui-dim)}.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px;height:36px;flex-wrap:nowrap;overflow:hidden}.cpTop .cpName{flex:0 0 auto;max-width:52%}.cpTop .cpName b{min-width:0}.cpBot~.cpSave .cpSvL{display:none}.cpBot{flex:0 1 auto;overflow:hidden}.cpIc svg .f{fill:currentColor;stroke:none}.cpTools .cpIc svg{width:15px;height:15px;stroke-width:1.8;stroke-linejoin:round}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel{flex-wrap:nowrap}.cmRel select{max-width:42%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
+.cmBig.cmNone{position:relative;box-shadow:inset 0 0 0 1.5px rgb(var(--ui-hi,255 255 255) / .35)}.cmBig.cmNone::before,.cmBig.cmNone::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cmBig.cmNone::after{transform:rotate(-45deg)}.cpS>i.none{position:relative;background:none}.cpS>i.none::before,.cpS>i.none::after{content:'';position:absolute;left:30%;right:30%;top:50%;height:1.5px;background:rgb(var(--ui-hi,255 255 255) / .45);transform:rotate(45deg)}.cpS>i.none::after{transform:rotate(-45deg)}.cmMixIn{padding:4px 16px 12px;border-top:1px solid rgb(var(--ui-hi,255 255 255) / .08)}.cmAlts button{display:inline-flex;align-items:center;gap:6px}.cmAlts svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.cmAlts svg [fill=currentColor],.cmAlts svg circle{fill:currentColor}.cpBot{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--ui-dim);font:400 12px/1 var(--sans)}.cpRobo.apGo{display:inline-grid;width:22px;height:22px;place-items:center;border:0;border-radius:0;background:none;box-shadow:none;color:var(--acc-tx,var(--acc,#55b8c9));cursor:default;flex:none}.cpRobo.apGo svg{width:20px;height:20px;fill:none;overflow:visible}.cpBotN{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:16em}.cpIc{display:inline-flex;align-items:center;gap:6px}.cpIc svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}.cpTools{display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 8px}.cpTools .tb{min-height:30px}.cpTools .tb[data-a=del]{min-width:9.5em}.cpTools .tb[aria-expanded=true]{color:var(--acc-tx,var(--acc,#55b8c9))}.cpAdj{margin:0 0 10px}.cpAdj input{touch-action:none}.cpHeld{margin:0 0 8px;font:400 12px/1.35 var(--sans);color:var(--ui-dim)}.cmPal{padding:12px 16px 2px}.cpTop{display:flex;align-items:center;gap:8px;margin-bottom:8px;height:36px;flex-wrap:nowrap;overflow:hidden}.cpTop .cpName{flex:0 0 auto;max-width:52%}.cpTop .cpName b{min-width:0}.cpBot~.cpSave .cpSvL{display:none}.cpBot{flex:0 1 auto;overflow:hidden}.cpIc svg .f{fill:currentColor;stroke:none}.cpTools .cpIc svg{width:15px;height:15px;stroke-width:1.8;stroke-linejoin:round}.cpName{display:flex;align-items:baseline;gap:8px;background:none;border:0;padding:4px 0;color:var(--ui-ink);cursor:pointer;font:600 14px/1.2 var(--sans);min-width:0}.cpName b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cpName .cpK{font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}.cpName svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;align-self:center;transition:transform .2s}.cpName[aria-expanded=true] svg{transform:rotate(180deg)}.cpSave{margin-left:auto;flex:none}.cpStrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px}.cpStrip::-webkit-scrollbar{display:none}.cpS{flex:1 0 50px;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px 7px;border:0;border-radius:12px;background:none;color:var(--ui-dim);cursor:pointer;font:600 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.cpS>i{display:block;width:100%;max-width:58px;height:32px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .22)}.cpS>i.off{background:repeating-linear-gradient(45deg,transparent 0 5px,rgb(var(--ui-hi,255 255 255) / .16) 5px 6px)}.cpS[aria-pressed=true]{color:var(--ui-ink);background:rgb(var(--ui-hi,255 255 255) / .08)}.cpS[aria-pressed=true]>i{box-shadow:0 0 0 2px var(--acc,#55b8c9)}.cpMix{flex:0 0 40px}.cpMix>i{display:grid;place-items:center;box-shadow:none}.cpMix>i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}.cpS em{position:absolute;top:3px;right:5px;font:normal 600 11px/1 var(--sans);color:var(--acc-tx,var(--acc,#55b8c9))}.cpList{margin-top:8px;display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}.cpRow{display:flex;align-items:center;gap:4px}.cpUse{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border:0;border-radius:10px;background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--ui-ink);cursor:pointer;text-align:left;font:400 13px/1.2 var(--sans)}.cpUse[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--acc,#55b8c9)}.cpMini{display:flex;gap:2px;flex:none}.cpMini i{width:15px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .2)}.cpN small{margin-left:4px;color:var(--ui-dim);font-size:11px}.cpDel{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:none;color:var(--ui-dim);font-size:18px;cursor:pointer}.cmRel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}.cmRel select{min-height:32px;border-radius:9px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:var(--ui-solid,#0b0f10);color:var(--ui-ink);font:400 12.5px var(--sans);padding:0 8px}.cmRel{flex-wrap:nowrap}.cmRel select{max-width:42%}.cmRel .cmSeg button[role=radio][aria-checked=true]{background:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}.cmPick .cmBigPick{position:relative;cursor:pointer;overflow:hidden}.cmPick .cmBigPick .cmNatIn{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;cursor:pointer;border:0;padding:0}.cmBigPick:focus-within{outline:2px solid var(--acc,#55b8c9);outline-offset:2px}.cmTg .tb[role=switch]{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-radius:15px;padding:0 10px 0 6px}.cmTg .tb[role=switch]>i{position:relative;width:28px;height:16px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .2);flex:none;transition:background .2s}.cmTg .tb[role=switch]>i::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--ui-ink,#fff);transition:transform .2s}.cmTg .tb[role=switch][aria-checked=true]{color:var(--ui-ink,#fff)}.cmTg .tb[role=switch][aria-checked=true]>i{background:var(--acc,#55b8c9)}.cmTg .tb[role=switch][aria-checked=true]>i::after{transform:translateX(12px)}.cmNat{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}.cmNat>span{font:600 8.5px/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim,#8a9396)}.cmPick .cmEdTop{margin:2px 0 6px}.cmPick .cmBig{width:40px;height:40px;cursor:default}.cmTg{display:flex;gap:4px;margin-left:auto}.cmTg .tb{min-height:30px}
 .cmPick input[type=color]{width:34px;height:30px;padding:0;border:0;background:none;cursor:pointer}
 .cmRow[hidden]{display:none}.cmRow.across .cmSw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px}.cmRow.across .cmSw::-webkit-scrollbar{display:none}.cmRow.across .cmSw button{flex:none}
 .cmAnim{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--ui-line);min-width:0}.cmAnim>.cmL{margin:0;flex:none}.cmAnim .cmSeg{flex-wrap:nowrap;flex:none}.cmAnim .cmSp{flex:1;min-width:90px;margin:0}
@@ -2646,7 +2646,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"b h t" "b r r";gap:8px 12px;align-items:center}
 #colorPop .cmPick .cmEdTop>.cmBig{grid-area:b;width:64px;height:64px}#colorPop .cmEdTop>.cmEdHex{grid-area:h;min-width:0}#colorPop .cmEdTop>.cmTg{grid-area:t}
 #colorPop .cmRelTop{grid-area:r;display:flex;align-items:center;gap:10px;min-width:0;margin:0}#colorPop .cmRelTop select{flex:1}
-#colorPop .cmAnim{flex-wrap:wrap}#colorPop .cmAnim .cmSeg{flex-wrap:wrap;flex:1 1 auto}#colorPop .cmAnim .cmSp{flex:1 1 100%;min-width:0}#colorPop .cmRelK{font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
+#colorPop .cmAnim{flex-wrap:wrap}#colorPop .cmAnim .cmSeg{flex-wrap:wrap;flex:1 1 auto}#colorPop .cmAnim .cmSp{flex:1 1 100%;min-width:0}#colorPop .cmAnim .cmPer{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:8px 0 0}#colorPop .cmAnim .cmPer>span{display:block}#colorPop .cmPer .cmSeg{flex-wrap:wrap}#colorPop .cmPer.off{opacity:.4}#colorPop .cmRelK{font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim)}
 #colorPop .cmRelTop select{width:100%;min-width:0;max-width:none;min-height:32px;text-overflow:ellipsis}#colorPop .cmRelTop select.tied{border-color:var(--acc,#55b8c9)}
 #colorPop .cmEdHex input{width:100%;max-width:7.2em;box-sizing:border-box}#colorPop .cmTg{margin-left:0;flex:none}
 #colorPop .cmGrid{gap:0 28px}
@@ -3681,7 +3681,7 @@ const OKC={lin:v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)}
 const colorOpp=h=>'#'+(0xffffff^(parseInt(String(h).slice(1),16)||0)).toString(16).padStart(6,'0');
 const colorComp=h=>{const [L,C,H]=OKC.lch(h);return C<.025?OKC.hex([1-L,0,0]):OKC.hex([L,C,H+180])};
 const sameC=(a,b)=>String(a||'').toLowerCase()===String(b||'').toLowerCase();
-const CANIM_MODES=[['off','off','No animation'],['drift','drift','Drift: the hue slowly turns round the wheel'],['pulse','pulse','Pulse: a flash on every beat'],['breathe','breathe','Breathe: lightness rises and falls'],['shuffle','shuffle','Shuffle: on the beat it takes another of the palette’s colors (Speed: every 8, 4, 2 or 1 beats)']];   /* Dimitry, 28 Oct 21:31: "shuffle should be one of the animation methods ... It just shuffles the current palette" */
+const CANIM_MODES=[['off','off','No animation'],['drift','drift','Drift: the hue turns round the wheel, in time with the tempo'],['pulse','pulse','Pulse: a flash on the beat'],['breathe','breathe','Breathe: lightness rises and falls with the tempo'],['shuffle','shuffle','Shuffle: on the beat it takes another of the palette’s colors']];   /* Dimitry, 28 Oct 21:31: "shuffle should be one of the animation methods ... It just shuffles the current palette" */
 const CG_LAST={second:'#55b8c9',touch:'#ff6fa5'};
 const CG={
   line:{name:'Ink 1',get:()=>S.line,on:()=>!S.lineOff,set:v=>{S.line=v;S.lineOff=false;syncLine()},off:()=>{S.lineOff=true;clearTrails()},sw:()=>LINE_COLORS},
@@ -3760,7 +3760,15 @@ function palTouchedNoFree(k){const P=S.pal&&palFind(S.pal.name);if(P&&!P.builtin
 function colorDid(what){try{document.dispatchEvent(new CustomEvent('cxcolor',{detail:what}))}catch(_){}}
 /* the live colors: the group's own color, animated. The drawing reads LC, the scene saves S (so a saved scene keeps its
    colors, not the moment of the drift it was saved in). */
-const LC={};let CAT=0,CBEAT=0,CBHI=false,CBT=0,CGROUND=false;
+const LC={};let CAT=0,CBEAT=0,CBHI=false,CBT=0,CGROUND=false,CBP=0;const CPB={};
+/* ONE CLOCK (Dimitry, 28 Oct 21:43, picking "put every animation's speed on the tempo"): every color animation counts in
+   beats of the one tempo (tapped, or the beat that plays; 120 a minute until there is one). Speed is a choice of
+   periods, slow to fast; the stored sp (0..1) picks one of four, so looks saved before keep their speed's place. */
+const CANIM_PER={drift:[[128,'32 bars'],[64,'16 bars'],[32,'8 bars'],[16,'4 bars']],breathe:[[16,'4 bars'],[8,'2 bars'],[4,'bar'],[2,'2 beats']],pulse:[[8,'2 bars'],[4,'bar'],[2,'2 beats'],[1,'beat']],shuffle:[[8,'2 bars'],[4,'bar'],[2,'2 beats'],[1,'beat']]};
+const CANIM_SAY={drift:'a turn in',breathe:'a breath in',pulse:'every',shuffle:'every'};
+const canimI=a=>Math.max(0,Math.min(3,Math.round((a&&a.sp!=null?+a.sp:.5)*3)));
+const canimPer=a=>{const L=CANIM_PER[a&&a.m];return L?L[canimI(a)][0]:4};
+let CBPM=120,CBPMT=0;const canimBpm=()=>{const n=performance.now();if(n-CBPMT<250)return CBPM;CBPMT=n;CBPM=(()=>{try{const t=tapBeatNow();if(t&&t.bpm>0)return t.bpm}catch(_){}return 120})();return CBPM};
 /* THE COLOR FADE (Dimitry, 26 Oct 23:35: "right now they just pop from one to the other and it looks very abrupt … I want
    that heart replaced with a transition 0 to 100 slider that … changes the duration of the blend from one color to another
    when I change a color"). 0 is a jump; 100 is COLOR_FADE_MAX seconds; the blend crosses in OKLab like the scene morph.
@@ -3813,17 +3821,18 @@ function cmEnd(){const c=CM;if(!c)return;CM=null;
   for(const g of CG_ORDER)LC[g]=animColor(CG[g].get(),(S.canim||{})[g]);
   if(!LC.ground){CGROUND=false;applyGround(true)}   // the ground lands where the morph took it: no wipe of the trails
   try{syncArrow()}catch(_){}morphUI()}
-function animColor(base,a,g){if(!base||!a||!a.m||a.m==='off')return null;if(a.m==='shuffle')return (g&&CSHUF[g])||null;const sp=a.sp==null?.5:+a.sp;let [L,C,H]=OKC.lch(base);
-    if(a.m==='drift'){H+=CAT*360/(60-54*sp);C=Math.max(C,.09)}   // a grey has no hue to turn: it takes a little color first
-    else if(a.m==='breathe')L+=Math.sin(CAT*2*Math.PI/(9-7.5*sp))*.17;
-    else if(a.m==='pulse')L+=(L<.62?.34:-.34)*CBEAT*(.45+.55*sp);
+function animColor(base,a,g){if(!base||!a||!a.m||a.m==='off')return null;if(a.m==='shuffle')return (g&&CSHUF[g])||null;let [L,C,H]=OKC.lch(base);
+    if(a.m==='drift'){H+=CBP/canimPer(a)*360;C=Math.max(C,.09)}   // a grey has no hue to turn: it takes a little color first
+    else if(a.m==='breathe')L+=Math.sin(CBP*2*Math.PI/canimPer(a))*.17;
+    else if(a.m==='pulse')L+=(L<.62?.34:-.34)*(g?(CPB[g]||0):CBEAT)*.8;
     return OKC.hex([L,C,H])}
 let CSHN=0;const CSHUF={};
-function colorTick(dt){CAT+=dt;const A=S.canim||{};
-  let hit=false;if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!CBHI){hit=true;CBHI=true}else if(SIGNALS.beat<.5)CBHI=false}else{CBT+=dt;if(CBT>.6){CBT=0;hit=true}}
+function colorTick(dt){CAT+=dt;const A=S.canim||{},bpm=canimBpm();CBP+=dt*bpm/60;
+  let hit=false;if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!CBHI){hit=true;CBHI=true}else if(SIGNALS.beat<.5)CBHI=false}else{CBT+=dt;if(CBT>60/bpm){CBT=0;hit=true}}
   if(hit)CBEAT=1;CBEAT*=Math.exp(-dt*4);
+  if(hit){const n0=CSHN+1;for(const g of CG_ORDER){const a=A[g];if(a&&a.m==='pulse'&&!(n0%canimPer(a)))CPB[g]=1}}for(const g in CPB)CPB[g]*=Math.exp(-dt*4);
   /* shuffle: every n beats each shuffling color takes another of the palette's (its own colors, never one it shows now) */
-  if(hit){CSHN++;let pool=null;for(const g of CG_ORDER){const a=A[g];if(!a||a.m!=='shuffle'||!CG[g].get()){if(CSHUF[g])delete CSHUF[g];continue}const n=[8,4,2,1][Math.round((a.sp==null?.5:+a.sp)*3)];if(CSHN%n)continue;
+  if(hit){CSHN++;let pool=null;for(const g of CG_ORDER){const a=A[g];if(!a||a.m!=='shuffle'||!CG[g].get()){if(CSHUF[g])delete CSHUF[g];continue}const n=canimPer(a);if(CSHN%n)continue;
     if(!pool)pool=[...new Set(CG_ORDER.map(h=>CG[h].get()).filter(c=>c&&/^#/.test(c)).map(c=>c.toLowerCase()))];const now=(CSHUF[g]||CG[g].get()||'').toLowerCase(),gr=(CSHUF.ground||CG.ground.get()||'').toLowerCase(),inks=[CG.line.get(),CG.second&&CG.second.get(),CSHUF.line,CSHUF.second].filter(Boolean).map(c=>c.toLowerCase()),L=pool.filter(c=>c!==now&&(g==='ground'?!inks.includes(c):c!==gr));   /* an ink never takes the ground's color, nor the ground an ink's: the particles would vanish (review 6a3a082 r-2) */if(L.length)CSHUF[g]=L[Math.floor(Math.random()*L.length)]}}
   for(const g in CSHUF)if(!A[g]||A[g].m!=='shuffle')delete CSHUF[g];
   const snap=CFD_SNAP||!!CM;CFD_SNAP=false;
@@ -8917,13 +8926,14 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
   let lastSig='',edRen=false;
   window.PAL_PAINT=()=>{if(!host)return;   /* never rebuilt under a finger (review a2f5773 r-2) */const cur=CM_TABS.current(),P=S.pal||{},rel=P.rel||{};
     /* rebuilt only when what it shows changes; otherwise the swatches take their colors in place, so a tap never lands on a strip being rebuilt (review ade287a r-4) */
-    const sig=JSON.stringify([edRen,cur,P.name,!!P.edited,curName,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
+    const sig=JSON.stringify([edRen,cur,P.name,!!P.edited,S.alt,!!(autoT),PAL_HELD,toolsOpen,PAL_SLOTS.map(([k])=>SW(k)?1:0).join(''),Object.entries(rel).map(([k,r])=>k+r.of+r.op).sort(),listOpen,listOpen?palAll().map(q=>q.name):0]);
+    {const bn=host.querySelector('.cpBotN');if(bn&&bn.textContent!==(curName||''))bn.textContent=curName||''}   /* the scene's name changes in place: a rebuild restarted the robot's animation (Dimitry, 28 Oct 21:47: "robot anim is broken") */
     if(sig===lastSig&&host.firstChild){host.querySelectorAll('.cpS[data-t]').forEach(b=>{const k=b.dataset.t;if(k==='mix')return;const col=SW(k),i=b.querySelector('i');if(!i)return;i.style.background=col||'';i.classList.toggle(k==='second'?'none':'off',!col)});return}
     if((adjHeld||(edRen&&document.activeElement&&document.activeElement.classList&&document.activeElement.classList.contains('cpRnIn')&&host.contains(document.activeElement)))&&lastSig)return;   /* nor while a name is being typed (r-5) */   /* the full rebuild waits while a finger is on an Adjust slider; the swatches above still recolor in place (reviews 4a0dbfa r-1, 6fc54c2 r-1, r-2) */
     const fk=document.activeElement&&host.contains(document.activeElement)&&document.activeElement.dataset?document.activeElement.dataset.k:null;   /* a focused Adjust slider gets its focus back after a rebuild (review 15f75a6 r-1) */
     lastSig=sig;delArm=0;   /* a rebuilt strip is never armed to delete (r-2) */
     const nm=P.name?(P.name+(P.edited?' · edited':'')):'this scene’s own';
-    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>'+(P.name?'<button type="button" class="cpRen" aria-label="Rename this palette" title="Rename"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>':'')+(autoT?'<span class="cpBot" role="status" title="The robot is changing scenes; while this panel is open your colors stay"><span class="apGo robo on cpRobo">'+((($('pAuto')||{}).querySelector?($('pAuto').querySelector('svg')||{}).outerHTML||'':'').replace(/ id="[^"]*"/g,''))+'</span><span class="cpBotN">'+esc(curName||'')+'</span></span>':'')+'<button type="button" class="tb cpSave cpIc" aria-label="Save these colors as a palette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="cpSvL">save palette</span></button></div>';
+    let h='<div class="cpTop"><button type="button" class="cpName" aria-expanded="'+listOpen+'" aria-label="Palette: '+esc(nm)+'. Tap for the palettes">'+'<span class="cpK">palette</span><b>'+esc(nm)+'</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>'+(P.name?'<button type="button" class="cpRen" aria-label="Rename this palette" title="Rename"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>':'')+(autoT?'<span class="cpBot" role="status" title="The robot is changing scenes; while this panel is open your colors stay"><span class="apGo robo on cpRobo">'+'<svg viewBox="0 0 24 24" aria-hidden="true">'+((($('pAutoGo')||{}).outerHTML||'').replace(/ id="[^"]*"/g,''))+'</svg>'+'</span><span class="cpBotN">'+esc(curName||'')+'</span></span>':'')+'<button type="button" class="tb cpSave cpIc" aria-label="Save these colors as a palette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="cpSvL">save palette</span></button></div>';
     const TI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';   /* icons on every tool (Dimitry, 28 Oct 21:19) */
     h+='<div class="cpTools" role="toolbar" aria-label="Palette tools"><button type="button" class="tb cpT cpIc" data-a="shuffle" title="Shuffle the colors among the slots">'+TI('<path d="M4 7h3.5c4 0 5 10 9 10H20M4 17h3.5c1.6 0 2.7-1.6 3.6-3.5M20 7h-3.5c-1.6 0-2.7 1.6-3.6 3.5M17.5 4.5 20 7l-2.5 2.5M17.5 14.5 20 17l-2.5 2.5"/>')+'shuffle</button><button type="button" class="tb cpT cpIc" data-a="adjust" aria-expanded="'+toolsOpen+'" title="Hue, saturation and lightness for the whole palette">'+TI('<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2" class="f"/><circle cx="15" cy="12" r="2" class="f"/><circle cx="8" cy="17" r="2" class="f"/>')+'adjust</button><button type="button" class="tb cpT cpIc" data-a="dup" title="A copy of this palette, as one of yours, numbered">'+TI('<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>')+'duplicate</button>'+(P.name&&!(palFind(P.name)||{}).builtin?'<button type="button" class="tb cpT cpIc" data-a="del" title="Delete this palette of yours">'+TI('<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>')+'<span>delete</span></button>':'')+'</div>';
     if(toolsOpen)h+='<div class="cpAdj">'+[['h','hue','-180','180','1'],['c','saturation','0','200','1'],['l','lightness','-40','40','1']].map(([k,n,a,b,st])=>'<label class="cmEdR"><span>'+n+'</span><input type="range" data-k="'+k+'" min="'+a+'" max="'+b+'" step="'+st+'" value="'+adj[k]+'" aria-label="Whole palette '+n+'"><output>'+(k==='c'?adj[k]+'%':adj[k])+'</output></label>').join('')+'</div>';
@@ -9119,8 +9129,9 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
   const seg=mk('div','cmSeg',null,anim);seg.setAttribute('role','group');seg.setAttribute('aria-label',G.name+' animation');
   const modeB=CANIM_MODES.map(([k,t,al])=>{const b=mk('button',null,null,seg);b.type='button';b.textContent=t;b.title=al;b.setAttribute('aria-label',al);b.dataset.k=k;
     b.onclick=()=>{const a=A(),an=a[g]||{};if(k==='off')delete a[g];else{a[g]={m:k,sp:an.sp==null?.5:an.sp};stkDid('anim')}update();try{if(ACTIVE==='color')buildToolShelf()}catch(_){}};return b});
-  const sp=mk('label','cmSp','<span>speed</span>',anim),spR=document.createElement('input');spR.type='range';spR.min=0;spR.max=1;spR.step=.01;spR.setAttribute('aria-label',G.name+' animation speed');sp.appendChild(spR);
-  spR.oninput=()=>{const a=A();if(a[g])a[g].sp=+spR.value};
+  /* speed in the tempo: four periods, slow to fast, as pills (no slider: nothing between a bar and two) */
+  const sp=mk('div','cmSp cmPer',null,anim);const spK=mk('span',null,'every',sp),spSeg=mk('div','cmSeg',null,sp);spSeg.setAttribute('role','radiogroup');spSeg.setAttribute('aria-label',G.name+' animation speed, in the tempo');
+  const spB=[0,1,2,3].map(i=>{const b=mk('button',null,null,spSeg);b.type='button';b.setAttribute('role','radio');b.onclick=()=>{const a=A();if(a[g]){a[g].sp=+(i/3).toFixed(3);stkDid('anim')}update()};return b});
   /* BLEND, a Pro preview (Dimitry 00:08): the real controls, inert without a key; ONE lock-and-bolt framing the whole
      section, and one line to join. With a key they work: how the lines lay onto what is already drawn
      (canvas globalCompositeOperation, kept with the scene). */
@@ -9144,7 +9155,7 @@ function renderCM(g){g=g||CM_TABS.current()||'line';const G=CG[g],pane=$(CM_PANE
     for(const b of sgB)b.setAttribute('aria-pressed',String(SRCG===b.dataset.k));
     const an=(S.canim||{})[g]||{m:'off',sp:.5},off=!an.m||an.m==='off';
     for(const b of modeB)b.setAttribute('aria-pressed',String((an.m||'off')===b.dataset.k));
-    sp.classList.toggle('off',off);spR.disabled=off;spR.setAttribute('aria-disabled',String(off));if(document.activeElement!==spR)spR.value=an.sp==null?.5:an.sp;
+    sp.classList.toggle('off',off);{const L=CANIM_PER[an.m]||CANIM_PER.breathe,ci=canimI(an);spK.textContent=CANIM_SAY[an.m]||'every';spB.forEach((b,i)=>{b.textContent=L[i][1];b.setAttribute('aria-checked',String(!off&&i===ci));b.disabled=off;b.title=(CANIM_SAY[an.m]||'every')+' '+L[i][1]+' of the tempo'})}
     const pro=isPro('blend');blend.classList.toggle('pro',!pro);blend.classList.toggle('proOpen',SurfacePro.state('blend')==='beta');join.hidden=pro;const bm=S.blend||'source-over';
     for(const b of blendB){b.setAttribute('aria-pressed',String(pro&&bm===b.dataset.k));if(pro)b.removeAttribute('aria-disabled');else b.setAttribute('aria-disabled','true');b.title=pro?'':'Blend comes with Pro'}}
   if(g==='second'){const u0=update;let two0=null;update=function(){u0();const two=!!S.line2,mx=$('cmMix');if((two!==two0||!mx.contains(document.activeElement))&&!mx.hidden){two0=two;try{renderMixTab()}catch(_){}}}}   /* the mix under Ink 2 follows whether there is an Ink 2 */
@@ -9761,14 +9772,14 @@ function inItems(){const ic=id=>{const b=$(id),v=b&&b.querySelector('svg');if(!v
    your saved colors. The middle is the Tools' palette, the color tool's own mark. One word per label. */
 function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="7" fill="'+(c||'transparent')+'" stroke="currentColor" stroke-width="1.4"/></svg>',
   dot=(g,label)=>{const G=CG[g];return {id:'c-'+g,kind:'go',label,aria:label.charAt(0).toUpperCase()+label.slice(1)+': '+G.name+' color, '+(G.on()?G.get():'off')+'. Opens it in the Color panel',icon:sw(G.on()?G.get():null),pick:()=>{try{openColorEdit(g)}catch(_){}}}};
-  const A=()=>(S.canim=S.canim||{}),dr=()=>{const a=(S.canim||{}).line;return a&&a.m==='drift'?Math.round((a.sp==null?.5:a.sp)*100):0};
+  const A=()=>(S.canim=S.canim||{}),dr=()=>{const a=(S.canim||{}).line;return a&&a.m==='drift'?canimI(a)+1:0};   /* 0 still, 1..4 the four periods, as the panel (review d77fbd8 r-1) */
   return [
   {id:'panel',kind:'go',at:'top',label:'panel',aria:'The Color panel: every group, related colors, your colors',icon:DOOR_IC,pick:()=>{try{openColorMix()}catch(_){}}},
   dot('line','ink 1'),dot('second','ink 2'),dot('ground','ground'),dot('touch','touch'),
   {id:'opp',kind:'go',label:'opposite',aria:'Opposite: lines, second and ground turn inside out (tap again to turn back)',icon:RING_I('<circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor"/>'),
     pick:()=>{const R=(S.pal&&S.pal.rel)||{};for(const g of ['line','second','ground']){const G=CG[g];if(G.on()&&!R[g])G.set(colorOpp(G.get()))}   /* a tied slot follows its own (review 236cbc6 r-1) */try{renderCM()}catch(_){}try{colorDid('opposite')}catch(_){}}},
-  {id:'drift',kind:'value',label:'drift',aria:'Drift: the lines\' hue slowly turns round the wheel; 0 holds it still',icon:RING_I('<path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/>'),min:0,max:100,step:5,get:dr,
-    set:v=>{if(v>0)A().line={m:'drift',sp:+(v/100).toFixed(2)};else if(S.canim)delete S.canim.line;try{renderCM()}catch(_){}try{colorDid('drift')}catch(_){}},fmt:v=>v?Math.round(v)+'%':'still'},
+  {id:'drift',kind:'value',label:'drift',aria:'Drift: the lines\' hue slowly turns round the wheel; 0 holds it still',icon:RING_I('<path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/>'),min:0,max:4,step:1,get:dr,
+    set:v=>{v=Math.round(v);if(v>0)A().line={m:'drift',sp:+((v-1)/3).toFixed(3)};else if(S.canim)delete S.canim.line;try{renderCM()}catch(_){}try{colorDid('drift')}catch(_){}},fmt:v=>{v=Math.round(v);return v?'a turn in '+CANIM_PER.drift[v-1][1]:'still'}},
   /* FADE (26 Oct 23:35): replaces "mine" (his saved colors already live in the Color panel): how long a color you pick takes to blend in */
   {id:'fade',kind:'value',label:'fade',aria:'Fade: how long a new color takes to blend in (0 jumps)',icon:RING_I('<circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5" stroke-dasharray="1.6 1.9"/>'),
     min:0,max:100,step:5,get:()=>CFADE,set:v=>{CFADE=Math.max(0,Math.min(100,Math.round(v)));try{localStorage.setItem('current.colorFade',String(CFADE))}catch(_){}},fmt:v=>v?cfSecs(v)+'s':'cut'}]}
@@ -11141,10 +11152,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261029013815"></script>
-<script src="surface/links.js?v=20261029013815"></script>
-<script src="surface/tips.js?v=20261029013815"></script>
-<script src="surface/sections.js?v=20261029013815"></script>
+<script src="surface/install.js?v=20261029015343"></script>
+<script src="surface/links.js?v=20261029015343"></script>
+<script src="surface/tips.js?v=20261029015343"></script>
+<script src="surface/sections.js?v=20261029015343"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11331,7 +11342,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261029013815"></script>
+<script src="surface/room.js?v=20261029015343"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -11532,7 +11543,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261029013815"></script>
+<script src="surface/touch.js?v=20261029015343"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12277,7 +12288,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.35.2';
+const APP_VERSION='0.35.3';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
