@@ -32,6 +32,8 @@
          kind: drop | bubbles | whale | porpoise | seagull | sand | wade | splash | lap | wash | lighthouse; pitch 0..1 (1 = high), pan -1..1, size 0..1 (bigger = longer,
          lower; a longer click train, more gull calls). porpoise takes {whistle: bool}; seagull takes {air: t.air}
      SurfaceWater.hold(ctx, out, "bottle", {pitch, pan, gain}) → {set({pitch, pan, gain, breath}), release()}  a voice held by a finger
+     SurfaceWater.pitchHz(kind, pitch, size) → the fundamental in Hz a pitch gives (whale, lighthouse, drop, bottle), else null;
+         voice and hold take {hz} (and the bottle set({hz})) for an exact one: a tool snaps it to a scale (29 Oct 2026)
      SurfaceWater.pick(presetId, ctx) → the voice the music plays (the preset's mix weights; gulls and porpoises keep a gap)
      SurfaceWater.tap(presetId, y) → the voice a tap plays (y 1 at the top; above the waterline a preset's sky voice)
      SurfaceWater.PRESETS, .BEDS, .VOICES   [{id, name, note, ...}] for pickers
@@ -571,6 +573,7 @@
   function hold(ctx, out, kind, o) {
     o = o || {}; if (kind !== "bottle") return null;
     var t = ctx.currentTime + 0.005, h = clamp(o.pitch != null ? o.pitch : 0.5, 0, 1), amp = (o.gain != null ? o.gain : 1) * 0.35, br = 1;
+    if (o.hz > 0) h = HZ.bottle.h(o.hz);
     var fq = function (x) { return 165 * Math.pow(2, x * 2); }, f = fq(h);
     var nz = ctx.createBufferSource(); nz.buffer = noiseBuf(ctx, "white", 2, 73); nz.loop = true;
     var bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = f; bp.Q.value = 28;
@@ -587,7 +590,7 @@
     var gone = false;
     return {
       set: function (q) { if (gone || !q) return; var n = ctx.currentTime;
-        if (q.pitch != null) { h = clamp(+q.pitch, 0, 1); f = fq(h); bp.frequency.setTargetAtTime(f, n, 0.05); os.frequency.setTargetAtTime(f, n, 0.05); }
+        if (q.pitch != null || q.hz > 0) { h = q.hz > 0 ? HZ.bottle.h(q.hz) : clamp(+q.pitch, 0, 1); f = fq(h); bp.frequency.setTargetAtTime(f, n, 0.05); os.frequency.setTargetAtTime(f, n, 0.05); }
         if (q.pan != null && p) p.pan.setTargetAtTime(clamp(+q.pan, -1, 1), n, 0.05);
         if (q.gain != null) amp = Math.max(0, +q.gain) * 0.35;
         if (q.breath != null) br = clamp(+q.breath, 0, 1.5);
@@ -597,10 +600,21 @@
         setTimeout(function () { nodes.forEach(function (x) { try { if (x) x.disconnect(); } catch (e) {} }); }, 1300); }
     };
   }
+  /* IN TUNE (Dimitry, 29 Oct 18:31, for an ensemble: a key and a scale the room shares). The pitched voices say what
+     fundamental a pitch gives (pitchHz) and take an exact one back (o.hz, or set({hz}) on the bottle), so a tool can snap
+     a note to a scale; the rest (bubbles, sand, splashes, laps, waves, gulls) are noise and stay as they are. */
+  var HZ = {
+    whale: { f: function (h) { return 90 + h * 320; }, h: function (f) { return (f - 90) / 320; } },
+    lighthouse: { f: function (h) { return 52 + h * 74; }, h: function (f) { return (f - 52) / 74; } },
+    drop: { f: function (h, s) { return (380 + h * 1700) * (1.15 - s * 0.3); }, h: function (f, s) { return (f / (1.15 - s * 0.3) - 380) / 1700; } },
+    bottle: { f: function (h) { return 165 * Math.pow(2, h * 2); }, h: function (f) { return Math.log(f / 165) / Math.LN2 / 2; } }
+  };
+  function pitchHz(kind, pitch, size) { var z = HZ[kind]; if (!z) return null; return z.f(clamp(pitch != null ? pitch : 0.5, 0, 1), clamp(size != null ? size : 0.5, 0, 1)); }
   function voice(ctx, out, kind, o) {
     o = o || {};
     var t = o.when != null ? o.when : ctx.currentTime + 0.005, h = clamp(o.pitch != null ? o.pitch : 0.5, 0, 1), pan = o.pan || 0;
     var size = clamp(o.size != null ? o.size : 0.5, 0, 1), amp = (o.gain != null ? o.gain : 1) * 0.35;
+    if (o.hz > 0 && HZ[kind]) h = HZ[kind].h(o.hz, size);   // IN TUNE: an exact fundamental, a little past the 0..1 range if a note asks
     if (kind === "porpoise") return porpoise(ctx, out, t, h, pan, size, amp, o);
     if (kind === "seagull") return seagull(ctx, out, t, h, pan, size, amp, o);
     if (ONESHOT[kind]) return ONESHOT[kind](ctx, out, t, h, pan, size, amp);
@@ -638,7 +652,7 @@
   }
 
   window.SurfaceWater = {
-    treat: treat, bed: bed, voice: voice, hold: hold, PRESETS: PRESETS, BEDS: BEDS, VOICES: VOICES,
+    treat: treat, bed: bed, voice: voice, hold: hold, pitchHz: pitchHz, PRESETS: PRESETS, BEDS: BEDS, VOICES: VOICES,
     preset: function (id) { return byId(PRESETS, id); },
     /* which voice the music plays for a preset: by its mix weights, but a voice with a gap (a gull, a porpoise) never
        comes back sooner than that; then the preset's other voice plays instead. ctx gives the time. */

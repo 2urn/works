@@ -41,7 +41,9 @@
 
    MESSAGES (broadcast event "m", JSON, every one { v: 1, t, f: senderId, to?: peerId }; times are ROOM ms):
      hello  { name, color }                         a peer arrived or came back; the leader answers with `state`
-     tempo  { bpm, bar0, bpb, src, mode }           leader, on change and every 2 s (a heartbeat even with bpm null);
+     tempo  { bpm, bar0, bpb, src, mode, key, ci }  leader, on change and every 2 s (a heartbeat even with bpm null);
+                                                    key = the room's key and scale (the tool's own object, e.g. { root, scale });
+                                                    ci = when a count-in lands on bar one (room ms; local ms on the way in), 29 Oct;
                                                     mode = what the leader lets the room follow (Current: free | tempo | scenes)
      scene  { scene, at, morph, part, n }           leader; at = when to land it (a quantized beat, ahead of now)
      state  { to, tempo, scene }                    leader → one late joiner: snap to now
@@ -171,7 +173,7 @@
       if (lastTempo && ready() && (usedOff == null || Math.abs(offset - usedOff) > 3)) tempoOut(lastTempo);
     }
     function ready() { if (leading()) return true; var minR = Math.min.apply(null, samples.map(function (y) { return y.rtt; })); return samples.length >= 2 && minR < 1500; }   // a page too busy to answer in 1.5 s has not found the clock yet
-    function tempoOut(t) { lastTempo = t; if (!ready()) return; usedOff = offset; emit("tempo", { bpm: t.bpm, bar0: t.bar0 == null ? null : toLocal(t.bar0), bpb: t.bpb || 4, src: t.src, mode: t.mode, snap: t.snap }); }
+    function tempoOut(t) { lastTempo = t; if (!ready()) return; usedOff = offset; emit("tempo", { bpm: t.bpm, bar0: t.bar0 == null ? null : toLocal(t.bar0), bpb: t.bpb || 4, src: t.src, mode: t.mode, snap: t.snap, key: t.key || null, ci: t.ci == null ? null : toLocal(t.ci) }); }
     function now() { return own() + offset; }                                        // room ms
     function toLocal(roomMs) { return roomMs - offset - performance.timeOrigin; }   // → performance.now() ms
     function toRoom(localMs) { return localMs + performance.timeOrigin + offset; }
@@ -187,10 +189,10 @@
         case "hello": if (leading()) emit("hello", { id: m.f, name: m.name }); break;
         case "q": if (p) { p.err = m.err; p.rtt = m.rtt; emit("peers", peerList()); } break;
         case "lead": if ((m.f === leaderId || m.f === prevLeader) && m.next) { if (peers[m.next]) peers[m.next].promised = performance.now(); if (m.next === me.id) me.promised = performance.now(); handed = { from: m.f, to: m.next }; if (p) p.lead = 0; if (m.next === me.id) { me.lead = Math.max(me.lead, m.epoch || 1); track(); } else if (peers[m.next]) peers[m.next].lead = Math.max(peers[m.next].lead || 0, m.epoch || 1); elect(); } break;
-        case "tempo": if (m.f === leaderId) tempoOut({ bpm: m.bpm, bar0: m.bar0, bpb: m.bpb, src: m.src, mode: m.mode }); break;
+        case "tempo": if (m.f === leaderId) tempoOut({ bpm: m.bpm, bar0: m.bar0, bpb: m.bpb, src: m.src, mode: m.mode, key: m.key, ci: m.ci }); break;
         case "scene": if (m.f === leaderId) emit("scene", { scene: m.scene, at: toLocal(m.at), morph: m.morph, part: m.part, n: m.n }); break;
         case "state": if (m.f === leaderId) {
-            if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, snap: true });
+            if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, key: m.tempo.key, ci: m.tempo.ci, snap: true });
             if (m.scene) emit("scene", { scene: m.scene.scene, at: performance.now(), morph: 0, part: m.scene.part, n: m.scene.n, snap: true });
           } break;
         case "touch": emit("touch", { id: String(m.f).slice(0, 16), part: String(m.part || "").slice(0, 16), name: String(m.name || "").slice(0, 24), path: Array.isArray(m.path) ? m.path.slice(0, 24) : [], up: !!m.up, ev: Array.isArray(m.ev) ? m.ev.slice(0, 16) : [], dr: Array.isArray(m.dr) ? m.dr.slice(0, 12) : [] }); break;   // a player's finger, posted (SurfaceRoom.post); ev: the sounds it played, dr: sounds left on its pad
@@ -259,11 +261,11 @@
       isLeader: leading, leader: function () { return leaderId; }, peers: peerList, state: function (x) {
         if (x === undefined) return st;
         if (!leading()) return false;
-        return send("state", { to: x.to, tempo: x.tempo ? { bpm: x.tempo.bpm, bar0: x.tempo.bar0 == null ? null : toRoom(x.tempo.bar0), bpb: x.tempo.bpb || 4, src: x.tempo.src, mode: x.tempo.mode } : null, scene: x.scene || null });
+        return send("state", { to: x.to, tempo: x.tempo ? { bpm: x.tempo.bpm, bar0: x.tempo.bar0 == null ? null : toRoom(x.tempo.bar0), bpb: x.tempo.bpb || 4, src: x.tempo.src, mode: x.tempo.mode, key: x.tempo.key || null, ci: x.tempo.ci == null ? null : toRoom(x.tempo.ci) } : null, scene: x.scene || null });
       },
       sync: function () { return { offset: offset, err: err, rtt: rtt, n: samples.length }; },
       now: now, toLocal: toLocal, toRoom: toRoom,
-      tempo: function (t) { if (!leading()) return false; return send("tempo", { bpm: t.bpm || null, bar0: t.bar0 == null ? null : toRoom(t.bar0), bpb: t.bpb || 4, src: t.src || "", mode: t.mode }); },
+      tempo: function (t) { if (!leading()) return false; return send("tempo", { bpm: t.bpm || null, bar0: t.bar0 == null ? null : toRoom(t.bar0), bpb: t.bpb || 4, src: t.src || "", mode: t.mode, key: t.key || null, ci: t.ci == null ? null : toRoom(t.ci) }); },
       scene: function (scene, atLocal, x) { if (!leading()) return false; x = x || {}; room._n = (room._n || 0) + 1; return send("scene", { scene: scene, at: toRoom(atLocal), morph: x.morph, part: x.part, n: room._n }); },
       handover: function (id) { if (!leading() || !peers[id] || stale[id]) return false; var e = Math.max(me.lead, peers[id].lead || 0) + 1; send("lead", { next: id, epoch: e }); peers[id].lead = e; peers[id].promised = performance.now(); handed = { from: me.id, to: id }; me.lead = 0; track(); elect(); return true; },
       rename: function (n) { me.name = String(n || "player").slice(0, 24); track(); emit("peers", peerList()); },
