@@ -76,6 +76,9 @@
      w.dry()                      a dry floor again: no beads, no waves (the host sets the level back to 0)
      w.pour(k)                    each drop brings k times its own water (1); poured() all water ever poured (before k),
                                   volume() the water standing now, capacity(c) the water it takes to cover c (0.8) of the floor
+     w.tilt(dx, dy, slope, offset) / tilt(null)   the level tilts (draining): water stands where level + slope*(p.dir -
+                                  offset) is above the floor (p from the middle, field units, y up); drain() hands the
+                                  water to the level (empties the pool grid); beadsFade(f) shrinks the beads by a share
      w.vibrate(amp, hz)           shallow water does not ring, it trembles: amp 0..1, its pattern's wavelength from hz
      o.onSplash(x, y, size, k)    called for every splash on dry floor, so the host can make it heard
      w.light({c1, c2, round, a, stops: [s0, s1], amt})   a light over the water: its glints and rim take its color, a tilted
@@ -106,7 +109,14 @@
   /* the floor read smoothly (29 Oct 14:33, "a better formula"): floorAt is a cubic B-spline over the baked relief (four
      bilinear taps, Sigg & Hadwiger 2005), used where the wave step decides wet or dry; the draw pass reads the same float
      floor bilinearly (the rim's line comes from that, at half a cell) and wetAt its nearest texel: all within half a cell */
-  var GL_FLOOR = "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n" +
+  /* DRAINING (Dimitry, 30 Oct 18:12: "an effect ... to drain the water ... drop suddenly from one direction to another,
+     or fall as if suddenly gravity had taken over ... a wall of water and it fell ... or just a gentle evaporation"):
+     the level gains a tilt, uTilt = (direction x, y in field units, slope, offset): the water stands where
+     level + slope*(p.dir - offset) is above the floor. No slope and a sinking level is evaporation (the hollows last);
+     a growing slope is a tray tipped; a steep slope whose offset runs down the screen is a wall of water falling */
+  var GL_FLOOR = "uniform vec4 uTilt;\n" +
+    "float tiltAt(vec2 uv){ return uTilt.z*(dot(uv-0.5, uTilt.xy) - uTilt.w); }\n" +
+    "float floorWet(float n, float lv){ float L = lv*1.15-0.08; return smoothstep(n-0.06, n+0.06, L); }\n" +
     /* water meets water in a smooth union (a polynomial smooth max), so a bead near the pool's edge is joined to it by a
        fillet, the way a meniscus bridges, never two outlines side by side */
     "float wetMix(float f, float b){ float k = 0.2, h = max(k-abs(f-b), 0.0)/k; return max(f, b) + h*h*k*0.25; }\n" +
@@ -119,11 +129,11 @@
        elsewhere"): uPool holds the standing water's surface (the floor plus what has collected there, lower than the
        floor where none has), read smoothly; a place is wet where that surface is above its floor. uGK is how much of the
        old, everywhere-at-once level still counts (none when the water only falls where a finger is). */
-    "float wetAtF(vec2 uv, float n){ return max(floorWet(n, uLevel*uGK), smoothstep(n-0.012, n+0.012, bsamp(uPool, uv))); }\n" +
+    "float wetAtF(vec2 uv, float n){ return max(floorWet(n, uLevel*uGK + tiltAt(uv)), smoothstep(n-0.012, n+0.012, bsamp(uPool, uv))); }\n" +
     /* HOW DEEP (Dimitry, 29 Oct 23:45: "ripples are way too much for an 8th inch of water"): the water over the floor here,
        in the relief's units; under uDeep it is a film, which rings hardly at all (the wave step damps it hard) and instead
        trembles with the sound (the show pass's vibration) */
-    "float depthAt(vec2 uv, float n){ return max(uLevel*uGK*1.15-0.08-n, bsamp(uPool, uv)-n); }\n";
+    "float depthAt(vec2 uv, float n){ return max((uLevel*uGK + tiltAt(uv))*1.15-0.08-n, bsamp(uPool, uv)-n); }\n";
   /* the wave step (Water Kit's FS_WAVE): r = height now, g = height a step ago; with the floor on (uFill), b = the beads
      of water a splash left (they stay), a = a splash's flash (it fades in a few frames) */
   var FS_WAVE = HEAD +
@@ -185,7 +195,7 @@
     /* the caustics' curvature with the diagonals too, so its light follows the rings, round, not the grid's squares */
     "  float lap = 0.5*(hl+hr+hd+hu-4.0*hc) + 0.125*(hAt(uv+t)+hAt(uv-t)+hAt(uv+vec2(t.x,-t.y))+hAt(uv+vec2(-t.x,t.y))-4.0*hc); lap *= uQ*uQ;\n" +
     "  float rim = 0.0, wbS = -1.0;\n" +
-    "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.08*(1.0-wetM(uv, b1));\n" +   /* a bead's lens kept faint: a strong one read as glass, not water (Dimitry, 29 Oct 23:45) */
+    "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.2*(1.0-wetM(uv, b1));\n" +   /* a bead's lens: faint read as glass at .3 (29 Oct 23:45) and as nothing at .08 (30 Oct 18:12: "I don't see the little splash droplets anymore"); .2 catches the light */
     /* THE FILM TREMBLES WITH THE SOUND: shallow water does not ring, it shivers in a standing pattern (Faraday's, three
        waves at 60 degrees), its wavelength from the sound's pitch (capillary waves: wavelength ~ frequency^-2/3), its
        strength from the sound's level, only where the water is a film */
@@ -252,6 +262,7 @@
     var LIGHT = null;   // light({c1, c2, round, a, stops, amt}) or null
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
     var DEEP = 0.2, VIB = { a: 0, t: 0, l: 8 }, POUR = 1, POURED = 0;   // how deep is a film; the film's tremble; how much water a drop brings
+    var TILT = [0, 0, 0, 0];   // the level's tilt while draining (dir x, dir y, slope, offset)
     var GK = 1, PL = null, plTex = null, plDirty = true, plAt = 0;   // the pool where the water fell (pourAt, poolStep)
     var FILL = null, FLB = null, flTex = null, fullT = 0, BEADS = [], FLY = [], bdCv = null, bdCx = null, bdTex = null, bdDirty = true, SPRB = null;
     var offFade = 0, fadeT = 0, sig = 1, sigT = 1, HO = null, enTex = null, enFbo = null, enBuf = new Uint8Array(16 * 16 * 4), enAt = -1e9, enVal = 0;
@@ -332,7 +343,7 @@
       for (var i = 0; i < d.length; i++) a.set(d[i], i * 4);
       gl.uniform4fv(pw.u.uDrops, a); gl.uniform1i(pw.u.uCount, d.length);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(pw.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
-      if (fo) poolBind(pw, 5); gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0); gl.uniform1f(pw.u.uGK, GK); gl.uniform1f(pw.u.uDeep, DEEP); gl.uniform1f(pw.u.uShal, Math.pow(0.8, 1 / Q));
+      if (fo) poolBind(pw, 5); gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0); gl.uniform1f(pw.u.uGK, GK); gl.uniform4f(pw.u.uTilt, TILT[0], TILT[1], TILT[2], TILT[3]); gl.uniform1f(pw.u.uDeep, DEEP); gl.uniform1f(pw.u.uShal, Math.pow(0.8, 1 / Q));
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(pw.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); cur = 1 - cur;
     }
@@ -350,7 +361,7 @@
       gl.uniform1f(ps.u.uRefr, P.refr); gl.uniform1f(ps.u.uSpec, P.spec); gl.uniform1f(ps.u.uCaus, P.caus); gl.uniform1f(ps.u.uQ, Q);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(ps.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
-      if (fo) poolBind(ps, 5); gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0); gl.uniform1f(ps.u.uGK, GK); gl.uniform1f(ps.u.uDeep, DEEP); gl.uniform1f(ps.u.uVib, fo ? VIB.a : 0); gl.uniform1f(ps.u.uVibL, VIB.l); gl.uniform1f(ps.u.uTime, (performance.now() / 1000) % 1000);
+      if (fo) poolBind(ps, 5); gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0); gl.uniform1f(ps.u.uGK, GK); gl.uniform4f(ps.u.uTilt, TILT[0], TILT[1], TILT[2], TILT[3]); gl.uniform1f(ps.u.uDeep, DEEP); gl.uniform1f(ps.u.uVib, fo ? VIB.a : 0); gl.uniform1f(ps.u.uVibL, VIB.l); gl.uniform1f(ps.u.uTime, (performance.now() / 1000) % 1000);
       /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
       { var LG = LIGHT; gl.uniform1f(ps.u.uLA, LG ? LG.amt : 0); if (LG) { gl.uniform3fv(ps.u.uL1, LG.c1); gl.uniform3fv(ps.u.uL2, LG.c2); gl.uniform3f(ps.u.uLD, LG.dx, LG.dy, LG.round ? 1 : 0); gl.uniform2f(ps.u.uLS, LG.s0, LG.s1); gl.uniform1f(ps.u.uAspS, N[0] / Math.max(1, N[1])); } }
       gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
@@ -432,7 +443,7 @@
     }
     function sstep(a, b, v) { var t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
     function wetAt(x, y) { if (FILL == null) return 1; floorBake(); if (!FLB) return 1;
-      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix], L = FILL * GK * 1.15 - 0.08;
+      var ix = Math.max(0, Math.min(FLB.w - 1, Math.floor(x * FLB.w))), iy = Math.max(0, Math.min(FLB.h - 1, Math.floor((1 - y) * FLB.h))), n = FLB.a[iy * FLB.w + ix], L = (FILL * GK + TILT[2] * (((x - 0.5) * TILT[0] + ((1 - y) - 0.5) * TILT[1]) - TILT[3])) * 1.15 - 0.08;
       return Math.max(sstep(n - 0.06, n + 0.06, L), sstep(n - 0.012, n + 0.012, poolSurf(x, y))); }
     /* the floor is on while it is filling, and while a full pool still has splashes to finish; a full, settled pool takes
        the old path (no floor reads at all) */
@@ -611,6 +622,11 @@
       capacity: function (c) { var P2 = poolInit(); if (!P2) return 0; if (!P2.srt) P2.srt = Float32Array.from(P2.f).sort(); var s = P2.srt, L = s[Math.min(s.length - 1, Math.floor((c == null ? 0.8 : c) * s.length))] + 0.02, v = 0; for (var i = 0; i < s.length; i++) if (s[i] < L) v += L - s[i]; return v; },
       /* the film's tremble: amp 0..1, at a sound's frequency in hz (its wavelength on screen follows) */
       vibrate: function (amp, hz) { VIB.t = Math.max(0, Math.min(1, +amp || 0)); if (hz > 0) { var now, lam = Math.max(10, Math.min(48, 24 * Math.pow(hz / 100, -2 / 3))), now = performance.now(); if (!VIB.cw || now - (VIB.cwAt || 0) > 1000) { VIB.cw = cv.clientWidth || SW || 1; VIB.cwAt = now; } var cw = VIB.cw; VIB.l = Math.max(2.6, lam * N[0] / cw); } return VIB.t; },
+      /* draining: tilt(dx, dy, slope, offset) or tilt(null); drain() lets the level carry the water from here (the pool
+         grid's own puddles are emptied); beadsFade(f) shrinks every bead by a share f, and lets the smallest go */
+      tilt: function (dx, dy, sl, off) { if (dx == null) TILT = [0, 0, 0, 0]; else TILT = [+dx || 0, +dy || 0, +sl || 0, +off || 0]; quiet = 0; return TILT.slice(); },
+      drain: function () { if (PL) { PL.d.fill(0); plDirty = true; poolUpload.need = true; plAt = 0; } quiet = 0; },
+      beadsFade: function (f) { f = Math.max(0, Math.min(1, +f || 0)); if (!f || !BEADS.length) return; var keep = []; for (var i = 0; i < BEADS.length; i++) { var b = BEADS[i]; b.r *= (1 - f); if (b.r > 0.9) keep.push(b); } BEADS = keep; bdDirty = true; },
       spread: function (k) { if (k !== undefined) GK = Math.max(0, Math.min(1, +k || 0)); return GK; }, cover: cover, beads: function () { return BEADS.length; },
       rain: function (r) { P.rain = Math.max(0, +r || 0); },
       preset: setPreset,
