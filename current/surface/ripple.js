@@ -176,21 +176,29 @@
     "  vec2 grad = vec2(hr-hl, hu-hd)*0.5*uQ;\n" +   /* uQ: per cell of the old field, so a finer field bends the light as much */
     /* the caustics' curvature with the diagonals too, so its light follows the rings, round, not the grid's squares */
     "  float lap = 0.5*(hl+hr+hd+hu-4.0*hc) + 0.125*(hAt(uv+t)+hAt(uv-t)+hAt(uv+vec2(t.x,-t.y))+hAt(uv+vec2(-t.x,t.y))-4.0*hc); lap *= uQ*uQ;\n" +
+    "  float rim = 0.0, wbS = -1.0;\n" +
     "  if (uFill > 0.5) { float b1 = texture(uBeads,uv).r; grad += beadGrad(uv)*0.08*(1.0-wetM(uv, b1));\n" +   /* a bead's lens kept faint: a strong one read as glass, not water (Dimitry, 29 Oct 23:45) */
     /* THE FILM TREMBLES WITH THE SOUND: shallow water does not ring, it shivers in a standing pattern (Faraday's, three
        waves at 60 degrees), its wavelength from the sound's pitch (capillary waves: wavelength ~ frequency^-2/3), its
        strength from the sound's level, only where the water is a film */
-    "    if (uVib > 0.001) { float n1 = texture(uFloor,uv).r, sh = wetM(uv, b1)*(1.0-smoothstep(0.0, uDeep, depthAt(uv, n1)));\n" +
-    "      if (sh > 0.002) { vec2 q = uv*vec2(textureSize(uWave,0))*(6.2832/uVibL); float ph = n1*9.0, s = sin(uTime*25.0); vec2 g = vec2(0.0);\n" +
+    "    if (uVib > 0.001) { float n1 = texture(uFloor,uv).r, sh = smoothstep(0.75, 1.0, wetM(uv, b1))*(1.0-smoothstep(0.0, uDeep, depthAt(uv, n1)));\n" +
+    "      if (sh > 0.002) { vec2 q = uv*vec2(textureSize(uWave,0))*(6.2832/uVibL); float ph = n1*9.0, s = sin(uTime*7.0); vec2 g = vec2(0.0);\n" +
     "        for (int k=0;k<3;k++){ float a = float(k)*2.0944+0.4; vec2 d = vec2(cos(a), sin(a)); g -= d*sin(dot(d,q)+ph); }\n" +
-    "        grad += g*s*uVib*sh*(6.2832/uVibL)*0.07; } }\n" +
-    /* the rim at half a cell, read from the floor in floats at twice the field (a byte's steps were the dots): a clean line, as fine as the floor */
-    "    vec2 e = t*0.5; float mc = menAt(uv), ml = menAt(uv-vec2(e.x,0)), mr = menAt(uv+vec2(e.x,0)), md = menAt(uv-vec2(0,e.y)), mu = menAt(uv+vec2(0,e.y));\n" +
-    "    grad += vec2(mr-ml, mu-md)*uQ; lap += (ml+mr+md+mu-4.0*mc)*4.0*uQ*uQ; hc += mc; }\n" +
+    "        grad += g*s*uVib*sh*(6.2832/uVibL)*0.04; } }\n" +
+    /* THE RIM IS A SOFT LENS (Dimitry, 30 Oct 13:54: the edges of the openings, where the water thins, read "frosted ... glass
+       or sandblasted"; he wants them "blurred ... like a lens but one that is smooth that's just happens to be catching the
+       light in a soft way", light at a raking angle). The water's edge is read from eight taps on a ring a few cells wide:
+       their mean is a blurred shore (Wb) and their spread its slope; the meniscus is the bump Wb(1-Wb), so its slope is
+       (1-2Wb) times the shore's: a broad smooth swell that bends the light gently and has no line of its own. It adds no
+       caustic (the old rim's curvature made the crisp bright line); rim says where it is, for the raking sheen below */
+    "    { vec2 R = t*2.6; float wc = wetAtF(uv, texture(uFloor,uv).r), ws = 0.0; vec2 gw = vec2(0.0);\n" +
+    "      for (int k=0;k<8;k++){ float a = float(k)*0.7854; vec2 dr = vec2(cos(a), sin(a)); vec2 u2 = uv+dr*R; float w = smoothstep(0.45, 0.9, wetAtF(u2, texture(uFloor,u2).r)); ws += w; gw += dr*w; }\n" +
+    "      float wb = (ws + smoothstep(0.45, 0.9, wc))/9.0; gw *= 0.25/2.6; rim = 4.0*wb*(1.0-wb); wbS = wb;\n" +
+    "      grad += (1.0-2.0*wb)*gw*0.9*uQ; hc += 0.25*rim; } }\n" +
     "  vec2 ruv = clamp(uv - grad*uPx*uRefr, vec2(0.0), vec2(1.0));\n" +
     "  vec4 c = texture(uSrc, ruv);\n" +
     /* wet floor reads a touch darker than dry; a splash's flash is light thrown up off the floor */
-    "  if (uFill > 0.5) { float b0 = texture(uBeads,uv).r, wv = max(wetM(uv, b0), smoothstep(0.02, 0.25, b0)); c.rgb *= 1.0 - uDark*wv; }\n" +
+    "  if (uFill > 0.5) { float b0 = texture(uBeads,uv).r, wv = max(wbS >= 0.0 ? wbS : wetM(uv, b0), smoothstep(0.02, 0.25, b0)); c.rgb *= 1.0 - uDark*wv; }\n" +
     "  float caus = clamp(-lap*3.0, -0.5, 1.0)*uCaus;\n" +
     "  c.rgb *= 1.0 + caus*0.6*(1.0-uCausA);\n" +
     /* the material's colors: light gathered in the caustic's color; the depth color over troughs and crests */
@@ -199,6 +207,8 @@
     "  vec3 nrm = normalize(vec3(-grad*6.0, 1.0)); vec3 L = normalize(vec3(-0.45,0.55,1.0));\n" +
     "  float sp = pow(max(dot(reflect(-L,nrm),vec3(0,0,1)),0.0),60.0)*uSpec*0.9;\n" +
     "  sp *= smoothstep(0.004, 0.04, length(grad));\n" +
+    /* the rim's sheen: light from low across the water, caught broadly by the swell, soft (a low power, no threshold) */
+    "  if (rim > 0.001) { vec3 Lr = normalize(vec3(-0.75,0.55,0.38)); sp += pow(max(dot(reflect(-Lr,nrm),vec3(0,0,1)),0.0),6.0)*uSpec*0.35*rim; }\n" +
     "  o = vec4(c.rgb + uGlint*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
   /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
