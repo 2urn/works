@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261030192925";window.__VERSION__="0.41.0";window.__NOTES__=[{"v":"0.41.0","date":"30 Oct 2026","items":[{"kind":"new","text":"Light (Pro), last on the color strip: two colors in a gradient that fall over the stage as light does; filter (colored light: things take its color, red under blue goes dark), wash (a softer tint) or glow (adds light); strength, softness and where the colors meet; Dawn, Noon, Dusk, Moonlight, Under water and Lamp to start; the water's glints and its edge take the light's color; stills, cards and video carry it; scenes save it"}]}]</script>
+<script>window.__BUILD__="20261030200913";window.__VERSION__="0.41.1";window.__NOTES__=[{"v":"0.41.1","date":"30 Oct 2026","items":[{"kind":"change","text":"a scene's light fades over its morph: colors, strength and direction ease into the next scene's light; a light going off fades out, one coming on rises; touching the light during a fade takes over at once"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261030192925"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261030192925">
+<script src="claude-web.js?v=20261030200913"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261030200913">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261030192925"></script>
-<script src="surface/nozoom.js?v=20261030192925"></script><script src="surface/steady.js?v=20261030192925"></script><script src="surface/selftest.js?v=20261030192925"></script><script src="surface/size.js?v=20261030192925"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261030192925"></script>
-<script src="surface/auto.js?v=20261030192925"></script>
-<script src="surface/toolpath.js?v=20261030192925"></script>
-<script src="surface/capture.js?v=20261030192925"></script>
-<script src="surface/pop.js?v=20261030192925"></script>
-<script src="surface/hints.js?v=20261030192925"></script>
-<script src="surface/paths.js?v=20261030192925"></script>
-<script src="surface/keys.js?v=20261030192925"></script>
-<script src="surface/reset.js?v=20261030192925"></script>
-<script src="surface/files.js?v=20261030192925"></script>
-<script src="surface/tabs.js?v=20261030192925"></script>
-<script src="surface/running.js?v=20261030192925"></script>
-<script src="surface/trim.js?v=20261030192925"></script>
-<script src="surface/audiowake.js?v=20261030192925"></script>
-<script src="surface/output.js?v=20261030192925"></script>
-<script src="surface/board.js?v=20261030192925"></script>
-<script src="surface/voice.js?v=20261030192925"></script>
-<script src="surface/voicelib.js?v=20261030192925"></script>
-<script src="surface/instruments.js?v=20261030192925"></script>
-<script src="surface/listview.js?v=20261030192925"></script>
-<script src="surface/beads.js?v=20261030192925"></script>
-<script src="surface/strip.js?v=20261030192925"></script>
-<script src="surface/sheetnav.js?v=20261030192925"></script>
-<script src="surface/twofinger.js?v=20261030192925"></script>
-<script src="surface/ring.js?v=20261030192925"></script>
-<script src="surface/shortlink.js?v=20261030192925"></script>
-<script src="surface/undo.js?v=20261030192925"></script>
-<script src="surface/pro.js?v=20261030192925"></script>
-<script src="surface/fresh.js?v=20261030192925"></script>
-<script src="surface/go.js?v=20261030192925"></script>
-<script src="surface/notice.js?v=20261030192925"></script>
-<script src="surface/perform.js?v=20261030192925"></script>
-<script src="surface/words.js?v=20261030192925"></script>
+<script src="vendor/opentype.min.js?v=20261030200913"></script>
+<script src="surface/nozoom.js?v=20261030200913"></script><script src="surface/steady.js?v=20261030200913"></script><script src="surface/selftest.js?v=20261030200913"></script><script src="surface/size.js?v=20261030200913"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261030200913"></script>
+<script src="surface/auto.js?v=20261030200913"></script>
+<script src="surface/toolpath.js?v=20261030200913"></script>
+<script src="surface/capture.js?v=20261030200913"></script>
+<script src="surface/pop.js?v=20261030200913"></script>
+<script src="surface/hints.js?v=20261030200913"></script>
+<script src="surface/paths.js?v=20261030200913"></script>
+<script src="surface/keys.js?v=20261030200913"></script>
+<script src="surface/reset.js?v=20261030200913"></script>
+<script src="surface/files.js?v=20261030200913"></script>
+<script src="surface/tabs.js?v=20261030200913"></script>
+<script src="surface/running.js?v=20261030200913"></script>
+<script src="surface/trim.js?v=20261030200913"></script>
+<script src="surface/audiowake.js?v=20261030200913"></script>
+<script src="surface/output.js?v=20261030200913"></script>
+<script src="surface/board.js?v=20261030200913"></script>
+<script src="surface/voice.js?v=20261030200913"></script>
+<script src="surface/voicelib.js?v=20261030200913"></script>
+<script src="surface/instruments.js?v=20261030200913"></script>
+<script src="surface/listview.js?v=20261030200913"></script>
+<script src="surface/beads.js?v=20261030200913"></script>
+<script src="surface/strip.js?v=20261030200913"></script>
+<script src="surface/sheetnav.js?v=20261030200913"></script>
+<script src="surface/twofinger.js?v=20261030200913"></script>
+<script src="surface/ring.js?v=20261030200913"></script>
+<script src="surface/shortlink.js?v=20261030200913"></script>
+<script src="surface/undo.js?v=20261030200913"></script>
+<script src="surface/pro.js?v=20261030200913"></script>
+<script src="surface/fresh.js?v=20261030200913"></script>
+<script src="surface/go.js?v=20261030200913"></script>
+<script src="surface/notice.js?v=20261030200913"></script>
+<script src="surface/perform.js?v=20261030200913"></script>
+<script src="surface/words.js?v=20261030200913"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -234,14 +234,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261030192925"></script>
-<script src="surface/rail.js?v=20261030192925"></script>
-<script src="surface/touchsound.js?v=20261030192925"></script>
-<script src="surface/water.js?v=20261030192925"></script>
-<script src="surface/ripple.js?v=20261030192925"></script>
-<script src="surface/material.js?v=20261030192925"></script>
-<script src="surface/float.js?v=20261030192925"></script>
-<script src="surface/manual.js?v=20261030192925"></script>
+<script src="surface/pack.js?v=20261030200913"></script>
+<script src="surface/rail.js?v=20261030200913"></script>
+<script src="surface/touchsound.js?v=20261030200913"></script>
+<script src="surface/water.js?v=20261030200913"></script>
+<script src="surface/ripple.js?v=20261030200913"></script>
+<script src="surface/material.js?v=20261030200913"></script>
+<script src="surface/float.js?v=20261030200913"></script>
+<script src="surface/manual.js?v=20261030200913"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4241,13 +4241,28 @@ function lightSync(){const on=lightOn();if(!on&&!LGT_EL)return;if(!LGT_EL){LGT_E
   const host=cv.parentNode,after=(window.RIP&&RIP.canvas&&RIP.canvas.parentNode===host)?RIP.canvas:cv;if(LGT_EL.parentNode!==host||LGT_EL.previousSibling!==after)host.insertBefore(LGT_EL,after.nextSibling);
   const L=LGT(),k=on?[lightCss(),L.mode,L.amt].join('|'):'off';if(k!==LGT_K){LGT_K=k;LGT_EL.style.display=on?'':'none';if(on){LGT_EL.style.background=lightCss();LGT_EL.style.mixBlendMode=LMODE[L.mode][0];LGT_EL.style.opacity=String(L.amt)}}
   try{if(RIP&&RIP.light)RIP.light(on?{c1:L.c1,c2:L.c2,round:L.d==='round',a:L.a,stops:gStops(L.soft,L.pos),amt:L.amt}:null)}catch(_){}}
-function lightSet(o,keepName,live){const L=LGT();Object.assign(L,lightClean(Object.assign({},L,o))||{});if(!keepName&&!('name' in o))L.name='';lightSave();lightSync();
+function lightSet(o,keepName,live){if(LFADE)LFADE=null;const L=LGT();Object.assign(L,lightClean(Object.assign({},L,o))||{});if(!keepName&&!('name' in o))L.name='';lightSave();lightSync();
   if(live){lightBead();try{document.querySelectorAll('#cmLight .lgPre .tb').forEach(b=>{const on=!!L.on&&b.textContent===L.name;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))})}catch(_){}return}   /* a slider or a color being dragged: the light follows, the pane stays as it is (review a67a r-1) */
   try{if(!$('cmLight').hidden)renderLight()}catch(_){}try{if(!$('colorPop').hidden)PAL_PAINT()}catch(_){}}
 /* the strip's Light bead, in place: its swatch, its name, lit or not (review a67a r-2) */
 function lightBead(){const b=document.querySelector('#cmPal .cpS[data-t=light]');if(!b)return;const on=lightOn(),i=b.querySelector('i');if(i){i.style.background=on?lightCss():'';i.classList.toggle('none',!on)}b.setAttribute('aria-label','Light'+(on?', '+(LGT().name||'on'):', off'))}
 document.addEventListener('surface:pro',()=>{try{lightSync();lightBead()}catch(_){}});   /* Pro arriving after boot (a key from a link) shows a saved light (review a67a r-3) */
-function sceneLight(p){if(!('light' in p))return;const v=p.light;if(v===false||v===null){if(LGT().on)lightSet({on:false},true);return}const c=lightClean(v);if(c)lightSet({...c,on:true},true)}
+/* A SCENE'S LIGHT FADES OVER ITS MORPH (Dimitry, 30 Oct 16:02: "Fade"): the colors, strength, softness, where they meet
+   and the direction ease from the light on the stage to the scene's, in the morph's time; off is a fade to nothing, on
+   a rise from it; a change of mode or of shape (a direction against from the middle) dips through dark at the middle
+   so it never jumps. A light you touch during the fade takes over at once. */
+let LFADE=null,LFRUN=false;   // the fade, and whether its one loop is running (review 7748 r-2)
+const lfHex=(a,b,t)=>{const A=parseInt(a.slice(1),16),B=parseInt(b.slice(1),16),c=k=>Math.round(((A>>k)&255)+(((B>>k)&255)-((A>>k)&255))*t);return'#'+((1<<24)|(c(16)<<16)|(c(8)<<8)|c(0)).toString(16).slice(1)};
+function lightFadeStep(){try{lightFadeOne()}catch(_){LFADE=null;LFRUN=false}}   /* a step that throws ends the fade, never the loop flag stuck (review d81d r-2) */
+function lightFadeOne(){const F=LFADE;if(!F){LFRUN=false;return}const u=Math.min(1,(performance.now()-F.t0)/F.dur),e=u*u*(3-2*u),A=F.from,B=F.to,L=LGT(),dip=A.mode!==B.mode||A.d!==B.d;
+  const half=e<.5,src=dip?(half?A:B):null,k=dip?(half?e*2:e*2-1):e;
+  L.on=true;L.c1=dip?src.c1:lfHex(A.c1,B.c1,e);L.c2=dip?src.c2:lfHex(A.c2,B.c2,e);L.mode=dip?src.mode:B.mode;L.d=dip?src.d:B.d;L.soft=A.soft+(B.soft-A.soft)*e;L.pos=A.pos+(B.pos-A.pos)*e;
+  {const da=((B.a-A.a)%360+540)%360-180;L.a=((A.a+da*e)%360+360)%360}L.amt=dip?(half?A.amt*(1-k):B.amt*k):A.amt+(B.amt-A.amt)*e;
+  if(u>=1){LFADE=null;LFRUN=false;lightSet({...F.end},true);return}lightSync();lightBead();requestAnimationFrame(lightFadeStep)}
+function sceneLight(p,dur){if(!('light' in p))return;const v=p.light;const off=v===false||v===null,c=off?null:lightClean(v);if(!off&&!c)return;
+  const cur=LGT(),was=lightOn(),base=LFADE&&LFADE.end?LFADE.end:cur,end=off?{...base,on:false,amt:base.amt>0?base.amt:LIGHT_DEF.amt}:{...c,on:true};   /* off keeps the light it was going to (review 7748 r-1) */   /* off keeps its strength for the next time it is turned on (review 1292 r-1) */if(!(dur>0)||!isPro('light')||(!was&&off)){LFADE=null;lightSet(end,true);return}
+  const from={...cur,amt:was?cur.amt:0},to=off?{...cur,amt:0}:{...c};if(!was){from.c1=to.c1;from.c2=to.c2;from.mode=to.mode;from.d=to.d;from.a=to.a;from.soft=to.soft;from.pos=to.pos}
+  LFADE={from,to,end,t0:performance.now(),dur:dur*1000};if(!LFRUN){LFRUN=true;requestAnimationFrame(lightFadeStep)}}   /* one loop: a fade that takes over a fade reuses it (r-2) */
 /* the Light tab: on, the named lights, the two colors with the direction between them, the mode, strength, softness and where they meet */
 function renderLight(){const pane=$('cmLight');if(!pane)return;pane.innerHTML='';const el=(tag,cls,html,par)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;(par||pane).appendChild(e);return e};
   if(!isPro('light')){el('p','cmNote','<b>Light</b> falls over the stage as a colored wash: the particles take its color as real things do under colored light, and the water reflects it. Light comes with Pro.');const b=el('button','bgGo','Join the Founders Club');b.type='button';b.onclick=()=>{try{openBetaSheet()}catch(_){}};return}
@@ -4910,8 +4925,9 @@ function applyLookNow0(p,idx,instant,part){
   /* a scene that points at a palette wears it (its colors over the scene's own); else its own colors and ties */
   {const OV=p.__ov,LP=OV&&OV.pal?OV.pal:idx>=0&&lookCfg(p).palette,PP=(LP&&palFind(LP))||(p.palette&&p.user&&palFind(p.palette));if(PP)palApply(PP,true);   /* a palette you chose for the scene in its row wins (28 Oct 22:57) */   /* only a scene of yours wears a palette by name: a shared link or a Room scene keeps the colors it carries (review ade287a r-3) */
   else S.pal={name:null,rel:p.palRel&&typeof p.palRel==='object'?JSON.parse(JSON.stringify(p.palRel)):{}};if(OV&&OV.deal)seqDealApply(OV.deal);palUI()}try{if(!$('colorPop').hidden)renderCM()}catch(_){}
-  S.blend=p.blend||'source-over';S.blendA=p.blendA||'source-over';S.blendP=p.blendP||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneLight(p)}catch(_){}try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
+  S.blend=p.blend||'source-over';S.blendA=p.blendA||'source-over';S.blendP=p.blendP||'source-over';S.lensMode=p.lensMode||'off';S.blur=p.blur||6;const dice=sceneDice(p);if(p.rand)applyRandCfg(p.rand);if(dice)setRandTempo(dice.tempo,true);sceneSound(p,part);try{sceneMaterial(p,part)}catch(e){console.warn('scene material',e)}
   if(doMorph){cmStart(mdur,cmFrom,old);WM_PENDING=mdur*1000}   // colors, alphas, lens, then the field
+  try{sceneLight(p,doMorph?mdur:0)}catch(_){}
   syncLens();
   S.mods=JSON.parse(JSON.stringify(p.mods||{}));S.maps=JSON.parse(JSON.stringify(p.maps||[]));
   Object.assign(S.mods,keepMods);S.maps=S.maps.filter(m=>!PIC_MOVE.includes(m.dst));S.maps.push(...keepMaps);   /* the picture's moves are the picture's: a scene's own copy is dropped, or each visit added one more (long-session sweep, 29 Oct) */   // the picture's automation stays when the scene changes
@@ -11895,10 +11911,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261030192925"></script>
-<script src="surface/links.js?v=20261030192925"></script>
-<script src="surface/tips.js?v=20261030192925"></script>
-<script src="surface/sections.js?v=20261030192925"></script>
+<script src="surface/install.js?v=20261030200913"></script>
+<script src="surface/links.js?v=20261030200913"></script>
+<script src="surface/tips.js?v=20261030200913"></script>
+<script src="surface/sections.js?v=20261030200913"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -12088,7 +12104,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261030192925"></script>
+<script src="surface/room.js?v=20261030200913"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12291,7 +12307,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261030192925"></script>
+<script src="surface/touch.js?v=20261030200913"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -13854,7 +13870,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.41.0';
+const APP_VERSION='0.41.1';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
