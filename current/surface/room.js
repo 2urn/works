@@ -15,6 +15,7 @@
      room.on("leader", e => …)  // { id, me }
      room.on("sync", e => …)    // { offset, err, rtt } (followers): the clock estimate after each pong
      room.on("hello", e => …)   // a peer arrived (the leader answers with its state: room.state(...))
+     room.on("show", e => …)    // { id, from, code, name } someone sent a show; room.share({ code, name }) sends one
      SurfaceRoom.join(code, { …, make: "take" })   // joins and takes the lead from whoever holds it
      SurfaceRoom.join(code, { …, noLead: true })   // never claims the lead when nobody leads: it waits for a leader
      room.on("touch", e => …)   // { id, part, name, path: [[x, y, ms], …], up, ev: [[slot, kind, size, ms], …], dr: [[x, y, slot], …] } a player's finger, sent with SurfaceRoom.post
@@ -44,12 +45,14 @@
      tempo  { bpm, bar0, bpb, src, mode, key, ci }  leader, on change and every 2 s (a heartbeat even with bpm null);
                                                     key = the room's key and scale (the tool's own object, e.g. { root, scale });
                                                     ci = when a count-in lands on bar one (room ms; local ms on the way in), 29 Oct;
-                                                    mode = what the leader lets the room follow (Current: free | tempo | scenes)
+                                                    mode = what the leader lets the room follow (Current: free | tempo | scenes);
+                                                    pg = the tool's own program line (Current: the show's scene now, next, bars left), 30 Oct
      scene  { scene, at, morph, part, n }           leader; at = when to land it (a quantized beat, ahead of now)
      state  { to, tempo, scene }                    leader → one late joiner: snap to now
      ping   { to, s }      pong { to, s, r, w }     clock estimate (followers ask the leader; r received, w answered)
      q      { err, rtt }                            everyone, every 3 s: still here (a follower adds its sync quality)
      lead   { next, epoch }                         handover, from the leader only (everyone hears who is next)
+     show   { code, name }                          anyone: a show kept by link (the tool's short-link code), for everyone (30 Oct)
      bye    {}                                      leaving on purpose
    `scene` is the tool's own object (Current: { name } for a built-in scene, { look } for anything else).
 
@@ -173,7 +176,7 @@
       if (lastTempo && ready() && (usedOff == null || Math.abs(offset - usedOff) > 3)) tempoOut(lastTempo);
     }
     function ready() { if (leading()) return true; var minR = Math.min.apply(null, samples.map(function (y) { return y.rtt; })); return samples.length >= 2 && minR < 1500; }   // a page too busy to answer in 1.5 s has not found the clock yet
-    function tempoOut(t) { lastTempo = t; if (!ready()) return; usedOff = offset; emit("tempo", { bpm: t.bpm, bar0: t.bar0 == null ? null : toLocal(t.bar0), bpb: t.bpb || 4, src: t.src, mode: t.mode, snap: t.snap, key: t.key || null, ci: t.ci == null ? null : toLocal(t.ci) }); }
+    function tempoOut(t) { lastTempo = t; if (!ready()) return; usedOff = offset; emit("tempo", { bpm: t.bpm, bar0: t.bar0 == null ? null : toLocal(t.bar0), bpb: t.bpb || 4, src: t.src, mode: t.mode, snap: t.snap, key: t.key || null, ci: t.ci == null ? null : toLocal(t.ci), pg: t.pg || null }); }
     function now() { return own() + offset; }                                        // room ms
     function toLocal(roomMs) { return roomMs - offset - performance.timeOrigin; }   // → performance.now() ms
     function toRoom(localMs) { return localMs + performance.timeOrigin + offset; }
@@ -189,13 +192,14 @@
         case "hello": if (leading()) emit("hello", { id: m.f, name: m.name }); break;
         case "q": if (p) { p.err = m.err; p.rtt = m.rtt; emit("peers", peerList()); } break;
         case "lead": if ((m.f === leaderId || m.f === prevLeader) && m.next) { if (peers[m.next]) peers[m.next].promised = performance.now(); if (m.next === me.id) me.promised = performance.now(); handed = { from: m.f, to: m.next }; if (p) p.lead = 0; if (m.next === me.id) { me.lead = Math.max(me.lead, m.epoch || 1); track(); } else if (peers[m.next]) peers[m.next].lead = Math.max(peers[m.next].lead || 0, m.epoch || 1); elect(); } break;
-        case "tempo": if (m.f === leaderId) tempoOut({ bpm: m.bpm, bar0: m.bar0, bpb: m.bpb, src: m.src, mode: m.mode, key: m.key, ci: m.ci }); break;
+        case "tempo": if (m.f === leaderId) tempoOut({ bpm: m.bpm, bar0: m.bar0, bpb: m.bpb, src: m.src, mode: m.mode, key: m.key, ci: m.ci, pg: m.pg }); break;
         case "scene": if (m.f === leaderId) emit("scene", { scene: m.scene, at: toLocal(m.at), morph: m.morph, part: m.part, n: m.n }); break;
         case "state": if (m.f === leaderId) {
-            if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, key: m.tempo.key, ci: m.tempo.ci, snap: true });
+            if (m.tempo) tempoOut({ bpm: m.tempo.bpm, bar0: m.tempo.bar0, bpb: m.tempo.bpb, src: m.tempo.src, mode: m.tempo.mode, key: m.tempo.key, ci: m.tempo.ci, pg: m.tempo.pg, snap: true });
             if (m.scene) emit("scene", { scene: m.scene.scene, at: performance.now(), morph: 0, part: m.scene.part, n: m.scene.n, snap: true });
           } break;
         case "touch": emit("touch", { id: String(m.f).slice(0, 16), part: String(m.part || "").slice(0, 16), name: String(m.name || "").slice(0, 24), path: Array.isArray(m.path) ? m.path.slice(0, 24) : [], up: !!m.up, ev: Array.isArray(m.ev) ? m.ev.slice(0, 16) : [], dr: Array.isArray(m.dr) ? m.dr.slice(0, 12) : [] }); break;   // a player's finger, posted (SurfaceRoom.post); ev: the sounds it played, dr: sounds left on its pad
+        case "show": if (/^[A-Za-z0-9]{4,16}$/.test(String(m.code || ""))) emit("show", { id: String(m.f).slice(0, 16), from: p ? String(p.name || "").slice(0, 24) : "", code: String(m.code), name: String(m.name || "").slice(0, 40) }); break;
         case "bye": if (peers[m.f]) { delete peers[m.f]; elect(); } break;
       }
     }
@@ -261,11 +265,13 @@
       isLeader: leading, leader: function () { return leaderId; }, peers: peerList, state: function (x) {
         if (x === undefined) return st;
         if (!leading()) return false;
-        return send("state", { to: x.to, tempo: x.tempo ? { bpm: x.tempo.bpm, bar0: x.tempo.bar0 == null ? null : toRoom(x.tempo.bar0), bpb: x.tempo.bpb || 4, src: x.tempo.src, mode: x.tempo.mode, key: x.tempo.key || null, ci: x.tempo.ci == null ? null : toRoom(x.tempo.ci) } : null, scene: x.scene || null });
+        return send("state", { to: x.to, tempo: x.tempo ? { bpm: x.tempo.bpm, bar0: x.tempo.bar0 == null ? null : toRoom(x.tempo.bar0), bpb: x.tempo.bpb || 4, src: x.tempo.src, mode: x.tempo.mode, key: x.tempo.key || null, ci: x.tempo.ci == null ? null : toRoom(x.tempo.ci), pg: x.tempo.pg || null } : null, scene: x.scene || null });
       },
       sync: function () { return { offset: offset, err: err, rtt: rtt, n: samples.length }; },
       now: now, toLocal: toLocal, toRoom: toRoom,
-      tempo: function (t) { if (!leading()) return false; return send("tempo", { bpm: t.bpm || null, bar0: t.bar0 == null ? null : toRoom(t.bar0), bpb: t.bpb || 4, src: t.src || "", mode: t.mode, key: t.key || null, ci: t.ci == null ? null : toRoom(t.ci) }); },
+      tempo: function (t) { if (!leading()) return false; return send("tempo", { bpm: t.bpm || null, bar0: t.bar0 == null ? null : toRoom(t.bar0), bpb: t.bpb || 4, src: t.src || "", mode: t.mode, key: t.key || null, ci: t.ci == null ? null : toRoom(t.ci), pg: t.pg || null }); },
+      /* a show for everyone (30 Oct): anyone in the room sends the code of a show kept by link; the others fetch it */
+      share: function (x) { x = x || {}; var c = String(x.code || ""); if (!/^[A-Za-z0-9]{4,16}$/.test(c)) return false; return send("show", { code: c, name: String(x.name || "").slice(0, 40) }); },
       scene: function (scene, atLocal, x) { if (!leading()) return false; x = x || {}; room._n = (room._n || 0) + 1; return send("scene", { scene: scene, at: toRoom(atLocal), morph: x.morph, part: x.part, n: room._n }); },
       handover: function (id) { if (!leading() || !peers[id] || stale[id]) return false; var e = Math.max(me.lead, peers[id].lead || 0) + 1; send("lead", { next: id, epoch: e }); peers[id].lead = e; peers[id].promised = performance.now(); handed = { from: me.id, to: id }; me.lead = 0; track(); elect(); return true; },
       rename: function (n) { me.name = String(n || "player").slice(0, 24); track(); emit("peers", peerList()); },
