@@ -78,6 +78,8 @@
                                   volume() the water standing now, capacity(c) the water it takes to cover c (0.8) of the floor
      w.vibrate(amp, hz)           shallow water does not ring, it trembles: amp 0..1, its pattern's wavelength from hz
      o.onSplash(x, y, size, k)    called for every splash on dry floor, so the host can make it heard
+     w.light({c1, c2, round, a, stops: [s0, s1], amt})   a light over the water: its glints and rim take its color, a tilted
+                                  surface reflects a little of it (a: degrees, 90 is top to bottom); null: none
 
    Cost: one small simulation (half the CSS pixels, at most 512 on a side) and one full-screen pass that samples the
    source canvas. Plain script, window.SurfaceRipple, no dependencies, loads nothing. */
@@ -157,7 +159,13 @@
     "in vec2 vUv; out vec4 o;\n" +
     "uniform sampler2D uWave, uSrc; uniform float uRefr, uSpec, uCaus, uQ; uniform vec2 uPx;\n" +
     "uniform vec3 uTint, uGlint, uCausC; uniform float uTintA, uCausA; uniform float uFill, uLevel, uDark, uGK, uDeep; uniform sampler2D uFloor, uBeads, uPool;\n" +
-    "uniform float uVib, uVibL, uTime;\n" + GL_FLOOR +
+    "uniform float uVib, uVibL, uTime;\n" +
+    /* LIGHT over the water (Current's Light, 30 Oct): two colors in a gradient (uLD: direction, z = 1 from the middle out),
+       its stops and strength; the glints and the rim's sheen take its color where they are, and a tilted surface reflects a
+       little of it, as water reflects the sky */
+    "uniform vec3 uL1, uL2, uLD; uniform vec2 uLS; uniform float uLA, uAspS;\n" +
+    "vec3 skyAt(vec2 uv){ float t; vec2 q = vec2((uv.x-0.5)*uAspS, 0.5-uv.y); if (uLD.z > 0.5) t = length(q)/(0.5*length(vec2(uAspS,1.0))); else t = dot(q, uLD.xy)/(abs(uAspS*uLD.x)+abs(uLD.y)) + 0.5;\n" +
+    "  return mix(uL1, uL2, clamp((t-uLS.x)/max(uLS.y-uLS.x, 0.001), 0.0, 1.0)); }\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
     "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, wetMix(wetAtF(uv, texture(uFloor,uv).r), b*0.6)); }\n" +
@@ -209,7 +217,8 @@
     "  sp *= smoothstep(0.004, 0.04, length(grad));\n" +
     /* the rim's sheen: light from low across the water, caught broadly by the swell, soft (a low power, no threshold) */
     "  if (rim > 0.001) { vec3 Lr = normalize(vec3(-0.75,0.55,0.38)); sp += pow(max(dot(reflect(-Lr,nrm),vec3(0,0,1)),0.0),6.0)*uSpec*0.35*rim; }\n" +
-    "  o = vec4(c.rgb + uGlint*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
+    "  vec3 gc = uGlint; if (uLA > 0.0) { vec3 sk = skyAt(uv); gc = mix(uGlint, sk*1.15, uLA); c.rgb = mix(c.rgb, sk, clamp(length(grad)*1.6, 0.0, 0.3)*uLA); }\n" +
+  "  o = vec4(c.rgb + gc*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
   /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
      ranges (b fine, g middle, r coarse) so a byte target keeps the small values. It reads motion and curvature, never the
@@ -236,6 +245,7 @@
     }
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.7, CAP = o.max || 960, Q = 1, slowT = 0;   // finer than it was (0.5, 512): small drops rang as squares (Dimitry, 29 Oct: "very low rez")
     var SW = 0, SH = 0, lastMove = null;
+    var LIGHT = null;   // light({c1, c2, round, a, stops, amt}) or null
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
     var DEEP = 0.2, VIB = { a: 0, t: 0, l: 8 }, POUR = 1, POURED = 0;   // how deep is a film; the film's tremble; how much water a drop brings
     var GK = 1, PL = null, plTex = null, plDirty = true, plAt = 0;   // the pool where the water fell (pourAt, poolStep)
@@ -338,6 +348,7 @@
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       if (fo) poolBind(ps, 5); gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0); gl.uniform1f(ps.u.uGK, GK); gl.uniform1f(ps.u.uDeep, DEEP); gl.uniform1f(ps.u.uVib, fo ? VIB.a : 0); gl.uniform1f(ps.u.uVibL, VIB.l); gl.uniform1f(ps.u.uTime, (performance.now() / 1000) % 1000);
       /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
+      { var LG = LIGHT; gl.uniform1f(ps.u.uLA, LG ? LG.amt : 0); if (LG) { gl.uniform3fv(ps.u.uL1, LG.c1); gl.uniform3fv(ps.u.uL2, LG.c2); gl.uniform3f(ps.u.uLD, LG.dx, LG.dy, LG.round ? 1 : 0); gl.uniform2f(ps.u.uLS, LG.s0, LG.s1); gl.uniform1f(ps.u.uAspS, N[0] / Math.max(1, N[1])); } }
       gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
       var tc = rgb(COL.tint), gc = rgb(COL.glint), cc = rgb(COL.caustic);
       gl.uniform3fv(ps.u.uTint, tc || [1, 1, 1]); gl.uniform1f(ps.u.uTintA, tc ? Math.max(0, Math.min(1, +COL.tintAmt || 0)) : 0);
@@ -602,6 +613,8 @@
       set: function (x) { Object.assign(P, x || {}); }, get: function () { return Object.assign({}, P); },
       tick: tick, draw: draw, resize: resize, calm: calm,
       field: function () { return N.slice(); },
+      light: function (L) { if (!L) { LIGHT = null; quiet = Math.min(quiet, 19); return null; } var c1 = rgb(L.c1), c2 = rgb(L.c2); if (!c1 || !c2) { LIGHT = null; return null; } var r = (+L.a || 0) * Math.PI / 180, st = L.stops || [0, 1];
+        LIGHT = { c1: c1, c2: c2, round: !!L.round, dx: Math.cos(r), dy: Math.sin(r), s0: +st[0] || 0, s1: +st[1] || 1, amt: Math.max(0, Math.min(1, +L.amt || 0)) }; return LIGHT; },
       colors: function (c) { if (c) Object.assign(COL, c); return Object.assign({}, COL); },
       path: setPath, flow: function (v) { FLOW = Math.max(0, Math.min(1, +v || 0)); },
       drive: function (d) { if (d) { if (d.path != null) DRV.path = Math.max(0, +d.path || 0); if (d.current != null) DRV.current = Math.max(0, +d.current || 0); } return Object.assign({}, DRV); },
