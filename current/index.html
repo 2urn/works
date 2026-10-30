@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261030200913";window.__VERSION__="0.41.1";window.__NOTES__=[{"v":"0.41.1","date":"30 Oct 2026","items":[{"kind":"change","text":"a scene's light fades over its morph: colors, strength and direction ease into the next scene's light; a light going off fades out, one coming on rises; touching the light during a fade takes over at once"}]}]</script>
+<script>window.__BUILD__="20261030214629";window.__VERSION__="0.42.0";window.__NOTES__=[{"v":"0.42.0","date":"30 Oct 2026","items":[{"kind":"new","text":"Light in the Color ring (a dot that opens the Light ring: on, the named lights, strength, mode, turn, breathe, editor) and in the top drawer (a Light swatch after Ground 2 that opens the same ring)"},{"kind":"new","text":"light that moves: turn its direction once a beat, a bar, or every 2 to 16 bars, or let the dice pick; breathe: its strength sinks and returns once a beat, a bar or two bars"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261030200913"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261030200913">
+<script src="claude-web.js?v=20261030214629"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261030214629">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261030200913"></script>
-<script src="surface/nozoom.js?v=20261030200913"></script><script src="surface/steady.js?v=20261030200913"></script><script src="surface/selftest.js?v=20261030200913"></script><script src="surface/size.js?v=20261030200913"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261030200913"></script>
-<script src="surface/auto.js?v=20261030200913"></script>
-<script src="surface/toolpath.js?v=20261030200913"></script>
-<script src="surface/capture.js?v=20261030200913"></script>
-<script src="surface/pop.js?v=20261030200913"></script>
-<script src="surface/hints.js?v=20261030200913"></script>
-<script src="surface/paths.js?v=20261030200913"></script>
-<script src="surface/keys.js?v=20261030200913"></script>
-<script src="surface/reset.js?v=20261030200913"></script>
-<script src="surface/files.js?v=20261030200913"></script>
-<script src="surface/tabs.js?v=20261030200913"></script>
-<script src="surface/running.js?v=20261030200913"></script>
-<script src="surface/trim.js?v=20261030200913"></script>
-<script src="surface/audiowake.js?v=20261030200913"></script>
-<script src="surface/output.js?v=20261030200913"></script>
-<script src="surface/board.js?v=20261030200913"></script>
-<script src="surface/voice.js?v=20261030200913"></script>
-<script src="surface/voicelib.js?v=20261030200913"></script>
-<script src="surface/instruments.js?v=20261030200913"></script>
-<script src="surface/listview.js?v=20261030200913"></script>
-<script src="surface/beads.js?v=20261030200913"></script>
-<script src="surface/strip.js?v=20261030200913"></script>
-<script src="surface/sheetnav.js?v=20261030200913"></script>
-<script src="surface/twofinger.js?v=20261030200913"></script>
-<script src="surface/ring.js?v=20261030200913"></script>
-<script src="surface/shortlink.js?v=20261030200913"></script>
-<script src="surface/undo.js?v=20261030200913"></script>
-<script src="surface/pro.js?v=20261030200913"></script>
-<script src="surface/fresh.js?v=20261030200913"></script>
-<script src="surface/go.js?v=20261030200913"></script>
-<script src="surface/notice.js?v=20261030200913"></script>
-<script src="surface/perform.js?v=20261030200913"></script>
-<script src="surface/words.js?v=20261030200913"></script>
+<script src="vendor/opentype.min.js?v=20261030214629"></script>
+<script src="surface/nozoom.js?v=20261030214629"></script><script src="surface/steady.js?v=20261030214629"></script><script src="surface/selftest.js?v=20261030214629"></script><script src="surface/size.js?v=20261030214629"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261030214629"></script>
+<script src="surface/auto.js?v=20261030214629"></script>
+<script src="surface/toolpath.js?v=20261030214629"></script>
+<script src="surface/capture.js?v=20261030214629"></script>
+<script src="surface/pop.js?v=20261030214629"></script>
+<script src="surface/hints.js?v=20261030214629"></script>
+<script src="surface/paths.js?v=20261030214629"></script>
+<script src="surface/keys.js?v=20261030214629"></script>
+<script src="surface/reset.js?v=20261030214629"></script>
+<script src="surface/files.js?v=20261030214629"></script>
+<script src="surface/tabs.js?v=20261030214629"></script>
+<script src="surface/running.js?v=20261030214629"></script>
+<script src="surface/trim.js?v=20261030214629"></script>
+<script src="surface/audiowake.js?v=20261030214629"></script>
+<script src="surface/output.js?v=20261030214629"></script>
+<script src="surface/board.js?v=20261030214629"></script>
+<script src="surface/voice.js?v=20261030214629"></script>
+<script src="surface/voicelib.js?v=20261030214629"></script>
+<script src="surface/instruments.js?v=20261030214629"></script>
+<script src="surface/listview.js?v=20261030214629"></script>
+<script src="surface/beads.js?v=20261030214629"></script>
+<script src="surface/strip.js?v=20261030214629"></script>
+<script src="surface/sheetnav.js?v=20261030214629"></script>
+<script src="surface/twofinger.js?v=20261030214629"></script>
+<script src="surface/ring.js?v=20261030214629"></script>
+<script src="surface/shortlink.js?v=20261030214629"></script>
+<script src="surface/undo.js?v=20261030214629"></script>
+<script src="surface/pro.js?v=20261030214629"></script>
+<script src="surface/fresh.js?v=20261030214629"></script>
+<script src="surface/go.js?v=20261030214629"></script>
+<script src="surface/notice.js?v=20261030214629"></script>
+<script src="surface/perform.js?v=20261030214629"></script>
+<script src="surface/words.js?v=20261030214629"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -234,14 +234,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261030200913"></script>
-<script src="surface/rail.js?v=20261030200913"></script>
-<script src="surface/touchsound.js?v=20261030200913"></script>
-<script src="surface/water.js?v=20261030200913"></script>
-<script src="surface/ripple.js?v=20261030200913"></script>
-<script src="surface/material.js?v=20261030200913"></script>
-<script src="surface/float.js?v=20261030200913"></script>
-<script src="surface/manual.js?v=20261030200913"></script>
+<script src="surface/pack.js?v=20261030214629"></script>
+<script src="surface/rail.js?v=20261030214629"></script>
+<script src="surface/touchsound.js?v=20261030214629"></script>
+<script src="surface/water.js?v=20261030214629"></script>
+<script src="surface/ripple.js?v=20261030214629"></script>
+<script src="surface/material.js?v=20261030214629"></script>
+<script src="surface/float.js?v=20261030214629"></script>
+<script src="surface/manual.js?v=20261030214629"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2653,7 +2653,7 @@ body.sndOffing #bsCarets .bsCar{opacity:0!important;transition:none!important}
 #colorPop .cmPick .tb.cpIc{margin-top:12px}
 #colorPop .cmSw{gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:5px;margin:-5px;scroll-snap-type:x proximity}#colorPop .cmSw::-webkit-scrollbar{display:none}#colorPop .cmSw button{flex:none}
 #colorPop .cmSw{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);padding-right:24px}
-#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}#colorPop .lgPre{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}.lgRow{display:grid;grid-template-columns:7.5em 1fr 3.2em;align-items:center;gap:8px;margin:6px 0;font:400 12px/1.2 var(--sans);color:var(--ui-dim)}.lgRow input{width:100%}.lgV{font:12px/1 var(--mono);text-align:right}
+#colorPop .cpStrip{overflow:visible}#colorPop .cpS{flex:1 1 0;min-width:0;padding:6px 1px 7px}#colorPop .cpS>span{font-size:8.5px;letter-spacing:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}#colorPop .cpMix{flex:0 0 26px}#colorPop .lgPre{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}.lgRow{display:grid;grid-template-columns:7.5em 1fr 3.2em;align-items:center;gap:8px;margin:6px 0;font:400 12px/1.2 var(--sans);color:var(--ui-dim)}.lgRow input{width:100%}.lgSeg{grid-template-columns:7.5em 1fr}.lgOpts{display:flex;flex-wrap:wrap;gap:4px}.lgOpts .tb{padding:4px 8px;min-height:28px}.lgV{font:12px/1 var(--mono);text-align:right}
 .gLine{position:relative;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;padding:6px 4px 14px;margin:4px -4px 8px;overscroll-behavior-x:contain}#colorPop .gLine::-webkit-scrollbar{display:none}#colorPop .gLine::before{content:'';position:absolute;left:24px;right:24px;top:25px;height:2px;margin-top:-1px;border-radius:2px;background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .gB{position:relative;z-index:1;flex:none;box-sizing:border-box;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgb(var(--ui-hi,255 255 255) / .22);background:var(--ui-solid,#1d2124);color:var(--ui-ink);font:600 12px/1 var(--mono);cursor:pointer}#colorPop .gB svg:not(.s-darc){width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;margin-top:-6px}#colorPop .gB .apDots{top:calc(100% + 5px);bottom:auto;gap:4px}#colorPop .gB .apDots i{width:4px;height:4px;box-shadow:none;background:var(--ui-ink);opacity:.28}#colorPop .gB .apDots i.on{opacity:1}#colorPop .gB svg:not(.s-darc){margin-top:0}#colorPop .gB.gDial{width:38px;height:38px}#colorPop .gB.gCol{box-shadow:inset 0 0 0 1px rgb(var(--ui-hi,255 255 255) / .25)}#colorPop .gB.gCol.on{box-shadow:0 0 0 2px var(--ui-bg,#1a1d1f),0 0 0 4px var(--acc,#55b8c9)}#colorPop .gB.gMix,#colorPop .gB.gUnit{border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent))}#colorPop .gB .gArr{display:inline-block;font:400 17px/1 var(--sans)}#colorPop .gB.gN.on,#colorPop .gB.gRnd.on{background:var(--acc,#55b8c9);border-color:var(--acc,#55b8c9);color:var(--acc-ink,#04181c)}#colorPop .gB.off,#colorPop .gB:disabled{opacity:.4;cursor:default}#colorPop .gB.gRnd svg{margin-top:0}#colorPop .cpBead{flex:0 0 38px;position:relative;overflow:visible}#colorPop .cpBead::before{content:'';position:absolute;left:-10px;right:-10px;top:22px;height:2px;margin-top:-1px;border-radius:2px;background:color-mix(in srgb,var(--acc,#55b8c9) 55%,transparent);z-index:0}#colorPop .cpBead.cpBeadOff::before{background:rgb(var(--ui-hi,255 255 255) / .16)}#colorPop .cpBead>.cpBd{position:relative;z-index:1;box-sizing:border-box;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;margin:0 auto;border:1.5px solid color-mix(in srgb,var(--acc,#55b8c9) 70%,transparent);background:var(--ui-solid,#1d2124);background-image:linear-gradient(color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent),color-mix(in srgb,var(--acc,#55b8c9) 14%,transparent));color:var(--ui-ink)}#colorPop .cpBead.cpBeadOff>.cpBd{border-color:rgb(var(--ui-hi,255 255 255) / .22);background-image:none;opacity:.6}#colorPop .cpBead>.cpBd svg{width:15px;height:15px;margin-top:0;fill:none;stroke:currentColor;stroke-width:1.8}#colorPop .cpBead .apDots{top:calc(100% + 3px);bottom:auto;gap:3px}#colorPop .cpBead .apDots i{width:3px;height:3px;box-shadow:none;background:var(--ui-ink);opacity:.28}#colorPop .cpBead .apDots i.on{opacity:1}#colorPop .cpBead>span{margin-top:8px}
 #colorPop .cmPick .cmEdTop{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"b h t" "b r r";gap:8px 12px;align-items:center}
 #colorPop .cmPick .cmEdTop>.cmBig{grid-area:b;width:64px;height:64px}#colorPop .cmEdTop>.cmEdHex{grid-area:h;min-width:0}#colorPop .cmEdTop>.cmTg{grid-area:t}
@@ -4226,20 +4226,34 @@ const LIGHTS=[['Dawn',{c1:'#ffcf9e',c2:'#9fb4ff',d:'lin',a:90,soft:1,pos:.5,mode
   ['Under water',{c1:'#93e8d6',c2:'#0e3d5e',d:'lin',a:90,soft:1,pos:.45,mode:'filter',amt:.45}],['Lamp',{c1:'#ffd98a',c2:'#000000',d:'round',a:90,soft:1,pos:.4,mode:'glow',amt:.4}]];
 const LMODE={filter:['multiply','Filter: colored light as it falls on things'],wash:['soft-light','Wash: a softer tint'],glow:['screen','Glow: adds light']};
 function lightClean(v){if(!v||typeof v!=='object'||Array.isArray(v))return null;const H=/^#[0-9a-f]{6}$/i,n=(x,lo,hi,d)=>{x=+x;return isFinite(x)?Math.max(lo,Math.min(hi,x)):d};
-  return{on:!!v.on,name:typeof v.name==='string'?v.name.replace(/[\u0000-\u001f\u007f<>"'`]/g,'').slice(0,32):'',c1:H.test(v.c1)?v.c1:'#ffcf9e',c2:H.test(v.c2)?v.c2:'#9fb4ff',d:v.d==='round'?'round':'lin',a:n(v.a,0,360,90),soft:n(v.soft,0,1,1),pos:n(v.pos,0,1,.5),mode:['filter','wash','glow'].includes(v.mode)?v.mode:'filter',amt:n(v.amt,0,1,.35)}}
+  return{on:!!v.on,name:typeof v.name==='string'?v.name.replace(/[\u0000-\u001f\u007f<>"'`]/g,'').slice(0,32):'',c1:H.test(v.c1)?v.c1:'#ffcf9e',c2:H.test(v.c2)?v.c2:'#9fb4ff',d:v.d==='round'?'round':'lin',a:n(v.a,0,360,90),soft:n(v.soft,0,1,1),pos:n(v.pos,0,1,.5),mode:['filter','wash','glow'].includes(v.mode)?v.mode:'filter',amt:n(v.amt,0,1,.35),turn:Math.round(n(v.turn,0,7,0)),br:Math.round(n(v.br,0,3,0))}}
 function LGT(){if(!S.light||typeof S.light!=='object')S.light={...LIGHT_DEF};return S.light}
 function lightOn(){try{return isPro('light')&&!!LGT().on&&LGT().amt>0}catch(_){return false}}
 function lightSave(){try{localStorage.setItem('current.light',JSON.stringify(LGT()))}catch(_){}}
-function lightCss(){const L=LGT(),[a,b]=gStops(L.soft,L.pos);return(L.d==='round'?'radial-gradient(circle,':'linear-gradient('+(L.a+90)+'deg,')+L.c1+' '+(a*100).toFixed(1)+'%,'+L.c2+' '+(b*100).toFixed(1)+'%)'}
+/* LIGHT THAT MOVES (Dimitry, 30 Oct 16:54: "whether light should be animated like ground"; his picks: like ground, and
+   breathe on the beat). turn: 0 still; 1..6 one full turn in a beat, a bar, 2, 4, 8 or 16 bars of the tempo; 7 the dice
+   (each period a new length, 1 to 8 bars, and a new direction of the eight, eased over a beat). br, breathe: 0 off; 1..3
+   the strength sinks to 40% and comes back once a beat, a bar or two bars. CBP is the colors' own beat clock. */
+const LTURN=[null,[1,'a beat'],[4,'a bar'],[8,'2 bars'],[16,'4 bars'],[32,'8 bars'],[64,'16 bars'],[0,'the dice']],LBR=[0,1,4,8];
+const LRND={until:-1,start:0,per:4,a0:null,a1:null};
+function lightEff(){const L=LGT();if(!L.turn&&!L.br)return L;const E={...L},b=typeof CBP==='number'?CBP:0;
+  if(L.turn&&L.d!=='round'){if(L.turn===7){if(!(b<LRND.until&&LRND.until-b<=1024)){LRND.start=b;LRND.per=[4,8,16,32][Math.floor(Math.random()*4)];LRND.until=b+LRND.per;LRND.a0=LRND.a1==null?L.a:LRND.a1;LRND.a1=[0,45,90,135,180,225,270,315][Math.floor(Math.random()*8)]}
+      const t=Math.min(1,(b-LRND.start)),e=t*t*(3-2*t),d=((LRND.a1-LRND.a0)%360+540)%360-180;E.a=((LRND.a0+d*e)%360+360)%360}
+    else{const P=LTURN[L.turn][0];E.a=(((L.a+b/P*360)%360)+360)%360}}
+  if(L.br){const P=LBR[L.br],ph=((b%P)+P)%P/P;E.amt=L.amt*(1-.6*(.5-.5*Math.cos(ph*6.2832)))}
+  if(E.a!==L.a)E.a=Math.round(E.a*2)/2;if(E.amt!==L.amt)E.amt=Math.round(E.amt*200)/200;   /* half a degree, half a percent: the layer repaints only when the light visibly moved (review e2a5 r-2) */
+  return E}
+const lightMoves=()=>{const L=LGT();return lightOn()&&!!(L.turn&&!(L.d==='round'&&!L.br)||L.br)};
+function lightCss(){const L=lightEff(),[a,b]=gStops(L.soft,L.pos);return(L.d==='round'?'radial-gradient(circle,':'linear-gradient('+(L.a+90)+'deg,')+L.c1+' '+(a*100).toFixed(1)+'%,'+L.c2+' '+(b*100).toFixed(1)+'%)'}
 /* the same light into a canvas (stills, cards, video): the stage drawn first, then this over it */
-function lightInto(g,w,h){if(!lightOn())return;const L=LGT(),[a,b]=gStops(L.soft,L.pos);let gr;
+function lightInto(g,w,h){if(!lightOn())return;const L=lightEff(),[a,b]=gStops(L.soft,L.pos);let gr;
   if(L.d==='round')gr=g.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.hypot(w,h)/2);else{const r=L.a*Math.PI/180,cx=w/2,cy=h/2,R=(Math.abs(w*Math.cos(r))+Math.abs(h*Math.sin(r)))/2;gr=g.createLinearGradient(cx-Math.cos(r)*R,cy-Math.sin(r)*R,cx+Math.cos(r)*R,cy+Math.sin(r)*R)}
   gr.addColorStop(0,L.c1);gr.addColorStop(a,L.c1);gr.addColorStop(b,L.c2);gr.addColorStop(1,L.c2);g.save();g.globalAlpha=L.amt;g.globalCompositeOperation=LMODE[L.mode][0];g.fillStyle=gr;g.fillRect(0,0,w,h);g.restore()}
 /* the layer on the stage, above the particles and the water, under the arrows and the pattern */
 let LGT_EL=null,LGT_K='';
 function lightSync(){const on=lightOn();if(!on&&!LGT_EL)return;if(!LGT_EL){LGT_EL=document.createElement('div');LGT_EL.id='lightL';LGT_EL.setAttribute('aria-hidden','true');LGT_EL.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none'}
   const host=cv.parentNode,after=(window.RIP&&RIP.canvas&&RIP.canvas.parentNode===host)?RIP.canvas:cv;if(LGT_EL.parentNode!==host||LGT_EL.previousSibling!==after)host.insertBefore(LGT_EL,after.nextSibling);
-  const L=LGT(),k=on?[lightCss(),L.mode,L.amt].join('|'):'off';if(k!==LGT_K){LGT_K=k;LGT_EL.style.display=on?'':'none';if(on){LGT_EL.style.background=lightCss();LGT_EL.style.mixBlendMode=LMODE[L.mode][0];LGT_EL.style.opacity=String(L.amt)}}
+  const L=lightEff(),css=on?lightCss():'',k=on?[css,L.mode,L.amt.toFixed(3)].join('|'):'off';if(k===LGT_K)return;LGT_K=k;LGT_EL.style.display=on?'':'none';if(on){LGT_EL.style.background=css;LGT_EL.style.mixBlendMode=LMODE[L.mode][0];LGT_EL.style.opacity=L.amt.toFixed(3)}
   try{if(RIP&&RIP.light)RIP.light(on?{c1:L.c1,c2:L.c2,round:L.d==='round',a:L.a,stops:gStops(L.soft,L.pos),amt:L.amt}:null)}catch(_){}}
 function lightSet(o,keepName,live){if(LFADE)LFADE=null;const L=LGT();Object.assign(L,lightClean(Object.assign({},L,o))||{});if(!keepName&&!('name' in o))L.name='';lightSave();lightSync();
   if(live){lightBead();try{document.querySelectorAll('#cmLight .lgPre .tb').forEach(b=>{const on=!!L.on&&b.textContent===L.name;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))})}catch(_){}return}   /* a slider or a color being dragged: the light follows, the pane stays as it is (review a67a r-1) */
@@ -4259,6 +4273,18 @@ function lightFadeOne(){const F=LFADE;if(!F){LFRUN=false;return}const u=Math.min
   L.on=true;L.c1=dip?src.c1:lfHex(A.c1,B.c1,e);L.c2=dip?src.c2:lfHex(A.c2,B.c2,e);L.mode=dip?src.mode:B.mode;L.d=dip?src.d:B.d;L.soft=A.soft+(B.soft-A.soft)*e;L.pos=A.pos+(B.pos-A.pos)*e;
   {const da=((B.a-A.a)%360+540)%360-180;L.a=((A.a+da*e)%360+360)%360}L.amt=dip?(half?A.amt*(1-k):B.amt*k):A.amt+(B.amt-A.amt)*e;
   if(u>=1){LFADE=null;LFRUN=false;lightSet({...F.end},true);return}lightSync();lightBead();requestAnimationFrame(lightFadeStep)}
+/* THE LIGHT RING (Dimitry, 30 Oct 16:53: "how to add light to ring menu and top drawer"): on, the named lights (a ring of
+   their own), strength, mode, turn, breathe and the editor; a dot in the Color ring and the top drawer's Light swatch open it */
+const LSUN='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg>';
+const lSw=(a,b)=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><defs><linearGradient id="lg'+a.slice(1)+b.slice(1)+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs><circle cx="12" cy="12" r="7" fill="url(#lg'+a.slice(1)+b.slice(1)+')" stroke="currentColor" stroke-width="1.4"/></svg>';
+function lightRingItems(){const L=LGT(),MO=['filter','wash','glow'],mi=MO.indexOf(L.mode);if(!isPro('light'))return[{id:'l-pro',kind:'go',label:'Pro',aria:'Light comes with Pro: join the Founders Club',icon:LSUN,pick:()=>{try{openBetaSheet()}catch(_){}}}];
+  return[{id:'l-on',kind:'check',label:'light',aria:'Light: on or off',on:lightOn(),icon:LSUN,pick:()=>lightSet({on:!LGT().on},true)},
+    {id:'l-named',kind:'go',label:L.name?L.name.toLowerCase():'lights',aria:'The named lights: Dawn, Noon, Dusk, Moonlight, Under water, Lamp',icon:lSw(L.c1,L.c2),ring:{title:'Lights',icon:LSUN,items:()=>LIGHTS.map(([nm,o])=>({id:'l-'+nm,kind:'radio',label:nm.toLowerCase(),aria:'Light: '+nm,on:lightOn()&&LGT().name===nm,icon:lSw(o.c1,o.c2),pick:()=>lightSet({...o,name:nm,on:true},true)}))}},
+    {id:'l-amt',kind:'value',label:'strength',aria:'Strength of the light',icon:LSUN,min:0,max:100,step:5,get:()=>Math.round(LGT().amt*100),set:v=>lightSet({amt:Math.max(0,Math.min(100,v))/100,on:true},true,true),fmt:v=>Math.round(v)+'%'},
+    {id:'l-mode',kind:'go',stay:true,label:L.mode,aria:LMODE[L.mode][1]+'. Tap for '+MO[(mi+1)%3],icon:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>',pick:()=>{const m=MO.indexOf(LGT().mode);lightSet({mode:MO[(m+1)%3]},true)}},
+    {id:'l-turn',kind:'value',label:'turn',aria:'Turn: the light\'s direction turns with the tempo, or the dice picks; 0 holds it',icon:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M19 12a7 7 0 1 1-2-4.9"/><path d="M19 4v4h-4"/></svg>',min:0,max:7,step:1,get:()=>LGT().turn||0,set:v=>lightSet({turn:Math.round(v)},true,true),fmt:v=>{v=Math.round(v);return v?LTURN[v][1]:'still'}},
+    {id:'l-br',kind:'value',label:'breathe',aria:'Breathe: the strength sinks and returns on the beat; 0 holds it',icon:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 12c3 0 3-5 6-5s3 10 6 10 3-5 6-5"/></svg>',min:0,max:3,step:1,get:()=>LGT().br||0,set:v=>lightSet({br:Math.round(v)},true,true),fmt:v=>['off','a beat','a bar','2 bars'][Math.round(v)]},
+    {id:'l-ed',kind:'go',label:'editor',aria:'The Light editor: its two colors, direction, softness and where they meet',icon:DOOR_IC,pick:()=>{try{openColorEdit('ground');setTimeout(()=>{try{CM_TABS.show('light')}catch(_){}},0)}catch(_){}}}]}
 function sceneLight(p,dur){if(!('light' in p))return;const v=p.light;const off=v===false||v===null,c=off?null:lightClean(v);if(!off&&!c)return;
   const cur=LGT(),was=lightOn(),base=LFADE&&LFADE.end?LFADE.end:cur,end=off?{...base,on:false,amt:base.amt>0?base.amt:LIGHT_DEF.amt}:{...c,on:true};   /* off keeps the light it was going to (review 7748 r-1) */   /* off keeps its strength for the next time it is turned on (review 1292 r-1) */if(!(dur>0)||!isPro('light')||(!was&&off)){LFADE=null;lightSet(end,true);return}
   const from={...cur,amt:was?cur.amt:0},to=off?{...cur,amt:0}:{...c};if(!was){from.c1=to.c1;from.c2=to.c2;from.mode=to.mode;from.d=to.d;from.a=to.a;from.soft=to.soft;from.pos=to.pos}
@@ -4278,7 +4304,9 @@ function renderLight(){const pane=$('cmLight');if(!pane)return;pane.innerHTML=''
   col('c2','Light 2');const MO=['filter','wash','glow'],mi=MO.indexOf(L.mode);
   const mb=el('button','gB gUnit',{filter:'F',wash:'W',glow:'G'}[L.mode]+'<span class="apDots" aria-hidden="true">'+MO.map((_,q)=>'<i'+(q===mi?' class="on"':'')+'></i>').join('')+'</span>',line);mb.type='button';mb.setAttribute('aria-label',LMODE[L.mode][1]+'. Tap for '+MO[(mi+1)%3]);mb.title=mb.getAttribute('aria-label');mb.onclick=()=>lightSet({mode:MO[(mi+1)%3]});
   const sl=(lab,k,fmt)=>{const r=el('label','lgRow');el('span','lgL',lab,r);const i=document.createElement('input');i.type='range';i.min='0';i.max='1';i.step='0.01';i.value=String(L[k]);i.setAttribute('aria-label',lab);const v=el('span','lgV',fmt(L[k]),r);r.insertBefore(i,v);i.oninput=()=>{v.textContent=fmt(+i.value);lightSet({[k]:+i.value},false,true)}};
-  sl('strength','amt',x=>Math.round(x*100)+'%');sl('softness','soft',x=>Math.round(x*100)+'%');sl('where they meet','pos',x=>Math.round(x*100)+'%')}
+  sl('strength','amt',x=>Math.round(x*100)+'%');sl('softness','soft',x=>Math.round(x*100)+'%');sl('where they meet','pos',x=>Math.round(x*100)+'%');
+  const seg=(lab,k,opts)=>{const r=el('div','lgRow lgSeg');el('span','lgL',lab,r);const g=el('div','lgOpts',null,r);g.setAttribute('role','radiogroup');g.setAttribute('aria-label',lab);opts.forEach((o,v)=>{const b=el('button','tb'+((L[k]||0)===v?' on':''),o,g);b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String((L[k]||0)===v));b.onclick=()=>lightSet({[k]:v},true)})};
+  seg('turn','turn',['still','beat','bar','2','4','8','16','dice']);seg('breathe','br',['off','beat','bar','2 bars'])}
 try{const v=lightClean(JSON.parse(localStorage.getItem('current.light')||'null'));if(v)S.light=v}catch(_){}
 function clearTrails(){if(TRANSP)ctx.clearRect(0,0,W,H);else{ctx.fillStyle=stageFill();ctx.fillRect(0,0,W,H)}}
 function fadeTrails(a){if(TRANSP){ctx.globalCompositeOperation='destination-out';ctx.globalAlpha=Math.max(a,.012);ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='source-over'}
@@ -4331,6 +4359,7 @@ function frame(now){requestAnimationFrame(frame);frameStep(now)}
 /* one step of the stage; the output window calls it itself while this window gets no frames (covered by a full-screen
    output on the same display: Chrome on a Mac stops frames in a covered window) */
 function frameStep(now){
+  if(lightMoves())try{lightSync()}catch(_){}   // a moving light follows the beat clock every frame
   frames++;if(now-fpsT>1000){fps=frames;frames=0;fpsT=now;hud()}
   const dt=Math.min(.1,(now-last)/1000);last=now;
   if(window.ENS&&ENS.pvOn()&&ENS.pvBehind()){ENS.pvFeed();try{ENS.pvTick(dt)}catch(e){console.warn('pv tick',e)}}   /* the field behind the pad: drawn as usual, the pad and its sound on their own loop (review ff0a3a9fc9 r-1) */
@@ -8005,6 +8034,9 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
       b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(ht);held=true;openColorMix(g)});
       b.onclick=()=>{if(held){held=false;return}CM_SEL(g);buildToolShelf();cmShelfTo(g)};
       b.style.touchAction='pan-x';t.appendChild(b)}
+    {const on=lightOn(),b=document.createElement('button');b.type='button';b.className='si dot cur'+(on?'':' none')+(lightMoves()?' anim':'');const i=document.createElement('i');if(on)i.style.background=lightCss();const l=document.createElement('span');l.className='lab';l.textContent='light';b.append(i,l);   /* the Light swatch: its ring (30 Oct) */
+      b.setAttribute('aria-label','Light, '+(on?(LGT().name||'on'):'off')+'. Opens its ring: on, the named lights, strength, mode, turn, breathe');b.setAttribute('aria-haspopup','menu');
+      b.onclick=()=>{const r=b.getBoundingClientRect();try{SurfaceRing.open({x:r.left+r.width/2,y:r.top+r.height/2,title:'Light',icon:LSUN,center:'ball',items:lightRingItems,onClose:()=>{try{buildToolShelf()}catch(_){}}})}catch(e){console.warn('light ring',e)}};t.appendChild(b)}
     /* the mixer button ends the row (Dimitry, 22 Oct 23:54): the Color mixer alone, at the selected group */
     {const m=btn(null,'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9.5" r="5"/><circle cx="15" cy="9.5" r="5"/><circle cx="12" cy="15" r="5"/></svg><span class="lab">editor</span>','The Color editor, at the selected group',()=>{},null,'cmPin');
      m.setAttribute('aria-haspopup','dialog');m.onclick=()=>openColorMix(CM_SEL())}}
@@ -10494,6 +10526,7 @@ function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" f
   return [
   {id:'panel',kind:'go',at:'top',label:'panel',aria:'The Color panel: every group, related colors, your colors',icon:DOOR_IC,pick:()=>{try{openColorMix()}catch(_){}}},
   dot('line','ink 1'),dot('second','ink 2'),dot('ground','ground'),dot('touch','touch'),
+  {id:'light',kind:'go',label:'light',aria:'Light: a colored wash over the stage. Opens its ring',icon:lightOn()?lSw(LGT().c1,LGT().c2):LSUN,ring:{title:'Light',icon:LSUN,items:lightRingItems}},
   {id:'opp',kind:'go',label:'opposite',aria:'Opposite: lines, second and ground turn inside out (tap again to turn back)',icon:RING_I('<circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor"/>'),
     pick:()=>{const R=(S.pal&&S.pal.rel)||{};for(const g of ['line','second','ground']){const G=CG[g];if(G.on()&&!R[g])G.set(colorOpp(G.get()))}   /* a tied slot follows its own (review 236cbc6 r-1) */try{renderCM()}catch(_){}try{colorDid('opposite')}catch(_){}}},
   {id:'drift',kind:'value',label:'drift',aria:'Drift: the lines\' hue slowly turns round the wheel; 0 holds it still',icon:RING_I('<path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/>'),min:0,max:4,step:1,get:dr,
@@ -11911,10 +11944,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261030200913"></script>
-<script src="surface/links.js?v=20261030200913"></script>
-<script src="surface/tips.js?v=20261030200913"></script>
-<script src="surface/sections.js?v=20261030200913"></script>
+<script src="surface/install.js?v=20261030214629"></script>
+<script src="surface/links.js?v=20261030214629"></script>
+<script src="surface/tips.js?v=20261030214629"></script>
+<script src="surface/sections.js?v=20261030214629"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -12104,7 +12137,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261030200913"></script>
+<script src="surface/room.js?v=20261030214629"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12307,7 +12340,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261030200913"></script>
+<script src="surface/touch.js?v=20261030214629"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -13870,7 +13903,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.41.1';
+const APP_VERSION='0.42.0';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
