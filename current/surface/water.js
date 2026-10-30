@@ -64,7 +64,15 @@
     { id: "hose", name: "Garden hose", note: "a hose spraying the inside of a bucket" },
     { id: "lap", name: "Lapping waves", note: "tiny waves at a lakeshore, against a dock and the stones" },
     { id: "hydrophone", name: "Hydrophone", note: "the deep hum under a harbor" },
-    { id: "rain", name: "Rain", note: "rain on a roof" }
+    { id: "rain", name: "Rain", note: "rain on a roof" },
+    /* THE SHOW'S WEATHER (Dimitry, 29 Oct 23:15, the story: "first scene is dry no water airy winds birds. second walking
+       then rain starts light then heavy ... ocean storm whales underwater quake to surfacing to sun and sky") */
+    { id: "dry", name: "Dry air", note: "wind over dry ground, and birds" },
+    { id: "walk", name: "Walking", note: "steps on dry ground, in the wind" },
+    { id: "storm", name: "Storm", note: "heavy surf, driving rain and gusts" },
+    { id: "quake", name: "Quake", note: "a deep rumble that rolls and breaks, under water" },
+    { id: "rise", name: "Surfacing", note: "bubbles rising past you toward the light" },
+    { id: "sky", name: "Sun and sky", note: "a soft breeze, birds, and a little water at the shore" }
   ];
   var VOICES = [
     { id: "drop", name: "Drop", note: "one drop; higher on screen, higher drop" },
@@ -202,6 +210,55 @@
     }
     return (c[k] = b);
   }
+  /* BIRDS: little phrases of chirps, each a sine swept fast through a few kilohertz, some trilled, from all around;
+     long quiet gaps, so it is a morning, not an aviary */
+  function birdBuf(ctx, secs, seed, dens) {
+    var c = cache(ctx), k = "bird:" + secs + ":" + seed + ":" + dens; if (c[k]) return c[k];
+    var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
+    var put = function (j, v, p) { j = j % n; L[j] += v * (1 - p); R[j] += v * p; };
+    var t = r() * 1.5;
+    while (t < secs) {
+      var pan = 0.1 + r() * 0.8, base = 2200 + r() * 2800, notes = 2 + Math.floor(r() * 6), far = r() < 0.5 ? 0.35 : 1, at = t, kind = r();
+      for (var q = 0; q < notes; q++) {
+        var dur = 0.04 + r() * 0.11, len = Math.floor(dur * sr), f0 = base * (0.85 + r() * 0.3), f1 = f0 * (kind < 0.5 ? 1.35 + r() * 0.4 : 0.6 + r() * 0.2), amp = (0.05 + r() * 0.06) * far, tr = r() < 0.3 ? 28 + r() * 30 : 0, ph = 0, s0 = Math.floor(at * sr);
+        for (var i = 0; i < len; i++) { var x = i / len, f = f0 + (f1 - f0) * Math.sin(x * Math.PI / 2), e = Math.sin(Math.PI * x) * (tr ? 0.55 + 0.45 * Math.sin(2 * Math.PI * tr * i / sr) : 1);
+          ph += 2 * Math.PI * f / sr; put(s0 + i, Math.sin(ph) * e * e * amp, pan); }
+        at += dur + 0.02 + r() * 0.09;
+      }
+      t = at + (0.6 + r() * 3.2) / dens;
+    }
+    return (c[k] = b);
+  }
+  /* WALKING: a step every half second or so, a soft heel and then the crunch of dry ground under the toe (a scatter of
+     short grains), the feet a little left, a little right */
+  function walkBuf(ctx, secs, seed) {
+    var c = cache(ctx), k = "walk:" + secs + ":" + seed; if (c[k]) return c[k];
+    var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
+    var put = function (j, v, p) { j = j % n; L[j] += v * (1 - p); R[j] += v * p; };
+    var t = 0.1, foot = 0;
+    while (t < secs - 0.2) {
+      var pan = foot ? 0.62 : 0.38, s0 = Math.floor(t * sr), amp = 0.75 + r() * 0.4, y = 0;
+      var hl = Math.floor(sr * 0.07); for (var i = 0; i < hl; i++) { var x = i / hl; y += 0.06 * ((r() * 2 - 1) - y); put(s0 + i, y * Math.pow(1 - x, 2) * Math.min(1, i / (sr * 0.004)) * amp * 2.4, pan); }   // the heel: low and short
+      var g0 = s0 + Math.floor(sr * (0.05 + r() * 0.03)), gn = 18 + Math.floor(r() * 22);
+      for (var q = 0; q < gn; q++) { var gs = g0 + Math.floor(sr * r() * 0.16), gl = Math.floor(sr * (0.001 + r() * 0.004)), ga = (0.04 + r() * 0.12) * amp, z = 0;
+        for (var gi = 0; gi < gl; gi++) { var v = r() * 2 - 1; z += 0.5 * (v - z); put(gs + gi, (v - z) * Math.exp(-gi / (gl * 0.3)) * ga, Math.min(1, Math.max(0, pan + (r() - 0.5) * 0.15))); } }   // the crunch: bright grains
+      t += 0.5 + r() * 0.12; foot = 1 - foot;
+    }
+    return (c[k] = b);
+  }
+  /* THE QUAKE'S BREAKS: now and then a long low roll that swells and cracks, the ground giving way far below */
+  function quakeBuf(ctx, secs, seed) {
+    var c = cache(ctx), k = "quake:" + secs + ":" + seed; if (c[k]) return c[k];
+    var sr = ctx.sampleRate, n = Math.floor(sr * secs), b = ctx.createBuffer(2, n, sr), r = rng(seed), L = b.getChannelData(0), R = b.getChannelData(1);
+    var t = 0.5 + r();
+    while (t < secs) {
+      var s0 = Math.floor(t * sr), len = Math.floor(sr * (1.6 + r() * 2.4)), pan = 0.3 + r() * 0.4, y = 0, z = 0, amp = 0.6 + r() * 0.5, cr = r() * 0.5 + 0.25;
+      for (var i = 0; i < len; i++) { var x = i / len, e = Math.pow(Math.sin(Math.PI * Math.min(1, x / 0.85)), 1.5) * (1 + (Math.abs(x - cr) < 0.03 ? 2.5 * (1 - Math.abs(x - cr) / 0.03) : 0));
+        y += 0.004 * ((r() * 2 - 1) - y); z += 0.03 * ((r() * 2 - 1) - z); var v = (y * 6 + z * 0.25 * (Math.abs(x - cr) < 0.05 ? 1 : 0.1)) * e * amp, j = (s0 + i) % n; L[j] += v * (1 - pan); R[j] += v * pan; }
+      t += 3 + r() * 4;
+    }
+    return (c[k] = b);
+  }
   function loop(ctx, buf, when) { var s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.start(when || ctx.currentTime); return s; }
   function lfo(ctx, hz, amt, target) { var o = ctx.createOscillator(); o.frequency.value = hz; var g = ctx.createGain(); g.gain.value = amt; o.connect(g); if (target) g.connect(target); o.start(); return { osc: o, gain: g }; }
   function ramp(p, v, ctx, tc) { try { p.cancelScheduledValues(ctx.currentTime); p.setTargetAtTime(v, ctx.currentTime, tc || 0.08); } catch (e) { p.value = v; } }
@@ -336,6 +393,32 @@
       /* a far-off hiss of the harbor, very low */
       var h = add(loop(ctx, noiseBuf(ctx, "pink", 8, 44))), hb = ctx.createBiquadFilter(); hb.type = "bandpass"; hb.frequency.value = 2200; hb.Q.value = 0.7;
       var hg = ctx.createGain(); hg.gain.value = 0.03; h.connect(hb); hb.connect(hg); hg.connect(out); swell(0.03, 0.02, hg.gain, 45);
+    } else if (name === "dry" || name === "walk" || name === "sky" || name === "storm") {
+      /* WIND: noise through a band that wanders, in two layers, the gusts a slow swell of level and pitch */
+      var W = { dry: [520, 0.5, 0.35], walk: [480, 0.38, 0.3], sky: [900, 0.4, 0.25], storm: [700, 0.55, 0.8] }[name];
+      [[-0.5, 71, 0.9], [0.5, 72, 1.25]].forEach(function (s) {
+        var wn = add(loop(ctx, noiseBuf(ctx, "pink", 9 + s[1] % 3, s[1]))), wf = ctx.createBiquadFilter(), wg = ctx.createGain(); wf.type = "bandpass"; wf.frequency.value = W[0] * s[2]; wf.Q.value = 0.9;
+        wg.gain.value = W[1]; swell(0.05 + s[2] * 0.03, W[0] * 0.45, wf.frequency, s[1] + 2); swell(0.07 + s[2] * 0.02, W[2] * W[1], wg.gain, s[1] + 4);
+        wn.connect(wf); wf.connect(wg); panTo(ctx, wg, s[0], out);
+      });
+      if (name === "dry" || name === "sky") [[13, 81, name === "sky" ? 1.6 : 1, name === "sky" ? 1.6 : 0.9], [17, 82, name === "sky" ? 1.2 : 0.7, name === "sky" ? 1.1 : 0.6]].forEach(function (B) { var bb = add(loop(ctx, birdBuf(ctx, B[0], B[1], B[2]))), bg = ctx.createGain(); bg.gain.value = B[3]; bb.connect(bg); bg.connect(out); });
+      if (name === "walk") { var wk = add(loop(ctx, walkBuf(ctx, 8, 91))), wkf = ctx.createBiquadFilter(), wkg = ctx.createGain(); wkf.type = "lowpass"; wkf.frequency.value = 5200; wkg.gain.value = 1.1; wk.connect(wkf); wkf.connect(wkg); wkg.connect(out); }
+      if (name === "sky") { var sl3 = add(loop(ctx, lapBuf(ctx, 13, 93))), sg3 = ctx.createGain(); sg3.gain.value = 0.9; sl3.connect(sg3); sg3.connect(out); }
+      if (name === "storm") {
+        /* heavy surf, low and fast, and rain driving across it */
+        [[0, 0.11, -0.6, 95], [1, 0.08, 0.6, 96]].forEach(function (S) { var sn = add(loop(ctx, noiseBuf(ctx, "brown", 7 + S[0], S[3]))), sf = ctx.createBiquadFilter(), sg4 = ctx.createGain(); sf.type = "lowpass"; sf.frequency.value = 900; sf.Q.value = 0.5; sg4.gain.value = 0.45;
+          swell(S[1], 650, sf.frequency, S[3] + 1); swell(S[1], 0.35, sg4.gain, S[3] + 2); sn.connect(sf); sf.connect(sg4); panTo(ctx, sg4, S[2], out); });
+        var rd = add(loop(ctx, rainBuf(ctx, 7, 97))), rdg = ctx.createGain(); rdg.gain.value = 3; rd.connect(rdg); rdg.connect(out);
+        var rh = add(loop(ctx, noiseBuf(ctx, "pink", 9, 98))), rhp = ctx.createBiquadFilter(), rhg = ctx.createGain(); rhp.type = "highpass"; rhp.frequency.value = 700; rhg.gain.value = 0.6; rh.connect(rhp); rhp.connect(rhg); rhg.connect(out); swell(0.09, 0.25, rhg.gain, 99);
+      }
+    } else if (name === "quake") {
+      /* the ground's hum, far under, and its breaks */
+      var qb = add(loop(ctx, noiseBuf(ctx, "brown", 8, 101))), ql = ctx.createBiquadFilter(), qg = ctx.createGain(); ql.type = "lowpass"; ql.frequency.value = 90; qg.gain.value = 0.8; swell(0.06, 0.4, qg.gain, 102); qb.connect(ql); ql.connect(qg); qg.connect(out);
+      var qr = add(loop(ctx, quakeBuf(ctx, 19, 103))), qrl = ctx.createBiquadFilter(), qrg = ctx.createGain(); qrl.type = "lowpass"; qrl.frequency.value = 260; qrg.gain.value = 1.3; qr.connect(qrl); qrl.connect(qrg); qrg.connect(out);
+    } else if (name === "rise") {
+      /* SURFACING: bubbles rising past, from low to high, over a hum that thins as the light comes */
+      [[9, 105, 180, 700, 1.6, 2.6], [13, 106, 500, 1800, 2.4, 1.8]].forEach(function (Lr) { var rb = add(loop(ctx, brookBuf(ctx, Lr[0], Lr[1], Lr[2], Lr[3], Lr[4]))), rl = ctx.createBiquadFilter(), rg2 = ctx.createGain(); rl.type = "lowpass"; rl.frequency.value = 2600; rg2.gain.value = Lr[5]; rb.connect(rl); rl.connect(rg2); rg2.connect(out); });
+      var rh2 = add(loop(ctx, noiseBuf(ctx, "brown", 6, 107))), rhl = ctx.createBiquadFilter(), rhg2 = ctx.createGain(); rhl.type = "lowpass"; rhl.frequency.value = 220; rhg2.gain.value = 0.35; swell(0.04, 0.15, rhg2.gain, 108); rh2.connect(rhl); rhl.connect(rhg2); rhg2.connect(out);
     } else { /* rain */
       var drops = add(loop(ctx, rainBuf(ctx, 7, 51))), dg = ctx.createGain(); dg.gain.value = 3.2; drops.connect(dg); dg.connect(out);
       var drops2 = add(loop(ctx, rainBuf(ctx, 11, 52))), dl = ctx.createBiquadFilter(); dl.type = "lowpass"; dl.frequency.value = 2600; var dg2 = ctx.createGain(); dg2.gain.value = 2; drops2.connect(dl); dl.connect(dg2); dg2.connect(out);
