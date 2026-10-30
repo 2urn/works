@@ -190,9 +190,13 @@
        waves at 60 degrees), its wavelength from the sound's pitch (capillary waves: wavelength ~ frequency^-2/3), its
        strength from the sound's level, only where the water is a film */
     "    if (uVib > 0.001) { float n1 = texture(uFloor,uv).r, sh = smoothstep(0.75, 1.0, wetM(uv, b1))*(1.0-smoothstep(0.0, uDeep, depthAt(uv, n1)));\n" +
-    "      if (sh > 0.002) { vec2 q = uv*vec2(textureSize(uWave,0))*(6.2832/uVibL); float ph = n1*9.0, s = sin(uTime*7.0); vec2 g = vec2(0.0);\n" +
-    "        for (int k=0;k<3;k++){ float a = float(k)*2.0944+0.4; vec2 d = vec2(cos(a), sin(a)); g -= d*sin(dot(d,q)+ph); }\n" +
-    "        grad += g*s*uVib*sh*(6.2832/uVibL)*0.04; } }\n" +
+    /* NO GRID (Dimitry, 30 Oct 18:09: on the beat the water got "goosebumps ... a fine moire grid ... repeating on a grid"):
+       three waves at 60 degrees ARE a lattice, and a loud short beat made it stand out. Now seven waves, each its own
+       direction (the golden angle apart), its own length (within a third of the pitch's) and its own slow drift, and the
+       floor's relief bends their phase: a tremble with no repeat, as rain-stirred shallow water has */
+    "      if (sh > 0.002) { vec2 q = uv*vec2(textureSize(uWave,0))*(6.2832/uVibL); float ph = n1*23.0, s = 0.6 + 0.4*sin(uTime*5.0); vec2 g = vec2(0.0);\n" +
+    "        for (int k=0;k<7;k++){ float fk = float(k), a = fk*2.39996+0.3, sc = 1.0 + 0.33*sin(fk*1.7+0.5); vec2 d = vec2(cos(a), sin(a)); g -= d*sc*sin(dot(d,q)*sc + ph*(0.6+0.13*fk) + uTime*(0.7+0.23*fk) + fk*1.3); }\n" +
+    "        grad += g*0.38*s*uVib*sh*(6.2832/uVibL)*0.04; } }\n" +
     /* THE RIM IS A SOFT LENS (Dimitry, 30 Oct 13:54: the edges of the openings, where the water thins, read "frosted ... glass
        or sandblasted"; he wants them "blurred ... like a lens but one that is smooth that's just happens to be catching the
        light in a soft way", light at a raking angle). The water's edge is read from eight taps on a ring a few cells wide:
@@ -553,7 +557,7 @@
       /* a still surface (nothing dropped for 20 s) needs no steps, only the picture */
       if (FILL != null && FILL >= 1) fullT += dt; else fullT = 0;
       if (floorOn()) quiet = Math.min(quiet, 19);   // a floor that is filling keeps its flashes moving
-      VIB.a += (VIB.t - VIB.a) * Math.min(1, dt * 12);
+      VIB.a += (VIB.t - VIB.a) * Math.min(1, dt * (VIB.t > VIB.a ? 3 : 1.5));   // rises over a third of a second: a beat does not slap a pattern on
       if (FILL != null) { beadsStep(dt); if (floorOn()) { poolStep(); poolUpload(); } }
       var hz = 60 * Q, most = Math.min(5, Math.ceil(2 * Q));   // at most 5 steps in a slow frame; a slower device drops time, not frames
       while (acc >= 1 / hz && n < most) { acc -= 1 / hz; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
@@ -606,7 +610,7 @@
       volume: function () { var P2 = PL; if (!P2) return 0; var v = 0; for (var i = 0; i < P2.d.length; i++) v += P2.d[i]; return v; },
       capacity: function (c) { var P2 = poolInit(); if (!P2) return 0; if (!P2.srt) P2.srt = Float32Array.from(P2.f).sort(); var s = P2.srt, L = s[Math.min(s.length - 1, Math.floor((c == null ? 0.8 : c) * s.length))] + 0.02, v = 0; for (var i = 0; i < s.length; i++) if (s[i] < L) v += L - s[i]; return v; },
       /* the film's tremble: amp 0..1, at a sound's frequency in hz (its wavelength on screen follows) */
-      vibrate: function (amp, hz) { VIB.t = Math.max(0, Math.min(1, +amp || 0)); if (hz > 0) { var now, lam = Math.max(6, Math.min(48, 24 * Math.pow(hz / 100, -2 / 3))), now = performance.now(); if (!VIB.cw || now - (VIB.cwAt || 0) > 1000) { VIB.cw = cv.clientWidth || SW || 1; VIB.cwAt = now; } var cw = VIB.cw; VIB.l = Math.max(2.6, lam * N[0] / cw); } return VIB.t; },
+      vibrate: function (amp, hz) { VIB.t = Math.max(0, Math.min(1, +amp || 0)); if (hz > 0) { var now, lam = Math.max(10, Math.min(48, 24 * Math.pow(hz / 100, -2 / 3))), now = performance.now(); if (!VIB.cw || now - (VIB.cwAt || 0) > 1000) { VIB.cw = cv.clientWidth || SW || 1; VIB.cwAt = now; } var cw = VIB.cw; VIB.l = Math.max(2.6, lam * N[0] / cw); } return VIB.t; },
       spread: function (k) { if (k !== undefined) GK = Math.max(0, Math.min(1, +k || 0)); return GK; }, cover: cover, beads: function () { return BEADS.length; },
       rain: function (r) { P.rain = Math.max(0, +r || 0); },
       preset: setPreset,
