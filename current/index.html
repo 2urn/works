@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261030032052";window.__VERSION__="0.38.6";window.__NOTES__=[{"v":"0.38.6","date":"29 Oct 2026","items":[{"kind":"new","text":"the player view on a laptop is mostly pad: the upper shelf is the set-up (map, the pad, the key, notes, taps, the field behind, and every sound there is, to add to your part, up to nine); Ready folds it, Set up brings it back"},{"kind":"new","text":"the lower strip is the live part: your sounds as chips (a dot plays once, a ring is held, ticks on the beat), the part's level, mute and panic; tap a chip to play it, hold it for its ring (level, timbre, grain, pitch, what plays it, leave, play, take out), drag it onto the pad to leave it there"}]}]</script>
+<script>window.__BUILD__="20261030035345";window.__VERSION__="0.38.7";window.__NOTES__=[{"v":"0.38.7","date":"29 Oct 2026","items":[{"kind":"new","text":"the player view's sounds sit in the bar as numbered circles (a filled one plays once, a ring is held, a striped one on the beat; the name on hover): tap plays, hold opens its ring around it, drag the circle onto the pad to place it"},{"kind":"new","text":"record a movement: record in a sound's ring (or a placed sound's halo), drag on the pad, and the sound goes round that path, playing where it is; still stops it"},{"kind":"change","text":"the lower strip holds every control (mix, map, keys, set up, ready, field, level, mute, panic, sound, keys, full screen) and closes; the top only reports; Leave is Place; the regular Sound mixer opens wide in the player view"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261030032052"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261030032052">
+<script src="claude-web.js?v=20261030035345"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261030035345">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,41 +169,41 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261030032052"></script>
-<script src="surface/nozoom.js?v=20261030032052"></script><script src="surface/steady.js?v=20261030032052"></script><script src="surface/selftest.js?v=20261030032052"></script><script src="surface/size.js?v=20261030032052"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261030032052"></script>
-<script src="surface/auto.js?v=20261030032052"></script>
-<script src="surface/toolpath.js?v=20261030032052"></script>
-<script src="surface/capture.js?v=20261030032052"></script>
-<script src="surface/pop.js?v=20261030032052"></script>
-<script src="surface/hints.js?v=20261030032052"></script>
-<script src="surface/paths.js?v=20261030032052"></script>
-<script src="surface/keys.js?v=20261030032052"></script>
-<script src="surface/reset.js?v=20261030032052"></script>
-<script src="surface/files.js?v=20261030032052"></script>
-<script src="surface/tabs.js?v=20261030032052"></script>
-<script src="surface/running.js?v=20261030032052"></script>
-<script src="surface/trim.js?v=20261030032052"></script>
-<script src="surface/audiowake.js?v=20261030032052"></script>
-<script src="surface/output.js?v=20261030032052"></script>
-<script src="surface/board.js?v=20261030032052"></script>
-<script src="surface/voice.js?v=20261030032052"></script>
-<script src="surface/voicelib.js?v=20261030032052"></script>
-<script src="surface/instruments.js?v=20261030032052"></script>
-<script src="surface/listview.js?v=20261030032052"></script>
-<script src="surface/beads.js?v=20261030032052"></script>
-<script src="surface/strip.js?v=20261030032052"></script>
-<script src="surface/sheetnav.js?v=20261030032052"></script>
-<script src="surface/twofinger.js?v=20261030032052"></script>
-<script src="surface/ring.js?v=20261030032052"></script>
-<script src="surface/shortlink.js?v=20261030032052"></script>
-<script src="surface/undo.js?v=20261030032052"></script>
-<script src="surface/pro.js?v=20261030032052"></script>
-<script src="surface/fresh.js?v=20261030032052"></script>
-<script src="surface/go.js?v=20261030032052"></script>
-<script src="surface/notice.js?v=20261030032052"></script>
-<script src="surface/perform.js?v=20261030032052"></script>
-<script src="surface/words.js?v=20261030032052"></script>
+<script src="vendor/opentype.min.js?v=20261030035345"></script>
+<script src="surface/nozoom.js?v=20261030035345"></script><script src="surface/steady.js?v=20261030035345"></script><script src="surface/selftest.js?v=20261030035345"></script><script src="surface/size.js?v=20261030035345"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261030035345"></script>
+<script src="surface/auto.js?v=20261030035345"></script>
+<script src="surface/toolpath.js?v=20261030035345"></script>
+<script src="surface/capture.js?v=20261030035345"></script>
+<script src="surface/pop.js?v=20261030035345"></script>
+<script src="surface/hints.js?v=20261030035345"></script>
+<script src="surface/paths.js?v=20261030035345"></script>
+<script src="surface/keys.js?v=20261030035345"></script>
+<script src="surface/reset.js?v=20261030035345"></script>
+<script src="surface/files.js?v=20261030035345"></script>
+<script src="surface/tabs.js?v=20261030035345"></script>
+<script src="surface/running.js?v=20261030035345"></script>
+<script src="surface/trim.js?v=20261030035345"></script>
+<script src="surface/audiowake.js?v=20261030035345"></script>
+<script src="surface/output.js?v=20261030035345"></script>
+<script src="surface/board.js?v=20261030035345"></script>
+<script src="surface/voice.js?v=20261030035345"></script>
+<script src="surface/voicelib.js?v=20261030035345"></script>
+<script src="surface/instruments.js?v=20261030035345"></script>
+<script src="surface/listview.js?v=20261030035345"></script>
+<script src="surface/beads.js?v=20261030035345"></script>
+<script src="surface/strip.js?v=20261030035345"></script>
+<script src="surface/sheetnav.js?v=20261030035345"></script>
+<script src="surface/twofinger.js?v=20261030035345"></script>
+<script src="surface/ring.js?v=20261030035345"></script>
+<script src="surface/shortlink.js?v=20261030035345"></script>
+<script src="surface/undo.js?v=20261030035345"></script>
+<script src="surface/pro.js?v=20261030035345"></script>
+<script src="surface/fresh.js?v=20261030035345"></script>
+<script src="surface/go.js?v=20261030035345"></script>
+<script src="surface/notice.js?v=20261030035345"></script>
+<script src="surface/perform.js?v=20261030035345"></script>
+<script src="surface/words.js?v=20261030035345"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -233,14 +233,14 @@ try{SurfacePro.beta({
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
 try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 </script>
-<script src="surface/pack.js?v=20261030032052"></script>
-<script src="surface/rail.js?v=20261030032052"></script>
-<script src="surface/touchsound.js?v=20261030032052"></script>
-<script src="surface/water.js?v=20261030032052"></script>
-<script src="surface/ripple.js?v=20261030032052"></script>
-<script src="surface/material.js?v=20261030032052"></script>
-<script src="surface/float.js?v=20261030032052"></script>
-<script src="surface/manual.js?v=20261030032052"></script>
+<script src="surface/pack.js?v=20261030035345"></script>
+<script src="surface/rail.js?v=20261030035345"></script>
+<script src="surface/touchsound.js?v=20261030035345"></script>
+<script src="surface/water.js?v=20261030035345"></script>
+<script src="surface/ripple.js?v=20261030035345"></script>
+<script src="surface/material.js?v=20261030035345"></script>
+<script src="surface/float.js?v=20261030035345"></script>
+<script src="surface/manual.js?v=20261030035345"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -1587,7 +1587,7 @@ html.bsOn:not(.bare),html.bsOn:not(.bare) body{background:color-mix(in srgb,rgb(
 /* the shelf's CLOSE is the kit's .s-vclose (pop.js), the same component as every panel's; only its place is set here */
 #bshelf .bsX{margin:0 max(4px,env(safe-area-inset-right,0px)) 0 0;border-left:1px solid rgb(var(--ui-hi) / .12)}
 #bshelf .pvChips{display:flex;gap:6px;align-items:center}#bshelf .pvChip{display:inline-flex;align-items:center;gap:7px;touch-action:pan-x;user-select:none;-webkit-user-select:none}#bshelf .pvCi{display:inline-grid;width:16px;height:16px}#bshelf .pvCi svg{width:16px;height:16px}
-#bshelf .pvPanic{border-color:rgba(255,107,107,.6)!important;color:#ff9b9b}.pvGhost{position:fixed;z-index:80;pointer-events:none;translate:-50% -120%;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#071012;border:1.5px solid currentColor;font:700 11px/1 var(--mono,monospace)}.pvGhost svg{width:16px;height:16px}
+#bshelf .pvPanic{border-color:rgba(255,107,107,.6)!important;color:#ff9b9b}#bshelf .pvTools .bsPill{padding:0 9px}#bshelf .pvTools .bsPill svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}.pvGhost{position:fixed;z-index:80;pointer-events:none;translate:-50% -120%;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#071012;border:1.5px solid currentColor;font:700 11px/1 var(--mono,monospace)}.pvGhost svg{width:16px;height:16px}
 @media (max-width:559px){#bshelf .bsT{width:54px;padding-left:max(10px,env(safe-area-inset-left,0px));font-size:8px;letter-spacing:.1em}}
 html[data-hand="left"] #bshelf{flex-direction:row-reverse}
 html[data-hand="left"] #bshelf .bsX{border-left:0;border-right:1px solid rgb(var(--ui-hi) / .12);margin:0 0 0 max(4px,env(safe-area-inset-left,0px))}
@@ -7543,7 +7543,8 @@ function syncShelves(){
    scene's name squeezed between them): a drawer that opens shuts the panels, and a panel that opens shuts the drawers */
 /* THE SHELF FOLLOWS THE OPEN PANEL (Dimitry, 21 Oct night: Source opened while the shelf said Capture): when a button's
    drawer or panel opens and the shelf is out, the shelf turns to that button's controls, and its peak slides there */
-function bsFollow(sec){try{if(BS&&BS.ready&&BS.open&&BS.sec!==sec)BS.show(sec)}catch(_){}}
+document.addEventListener('fullscreenchange',()=>{try{if(BS&&BS.ready)bsSync()}catch(_){}});document.addEventListener('webkitfullscreenchange',()=>{try{if(BS&&BS.ready)bsSync()}catch(_){}});
+function bsFollow(sec){try{if(BS&&BS.ready&&BS.open&&BS.sec!==sec){if(sec==='sound'&&BS.sec==='part'&&!BS.wantSound)return;BS.show(sec)}}catch(_){}}   /* the strip stays unless the Sound shelf was asked for */
 function closeDrawers(){if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){srcOpen=sndOpen=pickOpen=false;if(ACTIVE)toolShown=false;syncSteer()}}
 function syncSteer(){if(typeof PSEL!=='undefined'&&PSEL&&PSEL.on&&(!srcOpen||!srcEl()))picDeselect();bsSync();if(srcOpen)bsFollow('source');else if(sndOpen)bsFollow('sound');else if(pickOpen||(ACTIVE&&toolShown&&$('pSteer').classList.contains('drawerOpen')))bsFollow('tools');if(srcOpen||sndOpen||pickOpen||(ACTIVE&&toolShown)){try{if(!pinnedUp('plist'))closePlist();if(!pinnedUp('rlist'))closeRlist();if($('pShot').getAttribute('aria-expanded')==='true'&&!pinnedUp('shotPop'))closeShotPop()}catch(_){}   /* a shelf never shuts a pinned panel (26 Oct 23:54) */}try{const b=$('pSnd');b.setAttribute('aria-expanded',String(!!sndOpen))}catch(_){}
   const main=$('pSteer');
@@ -8932,6 +8933,7 @@ function sndOffEnd(keep){cancelAnimationFrame(SOFF.raf);clearTimeout(SOFF.to);SO
   sndTween(320,e=>[top+(G.top0-top)*e,n0+(1-n0)*e,b0+(1-b0)*e],()=>sndTween(240,e=>[G.top0+(low-G.top0)*e,1,1],sndOffDone))}
 function sndOffStart(){if(SOFF.on){sndOffEnd(true);toast('sound stays on');return}
   if(SOFF.sh){cancelAnimationFrame(SOFF.raf);sndOffDone()}
+  if(!$('pSnd').offsetWidth){setMute(true);try{sndOffDone()}catch(_){}try{bsSync()}catch(_){}return}   /* the speaker is in the strip (player view): off at once, no fade on a hidden button (review 6721 r-2) */
   const b=$('pSnd'),r=b.getBoundingClientRect(),col='var(--lit-fill)',   /* lit is frosted (0.29.42): the fill is the lit button's accent wash on the glass below, not a solid */
     el=document.createElement('button');el.type='button';el.className='sndOff';
   el.setAttribute('aria-label','Keep the sound on');
@@ -9079,7 +9081,7 @@ let MIX_ROOM_NOW=null;
 /* a tab opened while a room is showing, and found in it, stays in that room (Pack → Water keeps Pack beside it) */
 const mixRoom=tab=>{try{const p=$('mixPop');if(p&&!p.hidden&&MIX_ROOM_NOW&&MIX_ROOMS[MIX_ROOM_NOW].includes(tab))return MIX_ROOM_NOW}catch(_){}return tab==='touch'?'touch':tab==='pack'||tab==='pic'?'in':'sound'};
 const ROOM_NAME={sound:'Sound',touch:'Touch',in:'Input'};
-function openMix(tab){if(window.ENS&&ENS.pvOn&&ENS.pvOn()){try{ENS.pvTab('mix')}catch(_){}return}   /* the player view has one mixer, its own (Dimitry, 29 Oct 22:14: "mixer is NARROW") */
+function openMix(tab){
   const room=mixRoom(typeof tab==='string'?tab:'');MIX_ROOM_NOW=room;bsFollow('sound');try{closeWordList();closeFontList()}catch(_){}
   if(window.MIX_TABS){try{MIX_TABS.only&&MIX_TABS.only(MIX_ROOMS[room])}catch(_){}let t=typeof tab==='string'?tab:MIX_TABS.last();if(MIX_ROOMS[room].indexOf(t)<0)t=room==='sound'?'mix':MIX_ROOMS[room][0];MIX_TABS.show(t)}else renderMix();$('mixPop').hidden=false;$('mixPop').setAttribute('aria-label',ROOM_NAME[room]||'Sound');const m=$('sdMix');if(m)m.setAttribute('aria-pressed','true');if(!MXRAF)MXRAF=requestAnimationFrame(mixDraw)}
 function closeMix(){const p=$('mixPop');if(!p||p.hidden)return;cancelAnimationFrame(MCRAF);try{MIX_INFO.close()}catch(_){}p.hidden=true;try{BG.stopHead()}catch(_){}const m=$('sdMix');if(m)m.setAttribute('aria-pressed','false')}
@@ -9756,7 +9758,7 @@ let VOL_LAST=.6;
    is non-highlighted button but wave still moving"; "of course they should sync in terms of state"): the bar's speaker is
    lit only when the sound is heard, as the rings' volume dots are. Muted or at zero while it plays: unlit, the X, the wave
    still moving. Asleep: the soft outline (wait). Called on every volume change too, so a ring's drag to zero shows at once. */
-function sndLit(){const sb=$('pSnd');if(!sb)return;const a=audible(),h=heard();sb.classList.toggle('vol0',volZero());sb.classList.toggle('on',h);
+function sndLit(){const sb=$('pSnd');if(!sb)return;try{if(BS&&BS.open&&BS.sec==='part')bsSync()}catch(_){}const a=audible(),h=heard();sb.classList.toggle('vol0',volZero());sb.classList.toggle('on',h);
   sb.classList.toggle('wait',sounding()&&!a);sb.classList.toggle('muted',a&&!h);sb.setAttribute('aria-pressed',String(h))}
 /* ZERO IS SILENT (13:16: "sound is still playing after I turned volume to 0 in ring menu"): the master gain was set by .value
    while recMix had scheduled a setTargetAtTime on it. WebKit ignores the .value setter while automation is on the timeline,
@@ -10691,27 +10693,30 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
        performance interface"): its sounds as the shelf's own pills (a dot plays once, a ring is held, ticks on the beat),
        the part's level, mute, panic. Tap a sound: it plays. Hold it (or right-click): its ring. Drag it onto the pad: left
        there. */
+    /* THE LOWER STRIP IN THE PLAYER VIEW (Dimitry, 29 Oct 23:19: the sounds go up into the bar; "the audio and keyboard
+       icons went down into the lower section ... all of the upper controls like map, mix, keys, setup, ready, field ...
+       selectable from the lower menu ... and that could be closed"): the shelf's own pills, rule and slider */
     part:{title:()=>{const P=window.ENS&&ENS.partState&&ENS.partState();return P?P.name:'Part'},none:()=>!(window.ENS&&ENS.pvOn&&ENS.pvOn()),
-      key:()=>{const P=window.ENS&&ENS.partState&&ENS.partState();return P?P.slots.map(x=>x.kind+x.g).join(',')+'|'+P.mute:''},
-      build(box){document.querySelectorAll('.pvGhost').forEach(x=>x.remove());const P=window.ENS&&ENS.partState&&ENS.partState();if(!P)return()=>{};const g=mk('div','bsG pvChips');g.setAttribute('role','group');g.setAttribute('aria-label','Your part’s sounds');
-        const SH={one:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg>',held:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="3"/></svg>',beat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M10 7v10M14 7v10M18 7v10" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>'};
-        for(const q of P.slots){const b=mk('button','bsPill pvChip','<span class="pvCi" style="color:'+q.c+'">'+SH[q.shape]+'</span><span>'+(q.i+1)+' '+q.name+'</span>');b.type='button';
-          b.setAttribute('aria-label',(q.i+1)+', '+q.name+(q.shape==='held'?', held':q.shape==='beat'?', on the beat':', plays once')+'. Tap to play it, hold for its ring, drag it onto the pad to leave it there');b.title='tap: play · hold: its ring · drag: onto the pad';
-          let st=null,ht=0,gh=null;const ring=()=>{const r=b.getBoundingClientRect();ENS.chipRing(q.i,r.left+r.width/2,r.top-120)};
-          b.addEventListener('pointerdown',e=>{if(e.button>0)return;st={x:e.clientX,y:e.clientY,t:performance.now(),mv:false,id:e.pointerId};try{b.setPointerCapture(e.pointerId)}catch(_){}clearTimeout(ht);ht=setTimeout(()=>{if(st&&!st.mv){st.held=true;if(navigator.vibrate)navigator.vibrate(10);ring()}},520)});
-          b.addEventListener('pointermove',e=>{if(!st||e.pointerId!==st.id)return;if(!st.mv&&!st.sc&&Math.abs(e.clientY-st.y)>10&&Math.abs(e.clientY-st.y)>Math.abs(e.clientX-st.x)){   /* a drag goes up, toward the pad; sideways scrolls the strip (review 32cf r-5) */st.mv=true;clearTimeout(ht);gh=mk('div','pvGhost',SH[q.shape]+'<span>'+q.name+'</span>');gh.style.color=q.c;document.body.appendChild(gh)}
-            else if(!st.mv&&Math.abs(e.clientX-st.x)>10){st.sc=true;clearTimeout(ht)}
-            if(gh){gh.style.left=e.clientX+'px';gh.style.top=e.clientY+'px'}});
-          const end=e=>{clearTimeout(ht);if(!st)return;const S0=st;st=null;if(gh){gh.remove();gh=null;if(e.type==='pointerup'&&!ENS.leaveAt(q.i,e.clientX,e.clientY))toast('drop it on the pad to leave it there',1600);return}
-            if(e.type==='pointerup'&&!S0.held&&!S0.mv&&!S0.sc)ENS.audition(q.i)};
-          b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(ht);st=null;ring()});
-          b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ENS.audition(q.i)}else if(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')){e.preventDefault();ring()}});
-          g.appendChild(b)}
-        box.appendChild(g);rule(box);
-        const lv=slider(box,'part',{min:0,max:1.5,step:.01,aria:'Your part’s level',get:()=>{const Q=ENS.partState();return Q?Q.lvl:1},set:v=>ENS.partLvl(v)});lv.value=P.lvl;
-        const c=mk('div','bsG');const mu=mk('button','bsPill','mute');mu.type='button';mu.setAttribute('role','switch');mu.onclick=()=>{ENS.mute();bsSync()};
-        const pa=mk('button','bsPill pvPanic','panic');pa.type='button';pa.setAttribute('aria-label','Panic: let go of everything held at once');pa.onclick=()=>ENS.panic();c.append(mu,pa);box.appendChild(c);
-        return ()=>{const Q=ENS.partState();if(!Q)return;if(document.activeElement!==lv)lv.value=Q.lvl;mu.setAttribute('aria-checked',String(!!Q.mute));mu.setAttribute('aria-label','Mute your part: '+(Q.mute?'muted':'on'))}}},
+      key:()=>{const P=window.ENS&&ENS.partState&&ENS.partState();return P?'c':''},
+      build(box){const E=window.ENS;if(!E||!E.partState||!E.partState())return()=>{};
+        const pill=(g,lab,aria,fn,sw)=>{const b=mk('button','bsPill',lab);b.type='button';if(sw)b.setAttribute('role','switch');b.setAttribute('aria-label',aria);b.title=aria;b.onclick=()=>{fn();bsSync()};g.appendChild(b);return b};
+        const g1=mk('div','bsG');g1.setAttribute('role','group');g1.setAttribute('aria-label','Panels');
+        const tb={mix:pill(g1,'mix','The mixer beside the pad',()=>E.tab('mix'),1),map:pill(g1,'map','The map beside the pad',()=>E.tab('map'),1),keys:pill(g1,'keys','The keys beside the pad',()=>E.tab('keys'),1)};
+        const su=pill(g1,'set up','The set-up shelf above: map, the pad, the key, taps, the field, every sound',()=>E.setup(),1);
+        const rd=pill(g1,'ready','Ready to perform: no paths, hints or notices, the screen stays awake, nothing reloads',()=>E.ready(),1);
+        const fd=pill(g1,'field','The field behind the pad, or sound only',()=>E.field(),1);
+        box.appendChild(g1);rule(box);
+        const lv=slider(box,'part',{min:0,max:1.5,step:.01,aria:'Your part’s level',get:()=>{const Q=E.partState();return Q?Q.lvl:1},set:v=>E.partLvl(v)});lv.value=E.partState().lvl;
+        const g2=mk('div','bsG');const mu=pill(g2,'mute','Mute your part',()=>E.mute(),1);const pa=pill(g2,'panic','Panic: let go of everything held at once',()=>E.panic());pa.classList.add('pvPanic');box.appendChild(g2);rule(box);
+        const g3=mk('div','bsG pvTools');const SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3l4-3.5v12l-4-3.5H4z"/><path d="M15 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" opacity=".75"/></svg>',
+          KB='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h1M9.5 10h1M13 10h1M16.5 10h1M7 14h10"/></svg>',FS='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>';
+        const sp=pill(g3,SPK,'Sound on or off. Hold for the Sound shelf and its mixer',()=>{try{toggleSound()}catch(_){}},1);
+        {let ht=0,held=false;sp.addEventListener('pointerdown',()=>{held=false;clearTimeout(ht);ht=setTimeout(()=>{held=true;try{BS.wantSound=true;BS.show('sound');BS.wantSound=true;openMix('mix')}catch(_){}BS.wantSound=false},(window.SurfaceKeys&&SurfaceKeys.holdMs)||520)});['pointerup','pointercancel','pointerleave'].forEach(t=>sp.addEventListener(t,()=>clearTimeout(ht)));
+          sp.addEventListener('click',e=>{if(held){e.stopImmediatePropagation();held=false}},true);sp.addEventListener('contextmenu',e=>{e.preventDefault();try{BS.wantSound=true;BS.show('sound');BS.wantSound=true;openMix('mix')}catch(_){}BS.wantSound=false})}
+        pill(g3,KB,'Every keyboard shortcut',()=>{const k=$('pKeys');if(k)k.click()});const fs=pill(g3,FS,'Full screen',()=>{const f=$('pFull');if(f)f.click()},1);if(!(document.fullscreenEnabled||document.webkitFullscreenEnabled))fs.hidden=true;
+        box.appendChild(g3);
+        return ()=>{const Q=E.partState();if(!Q)return;const t=E.tabNow();for(const k in tb)tb[k].setAttribute('aria-checked',String(t===k));su.setAttribute('aria-checked',String(!!E.setupOn()));rd.setAttribute('aria-checked',String(!!E.readyNow()));fd.setAttribute('aria-checked',String(!!E.fieldNow()));
+          if(document.activeElement!==lv)lv.value=Q.lvl;mu.setAttribute('aria-checked',String(!!Q.mute));fs.setAttribute('aria-checked',String(!!(document.fullscreenElement||document.webkitFullscreenElement)));let on=false;try{on=!!heard()}catch(_){}sp.setAttribute('aria-checked',String(on));sp.setAttribute('aria-label','Sound: '+(on?'on':'off')+'. Hold for the Sound shelf and its mixer')}}},
     scenes:{title:()=>'Scenes',build(box){return stripSect(box)},key:()=>playIds().join(',')+'|'+allPresets().length},
     capture:{title:()=>'Capture',build(box){
       const g=radios('What a capture makes','bsCap');
@@ -10880,7 +10885,8 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
   /* the bar never moves now (21 Oct night): its room is kept whether the shelf is out or away; place() only re-seats what sits above the bar */
   const place=()=>{const S0=SECT[BS.sec],on=BS.open&&!sh.hidden&&!(S0&&S0.none&&S0.none());root.classList.toggle('bsOn',on);
     clearTimeout(pt);try{placeShelves()}catch(_){}pt=setTimeout(()=>{try{placeShelves()}catch(_){}carets()},420)};
-  BS.show=(sec,focus)=>{if(sec&&OWNER[sec])BS.sec=sec;BS.open=true;sh.hidden=false;save();BS.sync();place();
+  BS.show=(sec,focus)=>{if(sec==='sound'&&!BS.wantSound&&window.ENS&&ENS.pvOn&&ENS.pvOn())sec='part';BS.wantSound=false;   /* the player view: the speaker's shelf is the strip, always one gesture away (review 6721 r-1) */
+    if(sec&&OWNER[sec])BS.sec=sec;BS.open=true;sh.hidden=false;save();BS.sync();place();
     if(focus){const f=body.querySelector('[aria-checked=true],button,input');if(f)f.focus({preventScroll:true})}};
   BS.hide=()=>{if(!BS.open)return;BS.open=false;sh.hidden=true;save();BS.sync();place()};
   $('bsX').onclick=()=>{const o=$(OWNER[BS.sec]);BS.hide();if(o&&sh.contains(document.activeElement))o.focus({preventScroll:true})};
@@ -11706,10 +11712,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261030032052"></script>
-<script src="surface/links.js?v=20261030032052"></script>
-<script src="surface/tips.js?v=20261030032052"></script>
-<script src="surface/sections.js?v=20261030032052"></script>
+<script src="surface/install.js?v=20261030035345"></script>
+<script src="surface/links.js?v=20261030035345"></script>
+<script src="surface/tips.js?v=20261030035345"></script>
+<script src="surface/sections.js?v=20261030035345"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -11899,7 +11905,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261030032052"></script>
+<script src="surface/room.js?v=20261030035345"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12102,7 +12108,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261030032052"></script>
+<script src="surface/touch.js?v=20261030035345"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12130,10 +12136,17 @@ const ROOMC=(function(){
 #partPill[hidden]{display:none}
 /* THE PLAYER VIEW (29 Oct 15:20): sound only, the pad the shape of the screen's picture; of the bar only sound, keys, full screen */
 #pv{position:fixed;inset:0;z-index:6;background:#07090b;color:#e8f1f2;display:flex;flex-direction:column;padding:calc(10px + env(safe-area-inset-top,0px)) 14px calc(92px + env(safe-area-inset-bottom,0px));box-sizing:border-box;font:13px/1.4 var(--sans,system-ui)}
-#pv[hidden]{display:none}#pv.noside .pv-side{display:none}html.pvOn.pvSetOn #pv{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px))}html.pvOn #mixPop{display:none!important}html.pvOn #partPill,html.pvOn:not(.pvBehind) #stage,html.pvOn #playname,html.pvOn .hud{visibility:hidden}
+#pv[hidden]{display:none}#pv.noside .pv-side{display:none}html.pvOn.pvSetOn #pv{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px))}html.pvOn #partPill,html.pvOn:not(.pvBehind) #stage,html.pvOn #playname,html.pvOn .hud{visibility:hidden}
 html.pvBehind #pv{background:transparent;pointer-events:none}html.pvBehind #pv .pv-h,html.pvBehind #pv .pv-main{pointer-events:auto}   /* the margins too: no stray touch reaches the stage mid-show (r-4) */
 html.pvBehind #pv .pv-pad{background:rgba(5,7,9,.18)}html.pvBehind #pv .pv-side{background:rgba(7,9,11,.82);border-radius:12px;padding:8px}html.pvBehind #pv .pv-h{background:rgba(7,9,11,.6);border-radius:12px;padding-right:8px}
-html.pvOn #playbar>*:not(#pSnd):not(#pKeys):not(#pFull){display:none!important}
+html.pvOn #playbar>*:not(#pSnd):not(#pvBar){display:none!important}html.pvOn #pKeys,html.pvOn #pFull{display:none!important}html.pvOn.bsOn #pSnd{display:none!important}   /* the strip holds the speaker, the keys and full screen; closed, the speaker is back in the bar */
+html.pvOn #mixPop.spop-span{left:50%!important;width:min(600px,calc(100vw - 24px))!important;translate:-50% 0}   /* the regular Sound mixer, wide in the player view (29 Oct 23:19) */
+#pvBar{display:none}html.pvOn #pvBar{display:flex;gap:8px;align-items:center;pointer-events:auto}
+#pvBar .pvB{position:relative;flex:none;width:min(var(--s-ctl,52px),calc((100vw - 24px) / var(--pvn,6) - 8px));height:min(var(--s-ctl,52px),calc((100vw - 24px) / var(--pvn,6) - 8px));border-radius:50%;border:0;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;background:var(--sc);color:#071012;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+#pvBar .pvB b{font:800 16px/1 var(--mono,monospace)}#pvBar .pvB .lab{position:absolute;top:calc(100% + 6px);left:50%;translate:-50% 0;padding:4px 7px;border-radius:6px;background:#071012;color:var(--sc);border:1px solid var(--sc);font:700 10px/1 var(--mono,monospace);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+#pvBar .pvB:hover .lab,#pvBar .pvB:focus-visible .lab,#pvBar .pvB.drag .lab{opacity:1}   /* nameless circles with numbers; the name on hover (Dimitry, 29 Oct 23:26) */
+#pvBar .pvB.held{background:#0b0e11;color:var(--sc);box-shadow:inset 0 0 0 4px var(--sc),0 2px 10px rgba(0,0,0,.35)}#pvBar .pvB.beat{background:repeating-linear-gradient(90deg,var(--sc) 0 6px,color-mix(in srgb,var(--sc) 70%,#000) 6px 8px)}
+#pvBar .pvB.drag{z-index:90;cursor:grabbing;scale:1.12;box-shadow:0 8px 24px rgba(0,0,0,.55)}#pvBar .pvB:focus-visible{outline:2px solid #fff;outline-offset:3px}
 html.pvOn[data-pvshelf] #bshelf,html.pvOn .sp-first,html.pvOn .sp-b,html.pvOn .sp-nag{display:none!important}   /* only the sound shelf; no path cards over the pad */
 #pv .pv-slot .pv-r,#pv .pv-axis .pv-r,#pv .pv-corn .pv-r{flex:none}
 #pv .pv-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:40px;padding-left:52px;padding-right:46px}   /* Exit clear of the report-a-bug button in the corner */
@@ -12144,7 +12157,7 @@ html.pvOn[data-pvshelf] #bshelf,html.pvOn .sp-first,html.pvOn .sp-b,html.pvOn .s
 #pv .pv-key{font:700 12px/1 var(--mono);letter-spacing:.04em;padding:6px 9px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--pc) 60%,transparent);color:#e8f1f2;white-space:nowrap}
 #pv .pv-tune h3{margin:0 0 8px;font:700 11px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(232,241,242,.7)}#pv .pv-tune{padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1)}
 #pv .pv-r2{display:flex;gap:8px;margin-bottom:8px}#pv .pv-r2 label{display:flex;flex-direction:column;gap:4px;flex:1;font:11px var(--mono);color:rgba(232,241,242,.62)}#pv .pv-r2 select{min-height:40px}
-#pv .pv-tabs{display:flex;gap:6px;flex-wrap:wrap;order:3;width:100%}   /* the panels on their own row; Exit stays up by the name */
+#pv .pv-tabs{display:none}#pv .pv-rep{font:11px/1.3 var(--mono);color:rgba(232,241,242,.5);order:3;width:100%;padding-left:2px}   /* the panels on their own row; Exit stays up by the name */
 #pv .pv-h>.pv-fd{margin-left:auto;background:none;border:1px solid rgba(232,241,242,.28);color:rgba(232,241,242,.7);font-weight:500;min-height:32px;padding:0 12px}   /* Exit: apart from the panels, quieter (Dimitry, 29 Oct 15:57) */
 #pv .pv-h>.pv-fd:hover{color:#fff;border-color:rgba(232,241,242,.6)}
 #pv button{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#e8f1f2;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:999px;min-height:36px;padding:0 13px;cursor:pointer}
@@ -12377,7 +12390,7 @@ const ENS=window.ENS=(function(){
     m.slots=m.slots.map((s,i)=>{const z=d.slots[i]||{kind:s.kind,g:'off',size:.45};return{kind:z.kind,g:GESTS.some(g=>g[0]===s.g)?s.g:z.g,lvl:n(s.lvl,0,1.5,1),tone:n(s.tone,0,1,.5),grain:n(s.grain,0,1,0),semi:n(s.semi,-24,24,0),size:n(s.size,0,1,z.size)}});
     const ax=a=>Array.isArray(a)&&AXES.some(x=>x[0]===a[0])?[a[0],n(a[1],0,1,0),n(a[2],0,1,1)]:null;
     return{corners:Array.isArray(m.corners)&&m.corners.length===4?m.corners.map(v=>Number.isInteger(v)&&v>=-1&&v<m.slots.length?v:-1):d.corners,surf:SURFS[m.surf]?m.surf:'wall',zero:m.zero==='centre'?'centre':'edge',slots:m.slots,lvl:n(m.lvl,0,1.5,1),bed:n(m.bed,0,1.5,1),wet:n(m.wet,0,1,.5),map:{x:ax(m.map&&m.map.x)||d.map.x,y:ax(m.map&&m.map.y)||d.map.y,id:String(m.map&&m.map.id||'')},
-      drops:Array.isArray(m.drops)?m.drops.slice(0,12).filter(q=>q&&isFinite(q.x)&&isFinite(q.y)&&isFinite(q.s)).map(q=>({x:n(q.x,0,1,.5),y:n(q.y,0,1,.5),s:Math.max(0,Math.min(m.slots.length-1,q.s|0)),every:[1,2,4,8].includes(+q.every)?+q.every:4,g:isFinite(q.g)?n(q.g,0,1.5,1):1})):[]}}
+      drops:Array.isArray(m.drops)?m.drops.slice(0,12).filter(q=>q&&isFinite(q.x)&&isFinite(q.y)&&isFinite(q.s)).map(q=>({x:n(q.x,0,1,.5),y:n(q.y,0,1,.5),s:Math.max(0,Math.min(m.slots.length-1,q.s|0)),every:[1,2,4,8].includes(+q.every)?+q.every:4,g:isFinite(q.g)?n(q.g,0,1.5,1):1,...((pp=>pp.length>1?{path:pp.map(v=>[n(v[0],0,1,.5),n(v[1],0,1,.5),n(v[2],0,120,0)]),pd:n(q.pd,.3,120,4)}:{})(Array.isArray(q.path)&&isFinite(q.pd)?q.path.slice(0,1500).filter(v=>Array.isArray(v)&&v.length===3&&v.every(isFinite)):[]))})):[]}}
   let mixT=0;const mixPut=()=>{mixT=0;if(cur&&MIX)try{localStorage.setItem(mixKey(cur.id),JSON.stringify(MIX))}catch(_){}};function mixSave(){clearTimeout(mixT);mixT=setTimeout(mixPut,300)}
   addEventListener('pagehide',()=>{if(mixT){clearTimeout(mixT);mixPut()}});   /* a change in the last 300 ms before the page goes is kept */
   /* the chains: per slot level -> high-pass -> low-pass -> grain gate -> the part's out -> the Water strip */
@@ -12535,13 +12548,19 @@ const ENS=window.ENS=(function(){
     if(on&&!G.on){G.on=true;G.just=true;G.t0=now;G.dist=0;G.moved=0;G.still=true}
     else if(!on&&G.on){G.on=false;G.upAt=now}
     if(on){G.dist+=sp*dt;G.moved+=sp*dt;if(G.moved>.25)G.still=false}
-    slotsTick(on,sp,now);dropsTick(now)}
+    slotsTick(on,sp,now);pathTick();dropsTick(now)}
   /* SOUNDS LEFT ON THE PAD (his "extra credit", 15:23: "dropable sounds they can leave on stage ... and delete when they
      want"): a slot dropped on the pad plays there by itself, once every 1, 2, 4 or 8 beats, on the room's beat, at that
      place's pitch and wetness, and the screen sees it there; tap it to change how often, hold it (or drag it off) to take
      it away. At most twelve. */
   const DR=[];   // live: {x, y, s, every, next}
   function dropsSync(){haloClose();DR.length=0;(MIX&&MIX.drops||[]).forEach(q=>DR.push(Object.assign({},q,{next:null})))}
+  /* RECORD A MOVEMENT (Dimitry, 29 Oct 23:21: "record the movement of the sound on stage via gesture that could be
+     repeated"): a placed sound's halo (or a chip's ring) records a path drawn on the pad; the sound then goes round it,
+     playing on its beats wherever it is; its halo stills it. */
+  const REC={arm:false,on:false,d:-1,drop:-1,t0:0,pts:null};
+  function pathTick(){const n=performance.now();for(let i=0;i<DR.length;i++){const d=DR[i];if(!d.path||(REC.on&&REC.d===i)||i===DRAGI)continue;if(d.pt0==null)d.pt0=n;
+    const P=d.path,T=((n-d.pt0)/1000)%d.pd;let k=1;while(k<P.length&&P[k][2]<T)k++;const a=P[Math.min(k-1,P.length-1)],b=P[Math.min(k,P.length-1)],u=b[2]>a[2]?(T-a[2])/(b[2]-a[2]):0;d.x=a[0]+(b[0]-a[0])*u;d.y=a[1]+(b[1]-a[1])*u}}
   function dropsTick(now){if(!DR.length||!AUD.ctx)return;const t=tapNow();
     DR.forEach(d=>{const g=grid(),u=g.bl*d.every;if(d.next==null)d.next=nextOn(t+.05,d.every);if(t<d.next-.1)return;
       dropFire(d,atCtx(d.next),u);d.next=nextOn(Math.max(t,d.next)+.02,d.every)});}
@@ -12628,7 +12647,7 @@ const ENS=window.ENS=(function(){
      hides every control and goes full screen, so the HDMI out is the field alone (or Projector window for a second
      display). Tapping it again puts every one of those back as it was. It lasts for the tab, like Performing. */
   const RD={on:false,was:null};
-  function ready(v,boot){v=!!v;if(v===RD.on)return;RD.on=v;setTimeout(shelfSoon,0);if(pvOn&&!boot)setTimeout(()=>pvShelves(!v),0);const de=document.documentElement;
+  function ready(v,boot){v=!!v;if(v===RD.on)return;RD.on=v;setTimeout(shelfSoon,0);setTimeout(()=>{try{pvShelfSync()}catch(_){}},0);if(pvOn&&!boot)setTimeout(()=>pvShelves(!v),0);const de=document.documentElement;
     if(v){let was=null;try{was=JSON.parse(localStorage.getItem('current.ready.was')||'null')}catch(_){}
       RD.was=was||{paths:window.SurfacePaths?SurfacePaths.on:null,hints:window.SurfaceHints?SurfaceHints.level:null,notice:window.SurfaceNotice?SurfaceNotice.enabled():null,perf:!!(window.SurfacePerform&&SurfacePerform.manual())};
       try{localStorage.setItem('current.ready.was',JSON.stringify(RD.was))}catch(_){}   // kept on the device: a tab closed while ready still gets its settings back (review cfd0d1b7fd r-1)
@@ -12664,12 +12683,12 @@ const ENS=window.ENS=(function(){
   function pvSet(v){pvWant=!!v;try{localStorage.setItem(PVK,v?'1':'0')}catch(_){}pvApply();paint();shelfSoon()}
   function shelfSoon(){try{if(typeof ACTIVE!=='undefined'&&ACTIVE==='session')buildToolShelf()}catch(_){}}   /* the Room shelf's Board and Clean screen say what is true (review 47ee r-3) */
   function pvApply(){const on=!!(cur&&pvWant&&!screen);if(on!==pvOn){pvOn=on;IN.pv=on;IN.on=false;relAll();document.documentElement.classList.toggle('pvOn',on);document.documentElement.classList.toggle('pvBehind',on&&pvBehind);if(on)document.documentElement.setAttribute('data-keys-own','');else document.documentElement.removeAttribute('data-keys-own');   /* the part's keys, not the tool's single keys (kit keys.js) */
-      if(on){pvBuild();pvEl.hidden=false;try{setPlayer(true)}catch(_){}setTimeout(()=>{try{BS.show('part')}catch(_){}pvShelves(!RD.on)},60)}else{haloClose();if(pvEl)pvEl.hidden=true;if(pvBehind)TOUCH.on=false;pvShelves(false);try{if(BS.sec==='part')BS.hide()}catch(_){}}}   /* closing over a held pad leaves no finger down, only when the view closes (r-2) */
+      if(on){pvBuild();pvEl.hidden=false;try{setPlayer(true)}catch(_){}setTimeout(()=>{try{pvBarBuild()}catch(_){}try{BS.show('part')}catch(_){}pvShelves(!RD.on)},60)}else{try{pvBarBuild()}catch(_){}haloClose();if(pvEl)pvEl.hidden=true;if(pvBehind)TOUCH.on=false;pvShelves(false);try{if(BS.sec==='part')BS.hide()}catch(_){}}}   /* closing over a held pad leaves no finger down, only when the view closes (r-2) */
     if(on)pvPaint()}
   const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const axName=k=>(AXES.find(a=>a[0]===k)||[k,k])[1];
   function pvBuild(){if(pvEl)return;pvEl=document.createElement('div');pvEl.id='pv';pvEl.hidden=true;
-    pvEl.innerHTML='<header class="pv-h"><i class="pv-dot" aria-hidden="true"></i><b class="pv-nm"></b><span class="pv-st" role="status"></span><span class="pv-beat" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></span><span class="pv-key"></span>'+
+    pvEl.innerHTML='<header class="pv-h"><i class="pv-dot" aria-hidden="true"></i><b class="pv-nm"></b><span class="pv-st" role="status"></span><span class="pv-rep" aria-live="polite"></span><span class="pv-beat" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></span><span class="pv-key"></span>'+
       '<nav class="pv-tabs" aria-label="Player panels">'+[['mix','Mix'],['map','Map'],['keys','Keys']].map(t=>'<button type="button" data-tab="'+t[0]+'" aria-pressed="false">'+t[1]+'</button>').join('')+
       '<button type="button" class="pv-su" aria-pressed="false" title="The set-up: map, the pad, the key, taps, the field, and every sound">Set up</button><button type="button" class="pv-rd" aria-pressed="false">Ready</button><button type="button" class="pv-bh" aria-pressed="false" title="The field behind the pad, or sound only">Field</button></nav><button type="button" class="pv-fd" title="Leave the player view and show the field; tap your part&rsquo;s name at the top to come back">Exit</button></header>'+
       '<div class="pv-main"><div class="pv-padw"><div class="pv-pad" tabindex="0" role="application" aria-roledescription="pad" aria-label="Your part&rsquo;s pad: touch to play. Keys: the number keys play its sounds, Space holds, arrows move, ? lists them all">'+
@@ -12686,7 +12705,10 @@ const ENS=window.ENS=(function(){
     pvEl.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===pvTab)));
     const rd=pvEl.querySelector('.pv-rd');rd.setAttribute('aria-pressed',String(RD.on));pvEl.querySelector('.pv-bh').setAttribute('aria-pressed',String(pvBehind));
     const m=MIX&&MIX.map;if(m){pvEl.querySelector('.pv-ay').textContent=axName(m.y[0])+' ↑';pvEl.querySelector('.pv-axx').textContent=axName(m.x[0])+' →'}
-    const ar=pvEl.querySelector('.pv-arm');ar.hidden=ARM<0;if(ARM>=0)ar.textContent='tap the pad to leave '+NAMES[MIX.slots[ARM].kind]+' there · Esc to cancel'}
+    const ar=pvEl.querySelector('.pv-arm');ar.hidden=ARM<0;if(ARM>=0)ar.textContent=(REC.arm?'drag on the pad: '+NAMES[MIX.slots[ARM].kind]+' follows your finger, and goes round that path':'tap the pad to place '+NAMES[MIX.slots[ARM].kind]+' there')+' · Esc to cancel';
+    /* THE TOP REPORTS (Dimitry, 29 Oct 23:20: "The top of the screen would be entirely reporting on what was selected below.
+       No menus or interactivity, except perhaps for the exit"): what the lower strip and the set-up have chosen */
+    {const rp=pvEl.querySelector('.pv-rep');if(rp&&MIX){const mp=MAPS.find(q=>q.id===MIX.map.id),su=SURFS[MIX.surf];const t=[mp?mp.name+' map':'your own map',su?su.name.toLowerCase():'',TQ==='off'?'':'taps on the '+(TQ==='beat'?'beat':'⅛'),tuneOn()?'':'free pitch',pvBehind?'field behind':'',RD.on?'ready':'',pvTab?pvTab+' open':''].filter(Boolean).join(' · ');if(rp.textContent!==t)rp.textContent=t}}}
   const rng=(lab,v,min,max,step,aria)=>'<label class="pv-r"><span>'+lab+'</span><input type="range" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'" aria-label="'+esc(aria)+'"></label>';
   function pvSide(){if(!pvEl)return;const sd=pvEl.querySelector('.pv-side');pvEl.classList.toggle('noside',!pvTab);if(!pvTab){sd.innerHTML='';pvPaint();return}if(!MIX){sd.innerHTML='';return}
     if(pvTab==='mix'){
@@ -12695,9 +12717,9 @@ const ENS=window.ENS=(function(){
         '<button type="button" class="pv-mute" aria-pressed="'+MUTE+'">mute</button><button type="button" class="pv-reset">reset the part</button></div>'+
         MIX.slots.map((s,i)=>'<div class="pv-slot" data-i="'+i+'" style="--sc:'+SLOTC[i%SLOTC.length]+'"><div class="pv-sh"><button type="button" class="pv-play" aria-label="Play '+esc(NAMES[s.kind])+' ('+(i+1)+')">'+(i+1)+'</button><b>'+esc(NAMES[s.kind])+'</b>'+
           '<select aria-label="'+esc(NAMES[s.kind])+' plays on">'+GESTS.map(g=>'<option value="'+g[0]+'"'+(g[0]===s.g?' selected':'')+'>'+g[1]+'</option>').join('')+'</select>'+
-          '<button type="button" class="pv-leave" aria-pressed="'+(ARM===i)+'" title="Leave this sound on the pad: it plays there by itself">leave</button></div>'+
+          '<button type="button" class="pv-leave" aria-pressed="'+(ARM===i)+'" title="Place this sound on the pad: it plays there by itself">place</button></div>'+
           rng('level',s.lvl,0,1.5,.01,NAMES[s.kind]+' level')+rng('timbre',s.tone,0,1,.01,NAMES[s.kind]+' timbre: dark to thin')+rng('grain',s.grain,0,1,.01,NAMES[s.kind]+' grain')+rng('pitch',s.semi,-12,12,1,NAMES[s.kind]+' pitch in semitones')+'</div>').join('')+
-        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or keys (only the number keys, left sounds, the corners and the halo play it). <b>Leave</b> puts a sound on the pad: it plays there on the beat, its name beside it; tap it to hear it, double-tap it for its halo (which sound, how often, its level, take it off), hold it or drag it off the pad to take it away.</p>';
+        '<p class="pv-note"><b>Plays on</b>: tap, drag, hold (still for a moment), touch (all the time the finger is down) or keys (only the number keys, placed sounds, the corners and the halo play it). <b>Place</b> puts a sound on the pad: it plays there on the beat, its name beside it; tap it to hear it, double-tap it for its halo (which sound, how often, its level, take it off), hold it or drag it off the pad to take it away.</p>';
       const ms=sd.querySelector('.pv-mst'),ins=ms.querySelectorAll('input');let k=0;
       ins[k++].oninput=e=>{MIX.lvl=+e.target.value;chainSet();mixSave();pvShelfSync()};
       if(cur.bed)ins[k++].oninput=e=>{MIX.bed=+e.target.value;mixSave()};
@@ -12709,7 +12731,7 @@ const ENS=window.ENS=(function(){
         r[2].oninput=e=>{s.grain=+e.target.value;chainSet();mixSave()};r[3].oninput=e=>{s.semi=+e.target.value;mixSave()};
         el.querySelector('select').onchange=e=>{s.g=e.target.value;relSlot(i);chainSet();mixSave();pvShelfSync()};
         el.querySelector('.pv-play').onclick=()=>audition(i);
-        el.querySelector('.pv-leave').onclick=()=>{ARM=ARM===i?-1:i;pvSide();pvPaint()}})}
+        el.querySelector('.pv-leave').onclick=()=>{ARM=ARM===i?-1:i;REC.arm=false;REC.drop=-1;pvSide();pvPaint()}})}
     else if(pvTab==='map'){const m=MIX.map,ax=(w,a)=>'<div class="pv-axis" data-w="'+w+'"><b>'+(w==='x'?'C → D':'B → A')+'</b><select aria-label="'+(w==='x'?'Across':'Up')+' plays">'+AXES.map(x=>'<option value="'+x[0]+'"'+(x[0]===a[0]?' selected':'')+'>'+x[1]+'</option>').join('')+'</select>'+
         rng('from',a[1],0,1,.01,(w==='x'?'Across':'Up')+' starts at')+rng('to',a[2],0,1,.01,(w==='x'?'Across':'Up')+' ends at')+'</div>';
       const seg=(lab,key,opts)=>'<div class="pv-seg"><b>'+lab+'</b><div role="radiogroup" aria-label="'+lab+'">'+opts.map(o=>'<button type="button" role="radio" data-'+key+'="'+o[0]+'" aria-checked="'+(MIX[key]===o[0])+'">'+o[1]+'</button>').join('')+'</div></div>';
@@ -12730,7 +12752,7 @@ const ENS=window.ENS=(function(){
       sd.querySelectorAll('.pv-axis').forEach(el=>{const w=el.dataset.w,a=MIX.map[w],r=el.querySelectorAll('input');
         el.querySelector('select').onchange=e=>{a[0]=e.target.value;MIX.map.id='';mixSave();pvPaint();pvSideMaps()};
         r[0].oninput=e=>{a[1]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()};r[1].oninput=e=>{a[2]=+e.target.value;MIX.map.id='';mixSave();pvSideMaps()}})}
-    else{sd.innerHTML='<dl class="pv-keys">'+[['1 – '+MIX.slots.length,'play a sound (held sounds last while the key is down)'],['Space','hold your finger where it is: play the touch, hold and drag sounds'],['← → ↑ ↓','move your place on the pad (Shift: a little)'],['Z  X','an octave down, up'],['M','mute your part'],['[  ]','your part quieter, louder'],['D','leave the last sound you played where you are'],['R','Ready to perform'],['F','the field behind the pad, or sound only'],['?','these keys'],['Esc','cancel leaving a sound']].map(k=>'<dt><kbd>'+k[0]+'</kbd></dt><dd>'+k[1]+'</dd>').join('')+'</dl>'+
+    else{sd.innerHTML='<dl class="pv-keys">'+[['1 – '+MIX.slots.length,'play a sound (held sounds last while the key is down)'],['Space','hold your finger where it is: play the touch, hold and drag sounds'],['← → ↑ ↓','move your place on the pad (Shift: a little)'],['Z  X','an octave down, up'],['M','mute your part'],['[  ]','your part quieter, louder'],['D','place the last sound you played where you are'],['R','Ready to perform'],['F','the field behind the pad, or sound only'],['?','these keys'],['Esc','cancel placing a sound']].map(k=>'<dt><kbd>'+k[0]+'</kbd></dt><dd>'+k[1]+'</dd>').join('')+'</dl>'+
       '<p class="pv-note">Keys play here even while the pad is not touched, and the screen sees them at your place on the pad.</p>'}
     pvPaint()}
   function pvSideMaps(){if(!pvEl)return;pvEl.querySelectorAll('[data-map]').forEach(b=>b.setAttribute('aria-checked',String(MIX.map.id===b.dataset.map)))}
@@ -12761,15 +12783,33 @@ const ENS=window.ENS=(function(){
   const SMAX=9,partN=()=>(SLOTS[cur&&cur.id]||[]).length;
   const KT=k=>(KINDS[k]||{t:'one'}).t,kShape=k=>{const t=KT(k);return t==='held'?'held':t==='beat'||t==='bar'?'beat':'one'};
   function slotAdd(kind){if(!MIX||!KINDS[kind])return;if(MIX.slots.length>=SMAX){toast('nine sounds is the most a part holds: take one out first',2600);return}
-    MIX.slots.push({kind,g:'off',lvl:1,tone:.5,grain:0,semi:0,size:.45});relAll();mixSave();pvAfter();toast(NAMES[kind]+' joins your part as '+MIX.slots.length+': it plays from its key, left on the pad or from its ring; give it a gesture in its ring',3200)}
+    MIX.slots.push({kind,g:'off',lvl:1,tone:.5,grain:0,semi:0,size:.45});relAll();mixSave();pvAfter();toast(NAMES[kind]+' joins your part as '+MIX.slots.length+': it plays from its key, placed on the pad or from its ring; give it a gesture in its ring',3200)}
   function slotDel(i){if(!MIX||i<partN()||i>=MIX.slots.length)return;const nm=NAMES[MIX.slots[i].kind];relAll();MIX.slots.splice(i,1);if(ARM===i)ARM=-1;else if(ARM>i)ARM--;if(LASTS===i)LASTS=0;else if(LASTS>i)LASTS--;   /* (review 32cf r-1) */
     for(let j=DR.length-1;j>=0;j--){if(DR[j].s===i){DR.splice(j,1);MIX.drops.splice(j,1)}else if(DR[j].s>i){DR[j].s--;MIX.drops[j].s--}}
     MIX.corners=MIX.corners.map(v=>v===i?-1:v>i?v-1:v);if(LASTS>=MIX.slots.length||LASTS<0)LASTS=0;haloClose();mixSave();pvAfter();toast(nm+' taken out of your part',1800)}
   /* the upper shelf is the set-up: out when the view opens, folded by Ready, back with Set up */
   function pvShelves(v){try{if(v&&pvOn){selectTool('pvset')}else if(typeof ACTIVE!=='undefined'&&ACTIVE==='pvset'){collapseTool()}}catch(_){}try{const b=pvEl&&pvEl.querySelector('.pv-su');if(b)b.setAttribute('aria-pressed',String(!!(v&&pvOn)))}catch(_){}}
   /* the two shelves follow every change of the part, wherever it came from: the side panel, the keys, a ring (review 32cf r-2) */
-  let PSQ=0,PSU=false;function pvShelfSync(up){PSU=PSU||!!up;if(PSQ)return;PSQ=requestAnimationFrame(()=>{PSQ=0;const u=PSU;PSU=false;try{bsSync()}catch(_){}try{if(u&&typeof ACTIVE!=='undefined'&&ACTIVE==='pvset')buildToolShelf()}catch(_){}})}   /* up: the set-up shelf too (only what it shows: sounds, field) */
-  function pvAfter(){try{if(pvTab)pvSide()}catch(_){}try{bsSync()}catch(_){}try{if(typeof ACTIVE!=='undefined'&&ACTIVE==='pvset')buildToolShelf()}catch(_){}NT.k=''}
+  let PSQ=0,PSU=false;function pvShelfSync(up){PSU=PSU||!!up;if(PSQ)return;PSQ=requestAnimationFrame(()=>{PSQ=0;const u=PSU;PSU=false;try{pvBarBuild()}catch(_){}try{bsSync()}catch(_){}try{if(u&&typeof ACTIVE!=='undefined'&&ACTIVE==='pvset')buildToolShelf()}catch(_){}})}   /* up: the set-up shelf too (only what it shows: sounds, field) */
+  /* THE BAR ROW IS THE PART (Dimitry, 29 Oct 23:19: "all the sounds went where the bar icons would normally be"; 23:21
+     "the entire chip would drag"): the part's sounds as round bar buttons, in #playbar (so the Sound panel spans them):
+     a dot plays once, a ring is held, ticks play on the beat. Tap plays; hold (or right-click) opens its ring round it;
+     drag the chip itself onto the pad to place it there. */
+  function pvBarBuild(){const bar=document.getElementById('playbar');if(!bar)return;let w=document.getElementById('pvBar');if(!pvOn||!MIX){if(w)w.remove();return}
+    if(!w){w=document.createElement('span');w.id='pvBar';w.setAttribute('role','group');w.setAttribute('aria-label','Your part’s sounds');bar.insertBefore(w,bar.firstChild)}
+    const key=MIX.slots.map(q=>q.kind+q.g).join(',');if(w.dataset.k===key&&w.children.length)return;w.dataset.k=key;w.innerHTML='';w.style.setProperty('--pvn',String(MIX.slots.length+1));
+    MIX.slots.forEach((q,i)=>{const b=document.createElement('button');b.type='button';b.className='pvB '+kShape(q.kind);b.style.setProperty('--sc',SLOTC[i%SLOTC.length]);
+      b.innerHTML='<b>'+(i+1)+'</b><span class="lab">'+esc(NAMES[q.kind])+'</span>';b.setAttribute('aria-label',(i+1)+', '+NAMES[q.kind]+(kShape(q.kind)==='held'?', held':kShape(q.kind)==='beat'?', on the beat':', plays once')+'. Tap to play it, hold for its ring, drag it onto the pad to place it');
+      let st=null,ht=0;const ring=()=>{const r=b.getBoundingClientRect();chipRing(i,r.left+r.width/2,r.top+r.height/2)};
+      b.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();st={x:e.clientX,y:e.clientY,mv:false,id:e.pointerId};try{b.setPointerCapture(e.pointerId)}catch(_){}clearTimeout(ht);ht=setTimeout(()=>{if(st&&!st.mv){st.held=true;if(navigator.vibrate)navigator.vibrate(10);ring()}},(window.SurfaceKeys&&SurfaceKeys.holdMs)||520)});
+      b.addEventListener('pointermove',e=>{if(!st||e.pointerId!==st.id)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!st.mv&&!st.held&&Math.hypot(dx,dy)>10){st.mv=true;clearTimeout(ht);b.classList.add('drag')}if(st.mv)b.style.translate=dx+'px '+dy+'px'});
+      const end=e=>{clearTimeout(ht);if(!st)return;const S0=st;st=null;b.classList.remove('drag');b.style.translate='';if(S0.mv){if(e.type==='pointerup'&&!leaveAt(i,e.clientX,e.clientY))toast('drop it on the pad to place it there',1600);return}
+        if(e.type==='pointerup'&&!S0.held)audition(i)};
+      b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(ht);st=null;ring()});
+      b.addEventListener('keydown',e=>{if(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')){e.preventDefault();e.stopPropagation();ring()}});
+      b.addEventListener('click',e=>{if(e.detail===0)audition(i)});   /* Enter or Space on a focused chip */
+      w.appendChild(b)})}
+  function pvAfter(){try{pvBarBuild()}catch(_){}try{if(pvTab)pvSide()}catch(_){}try{bsSync()}catch(_){}try{if(typeof ACTIVE!=='undefined'&&ACTIVE==='pvset')buildToolShelf()}catch(_){}NT.k=''}
   function panic(){relAll();try{AUD.water&&AUD.water.c&&IN.on&&(IN.on=false)}catch(_){}KEYHOLD=false;toast('everything held is let go',1600)}
   const HI=p=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+p+'</svg>';
   const GIC={tap:HI('<circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="7"/>'),drag:HI('<path d="M4 16c4-8 8 0 16-8"/><circle cx="20" cy="8" r="2" fill="currentColor" stroke="none"/>'),
@@ -12777,21 +12817,22 @@ const ENS=window.ENS=(function(){
     off:HI('<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h1M11 11h1M15 11h1M8 14h8"/>')};
   /* a chip's ring: its parameters, what plays it a sub-ring (the camera's way) */
   function chipRing(i,x,y){const s=MIX&&MIX.slots[i];if(!s||!window.SurfaceRing)return;const set=(k,v)=>{const q=MIX.slots[i];if(!q)return;q[k]=v;chainSet();mixSave();try{if(pvTab==='mix')pvSide()}catch(_){}};
-    SurfaceRing.open({x,y,title:NAMES[s.kind],icon:kIcon(s.kind),center:'ball',pin:false,items:()=>{const q=MIX.slots[i];if(!q)return[];const L=[
+    SurfaceRing.open({x,y,title:NAMES[s.kind],icon:kIcon(s.kind),center:'none',pin:false,items:()=>{   /* no middle: the chip it opened on is the middle (29 Oct 23:21: "make the ring menu smaller") */const q=MIX.slots[i];if(!q)return[];const L=[
       {id:'lvl',kind:'value',icon:HI('<path d="M4 15h3l4 4V5L7 9H4z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10" opacity=".7"/>'),label:'level',aria:'Its level',get:()=>Math.round((MIX.slots[i]||q).lvl*100),set:v=>set('lvl',v/100),min:0,max:150,step:5,fmt:v=>Math.round(v)+'%'},
       {id:'tone',kind:'value',icon:HI('<path d="M3 15c3 0 4-6 7-6s4 6 7 6 2-3 4-3"/>'),label:'timbre',aria:'Its timbre: dark to bright',get:()=>Math.round((MIX.slots[i]||q).tone*100),set:v=>set('tone',v/100),min:0,max:100,step:1,fmt:v=>Math.round(v)},
       {id:'grain',kind:'value',icon:HI('<circle cx="6" cy="8" r="1.3"/><circle cx="12" cy="6" r="1.3"/><circle cx="17" cy="10" r="1.3"/><circle cx="8" cy="15" r="1.3"/><circle cx="15" cy="17" r="1.3"/>'),label:'grain',aria:'Its grain',get:()=>Math.round((MIX.slots[i]||q).grain*100),set:v=>set('grain',v/100),min:0,max:100,step:1,fmt:v=>Math.round(v)},
       {id:'semi',kind:'value',icon:HI('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/>'),label:'pitch',aria:'Its pitch, in semitones',get:()=>(MIX.slots[i]||q).semi,set:v=>set('semi',Math.round(v)),min:-12,max:12,step:1,fmt:v=>(v>0?'+':'')+Math.round(v)},
-      {id:'gest',kind:'go',icon:GIC[q.g]||GIC.tap,label:(GESTS.find(g=>g[0]===q.g)||GESTS[0])[1],aria:'What plays it: '+(GESTS.find(g=>g[0]===q.g)||GESTS[0])[1],
+      {id:'gest',kind:'go',icon:GIC[q.g]||GIC.tap,label:'plays on '+(GESTS.find(g=>g[0]===q.g)||GESTS[0])[1],aria:'What plays it: '+(GESTS.find(g=>g[0]===q.g)||GESTS[0])[1],
         ring:{title:'plays on',icon:GIC[q.g]||GIC.tap,items:()=>GESTS.map(g=>({id:'g-'+g[0],kind:'radio',on:(MIX.slots[i]||q).g===g[0],icon:GIC[g[0]],label:g[1],aria:'Played by '+g[1],pick:()=>{const z=MIX.slots[i];if(!z)return;z.g=g[0];relSlot(i);mixSave();pvAfter()}}))}},
       {id:'play',kind:'go',stay:true,icon:HI('<path d="M8 5.5v13l10.5-6.5z"/>'),label:'play',aria:'Play it once',pick:()=>{try{audition(i)}catch(_){}}},
-      {id:'leave',kind:'go',icon:HI('<path d="M12 21s-6-5.7-6-11a6 6 0 0 1 12 0c0 5.3-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>'),label:'leave',aria:'Leave it on the pad: tap where it should sit',pick:()=>{ARM=i;pvPaint();toast('tap the pad where '+NAMES[q.kind]+' should sit',2200)}}];
+      {id:'leave',kind:'go',icon:HI('<path d="M12 21s-6-5.7-6-11a6 6 0 0 1 12 0c0 5.3-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>'),label:'place',aria:'Place it on the pad: tap where it should sit',pick:()=>{ARM=i;REC.arm=false;pvPaint();toast('tap the pad where '+NAMES[q.kind]+' should sit',2200)}},
+      {id:'rec',kind:'go',icon:HI('<circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/>'),label:'record',aria:'Place it and record its path: drag on the pad, and it goes round that path',pick:()=>{ARM=i;REC.arm=true;REC.drop=-1;pvPaint();toast('drag on the pad: '+NAMES[q.kind]+' follows your finger, then goes round that path',2600)}}];
       if(i>=partN())L.push({id:'out',kind:'go',icon:HI('<path d="M6 6l12 12M18 6L6 18"/>'),label:'take out',aria:'Take it out of your part',pick:()=>slotDel(i)});return L}})}
   function kIcon(k){const t=kShape(k);return t==='held'?HI('<circle cx="12" cy="12" r="7" stroke-width="3"/>'):t==='beat'?HI('<path d="M6 7v10M10 7v10M14 7v10M18 7v10" stroke-width="2.2"/>'):HI('<circle cx="12" cy="12" r="7.5" fill="currentColor" stroke="none"/>')}
   /* drop a chip on the pad: the place it lands, every 4 */
   function leaveAt(i,cx,cy){const pad=pvEl&&pvEl.querySelector('.pv-pad');if(!pad||!MIX||!MIX.slots[i])return false;const r=pad.getBoundingClientRect();if(cx<r.left||cx>r.right||cy<r.top||cy>r.bottom)return false;
     if(DR.length>=12){toast('twelve sounds on the pad already: take one away first',2600);return true}const x=(cx-r.left)/r.width,y=1-(cy-r.top)/r.height;MIX.drops.push({x,y,s:i,every:4});DR.push({x,y,s:i,every:4,next:null});mixSave();
-    toast(NAMES[MIX.slots[i].kind]+' left on the pad: every 4 beats · tap plays it, double-tap adjusts it',2600);return true}
+    toast(NAMES[MIX.slots[i].kind]+' placed on the pad: every 4 beats · tap plays it, double-tap adjusts it',2600);return true}
   function partState(){if(!MIX||!cur)return null;return{name:cur.name,color:cur.color,lvl:MIX.lvl,mute:MUTE,n:partN(),slots:MIX.slots.map((s,i)=>({i,kind:s.kind,name:NAMES[s.kind],g:s.g,c:SLOTC[i%SLOTC.length],shape:kShape(s.kind)}))}}
   function setupState(){if(!MIX)return null;return{maps:MAPS.map(q=>[q.id,q.name]),map:MIX.map.id,surfs:Object.keys(SURFS).map(k=>[k,SURFS[k].name]),surf:MIX.surf,zero:MIX.zero,key:keyNow(),keyRoom:keyRoom(),snap:tuneOn(),tq:TQ,behind:pvBehind,
     kinds:Object.keys(KINDS).map(k=>({k,name:NAMES[k],shape:kShape(k),in:MIX.slots.findIndex(s=>s.kind===k),own:MIX.slots.slice(0,partN()).some(s=>s.kind===k)})),notes:NOTE,scales:SCALES.map(q=>[q[0],q[1]])}}
@@ -12814,6 +12855,8 @@ const ENS=window.ENS=(function(){
         {id:'every',kind:'go',stay:true,icon:HIC('<text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" stroke="none" font-family="ui-monospace,Menlo,monospace">×'+q.every+'</text>'),label:'every '+q.every,aria:'How often: every '+q.every+' beat'+(q.every>1?'s':'')+'. Tap for 1, 2, 4 or 8',pick:()=>{const E=[1,2,4,8];set('every',E[(E.indexOf(q.every)+1)%E.length])}},
         {id:'level',kind:'value',icon:HIC('<path d="M4 15h3l4 4V5L7 9H4z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10" opacity=".7"/>'),label:'level',aria:'Its level',get:()=>{const z=D();return Math.round((z&&z.g!=null?z.g:1)*100)},set:v=>set('g',Math.round(v)/100),min:0,max:150,step:5,fmt:v=>Math.round(v)+'%'},
         {id:'play',kind:'go',stay:true,icon:HIC('<path d="M8 5.5v13l10.5-6.5z"/>'),label:'play',aria:'Play it once',pick:()=>{try{dropFire(q,AUD.ctx&&AUD.ctx.currentTime)}catch(_){}}},
+        {id:'rec',kind:'go',icon:HIC('<circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/>'),label:q.path?'redraw':'record',aria:'Record a path: drag on the pad and it goes round it',pick:()=>{REC.arm=true;REC.drop=HALO;ARM=q.s;HH=null;HALO=-1;pvPaint();toast('drag on the pad: '+nm(q.s)+' follows your finger, then goes round that path',2600)}},
+        ...(q.path?[{id:'still',kind:'go',stay:true,icon:HIC('<rect x="7" y="7" width="10" height="10" rx="1.5"/>'),label:'still',aria:'Still it: no path',pick:()=>{delete q.path;delete q.pd;const j=DR.indexOf(q);if(j>=0){delete MIX.drops[j].path;delete MIX.drops[j].pd;MIX.drops[j].x=q.x;MIX.drops[j].y=q.y}mixSave()}}]:[]),
         {id:'del',kind:'go',icon:HIC('<path d="M6 6l12 12M18 6L6 18"/>'),label:'take off',aria:'Take it off the pad',pick:()=>{const j=HALO;HALO=-1;dropDel(j)}},
         {id:'prev',kind:'go',stay:true,icon:HIC('<path d="M15 6l-6 6 6 6"/>'),label:nm((q.s+n-1)%n),aria:'Make it the sound before: '+nm((q.s+n-1)%n),pick:()=>set('s',(q.s+n-1)%n)}]},
       onClose:()=>{HALO=-1;HH=null}});
@@ -12823,15 +12866,20 @@ const ENS=window.ENS=(function(){
     const hit=(x,y,r)=>DR.findIndex(d=>Math.hypot((d.x-x)*r.width,(d.y-y)*r.height)<22);
     pad.addEventListener('pointerdown',e=>{if(pid!=null&&e.pointerType!=='mouse')return;const [x,y,r]=at(e);pid=e.pointerId;try{pad.setPointerCapture(pid)}catch(_){}e.preventDefault();pad.focus({preventScroll:true});
       const c=ensureCtx();if(c&&c.state!=='running')try{c.resume()}catch(_){}if(!AUD.water||AUD.water.c!==c)waterRoute();
-      if(ARM>=0){const s=ARM;ARM=-1;if(DR.length<12){const d={x,y,s,every:4};MIX.drops.push({x,y,s,every:4});DR.push(Object.assign({},d,{next:null}));mixSave();toast(NAMES[MIX.slots[s].kind]+' left on the pad: every 4 beats · tap plays it, double-tap adjusts it',2600)}else toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvSide();return}
+      if(REC.arm){REC.arm=false;let di=REC.drop;REC.drop=-1;if(di<0&&ARM>=0){const s0=ARM;ARM=-1;if(DR.length>=12){toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvPaint();return}MIX.drops.push({x,y,s:s0,every:4});DR.push({x,y,s:s0,every:4,next:null});di=DR.length-1}
+        ARM=-1;const d=DR[di];if(!d){pid=null;pvPaint();return}delete d.path;delete MIX.drops[di].path;REC.on=true;REC.d=di;REC.t0=performance.now();REC.pts=[[x,y,0]];d.x=x;d.y=y;pvPaint();return}   /* RECORD A MOVEMENT (29 Oct 23:21) */
+      if(ARM>=0){const s=ARM;ARM=-1;if(DR.length<12){const d={x,y,s,every:4};MIX.drops.push({x,y,s,every:4});DR.push(Object.assign({},d,{next:null}));mixSave();toast(NAMES[MIX.slots[s].kind]+' placed on the pad: every 4 beats · tap plays it, double-tap adjusts it',2600)}else toast('twelve sounds on the pad already: take one away first',2600);pid=null;pvSide();return}
       const h=hit(x,y,r);if(h>=0){drop=h;DRAGI=h;moved=false;dropT=setTimeout(()=>{if(drop!=null){haloClose();dropDel(drop);drop=null;DRAGI=-1}},650);return}
       haloClose();
       IN.on=true;IN.x=x;IN.y=y;IN.sp=0;lt=performance.now();lx=x;ly=y;TRAIL.length=0},{passive:false});
     pad.addEventListener('pointermove',e=>{if(pid==null&&e.pointerType==='mouse'){const [x,y,r]=at(e),hv=hit(x,y,r);if(hv!==HOVI){HOVI=hv;pad.style.cursor=hv>=0?'grab':''}return}
-      if(e.pointerId!==pid)return;const [x,y,r]=at(e);
-      if(drop!=null){const d=DR[drop];if(!d)return;if(Math.hypot((x-d.x)*r.width,(y-d.y)*r.height)>8){moved=true;clearTimeout(dropT)}if(moved){d.x=x;d.y=y;MIX.drops[drop].x=x;MIX.drops[drop].y=y;}return}
+      if(e.pointerId!==pid)return;let [x,y,r]=at(e);
+      if(REC.on){const d=DR[REC.d];if(!d)return;const t=(performance.now()-REC.t0)/1000,L=REC.pts[REC.pts.length-1];if(t-L[2]>=.03&&REC.pts.length<1500&&t<120)REC.pts.push([Math.round(x*1e4)/1e4,Math.round(y*1e4)/1e4,Math.round(t*1e3)/1e3]);d.x=x;d.y=y;return}
+      if(drop!=null){const d=DR[drop];if(!d)return;if(Math.hypot((x-d.x)*r.width,(y-d.y)*r.height)>8){moved=true;clearTimeout(dropT)}if(moved){if(d.path){let dx=x-d.x,dy=y-d.y,a=1,b=0,c=1,e2=0;for(const v of d.path){a=Math.min(a,v[0]);b=Math.max(b,v[0]);c=Math.min(c,v[1]);e2=Math.max(e2,v[1])}dx=Math.max(-a,Math.min(1-b,dx));dy=Math.max(-c,Math.min(1-e2,dy));for(const v of d.path){v[0]+=dx;v[1]+=dy}x=d.x+dx;y=d.y+dy}   /* the whole path moves, kept whole at the edges (review 6721 r-4) */d.x=x;d.y=y;MIX.drops[drop].x=x;MIX.drops[drop].y=y;}return}   /* a sound on a path drags its path with it */
       if(!IN.on)return;const now=performance.now(),dt=Math.max(1,now-lt)/1000,v=Math.hypot(x-lx,y-ly)/dt;IN.sp=Math.min(1,IN.sp*.5+.5*Math.min(1,v/2.5));IN.mt=now;IN.x=x;IN.y=y;lx=x;ly=y;lt=now},{passive:true});
     const up=e=>{if(e.pointerId!==pid)return;pid=null;
+      if(REC.on){REC.on=false;const d=DR[REC.d],P=REC.pts;REC.pts=null;if(d&&P&&P.length>4){const pd=Math.max(.5,(performance.now()-REC.t0)/1000);d.path=P;d.pd=pd;d.pt0=performance.now();Object.assign(MIX.drops[REC.d],{path:P,pd,x:P[0][0],y:P[0][1]});mixSave();
+          toast(NAMES[MIX.slots[d.s].kind]+' goes round its path: '+(Math.round(pd*10)/10)+' s · its halo stills it',2600)}else if(d){Object.assign(MIX.drops[REC.d],{x:d.x,y:d.y});mixSave();toast('too short to be a path: drag a little longer',1800)}return}
       if(drop!=null){clearTimeout(dropT);const d=DR[drop],r=pad.getBoundingClientRect(),out=e.clientX<r.left-4||e.clientX>r.right+4||e.clientY<r.top-4||e.clientY>r.bottom+4;
         if(d&&out)dropDel(drop);else if(d&&!moved){const now=performance.now();if(now-tapAt<380&&tapI===drop){tapAt=0;haloOpen(drop)}else{tapAt=now;tapI=drop;try{dropFire(d,AUD.ctx&&AUD.ctx.currentTime)}catch(_){}}}
         mixSave();drop=null;DRAGI=-1;return}
@@ -12868,6 +12916,7 @@ const ENS=window.ENS=(function(){
     g.lineCap='round';for(let i=1;i<TRAIL.length;i++){const a=TRAIL[i-1],b=TRAIL[i];g.globalAlpha=Math.max(0,1-(now-b[2])/1600)*.7;g.strokeStyle=col;g.lineWidth=Math.max(2,h/90);g.beginPath();g.moveTo(a[0]*w,(1-a[1])*h);g.lineTo(b[0]*w,(1-b[1])*h);g.stroke()}
     g.globalAlpha=1;for(let i=PRINGS.length-1;i>=0;i--){const q=PRINGS[i],u=(now-q.t)/1100;if(u>=1){PRINGS.splice(i,1);continue}g.globalAlpha=(1-u)*.8;g.strokeStyle=q.c||col;g.lineWidth=Math.max(1.5,h/220);g.beginPath();g.arc(q.x*w,(1-q.y)*h,h*(.03+.12*u),0,7);g.stroke();
       if(q.n&&u<.7){const fs=Math.max(Math.round(12*Math.min(2,devicePixelRatio||1)),Math.round(h/34));g.globalAlpha=(1-u/.7)*.95;g.fillStyle=q.c||col;g.font='700 '+fs+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='bottom';g.fillText(q.n,q.x*w,(1-q.y)*h-h*(.05+.12*u))}}
+    {const pts=REC.on&&REC.pts;g.setLineDash([Math.max(3,h/120),Math.max(4,h/90)]);g.lineWidth=Math.max(1,h/400);DR.forEach((d,i)=>{const P=REC.on&&REC.d===i?pts:d.path;if(!P||P.length<2)return;g.strokeStyle=SLOTC[d.s%SLOTC.length];g.globalAlpha=REC.on&&REC.d===i?.9:.45;g.beginPath();P.forEach((v,j)=>{const X=v[0]*w,Y=(1-v[1])*h;j?g.lineTo(X,Y):g.moveTo(X,Y)});g.stroke()});g.setLineDash([])}
     g.globalAlpha=1;DR.forEach((d,i)=>{const big=i===DRAGI||i===HOVI||i===HALO,x=d.x*w,y=(1-d.y)*h,r=Math.max(9,h/36)*(big?1.35:1),col=SLOTC[d.s%SLOTC.length];g.fillStyle=col;g.globalAlpha=.25;g.beginPath();g.arc(x,y,r*1.6,0,7);g.fill();g.globalAlpha=.95;g.beginPath();g.arc(x,y,r,0,7);g.fill();
       g.fillStyle='#071012';g.font='700 '+Math.round(r*1.05)+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='middle';g.fillText(String(d.s+1),x,y+.5);
       if(i===HALO)return;const dp=Math.min(2,devicePixelRatio||1),fs=Math.max(Math.round(12*dp),Math.round(r*(big?.95:.85))),t=NAMES[MIX.slots[d.s].kind]+(big?' · every '+d.every+(d.g!=null&&d.g!==1?' · '+Math.round(d.g*100)+'%':''):''),
@@ -12899,11 +12948,11 @@ const ENS=window.ENS=(function(){
     else if(k==='z'||k==='Z'){OCT=Math.max(-2,OCT-1);pvPaint()}else if(k==='x'||k==='X'){OCT=Math.min(2,OCT+1);pvPaint()}
     else if(k==='m'||k==='M'){MUTE=!MUTE;chainSet(true);if(pvTab==='mix')pvSide();pvPaint();pvShelfSync()}
     else if(k==='['||k===']'){if(MIX){MIX.lvl=Math.max(0,Math.min(1.5,MIX.lvl+(k===']'?.1:-.1)));chainSet();mixSave();if(pvTab==='mix')pvSide();pvShelfSync();toast('part level '+Math.round(MIX.lvl*100)+'%',1200)}}
-    else if(k==='d'||k==='D'){if(MIX&&DR.length<12){MIX.drops.push({x:PAD.x,y:PAD.y,s:LASTS,every:4});DR.push({x:PAD.x,y:PAD.y,s:LASTS,every:4,next:null});mixSave();toast(NAMES[MIX.slots[LASTS].kind]+' left on the pad',1600)}}
+    else if(k==='d'||k==='D'){if(MIX&&DR.length<12){MIX.drops.push({x:PAD.x,y:PAD.y,s:LASTS,every:4});DR.push({x:PAD.x,y:PAD.y,s:LASTS,every:4,next:null});mixSave();toast(NAMES[MIX.slots[LASTS].kind]+' placed on the pad',1600)}}
     else if(k==='r'||k==='R')ready(!RD.on);
     else if(k==='f'||k==='F')pvBehindSet(!pvBehind);
-    else if(k==='?'){pvTab='keys';pvSide()}
-    else if(k==='Escape'&&ARM>=0){ARM=-1;pvSide()}
+    else if(k==='?'){pvTab='keys';pvSide();pvShelfSync()}
+    else if(k==='Escape'&&(ARM>=0||REC.arm)){ARM=-1;REC.arm=false;REC.drop=-1;pvSide();pvPaint()}
     else done=false;
     if(done){e.preventDefault();e.stopImmediatePropagation()}},true);
   addEventListener('keyup',e=>{if(!pvOn)return;const k=e.key,n=/^[1-9]$/.test(k)?+k-1:-1;if(n>=0&&KD[k]){delete KD[k];if(MIX&&n<MIX.slots.length)audition(n,false);e.stopImmediatePropagation()}
@@ -12963,7 +13012,7 @@ const ENS=window.ENS=(function(){
   document.addEventListener('visibilitychange',()=>{if(document.hidden)lift()});   // a hidden page's frames stop: nothing left held
   try{if(sessionStorage.getItem('current.ready')==='1')addEventListener('load',()=>setTimeout(()=>ready(true,true),1200))   // a rescue reload comes back ready
     else if(localStorage.getItem('current.ready.was'))addEventListener('load',()=>setTimeout(()=>{RD.on=true;RD.was=JSON.parse(localStorage.getItem('current.ready.was')||'{}');ready(false)},1200))}catch(_){}   // a new tab after a show: everything back as it was
-  return{tick,frame,draw,F,depth,set,lift,ready,roomOut,fromRoom,countIn,key:()=>keyNow(),setKey:k=>{if(kOk(Object.assign({},KEY,k))){Object.assign(KEY,k);keySave();NT.k='';try{paint()}catch(_){}}},showEnd:()=>{try{showEnd();paint()}catch(_){}},pv:v=>pvSet(v),pvTab:t=>{pvTab=t;if(pvEl&&pvOn)pvSide()},partState,setupState,setupDo,chipRing,leaveAt,panic,audition:i=>{try{audition(i)}catch(_){}},partLvl:v=>{if(MIX){MIX.lvl=v;chainSet();mixSave();try{const r=pvEl&&pvEl.querySelector('.pv-mst input[type=range]');if(r&&document.activeElement!==r)r.value=v}catch(_){}}},mute:v=>{MUTE=v==null?!MUTE:!!v;chainSet(true);pvPaint();pvAfter()},pvOn:()=>pvOn,pvBehind:()=>pvOn&&pvBehind,pvFeed,pvDraw:()=>{try{pvDraw()}catch(_){}},pvTick,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
+  return{tick,frame,draw,F,depth,set,lift,ready,roomOut,fromRoom,countIn,key:()=>keyNow(),setKey:k=>{if(kOk(Object.assign({},KEY,k))){Object.assign(KEY,k);keySave();NT.k='';try{paint()}catch(_){}}},showEnd:()=>{try{showEnd();paint()}catch(_){}},pv:v=>pvSet(v),pvTab:t=>{pvTab=t;if(pvEl&&pvOn)pvSide();pvShelfSync()},partState,setupState,setupDo,chipRing,leaveAt,panic,tab:t=>{pvTab=pvTab===t?null:t;pvSide();pvShelfSync()},tabNow:()=>pvTab,readyNow:()=>RD.on,ready:v=>ready(v==null?!RD.on:v),field:()=>pvBehindSet(!pvBehind),fieldNow:()=>pvBehind,setupOn:()=>typeof ACTIVE!=='undefined'&&ACTIVE==='pvset',setup:()=>pvShelves(!(typeof ACTIVE!=='undefined'&&ACTIVE==='pvset')),audition:i=>{try{audition(i)}catch(_){}},partLvl:v=>{if(MIX){MIX.lvl=v;chainSet();mixSave();try{const r=pvEl&&pvEl.querySelector('.pv-mst input[type=range]');if(r&&document.activeElement!==r)r.value=v}catch(_){}}},mute:v=>{MUTE=v==null?!MUTE:!!v;chainSet(true);pvPaint();pvAfter()},pvOn:()=>pvOn,pvBehind:()=>pvOn&&pvBehind,pvFeed,pvDraw:()=>{try{pvDraw()}catch(_){}},pvTick,isReady:()=>RD.on,cur:()=>cur,screen:()=>screen,bed:()=>bedLv,PARTS,links}
 })();
 </script>
 <script>/* Surface · Sections: the index as a mini Codex. Drag a section by its grip, keep one open with its pin, fold all,
@@ -13597,7 +13646,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.38.6';
+const APP_VERSION='0.38.7';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
