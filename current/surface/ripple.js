@@ -79,6 +79,7 @@
      w.tilt(dx, dy, slope, offset) / tilt(null)   the level tilts (draining): water stands where level + slope*(p.dir -
                                   offset) is above the floor (p from the middle, field units, y up); drain() hands the
                                   water to the level (empties the pool grid); beadsFade(f) shrinks the beads by a share
+     w.walls(on)                  the pattern (path()) holds the surface still along its lines: waves reflect off them
      w.vibrate(amp, hz)           shallow water does not ring, it trembles: amp 0..1, its pattern's wavelength from hz
      o.onSplash(x, y, size, k)    called for every splash on dry floor, so the host can make it heard
      w.light({c1, c2, round, a, stops: [s0, s1], amt})   a light over the water: its glints and rim take its color, a tilted
@@ -139,6 +140,7 @@
   var FS_WAVE = HEAD +
     "uniform sampler2D uState, uCur; uniform float uC2, uDamp, uAdv; uniform vec4 uDrops[16]; uniform int uCount; uniform float uAsp;\n" +
     "uniform float uFill, uLevel, uGK, uDeep, uShal; uniform sampler2D uFloor, uBeads, uPool;\n" +
+    "uniform sampler2D uWalls; uniform float uWall;\n" +
     "out vec4 o;\n" + GL_FLOOR +
     "ivec2 cl(ivec2 p, ivec2 n){ return clamp(p, ivec2(0), n-1); }\n" +
     "void main(){\n" +
@@ -162,6 +164,10 @@
     "  for (int i=0;i<16;i++){ if(i>=uCount) break; vec4 d = uDrops[i]; vec2 dd = c - d.xy*vec2(n); nh += d.w*exp(-dot(dd,dd)/(d.z*d.z)); }\n" +
     /* a hard floor: no wave where no water stands; it calms toward flat at the edge instead of ringing off it */
     "  nh *= m;\n" +
+    /* THE PATTERN AS WALLS (Dimitry, 30 Oct 18:13: "letting the water react to patterns as if they were barriers to
+       waves"): where the pattern's lines are, the surface is held still, so a wave meets them and comes back, and passes
+       only through the gaps between them (a held edge reflects, as at a harbor wall) */
+    "  if (uWall > 0.5) nh *= 1.0 - 0.92*texture(uWalls, (vec2(p)+0.5)/vec2(n)).r;\n" +   /* nearly all of a wave comes back; a little seeps through, as through a breakwater */
     "  o = vec4(clamp(nh,-8.0,8.0), h, 0.0, 1.0);\n" +
     "}";
   /* the look: the source seen through the surface */
@@ -262,6 +268,7 @@
     var LIGHT = null;   // light({c1, c2, round, a, stops, amt}) or null
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
     var DEEP = 0.2, VIB = { a: 0, t: 0, l: 8 }, POUR = 1, POURED = 0;   // how deep is a film; the film's tremble; how much water a drop brings
+    var WALL = { on: false, tex: null, cv: null, key: '' };   // the pattern as walls
     var TILT = [0, 0, 0, 0];   // the level's tilt while draining (dir x, dir y, slope, offset)
     var GK = 1, PL = null, plTex = null, plDirty = true, plAt = 0;   // the pool where the water fell (pourAt, poolStep)
     var FILL = null, FLB = null, flTex = null, fullT = 0, BEADS = [], FLY = [], bdCv = null, bdCx = null, bdTex = null, bdDirty = true, SPRB = null;
@@ -344,6 +351,7 @@
       gl.uniform4fv(pw.u.uDrops, a); gl.uniform1i(pw.u.uCount, d.length);
       var fo = floorOn(); if (fo) { floorBake(); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, flTex); gl.uniform1i(pw.u.uFloor, 3); gl.activeTexture(gl.TEXTURE0); }
       if (fo) poolBind(pw, 5); gl.uniform1f(pw.u.uFill, fo ? 1 : 0); gl.uniform1f(pw.u.uLevel, FILL || 0); gl.uniform1f(pw.u.uGK, GK); gl.uniform4f(pw.u.uTilt, TILT[0], TILT[1], TILT[2], TILT[3]); gl.uniform1f(pw.u.uDeep, DEEP); gl.uniform1f(pw.u.uShal, Math.pow(0.8, 1 / Q));
+      gl.uniform1f(pw.u.uWall, WALL.on && wallTex() ? 1 : 0); if (WALL.on && WALL.tex) { gl.activeTexture(gl.TEXTURE6); gl.bindTexture(gl.TEXTURE_2D, WALL.tex); gl.uniform1i(pw.u.uWalls, 6); gl.activeTexture(gl.TEXTURE0); }
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(pw.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); cur = 1 - cur;
     }
@@ -598,13 +606,20 @@
     /* a color spec: null, a hex, or a name the host resolves (o.palette) */
     function rgb(c) { if (!c) return null; if (c[0] !== "#" && o.palette) { try { c = o.palette(c); } catch (_) { c = null; } } if (!c || !/^#[0-9a-f]{6}$/i.test(c)) return null;
       var v = parseInt(c.slice(1), 16); return [(v >> 16 & 255) / 255, (v >> 8 & 255) / 255, (v & 255) / 255]; }
-    function setPath(segs) { PATH = []; PLEN = []; PTOT = 0; (segs || []).forEach(function (q) { var l = Math.hypot(q[2] - q[0], q[3] - q[1]); if (!(l > 1e-6)) return; PATH.push(q); PTOT += l; PLEN.push(PTOT); }); }
+    /* the walls: the pattern's lines drawn once into a texture the field's size (again when the pattern or the field changes) */
+    function wallTex() { if (!PATH.length || !N[0]) return false; var k = N[0] + "x" + N[1] + ":" + (WALL.gen || 0); if (WALL.key === k && WALL.tex) return true; var now = performance.now(); if (WALL.tex && now - (WALL.at || 0) < 120) return true; WALL.at = now;   /* every new path (a pan, a fit, another drawing: review 5081 r-1), at most about eight rebuilds a second while it moves (r-3) */
+      var c = WALL.cv || (WALL.cv = document.createElement("canvas")); c.width = N[0]; c.height = N[1]; var x = c.getContext("2d"); x.fillStyle = "#000"; x.fillRect(0, 0, c.width, c.height);
+      x.strokeStyle = "#fff"; x.lineWidth = Math.max(1.1, N[0] / 520); x.lineCap = "round"; x.beginPath(); for (var i = 0; i < PATH.length; i++) { var q = PATH[i]; x.moveTo(q[0] * c.width, q[1] * c.height); x.lineTo(q[2] * c.width, q[3] * c.height); } x.stroke();
+      if (!WALL.tex) { WALL.tex = gl.createTexture(); gl.activeTexture(gl.TEXTURE6); gl.bindTexture(gl.TEXTURE_2D, WALL.tex); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
+      gl.activeTexture(gl.TEXTURE6); gl.bindTexture(gl.TEXTURE_2D, WALL.tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.activeTexture(gl.TEXTURE0);
+      WALL.key = k; return true; }
+    function setPath(segs) { WALL.gen = (WALL.gen || 0) + 1; PATH = []; PLEN = []; PTOT = 0; (segs || []).forEach(function (q) { var l = Math.hypot(q[2] - q[0], q[3] - q[1]); if (!(l > 1e-6)) return; PATH.push(q); PTOT += l; PLEN.push(PTOT); }); }
     function along(d) { var lo = 0, hi = PLEN.length - 1; while (lo < hi) { var m = (lo + hi) >> 1; if (PLEN[m] < d) lo = m + 1; else hi = m; } var q = PATH[lo], s0 = lo ? PLEN[lo - 1] : 0, t = (d - s0) / ((PLEN[lo] - s0) || 1); return [q[0] + (q[2] - q[0]) * t, q[1] + (q[3] - q[1]) * t]; }
     function setCurrent(data, gw, gh) { if (!ok || !data || !(gw > 0) || !(gh > 0)) { curOk = false; return; }
       var a = data instanceof Float32Array ? data : new Float32Array(data);
       gl.bindTexture(gl.TEXTURE_2D, curTex); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RG32F, gw, gh, 0, gl.RG, gl.FLOAT, a.subarray(0, gw * gh * 2)); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4); curOk = true; }
     cv.addEventListener("webglcontextlost", function (e) { e.preventDefault(); ok = false; if (o.hideSource !== false) src.style.opacity = ""; cv.style.visibility = "hidden"; try { o.onLost && o.onLost(); } catch (_) {} });
-    cv.addEventListener("webglcontextrestored", function () { var was = on; init(); if (was) enabled(true); });
+    cv.addEventListener("webglcontextrestored", function () { WALL.tex = null; WALL.key = ""; var was = on; init(); if (was) enabled(true); });
     init();
     if (o.preset) setPreset(o.preset);
     function setPreset(id) { var p = PRESETS.filter(function (x) { return x.id === id; })[0]; if (p) { Object.assign(P, p); } return P.id; }
@@ -624,6 +639,7 @@
       vibrate: function (amp, hz) { VIB.t = Math.max(0, Math.min(1, +amp || 0)); if (hz > 0) { var now, lam = Math.max(10, Math.min(48, 24 * Math.pow(hz / 100, -2 / 3))), now = performance.now(); if (!VIB.cw || now - (VIB.cwAt || 0) > 1000) { VIB.cw = cv.clientWidth || SW || 1; VIB.cwAt = now; } var cw = VIB.cw; VIB.l = Math.max(2.6, lam * N[0] / cw); } return VIB.t; },
       /* draining: tilt(dx, dy, slope, offset) or tilt(null); drain() lets the level carry the water from here (the pool
          grid's own puddles are emptied); beadsFade(f) shrinks every bead by a share f, and lets the smallest go */
+      walls: function (v) { if (v !== undefined) { WALL.on = !!v; quiet = 0; } return WALL.on; },
       tilt: function (dx, dy, sl, off) { if (dx == null) TILT = [0, 0, 0, 0]; else TILT = [+dx || 0, +dy || 0, +sl || 0, +off || 0]; quiet = 0; return TILT.slice(); },
       drain: function () { if (PL) { PL.d.fill(0); plDirty = true; poolUpload.need = true; plAt = 0; } quiet = 0; },
       beadsFade: function (f) { f = Math.max(0, Math.min(1, +f || 0)); if (!f || !BEADS.length) return; var keep = []; for (var i = 0; i < BEADS.length; i++) { var b = BEADS[i]; b.r *= (1 - f); if (b.r > 0.9) keep.push(b); } BEADS = keep; bdDirty = true; },
