@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261031024024";window.__VERSION__="0.47.0";window.__NOTES__=[{"v":"0.47.0","date":"30 Oct 2026","items":[{"kind":"change","text":"what fills the pool are now three switches that combine (over bars, with sound, your finger: any of them at once); changing them never changes how much water there is, the filling just goes on from the water there is; turning them all off lets the pool finish filling over two bars instead of jumping full"},{"kind":"change","text":"with sound, the pool keeps filling as long as there is sound, faster when louder"},{"kind":"change","text":"watercolor: an ink drop brings its own water, so it spreads where it lands even on a floor still filling; ink starts falling from an eighth full"},{"kind":"fix","text":"watercolor rings and swirls stay sharp instead of slowly melting; a finger combs the ink more strongly"}]}]</script>
+<script>window.__BUILD__="20261031025128";window.__VERSION__="0.48.0";window.__NOTES__=[{"v":"0.48.0","date":"30 Oct 2026","items":[{"kind":"change","text":"Light, watercolor, pattern walls, rain filling the pool (with its drains) and sequences go back into the studio while they are finished"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261031024024"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261031024024">
+<script src="claude-web.js?v=20261031025128"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261031025128">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,45 +169,48 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261031024024"></script>
-<script src="surface/nozoom.js?v=20261031024024"></script><script src="surface/steady.js?v=20261031024024"></script><script src="surface/selftest.js?v=20261031024024"></script><script src="surface/size.js?v=20261031024024"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261031024024"></script>
-<script src="surface/auto.js?v=20261031024024"></script>
-<script src="surface/toolpath.js?v=20261031024024"></script>
-<script src="surface/capture.js?v=20261031024024"></script>
-<script src="surface/pop.js?v=20261031024024"></script>
-<script src="surface/hints.js?v=20261031024024"></script>
-<script src="surface/paths.js?v=20261031024024"></script>
-<script src="surface/keys.js?v=20261031024024"></script>
-<script src="surface/reset.js?v=20261031024024"></script>
-<script src="surface/files.js?v=20261031024024"></script>
-<script src="surface/tabs.js?v=20261031024024"></script>
-<script src="surface/running.js?v=20261031024024"></script>
-<script src="surface/trim.js?v=20261031024024"></script>
-<script src="surface/audiowake.js?v=20261031024024"></script>
-<script src="surface/output.js?v=20261031024024"></script>
-<script src="surface/board.js?v=20261031024024"></script>
-<script src="surface/voice.js?v=20261031024024"></script>
-<script src="surface/voicelib.js?v=20261031024024"></script>
-<script src="surface/instruments.js?v=20261031024024"></script>
-<script src="surface/listview.js?v=20261031024024"></script>
-<script src="surface/beads.js?v=20261031024024"></script>
-<script src="surface/strip.js?v=20261031024024"></script>
-<script src="surface/sheetnav.js?v=20261031024024"></script>
-<script src="surface/twofinger.js?v=20261031024024"></script>
-<script src="surface/ring.js?v=20261031024024"></script>
-<script src="surface/shortlink.js?v=20261031024024"></script>
-<script src="surface/undo.js?v=20261031024024"></script>
-<script src="surface/pro.js?v=20261031024024"></script>
-<script src="surface/fresh.js?v=20261031024024"></script>
-<script src="surface/go.js?v=20261031024024"></script>
-<script src="surface/notice.js?v=20261031024024"></script>
-<script src="surface/perform.js?v=20261031024024"></script>
-<script src="surface/words.js?v=20261031024024"></script>
+<script src="vendor/opentype.min.js?v=20261031025128"></script>
+<script src="surface/nozoom.js?v=20261031025128"></script><script src="surface/steady.js?v=20261031025128"></script><script src="surface/selftest.js?v=20261031025128"></script><script src="surface/size.js?v=20261031025128"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261031025128"></script>
+<script src="surface/auto.js?v=20261031025128"></script>
+<script src="surface/toolpath.js?v=20261031025128"></script>
+<script src="surface/capture.js?v=20261031025128"></script>
+<script src="surface/pop.js?v=20261031025128"></script>
+<script src="surface/hints.js?v=20261031025128"></script>
+<script src="surface/paths.js?v=20261031025128"></script>
+<script src="surface/keys.js?v=20261031025128"></script>
+<script src="surface/reset.js?v=20261031025128"></script>
+<script src="surface/files.js?v=20261031025128"></script>
+<script src="surface/tabs.js?v=20261031025128"></script>
+<script src="surface/running.js?v=20261031025128"></script>
+<script src="surface/trim.js?v=20261031025128"></script>
+<script src="surface/audiowake.js?v=20261031025128"></script>
+<script src="surface/output.js?v=20261031025128"></script>
+<script src="surface/board.js?v=20261031025128"></script>
+<script src="surface/voice.js?v=20261031025128"></script>
+<script src="surface/voicelib.js?v=20261031025128"></script>
+<script src="surface/instruments.js?v=20261031025128"></script>
+<script src="surface/listview.js?v=20261031025128"></script>
+<script src="surface/beads.js?v=20261031025128"></script>
+<script src="surface/strip.js?v=20261031025128"></script>
+<script src="surface/sheetnav.js?v=20261031025128"></script>
+<script src="surface/twofinger.js?v=20261031025128"></script>
+<script src="surface/ring.js?v=20261031025128"></script>
+<script src="surface/shortlink.js?v=20261031025128"></script>
+<script src="surface/undo.js?v=20261031025128"></script>
+<script src="surface/pro.js?v=20261031025128"></script>
+<script src="surface/fresh.js?v=20261031025128"></script>
+<script src="surface/go.js?v=20261031025128"></script>
+<script src="surface/notice.js?v=20261031025128"></script>
+<script src="surface/perform.js?v=20261031025128"></script>
+<script src="surface/words.js?v=20261031025128"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
 window.isPro=f=>!!(window.SurfacePro&&SurfacePro.is(f||'*'));
+/* the Artists Pack's controls are built at load: when the owner's key comes or goes, the page reloads into the same state */
+window.BOOT_OWNER=!!(window.SurfacePro&&SurfacePro.owner&&SurfacePro.owner());const BOOT0=BOOT_OWNER;   /* what this load was built with; BOOT_OWNER moves with a pending reload (review 27ac r-1) */
+document.addEventListener('surface:pro',()=>{try{const o=SurfacePro.owner();if(o===BOOT_OWNER)return;BOOT_OWNER=o;let n=0;try{n=+sessionStorage.getItem('current.ownerReload')||0}catch(_){}if(n>=2)return;try{sessionStorage.setItem('current.ownerReload',String(n+1))}catch(_){}setTimeout(()=>{try{resumeNow()}catch(_){location.reload()}},400)}catch(_){}});
 /* PRO IN BETA (Dimitry, 22 Oct): built Pro features are open to everyone while they are tested, marked with the open
    padlock; the version line lists them. Field is not built yet, so it stays shut; Scrub opened 27 Oct 17:37 ("Scrub totally works even on my phone ... It works fantastically"). Remove a line to close it. */
 try{SurfacePro.beta({
@@ -227,23 +230,27 @@ try{SurfacePro.beta({
   'video.long':{name:'Long videos',note:'a video that runs until you stop it, past the free 15 s, 30 s and 1 min'},
   'dice.seq':{name:'Dice rhythms',note:'the dice rolls on Fibonacci or prime counts of seconds, beats or bars, in order or scrambled'},
   ...(/[?&]audience=1/.test(location.search)||(window.SurfaceTouch&&SurfaceTouch.live())?{audience:{name:'Audience',note:'the audience\'s phones scan a code: every finger pulls the current in its phone\'s color, and plays the water sound it picked'}}:{}),   // Audience shows once the relay is online (24 Oct); ?audience=1 opens it to rehearse
-  sequences:{name:'Sequences',note:'running orders for a show: each scene with its own palette, morph and length, show files in and out, and the show lock'},   // Dimitry, 29 Oct 00:16: "the whole sequences feature is pro"
-  'water.ink':{name:'Watercolor',note:'drops of colored ink fall into the clear water as it fills and swirl in it, or spread in rings as on a marbling bath; tap to drop your own'},   // Dimitry, 30 Oct 20:21
-  'water.walls':{name:'Pattern walls',note:'the pattern\'s lines hold the water still: waves meet them and come back, and pass only through the gaps'},   // Dimitry, 30 Oct 18:13
-  light:{name:'Light',note:'a colored wash that falls over the stage: the particles take its color as things do under real light, and the water reflects it'},   // Dimitry, 30 Oct 15:12: "Pro"
-  'water.fill':{name:'Rain fills the pool',note:'the first drops splash on a dry floor and leave beads, puddles join, then the whole surface is water: over bars, with sound, or under your finger'},   // Dimitry, 29 Oct 00:38
   pulse:{name:'Pulse',note:'the field on the beat: Surge along the path, Breathe toward the lines, Sway side to side'},
   board:{name:'Performance board',note:'the stage in a corner at the output\'s shape, panels that stay open side by side, a strip of the controls you pin, saved boards'}})}catch(e){}
-try{SurfacePro.init({tool:'current',publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
+/* TIERS (Dimitry, 30 Oct 22:22-22:29): Pro is for solo users; Performance (ensembles, coordination) is above it; Venue
+   (several keys, remote support, updates, autostart, a show schedule) later; the ARTISTS PACK is his own until he has
+   used each piece as an artist: shut for everyone else and not shown at all. Performance stays open while the Frost
+   ensemble rehearses (until after 8 Nov, his pick); its features remain in the beta map above until then. His own key is
+   signed with the studio's owner key (ownerKey) and opens every tier. */
+try{SurfacePro.tiers({artist:{name:'Artists Pack',star:false,hide:true,features:['water.ink','light','water.walls','water.fill','sequences']},
+  performance:{name:'Performance',features:['board','perform','session','audience']},venue:{name:'Venue',features:[]}})}catch(e){}
+window.artHide=f=>!!(window.SurfacePro&&SurfacePro.hidden&&SurfacePro.hidden(f));
+try{SurfacePro.init({tool:'current',ownerKey:{"kty":"EC","crv":"P-256","x":"zu3YO510wtnvmDl6RJA-ghgrD0jthuyOPgDv88Y4K1o","y":"7TrasXCNB25TJSlM_ZZb83Xn49EYQoLSpmE8SXYRN10"},publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
+try{SurfacePro.ready().then(()=>{try{if(SurfacePro.owner()===BOOT0)sessionStorage.removeItem('current.ownerReload')}catch(_){}})}catch(_){}   /* a load that settled clears the guard (review 5ac7 r-3) */
 </script>
-<script src="surface/pack.js?v=20261031024024"></script>
-<script src="surface/rail.js?v=20261031024024"></script>
-<script src="surface/touchsound.js?v=20261031024024"></script>
-<script src="surface/water.js?v=20261031024024"></script>
-<script src="surface/ripple.js?v=20261031024024"></script>
-<script src="surface/material.js?v=20261031024024"></script>
-<script src="surface/float.js?v=20261031024024"></script>
-<script src="surface/manual.js?v=20261031024024"></script>
+<script src="surface/pack.js?v=20261031025128"></script>
+<script src="surface/rail.js?v=20261031025128"></script>
+<script src="surface/touchsound.js?v=20261031025128"></script>
+<script src="surface/water.js?v=20261031025128"></script>
+<script src="surface/ripple.js?v=20261031025128"></script>
+<script src="surface/material.js?v=20261031025128"></script>
+<script src="surface/float.js?v=20261031025128"></script>
+<script src="surface/manual.js?v=20261031025128"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4907,7 +4914,7 @@ function sceneMaterial(p,part){if(part!==undefined&&!AUTO.parts.material)return;
      the fill as it is */
   if(typeof m.walls==='boolean')WATER.walls=m.walls;   /* a scene can make its pattern a wall for the water */
   if(m.fill!==undefined){const f=m.fill&&typeof m.fill==='object'&&typeof m.fill.by==='string'&&/^(time|sound|finger)(\+(time|sound|finger)){0,2}$/.test(m.fill.by)?m.fill:null;
-    WATER.fill=f?f.by:'';if(f&&[8,16,32,64].includes(f.bars))WATER.fillBars=f.bars;if(f)try{fillDry()}catch(_){}}   /* only a scene WITH a fill starts dry: a scene without one (fill:false, every scene saved since 0.36.4) no longer flattens the water on each change (Dimitry, 29 Oct 11:47: "the existing ripples disappear instantly") */   /* FILL is declared further down: a scene applied at boot must not reach it (TDZ); the first fillTick starts dry anyway */
+    WATER.fill=f?f.by:'';if(f&&[8,16,32,64].includes(f.bars))WATER.fillBars=f.bars;if(f&&isPro('water.fill'))try{fillDry()}catch(_){}}   /* only where the fill runs: elsewhere the pool stays full (review 5ac7 r-1) */   /* only a scene WITH a fill starts dry: a scene without one (fill:false, every scene saved since 0.36.4) no longer flattens the water on each change (Dimitry, 29 Oct 11:47: "the existing ripples disappear instantly") */   /* FILL is declared further down: a scene applied at boot must not reach it (TDZ); the first fillTick starts dry anyway */
   waterSave();rippleSync()}
 function sceneSurface(p){const v=p.surface;if(v===undefined)return;
   if(v===false||v===null||v==='off'){if(WATER.surfOn){WATER.surfOn=false;waterSave();rippleSync()}return}
@@ -5752,7 +5759,7 @@ function buildSeqPane(){const pn=$('plSeqPane');if(!pn)return;
    opening panels; next, previous and the number keys still work"): kit SurfacePerform.lock. While locked only ‹ ›, the
    robot and the stage answer; the keys let through are the arrows, a, f, space, 1-9 and Shift+L. A hold of a second on
    the lock mark unlocks. */
-function showLock(v){if(!window.SurfacePerform||!SurfacePerform.lock)return;if(v&&!isPro('sequences')&&!(SurfacePerform.locked&&SurfacePerform.locked())){toast('the show lock comes with Pro',2600);return}if(v){try{closeColorMix()}catch(_){}try{closePlist()}catch(_){}try{closeMix()}catch(_){}try{if(window.SurfaceRing&&SurfaceRing.isOpen())SurfaceRing.close()}catch(_){}try{closeDrawers()}catch(_){}try{setPlayer(true,true)}catch(_){}}   /* the index drawer closes too: locked, nothing could close it (review 221fa14 r-1) */
+function showLock(v){if(!window.SurfacePerform||!SurfacePerform.lock)return;if(v&&!isPro('sequences')&&!(SurfacePerform.locked&&SurfacePerform.locked())){if(!artHide('sequences'))toast('the show lock comes with Pro',2600);return}if(v){try{closeColorMix()}catch(_){}try{closePlist()}catch(_){}try{closeMix()}catch(_){}try{if(window.SurfaceRing&&SurfaceRing.isOpen())SurfaceRing.close()}catch(_){}try{closeDrawers()}catch(_){}try{setPlayer(true,true)}catch(_){}}   /* the index drawer closes too: locked, nothing could close it (review 221fa14 r-1) */
   SurfacePerform.lock(v);toast(v?'show lock on: ‹ › and the robot only. Hold the lock (or Shift+L) to unlock':'show lock off',3200)}
 (function(){const m=document.createElement('button');m.type='button';m.id='lockMark';m.setAttribute('aria-label','Show lock is on. Hold for a second to unlock');m.title='hold to unlock';
   m.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><i></i>';document.body.appendChild(m);
@@ -5859,7 +5866,7 @@ function plTabsMount(){if(plTabs||!window.SurfaceTabs)return;
   plTabs=SurfaceTabs.mount($('plTabs'),[
     {id:'looks',name:'Scenes',title:'Your scenes: show, sort, star, reorder, save',pane:$('plLooks'),icon:PLI('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'),
      onShow:()=>{const on=$('plItems').querySelector('.lk.cur');if(on)on.scrollIntoView({block:'center'})}},
-    {id:'seq',name:'Sequence',title:'Your running orders for a show: each entry a scene with its own palette, morph and length; show files in and out',pane:$('plSeqPane'),icon:PLI('<path d="M4 6h10M4 12h16M4 18h12"/><circle cx="18" cy="6" r="2"/>'),onShow:()=>buildSeqPane()},
+    ...(artHide('sequences')?[]:[{id:'seq',name:'Sequence',title:'Your running orders for a show: each entry a scene with its own palette, morph and length; show files in and out',pane:$('plSeqPane'),icon:PLI('<path d="M4 6h10M4 12h16M4 18h12"/><circle cx="18" cy="6" r="2"/>'),onShow:()=>buildSeqPane()}]),
     {id:'auto',name:'Autoplay',title:'Autoplay: how often, in what order, how it morphs',pane:$('plAutoPane'),icon:ROBOT_SVG   /* the robot, not a play arrow (Dimitry, 26 Oct 22:32) */,onShow:()=>syncAutoUI()}],'current.plTab',{heads:true});
   if(window.SurfaceSheetNav)SurfaceSheetNav.swipe($('plist'),plTabs)}
 function autoPool(o){const all=allPresets(),ids=playIds();
@@ -8057,7 +8064,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
       b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(ht);held=true;openColorMix(g)});
       b.onclick=()=>{if(held){held=false;return}CM_SEL(g);buildToolShelf();cmShelfTo(g)};
       b.style.touchAction='pan-x';t.appendChild(b)}
-    {const on=lightOn(),b=document.createElement('button');b.type='button';b.className='si dot cur'+(on?'':' none')+(lightMoves()?' anim':'');const i=document.createElement('i');if(on)i.style.background=lightCss();const l=document.createElement('span');l.className='lab';l.textContent='light';b.append(i,l);   /* the Light swatch: its ring (30 Oct) */
+    if(!artHide('light')){const on=lightOn(),b=document.createElement('button');b.type='button';b.className='si dot cur'+(on?'':' none')+(lightMoves()?' anim':'');const i=document.createElement('i');if(on)i.style.background=lightCss();const l=document.createElement('span');l.className='lab';l.textContent='light';b.append(i,l);   /* the Light swatch: its ring (30 Oct) */
       b.setAttribute('aria-label','Light, '+(on?(LGT().name||'on'):'off')+'. Opens its ring: on, the named lights, strength, mode, turn, breathe');b.setAttribute('aria-haspopup','menu');
       b.onclick=()=>{const r=b.getBoundingClientRect();try{SurfaceRing.open({x:r.left+r.width/2,y:r.top+r.height/2,title:'Light',icon:LSUN,center:'ball',items:lightRingItems,onClose:()=>{try{buildToolShelf()}catch(_){}}})}catch(e){console.warn('light ring',e)}};t.appendChild(b)}
     /* the mixer button ends the row (Dimitry, 22 Oct 23:54): the Color mixer alone, at the selected group */
@@ -9646,7 +9653,7 @@ const CM_ICON={line:'<path d="M3 15c3-6 5-6 8 0s5 6 10-2"/>',second:'<path d="M3
   arrows:'<path d="M4 18 18 6M11 6h7v7"/>',toolpath:'<path d="M4 19V9h6v6h5V5h5"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/>'};
 /* THE MIX TAB (Dimitry, 19 Oct: how the two colors alternate got lost in the shelf): its own tab, after Second */
 const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const t={id:g,name:CG[g].name,title:CG[g].name+' color',pane:$(CM_PANE[g]),icon:ICO(CM_ICON[g]),onShow:()=>{if(CM_ED&&CM_ED!==g)CM_ED=null;renderCM(g)}};
-  return [t]}),[{id:'light',name:'Light',title:'Light: a colored wash that falls over the stage and the water',pane:$('cmLight'),icon:ICO('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>'),onShow:()=>{try{renderLight()}catch(_){}}}]),'current.cmTab',{heads:true,head:t=>'Color · '+t.name});   /* COLOR · GROUND (Dimitry, 28 Oct 14:30: "it doesn't actually say color in the top left ... first of all for it to say color and then what element is being colored"); Lines and Second became Ink 1 and Ink 2, Mix Ink mix (his pick, 28 Oct 16:42: particles draw lines or dots, and a material borrows them) */
+  return [t]}),artHide('light')?[]:[{id:'light',name:'Light',title:'Light: a colored wash that falls over the stage and the water',pane:$('cmLight'),icon:ICO('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>'),onShow:()=>{try{renderLight()}catch(_){}}}]),'current.cmTab',{heads:true,head:t=>'Color · '+t.name});   /* COLOR · GROUND (Dimitry, 28 Oct 14:30: "it doesn't actually say color in the top left ... first of all for it to say color and then what element is being colored"); Lines and Second became Ink 1 and Ink 2, Mix Ink mix (his pick, 28 Oct 16:42: particles draw lines or dots, and a material borrows them) */
 {const sec=$('cmGround2'),mx=$('cmGMix');if(sec&&mx){const sync=()=>{mx.hidden=sec.hidden;if(!sec.hidden){setTimeout(()=>{sec.appendChild(mx);try{renderGMix()}catch(_){}},0)}};try{new MutationObserver(sync).observe(sec,{attributes:true,attributeFilter:['hidden']})}catch(_){}sync()}}
 /* INK MIX IS PART OF INK 2 (Dimitry, 28 Oct 18:59: "Mix Ink Panel should be part of Main"): it shows under Ink 2's editor whenever Ink 2 does */
 {const sec=$('cmSecond'),mx=$('cmMix');if(sec&&mx){const sync=()=>{mx.hidden=sec.hidden;if(!sec.hidden){setTimeout(()=>{sec.appendChild(mx);try{renderMixTab()}catch(_){}},0)}};try{new MutationObserver(sync).observe(sec,{attributes:true,attributeFilter:['hidden']})}catch(_){}sync()}}
@@ -9679,7 +9686,7 @@ const CM_TABS=SurfaceTabs.mount($('cmTabs'),[].concat(...CG_ORDER.map(g=>{const 
            the modes are explained in the info drawer */
         h+='<button type="button" class="cpS cpMix cpBead'+(S.line2?'':' cpBeadOff')+'" data-t="mix" aria-label="Ink mix, by '+MN[MO[ai]]+(S.line2?'. Tap for '+MN[nx]:'. One ink: tap to add a second')+'" title="Ink mix: '+MN[MO[ai]]+'"><b class="cpBd">'+ICO(MIXI[S.alt]||MIXI.grain)+'<span class="apDots" aria-hidden="true">'+MO.map((u,q)=>'<i'+(q===ai?' class="on"':'')+'></i>').join('')+'</span></b><span>mix</span></button>'}if(k==='ground2'){const tu=GMIX().m==='turns';   /* the ground's mix bead too (Dimitry, 29 Oct 06:45): gradient or turns, two dots */
         h+='<button type="button" class="cpS cpMix cpBead'+(S.ground2?'':' cpBeadOff')+'" data-t="gmix" aria-label="Ground mix, '+(tu?'turns':'gradient')+(S.ground2?'. Tap for '+(tu?'gradient':'turns'):'. One ground: tap to add a second')+'" title="Ground mix: '+(tu?'turns':'gradient')+'"><b class="cpBd">'+ICO(tu?'<path d="M4 12h5M15 12h5M9 8l3 4-3 4M15 8l-3 4 3 4"/>':'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 20 20 4" opacity=".6"/>')+'<span class="apDots" aria-hidden="true"><i'+(tu?'':' class="on"')+'></i><i'+(tu?' class="on"':'')+'></i></span></b><span>mix</span></button>'}h+=chip(k,n,SW(k),r?PAL_SLOTS.find(x=>x[0]===r.of)[1]:'');}   /* the mix between Ink 1 and Ink 2 (Dimitry, 28 Oct 19:10) */
-    {const on=lightOn(),Lg=LGT(),cur=CM_TABS&&CM_TABS.current?CM_TABS.current():'';h+='<span class="cpSW"><button type="button" class="cpS" data-t="light" aria-pressed="'+(cur==='light')+'" aria-label="Light'+(on?', '+(Lg.name||'on'):', off')+'"><i style="'+(on?'background:'+lightCss():'')+'"'+(on?'':' class="none"')+'></i><span>Light</span></button></span>'}   /* Light, last on the strip (30 Oct) */
+    if(!artHide('light')){const on=lightOn(),Lg=LGT(),cur=CM_TABS&&CM_TABS.current?CM_TABS.current():'';h+='<span class="cpSW"><button type="button" class="cpS" data-t="light" aria-pressed="'+(cur==='light')+'" aria-label="Light'+(on?', '+(Lg.name||'on'):', off')+'"><i style="'+(on?'background:'+lightCss():'')+'"'+(on?'':' class="none"')+'></i><span>Light</span></button></span>'}   /* Light, last on the strip (30 Oct) */
     h+='</div>';
     if(listOpen){h+='<div class="cpList" role="list">';for(const Q of palAll()){h+='<div class="cpRow" role="listitem"><button type="button" class="cpUse" data-n="'+esc(Q.name)+'" aria-pressed="'+(P.name===Q.name)+'"><span class="cpMini">'+PAL_SLOTS.map(([k])=>{const v=Q.colors[k];return '<i style="background:'+(v?palHex(k,v):'transparent')+'"></i>'}).join('')+'</span><span class="cpN">'+esc(Q.name)+(Q.builtin?'':' <small>yours</small>')+'</span></button>'+(Q.builtin?'':'<button type="button" class="cpDel" data-n="'+esc(Q.name)+'" aria-label="Delete the palette '+esc(Q.name)+'">×</button>')+'</div>'}h+='</div>'}
     if(edRen&&P.name)h=h.replace(/<div class="cpTop">[\s\S]*?<\/button>(?=<button type="button" class="cpRen")/,'<div class="cpTop"><input class="clRn cpRnIn" type="text" maxlength="40" value="'+esc(P.name)+'" aria-label="New name for '+esc(P.name)+'">');
@@ -10614,7 +10621,7 @@ function colorItems(){const sw=c=>'<svg viewBox="0 0 24 24" aria-hidden="true" f
   return [
   {id:'panel',kind:'go',at:'top',label:'panel',aria:'The Color panel: every group, related colors, your colors',icon:DOOR_IC,pick:()=>{try{openColorMix()}catch(_){}}},
   dot('line','ink 1'),dot('second','ink 2'),dot('ground','ground'),dot('touch','touch'),
-  {id:'light',kind:'go',label:'light',aria:'Light: a colored wash over the stage. Opens its ring',icon:lightOn()?lSw(LGT().c1,LGT().c2):LSUN,ring:{title:'Light',icon:LSUN,items:lightRingItems}},
+  ...(artHide('light')?[]:[{id:'light',kind:'go',label:'light',aria:'Light: a colored wash over the stage. Opens its ring',icon:lightOn()?lSw(LGT().c1,LGT().c2):LSUN,ring:{title:'Light',icon:LSUN,items:lightRingItems}}]),
   {id:'opp',kind:'go',label:'opposite',aria:'Opposite: lines, second and ground turn inside out (tap again to turn back)',icon:RING_I('<circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor"/>'),
     pick:()=>{const R=(S.pal&&S.pal.rel)||{};for(const g of ['line','second','ground']){const G=CG[g];if(G.on()&&!R[g])G.set(colorOpp(G.get()))}   /* a tied slot follows its own (review 236cbc6 r-1) */try{renderCM()}catch(_){}try{colorDid('opposite')}catch(_){}}},
   {id:'drift',kind:'value',label:'drift',aria:'Drift: the lines\' hue slowly turns round the wheel; 0 holds it still',icon:RING_I('<path d="M2.5 13.5C5.5 13.5 6.5 6 10 6S14.5 13.5 17.5 13.5"/><circle cx="10" cy="6" r="2"/>'),min:0,max:4,step:1,get:dr,
@@ -10895,7 +10902,7 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       ups.push(()=>check(sf,WATER.on&&WATER.surfOn?WATER.surf:''));
       /* rain fills the pool: what fills it (none lit: a pool from the start, as before), how many bars, and dry again */
       /* the ways combine (Dimitry, 30 Oct 22:17): each a switch; none on lets the pool finish filling, gently */
-      const flr=wRow(box,'fill','Rain fills the pool: the first drops splash on a dry floor, puddles join, then the surface is water. Any of the three at once; none for a full pool');
+      const ART_W=box.childElementCount;const flr=wRow(box,'fill','Rain fills the pool: the first drops splash on a dry floor, puddles join, then the surface is water. Any of the three at once; none for a full pool');
       const fl=document.createElement('div');fl.className='bsG';fl.setAttribute('role','group');fl.setAttribute('aria-label','What fills the pool, any of them at once');flr.appendChild(fl);
       const flB=[['time','over bars','Fills over a number of bars on the tempo, the rain thickening as it goes'],['sound','with sound','It rains while there is sound, harder when louder, and fills with it'],['finger','your finger','It rains where you touch']].map(([k,n,t])=>{const b=fl.appendChild(mk('button','bsPill',n));b.type='button';b.setAttribute('role','switch');b.dataset.k=k;b.title=t;
         b.onclick=()=>{if(!isPro('water.fill')){try{openBetaSheet()}catch(_){}return}const h=fillHas(WATER.fill);h[k]=!h[k];const v=fillNorm(FILL_WAYS.filter(x=>h[x]).join('+'));const k2=wxBegin();try{WATER.fill=v;if(v){WATER.surfOn=true;if(!WATER.on)waterPreset(WATER.preset)}waterSave();rippleSync()}finally{wxEnd(k2)}wSync()};return b});
@@ -10913,6 +10920,8 @@ function bsSync(){if(!BS||!BS.ready)return;if(BS._q)return;BS._q=requestAnimatio
       const ikC=ik.parentNode.appendChild(mk('button','bsPill','clear ink'));ikC.type='button';ikC.title='Clear water again: the ink is gone';ikC.onclick=()=>{try{RIP&&RIP.inkClear&&RIP.inkClear()}catch(_){}INK.n=0;INK.full=0;INK.t=.6;toast('clear water again')};
       ups.push(()=>{check(ik,isPro('water.ink')?WATER.ink||'':'');ikC.disabled=!(isPro('water.ink')&&WATER.ink&&WATER.on&&WATER.surfOn)||!!(RIP&&RIP.inkFailed&&RIP.inkFailed())});
       const drw=wRow(box,'drain','Drain the water: evaporate, tip the floor, or let it fall');
+      /* the Artists Pack's rows (fill, bars, walls, watercolor, drain) are not shown to anyone else */
+      if(artHide('water.fill'))[...box.children].slice(ART_W).forEach(r=>{r.hidden=true;r.setAttribute('aria-hidden','true')});
       const drB=[['evaporate','evaporate','The water evaporates over the bars: the shallows first, the hollows last'],['tip','tip','The floor tips to one side and the water runs off'],['fall','fall','Gravity takes over: the water falls from the top, fast, throwing spray']].map(([k,l,t])=>{const b=drw.appendChild(mk('button','bsPill',l));b.type='button';b.title=t;b.setAttribute('aria-label',t);b.onclick=()=>drainStart(k);return b});
       const refB=drw.appendChild(mk('button','bsPill','fill again'));refB.type='button';refB.title='The water comes back: the rain fills the floor again';refB.onclick=()=>{if(isPro('water.fill')&&WATER.fill)fillDry();else drainEnd();toast('the water comes back');wSync()};
       ups.push(()=>{const on=!!(WATER.on&&WATER.surfOn);drB.forEach(b=>{b.disabled=!on;b.setAttribute('aria-pressed',String(!!DRAIN&&DRAIN.by===({evaporate:'evaporate',tip:'tip',fall:'fall'})[b.textContent]))});refB.disabled=!(FILL.drained||DRAIN)});
@@ -12047,10 +12056,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261031024024"></script>
-<script src="surface/links.js?v=20261031024024"></script>
-<script src="surface/tips.js?v=20261031024024"></script>
-<script src="surface/sections.js?v=20261031024024"></script>
+<script src="surface/install.js?v=20261031025128"></script>
+<script src="surface/links.js?v=20261031025128"></script>
+<script src="surface/tips.js?v=20261031025128"></script>
+<script src="surface/sections.js?v=20261031025128"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -12071,7 +12080,7 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
        updated; anything else is saved as a new one with a name made for it. Shift adds the box, to name it. */
     {id:'sheet.prev',d:'The previous panel (when one is open)',keys:['['],run:()=>{if(SHEET_NAV)SHEET_NAV.go(-1)}},
     {id:'sheet.next',d:'The next panel (when one is open)',keys:[']'],run:()=>{if(SHEET_NAV)SHEET_NAV.go(1)}},
-    {id:'lock',d:'The show lock: only ‹ › and the robot answer; Shift+L again (or hold the lock) to unlock',keys:['L'],run:()=>showLock(!SurfacePerform.locked())},
+    ...(artHide('sequences')?[]:[{id:'lock',d:'The show lock: only ‹ › and the robot answer; Shift+L again (or hold the lock) to unlock',keys:['L'],run:()=>showLock(!SurfacePerform.locked())}]),   /* only where sequences show (review 27ac r-2) */
     {id:'perform',d:'Performing on or off (nothing reloads, the screen stays awake)',keys:[],run:()=>{if(window.SurfacePerform){SurfacePerform.set(!SurfacePerform.manual());toast(SurfacePerform.manual()?'performing: nothing reloads, the screen stays awake':'performing off')}}},
     {id:'save',d:'Save this scene',keys:['mod+s'],run:()=>{const own=curName&&store.user.some(u=>u.name===curName)&&!PRESETS.some(p=>p.name===curName);savePreset(own?curName:autoName())}},
     {id:'saveas',d:'Save as a new scene, and name it',keys:['shift+mod+s'],run:()=>saveAsBox()},
@@ -12246,7 +12255,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261031024024"></script>
+<script src="surface/room.js?v=20261031025128"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12449,7 +12458,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261031024024"></script>
+<script src="surface/touch.js?v=20261031025128"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -12831,7 +12840,7 @@ const ENS=window.ENS=(function(){
   setTimeout(showRename,0);
   const showEnd=()=>{};
   const showFresh=()=>({v:SHOWSEQ.v,info:{...SHOW_INFO},entries:SHOWSEQ.entries.filter(e=>seqIdx('p:'+e[0])>=0).map(e=>{const x={id:seqUid(),k:'p:'+e[0],stay:e[1],morph:e[2],name:e[3]};if(e[4])x.deal=e[4];return x})});
-  function showPlay(){if(!isPro('sequences')){toast('the show is a sequence, and sequences come with Pro',2800);return}   /* (review 3d57 r-2) */
+  function showPlay(){if(!isPro('sequences')){if(!artHide('sequences'))toast('the show is a sequence, and sequences come with Pro',2800);return}   /* (review 3d57 r-2) */
     showRename();try{if(window.seqCur&&seqCur()&&seqCur().name===SHOWSEQ.name&&autoT){setAuto(false,true);seqPlay(null);showEnd();toast('the show stopped',2000);paint();return}
       const L=seqList();let had=L.find(q=>q.name===SHOWSEQ.name&&q.entries&&q.entries.length);if(had&&(had.v||1)<SHOWSEQ.v&&showSig(had.entries)===SHOW_V1){L.splice(L.indexOf(had),1);had=null}   /* a show already here, perhaps dressed in the Sequence tab, is played as it is (r-5) */
       const sq={name:SHOWSEQ.name,v:SHOWSEQ.v,info:{...SHOW_INFO},src:{kind:'builtin',rev:SHOWSEQ.v},t:Date.now(),entries:SHOWSEQ.entries.filter(e=>seqIdx('p:'+e[0])>=0).map(e=>{const x={id:seqUid(),k:'p:'+e[0],stay:e[1],morph:e[2],name:e[3]};if(e[4])x.deal=e[4];return x})};
@@ -13342,7 +13351,7 @@ const ENS=window.ENS=(function(){
     const rb=$e('ensReady');if(rb){rb.setAttribute('aria-pressed',String(RD.on));rb.textContent=RD.on?'Ready: on (tap to undo)':'Ready to perform'}
     {const kr=$e('ensKey'),kn=$e('ensKeyNote');if(kr){kr.hidden=!screen;kn.hidden=!screen;const a=$e('ensRoot'),b=$e('ensScale');if(a&&document.activeElement!==a)a.value=String(KEY.root);if(b&&document.activeElement!==b)b.value=KEY.scale;
       const cb=$e('ensCount');if(cb)cb.textContent=CI!=null?'counting in…':'Count in';
-      const sb=$e('ensShow');if(sb){const on=!!(window.seqCur&&seqCur()&&seqCur().name===SHOWSEQ.name&&autoT);sb.textContent=on?'Stop the show':'Play the show';sb.setAttribute('aria-pressed',String(on))}}}
+      const sb=$e('ensShow');if(sb){sb.hidden=artHide('sequences');const on=!!(window.seqCur&&seqCur()&&seqCur().name===SHOWSEQ.name&&autoT);sb.textContent=on?'Stop the show':'Play the show';sb.setAttribute('aria-pressed',String(on))}}}
     const ob=$e('ensOut');if(ob){ob.hidden=!(screen&&window.OUTPUT);if(window.OUTPUT)ob.textContent=OUTPUT.isOpen()?'clean output window: on':'clean output window'}
     const P=cur,lg=s.querySelector('.ens-legend');
     lg.innerHTML=P?'<dl><dt>Tap</dt><dd>'+P.say.tap+'</dd><dt>Drag</dt><dd>'+P.say.drag+'</dd><dt>Hold</dt><dd>'+P.say.hold+'</dd>'+(P.say.bed?'<dt>Under it</dt><dd>'+P.say.bed+'</dd>':'')+'<dt>Your finger</dt><dd>up is higher, right is wetter</dd></dl>':screen?'<p class="ens-note">This screen plays no sound. Every player&rsquo;s finger pulls the current here, in the color of its part.</p>':'<p class="ens-note">Choose your part.</p>';
@@ -14017,7 +14026,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.47.0';
+const APP_VERSION='0.48.0';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
