@@ -62,6 +62,8 @@
     ".st-l li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px}.st-l i{font-style:normal;color:#6fd08c}.st-l li.f i{color:#ff6a3d}.st-l small{display:block;color:var(--ui-dim,#a8a8a8)}",
     ".st-e{margin:0;padding:8px;border-radius:8px;background:rgb(var(--ui-hi,255 255 255) / .06);font:11px/1.4 var(--mono,ui-monospace,Menlo,monospace);white-space:pre-wrap;word-break:break-word;max-height:7.5em;overflow:auto;color:var(--ui-mid,#c9cfd1)}",
     ".st-a{display:flex;flex-wrap:wrap;gap:8px}",
+    ".st-hn{margin:10px 0 0;font-size:11.5px;opacity:.75}",
+    ".st-txt{display:block;width:100%;box-sizing:border-box;min-height:9em;margin-top:10px;padding:8px;border-radius:8px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:rgb(0 0 0 / .25);color:var(--ui-ink,#fff);font:11px/1.35 ui-monospace,Menlo,monospace;resize:vertical;-webkit-user-select:text;user-select:text}",
     ".st-m{margin:2px auto 0;font:700 7.5px/7px var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.5px;color:var(--ui-ink,#fff);white-space:pre;text-align:left;",
     "  text-shadow:-1.5px 0 rgba(255,60,90,.85),1.5px 0 rgba(60,220,255,.85);user-select:none;min-height:1em}",
     ".st-k{margin:0;font:500 10px/1.2 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.16em;text-transform:uppercase;color:#ff6a3d}",
@@ -209,9 +211,14 @@
       (!bad.length && LAST ? '<p class="st-p">The last problem was ' + esc(new Date(LAST.at).toLocaleString()) + '. Its report is kept here so you can still send it.</p>' : "") +
       '<div class="st-a">' + (bad.length ? '<button type="button" class="pri" data-a="reload">reload</button>' : "") + (!bad.length && LAST ? '<button type="button" class="pri" data-a="last">copy last report</button>' : "") + '<button type="button" data-a="copy">copy report</button>' + (O.email ? '<button type="button" data-a="mail">email report</button>' : "") + "</div></div>";
     el.querySelector(".st-x").onclick = function () { el.hidden = true; dismissed = true; };
-    var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { lb.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
+    /* where the clipboard is refused (a page inside another app, as Claude's preview: Dimitry, 30 Oct 21:36 "I wasn't able
+       to send the email"), the report shows in the card itself, selected, ready for the system's own copy; never a
+       prompt(), which such a frame silently blocks */
+    function showText(box, t) { var ta = box.querySelector(".st-txt"); if (!ta) { var bd = box.querySelector(".st-bd") || box, hn = document.createElement("p"); hn.className = "st-hn"; hn.textContent = "Copying is not allowed here: press and hold the report, Select All, then Copy."; ta = document.createElement("textarea"); ta.className = "st-txt"; ta.readOnly = true; ta.setAttribute("aria-label", "The report: select it all and copy"); bd.appendChild(hn); bd.appendChild(ta); }
+      ta.value = t; try { ta.focus(); ta.select(); ta.setSelectionRange(0, t.length); } catch (_) {} }
+    var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { lb.textContent = "copied"; }, function () { showText(el, t); }); };
     var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { leaving(); location.reload(); };
-    el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { window.prompt("Copy the report:", t); }); };
+    el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { showText(el, t); }); };
     var m = el.querySelector('[data-a="mail"]'); if (m) m.onclick = function () { location.href = "mailto:" + O.email + "?subject=" + encodeURIComponent((O.tool || "Tool") + " self-test " + (O.version || "")) + "&body=" + encodeURIComponent(report().slice(0, 1800)); };
     if (bad.length) mascot(el.querySelector(".st-m"));
     el.hidden = false; shown = true;
