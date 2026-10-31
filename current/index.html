@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261031161132";window.__VERSION__="0.51.4";window.__NOTES__=[{"v":"0.51.4","date":"31 Oct 2026","items":[{"kind":"fix","text":"Current open in two places on one device (an installed app and a browser tab) no longer writes one's old copy over the other's saves: each takes what the other saved"},{"kind":"fix","text":"saving a palette checks that it was kept, and says so plainly if this browser's storage is full (the warning comes back after a minute instead of once a visit)"},{"kind":"new","text":"while Performing holds a newer version back, a small dot on the Index corner and a line under the version say it is waiting"}]}]</script>
+<script>window.__BUILD__="20261031164736";window.__VERSION__="0.51.5";window.__NOTES__=[{"v":"0.51.5","date":"31 Oct 2026","items":[{"kind":"fix","text":"an older Current left open in another tab or app no longer wipes words, palettes or scenes you add here: this window puts them back at once and tells you to reload the old copy"},{"kind":"fix","text":"two current windows saving at the same moment keep both saves, and neither keeps writing over the other"},{"kind":"fix","text":"while Performing, tapping a button still tells you what it did (\"palette saved\" was hidden)"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261031161132"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261031161132">
+<script src="claude-web.js?v=20261031164736"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261031164736">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,42 +169,42 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261031161132"></script>
-<script src="surface/nozoom.js?v=20261031161132"></script><script src="surface/steady.js?v=20261031161132"></script><script src="surface/selftest.js?v=20261031161132"></script><script src="surface/size.js?v=20261031161132"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261031161132"></script>
-<script src="surface/auto.js?v=20261031161132"></script>
-<script src="surface/toolpath.js?v=20261031161132"></script>
-<script src="surface/capture.js?v=20261031161132"></script>
-<script src="surface/pop.js?v=20261031161132"></script>
-<script src="surface/hints.js?v=20261031161132"></script>
-<script src="surface/paths.js?v=20261031161132"></script>
-<script src="surface/keys.js?v=20261031161132"></script>
-<script src="surface/reset.js?v=20261031161132"></script>
-<script src="surface/files.js?v=20261031161132"></script>
-<script src="surface/tabs.js?v=20261031161132"></script>
-<script src="surface/running.js?v=20261031161132"></script>
-<script src="surface/trim.js?v=20261031161132"></script>
-<script src="surface/audiowake.js?v=20261031161132"></script>
-<script src="surface/output.js?v=20261031161132"></script>
-<script src="surface/board.js?v=20261031161132"></script>
-<script src="surface/voice.js?v=20261031161132"></script>
-<script src="surface/voicelib.js?v=20261031161132"></script>
-<script src="surface/instruments.js?v=20261031161132"></script>
-<script src="surface/listview.js?v=20261031161132"></script>
-<script src="surface/beads.js?v=20261031161132"></script>
-<script src="surface/strip.js?v=20261031161132"></script>
-<script src="surface/sheetnav.js?v=20261031161132"></script>
-<script src="surface/twofinger.js?v=20261031161132"></script>
-<script src="surface/ring.js?v=20261031161132"></script>
-<script src="surface/shortlink.js?v=20261031161132"></script>
-<script src="surface/undo.js?v=20261031161132"></script>
-<script src="surface/pro.js?v=20261031161132"></script>
-<script src="surface/fresh.js?v=20261031161132"></script>
-<script src="surface/go.js?v=20261031161132"></script>
-<script src="surface/notice.js?v=20261031161132"></script>
-<script src="surface/perform.js?v=20261031161132"></script>
-<script src="surface/power.js?v=20261031161132"></script>
-<script src="surface/words.js?v=20261031161132"></script>
+<script src="vendor/opentype.min.js?v=20261031164736"></script>
+<script src="surface/nozoom.js?v=20261031164736"></script><script src="surface/steady.js?v=20261031164736"></script><script src="surface/selftest.js?v=20261031164736"></script><script src="surface/size.js?v=20261031164736"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261031164736"></script>
+<script src="surface/auto.js?v=20261031164736"></script>
+<script src="surface/toolpath.js?v=20261031164736"></script>
+<script src="surface/capture.js?v=20261031164736"></script>
+<script src="surface/pop.js?v=20261031164736"></script>
+<script src="surface/hints.js?v=20261031164736"></script>
+<script src="surface/paths.js?v=20261031164736"></script>
+<script src="surface/keys.js?v=20261031164736"></script>
+<script src="surface/reset.js?v=20261031164736"></script>
+<script src="surface/files.js?v=20261031164736"></script>
+<script src="surface/tabs.js?v=20261031164736"></script>
+<script src="surface/running.js?v=20261031164736"></script>
+<script src="surface/trim.js?v=20261031164736"></script>
+<script src="surface/audiowake.js?v=20261031164736"></script>
+<script src="surface/output.js?v=20261031164736"></script>
+<script src="surface/board.js?v=20261031164736"></script>
+<script src="surface/voice.js?v=20261031164736"></script>
+<script src="surface/voicelib.js?v=20261031164736"></script>
+<script src="surface/instruments.js?v=20261031164736"></script>
+<script src="surface/listview.js?v=20261031164736"></script>
+<script src="surface/beads.js?v=20261031164736"></script>
+<script src="surface/strip.js?v=20261031164736"></script>
+<script src="surface/sheetnav.js?v=20261031164736"></script>
+<script src="surface/twofinger.js?v=20261031164736"></script>
+<script src="surface/ring.js?v=20261031164736"></script>
+<script src="surface/shortlink.js?v=20261031164736"></script>
+<script src="surface/undo.js?v=20261031164736"></script>
+<script src="surface/pro.js?v=20261031164736"></script>
+<script src="surface/fresh.js?v=20261031164736"></script>
+<script src="surface/go.js?v=20261031164736"></script>
+<script src="surface/notice.js?v=20261031164736"></script>
+<script src="surface/perform.js?v=20261031164736"></script>
+<script src="surface/power.js?v=20261031164736"></script>
+<script src="surface/words.js?v=20261031164736"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -244,14 +244,14 @@ window.artHide=f=>!!(window.SurfacePro&&SurfacePro.hidden&&SurfacePro.hidden(f))
 try{SurfacePro.init({tool:'current',ownerKey:{"kty":"EC","crv":"P-256","x":"zu3YO510wtnvmDl6RJA-ghgrD0jthuyOPgDv88Y4K1o","y":"7TrasXCNB25TJSlM_ZZb83Xn49EYQoLSpmE8SXYRN10"},publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 try{SurfacePro.ready().then(()=>{try{if(SurfacePro.owner()===BOOT0)sessionStorage.removeItem('current.ownerReload')}catch(_){}})}catch(_){}   /* a load that settled clears the guard (review 5ac7 r-3) */
 </script>
-<script src="surface/pack.js?v=20261031161132"></script>
-<script src="surface/rail.js?v=20261031161132"></script>
-<script src="surface/touchsound.js?v=20261031161132"></script>
-<script src="surface/water.js?v=20261031161132"></script>
-<script src="surface/ripple.js?v=20261031161132"></script>
-<script src="surface/material.js?v=20261031161132"></script>
-<script src="surface/float.js?v=20261031161132"></script>
-<script src="surface/manual.js?v=20261031161132"></script>
+<script src="surface/pack.js?v=20261031164736"></script>
+<script src="surface/rail.js?v=20261031164736"></script>
+<script src="surface/touchsound.js?v=20261031164736"></script>
+<script src="surface/water.js?v=20261031164736"></script>
+<script src="surface/ripple.js?v=20261031164736"></script>
+<script src="surface/material.js?v=20261031164736"></script>
+<script src="surface/float.js?v=20261031164736"></script>
+<script src="surface/manual.js?v=20261031164736"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -4671,13 +4671,15 @@ function pinnedUp(id){if(besideOpen(id))return true;   /* a panel with its ring 
 const LS='toolpath-field:v1';
 let store={user:[],player:null,auto:null,morph:null};
 var STORE_LAST=null;   // what this window last wrote or took from storage: the base of a three-way merge (31 Oct)
+var STORE_IDS=new Set();   /* every stamp id this window has written or taken: one seen again is an old copy replaying */
+var STORE_SEEN=null;   // the id of the newest write this window knows (its own or taken): a write built on an older one is stale
 let STORE_OLD=false;   // this browser ran Current before (Fresh shows its sparkles only to old friends)
 try{const o=JSON.parse(localStorage.getItem(LS)||'null');if(o&&typeof o==='object'){STORE_OLD=true;store=Object.assign(store,o)}if(!Array.isArray(store.user))store.user=[];store.user=store.user.map(cleanLook).filter(u=>u&&typeof u.gcode==='string')}catch(e){}
-try{STORE_LAST=JSON.parse(JSON.stringify(store))}catch(_){}
+try{STORE_LAST=JSON.parse(JSON.stringify(store));STORE_SEEN=store._by&&store._by.id||null;if(STORE_SEEN)STORE_IDS.add(STORE_SEEN)}catch(_){}
 /* THE STORE IS WRITTEN ONCE A SECOND AT MOST (long-session sweep, 29 Oct): the whole store (scenes, sequences, palettes,
    formulas) was stringified on the main thread on every scene change under the robot. Now writes gather for 800 ms;
    leaving the page or hiding it writes at once, so nothing is lost. persistNow() for a write that must land now. */
-let PERSIST_T=0;function persistNow(){clearTimeout(PERSIST_T);PERSIST_T=0;try{const j=JSON.stringify(store);localStorage.setItem(LS,j);try{STORE_LAST=JSON.parse(j)}catch(_){}return true}catch(e){if(!persistNow.said||Date.now()-persistNow.said>60000){persistNow.said=Date.now();try{toast('this browser’s storage is full: new saves are not kept. Export your scenes, then delete some loops or recordings',6000)}catch(_){}}return false}}   /* says so again after a minute, not once a visit (31 Oct: palettes lost) */
+let PERSIST_T=0;function persistNow(){clearTimeout(PERSIST_T);PERSIST_T=0;try{const id=Math.random().toString(36).slice(2,10);store._by={v:APP_VERSION_EARLY(),t:Date.now(),id,base:STORE_SEEN};const j=JSON.stringify(store);localStorage.setItem(LS,j);STORE_SEEN=id;STORE_IDS.add(id);try{STORE_LAST=JSON.parse(j)}catch(_){}return true}catch(e){if(!persistNow.said||Date.now()-persistNow.said>60000){persistNow.said=Date.now();try{toast('this browser’s storage is full: new saves are not kept. Export your scenes, then delete some loops or recordings',6000)}catch(_){}}return false}}   /* says so again after a minute, not once a visit (31 Oct: palettes lost) */
 var STORE_ADOPTING=false;   // redrawing what another window wrote writes nothing back (review aeb0 r-1)
 function persist(){if(STORE_ADOPTING)return;if(!PERSIST_T)PERSIST_T=setTimeout(persistNow,800)}
 /* ONE STORE, SEVERAL WINDOWS (Dimitry, 31 Oct 11:57-11:59: palettes he saved were gone after a reload; Current was open in
@@ -4686,7 +4688,7 @@ function persist(){if(STORE_ADOPTING)return;if(!PERSIST_T)PERSIST_T=setTimeout(p
    merge against what it last wrote itself (STORE_LAST): only what changed HERE since then is kept over theirs; in a list
    of named things (palettes, scenes, sequences, formulas...) item by item, a name dropped here is a delete. This window's
    own place (the sequence it plays, its open shelf) stays its own. The lists redraw when nothing is under a finger. */
-const STORE_OWN=['seqOn','bshelf','cmSel'];
+const STORE_OWN=['seqOn','bshelf','cmSel','_by'];
 function storeMerge(next){const L=STORE_LAST||{},mine=store,J=x=>JSON.stringify(x===undefined?null:x),named=a=>Array.isArray(a)&&a.every(x=>x&&typeof x==='object'&&typeof x.name==='string');
   for(const k of new Set([...Object.keys(mine),...Object.keys(L)])){const mv=mine[k],lv=L[k];if(J(mv)===J(lv))continue;   // not changed here: theirs
     if(!(k in mine)){delete next[k];continue}
@@ -4697,17 +4699,41 @@ function storeMerge(next){const L=STORE_LAST||{},mine=store,J=x=>JSON.stringify(
   for(const k of Object.keys(mine))if(!(k in next)&&!(k in L))next[k]=mine[k];   // set up here and never written: keep (review 9aed r-5)
   for(const k of STORE_OWN){if(k in mine)next[k]=mine[k];else delete next[k]}
   return next}
-function storeAdoptRefresh(){const ae=document.activeElement,busy=document.querySelector('.lk.dragging,.sqE.dragging,.rowMenu')||(ae&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA')&&ae.closest&&ae.closest('#plist,#cmLib,#colorPop,#sqDrawer'));
+function storeAdoptRefresh(){const ae=document.activeElement,busy=document.querySelector('.lk.dragging,.sqE.dragging,.rowMenu')||(ae&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA')&&ae.closest&&ae.closest('#plist,#cmLib,#colorPop,#sqDrawer,#wordList'));
   if(busy){clearTimeout(storeAdoptRefresh.t);storeAdoptRefresh.t=setTimeout(storeAdoptRefresh,1000);return}   /* never under a finger (review 9aed r-2) */
   STORE_ADOPTING=true;try{try{palUI()}catch(_){}try{buildLooks();syncPlist()}catch(_){}try{seqUI()}catch(_){}   /* the sequence pane edits the new store, not a copy (review 1c27 r-1) */
+    try{const wl=$('wordList');if(wl&&!wl.hidden)renderWordList();if(typeof renderRecent==='function')renderRecent()}catch(_){}   /* the words list too (31 Oct 12:20) */
     try{const q=SQDR.q;if(SQDR.el&&!SQDR.el.hidden&&q&&q.name&&q.entries){const n=seqList().find(x=>x.name===q.name);if(n&&n!==q)sqDrawer(n)}}catch(_){}}   /* an open about drawer moves to the new copy (review aeb0 r-2) */
   finally{STORE_ADOPTING=false}}
 addEventListener('storage',e=>{if(e.key!==LS||!e.newValue)return;let o=null;try{o=JSON.parse(e.newValue)}catch(_){return}if(!o||typeof o!=='object')return;
   const pend=!!PERSIST_T,cur=curName,wasUser=!!(allPresets()[presetIdx]||{}).user;
-  const next=storeMerge(o);   /* always the merge: a write that failed here is still a change here (review 1c27 r-2) */
+  const by=o._by&&typeof o._by==='object'?{...o._by}:null;   /* read before the merge: storeMerge puts this window's own stamp on o (review b23e r-1, P0) */
+  let next=storeMerge(o);   /* always the merge: a write that failed here is still a change here (review 1c27 r-2) */
+  /* AN OLDER COPY WRITES BLIND (Dimitry, 31 Oct 12:20-12:22: words he added kept vanishing, "it just keeps replacing the
+     last word I put in"; reproduced with a window of 0.51.3 open beside this one): a write without the stamp comes from a
+     copy that cannot merge and writes its old memory. Lists keep what this window has too (its words, palettes, scenes),
+     the result is written back at once, and a line says to reload the old copy */
+  /* stale too: a write built before it saw this window's newest (two copies writing at the same moment) */
+  /* Only a truly old writer is repaired: no stamp, an older version, or a stamp this window has already seen (an old copy
+     writes back the one it loaded). Two current windows never write back to each other: the three-way merge settles them,
+     so a delete sticks and nothing ping-pongs (review b23e r-1/r-2). Only libraries take the union, never ordered lists
+     (r-3) */
+  const vLess=(a,b)=>{const A=String(a||'0').split('.').map(Number),B=String(b).split('.').map(Number);for(let n=0;n<3;n++){if((A[n]||0)!==(B[n]||0))return (A[n]||0)<(B[n]||0)}return false},
+    old=!by||!by.id||vLess(by.v,APP_VERSION_EARLY())||STORE_IDS.has(by.id),
+    /* two current windows whose writes crossed (each built on a write the other had not seen): both keep each other's
+       library items, and only one of them, the one whose last write has the smaller id, writes the result back, so the
+       other simply adopts it and nothing bounces */
+    cross=!old&&!!STORE_SEEN&&!!by.base&&by.base!==STORE_SEEN,blind=old||cross,back=old||(cross&&String(STORE_SEEN)<String(by.id));
+  if(blind){const LIB=['user','palettes','seqs','formulas','steerLoops','gestures','fonts'],nm=x=>x&&typeof x==='object'?x.name:x,
+      uni=(a,b)=>{const out=a.slice(),have=new Set(a.map(nm));for(const x of b)if(!have.has(nm(x))){out.push(x);have.add(nm(x))}return out};
+    for(const k of LIB)if(Array.isArray(store[k])&&Array.isArray(next[k])&&next[k].every(x=>x&&typeof x==='object'&&typeof x.name==='string'))next[k]=uni(next[k],store[k]);
+    if(Array.isArray(store.words)&&Array.isArray(next.words)){const lw=x=>String(x).toLowerCase(),have=new Set(next.words.map(lw));next.words=store.words.filter(w=>!have.has(lw(w))).concat(next.words).slice(0,12)}
+    if(old&&(!window.__blindSaid||Date.now()-window.__blindSaid>120000)){window.__blindSaid=Date.now();try{toast('an older Current is open in another tab or app and writes over your changes: reload it',7000)}catch(_){}}}
   for(const k of Object.keys(store))if(!(k in next))delete store[k];Object.assign(store,next);
   if(!Array.isArray(store.user))store.user=[];try{store.user=store.user.map(cleanLook).filter(u=>u&&typeof u.gcode==='string')}catch(_){}
   try{STORE_LAST=JSON.parse(e.newValue)}catch(_){}
+  if(by&&by.id){STORE_IDS.add(by.id);if(!old)STORE_SEEN=by.id}
+  if(back)persist();   /* put back what the old copy wrote over; of two crossed windows, only one answers */
   /* the scene on stage keeps its place in the list (review 9aed r-3) */
   try{const A=allPresets();let i=A.findIndex(p=>p.name===cur&&!!p.user===wasUser);if(i<0)i=A.findIndex(p=>p.name===cur);if(i>=0)presetIdx=i}catch(_){}
   storeAdoptRefresh()});
@@ -5542,7 +5568,11 @@ const pb=$('pause');pb.addEventListener('click',()=>{S.paused=!S.paused;pb.textC
 
 // ---------- Player (the studio's chrome): presets as scenes, auto, random, still, back to builder ----------
 /* READING TIME (Dimitry, 22 Oct 23:31: long hints at the top went in half a second, impossible to finish): a hint stays at least as long as it takes to read, about 15 characters a second plus a second to find it, up to 12 s */
-let toT=0;function toast(t,ms){if(document.documentElement.classList.contains('pvOn')&&/^\s*✓/.test(String(t)))return;   /* the player view: no path ticks over the pad */if(document.documentElement.classList.contains('perfReady')&&!/lost|fail|error|offline|blocked|cannot|can.t|could not|couldn|did not|refused|busy|no microphone|no web audio|kept the window|allow|full|is off|three fingers/i.test(String(t)))return;   /* ready to perform: only trouble speaks */const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>el.classList.remove('show'),Math.max(ms||1600,Math.min(12000,1000+String(t).length*66)))}
+let toT=0;/* A BUTTON'S ANSWER SPEAKS EVEN WHILE PERFORMING (Dimitry, 31 Oct 12:41: the palette editor's save "says it's for saving but
+   nothing happens"; it had saved, but Performing keeps every toast but trouble quiet). Quiet stays for what the stage does
+   by itself; a tap on a button gets its answer */
+var TOAST_TAP=0;addEventListener('click',e=>{const t=e.target;if(e.isTrusted&&t&&t.closest&&t.closest('button,[role=button],a'))TOAST_TAP=Date.now()},true);
+function toast(t,ms){if(document.documentElement.classList.contains('pvOn')&&/^\s*✓/.test(String(t)))return;   /* the player view: no path ticks over the pad */if(document.documentElement.classList.contains('perfReady')&&!(Date.now()-TOAST_TAP<1500)&&!/lost|fail|error|offline|blocked|cannot|can.t|could not|couldn|did not|refused|busy|no microphone|no web audio|kept the window|allow|full|is off|three fingers/i.test(String(t)))return;   /* ready to perform: only trouble speaks */const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>el.classList.remove('show'),Math.max(ms||1600,Math.min(12000,1000+String(t).length*66)))}
 /* CONFIRM ON THE BUTTON: the label itself says what happened ("copied"), for as long as it takes to read, so the answer
    is where the finger is, not only in a toast across the screen */
 function flashBtn(b,txt,ms){if(!b)return;let n=null;for(const c of b.childNodes)if(c.nodeType===3&&c.textContent.trim())n=c;if(!n){n=document.createTextNode('');b.append(n)}
@@ -12197,10 +12227,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261031161132"></script>
-<script src="surface/links.js?v=20261031161132"></script>
-<script src="surface/tips.js?v=20261031161132"></script>
-<script src="surface/sections.js?v=20261031161132"></script>
+<script src="surface/install.js?v=20261031164736"></script>
+<script src="surface/links.js?v=20261031164736"></script>
+<script src="surface/tips.js?v=20261031164736"></script>
+<script src="surface/sections.js?v=20261031164736"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -12401,7 +12431,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261031161132"></script>
+<script src="surface/room.js?v=20261031164736"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12604,7 +12634,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261031161132"></script>
+<script src="surface/touch.js?v=20261031164736"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -14172,7 +14202,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.51.4';
+const APP_VERSION='0.51.5';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
