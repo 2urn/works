@@ -82,6 +82,9 @@
      w.walls(on)                  the pattern (path()) holds the surface still along its lines: waves reflect off them
      w.vibrate(amp, hz)           shallow water does not ring, it trembles: amp 0..1, its pattern's wavelength from hz
      o.onSplash(x, y, size, k)    called for every splash on dry floor, so the host can make it heard
+     w.light({c1, c2, round, a, stops, amt, mode, ground})   mode filter | wash | glow: the light is laid here, not by the host;
+                                  ground {c1, c2, round, a, stops}: it falls only on what differs from that ground
+     w.passOnly(on)               the surface as a pass: no drops or rings, the picture as it is (for a light that keeps the ground)
      w.light({c1, c2, round, a, stops: [s0, s1], amt})   a light over the water: its glints and rim take its color, a tilted
                                   surface reflects a little of it (a: degrees, 90 is top to bottom); null: none
 
@@ -180,8 +183,14 @@
        its stops and strength; the glints and the rim's sheen take its color where they are, and a tilted surface reflects a
        little of it, as water reflects the sky */
     "uniform vec3 uL1, uL2, uLD; uniform vec2 uLS; uniform float uLA, uAspS;\n" +
+    /* THE LIGHT ITSELF, here instead of over the page, when the host asks (uLM: 1 filter, 2 wash, 3 glow): so that it can
+       KEEP THE GROUND (uKG; Dimitry, 30 Oct 20:21): it falls on what differs from the ground under it (the ground's own
+       gradient, uG*), so the particles take it and the ground stays as it is */
+    "uniform float uLM, uKG; uniform vec3 uG1, uG2, uGD; uniform vec2 uGS;\n" +
     "vec3 skyAt(vec2 uv){ float t; vec2 q = vec2((uv.x-0.5)*uAspS, 0.5-uv.y); if (uLD.z > 0.5) t = length(q)/(0.5*length(vec2(uAspS,1.0))); else t = dot(q, uLD.xy)/(abs(uAspS*uLD.x)+abs(uLD.y)) + 0.5;\n" +
-    "  return mix(uL1, uL2, clamp((t-uLS.x)/max(uLS.y-uLS.x, 0.001), 0.0, 1.0)); }\n" + GL_FLOOR +
+    "  return mix(uL1, uL2, clamp((t-uLS.x)/max(uLS.y-uLS.x, 0.001), 0.0, 1.0)); }\n" +
+    "vec3 groundAt(vec2 uv){ float t; vec2 q = vec2((uv.x-0.5)*uAspS, 0.5-uv.y); if (uGD.z > 0.5) t = length(q)/(0.5*length(vec2(uAspS,1.0))); else t = dot(q, uGD.xy)/(abs(uAspS*uGD.x)+abs(uGD.y)) + 0.5;\n" +
+    "  return mix(uG1, uG2, clamp((t-uGS.x)/max(uGS.y-uGS.x, 0.001), 0.0, 1.0)); }\n" + GL_FLOOR +
     /* with the floor on, what bends the light is the water there is: the waves where it stands, a dome over each bead,
        and a meniscus at a puddle's rim */
     "float wetM(vec2 uv, float b){ return smoothstep(0.45, 0.9, wetMix(wetAtF(uv, texture(uFloor,uv).r), b*0.6)); }\n" +
@@ -238,6 +247,8 @@
     /* the rim's sheen: light from low across the water, caught broadly by the swell, soft (a low power, no threshold) */
     "  if (rim > 0.001) { vec3 Lr = normalize(vec3(-0.75,0.55,0.38)); sp += pow(max(dot(reflect(-Lr,nrm),vec3(0,0,1)),0.0),6.0)*uSpec*0.35*rim; }\n" +
     "  vec3 gc = uGlint; if (uLA > 0.0) { vec3 sk = skyAt(uv); gc = mix(uGlint, sk*1.15, uLA); c.rgb = mix(c.rgb, sk, clamp(length(grad)*1.6, 0.0, 0.3)*uLA); }\n" +
+  "  if (uLM > 0.5 && uLA > 0.0) { vec3 sk = skyAt(uv); float ob = 1.0; if (uKG > 0.5) ob = c.a < 0.99 ? c.a : smoothstep(0.035, 0.2, length(c.rgb - groundAt(uv)));\n" +
+    "    vec3 lit = uLM < 1.5 ? c.rgb*sk : (uLM < 2.5 ? (1.0-2.0*sk)*c.rgb*c.rgb + 2.0*sk*c.rgb : 1.0-(1.0-c.rgb)*(1.0-sk)); c.rgb = mix(c.rgb, lit, uLA*ob); }\n" +
   "  o = vec4(c.rgb + gc*sp, max(c.a, clamp(sp,0.0,1.0)));\n" +
     "}";
   /* the energy readback: a 16 × 16 target, each texel the mean of 8 × 8 taps of its share of the field, in three
@@ -265,7 +276,7 @@
     }
     var gl = null, prog = {}, buf, tex = [], fbo = [], srcTex, cur = 0, N = [0, 0], fmt = null, drops = [], acc = 0, rainAcc = 0, quiet = 1e9, res = o.res || 0.7, CAP = o.max || 960, Q = 1, slowT = 0;   // finer than it was (0.5, 512): small drops rang as squares (Dimitry, 29 Oct: "very low rez")
     var SW = 0, SH = 0, lastMove = null;
-    var LIGHT = null;   // light({c1, c2, round, a, stops, amt}) or null
+    var LIGHT = null, PASS = false;   // light({c1, c2, round, a, stops, amt}) or null
     var COL = { tint: null, glint: null, caustic: null, tintAmt: 0.35 }, DRV = { path: 0, current: 0 }, PATH = [], PLEN = [], PTOT = 0, FLOW = 0.5, pathAcc = 0, curTex = null, curOk = false;
     var DEEP = 0.2, VIB = { a: 0, t: 0, l: 8 }, POUR = 1, POURED = 0;   // how deep is a film; the film's tremble; how much water a drop brings
     var WALL = { on: false, tex: null, cv: null, key: '' };   // the pattern as walls
@@ -371,7 +382,8 @@
       if (fo) { beadTex(); gl.activeTexture(gl.TEXTURE4); gl.bindTexture(gl.TEXTURE_2D, bdTex); gl.uniform1i(ps.u.uBeads, 4); gl.activeTexture(gl.TEXTURE0); }
       if (fo) poolBind(ps, 5); gl.uniform1f(ps.u.uFill, fo ? 1 : 0); gl.uniform1f(ps.u.uLevel, FILL || 0); gl.uniform1f(ps.u.uGK, GK); gl.uniform4f(ps.u.uTilt, TILT[0], TILT[1], TILT[2], TILT[3]); gl.uniform1f(ps.u.uDeep, DEEP); gl.uniform1f(ps.u.uVib, fo ? VIB.a : 0); gl.uniform1f(ps.u.uVibL, VIB.l); gl.uniform1f(ps.u.uTime, (performance.now() / 1000) % 1000);
       /* wet floor reads darker than dry; the darkening fades out as the pool fills, so a full pool looks as before */
-      { var LG = LIGHT; gl.uniform1f(ps.u.uLA, LG ? LG.amt : 0); if (LG) { gl.uniform3fv(ps.u.uL1, LG.c1); gl.uniform3fv(ps.u.uL2, LG.c2); gl.uniform3f(ps.u.uLD, LG.dx, LG.dy, LG.round ? 1 : 0); gl.uniform2f(ps.u.uLS, LG.s0, LG.s1); gl.uniform1f(ps.u.uAspS, N[0] / Math.max(1, N[1])); } }
+      { var LG = LIGHT; gl.uniform1f(ps.u.uLA, LG ? LG.amt : 0); gl.uniform1f(ps.u.uLM, LG ? LG.mode : 0); if (LG) { gl.uniform3fv(ps.u.uL1, LG.c1); gl.uniform3fv(ps.u.uL2, LG.c2); gl.uniform3f(ps.u.uLD, LG.dx, LG.dy, LG.round ? 1 : 0); gl.uniform2f(ps.u.uLS, LG.s0, LG.s1); gl.uniform1f(ps.u.uAspS, N[0] / Math.max(1, N[1]));
+          var G = LG.ground; gl.uniform1f(ps.u.uKG, G ? 1 : 0); if (G) { gl.uniform3fv(ps.u.uG1, G.c1); gl.uniform3fv(ps.u.uG2, G.c2); gl.uniform3f(ps.u.uGD, G.dx, G.dy, G.round ? 1 : 0); gl.uniform2f(ps.u.uGS, G.s0, G.s1); } } }
       gl.uniform1f(ps.u.uDark, 0.1 * (1 - sstep(0.8, 1, FILL || 0)));
       var tc = rgb(COL.tint), gc = rgb(COL.glint), cc = rgb(COL.caustic);
       gl.uniform3fv(ps.u.uTint, tc || [1, 1, 1]); gl.uniform1f(ps.u.uTintA, tc ? Math.max(0, Math.min(1, +COL.tintAmt || 0)) : 0);
@@ -424,6 +436,7 @@
     function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; }
     function addDrop(x, y, size, strength, own) {
       if (!ok || !on) return;
+      if (PASS) return;
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
       var shortPx = Math.min(N[0], N[1]), r = Math.max(2.6, (size == null ? P.size : size) * shortPx);   // under ~2.5 cells a drop's rings are finer than the grid can hold and read as a checkerboard
       if (FILL != null && wetAt(x, y) < 0.5) { splash(x, y, size, strength); return; }
@@ -579,7 +592,7 @@
       VIB.a += (VIB.t - VIB.a) * Math.min(1, dt * (VIB.t > VIB.a ? 3 : 1.5));   // rises over a third of a second: a beat does not slap a pattern on
       if (FILL != null) { beadsStep(dt); if (floorOn()) { poolStep(); poolUpload(); } }
       var hz = 60 * Q, most = Math.min(5, Math.ceil(2 * Q));   // at most 5 steps in a slow frame; a slower device drops time, not frames
-      while (acc >= 1 / hz && n < most) { acc -= 1 / hz; if (quiet < 20 || drops.length || FLY.length) step(); n++; }
+      while (acc >= 1 / hz && n < most) { acc -= 1 / hz; if (!PASS && (quiet < 20 || drops.length || FLY.length)) step();   /* the light alone needs no waves (review efde r-1) */ n++; }
       if (n === most) acc = 0;
       draw();
     }
@@ -650,7 +663,10 @@
       tick: tick, draw: draw, resize: resize, calm: calm,
       field: function () { return N.slice(); },
       light: function (L) { if (!L) { LIGHT = null; quiet = Math.min(quiet, 19); return null; } var c1 = rgb(L.c1), c2 = rgb(L.c2); if (!c1 || !c2) { LIGHT = null; return null; } var r = (+L.a || 0) * Math.PI / 180, st = L.stops || [0, 1];
-        LIGHT = { c1: c1, c2: c2, round: !!L.round, dx: Math.cos(r), dy: Math.sin(r), s0: +st[0] || 0, s1: +st[1] || 1, amt: Math.max(0, Math.min(1, +L.amt || 0)) }; return LIGHT; },
+        var G = null, g = L.ground; if (g) { var g1 = rgb(g.c1), g2 = rgb(g.c2 || g.c1), gr = (+g.a || 0) * Math.PI / 180, gs = g.stops || [0, 1]; if (g1 && g2) G = { c1: g1, c2: g2, round: !!g.round, dx: Math.cos(gr), dy: Math.sin(gr), s0: +gs[0] || 0, s1: +gs[1] || 1 }; }
+        LIGHT = { c1: c1, c2: c2, round: !!L.round, dx: Math.cos(r), dy: Math.sin(r), s0: +st[0] || 0, s1: +st[1] || 1, amt: Math.max(0, Math.min(1, +L.amt || 0)), mode: { filter: 1, wash: 2, glow: 3 }[L.mode] || 0, ground: L.mode ? G : null }; quiet = Math.min(quiet, 19); return LIGHT; },
+      /* the surface as a pass only (the light keeping the ground with no water): no drops, no rings, the picture as it is */
+      passOnly: function (v) { if (v !== undefined) { PASS = !!v; if (PASS) { drops.length = 0; calm(); } } return PASS; },
       colors: function (c) { if (c) Object.assign(COL, c); return Object.assign({}, COL); },
       path: setPath, flow: function (v) { FLOW = Math.max(0, Math.min(1, +v || 0)); },
       drive: function (d) { if (d) { if (d.path != null) DRV.path = Math.max(0, +d.path || 0); if (d.current != null) DRV.current = Math.max(0, +d.current || 0); } return Object.assign({}, DRV); },
