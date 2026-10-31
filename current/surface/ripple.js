@@ -80,6 +80,8 @@
                                   offset) is above the floor (p from the middle, field units, y up); drain() hands the
                                   water to the level (empties the pool grid); beadsFade(f) shrinks the beads by a share
      w.walls(on)                  the pattern (path()) holds the surface still along its lines: waves reflect off them
+     w.wave(x, y, size, strength)  a ring through the water and no water with it: nothing on dry floor (a beat, a pulse)
+     w.pool()                     the pool's grid [w, h], or null before the field has a size
      w.vibrate(amp, hz)           shallow water does not ring, it trembles: amp 0..1, its pattern's wavelength from hz
      o.onSplash(x, y, size, k)    called for every splash on dry floor, so the host can make it heard
      w.light({c1, c2, round, a, stops, amt, mode, ground})   mode filter | wash | glow: the light is laid here, not by the host;
@@ -509,13 +511,13 @@
       }
     }
     function calm() { if (!ok || !fbo.length) return; for (var i = 0; i < 2; i++) { gl.bindFramebuffer(gl.FRAMEBUFFER, fbo[i]); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); drops.length = 0; }
-    function addDrop(x, y, size, strength, own) {
+    function addDrop(x, y, size, strength, own, still) {   // still: a ring through the water that brings none (w.wave)
       if (!ok || !on) return;
       if (PASS) return;
       if (!own && sig < 1 && Math.random() >= sig) return;   // signal off: a drop from outside is let through less and less
       var shortPx = Math.min(N[0], N[1]), r = Math.max(2.6, (size == null ? P.size : size) * shortPx);   // under ~2.5 cells a drop's rings are finer than the grid can hold and read as a checkerboard
-      if (FILL != null && wetAt(x, y) < 0.5) { splash(x, y, size, strength); return; }
-      if (FILL != null && FILL < 1) { var sz1 = size == null ? P.size : size; pourAt(x, y, 0.015 * Math.pow(Math.max(0.004, sz1) / 0.01, 2), sz1 * 2); }   // rain into a puddle feeds it
+      if (FILL != null && wetAt(x, y) < 0.5) { if (!still) splash(x, y, size, strength); return; }
+      if (FILL != null && FILL < 1 && !still) { var sz1 = size == null ? P.size : size; pourAt(x, y, 0.015 * Math.pow(Math.max(0.004, sz1) / 0.01, 2), sz1 * 2); }   // rain into a puddle feeds it
       if (drops.length >= 48) drops.shift();
       /* field y runs up; the caller's y runs down */
       drops.push([x, 1 - y, r, (strength == null ? 1 : strength) * 0.9]); quiet = 0;
@@ -552,7 +554,7 @@
       PL = { w: w, h: h, d: new Float32Array(w * h), f: f, m: new Float32Array(w * h), up: new Float32Array(w * h) };
       if (old) for (var y2 = 0; y2 < h; y2++) for (var x2 = 0; x2 < w; x2++) PL.d[y2 * w + x2] = old.d[Math.min(old.h - 1, Math.floor(y2 * old.h / h)) * old.w + Math.min(old.w - 1, Math.floor(x2 * old.w / w))];   /* a resize keeps the puddles (review 47ee r-4) */
       plDirty = true; return PL; }
-    function pourAt(x, y, vol, rad, raw) { var P2 = poolInit(); if (!P2 || !(vol > 0)) return; POURED += vol; if (!raw) vol *= POUR;   /* raw: water that is not the rain's (an ink drop), never scaled by its pour */ var cx = x * P2.w, cy = (1 - y) * P2.h, R = Math.max(0.8, rad * P2.h), R2 = 2 * R * R, sum = 0, i, j, c = Math.ceil(R * 2.2);
+    function pourAt(x, y, vol, rad, raw) { var P2 = poolInit(); if (!P2 || !(vol > 0)) return; POURED += vol; if (!raw) vol *= POUR; vol *= (P2.h / 75) * (P2.h / 75);   /* a drop's ring is a share of the screen's height, so its water is too: the same depth on a phone or a 4K screen (Current 0.54.5) */   /* raw: water that is not the rain's (an ink drop), never scaled by its pour */ var cx = x * P2.w, cy = (1 - y) * P2.h, R = Math.max(0.8, rad * P2.h), R2 = 2 * R * R, sum = 0, i, j, c = Math.ceil(R * 2.2);
       var x0 = Math.max(0, Math.floor(cx - c)), x1 = Math.min(P2.w - 1, Math.ceil(cx + c)), y0 = Math.max(0, Math.floor(cy - c)), y1 = Math.min(P2.h - 1, Math.ceil(cy + c));
       for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) sum += Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2);
       if (!(sum > 0)) return; for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) P2.d[j * P2.w + i] += vol * Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2) / sum;
@@ -795,7 +797,8 @@
     function setPreset(id) { var p = PRESETS.filter(function (x) { return x.id === id; })[0]; if (p) { Object.assign(P, p); } return P.id; }
     return {
       get ok() { return ok; }, canvas: cv,
-      enabled: enabled, drop: addDrop, stir: stir,
+      enabled: enabled, drop: addDrop, stir: stir, wave: function (x, y, size, strength) { addDrop(x, y, size, strength, true, true); },
+      pool: function () { var P2 = poolInit(); return P2 ? [P2.w, P2.h] : null; },
       fill: function (v) { if (v !== undefined) { var nf = v == null || v === false ? null : Math.max(0, Math.min(1, +v || 0)); if (nf !== FILL) bdDirty = true; FILL = nf; if (FILL == null) { BEADS = []; FLY = []; } quiet = 0; } return FILL; },
       splash: splash, wetAt: wetAt, dry: function () { calm(); BEADS = []; FLY = []; bdDirty = true; quiet = 0; if (PL) { PL.d.fill(0); plDirty = true; poolUpload.need = true; plAt = 0; } },
       /* how much of the old everywhere-at-once level still counts, 0..1 (0: water only where it fell), and how much of the
