@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{background:#000000}</style>
 <script>(function(){var h=location.hash;if(h&&h.length>1){try{window.__LINK__=decodeURIComponent(h.slice(1))}catch(e){window.__LINK__=h.slice(1)}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()</script>
-<script>window.__BUILD__="20261031193109";window.__VERSION__="0.53.4";window.__NOTES__=[{"v":"0.53.4","date":"31 Oct 2026","items":[{"kind":"change","text":"the word sequence's order is one button with three states, loop, random and once (in order, then stop), at the start of the timing beads, in the drawer and on the Words ring"},{"kind":"new","text":"a dice on the timing beads: each word stays a random time"}]}]</script>
+<script>window.__BUILD__="20261031193824";window.__VERSION__="0.54.0";window.__NOTES__=[{"v":"0.54.0","date":"31 Oct 2026","items":[{"kind":"change","text":"a word's time counts in seconds, beats or bars, on the same beads as the robot and the dice (2 bars, 4 beats, 15 seconds…), and the dice draws from that unit"},{"kind":"change","text":"the Texts panel's title runs across both tabs: TEXT, the word playing now, and play or stop at the right"}]}]</script>
 <title>Current</title>
 <script>(function (cfg) {
   var w = window, d = document, l = location, off = false;
@@ -66,8 +66,8 @@
 <meta name="twitter:image" content="https://works.chamy.xyz/current/og.jpg">
 <meta name="twitter:title" content="Current"><meta name="twitter:description" content="G-code in. Beats and dancing particles out. The field is your playground.">
 <script>window.CLAUDE_WEB={"app":"current","backend":"local"}</script>
-<script src="claude-web.js?v=20261031193109"></script>
-<link rel="stylesheet" href="vendor/fonts.css?v=20261031193109">
+<script src="claude-web.js?v=20261031193824"></script>
+<link rel="stylesheet" href="vendor/fonts.css?v=20261031193824">
 <script>document.documentElement.dataset.export="player"</script>
 <style>[data-export=player] [data-surface=builder],[data-export=player] #panel > :not(.colo):not(.colo-nm):not(.idx):not(.colo-end):not(.bbgrp):not(.pn-veil){display:none!important}</style>
 
@@ -169,42 +169,42 @@ a.homeChat{color:inherit;text-decoration:underline;text-underline-offset:2px;dis
 <script>try{const d=document.documentElement;d.dataset.drawer=localStorage.getItem("current.drawer")||"beside";d.dataset.panes=localStorage.getItem("current.panes")||"frosted";d.dataset.theme=localStorage.getItem("surface.theme")||localStorage.getItem("current.theme")||"auto";d.dataset.stats=localStorage.getItem("current.stats")||"off";d.dataset.hand=localStorage.getItem("current.hand")||"right"}catch(e){document.documentElement.dataset.drawer="beside";document.documentElement.dataset.panes="frosted"}</script>
 <script>if(/Android/.test(navigator.userAgent))document.documentElement.classList.add("android")</script>
 <!-- 0.15.5: the --vgap measurement is gone. The band is iOS's (WebKit bug 301994): the system draws it over the bottom of a home-screen web app, outside the page, so reaching into it only hid the bar. --vgap stays at 0. -->
-<script src="vendor/opentype.min.js?v=20261031193109"></script>
-<script src="surface/nozoom.js?v=20261031193109"></script><script src="surface/steady.js?v=20261031193109"></script><script src="surface/selftest.js?v=20261031193109"></script><script src="surface/size.js?v=20261031193109"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
-<script src="surface/report.js?v=20261031193109"></script>
-<script src="surface/auto.js?v=20261031193109"></script>
-<script src="surface/toolpath.js?v=20261031193109"></script>
-<script src="surface/capture.js?v=20261031193109"></script>
-<script src="surface/pop.js?v=20261031193109"></script>
-<script src="surface/hints.js?v=20261031193109"></script>
-<script src="surface/paths.js?v=20261031193109"></script>
-<script src="surface/keys.js?v=20261031193109"></script>
-<script src="surface/reset.js?v=20261031193109"></script>
-<script src="surface/files.js?v=20261031193109"></script>
-<script src="surface/tabs.js?v=20261031193109"></script>
-<script src="surface/running.js?v=20261031193109"></script>
-<script src="surface/trim.js?v=20261031193109"></script>
-<script src="surface/audiowake.js?v=20261031193109"></script>
-<script src="surface/output.js?v=20261031193109"></script>
-<script src="surface/board.js?v=20261031193109"></script>
-<script src="surface/voice.js?v=20261031193109"></script>
-<script src="surface/voicelib.js?v=20261031193109"></script>
-<script src="surface/instruments.js?v=20261031193109"></script>
-<script src="surface/listview.js?v=20261031193109"></script>
-<script src="surface/beads.js?v=20261031193109"></script>
-<script src="surface/strip.js?v=20261031193109"></script>
-<script src="surface/sheetnav.js?v=20261031193109"></script>
-<script src="surface/twofinger.js?v=20261031193109"></script>
-<script src="surface/ring.js?v=20261031193109"></script>
-<script src="surface/shortlink.js?v=20261031193109"></script>
-<script src="surface/undo.js?v=20261031193109"></script>
-<script src="surface/pro.js?v=20261031193109"></script>
-<script src="surface/fresh.js?v=20261031193109"></script>
-<script src="surface/go.js?v=20261031193109"></script>
-<script src="surface/notice.js?v=20261031193109"></script>
-<script src="surface/perform.js?v=20261031193109"></script>
-<script src="surface/power.js?v=20261031193109"></script>
-<script src="surface/words.js?v=20261031193109"></script>
+<script src="vendor/opentype.min.js?v=20261031193824"></script>
+<script src="surface/nozoom.js?v=20261031193824"></script><script src="surface/steady.js?v=20261031193824"></script><script src="surface/selftest.js?v=20261031193824"></script><script src="surface/size.js?v=20261031193824"></script><script>try{SurfaceSize.init({fit:"#playbar",margin:8})}catch(e){}</script>
+<script src="surface/report.js?v=20261031193824"></script>
+<script src="surface/auto.js?v=20261031193824"></script>
+<script src="surface/toolpath.js?v=20261031193824"></script>
+<script src="surface/capture.js?v=20261031193824"></script>
+<script src="surface/pop.js?v=20261031193824"></script>
+<script src="surface/hints.js?v=20261031193824"></script>
+<script src="surface/paths.js?v=20261031193824"></script>
+<script src="surface/keys.js?v=20261031193824"></script>
+<script src="surface/reset.js?v=20261031193824"></script>
+<script src="surface/files.js?v=20261031193824"></script>
+<script src="surface/tabs.js?v=20261031193824"></script>
+<script src="surface/running.js?v=20261031193824"></script>
+<script src="surface/trim.js?v=20261031193824"></script>
+<script src="surface/audiowake.js?v=20261031193824"></script>
+<script src="surface/output.js?v=20261031193824"></script>
+<script src="surface/board.js?v=20261031193824"></script>
+<script src="surface/voice.js?v=20261031193824"></script>
+<script src="surface/voicelib.js?v=20261031193824"></script>
+<script src="surface/instruments.js?v=20261031193824"></script>
+<script src="surface/listview.js?v=20261031193824"></script>
+<script src="surface/beads.js?v=20261031193824"></script>
+<script src="surface/strip.js?v=20261031193824"></script>
+<script src="surface/sheetnav.js?v=20261031193824"></script>
+<script src="surface/twofinger.js?v=20261031193824"></script>
+<script src="surface/ring.js?v=20261031193824"></script>
+<script src="surface/shortlink.js?v=20261031193824"></script>
+<script src="surface/undo.js?v=20261031193824"></script>
+<script src="surface/pro.js?v=20261031193824"></script>
+<script src="surface/fresh.js?v=20261031193824"></script>
+<script src="surface/go.js?v=20261031193824"></script>
+<script src="surface/notice.js?v=20261031193824"></script>
+<script src="surface/perform.js?v=20261031193824"></script>
+<script src="surface/power.js?v=20261031193824"></script>
+<script src="surface/words.js?v=20261031193824"></script>
 <script>/* PRO KEYS (Dimitry, 21 Oct: "call things a Pro feature, but give me a special pass ... or a temporary Pro licence
    input"): the kit's signed keys (surface/pro.js). Only the public half lives here; the studio signs keys elsewhere.
    isPro() is what every Pro gate asks; a key is entered in Settings › Pro key, or by a link ending #pro=<key>. */
@@ -244,14 +244,14 @@ window.artHide=f=>!!(window.SurfacePro&&SurfacePro.hidden&&SurfacePro.hidden(f))
 try{SurfacePro.init({tool:'current',ownerKey:{"kty":"EC","crv":"P-256","x":"zu3YO510wtnvmDl6RJA-ghgrD0jthuyOPgDv88Y4K1o","y":"7TrasXCNB25TJSlM_ZZb83Xn49EYQoLSpmE8SXYRN10"},publicKey:{kty:'EC',crv:'P-256',x:'ZWDh_gJxFHAsnsf3t0VtUeliV4hpHQZN32JEgRYuSCc',y:'BQiT6hmDhJax41h2uglTUI68I2UWNOld-VyNz0lFGk8'}}).then(r=>{if(r&&r.fromLink)setTimeout(()=>{try{toast(r.ok?'Pro is on · '+(r.who||'')+(r.until?' · until '+r.until.slice(0,10):''):'That Pro key didn’t work: '+r.error,4200)}catch(_){}},1800)})}catch(e){console.warn('pro',e)}
 try{SurfacePro.ready().then(()=>{try{if(SurfacePro.owner()===BOOT0)sessionStorage.removeItem('current.ownerReload')}catch(_){}})}catch(_){}   /* a load that settled clears the guard (review 5ac7 r-3) */
 </script>
-<script src="surface/pack.js?v=20261031193109"></script>
-<script src="surface/rail.js?v=20261031193109"></script>
-<script src="surface/touchsound.js?v=20261031193109"></script>
-<script src="surface/water.js?v=20261031193109"></script>
-<script src="surface/ripple.js?v=20261031193109"></script>
-<script src="surface/material.js?v=20261031193109"></script>
-<script src="surface/float.js?v=20261031193109"></script>
-<script src="surface/manual.js?v=20261031193109"></script>
+<script src="surface/pack.js?v=20261031193824"></script>
+<script src="surface/rail.js?v=20261031193824"></script>
+<script src="surface/touchsound.js?v=20261031193824"></script>
+<script src="surface/water.js?v=20261031193824"></script>
+<script src="surface/ripple.js?v=20261031193824"></script>
+<script src="surface/material.js?v=20261031193824"></script>
+<script src="surface/float.js?v=20261031193824"></script>
+<script src="surface/manual.js?v=20261031193824"></script>
 
 <style>
 /* THE OFF BAR GROWS OUT OF THE BUTTON (Dimitry, 22 Oct: "smooth morph shape", "pill grows out of button"): one outline,
@@ -2314,7 +2314,8 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rg
 #wlSeq .sub,#wlItems .sub{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim);padding:10px 14px 2px;display:flex;justify-content:space-between;align-items:center}
 #wlSeq .segs{padding:2px 14px}
 /* the sequencer (21 Oct): order tiles as Autoplay's, one bead row under a Stay | Morph switch, letter icons */
-#wlSeq .wlTimeRow{display:flex;align-items:center;gap:8px;padding:0 14px}#wlSeq .wlTimeRow .wlBeads{flex:1;min-width:0;padding:0!important;margin:0!important}#wlSeq .wlOrd{flex:none;display:grid;place-items:center;gap:2px;width:52px;height:52px;border-radius:14px;border:1px solid var(--ui-line);background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--acc-tx,inherit);cursor:pointer;padding:4px 0}#wlSeq .wlOrd svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#wlSeq .wlOrd span{font:600 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+#wlSeq .wlUnit{display:flex;gap:2px;margin-left:auto;margin-right:8px}#wlSeq .wlUnit button{width:40px;height:40px;border-radius:9px;border:0;background:none;color:var(--ui-dim);display:grid;place-items:center;cursor:pointer;padding:0}#wlSeq .wlUnit button[aria-checked=true]{color:var(--acc-tx,inherit);background:rgb(var(--ui-hi,255 255 255) / .1)}#wlSeq .wlUnit svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+#wlSeq .wlTimeRow{display:flex;align-items:center;gap:8px;padding:0 14px}#wlSeq .wlTimeRow .wlBeads{flex:1;min-width:0;padding:0!important;margin:0!important}#wlSeq .wlTimeRow .wlBeads .s-bead{flex:1 1 0;min-width:0;width:auto!important;height:auto!important;aspect-ratio:1;max-width:42px;font-size:clamp(11px,3.4vw,14px)}#wlSeq .wlTimeRow .wlBeads .s-bead svg{width:55%;height:55%}   /* seven beads fit a phone: they share the row (31 Oct) */#wlSeq .wlOrd{flex:none;display:grid;place-items:center;gap:2px;width:52px;height:52px;border-radius:14px;border:1px solid var(--ui-line);background:rgb(var(--ui-hi,255 255 255) / .06);color:var(--acc-tx,inherit);cursor:pointer;padding:4px 0}#wlSeq .wlOrd svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#wlSeq .wlOrd span{font:600 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
 
 #wlSeq .wlTimeH{margin:14px 14px 8px}
 #wlSeq .wlTimeH .s-beadst{font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)}
@@ -2331,7 +2332,7 @@ body #playbar>button[aria-expanded="true"]{box-shadow:0 0 0 2px rgb(var(--acc-rg
 #wlItems .fl>button.pick{padding:10px 6px 10px 4px;-webkit-tap-highlight-color:transparent}
 #wlItems .fl>button.drag svg{width:10px;height:16px}
 @media (hover:none){#wlItems .fl>button.pick:hover{background:transparent}#wlItems .fl>button.drag:hover{color:#6b7578}}
-.wlRun{display:flex;align-items:center;gap:10px;padding:8px 14px 2px}
+.wlRun{display:flex;align-items:center;gap:10px;padding:10px 12px 4px 14px}.wlRun .wlTitle{flex:none;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ui-dim)}.wlRun .wlNow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.wlRun .wlNow b{font:600 15px/1.15 var(--sans);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wlRun .wlNow small{font:400 11px/1.2 var(--sans);color:var(--ui-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wlRun .wlLoop{margin-left:auto}
 .wlSets{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px 2px}.wlSetsK{font:600 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-right:2px}
 .wlSet{display:inline-flex;align-items:center;border-radius:999px;background:rgb(var(--ui-hi,255 255 255) / .07);max-width:100%}
 .wlSetGo{min-height:40px;padding:0 4px 0 14px;border:0;background:none;color:inherit;font:inherit;font-size:13px;cursor:pointer;max-width:16em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wlSetGo[aria-pressed=true]{color:var(--acc-tx,#2a8a9a);font-weight:600}
@@ -5022,7 +5023,7 @@ function sceneDice(p){if(p.name==='Random')return;   // a roll is not a scene
   if(DICE_KEEP.on){DICE_KEEP.on=false;if(DICE_KEEP.cfg&&!p.rand)applyRandCfg(DICE_KEEP.cfg);setRandTempo(DICE_KEEP.tempo,true)}return null}
 /* the word and the sequence: only when the scene brings its pattern; your own typing stops a scene's sequence */
 function sceneWords(p){const L=Array.isArray(p.words)?p.words.map(w=>String(w).trim().slice(0,WORD_MAX)).filter(Boolean).slice(0,24):null;
-  if(L&&L.length){const q=p.seq&&typeof p.seq==='object'?p.seq:{};store.seq=L;SEQ.order=seqOrd(q.order);SEQ.every=SEQ_EVERY[String(q.every)]?String(q.every):'4';
+  if(L&&L.length){const q=p.seq&&typeof p.seq==='object'?p.seq:{};store.seq=L;SEQ.order=seqOrd(q.order);SEQ.every=evOk(q.every)?evSnap(q.every):'4';
     if(q.morph!=null&&isFinite(+q.morph))store.textMorph=Math.max(0,+q.morph);LOCKC=null;
     const i=q.from==='any'?(Math.random()*L.length)|0:0;SEQ.on=true;SEQ.byScene=true;SEQ.t=0;SEQ.beats=0;SEQ.i=i;SEQ.cur=L[i];$('word').value=L[i];
     try{syncSlot()}catch(_){}return}
@@ -5411,25 +5412,42 @@ if(!store.wordsSeeded){for(const w of ['LOOP','SWIM','PLAY'])if(!store.words.som
 if(!Array.isArray(store.seq))store.seq=[];
 if(store.textMorph==null)store.textMorph=1;   // texts morph into each other over a second unless set otherwise
 /* THE ORDER HAS THREE STATES (Dimitry, 31 Oct 15:25: "the sequence is a button ... three states ... play once and stop ... loop or random"): loop (in order, round and round), random, once (in order, then stop). And the dice on the timing beads: each word stays a random time */
-const seqOrd=v=>v==='mix'||v==='once'?v:'order',SEQ_RND=[2,4,8,16],SEQ_ORD=[['order','loop','In order, round and round'],['mix','random','In random order'],['once','once','In order once, then stop']];
+const seqOrd=v=>v==='mix'||v==='once'?v:'order',SEQ_ORD=[['order','loop','In order, round and round'],['mix','random','In random order'],['once','once','In order once, then stop']];
 const SEQ_ORD_I={order:'<path d="M4 12a7 7 0 0 1 12.2-4.7M20 12a7 7 0 0 1-12.2 4.7"/><path d="M16.5 3.8v3.7h-3.7M7.5 20.2v-3.7h3.7"/>',mix:'<path d="M3 7h3c4 0 6 10 10 10h4M3 17h3c4 0 6-10 10-10h4M18 4l3 3-3 3M18 14l3 3-3 3"/>',once:'<path d="M4 12h13M12 7l5 5-5 5M20 5v14"/>'};
 const SEQ_DICE='<svg viewBox="0 0 24 24" aria-hidden="true" style="width:60%;height:60%;fill:none;stroke:currentColor;stroke-width:1.6"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/></svg>';
 function seqOrdNext(){const k=SEQ_ORD.map(x=>x[0]);return k[(k.indexOf(seqOrd(SEQ.order))+1)%k.length]}
-const SEQ={on:false,quiet:false,t:0,i:-1,cur:null,beats:0,bh:false,order:seqOrd(store.seqOrder),every:store.seqEvery||'4'};
-const SEQ_EVERY={'2':'2s','4':'4s','8':'8s','16':'16s',bar:'bar',rnd:'rnd'};
+/* THE WORDS' TIME, ON THE STUDIO'S TIME SCALE (Dimitry, 31 Oct 15:28: "it's stuck on seconds; there's a button called
+   bar, but the bar only applies for one bar. There's no way to adjust to make the numbers relate to the bar ... match what
+   the other time bead controls are doing"). A word stays a count of seconds, beats or bars, the beads made by the kit's
+   time scale (pair, or the Pro counts), with the dice drawing from the same beads. Stored as text so old saves still read:
+   '8' is 8 seconds, '4b' four beats, '2bar' two bars ('bar' alone is one), 'rnd' / 'rndb' / 'rndbar' the dice. */
+const WORDS_RANGE={sec:[2,30],beat:[1,16],bar:[1,8]};
+function evParse(v){const s=String(v==null?'':v);let m;if((m=/^rnd(b|bar)?$/.exec(s)))return {rnd:true,u:m[1]==='b'?'beat':m[1]==='bar'?'bar':'sec'};
+  if((m=/^(\d+)b$/.exec(s))&&+m[1]>=1&&+m[1]<=64)return {u:'beat',n:+m[1]};if((m=/^(\d*)bar$/.exec(s))&&(m[1]===''||(+m[1]>=1&&+m[1]<=64)))return {u:'bar',n:+(m[1]||1)};if(/^\d+(\.\d+)?$/.test(s)&&+s>=.5&&+s<=600)return {u:'sec',n:+s};return null}   /* bounded: a shared scene cannot make words change every frame (review 401e r-1) */
+/* the value on its unit's beads: an older 8 or 16 s reads as the nearest bead, everywhere it is compared (r-2) */
+function evSnap(v){const e=evParse(v);if(!e)return '4';if(e.rnd)return evStr(e.u,0,true);const B=wordBeads(e.u);return B.includes(e.n)?evStr(e.u,e.n):evStr(e.u,TIME.near(B,e.n)||B[0])}
+function evStr(u,n,rnd){return rnd?(u==='beat'?'rndb':u==='bar'?'rndbar':'rnd'):u==='beat'?n+'b':u==='bar'?(n===1?'bar':n+'bar'):String(n)}
+const evOk=v=>!!evParse(v);
+function wordBeads(u){try{return TIME.values(WORDS_RANGE,u,timeSet('every'),{max:6})}catch(_){return u==='sec'?[2,4,5,10,15,30]:u==='beat'?[1,2,4,8,16]:[1,2,4,8]}}
+function evSay(v){const e=evParse(v);if(!e)return '4 s';if(e.rnd)return 'a random '+(e.u==='sec'?'time':e.u==='beat'?'number of beats':'number of bars');return e.u==='sec'?e.n+' s':e.n+' '+(e.u==='beat'?'beat':'bar')+(e.n===1?'':'s')}
+const SEQ={on:false,quiet:false,t:0,i:-1,cur:null,beats:0,bh:false,order:seqOrd(store.seqOrder),every:evOk(store.seqEvery)?String(store.seqEvery):'4'};
 function seqStep(){const L=store.seq;if(!L.length){seqStop();return}
   if(SEQ.on&&SEQ.order==='once'&&SEQ.i>=L.length-1&&SEQ.cur!=null){seqStop();return}   /* once: the last word stays its time, then the sequence stops */
-  SEQ.dur=SEQ_RND[(Math.random()*SEQ_RND.length)|0];   /* the dice: this word's own time */
+  SEQ.dur=0;   /* the dice draws this word's own time on its first tick, from the unit's beads */
   let i;if(SEQ.order==='mix'&&L.length>1){do i=(Math.random()*L.length)|0;while(L[i]===SEQ.cur)}else i=(SEQ.i+1)%L.length;
   SEQ.i=i;SEQ.cur=L[i];$('word').value=L[i];SEQ.quiet=true;try{$('traceBtn').click()}finally{SEQ.quiet=false}flashName(L[i]);
   const a=document.activeElement;if(ACTIVE==='text'&&!(a&&a.classList&&a.classList.contains('shin'))&&!document.querySelector('.rowMenu'))buildToolShelf();   /* not under an open menu: its button would go stale (review 2123 r-3) */if(!$('wordList').hidden)renderWordList()}
 function seqTick(dt){if(!SEQ.on)return;
-  if(SEQ.every==='bar'){let hit=false;if(TAP.bpm){if(TAP.beatHit){TAP.beatHit=false;if(++SEQ.beats>=4){SEQ.beats=0;seqStep()}}return}if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!SEQ.bh){hit=true;SEQ.bh=true}else if(SIGNALS.beat<.5)SEQ.bh=false}
-    else{SEQ.t+=dt;if(SEQ.t>=.6){SEQ.t=0;hit=true}}   // no sound: a steady 100 bpm, four beats to the bar
-    if(hit&&++SEQ.beats>=4){SEQ.beats=0;seqStep()}return}
-  const lim=SEQ.every==='rnd'?(SEQ.dur||(SEQ.dur=SEQ_RND[(Math.random()*SEQ_RND.length)|0])):+SEQ.every;SEQ.t+=dt;if(SEQ.t>=lim){SEQ.t=0;seqStep()}}
+  const e=evParse(SEQ.every)||{u:'sec',n:4};
+  if(e.u!=='sec'){   /* counted on the beat that plays (or the tapped tempo, or a steady 100 bpm with no sound); a bar is four beats */
+    const need=(e.rnd?(SEQ.dur||(SEQ.dur=wordBeads(e.u)[(Math.random()*wordBeads(e.u).length)|0])):e.n)*(e.u==='bar'?4:1);let hit=false;
+    if(TAP.bpm){if(TAP.beatHit){TAP.beatHit=false;hit=true}}
+    else if(AUD&&AUD.src!=='off'){if(SIGNALS.beat>.9&&!SEQ.bh){hit=true;SEQ.bh=true}else if(SIGNALS.beat<.5)SEQ.bh=false}
+    else{SEQ.t+=dt;if(SEQ.t>=.6){SEQ.t=0;hit=true}}
+    if(hit&&++SEQ.beats>=need){SEQ.beats=0;seqStep()}return}
+  const lim=e.rnd?(SEQ.dur||(SEQ.dur=wordBeads('sec')[(Math.random()*wordBeads('sec').length)|0])):e.n;SEQ.t+=dt;if(SEQ.t>=lim){SEQ.t=0;seqStep()}}
 /* play a word set: its words, order, timing and morph, from its first word (the list's chips and the Words ring) */
-function wsPlay(ws){if(!ws||!Array.isArray(ws.words))return;store.seq=ws.words.slice(0,24);SEQ.order=seqOrd(ws.order);store.seqOrder=SEQ.order;SEQ.every=SEQ_EVERY[String(ws.every)]?String(ws.every):'4';store.seqEvery=SEQ.every;
+function wsPlay(ws){if(!ws||!Array.isArray(ws.words))return;store.seq=ws.words.slice(0,24);SEQ.order=seqOrd(ws.order);store.seqOrder=SEQ.order;SEQ.every=evOk(ws.every)?evSnap(ws.every):'4';store.seqEvery=SEQ.every;
   if(ws.morph!=null&&isFinite(+ws.morph))store.textMorph=Math.max(0,+ws.morph);store.wordSort='seq';persist();if(SEQ.on)seqStop();seqStart();toast('word set · '+ws.name)}
 /* start or stop the word sequence from anywhere (Dimitry, 31 Oct 14:44: "start and stop the type on one of the other menus
    ... I want to time a recording to mix type and the background scenes, and I just keep having to wait for the first word
@@ -5437,7 +5455,7 @@ function wsPlay(ws){if(!ws||!Array.isArray(ws.words))return;store.seq=ws.words.s
 /* the order, set from one place (shelf, Sequence tab, Words ring), so every control that shows it agrees (review 8574 r-1) */
 function seqOrderSet(v){SEQ.order=seqOrd(v);store.seqOrder=SEQ.order;persist();try{if(!$('wordList').hidden)renderWordList()}catch(_){}try{if(ACTIVE==='text'&&!document.querySelector('.rowMenu'))buildToolShelf()}catch(_){}}
 function seqToggleRun(){if(SEQ.on)seqStop();else seqStart();try{if(!$('wordList').hidden)renderWordList()}catch(_){}}
-function seqStart(){if(!store.seq.length){toast('pick words for the sequence first');return}SEQ.on=true;SEQ.byScene=false;SEQ.t=0;SEQ.beats=0;SEQ.i=-1;syncSlot();seqStep();toast('sequence playing · '+store.seq.length+' word'+(store.seq.length>1?'s':''))}
+function seqStart(){try{const v=evSnap(SEQ.every);if(v!==SEQ.every){SEQ.every=v;store.seqEvery=v}}catch(_){}   /* what plays is always a bead (review 401e r-2) */if(!store.seq.length){toast('pick words for the sequence first');return}SEQ.on=true;SEQ.byScene=false;SEQ.t=0;SEQ.beats=0;SEQ.i=-1;syncSlot();seqStep();toast('sequence playing · '+store.seq.length+' word'+(store.seq.length>1?'s':''))}
 function seqStop(){SEQ.on=false;SEQ.cur=null;syncSlot();if(ACTIVE==='text')buildToolShelf();if(!$('wordList').hidden)renderWordList()}
 function seqToggle(w){const i=store.seq.indexOf(w);if(i>=0)store.seq.splice(i,1);else store.seq.push(w);persist();if(!store.seq.length&&SEQ.on)seqStop();renderWordList();if(ACTIVE==='text')buildToolShelf()}
 function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';box.innerHTML='';
@@ -5446,12 +5464,18 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   // a long loop: the track the words go round; play (or stop) at its left; the dashes run round it while it plays
   pb.innerHTML='<svg viewBox="0 0 96 32" aria-hidden="true"><rect class="trk" x="2" y="2" width="92" height="28" rx="14"/>'+(SEQ.on?'<rect x="12" y="10" width="11" height="11" rx="2" class="gl"/>':'<path d="M13 9.5v13l11-6.5z" class="gl"/>')+'<text x="58" y="20.5" text-anchor="middle">'+(SEQ.on?'stop':'play')+'</text></svg>';
   pb.disabled=!SEQ.on&&!store.seq.length;pb.setAttribute('aria-label',SEQ.on?'Stop the word sequence':'Play the word sequence');pb.onclick=()=>{SEQ.on?seqStop():seqStart();renderWordList()};
-  const nt=document.createElement('span');nt.textContent=store.seq.length?store.seq.length+' word'+(store.seq.length>1?'s':'')+(SEQ.on&&SEQ.cur?' · now '+SEQ.cur:'')+(store.seq.length===1?' · add one more to take turns':''):'Tap + beside a word to put it in the sequence';
-  run.append(pb,nt);rb.appendChild(run);wlTabsMount();
+  /* THE PANEL'S TITLE ACROSS BOTH TABS (Dimitry, 31 Oct 15:33: "it should say text on the left and then whatever is
+     currently playing in text and then on the right should be the play stop button"): TEXT, the word on stage (and the
+     sequence's count), play or stop at the right */
+  const tl=document.createElement('span');tl.className='wlTitle';tl.textContent='Text';
+  const nt=document.createElement('span');nt.className='wlNow';const nowW=(SEQ.on&&SEQ.cur)||($('word').value||'').trim();
+  nt.innerHTML='<b></b><small></small>';nt.querySelector('b').textContent=nowW;
+  nt.querySelector('small').textContent=store.seq.length?(SEQ.on?'playing · ':'')+store.seq.length+' word'+(store.seq.length>1?'s':'')+(store.seq.length===1?' · add one more':''):'tap + beside a word';
+  run.append(tl,nt,pb);rb.appendChild(run);wlTabsMount();
   /* WORD SETS (Dimitry, 31 Oct 13:14: "not just to save words, but to save word sequence presets, just like we do with the
      palettes, because they're quite powerful and fun, and I could see reusing them over and over again"): a set keeps the
      sequence's words, order, timing and morph. Tap a set to load it and play; save keeps what is in the sequence now */
-  {if(!Array.isArray(store.wordSets))store.wordSets=[];const W=store.wordSets,LW=()=>Array.isArray(store.wordSets)?store.wordSets:(store.wordSets=[]),key=x=>JSON.stringify([x.words,x.order,x.every,+x.morph||0]);   /* LW: the live list, read when a button is pressed: another window may have replaced it (review a743 r-1); morph is part of a set (r-3) */
+  {if(!Array.isArray(store.wordSets))store.wordSets=[];const W=store.wordSets,LW=()=>Array.isArray(store.wordSets)?store.wordSets:(store.wordSets=[]),key=x=>JSON.stringify([x.words,x.order,evSnap(x.every),+x.morph||0]);   /* LW: the live list, read when a button is pressed: another window may have replaced it (review a743 r-1); morph is part of a set (r-3) */
    const nowSet={words:store.seq.slice(),order:SEQ.order,every:SEQ.every,morph:+store.textMorph||0},nowK=key(nowSet);
    const g=document.createElement('div');g.className='wlSets';g.setAttribute('role','group');g.setAttribute('aria-label','Word sets');
    const lab=document.createElement('span');lab.className='wlSetsK';lab.textContent='sets';g.appendChild(lab);
@@ -5478,17 +5502,26 @@ function renderWordList(){const sq=$('wlSeq'),box=$('wlItems');sq.innerHTML='';b
   const SBI=(k,sw)=>SurfaceBeads.svg(SurfaceBeads.ICONS[k]||k,sw||1.56),refocus=sel=>{const n=$('wlSeq').querySelector(sel);if(n)n.focus()};
   { /* one bead row, two meanings: the switch says whether the beads set how long a word stays or how long the morph takes */
     const side=store.seqSide==='morph'?'morph':'stay',mv=()=>String(+store.textMorph||0);
-    const STAY=[['2','2'],['4','4'],['8','8'],['16','16'],['bar','bar'],['rnd',SEQ_DICE]].map(([v,l])=>[v,l,v==='bar'?'Each word stays one bar of the beat':v==='rnd'?'Each word stays a random time: 2, 4, 8 or 16 seconds':'Each word stays '+v+' seconds']);
+    const EV=evParse(SEQ.every)||{u:'sec',n:4};if(!EV.rnd){const B0=wordBeads(EV.u);if(!B0.includes(EV.n)){EV.n=TIME.near(B0,EV.n)||B0[0];SEQ.every=evStr(EV.u,EV.n);store.seqEvery=SEQ.every}}   /* an older 8 or 16 moves to the nearest bead */
+    const UNIT=EV.u,UN={sec:['second','seconds'],beat:['beat','beats'],bar:['bar','bars']}[UNIT],BV=wordBeads(UNIT);
+    const STAY=[...BV.map(n=>[evStr(UNIT,n),String(n),'Each word stays '+n+' '+(n===1?UN[0]:UN[1])]),[evStr(UNIT,0,true),SEQ_DICE,'Each word stays a random number of '+UN[1]+', drawn from these beads']];
     const MORPH=[['0','cut','No morph: a cut from one word to the next'],['0.5','½','The morph takes half a second'],['1','1','The morph takes 1 second'],['2','2','The morph takes 2 seconds']];
-    const said=(k,v)=>k==='stay'?(v==='bar'?'a bar':v==='rnd'?'a random time':v+' s'):(+v?(v==='0.5'?'½':v)+' s':'a cut');
+    const said=(k,v)=>k==='stay'?evSay(v):(+v?(v==='0.5'?'½':v)+' s':'a cut');
     const tog=SurfaceBeads.toggle({options:[['stay','Stay','The beads set how long each word stays'],['morph','Morph','The beads set how long one word takes to morph into the next']],cls:'apUnit wlSide',label:'The beads set',
       get:()=>side,set:v=>{store.seqSide=v;persist();renderWordList();refocus('.wlSide [aria-checked=true]')}});
-    const hd=SurfaceBeads.head(side==='stay'?'Each word stays · seconds':'Morph · seconds',tog,'apEveryH wlTimeH');sq.appendChild(hd);
+    const hd=SurfaceBeads.head(side==='stay'?'Each word stays':'Morph · seconds',tog,'apEveryH wlTimeH');
+    if(side==='stay'){   /* the unit, as pictures (the kit's stopwatch, beats and bars), between the words and the switch */
+      const ug=document.createElement('div');ug.className='wlUnit';ug.setAttribute('role','radiogroup');ug.setAttribute('aria-label','Count in');
+      for(const u of ['sec','beat','bar']){const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(u===UNIT));b.dataset.u=u;
+        b.innerHTML=TIME.ICON[u];b.setAttribute('aria-label','Count in '+(u==='sec'?'seconds':u+'s'));b.title=u==='sec'?'seconds':u+'s';
+        b.onclick=()=>{if(u===UNIT)return;const L=wordBeads(u),bs=Math.max(.2,autoBeatSec()),sec=EV.u==='sec'?EV.n:EV.u==='beat'?EV.n*bs:EV.n*4*bs,want=u==='sec'?sec:u==='beat'?sec/bs:sec/(4*bs);SEQ.every=EV.rnd?evStr(u,0,true):evStr(u,TIME.near(L,want)||L[0]);   /* the same length of time in the new unit, at the tempo now */store.seqEvery=SEQ.every;SEQ.t=0;SEQ.beats=0;SEQ.dur=0;persist();renderWordList();refocus('.wlUnit [data-u="'+u+'"]')};ug.appendChild(b)}
+      hd.insertBefore(ug,tog)}
+    sq.appendChild(hd);
     const nt=document.createElement('p');nt.className='wlTimeN';
     const note=()=>{nt.textContent='each word stays '+said('stay',SEQ.every)+' · the morph '+(+store.textMorph?'takes '+said('morph',mv()):'is a cut')};
     const row=SurfaceBeads.row({values:side==='stay'?STAY:MORPH,cls:'apBeads wlBeads',beadCls:'apBead',label:side==='stay'?'Each word stays':'The morph takes',
       get:()=>side==='stay'?SEQ.every:mv(),
-      set:v=>{if(side==='stay'){SEQ.every=v;store.seqEvery=v;SEQ.t=0;SEQ.beats=0}else store.textMorph=+v;persist();note()}});
+      set:v=>{if(side==='stay'){SEQ.every=v;store.seqEvery=v;SEQ.t=0;SEQ.beats=0;SEQ.dur=0}else store.textMorph=+v;persist();note()}});
     /* the order as one button at the row's start, three states (loop, random, once), as Autoplay's unit button sits before its beads */
     const ob=document.createElement('button');ob.type='button';ob.className='wlOrd';const oc=SEQ_ORD.find(x=>x[0]===seqOrd(SEQ.order));
     ob.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+SEQ_ORD_I[oc[0]]+'</svg><span>'+oc[1]+'</span>';ob.setAttribute('aria-label','Order: '+oc[2]+'. Tap for the next: loop, random, once');ob.title=oc[2];
@@ -8259,7 +8292,7 @@ function buildToolShelf(){if(ACTIVE!=='text'||!toolShown){closeFontList();closeW
     fld.appendChild(inp);fld.appendChild(hb);fld.appendChild(ok);t.appendChild(fld);if(flipped)fld.classList.add('flipin');}
     /* WORD SETS, A DROP-UP (Dimitry, 31 Oct 14:51: "a drop up menu that selects sequences in the same way that we can select
        palettes"): the set playing now by name, or "sets"; a tap opens the list above it; a set plays from its first word */
-    if(!TEXT_FLIP){const E=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;'),W=(Array.isArray(store.wordSets)?store.wordSets:[]).filter(x=>x&&typeof x==='object'&&Array.isArray(x.words)&&x.name!=null),key=x=>JSON.stringify([x.words,x.every,+x.morph||0]),
+    if(!TEXT_FLIP){const E=x=>String(x).replace(/[&<"]/g,c=>c==='&'?'&amp;':c==='<'?'&lt;':'&quot;'),W=(Array.isArray(store.wordSets)?store.wordSets:[]).filter(x=>x&&typeof x==='object'&&Array.isArray(x.words)&&x.name!=null),key=x=>JSON.stringify([x.words,evSnap(x.every),+x.morph||0]),
         nowK=key({words:store.seq||[],every:SEQ.every,morph:+store.textMorph||0}),cur=W.find(x=>key(x)===nowK);   /* a set keeps its name when only the order flips (review 8574 r-2) */
       sep();const sb=btn(cur?E(String(cur.name).toLowerCase()):'sets','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h11M4 17h7"/><path d="M15.5 17.5l2.5-2.5 2.5 2.5"/></svg>',cur?'Word set: '+cur.name+'. Tap for your word sets':'Your word sets: tap to choose one, or save this sequence',()=>{},!!cur);
       sb.setAttribute('aria-haspopup','menu');sb.setAttribute('aria-expanded','false');
@@ -10894,7 +10927,7 @@ function wordsItems(){const I=p=>RING_I(p),on=!!SEQ.on,n=(store.seq||[]).length;
     {id:'run',kind:'go',label:on?'stop':'play',aria:on?'Stop the word sequence':'Play the word sequence from its first word',icon:on?I('<rect x="7" y="7" width="10" height="10" rx="1.5"/>'):I('<path d="M8 5.5v13l10.5-6.5z"/>'),pick:()=>{if(!on&&!n){toast('add texts to the sequence first: the caret opens the list');return}seqToggleRun()}},
     {id:'next',kind:'go',stay:true,label:'next',aria:'The next word, now',icon:I('<path d="M6 6l7 6-7 6M15 6v12"/>'),pick:()=>{if(!n){toast('add texts to the sequence first');return}seqStep()}}   /* one step, like the w key (review f9c5 r-1) */,
     (()=>{const oc=SEQ_ORD.find(x=>x[0]===seqOrd(SEQ.order));return {id:'ord',kind:'go',stay:true,label:oc[1],aria:'Order: '+oc[2]+'. Tap for the next: loop, random, once',icon:I(SEQ_ORD_I[oc[0]]),pick:()=>seqOrderSet(seqOrdNext())}})()];
-  const W=Array.isArray(store.wordSets)?store.wordSets:[],key=x=>JSON.stringify([x.words,x.order,x.every,+x.morph||0]),nowK=key({words:store.seq||[],order:SEQ.order,every:SEQ.every,morph:+store.textMorph||0});
+  const W=Array.isArray(store.wordSets)?store.wordSets:[],key=x=>JSON.stringify([x.words,x.order,evSnap(x.every),+x.morph||0]),nowK=key({words:store.seq||[],order:SEQ.order,every:SEQ.every,morph:+store.textMorph||0});
   for(const ws of W.filter(x=>x&&typeof x==='object'&&Array.isArray(x.words)&&x.name!=null).slice(0,8)){const nm=String(ws.name);it.push({id:'set-'+nm,kind:'radio',on:key(ws)===nowK,label:nm.length>12?nm.slice(0,11)+'…':nm,aria:'Play the word set '+nm+': '+ws.words.join(', '),icon:I('<path d="M4 7h16M4 12h11M4 17h7"/>'),pick:()=>wsPlay(ws)});}   /* a malformed set is skipped, not fatal (r-2) */
   return it}
 try{SurfaceRing.define('words',{title:'Words',items:wordsItems,icon:RING_I('<path d="M5 6h14M12 6v13M9 19h6"/>')})}catch(e){console.warn('words ring',e)}
@@ -12326,10 +12359,10 @@ try{[['#batchPop','#batchClose','Close batch export'],['#mixPop','#mixClose','Cl
   /* PANELS SPAN THE BAR (Dimitry, 22 Oct 22:52): every panel above the bar is the bar's width, ‹ to the last button,
      measured live (kit pop.js span). The drawers above the bar keep hugging their content. */
   window.POP_SPAN=SurfacePop.span&&SurfacePop.span({bar:'#playbar',panels:['#plist','#rlist','#shotPop','#mixPop','#colorPop','#batchPop','#fontList','#wordList','#colorPick','#fieldPop']})}catch(e){console.warn('pop',e)}</script>
-<script src="surface/install.js?v=20261031193109"></script>
-<script src="surface/links.js?v=20261031193109"></script>
-<script src="surface/tips.js?v=20261031193109"></script>
-<script src="surface/sections.js?v=20261031193109"></script>
+<script src="surface/install.js?v=20261031193824"></script>
+<script src="surface/links.js?v=20261031193824"></script>
+<script src="surface/tips.js?v=20261031193824"></script>
+<script src="surface/sections.js?v=20261031193824"></script>
 <script>/* THE ACTIONS, one list (Dimitry, 18 Oct): every key and, later, every MIDI note and OSC address triggers one of these
    by name. The big sheet (the bar's keys button, or ?), remapping, and the guide's Keys list all read it. Studio-wide
    actions first, with the same ids and default keys in every tool; Current's own after. */
@@ -12531,7 +12564,7 @@ try{const dl=document.getElementById('displayL'),nt=dl&&dl.querySelector('.dsp-n
     b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const o=b.parentNode.querySelector('[data-v="'+(b.dataset.v==='on'?'off':'on')+'"]');o.click();o.focus()}});
   dl.insertBefore(row,nt||null);document.addEventListener('surface:notices',ns);ns()}}catch(e){console.warn('news',e)}
 </script>
-<script src="surface/room.js?v=20261031193109"></script>
+<script src="surface/room.js?v=20261031193824"></script>
 <style>/* ROOM: the section in the index and the status pill on the stage */
 #roomPill{position:fixed;z-index:9;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:none;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#e8f1f2;font:600 11px/1 var(--mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap;max-width:calc(100vw - 150px);overflow:hidden}
 html.inRoom #roomPill{display:inline-flex}
@@ -12734,7 +12767,7 @@ const ROOMC=(function(){
       following:P.follow.tempo||P.follow.scene,peers:room?room.peers():[],link:P.link?(linkSt||{up:false}):null})};
   return{lead:()=>!!room&&room.isLeader()&&room.peers().length>1,out,join,leave,open,setMode,setLink,room:()=>room,clock:clockNow,prefs:P}})();
 </script>
-<script src="surface/touch.js?v=20261031193109"></script>
+<script src="surface/touch.js?v=20261031193824"></script>
 <style>/* AUDIENCE: the section in the index, and the count on the room pill's side */
 #aud .aud-in[hidden],#aud .aud-out[hidden]{display:none}
 #aud #audGo{display:inline-flex;align-items:center;gap:7px}#aud #audGo .proMk{display:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#aud #audGo .proMk .bolt{fill:currentColor;stroke:none}
@@ -14302,7 +14335,7 @@ const SHEET_NAV=(()=>{if(!window.SurfaceSheetNav)return null;
 
 /* VERSION: the number is the tool's (bump it here on a release that changes what people meet); the build is stamped by the
    exporter at every build (window.__BUILD__, yyyymmddhhmmss UTC), and shows as "dev" in the claude.ai preview */
-const APP_VERSION='0.53.4';
+const APP_VERSION='0.54.0';
 /* NOTICES (Dimitry, 22 Oct 14:32): now and then, never with an update and never mid-performance, a question, news or a
    call from the studio (kit notice.js). The feed is the works site's notices.json today; a function later (the CMS).
    Busy: the robot when a person started it (a computer's opening play is not a performance), a recording, the sound's
