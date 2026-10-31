@@ -58,7 +58,7 @@
      the tool's combinations still work (29 Oct 2026, Current's player view: 1-5 play sounds there, not scenes) */
   function typing(t) { return t && t.closest && t.closest("input,select,textarea,[contenteditable=''],[contenteditable=true]"); }
   function owns(t) { return t && t.closest && t.closest("[data-keys-own]"); }
-  function ownsArrows(t) { return t && t.closest && t.closest("[role=slider],[role=spinbutton]"); }
+  function ownsArrows(t) { return t && t.closest && t.closest("[role=slider],[role=spinbutton],[role=tab]"); }   /* a tab row moves between its tabs with the arrows (31 Oct) */
   function keysOf(a) { return map[a.id] !== undefined ? (map[a.id] ? [map[a.id]] : []) : (a.keys || []); }
   function boundTo(n) { for (var i = 0; i < ACTS.length; i++) if (keysOf(ACTS[i]).indexOf(n) >= 0) return ACTS[i]; return null; }
   function fire() { document.dispatchEvent(new CustomEvent("surface:keys", { detail: { enabled: on, hold: hold, holdMs: HOLDS[hold] } })); }
