@@ -24,6 +24,7 @@
      up();                        // redraw from get() and hex() (a scene changed)
      SurfaceMaterial.add('water', [{ name, colors, says }], 'by …')   // looks a pack brings, kept in this browser
      SurfaceMaterial.looks(material)                                  // the material's looks plus the added ones
+     SurfaceMaterial.define({...}) · SurfaceMaterial.ring({...})      // the materials ring: select | adjust (see THE MATERIALS RING)
 
    Plain script, window.SurfaceMaterial, no dependencies. Styles at zero specificity (:where), so the tool's rules win;
    colours come from currentColor and --acc. Every target is 40 px for a finger. */
@@ -138,5 +139,30 @@
     draw();
     return draw;
   }
-  window.SurfaceMaterial = { colors: colors, add: add, looks: looks, added: added };
+  /* THE MATERIALS RING (Dimitry, 31 Oct 07:21-07:41: "a dedicated 2-part materials ring menu to select | adjust materials",
+     water and watercolor now, "room for future ones", and "a flexible architecture"). A tool defines each material once:
+       SurfaceMaterial.define({ id, name, icon, says,
+         active: () => bool,                 // is it on the stage now
+         hidden: () => bool,                 // not offered here (a tier this person does not have)
+         choose: () => [ring items],         // part 1, SELECT: its variants as dots (radio), lit when chosen
+         adjust: () => [ring items] })       // part 2, ADJUST: doors and values for the material on the stage
+     SurfaceMaterial.ring({ panel, panelIcon, adjustIcon }) → items for SurfaceRing: every material's choices, in the order
+     defined, then one "adjust" door (at the foot) to the active material's own ring; with several active, the adjust ring
+     starts with a dot for each. A new material (glass, smoke, sand) is one define() call: the ring needs no change. */
+  var DEFS = [];
+  function define(d) { if (!d || !d.id) return; DEFS = DEFS.filter(function (x) { return x.id !== d.id; }); DEFS.push(d); }
+  function shown() { return DEFS.filter(function (d) { try { return !(d.hidden && d.hidden()); } catch (e) { return false; } }); }
+  function ring(o) {
+    o = o || {}; var items = [], on = shown().filter(function (d) { try { return !!(d.active && d.active()); } catch (e) { return false; } });
+    if (o.panel) items.push({ id: "mat-panel", kind: "go", at: "top", label: "panel", aria: o.panelAria || "The materials' panel", icon: o.panelIcon, pick: o.panel });
+    shown().forEach(function (d) { var c = []; try { c = d.choose ? d.choose() : []; } catch (e) {} c.forEach(function (x) { items.push(x); }); });
+    if (on.length) {
+      var adj = function (d) { return { title: "Adjust · " + d.name, icon: d.icon, items: function () { try { return d.adjust ? d.adjust() : []; } catch (e) { return []; } } }; };
+      items.push(on.length === 1
+        ? { id: "mat-adjust", kind: "go", at: "bottom-right", label: "adjust", aria: "Adjust " + on[0].name + ": its looks, colors, what drives it and more", icon: o.adjustIcon || on[0].icon, ring: adj(on[0]) }
+        : { id: "mat-adjust", kind: "go", at: "bottom-right", label: "adjust", aria: "Adjust a material on the stage", icon: o.adjustIcon, ring: { title: "Adjust", icon: o.adjustIcon, items: function () { return on.map(function (d) { return { id: "adj-" + d.id, kind: "go", label: d.name.toLowerCase(), aria: "Adjust " + d.name, icon: d.icon, ring: adj(d) }; }); } } });
+    }
+    return items;
+  }
+  window.SurfaceMaterial = { colors: colors, add: add, looks: looks, added: added, define: define, defined: shown, ring: ring };
 })();
