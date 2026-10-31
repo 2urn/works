@@ -157,7 +157,7 @@
     if (o.panel) items.push({ id: "mat-panel", kind: "go", at: "top", label: "panel", aria: o.panelAria || "The materials' panel", icon: o.panelIcon, pick: o.panel });
     shown().forEach(function (d) { var c = []; try { c = d.choose ? d.choose() : []; } catch (e) {} c.forEach(function (x) { items.push(x); }); });
     if (on.length) {
-      var adj = function (d) { return { title: "Adjust · " + d.name, icon: d.icon, items: function () { try { return d.adjust ? d.adjust() : []; } catch (e) { return []; } } }; };
+      var adj = function (d) { return { title: d.name, icon: d.icon, items: function () { try { return d.adjust ? d.adjust() : []; } catch (e) { return []; } } }; };
       items.push(on.length === 1
         ? { id: "mat-adjust", kind: "go", at: "bottom-right", label: "adjust", aria: "Adjust " + on[0].name + ": its looks, colors, what drives it and more", icon: o.adjustIcon || on[0].icon, ring: adj(on[0]) }
         : { id: "mat-adjust", kind: "go", at: "bottom-right", label: "adjust", aria: "Adjust a material on the stage", icon: o.adjustIcon, ring: { title: "Adjust", icon: o.adjustIcon, items: function () { return on.map(function (d) { return { id: "adj-" + d.id, kind: "go", label: d.name.toLowerCase(), aria: "Adjust " + d.name, icon: d.icon, ring: adj(d) }; }); } } });

@@ -117,6 +117,11 @@
     ":where(.sr-hub) .sr-grip{width:22px;min-width:22px;padding:0;cursor:grab}:where(.sr-hub) .sr-grip svg{width:6px;height:18px;fill:currentColor;opacity:.65}" +
     ":where(.sr-hub) .sr-up,:where(.sr-hub) .sr-sw{position:absolute;left:50%;transform:translateX(-50%);min-width:0;width:46px;height:15px;padding:0;background:rgb(var(--ui-g,12 14 16) / .86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}" +
     ":where(.sr-hub) .sr-up{top:-15px;border-radius:15px 15px 0 0;box-shadow:0 -1px 0 rgb(var(--ui-hi,255 255 255) / .14),-1px 0 0 rgb(var(--ui-hi,255 255 255) / .14),1px 0 0 rgb(var(--ui-hi,255 255 255) / .14)}" +
+    ":where(.sr-hub) .sr-depth{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0;padding:0 8px;touch-action:none;color:inherit}" +
+    ":where(.sr-hub) .sr-dp{display:grid;place-items:center;width:18px;height:6px;padding:0;margin:0;border:0;background:none;color:inherit;cursor:pointer}" +
+    ":where(.sr-hub) .sr-dp::before{content:'';display:block;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.38}" +
+    ":where(.sr-hub) .sr-dp.on::before{opacity:1;width:5px;height:5px}:where(.sr-hub) .sr-dp.sr-dpk::before{opacity:1;box-shadow:0 0 0 2px var(--acc,#55b8c9)}" +
+    ".sr-hub.sr-deep .sr-mid{translate:0 -8px}" +
     ":where(.sr-hub) .sr-sw{bottom:-15px;border-radius:0 0 15px 15px;box-shadow:0 1px 0 rgb(var(--ui-hi,255 255 255) / .14),-1px 0 0 rgb(var(--ui-hi,255 255 255) / .14),1px 0 0 rgb(var(--ui-hi,255 255 255) / .14)}" +
     ":where(.sr-hub) .sr-up svg,:where(.sr-hub) .sr-sw svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}" +
     ":where(.sr-hub) .sr-up svg{margin-top:3px}:where(.sr-hub) .sr-sw svg{margin-top:-3px}" +
@@ -425,7 +430,25 @@
       pin.onclick = function (e) { e.stopPropagation(); setPin(!(cur && cur.pinned)); };
       hub.appendChild(pin);
     }
-    hub.appendChild(mid); hub.appendChild(grip); if (sw) hub.appendChild(sw);   // pin · name · grip, the switch a bump below
+    /* WHERE YOU ARE (Dimitry, 31 Oct 10:59: "how deep we are in the menu ... little white dots below the central dot ... in
+       a vertical arrangement that allow us to scroll up and down the hierarchy"): in a ring reached through dots, a short
+       column at the foot of the middle, a dot for each ring on the way, the one you are in lit. A tap on a dot goes straight
+       to that ring; a drag up or down the column picks one and lifting goes there. The name and the back arrow still go up one. */
+    var DEP = null;
+    if (PAR) { var chain = []; for (var pp = PAR; pp; pp = pp.o && pp.o._parent) chain.unshift(pp); chain = chain.slice(-4);
+      var jump = function (c) { var bx = parseFloat(ring.style.left), by = parseFloat(ring.style.top), pn = !!(cur && cur.pinned); open(Object.assign({}, c.o, { _own: true, _dive: true, x: bx, y: by, pinned: pn })); };
+      DEP = document.createElement("div"); DEP.className = "sr-depth"; DEP.setAttribute("role", "group");
+      DEP.setAttribute("aria-label", "Where you are: " + chain.map(function (c) { return c.title || "the first ring"; }).concat([def.title || ""]).join(" › "));
+      var dps = chain.concat([null]).map(function (c) { var bt = document.createElement("button"); bt.type = "button"; bt.className = "sr-dp" + (c ? "" : " on");
+        bt.setAttribute("aria-label", c ? "Go to the " + (c.title || "first") + " ring" : (def.title || "") + ": you are here"); if (!c) bt.setAttribute("aria-current", "true"); bt.title = c ? (c.title || "") : (def.title || "");
+        bt.onclick = function (e) { e.stopPropagation(); if (c) jump(c); }; DEP.appendChild(bt); return bt; });
+      var dg = null, at = function (y) { var r = DEP.getBoundingClientRect(); return Math.max(0, Math.min(dps.length - 1, Math.floor((y - r.top) / (r.height / dps.length)))); };
+      DEP.addEventListener("pointerdown", function (e) { e.stopPropagation(); dg = { y: e.clientY, i: at(e.clientY), moved: false, id: e.pointerId }; });   /* captured only once it drags: a captured press sends its click to the column, not the dot (review 6839 r-2) */
+      DEP.addEventListener("pointermove", function (e) { if (!dg) return; if (!dg.moved && Math.abs(e.clientY - dg.y) > 4) { dg.moved = true; try { DEP.setPointerCapture(dg.id); } catch (er) {} } if (!dg.moved) return; dg.i = at(e.clientY); dps.forEach(function (x, k) { x.classList.toggle("sr-dpk", k === dg.i); }); });
+      DEP.addEventListener("pointerup", function (e) { if (!dg) return; var m = dg.moved, i = dg.i; dg = null; dps.forEach(function (x) { x.classList.remove("sr-dpk"); }); if (m) { e.preventDefault(); if (chain[i]) jump(chain[i]); DEP._skip = performance.now(); } });
+      DEP.addEventListener("click", function (e) { if (DEP._skip && performance.now() - DEP._skip < 400) { e.stopPropagation(); e.preventDefault(); } }, true);
+      hub.classList.add("sr-deep"); }
+    hub.appendChild(mid); hub.appendChild(grip); if (sw) hub.appendChild(sw); if (DEP) hub.appendChild(DEP);   // pin · name · grip, the switch a bump below
     if (upIt) { var up = document.createElement("button"); up.type = "button"; up.className = "sr-up" + (upIt._back ? " sr-back" : ""); up.innerHTML = upIt._back ? BACK : '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 14l6-6 6 6"/></svg>';
       up.setAttribute("aria-label", upIt.aria || upIt.label || "Panel"); up.title = upIt.aria || upIt.label || "Panel";
       up.onclick = function (e) { e.stopPropagation(); if (e.detail > 0 && cur && performance.now() - cur.t0 < 350) return; if (upIt._back) { back(); return; } try { upIt.pick && upIt.pick(); } catch (er) { console.warn("[ring]", er); } if (!(cur && cur.pinned)) close("pick"); };
@@ -540,13 +563,17 @@
       var bgc = null; if (typeof it.bg === "function") { bgc = document.createElement("canvas"); bgc.className = "sr-bg"; bgc.setAttribute("aria-hidden", "true");
         var paintBg = function () { if (!b.isConnected) return; if (bgc.parentNode !== b) b.insertBefore(bgc, b.firstChild); try { it.bg(bgc, b.classList.contains("sr-lit")); } catch (e) {} requestAnimationFrame(paintBg); }; requestAnimationFrame(paintBg); }   // the amount is set but not heard: its arc dims
       /* iconOff: what the dot shows while idle (the speaker crossed out when nothing can be heard, 25 Oct 09:45) */
-      var rest = function () { var v = +it.get(); idle(); b._icx = b.classList.contains("sr-idle") && it.iconOff ? 1 : 0; b.innerHTML = (b._icx ? it.iconOff : icon) + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change; tap to see it"); };
-      var show = function (v) { b.innerHTML = '<span class="sr-num">' + fmt(v) + '</span><span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
+      /* COLOR DOTS (Dimitry, 31 Oct 10:59: "drag to scroll thru palette colors", and "press and hold that color and then open
+         up the color palette"): swatch: v => '#hex' shows the color at v instead of an icon and a number; hold: () => {}
+         runs on a press held still for half a second */
+      var swI = function (v) { var c = ""; try { c = it.swatch(v) || ""; } catch (e) {} return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" fill="' + (c || "transparent") + '" stroke="currentColor" stroke-width="1.4"/></svg>'; };
+      var rest = function () { var v = +it.get(); idle(); b._icx = b.classList.contains("sr-idle") && it.iconOff ? 1 : 0; b.innerHTML = (it.swatch ? swI(v) : b._icx ? it.iconOff : icon) + ARC(fr(v), 24); b.setAttribute("aria-label", (it.aria || it.label || it.id) + ": " + fmt(v) + ". Drag up or down to change; tap to see it"); };
+      var show = function (v) { b.innerHTML = (it.swatch ? swI(v) : '<span class="sr-num">' + fmt(v) + '</span>') + '<span class="sr-lab" aria-hidden="true"></span>' + ARC(fr(v), 24); b.querySelector(".sr-lab").textContent = it.label || ""; };
       /* a tap shows the amount in the dot for a moment; the middle no longer turns into a dial (Dimitry, 25 Oct 09:30: "a big
          dial on the middle button … I don't think it's necessary now that we have the side buttons … it lingers from the
          last thing pressed and creates sync issues"). dial() stays in the file for a tool that asks for it. */
       var pk = 0, peek = function () { clearTimeout(pk); show(+it.get()); pk = setTimeout(function () { if (!g) rest(); }, 1100); };
-      rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; if ((b.classList.contains("sr-idle") && it.iconOff ? 1 : 0) !== b._icx) { rest(); return; } var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
+      rest(); b._arc = function () { idle(); if (g || b.classList.contains("sr-busy")) return; if (it.swatch) { var sc = b.querySelector("svg:not(.sr-arc) circle"); if (sc) { var cv = ""; try { cv = it.swatch(+it.get()) || ""; } catch (e) {} sc.setAttribute("fill", cv || "transparent"); } }   /* a color set elsewhere shows here too (review 6839 r-4) */ if ((b.classList.contains("sr-idle") && it.iconOff ? 1 : 0) !== b._icx) { rest(); return; } var v = +it.get(), c = b.querySelector(".sr-arc .v"); if (!c) return; var f = Math.max(0, Math.min(1, fr(v))), L = 2 * Math.PI * 24;   // only the arc moves: rebuilding the dot would replay its label
         c.setAttribute("stroke-dasharray", (f * L).toFixed(1) + " " + L.toFixed(1)); c.style.display = f ? "" : "none"; };
       /* the finger may leave the dot: the dot keeps the drag (pointer capture) until it lifts; up raises, down lowers */
       b.addEventListener("pointerdown", function (e) { e.stopPropagation(); if (performance.now() - (cur ? cur.t0 : 0) < 350) return;
@@ -554,11 +581,12 @@
            before you can adjust the volume"): an idle amount with a wake turns its sound on first; the next touch sets it */
         var asleep = false; try { asleep = !!(it.idle && it.idle() && it.wake); } catch (er) {}
         if (asleep) { g = null; b.classList.remove("sr-hit"); void b.offsetWidth; b.classList.add("sr-hit"); setTimeout(function () { b.classList.remove("sr-hit"); }, 600); try { it.wake(); } catch (er) { console.warn("[ring]", er); } b._woke = performance.now(); return; }
-        try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false }; });
-      b.addEventListener("pointermove", function (e) { if (!g) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; b.classList.add("sr-busy");
+        try { b.setPointerCapture(e.pointerId); } catch (er) {} g = { x: e.clientX, y: e.clientY, v: +it.get(), moved: false };
+        if (typeof it.hold === "function") { var g0 = g; g.ht = setTimeout(function () { if (g !== g0 || g0.moved) return; g0.held = true; b.classList.add("sr-hit"); setTimeout(function () { b.classList.remove("sr-hit"); }, 500); try { it.hold(); } catch (er) { console.warn("[ring]", er); } }, 550); } });
+      b.addEventListener("pointermove", function (e) { if (!g || g.held) return; var dd = (e.clientX - g.x) * .35 - (e.clientY - g.y); if (!g.moved && Math.abs(dd) < 6) return; g.moved = true; clearTimeout(g.ht); b.classList.add("sr-busy");
         var v = clampV(g.v + dd * (mx - mn) / 200); it.set(v); show(v); });
-      var end = function () { if (!g) return; var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); peek(); } };
-      b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { g = null; b.classList.remove("sr-busy"); rest(); });
+      var end = function () { if (!g) return; clearTimeout(g.ht); if (g.held) { g = null; return; } var m = g.moved; g = null; if (m) { setTimeout(function () { b.classList.remove("sr-busy"); rest(); }, 700); } else { b.classList.remove("sr-busy"); peek(); } };
+      b.addEventListener("pointerup", end); b.addEventListener("pointercancel", function () { if (g) clearTimeout(g.ht); g = null; b.classList.remove("sr-busy"); rest(); });
       b.addEventListener("click", function (e) { e.stopPropagation(); if (b._woke && performance.now() - b._woke < 800) return; if (e.detail === 0) peek(); });
       /* keys too (review 79b4932b2e r-3): a focused amount steps with + and − (or Page Up / Page Down), the number shown in it */
       b.addEventListener("keydown", function (e) { var up = e.key === "+" || e.key === "=" || e.key === "PageUp", dn = e.key === "-" || e.key === "PageDown"; if (!up && !dn) return;
