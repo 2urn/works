@@ -282,7 +282,16 @@
      premultiplied (rgb times density, density), so mixing and blurring it mixes the colors as paint in water does. */
   var IVS = HEAD + "in vec2 vUv; out vec4 o;\n";
   var INK_HEAD = IVS + "uniform sampler2D uFloor, uPool; uniform float uLevel, uGK, uIF;\n" + GL_FLOOR +
-    "float wetI(vec2 uv){ if (uIF < 0.5) return 1.0; return smoothstep(0.45, 0.9, wetAtF(uv, texture(uFloor,uv).r)); }\n";
+    "float wetI(vec2 uv){ if (uIF < 0.5) return 1.0; return smoothstep(0.45, 0.9, wetAtF(uv, texture(uFloor,uv).r)); }\n" +
+    "vec4 crs(sampler2D T, vec2 uv){ vec2 sz = vec2(textureSize(T,0)), p = uv*sz-0.5, i = floor(p), f = p-i;\n" +
+    "  vec2 w0 = f*(-0.5+f*(1.0-0.5*f)), w1 = 1.0+f*f*(-2.5+1.5*f), w2 = f*(0.5+f*(2.0-1.5*f)), w3 = f*f*(-0.5+0.5*f), w12 = w1+w2;\n" +
+    "  vec2 t0 = (i-0.5)/sz, t3 = (i+2.5)/sz, t12 = (i+0.5+w2/w12)/sz;\n" +
+    "  vec4 r = (texture(T,vec2(t0.x,t0.y))*w0.x + texture(T,vec2(t12.x,t0.y))*w12.x + texture(T,vec2(t3.x,t0.y))*w3.x)*w0.y\n" +
+    "         + (texture(T,vec2(t0.x,t12.y))*w0.x + texture(T,vec2(t12.x,t12.y))*w12.x + texture(T,vec2(t3.x,t12.y))*w3.x)*w12.y\n" +
+    "         + (texture(T,vec2(t0.x,t3.y))*w0.x + texture(T,vec2(t12.x,t3.y))*w12.x + texture(T,vec2(t3.x,t3.y))*w3.x)*w3.y;\n" +
+    "  ivec2 n = ivec2(sz)-1, a = clamp(ivec2(i), ivec2(0), n), b = clamp(ivec2(i)+1, ivec2(0), n);\n" +
+    "  vec4 q0 = texelFetch(T,a,0), q1 = texelFetch(T,ivec2(b.x,a.y),0), q2 = texelFetch(T,ivec2(a.x,b.y),0), q3 = texelFetch(T,b,0);\n" +
+    "  return clamp(r, min(min(q0,q1),min(q2,q3)), max(max(q0,q1),max(q2,q3))); }\n";
   var FS_ICOPY = IVS + "uniform sampler2D uT; void main(){ o = texture(uT, vUv); }";
   var FS_ISPL = IVS + "uniform sampler2D uT; uniform vec2 uC, uV; uniform float uR, uAsp;\n" +
     "void main(){ vec2 q = (vUv-uC)*vec2(uAsp,1.0); vec4 b = texture(uT,vUv); o = vec4(b.xy + uV*exp(-dot(q,q)/uR), 0.0, 1.0); }";
@@ -314,16 +323,19 @@
     "  o = vec4(v*w, 0.0, 1.0); }";
   /* the ink carried by the flow, bleeding a little into its neighbours (watercolor's soft edge); where it is dry the ink
      stays as it lies */
+  /* read where the ink came from by a Catmull-Rom cubic (nine bilinear taps), held between the four nearest texels: a
+     plain bilinear read blurs the ink a little every frame, and over a minute the rings melted away by themselves
+     (Dimitry, 30 Oct 22:17: "they kind of fade more on their own") */
   var FS_IDADV = INK_HEAD + "uniform sampler2D uVel, uDye; uniform vec2 uTx, uDx; uniform float uDt, uBleed;\n" +
     "void main(){ vec2 uv = vUv; vec4 c0 = texture(uDye, uv); float w = wetI(uv);\n" +
-    "  vec4 a = texture(uDye, uv - uDt*texture(uVel, uv).xy*uTx);\n" +
+    "  vec4 a = crs(uDye, uv - uDt*texture(uVel, uv).xy*uTx);\n" +
     "  if (uBleed > 0.0) { vec4 n = texture(uDye, uv+vec2(uDx.x,0.0)) + texture(uDye, uv-vec2(uDx.x,0.0)) + texture(uDye, uv+vec2(0.0,uDx.y)) + texture(uDye, uv-vec2(0.0,uDx.y)); a = mix(a, n*0.25, uBleed); }\n" +
     "  o = mix(c0, a, w); }";
   /* a drop spreading from radius uR0 to uR1 (in the field's height): inside, its own color; outside, what was there,
      pushed out so that the area between is kept (a point at r came from sqrt(r^2 - (R1^2 - R0^2))) */
   var FS_IMARB = INK_HEAD + "uniform sampler2D uDye; uniform vec2 uC; uniform float uAsp, uR0, uR1, uPx; uniform vec4 uCol;\n" +
     "void main(){ vec2 uv = vUv; vec2 q = (uv-uC)*vec2(uAsp,1.0); float d2 = dot(q,q), d = sqrt(d2), r1 = uR1*uR1, r0 = uR0*uR0;\n" +
-    "  float k = sqrt(max(0.0, 1.0 - (r1-r0)/max(d2, 1e-8))); vec4 cs = texture(uDye, uC + q*k/vec2(uAsp,1.0));\n" +
+    "  float k = sqrt(max(0.0, 1.0 - (r1-r0)/max(d2, 1e-8))); vec4 cs = crs(uDye, uC + q*k/vec2(uAsp,1.0));\n" +
     "  float t = smoothstep(uR1-uPx, uR1+uPx, d); vec4 c = mix(uCol, cs, t);\n" +
     "  o = mix(texture(uDye, uv), c, max(wetI(uv), 1.0-t)); }";
   function attach(src, o) {
@@ -540,7 +552,7 @@
       PL = { w: w, h: h, d: new Float32Array(w * h), f: f, m: new Float32Array(w * h), up: new Float32Array(w * h) };
       if (old) for (var y2 = 0; y2 < h; y2++) for (var x2 = 0; x2 < w; x2++) PL.d[y2 * w + x2] = old.d[Math.min(old.h - 1, Math.floor(y2 * old.h / h)) * old.w + Math.min(old.w - 1, Math.floor(x2 * old.w / w))];   /* a resize keeps the puddles (review 47ee r-4) */
       plDirty = true; return PL; }
-    function pourAt(x, y, vol, rad) { var P2 = poolInit(); if (!P2 || !(vol > 0)) return; POURED += vol; vol *= POUR; var cx = x * P2.w, cy = (1 - y) * P2.h, R = Math.max(0.8, rad * P2.h), R2 = 2 * R * R, sum = 0, i, j, c = Math.ceil(R * 2.2);
+    function pourAt(x, y, vol, rad, raw) { var P2 = poolInit(); if (!P2 || !(vol > 0)) return; POURED += vol; if (!raw) vol *= POUR;   /* raw: water that is not the rain's (an ink drop), never scaled by its pour */ var cx = x * P2.w, cy = (1 - y) * P2.h, R = Math.max(0.8, rad * P2.h), R2 = 2 * R * R, sum = 0, i, j, c = Math.ceil(R * 2.2);
       var x0 = Math.max(0, Math.floor(cx - c)), x1 = Math.min(P2.w - 1, Math.ceil(cx + c)), y0 = Math.max(0, Math.floor(cy - c)), y1 = Math.min(P2.h - 1, Math.ceil(cy + c));
       for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) sum += Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2);
       if (!(sum > 0)) return; for (j = y0; j <= y1; j++) for (i = x0; i <= x1; i++) P2.d[j * P2.w + i] += vol * Math.exp(-((i + 0.5 - cx) * (i + 0.5 - cx) + (j + 0.5 - cy) * (j + 0.5 - cy)) / R2) / sum;
@@ -708,6 +720,9 @@
       if (!ok || !on || PASS || !INK.on) return false;
       var c = color == null ? null : rgb(color); if (color != null && !c) return false;
       var hs = Math.min(N[0], N[1]) / (N[1] || 1), R = Math.max(0.004, Math.min(0.3, size == null ? 0.05 : +size || 0.05)) * hs;
+      /* the ink is colored water: on a floor still filling it brings its own puddle, so a drop can spread where it lands
+         (Dimitry, 30 Oct 22:17: it "doesn't really start working until the water has completely filled the screen") */
+      if (FILL != null && FILL < 1) { var sz = Math.max(0.004, Math.min(0.3, size == null ? 0.05 : +size || 0.05)); pourAt(x, y, 0.25 * Math.pow(sz / 0.01, 2), sz * 1.6, true); }
       INK.drops.push({ x: x, y: 1 - y, R: R, r: 0, t: 0, T: 0.6 + R * 9, col: c ? (function (k) { return [c[0] * k, c[1] * k, c[2] * k, k]; })(Math.max(0.05, Math.min(1, dens == null ? 0.6 : +dens || 0.6))) : [0, 0, 0, 0] });   /* premultiplied: a drop is ink in water, not paint (0.6 by default) */
       if (INK.drops.length > 16) INK.drops.shift();
       /* a drop lands with a little turn of its own, so ink does not only ring, it curls */
@@ -755,7 +770,7 @@
       var sp = Math.hypot(vx || 0, vy || 0); if (sp < 0.5 || P.stir <= 0) return;
       var now = performance.now();
       if (lastMove && now - lastMove < 30) return; lastMove = now;
-      if (INK.on && !PASS) { var kk = Math.min(1, 300 / (sp * 8)); inkPush(x, y, (vx || 0) * 8 * kk, (vy || 0) * 8 * kk, 0.0015); }   // a finger stirs the ink
+      if (INK.on && !PASS) { var kk = Math.min(1, 420 / (sp * 14)); inkPush(x, y, (vx || 0) * 14 * kk, (vy || 0) * 14 * kk, 0.0022); }   /* a finger combs the ink (stronger since 30 Oct 22:17: 'not as responsive to subsequent touch') */   // a finger stirs the ink
       addDrop(x, y, P.size * 0.55, Math.min(1.2, sp / 20) * P.stir * 0.5);
     }
     /* a color spec: null, a hex, or a name the host resolves (o.palette) */
