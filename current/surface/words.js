@@ -63,6 +63,9 @@
       "html[data-words=never] .sw-w{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}\n" +
       "html[data-words=learn] .sw-w.sw-known{opacity:0!important;transition:opacity .5s ease!important}\n" +
       "html[data-words=learn] :is(:focus-visible,:active) .sw-w.sw-known{opacity:1!important;transition:opacity .12s ease!important}\n" +
+      /* the chosen one of a set names itself (Dimitry, 31 Oct 22:17: the lit "Beats" segment showed an icon and an empty pill,
+         its learned word faded to nothing): a checked radio or a selected tab keeps its word; the others still learn away */
+      "html[data-words=learn] :is([role=radio][aria-checked=true],[role=tab][aria-selected=true])>.sw-w.sw-known{opacity:1!important}\n" +
       /* hover only where there is a real pointer: a touch screen keeps the last tapped control "hovered" */
       "@media (hover:hover){html[data-words=learn] :hover>.sw-known,html[data-words=learn] :hover>*>.sw-known{opacity:1!important;transition:opacity .12s ease!important}}\n" +
       "@media (prefers-reduced-motion:reduce){html[data-words=learn] .sw-known{transition:none!important}}";
