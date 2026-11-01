@@ -1,0 +1,32 @@
+# works.chamy.xyz: bot policy (Dimitry Saïd Chamy, 1 Nov 2026)
+# Search engines and AI assistants that answer people's questions are welcome.
+# Crawlers that collect pages to train AI models are not.
+# This file is a request: honest crawlers follow it. Protection against the rest is done elsewhere.
+
+# AI model training: not welcome
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# Search engines, AI search and answers, and pages fetched for a person: welcome
+User-agent: *
+Allow: /
+
+Sitemap: https://works.chamy.xyz/sitemap.xml
