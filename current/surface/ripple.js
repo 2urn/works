@@ -328,10 +328,11 @@
   /* read where the ink came from by a Catmull-Rom cubic (nine bilinear taps), held between the four nearest texels: a
      plain bilinear read blurs the ink a little every frame, and over a minute the rings melted away by themselves
      (Dimitry, 30 Oct 22:17: "they kind of fade more on their own") */
-  var FS_IDADV = INK_HEAD + "uniform sampler2D uVel, uDye; uniform vec2 uTx, uDx; uniform float uDt, uBleed;\n" +
+  var FS_IDADV = INK_HEAD + "uniform sampler2D uVel, uDye; uniform vec2 uTx, uDx; uniform float uDt, uBleed, uFade;\n" +
     "void main(){ vec2 uv = vUv; vec4 c0 = texture(uDye, uv); float w = wetI(uv);\n" +
     "  vec4 a = crs(uDye, uv - uDt*texture(uVel, uv).xy*uTx);\n" +
     "  if (uBleed > 0.0) { vec4 n = texture(uDye, uv+vec2(uDx.x,0.0)) + texture(uDye, uv-vec2(uDx.x,0.0)) + texture(uDye, uv+vec2(0.0,uDx.y)) + texture(uDye, uv-vec2(0.0,uDx.y)); a = mix(a, n*0.25, uBleed); }\n" +
+    "  a *= uFade; c0 *= uFade;\n" +
     "  o = mix(c0, a, w); }";
   /* a drop spreading from radius uR0 to uR1 (in the field's height): inside, its own color; outside, what was there,
      pushed out so that the area between is kept (a point at r came from sqrt(r^2 - (R1^2 - R0^2))) */
@@ -657,7 +658,7 @@
     /* WATERCOLOR: the ink and its flow (the shaders' note, FS_IVADV). The flow is a quarter of the field across, the ink
        the field's own size; both half floats. Nothing runs until watercolor is on; a still bath (no drop, stir or current
        for 25 s) stops solving and only shows. */
-    var INK = { on: false, swirl: 0.6, bleed: 0.25, amt: 0.85, carry: 0.5, vw: 0, vh: 0, dw: 0, dh: 0, vel: null, dye: null, prs: null, curl: null, div: null, drops: [], spl: [], q: 0 };
+    var INK = { on: false, swirl: 0.6, bleed: 0.25, amt: 0.85, carry: 0.5, vw: 0, vh: 0, dw: 0, dh: 0, vel: null, dye: null, prs: null, curl: null, div: null, drops: [], spl: [], q: 0, gain: 1, gainRate: 0, clr: 0, clrT: 0 };
     function iTgt(w, h) { var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t); gl.texImage2D(gl.TEXTURE_2D, 0, fmt[0], w, h, 0, gl.RGBA, fmt[1], null);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -688,7 +689,10 @@
       if (!INK.on || !inkInit()) return;
       dt = Math.min(1 / 30, Math.max(0, dt)); if (!dt) return;
       var carry = curOk && DRV.current > 0 && INK.carry > 0;
-      INK.q += dt; if (INK.q > 25 && !carry && !INK.drops.length && !INK.spl.length) return;
+      INK.q += dt; if (INK.q > 25 && !carry && !INK.drops.length && !INK.spl.length && !(INK.clr > 0) && INK.gain >= 1) return;
+      if (INK.gain < 1) INK.gain = Math.min(1, INK.gain + INK.gainRate * dt);
+      var fade = 1, bleedK = INK.bleed;
+      if (INK.clr > 0) { INK.clr -= dt; fade = Math.exp(-dt * 4.6 / Math.max(0.2, INK.clrT)); bleedK = Math.max(bleedK, 0.9); if (INK.clr <= 0) { INK.clr = 0; inkClear(); return; } }
       var I = prog.i, V = INK.vel, D = INK.dye, Pr = INK.prs, vw = INK.vw, vh = INK.vh, asp = N[0] / N[1], k;
       /* pushes: a finger's stir, the turn a drop gives as it lands */
       var sp = INK.spl.splice(0, 24);
@@ -696,7 +700,7 @@
       var tx = [1 / vw, 1 / vh];
       if (INK.swirl > 0) {
         iUse(I.curl, INK.curl, vw, vh); iTex(I.curl, "uVel", 0, V.a.t); gl.uniform2fv(I.curl.u.uTx, tx); iDraw();
-        iUse(I.vort, V.b, vw, vh); iTex(I.vort, "uVel", 0, V.a.t); iTex(I.vort, "uCurl", 1, INK.curl.t); gl.uniform2fv(I.vort.u.uTx, tx); gl.uniform1f(I.vort.u.uCurlK, 28 * INK.swirl); gl.uniform1f(I.vort.u.uDt, dt); iDraw(); V.swap();
+        iUse(I.vort, V.b, vw, vh); iTex(I.vort, "uVel", 0, V.a.t); iTex(I.vort, "uCurl", 1, INK.curl.t); gl.uniform2fv(I.vort.u.uTx, tx); gl.uniform1f(I.vort.u.uCurlK, 28 * INK.swirl * INK.gain); gl.uniform1f(I.vort.u.uDt, dt); iDraw(); V.swap();
       }
       iUse(I.div, INK.div, vw, vh); iTex(I.div, "uVel", 0, V.a.t); gl.uniform2fv(I.div.u.uTx, tx); iDraw();
       iUse(I.scl, Pr.b, vw, vh); iTex(I.scl, "uT", 0, Pr.a.t); gl.uniform1f(I.scl.u.uK, 0.8); iDraw(); Pr.swap();
@@ -713,25 +717,30 @@
           gl.uniform1f(I.marb.u.uR0, d.r); gl.uniform1f(I.marb.u.uR1, r1); gl.uniform1f(I.marb.u.uPx, px); gl.uniform4fv(I.marb.u.uCol, d.col); iDraw(); D.swap(); d.r = r1; }
         return u < 1; });
       iUse(I.dadv, D.b, INK.dw, INK.dh); iTex(I.dadv, "uDye", 0, D.a.t); iTex(I.dadv, "uVel", 1, V.a.t); iWet(I.dadv);
-      gl.uniform2fv(I.dadv.u.uTx, tx); gl.uniform2f(I.dadv.u.uDx, 1 / INK.dw, 1 / INK.dh); gl.uniform1f(I.dadv.u.uDt, dt); gl.uniform1f(I.dadv.u.uBleed, Math.min(0.5, INK.bleed * 0.12 * dt * 60)); iDraw(); D.swap();
+      gl.uniform2fv(I.dadv.u.uTx, tx); gl.uniform2f(I.dadv.u.uDx, 1 / INK.dw, 1 / INK.dh); gl.uniform1f(I.dadv.u.uDt, dt); gl.uniform1f(I.dadv.u.uBleed, Math.min(0.5, bleedK * 0.12 * dt * 60)); gl.uniform1f(I.dadv.u.uFade, fade); iDraw(); D.swap();
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.activeTexture(gl.TEXTURE0);
     }
     function inkPush(x, y, vx, vy, r) { if (INK.spl.length < 48) INK.spl.push([x, 1 - y, vx, -vy, r]); INK.q = 0; }
     /* a drop of ink (a color) or of clear water (null) at x, y (y down), size a share of the short side, dens how much pigment (0.6) */
     function inkDrop(x, y, color, size, dens) {
-      if (!ok || !on || PASS || !INK.on) return false;
+      if (!ok || !on || PASS || !INK.on || INK.clr > 0) return false;
       var c = color == null ? null : rgb(color); if (color != null && !c) return false;
       var hs = Math.min(N[0], N[1]) / (N[1] || 1), R = Math.max(0.004, Math.min(0.3, size == null ? 0.05 : +size || 0.05)) * hs;
       /* the ink is colored water: on a floor still filling it brings its own puddle, so a drop can spread where it lands
          (Dimitry, 30 Oct 22:17: it "doesn't really start working until the water has completely filled the screen") */
       if (FILL != null && FILL < 1) { var sz = Math.max(0.004, Math.min(0.3, size == null ? 0.05 : +size || 0.05)); pourAt(x, y, 0.25 * Math.pow(sz / 0.01, 2), sz * 1.6, true); }
-      INK.drops.push({ x: x, y: 1 - y, R: R, r: 0, t: 0, T: 0.6 + R * 9, col: c ? (function (k) { return [c[0] * k, c[1] * k, c[2] * k, k]; })(Math.max(0.05, Math.min(1, dens == null ? 0.6 : +dens || 0.6))) : [0, 0, 0, 0] });   /* premultiplied: a drop is ink in water, not paint (0.6 by default) */
+      INK.drops.push({ x: x, y: 1 - y, R: R, r: 0, t: 0, T: 0.6 + R * 9, col: c ? (function (k) { return [c[0] * k, c[1] * k, c[2] * k, k]; })(Math.max(0.05, Math.min(1, dens == null ? 0.6 : +dens || 0.6) * INK.gain)) : [0, 0, 0, 0] });   /* premultiplied: a drop is ink in water, not paint (0.6 by default) */
       if (INK.drops.length > 16) INK.drops.shift();
       /* a drop lands with a little turn of its own, so ink does not only ring, it curls */
-      if (INK.swirl > 0) { var a = Math.random() * 6.283, m = 30 * INK.swirl; inkPush(x + Math.cos(a) * R * 0.6, y + Math.sin(a) * R * 0.6, -Math.sin(a) * m, Math.cos(a) * m, R * R * 0.6); }
+      if (INK.swirl > 0) { var a = Math.random() * 6.283, m = 30 * INK.swirl * INK.gain; inkPush(x + Math.cos(a) * R * 0.6, y + Math.sin(a) * R * 0.6, -Math.sin(a) * m, Math.cos(a) * m, R * R * 0.6); }
       INK.q = 0; quiet = 0; return true;
     }
-    function inkClear() { if (!INK.dye) return; [INK.dye.a, INK.dye.b, INK.vel.a, INK.vel.b, INK.prs.a, INK.prs.b].forEach(function (t) { gl.bindFramebuffer(gl.FRAMEBUFFER, t.f); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); });
+    /* secs > 0: the ink thins and spreads out over that many seconds, then the bath is clean (a morph, not a cut);
+       none: at once. inkFadeIn(secs): ink and swirl come up from nothing over that long (0.2 for a switch to a new kind) */
+    function inkFadeIn(secs) { secs = +secs; INK.clr = 0; if (!(secs > 0)) { INK.gain = 1; INK.gainRate = 0; return; } INK.gain = 0; INK.gainRate = 1 / secs; INK.q = 0; }
+    function inkClear(secs) { if (!INK.dye) return; secs = +secs;
+      if (secs > 0) { INK.drops = []; INK.spl = []; INK.clr = INK.clrT = secs; INK.q = 0; return; }
+      INK.clr = 0; [INK.dye.a, INK.dye.b, INK.vel.a, INK.vel.b, INK.prs.a, INK.prs.b].forEach(function (t) { gl.bindFramebuffer(gl.FRAMEBUFFER, t.f); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); });
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); INK.drops = []; INK.spl = []; }
     function tick(dt) {
       if (!ok || !on || destroyed) return;
@@ -829,9 +838,9 @@
       /* WATERCOLOR: watercolor({swirl, bleed, amt, carry}) on (each 0..1: how much a drop curls, how soft the edges, how
          strong the ink shows, how much the tool's current carries it), watercolor(false) off (the ink is kept for when it
          comes back); ink(x, y, color, size, dens) drops ink, or clear water with color null; inkClear() a clean bath */
-      watercolor: function (v) { if (v !== undefined) { if (!v) INK.on = false; else { INK.on = !!ok; if (typeof v === "object") ["swirl", "bleed", "amt", "carry"].forEach(function (k) { if (v[k] != null && isFinite(+v[k])) INK[k] = Math.max(0, Math.min(1, +v[k])); }); INK.q = 0; } }
+      watercolor: function (v) { if (v !== undefined) { if (!v) { INK.on = false; if (INK.clr > 0) { INK.clr = 0; inkClear(); } } else { INK.clr = 0; INK.on = !!ok; if (typeof v === "object") ["swirl", "bleed", "amt", "carry"].forEach(function (k) { if (v[k] != null && isFinite(+v[k])) INK[k] = Math.max(0, Math.min(1, +v[k])); }); INK.q = 0; } }
         return INK.on ? { swirl: INK.swirl, bleed: INK.bleed, amt: INK.amt, carry: INK.carry } : null; },
-      ink: inkDrop, inkClear: inkClear, inkFailed: function () { return !!INK.failed; },
+      ink: inkDrop, inkClear: inkClear, inkFadeIn: inkFadeIn, inkFailed: function () { return !!INK.failed; },
       passOnly: function (v) { if (v !== undefined) { PASS = !!v; if (PASS) { drops.length = 0; calm(); } } return PASS; },
       colors: function (c) { if (c) Object.assign(COL, c); return Object.assign({}, COL); },
       path: setPath, flow: function (v) { FLOW = Math.max(0, Math.min(1, +v || 0)); },
