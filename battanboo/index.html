@@ -19,7 +19,7 @@
 :root[data-theme="dark"]{
   --bg:#15171A; --surface:#1E2125; --line:#2E3238; --fg:#E6E4DF; --muted:#9A9EA6; --accent:#FFCC00; --accent-ink:#15171A; --glass:rgba(21,23,26,.42); color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font:400 15px/1.45 var(--ui);padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
-.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.wrap{max-width:min(1680px,100%);margin:0 auto;display:flex;flex-direction:column;gap:14px}
 header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 h1{font:700 22px/1.1 var(--ui);letter-spacing:.02em;margin:0;text-wrap:balance}
 .tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -281,6 +281,7 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 .cnr button{border-radius:50%;aspect-ratio:1;width:auto;height:100%;max-width:100%;justify-self:center}
 /* THE HERO (Dimitry, 10 Nov): header, score, bar and the line under it sit on one field of light that runs the full width of the screen, behind the frosted frame and the bar. Full screen hides everything below it. */
 body{overflow-x:clip}
+.wrap>:not(#hero):not(#dscMark):not(#launch){width:100%;max-width:880px;align-self:center}
 #hero{display:flex;flex-direction:column;gap:14px;position:relative;isolation:isolate;min-width:0}
 #fxw{position:absolute;top:0;z-index:-1;pointer-events:none}
 .stagebox .sw[data-s="0"]{color:color-mix(in srgb,var(--fg) 62%,transparent)}.stagebox .sw[data-s="1"]{color:color-mix(in srgb,var(--fg) 34%,transparent)}
@@ -496,7 +497,7 @@ function cellSt(fam,i,j){const l=swGet(fam,'L',fam==='cart'?j:i),b=swGet(fam,'B'
 const cv=$('cv'),ctx=cv.getContext('2d');let G={};
 function fullRest(){const h=$("hero");let t=0;for(const c of h.children)if(c.id!=="fxw")t+=c.offsetHeight;const n=[...h.children].filter(c=>c.id!=="fxw").length;return t-cv.offsetHeight+(n-1)*(parseFloat(getComputedStyle(h).rowGap)||0)+20+env()}
 function env(){return 0}
-function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,innerHeight-fullRest()-6):Math.max(280,innerHeight*.62-30);let w,h;
+function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,innerHeight-fullRest()-6):(innerWidth>=900?Math.max(320,innerHeight-fullRest()-6):Math.max(280,innerHeight*.62-30));let w,h;
   /* the score stretches to the room there is, width and height on their own; its marks stay square inside their cells */
   if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N}}
   else{w=h=Math.floor(Math.min(avail,maxH,560));const Rm=w/2-2,r0=Rm*.2;G={fam,cx:w/2,cy:w/2,Rm,r0,dr:(Rm-r0)/d.R,R:d.R,K:d.K}}
