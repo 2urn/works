@@ -245,7 +245,11 @@ header{display:flex;align-items:center;gap:10px}
 @media (min-width:760px){.pill.tempo{flex:1 1 0;order:0}}
 .pill button[aria-pressed="true"].edp{background:var(--accent);color:var(--accent-ink)}
 #edTools[hidden]{display:none}
-.side{display:flex;flex-direction:column;gap:8px;flex:none;width:46px;min-height:0}.side .rail{align-self:auto}
+.side{display:flex;flex-direction:column;gap:8px;flex:none;width:46px;min-height:0}
+/* the rail is a set of tabs on the grid's right edge, not a separate control bar; a tab whose overlay is open lights its icon */
+.stagerow{gap:0}.stagerow>.stagebox{border-top-right-radius:0;border-bottom-right-radius:0}
+.side .rail,.side .pill{border-top-left-radius:0;border-bottom-left-radius:0}.side .rail button:first-child{border-top-left-radius:0}.side .rail button:last-child{border-bottom-left-radius:0}
+.side .rail button[aria-pressed="true"]{background:transparent;color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}.side .rail{align-self:auto}
 .side .brush{flex:1;min-height:0;flex-direction:column;gap:5px;align-items:stretch}.side .brush button{width:46px;height:auto;flex:1 1 0;min-height:14px;max-height:46px;padding:0}.side .brush button i{inset:6px 9px}
 .hpane .chip svg,.chips .chip svg{width:18px;height:18px;vertical-align:-4px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #hSset,#hTex,#hSsetB{flex-wrap:nowrap!important;overflow-x:auto!important}
@@ -1391,6 +1395,7 @@ setInterval(()=>{const now=performance.now();if(FORM.run){FORM.t+=(now-FORM.last
 (function(){formUI();const o=()=>{const np=hp.querySelectorAll('.hpane').length;if(hudEl.classList.contains('on')&&Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))>=np-1){hudShow(false);return}hudShow(true);hp.scrollTo({left:hp.querySelectorAll('.hpane').length*hp.clientWidth-hp.clientWidth,behavior:'auto'});hTitleSync()};
   $('mForm').onclick=o;if(formBarEl){formBarEl.onclick=o;formBarEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();o()}}}
   ['xfLine','xfTrack'].forEach(id=>{const e=$(id);if(e)e.addEventListener('pointerdown',()=>{if(FORM.follow&&FORM.run){FORM.follow=false;formUI();$('status').textContent='You took the A | B slider: the form no longer moves it.'}},true)})})();
+function formPress(){const m=$('mForm');if(!m||typeof hudEl==='undefined')return;const np=hp.querySelectorAll('.hpane').length;m.setAttribute('aria-pressed',String(hudEl.classList.contains('on')&&Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))>=np-1))}
 /* tap tempo, metronome, and the wave in the tempo bar */
 const TAPS=[];
 $('tap').onclick=()=>{const now=performance.now();if(TAPS.length&&now-TAPS[TAPS.length-1]>2200)TAPS.length=0;TAPS.push(now);if(TAPS.length>6)TAPS.shift();
@@ -1718,9 +1723,10 @@ $('allLk').onclick=()=>{const L=cornAll('lk'),nx=L.v===1?0:1;for(let k=0;k<L.nL;
   try{$('launchGo').focus({preventScroll:true})}catch(e){}})();
 /* the HUD: mixer, line-ups and goes live in slidable panes over the grid, opened from the toolbar like the finger sliders */
 const hudEl=$('hud'),hp=$('hpanes'),hdots=[...$('hdots').children];
-function hudShow(on){hudEl.classList.toggle('on',on);$('mHud').setAttribute('aria-pressed',String(on));$('mHud').setAttribute('aria-expanded',String(on));
+function hudShow(on){hudEl.classList.toggle('on',on);formPress();$('mHud').setAttribute('aria-pressed',String(on));$('mHud').setAttribute('aria-expanded',String(on));
   if(on){hTitleSync();hxBuild();hudSync();padSync();padIsSync();mixSync();mixDim();if(typeof fldSync==="function")fldSync();if(!lanRaf)laneLoop();[...HELD.keys()].filter(k=>typeof k==='number').forEach(k=>handOff(k))}}
 $('mHud').onclick=()=>hudShow(!hudEl.classList.contains('on'));
+hp.addEventListener('scroll',formPress,{passive:true});
 function hTitleSync(){const c=Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth));hdots.forEach((d,i)=>d.setAttribute('aria-current',String(i===c)));const t=$('hTitle');if(t&&hdots[c])t.textContent=hdots[c].getAttribute('aria-label')}
 hp.addEventListener('scroll',hTitleSync,{passive:true});hTitleSync();
 hdots.forEach(d=>{const on=()=>{$('hHover').textContent=d.getAttribute('aria-label')},off=()=>{$('hHover').textContent=''};d.addEventListener('pointerenter',on);d.addEventListener('pointerleave',off);d.addEventListener('focus',on);d.addEventListener('blur',off);d.addEventListener('pointerup',()=>setTimeout(off,600))});
