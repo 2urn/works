@@ -603,7 +603,9 @@ function beatAxes(N,w,h){const way=S.eff.way,xs=[],ys=[];let ax=null;
   const pos=(len,tIdx)=>{const o=[0];for(let n=0;n<N;n++)o.push(o[n]+(wt?wt[tIdx(n)]:1));const k=len/o[N];return o.map(v=>v*k)};
   G.xs=ax==='x'?pos(w,n=>way==='right'?n:N-1-n):Array.from({length:N+1},(_,n)=>n*w/N);
   G.ys=ax==='y'?pos(h,n=>way==='down'?n:N-1-n):Array.from({length:N+1},(_,n)=>n*h/N)}
-function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,innerHeight-fullRest()-6):(innerWidth>=900?Math.max(320,innerHeight-fullRest()-6):Math.max(280,innerHeight*.62-30-((document.getElementById('formBar')||{classList:{contains:()=>0}}).classList.contains('on')?20:0)));let w,h;
+/* the grid sizes from a steady viewport height: iOS grows innerHeight a little on the first touch (the toolbar tucks away), which made the grid jump bigger. Width changes (rotation) and big height changes (keyboard, split view) still count. */
+let _vw=innerWidth,_vh=innerHeight;function VH(){if(innerWidth!==_vw||Math.abs(innerHeight-_vh)>160){_vw=innerWidth;_vh=innerHeight}return _vh}
+function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,VH()-fullRest()-6):(innerWidth>=900?Math.max(320,VH()-fullRest()-6):Math.max(280,VH()*.62-30-((document.getElementById('formBar')||{classList:{contains:()=>0}}).classList.contains('on')?20:0)));let w,h;
   /* the score stretches to the room there is, width and height on their own; its marks stay square inside their cells */
   if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N};beatAxes(d.N,w,h)}
   /* the ring is stretched to the same rectangle the grid fills, so changing between them does not jump the playing area (the circle is an ellipse when the room is not square) */
