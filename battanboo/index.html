@@ -373,6 +373,7 @@ html.full #hero>header{margin-bottom:auto}html.full #hero>.stagerow{margin-top:a
 <div id="hArr" class="chips"></div><div id="hXyL" class="xys" role="group" aria-label="Each line: touch to pick its way and how it runs against the first"></div><div class="adWrap"><div class="ptl"><span class="dti" aria-hidden="true"><svg viewBox="3.30 3.30 17.40 17.40" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.3" fill="currentColor" stroke="none"/></svg></span>Auto dice</div><div class="arow"><button type="button" id="autoOn" class="chip" aria-pressed="false">Auto off</button><div id="autoUnit" class="seg" role="radiogroup" aria-label="Count in"></div><button type="button" id="autoSet" class="chip"></button></div><div id="autoBeads" class="beads" role="radiogroup" aria-label="Roll a new scene every"></div><div class="pcl">How much changes</div><div id="autoAmt" class="chips"></div><p id="autoHint" class="ahint"></p></div></section><section class="hpane" aria-label="Rhythms"><div class="ptl">Rhythms</div><div id="hRhy" class="chips"></div><p id="hRhyNote" class="ahint">Traditional patterns, written onto the grid with the drum kit. Simplified sketches.</p></section><section class="hpane" aria-label="Dice and air"><div class="ptl">Dice and air</div><div id="hXyD" class="xys" role="group" aria-label="Touch surfaces for holds, repeats, air, space, drift and morph"></div></section><section class="hpane" aria-label="Sounds"><div class="ptl">Sounds</div><div class="pcl">Sound set</div><div id="hSset" class="chips"></div><div class="pcl">Texture</div><div id="hTex" class="chips"></div><div class="pcl">Morph to</div><div id="hSsetB" class="chips"></div><div class="pcl">Colours</div><div id="hNv" class="chips"></div><div class="pcl">Sound on each colour: drop, paste or tap</div><div id="hSlots" class="hslots"></div><p id="hSlotMsg" class="ahint"></p></section><section class="hpane" aria-label="Past scenes"><div class="ptl">Past scenes <output id="hpc"></output> <button type="button" id="hpClear" class="chip">Clear</button></div><div id="hPast" class="past"></div></section><section class="hpane" aria-label="Field"><div class="ptl">Field</div>
 <div class="plrow"><span class="pcl">Touching</span><div class="seg" id="fldTouch" role="radiogroup" aria-label="Which layer your finger plays"><button type="button" class="chip" role="radio" data-t="pad">Grid</button><button type="button" class="chip" role="radio" data-t="field">Field</button></div></div>
 <div class="plrow"><span class="pcl">The field is</span><div class="arow"><div class="seg" role="group" aria-label="The field is"><button type="button" id="fldWall" class="chip ic" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h16v17H4z"/><path d="M4 9h16M4 15h16"/></svg>Wall</button><button type="button" id="fldFloor" class="chip ic" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M6 20l2-9h8l2 9M9 14.5h6"/></svg>Floor</button></div><button type="button" id="fldHold" class="chip" aria-pressed="true" title="Hold: a sound you release keeps sustaining">Hold</button><button type="button" id="fldClr" class="chip" title="Let every held sound go">Clear</button></div></div>
+<div class="plrow"><span class="pcl">Notes: the grid and the field share one scale</span><div class="arow"><select id="fScale" aria-label="Scale"></select><select id="fRoot" aria-label="Root note"></select><button type="button" id="fldNames" class="chip" aria-pressed="false" title="Name each note on the field">Names</button></div></div>
 <div id="fldDegL" class="plrow" hidden><span class="pcl">Floor pitch: which step of the scale (a drone, not a painted mark)</span><div id="fldDeg" class="chips"></div></div>
 <div class="plrow"><span class="pcl">Look of the effects</span><div id="padIs" class="padis" role="radiogroup" aria-label="The look of the effects over the pad"></div></div>
 <p id="fldHint" class="ahint"></p></section></div><div class="hbar"><span id="hTitle" class="hdt" aria-hidden="true"></span><div class="hdots" id="hdots" role="group" aria-label="Panes"><button type="button" aria-label="Mixer" aria-current="true"><i></i></button><button type="button" aria-label="Lines and auto dice" aria-current="false"><i></i></button><button type="button" aria-label="Rhythms" aria-current="false"><i></i></button><button type="button" aria-label="Dice and air" aria-current="false"><i></i></button><button type="button" aria-label="Sounds" aria-current="false"><i></i></button><button type="button" aria-label="Past scenes" aria-current="false"><i></i></button><button type="button" aria-label="Field" aria-current="false"><i></i></button></div><span id="hHover" class="hdh" aria-hidden="true"></span></div></div></div>
@@ -428,6 +429,7 @@ html.full #hero>header{margin-bottom:auto}html.full #hero>.stagerow{margin-top:a
     <div class="ctl"><label for="stick">Repeat the step before <output id="so"></output></label><input id="stick" type="range" min="0" max="0.9" step="0.05" value="0.25"></div>
     <div class="ctl"><label for="keep">A new roll keeps</label><select id="keep"><option value="both">Locked and muted squares</option><option value="lock">Locked squares only</option></select></div>
     <div class="ctl"><label for="scale">Scale</label><select id="scale"></select></div>
+    <div class="ctl"><label for="root">Root note</label><select id="root"></select></div>
     <div class="ctl"><label for="sizeSet">Sizes</label><select id="sizeSet"></select></div>
     <div class="ctl"><label for="size">Size <output id="zo"></output></label><input id="size" type="range" min="6" max="16" step="1" value="12"></div>
   </div>
@@ -485,7 +487,9 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=()=>Math.random();
 const SHAPES=[['rest','Rest'],['dot','Short'],['bar','Held'],['up','Glide up'],['down','Glide down'],['ring','Soft'],['pair','Two quick'],['big','Accent']];
 const FAVW=[6,3,1,1,1,1,1,1];
-const SCALES={'Minor pentatonic':[0,3,5,7,10],'Major pentatonic':[0,2,4,7,9],'Dorian':[0,2,3,5,7,9,10],'Whole tone':[0,2,4,6,8,10],'Chromatic':[0,1,2,3,4,5,6,7,8,9,10,11]};
+const SCALES={'Minor pentatonic':[0,3,5,7,10],'Major pentatonic':[0,2,4,7,9],'Dorian':[0,2,3,5,7,9,10],'Whole tone':[0,2,4,6,8,10],'Chromatic':[0,1,2,3,4,5,6,7,8,9,10,11],'Major':[0,2,4,5,7,9,11],'Minor':[0,2,3,5,7,8,10],'Phrygian':[0,1,3,5,7,8,10],'Lydian':[0,2,4,6,7,9,11],'Just':[0,2.0391,3.8631,4.9804,7.0196,8.8436,10.8826],'Primes':[0,2,3,5,7,11]};
+const SCALEHELP={'Just':'Just intonation: the small whole-number ratios (9/8, 5/4, 4/3, 3/2, 5/3, 15/8), not equal steps','Primes':'Primes: the prime numbers of semitones (2, 3, 5, 7, 11) with the root'};
+const NOTE_LETTERS=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
 const PRESETS={'Golden favourite':{p:.618,stick:.25,drift:0},'Inverse golden':{p:.382,stick:.25,drift:0},'Fair dice':{p:1/8,stick:0,drift:0,flat:1},'Strong favourite':{p:.9,stick:.1,drift:0},'Long runs':{p:.618,stick:.7,drift:0},'Order to chance':{p:.98,stick:.3,drift:1}};
 const FAM={right:'cart',left:'cart',up:'cart',down:'cart',radar:'pol',radarccw:'pol',out:'pol',in:'pol',grow:'cart',shrink:'cart'};
 const WAYN={right:'Left to right',left:'Right to left',down:'Top to bottom',up:'Bottom to top',radar:'Radar, clockwise',radarccw:'Radar, anticlockwise',out:'Ring widening',in:'Ring closing',grow:'Square widening',shrink:'Square closing'};
@@ -497,7 +501,7 @@ const AGAINST=['1:1','3:2','2:3','4:3','3:4','2:1','1:2','5:4'];
 const FEELS=['steady','swing','noise','random'];
 const REROLL=[['off','Never'],['1','Every pass'],['2','Every 2 passes'],['4','Every 4 passes'],['rand','At random']];
 const WANDER={'Still':{rr:'off',t:0,f:0,pa:0,hop:0},'Gentle':{rr:'4',t:.06,f:.1,pa:.1,hop:0},'Restless':{rr:'1',t:.16,f:.25,pa:.25,hop:0},'Chance':{rr:'rand',t:.3,f:.4,pa:.35,hop:1}};
-const S={vol:.7,timbre:1,tail:.48,grain:.5,air:0,mix:{lv:[.7,.7,.7,.7,.7,.7,.7,.7],mute:[],solo:[]},space:0,tex:'soft',morph:0,slotsB:[],meet:'bloom',nV:4,tune:[0,0,0,0,0,0,0,0],slots:[],flat:0,N:12,p:.618,stick:.25,drift:0,tempo:96,scale:'Minor pentatonic',way:'right',ex:[{way:'none',ag:'1:1'},{way:'none',ag:'1:1'},{way:'none',ag:'1:1'}],feel:'steady',brush:0,
+const S={vol:.7,timbre:1,tail:.48,grain:.5,air:0,mix:{lv:[.7,.7,.7,.7,.7,.7,.7,.7],mute:[],solo:[]},space:0,tex:'soft',morph:0,slotsB:[],meet:'bloom',nV:4,tune:[0,0,0,0,0,0,0,0],slots:[],flat:0,N:12,p:.618,stick:.25,drift:0,tempo:96,scale:'Minor pentatonic',root:0,way:'right',ex:[{way:'none',ag:'1:1'},{way:'none',ag:'1:1'},{way:'none',ag:'1:1'}],feel:'steady',brush:0,
  g:{cart:null,pol:null},mode:'play',playing:false,cur:[-1,-1,-1,-1],eff:{way:'right',ex:['none','none','none']},live:{tempo:96,p:.618,stick:.25},w:{rr:'off',t:0,f:0,pa:0,hop:0}};
 S.sw={cart:{L:[],B:[]},pol:{L:[],B:[]}};S.lk={cart:{L:[],B:[]},pol:{L:[],B:[]}};S.keepOff=true;
 const wpick=w=>{let t=0;for(const x of w)t+=x;let u=rnd()*t;for(let i=0;i<w.length;i++){u-=w[i];if(u<=0)return i}return w.length-1};
@@ -770,7 +774,7 @@ function unmuteIOS(){try{if(navigator.audioSession)navigator.audioSession.type='
 const effNow=()=>({way:S.way,ex:S.ex.map(e=>e.way)});
 function ensureAudio(){unmuteIOS();if(AC)return;AC=new (window.AudioContext||window.webkitAudioContext)();const comp=AC.createDynamicsCompressor();comp.threshold.value=-16;comp.knee.value=8;comp.ratio.value=14;comp.attack.value=.002;comp.release.value=.18;master=AC.createGain();master.gain.value=.42*(S.vol/.7);master.connect(comp);AN=AC.createAnalyser();AN.fftSize=1024;AN.smoothingTimeConstant=.6;master.connect(AN);REV=AC.createConvolver();irSet();WET=AC.createGain();WET.gain.value=S.space*.9;master.connect(REV);REV.connect(WET);WET.connect(comp);{const sh=AC.createWaveShaper(),cv=new Float32Array(2049);for(let i=0;i<2049;i++){const x=i/1024-1;cv[i]=Math.tanh(x*1.15)/Math.tanh(1.15)}sh.curve=cv;sh.oversample='4x';const out=AC.createGain();out.gain.value=.9;TIMB=AC.createBiquadFilter();TIMB.type='lowpass';TIMB.Q.value=.6;timbSet();comp.connect(sh);sh.connect(TIMB);TIMB.connect(out);out.connect(AC.destination);OUTN=out;if(MUTED)out.gain.value=0}flushPending();fxKick()}
 const hz=m=>440*Math.pow(2,(m-69)/12);
-function midiOf(l){const sc=SCALES[S.scale],n=sc.length;return 48+Math.floor(l/n)*12+sc[l%n]}
+function midiOf(l){const sc=SCALES[S.scale],n=sc.length;return 48+(S.root||0)+Math.floor(l/n)*12+sc[l%n]}
 let SYNV=1;function note(t0,m,dur,vel,voice,glide){vel*=SYNV*NOTEG;const f=hz(m),f2=glide?hz(m+glide):f,g=AC.createGain(),o=AC.createOscillator();
   o.frequency.setValueAtTime(f,t0);if(f2!==f)o.frequency.exponentialRampToValueAtTime(f2,t0+Math.max(.08,dur*.9));
   const env=(a,d,rel)=>{g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vel,t0+a);g.gain.setValueAtTime(vel,t0+Math.max(a,d));g.gain.exponentialRampToValueAtTime(.0008,t0+Math.max(a,d)+rel)};
@@ -963,7 +967,13 @@ opts('sizeSet',Object.keys(SIZENAMES).map(k=>[k,SIZENAMES[k]]));$('sizeSet').val
 $('sizeSet').onchange=e=>{SIZESET=e.target.value;try{localStorage.setItem('dicescore.sizeset',SIZESET)}catch(_){}const v=sizeVals();if(v){const n=v.reduce((b,x)=>Math.abs(x-S.N)<Math.abs(b-S.N)?x:b,v[0]);sizeApply(n)}sizeUI()};
 $('size').oninput=()=>{const v=sizeVals();$('zo').textContent=v?v[+$('size').value]:$('size').value};
 $('size').onchange=()=>{const v=sizeVals();sizeApply(v?v[+$('size').value]:+$('size').value)};sizeUI();
-opts('scale',Object.keys(SCALES).map(n=>[n,n]));$('scale').onchange=e=>{S.scale=e.target.value;if(SIZESET==='scale'){const v=sizeVals();sizeApply(v.includes(S.N)?S.N:v[0]);sizeUI()}};
+try{const q=JSON.parse(localStorage.getItem('dicescore.pitch')||'null');if(q){if(SCALES[q.scale])S.scale=q.scale;if(q.root>=0&&q.root<12)S.root=q.root|0;S.names=!!q.names}}catch(e){}
+opts('scale',Object.keys(SCALES).map(n=>[n,n]));opts('root',NOTE_LETTERS.map((n,i)=>[i,n]));opts('fScale',Object.keys(SCALES).map(n=>[n,n]));opts('fRoot',NOTE_LETTERS.map((n,i)=>[i,n]));
+function pitchSync(){['scale','fScale'].forEach(id=>{const e=$(id);if(e){e.value=S.scale;e.title=SCALEHELP[S.scale]||S.scale}});['root','fRoot'].forEach(id=>{const e=$(id);if(e)e.value=S.root||0});const b=$('fldNames');if(b)b.setAttribute('aria-pressed',String(!!S.names));try{fldPaint()}catch(e){}}
+function pitchSet(sc,rt){if(sc!=null&&SCALES[sc])S.scale=sc;if(rt!=null)S.root=+rt||0;try{localStorage.setItem('dicescore.pitch',JSON.stringify({scale:S.scale,root:S.root||0,names:!!S.names}))}catch(e){}
+  if(SIZESET==='scale'){const v=sizeVals();sizeApply(v.includes(S.N)?S.N:v[0]);sizeUI()}if(FLD2.deg>=fldNotes()*2)FLD2.deg=0;pitchSync();if(typeof fldDegBuild==='function')fldDegBuild()}
+['scale','fScale'].forEach(id=>$(id).onchange=e=>pitchSet(e.target.value,null));['root','fRoot'].forEach(id=>$(id).onchange=e=>pitchSet(null,e.target.value));
+$('fldNames').onclick=()=>{S.names=!S.names;pitchSet(null,null)};pitchSync();
 opts('preset',Object.keys(PRESETS).map(n=>[n,n]));
 $('preset').onchange=e=>{const P=PRESETS[e.target.value];S.drift=P.drift;S.flat=P.flat||0;$('p').value=P.p;$('stick').value=P.stick;$('p').dispatchEvent(new Event('input'));$('stick').dispatchEvent(new Event('input'));if(!S.playing)$('roll').click()};
 opts('way',Object.keys(WAYN).map(w=>[w,WAYN[w]]));opts('feel',FEELS.map(f=>[f,f[0].toUpperCase()+f.slice(1)]));
@@ -1227,7 +1237,8 @@ function fldPaint(){const el=fldEl();if(!el)return;const w=el.clientWidth,h=el.c
   const g=el.getContext('2d'),cs=getComputedStyle(document.documentElement),fg=cs.getPropertyValue('--fg')||'#000',ac=cs.getPropertyValue('--accent')||'#c90',line=cs.getPropertyValue('--line')||'#888';
   g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=1;
   if(live){g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,0,w,h)}
-  if(!live){}else if(FLD2.view==='wall'){const n=fldNotes()*2;g.strokeStyle=line;g.globalAlpha=.7;for(let i=1;i<n;i++){const y=h*i/n;g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}g.globalAlpha=1}
+  if(!live){}else if(FLD2.view==='wall'){const nn=fldNotes(),n=nn*2;g.strokeStyle=line;for(let i=1;i<n;i++){const y=h*i/n,root=(n-i)%nn===0;g.globalAlpha=root?1:.7;g.lineWidth=root?2:1;g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}g.lineWidth=1;g.globalAlpha=1;
+    if(S.names){g.fillStyle='#fff';g.globalAlpha=.8;g.font='600 10px system-ui,sans-serif';g.textAlign='right';g.textBaseline='middle';for(let r=0;r<n;r++){const m=Math.round(midiOf(n-1-r)-12);g.fillText(NOTE_LETTERS[((m%12)+12)%12]+(Math.floor(m/12)-1),w-6,h*(r+.5)/n)}g.globalAlpha=1}}
   else{for(let i=0;i<8;i++){g.fillStyle=fg;g.globalAlpha=.03+.05*(7-i)/7;g.fillRect(0,h*i/8,w,h/8)}g.globalAlpha=1;g.strokeStyle=line;g.beginPath();g.moveTo(w/2,0);g.lineTo(w/2,h);g.stroke()}
   if(live){g.fillStyle='#fff';g.globalAlpha=.7;g.font='600 11px system-ui,sans-serif';g.textBaseline='middle';
   g.textAlign='left';g.fillText('left',8,h-9);g.textAlign='right';g.fillText('right',w-8,h-9);g.textAlign='center';
@@ -1607,7 +1618,7 @@ const XP={mode:'midi',len:30,fmt:'json',msg:''};
 let CAPD=null;
 const HITLOG=[];
 function logHit(k,l,when,sd){try{const sl=S.slots[k.v]||S.slots[0],drum=!!(sl&&sl.t==='bank'&&sl.name==='Drum kit');
-  const GMD=[36,38,42,46,45,50,39,37],p=drum?GMD[l%8]:Math.max(0,Math.min(127,midiOf(l)+Math.round(S.tune[k.v]||0)));
+  const GMD=[36,38,42,46,45,50,39,37],p=drum?GMD[l%8]:Math.max(0,Math.min(127,Math.round(midiOf(l)+Math.round(S.tune[k.v]||0))));
   const vel=Math.max(28,Math.min(127,Math.round(cg(k.v)*85*(k.s===5?.6:k.s===7?1.4:1))));
   HITLOG.push({t:when,v:k.v,s:k.s,sd:sd0(sd),p,vel,drum,name:(sl&&sl.name)||''});if(HITLOG.length>20000)HITLOG.splice(0,4000)}catch(e){}}
 function sd0(x){return x>0?Math.min(x,.5):.2}
@@ -1722,7 +1733,7 @@ function xpMidi(){const now=AC?AC.currentTime:0,lim=XP.len?now-XP.len:-1,ev=HITL
 function xpTempo(ev){const a=ev.map(e=>e.sd).sort((x,y)=>x-y),m=a[a.length>>1]||.2;return Math.max(30,Math.min(300,Math.round(30/m)))}
 function scoreView(){const V=view(S.eff.way);return V}
 function scoreText(){const V=scoreView(),rows=[],L='abcdefgh';
-  rows.push('Battanboo · '+Math.round(S.tempo)+' bpm · '+S.scale+' · '+WAYN[S.eff.way]+' · '+V.T+' steps × '+V.L+' lanes','Each mark: shape 1-7, then colour a-h. A dot is a rest. Top row is the highest lane.','');
+  rows.push('Battanboo · '+Math.round(S.tempo)+' bpm · '+NOTE_LETTERS[S.root||0]+' '+S.scale+' · '+WAYN[S.eff.way]+' · '+V.T+' steps × '+V.L+' lanes','Each mark: shape 1-7, then colour a-h. A dot is a rest. Top row is the highest lane.','');
   for(let l=V.L-1;l>=0;l--){let r=String(l+1).padStart(2,' ')+' |';for(let t=0;t<V.T;t++){const k=V.v[t][l];r+=k&&k.s?' '+k.s+L[k.v%8]:' . '}rows.push(r)}return rows.join('\n')}
 function scoreCsv(){const V=scoreView(),r=['step,lane,shape,colour'];for(let t=0;t<V.T;t++)for(let l=0;l<V.L;l++){const k=V.v[t][l];if(k&&k.s)r.push([t+1,l+1,k.s,k.v+1].join(','))}return r.join('\n')}
 function scoreJson(){return JSON.stringify({format:'dice-score/1',tempo:S.tempo,scale:S.scale,way:S.way,lines:S.ex,size:S.N,feel:S.feel,holds:S.p,repeats:S.stick,drift:S.drift,mix:S.mix,tune:S.tune,sounds:S.slots.map(s=>s&&s.name||''),grids:S.g,link:CAP_LINK},null,1)}
