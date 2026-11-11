@@ -677,16 +677,16 @@ function histSync(){const u=$('undo'),r=$('redo');if(u)u.disabled=!UND.length;if
   pill.innerHTML='<button id="undo" type="button" aria-label="Undo" title="Undo (Ctrl or Cmd+Z)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button><button id="redo" type="button" aria-label="Redo" title="Redo (Shift+Ctrl or Cmd+Z)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>';bar.appendChild(pill);$('undo').onclick=undo;$('redo').onclick=redo})();
 addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey||e.key.toLowerCase()!=='z'||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName||''))return;e.preventDefault();e.shiftKey?redo():undo()});
 /* HOLD to open a heads-up display: hold the dice for its Auto pane, hold back or forward for Past scenes. Keep the finger down and slide onto a bead or a past scene, then let go to pick it. */
-(function(){const IDX={roll:6,prev:5,next:5,spk:0},sel='#hud .bead,#hud .chip,#hud .ptile,#hud [role="radio"],#hud button';let st=null,swallow=false;
+(function(){const IDX={roll:3,poleA:3,poleB:6,prev:5,next:5,spk:0},sel='#hud .bead,#hud .chip,#hud .ptile,#hud [role="radio"],#hud button';let st=null,swallow=false;
   const tgt=e=>{const el=document.elementFromPoint(e.clientX,e.clientY);return el&&el.closest?el.closest(sel):null};
   const mark=t=>{document.querySelectorAll('.hh').forEach(x=>x.classList.remove('hh'));if(t)t.classList.add('hh')};
-  ['roll','prev','next','spk'].forEach(id=>{const b=$(id);
+  ['roll','poleA','poleB','prev','next','spk'].forEach(id=>{const b=$(id);if(!b)return;
     b.addEventListener('pointerdown',e=>{if(e.button>0)return;clearTimeout(st&&st.timer);st={id:e.pointerId,x:e.clientX,y:e.clientY,fired:false,t:null};
       st.timer=setTimeout(()=>{if(!st)return;st.fired=true;hudShow(true);hp.scrollTo({left:IDX[id]*hp.clientWidth,behavior:'auto'});hTitleSync();try{b.setPointerCapture(e.pointerId)}catch(_){}b.classList.add('held')},450)});
     b.addEventListener('pointermove',e=>{if(!st||st.id!==e.pointerId)return;if(!st.fired){if(Math.hypot(e.clientX-st.x,e.clientY-st.y)>14){clearTimeout(st.timer);st=null}return}st.t=tgt(e);mark(st.t)});
     const end=e=>{if(!st||st.id!==e.pointerId)return;clearTimeout(st.timer);const s0=st;st=null;b.classList.remove('held');mark(null);if(!s0.fired)return;swallow=true;setTimeout(()=>{swallow=false},500);const t=e.type==='pointerup'?tgt(e):null;if(t)t.click()};
     b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end)});
-  document.addEventListener('click',e=>{if(swallow&&e.target.closest&&e.target.closest('#roll,#prev,#next')){e.stopPropagation();e.preventDefault();swallow=false}},true)})();
+  document.addEventListener('click',e=>{if(swallow&&e.target.closest&&e.target.closest('#roll,#prev,#next,#poleA,#poleB')){e.stopPropagation();e.preventDefault();swallow=false}},true)})();
 /* DOUBLE-TAP a setting (a slider, a fader, a finger slider, a touch pad, a switch, a choice) to put it back to its default */
 function btnReset(n){const clk=e=>()=>{if(e)e.click()};
   if(n.matches('.bM,.bS,#autoOn,#metro'))return()=>{if(n.getAttribute('aria-pressed')==='true')n.click()};
