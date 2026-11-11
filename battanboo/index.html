@@ -234,6 +234,8 @@ header{display:flex;align-items:center;gap:10px}
 .hpane .chips .chip{min-height:36px;padding:0 12px}.hpane .pcl{margin-top:2px}
 .hpane[aria-label="Past scenes"] .past{max-height:none;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));overflow:visible}.hpane[aria-label="Past scenes"] .ptile{padding:4px;font-size:10px}.hpane[aria-label="Past scenes"] .ptl{display:flex;align-items:center;gap:8px}.hpane[aria-label="Past scenes"] .ptl .chip{min-height:30px;padding:0 10px;margin-left:auto;font-size:11px}
 @media (min-width:760px){.pill.tempo{flex:1 1 0;order:0}}
+.pill button[aria-pressed="true"].edp{background:var(--accent);color:var(--accent-ink)}
+#edTools[hidden]{display:none}
 .side{display:flex;flex-direction:column;gap:8px;flex:none;width:46px;min-height:0}.side .rail{align-self:auto}
 .side .brush{flex:1;min-height:0;flex-direction:column;gap:5px;align-items:stretch}.side .brush button{width:46px;height:auto;flex:1 1 0;min-height:14px;max-height:46px;padding:0}.side .brush button i{inset:6px 9px}
 .hpane .chip svg,.chips .chip svg{width:18px;height:18px;vertical-align:-4px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -377,7 +379,7 @@ html.full #hero>header{margin-bottom:auto}html.full #hero>.stagerow{margin-top:a
 <div id="fldDegL" class="plrow" hidden><span class="pcl">Floor pitch: which step of the scale (a drone, not a painted mark)</span><div id="fldDeg" class="chips"></div></div>
 <div class="plrow"><span class="pcl">Look of the effects</span><div id="padIs" class="padis" role="radiogroup" aria-label="The look of the effects over the pad"></div></div>
 <p id="fldHint" class="ahint"></p></section></div><div class="hbar"><span id="hTitle" class="hdt" aria-hidden="true"></span><div class="hdots" id="hdots" role="group" aria-label="Panes"><button type="button" aria-label="Mixer" aria-current="true"><i></i></button><button type="button" aria-label="Lines and auto dice" aria-current="false"><i></i></button><button type="button" aria-label="Rhythms" aria-current="false"><i></i></button><button type="button" aria-label="Dice and air" aria-current="false"><i></i></button><button type="button" aria-label="Sounds" aria-current="false"><i></i></button><button type="button" aria-label="Past scenes" aria-current="false"><i></i></button><button type="button" aria-label="Field" aria-current="false"><i></i></button></div><span id="hHover" class="hdh" aria-hidden="true"></span></div></div></div>
-  <div class="side"><div class="pill rail" role="group" aria-label="Pad: view and hand or pencil"><button id="padCyc" type="button" aria-label="The pad shows: wall" title="The pad shows: wall (tap to change)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5z"/><path d="M3 14l9 5 9-5"/></svg></button><button id="mPlay" class="ib" aria-pressed="true" aria-label="Play the pad by hand" title="Play the pad by hand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12V5.2a1.5 1.5 0 0 1 3 0V12"/><path d="M12 12.2v-.7a1.3 1.3 0 0 1 2.6 0v.9M14.6 12.4a1.3 1.3 0 0 1 2.6 0v1M17.2 13.4a1.3 1.3 0 0 1 2.4 0v3.1c0 3.4-2.4 5.5-5.8 5.5h-1.4c-2.3 0-3.6-1-4.8-2.6l-2.4-3.1a1.4 1.4 0 0 1 2.3-1.6L9 16.4V12"/><g class="hp" stroke-width="1.3"><path class="p1" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/><path class="p2" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/><path class="p3" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/></g></svg><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.2 4.6a1.6 1.6 0 0 1 2.2 0l1 1a1.6 1.6 0 0 1 0 2.2L8.2 19z"/><path d="M14.5 6.5l3 3"/></svg></button></div><span class="brush" role="group" aria-label="Voice to paint with">
+  <div class="side"><div class="pill rail" role="group" aria-label="Pad: view and hand or pencil"><button id="padCyc" type="button" aria-label="The pad shows: wall" title="The pad shows: wall (tap to change)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5z"/><path d="M3 14l9 5 9-5"/></svg></button><button id="mPlay" class="ib" aria-pressed="true" aria-label="Play the pad by hand" title="Play the pad by hand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12V5.2a1.5 1.5 0 0 1 3 0V12"/><path d="M12 12.2v-.7a1.3 1.3 0 0 1 2.6 0v.9M14.6 12.4a1.3 1.3 0 0 1 2.6 0v1M17.2 13.4a1.3 1.3 0 0 1 2.4 0v3.1c0 3.4-2.4 5.5-5.8 5.5h-1.4c-2.3 0-3.6-1-4.8-2.6l-2.4-3.1a1.4 1.4 0 0 1 2.3-1.6L9 16.4V12"/><g class="hp" stroke-width="1.3"><path class="p1" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/><path class="p2" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/><path class="p3" vector-effect="non-scaling-stroke" d="M8.2 2.1A3 3 0 0 1 12.8 2.1"/></g></svg><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.2 4.6a1.6 1.6 0 0 1 2.2 0l1 1a1.6 1.6 0 0 1 0 2.2L8.2 19z"/><path d="M14.5 6.5l3 3"/></svg></button></div><div class="pill rail" id="edTools" role="group" aria-label="Edit: whole columns or rows" hidden><button id="edI" type="button" aria-pressed="false" aria-label="Pick a column" title="Pick a column"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="18" rx="1"/><path d="M4 6v12M20 6v12"/></svg></button><button id="edJ" type="button" aria-pressed="false" aria-label="Pick a row" title="Pick a row"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="1"/><path d="M6 4h12M6 20h12"/></svg></button><button id="edCopy" type="button" aria-pressed="false" aria-label="Copy the picked line" title="Copy the picked line"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button><button id="edCut" type="button" aria-pressed="false" aria-label="Cut the picked line" title="Cut the picked line"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M7.5 16L18 4M16.5 16L6 4"/></svg></button><button id="edPaste" type="button" aria-pressed="false" aria-label="Paste into the picked line" title="Paste into the picked line"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M9 12h6M9 16h4"/></svg></button></div><span class="brush" role="group" aria-label="Voice to paint with">
       <button data-v="0" aria-pressed="true" aria-label="Voice 1" style="--c:var(--v0)"><i></i></button>
       <button data-v="1" aria-pressed="false" aria-label="Voice 2" style="--c:var(--v1)"><i></i></button>
       <button data-v="2" aria-pressed="false" aria-label="Voice 3" style="--c:var(--v2)"><i></i></button>
@@ -543,15 +545,24 @@ const swGet=(fam,side,k)=>S.sw[fam][side][k]||0;
 function cellSt(fam,i,j){const l=swGet(fam,'L',fam==='cart'?j:i),b=swGet(fam,'B',fam==='cart'?i:j);return(l===1||b===1)?1:(l===2||b===2)?2:0}
 /* geometry */
 const cv=$('cv'),ctx=cv.getContext('2d');let G={};
+const ED={pick:null,sel:null,clip:null};
+const edName=k=>G.fam==='cart'?(k==='i'?'column':'row'):(k==='i'?'ring':'spoke');
 function fullRest(){const h=$("hero");let t=0;for(const c of h.children)if(c.id!=="fxw")t+=c.offsetHeight;const n=[...h.children].filter(c=>c.id!=="fxw").length;return t-cv.offsetHeight+(n-1)*(parseFloat(getComputedStyle(h).rowGap)||0)+20+env()}
 function env(){return 0}
+/* columns (or rows, when time runs up or down) are drawn as long as the beat they hold: the Beats pattern, not the feel, which only moves timing */
+function beatAxes(N,w,h){const way=S.eff.way,xs=[],ys=[];let ax=null;
+  if(way==='right'||way==='left')ax='x';else if(way==='up'||way==='down')ax='y';
+  let wt=null;try{if(ax&&BEATS[S.beats])wt=weights(N,'none')}catch(e){}
+  const pos=(len,tIdx)=>{const o=[0];for(let n=0;n<N;n++)o.push(o[n]+(wt?wt[tIdx(n)]:1));const k=len/o[N];return o.map(v=>v*k)};
+  G.xs=ax==='x'?pos(w,n=>way==='right'?n:N-1-n):Array.from({length:N+1},(_,n)=>n*w/N);
+  G.ys=ax==='y'?pos(h,n=>way==='down'?n:N-1-n):Array.from({length:N+1},(_,n)=>n*h/N)}
 function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,innerHeight-fullRest()-6):(innerWidth>=900?Math.max(320,innerHeight-fullRest()-6):Math.max(280,innerHeight*.62-30));let w,h;
   /* the score stretches to the room there is, width and height on their own; its marks stay square inside their cells */
-  if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N}}
+  if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N};beatAxes(d.N,w,h)}
   else{w=h=Math.floor(Math.min(avail,maxH,innerWidth>=900?1600:560));const Rm=w/2-2,r0=Rm*.2;G={fam,cx:w/2,cy:w/2,Rm,r0,dr:(Rm-r0)/d.R,R:d.R,K:d.K}}
   const dpr=Math.min(devicePixelRatio||1,2);cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';const fxc=$('fx');fxc.width=w*dpr;fxc.height=h*dpr;fxc.style.width=w+'px';fxc.style.height=h+'px';const fl=$('fldPad');if(fl){fl.style.width=w+'px';fl.style.height=h+'px';if(typeof fldPaint==='function')setTimeout(fldPaint,0)}ctx.setTransform(dpr,0,0,dpr,0,0);G.w=w;G.h=h;strips();try{fldPaint()}catch(_){}}
 let stripSig='';
-function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?d.N:d.K,sig=fam+G.w+'x'+G.h+nL+nB;if(sig===stripSig)return;stripSig=sig;
+function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?d.N:d.K,sig=fam+G.w+'x'+G.h+nL+nB+S.beats+S.eff.way;if(sig===stripSig)return;stripSig=sig;
   const L=$('swL'),B=$('swB');L.innerHTML='';B.innerHTML='';L.style.height=G.h+'px';B.style.width=G.w+'px';
   const mk=(side,k,label)=>{const b=document.createElement('button');b.className='sw';b.type='button';b.innerHTML='<i></i>';
     const set=()=>{const v=swGet(fam,side,k);b.dataset.s=v;b.setAttribute('aria-label',label+': '+['normal','muted','always on'][v]);b.title=b.getAttribute('aria-label')};
@@ -567,11 +578,11 @@ function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?
   let lp=null;const lhit=e=>{const el=document.elementFromPoint(e.clientX,e.clientY),x=el&&el.closest&&el.closest('.lkb');return x&&x._apply?x:null};
   [LT,LR].forEach(C=>{C.onpointerdown=e=>{const b=lhit(e);if(!b)return;e.preventDefault();lp=b._next();b._apply(lp);try{C.setPointerCapture(e.pointerId)}catch(_){}};
     C.onpointermove=e=>{if(lp==null)return;const b=lhit(e);if(b)b._apply(lp)};C.onpointerup=C.onpointercancel=()=>{lp=null}});
-  for(let n=0;n<nL;n++){const k=fam==='cart'?n:nL-1-n,b=mkl('L',k,(fam==='cart'?'Row ':'Ring ')+(n+1));b.style.height=(G.h/nL)+'px';LR.appendChild(b)}
-  for(let n=0;n<nB;n++){const b=mkl('B',n,(fam==='cart'?'Column ':'Spoke ')+(n+1));b.style.width=(G.w/nB)+'px';LT.appendChild(b)}
-  for(let n=0;n<nL;n++){const k=fam==='cart'?n:nL-1-n,b=mk('L',k,(fam==='cart'?'Row ':'Ring ')+(n+1));b.style.height=(G.h/nL)+'px';L.appendChild(b)}
-  for(let n=0;n<nB;n++){const b=mk('B',n,(fam==='cart'?'Column ':'Spoke ')+(n+1));b.style.width=(G.w/nB)+'px';B.appendChild(b)}}
-function info(i,j){if(G.fam==='cart'){const X=i*G.cw,Y=j*G.ch,s=Math.min(G.cw,G.ch),x=X+(G.cw-s)/2,y=Y+(G.ch-s)/2;return{cx:X+G.cw/2,cy:Y+G.ch/2,s,x,y,path:c=>{c.beginPath();c.rect(X+.5,Y+.5,G.cw-1,G.ch-1)}}}
+  for(let n=0;n<nL;n++){const k=fam==='cart'?n:nL-1-n,b=mkl('L',k,(fam==='cart'?'Row ':'Ring ')+(n+1));b.style.height=(fam==='cart'?G.ys[n+1]-G.ys[n]:G.h/nL)+'px';LR.appendChild(b)}
+  for(let n=0;n<nB;n++){const b=mkl('B',n,(fam==='cart'?'Column ':'Spoke ')+(n+1));b.style.width=(fam==='cart'?G.xs[n+1]-G.xs[n]:G.w/nB)+'px';LT.appendChild(b)}
+  for(let n=0;n<nL;n++){const k=fam==='cart'?n:nL-1-n,b=mk('L',k,(fam==='cart'?'Row ':'Ring ')+(n+1));b.style.height=(fam==='cart'?G.ys[n+1]-G.ys[n]:G.h/nL)+'px';L.appendChild(b)}
+  for(let n=0;n<nB;n++){const b=mk('B',n,(fam==='cart'?'Column ':'Spoke ')+(n+1));b.style.width=(fam==='cart'?G.xs[n+1]-G.xs[n]:G.w/nB)+'px';B.appendChild(b)}}
+function info(i,j){if(G.fam==='cart'){const X=G.xs[i],Y=G.ys[j],cw=G.xs[i+1]-X,ch=G.ys[j+1]-Y,s=Math.min(cw,ch),x=X+(cw-s)/2,y=Y+(ch-s)/2;return{cx:X+cw/2,cy:Y+ch/2,s,x,y,path:c=>{c.beginPath();c.rect(X+.5,Y+.5,cw-1,ch-1)}}}
   const ri=G.r0+i*G.dr,ro=ri+G.dr,a0=j/G.K*2*Math.PI-Math.PI/2,a1=(j+1)/G.K*2*Math.PI-Math.PI/2,th=(j+.5)/G.K*2*Math.PI,rm=(ri+ro)/2;
   return{cx:G.cx+rm*Math.sin(th),cy:G.cy-rm*Math.cos(th),s:Math.min(G.dr,2*Math.PI*rm/G.K)*.98,th,path:c=>{c.beginPath();c.arc(G.cx,G.cy,ro,a0,a1);c.arc(G.cx,G.cy,ri,a1,a0,true);c.closePath()}}}
 function mark(c,kind,x,y,s,col,tb){const m=s*.16,a=x+m,b=y+m,w=s-2*m,cx=x+s/2,cy=y+s/2;c.fillStyle=col;c.strokeStyle=col;c.lineWidth=Math.max(1.5,s*.07);
@@ -588,12 +599,13 @@ function drawMark(c,kind,f,col){const way=S.eff.way;
   if(G.fam==='cart'){mark(c,kind,f.x,f.y,f.s,col,way==='up'||way==='down');return}
   c.save();c.translate(f.cx,f.cy);c.rotate(f.th-Math.PI/2);const rad=way==='radar'||way==='radarccw';if(!rad)c.scale(1,-1);mark(c,kind,-f.s/2,-f.s/2,f.s,col,rad);c.restore()}
 function draw(){layout();try{cornSync()}catch(_){}const c=ctx,V=VC(),fam=FAM[S.eff.way],[A,B]=AB(fam),g=S.g[fam];if(!g)return;c.fillStyle='#000';c.fillRect(0,0,G.w,G.h);
-  const sline=css('--stage-line'),way0=S.eff.way,nn=SCALES[S.scale].length;c.lineWidth=1;
-  for(let i=0;i<A;i++)for(let j=0;j<B;j++){const root=tl(way0,i,j)[1]%nn===0;c.strokeStyle=root?'rgba(255,255,255,.5)':sline;c.lineWidth=root?1.6:1;info(i,j).path(c);c.stroke()}c.lineWidth=1;
+  const sline=css('--stage-line'),way0=S.eff.way,nn=SCALES[S.scale].length;c.lineWidth=1;let fup=false;try{fup=!!(FLD2.fon&&FLD2.touch==='field')}catch(e){}
+  c.save();if(fup)c.globalAlpha=.12;for(let i=0;i<A;i++)for(let j=0;j<B;j++){const root=tl(way0,i,j)[1]%nn===0;c.strokeStyle=root?'rgba(255,255,255,.5)':sline;c.lineWidth=root?1.6:1;info(i,j).path(c);c.stroke()}c.restore();c.lineWidth=1;
   const TINT=['rgba(255,204,0,.17)','rgba(63,184,175,.24)','rgba(232,112,90,.22)','rgba(167,147,224,.24)'];
   [S.eff.way,...S.eff.ex].forEach((w,n)=>{if(!w||w==='none'||S.cur[n]<0||FAM[w]!==fam)return;c.fillStyle=TINT[n];
     for(let i=0;i<A;i++)for(let j=0;j<B;j++)if(tl(w,i,j)[0]===S.cur[n]){info(i,j).path(c);c.fill()}});
   c.fillStyle='rgba(255,204,0,.09)';for(let i=0;i<A;i++)for(let j=0;j<B;j++)if(locked(fam,i,j)){info(i,j).path(c);c.fill()}
+  if(S.mode==='edit'&&ED.sel&&ED.sel.fam===fam){c.fillStyle='rgba(63,184,175,.3)';edCells(ED.sel).forEach(([i,j])=>{info(i,j).path(c);c.fill()})}
   c.fillStyle='rgba(255,255,255,.28)';HL.forEach((n,key)=>{const[a,b]=key.split(',').map(Number);if(g[a]&&g[a][b]){info(a,b).path(c);c.fill()}});
   for(let i=0;i<A;i++)for(let j=0;j<B;j++){const k=g[i][j];if(!k||k.s===0)continue;const st=cellSt(fam,i,j);c.globalAlpha=st===1?.2:.9;drawMark(c,k.s,info(i,j),V[k.v])}c.globalAlpha=1;
   if(S.names){const f0=info(0,0),edge=(i,j)=>way0==='down'||way0==='up'||way0==='radar'||way0==='radarccw'?j===0:way0==='out'||way0==='in'?i===A-1:i===0;
@@ -602,7 +614,7 @@ function draw(){layout();try{cornSync()}catch(_){}const c=ctx,V=VC(),fam=FAM[S.e
       c.textAlign=cart?'left':'center';c.lineWidth=3;c.strokeStyle='rgba(0,0,0,.75)';c.strokeText(nm,x,y);c.fillStyle='rgba(255,255,255,.9)';c.fillText(nm,x,y)}c.lineWidth=1}
   if(MEET.size&&AC){const now=AC.currentTime;MEET.forEach((m,key)=>{const age=now-m.t;if(age>.8){MEET.delete(key);return}if(age<0||m.fam!==fam)return;const f=info(m.a,m.b);for(let r=0;r<Math.min(m.n,3);r++){const ag=age-r*.09;if(ag<0)continue;c.strokeStyle='rgba(255,255,255,'+Math.max(0,.9*(1-ag/.8))+')';c.lineWidth=2;c.beginPath();c.arc(f.cx,f.cy,f.s*(.45+ag*1.7),0,6.2832);c.stroke()}})}}
 function cellAt(e){const r=cv.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,fam=G.fam,g=S.g[fam];let i,j;
-  if(fam==='cart'){i=Math.floor(px/G.cw);j=Math.floor(py/G.ch)}
+  if(fam==='cart'){const f=(a,v)=>{let n=0;while(n<a.length-2&&v>=a[n+1])n++;return Math.max(0,n)};i=f(G.xs,px);j=f(G.ys,py)}
   else{const dx=px-G.cx,dy=py-G.cy,rr=Math.hypot(dx,dy);if(rr<G.r0||rr>G.Rm)return null;i=Math.floor((rr-G.r0)/G.dr);let th=Math.atan2(dx,-dy);if(th<0)th+=2*Math.PI;j=Math.floor(th/(2*Math.PI)*G.K)%G.K}
   return g[i]&&g[i][j]?{i,j,k:g[i][j]}:null}
 /* hand play: a held finger holds its note; pressure (where the device reports it) is its loudness and brightness; where it does not (a finger on most phones) the note swells the longer you hold. Several fingers play several notes. */
@@ -666,6 +678,7 @@ function recToggle(){const now=performance.now();
 function clearTake(){rec.take=null;rec.tmp=null;rec.firstOn=false;[...HELD.keys()].filter(k=>typeof k==='string').forEach(k=>handOff(k));if(rec.on){rec.on=false;$('rec').setAttribute('aria-pressed','false')}$('clrTake').hidden=true}
 cv.addEventListener('pointerdown',e=>{const c=cellAt(e);if(!c)return;
   if(S.mode==='play'){e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=pressureOf(e);handOn(e.pointerId,c,p);recEv('go',e.pointerId,c,p);return}
+  if(ED.pick){e.preventDefault();ED.sel={fam:G.fam,kind:ED.pick,n:ED.pick==='i'?c.i:c.j};ED.pick=null;edSync();draw();$('status').textContent='Picked '+edName(ED.sel.kind)+' '+(ED.sel.n+1)+'. Copy, cut, or pick another cell and paste.';return}
   if(PT.halo)haloOpen(c);else paintDown(e,c)});
 cv.addEventListener('pointermove',e=>{if(S.mode==='edit')paintMove(e);if(S.mode!=='play'||!HELD.has(e.pointerId))return;const c=cellAt(e);if(!c)return;const p=pressureOf(e);handGo(e.pointerId,c,p);recEv('go',e.pointerId,c,p)});
 const upH=e=>{if(!HELD.has(e.pointerId))return;handOff(e.pointerId);recEv('up',e.pointerId,null,null)};
@@ -748,6 +761,22 @@ function paintApply(c,mode){const k=c.k,both=PT.pc&&PT.pm;
 function paintDown(e,c){e.preventDefault();histPush();const k=c.k;if(!PT.pc&&!PT.pm){if(k.v!==S.brush||k.s===0){k.v=S.brush;if(k.s===0)k.s=PT.shape||1}else k.s=(k.s+1)%SHAPES.length;draw();return}
   try{cv.setPointerCapture(e.pointerId)}catch(_){}
   const same=PT.pc&&PT.pm&&k.s===PT.shape&&k.v===S.brush;PAINT={id:e.pointerId,mode:same?'erase':'set',last:KEYC(c)};paintApply(c,PAINT.mode)}
+function edCells(sel){const [A,B]=AB(sel.fam),out=[];if(sel.kind==='i'){for(let j=0;j<B;j++)out.push([sel.n,j])}else{for(let i=0;i<A;i++)out.push([i,sel.n])}return out}
+function edSync(){const nm=k=>edName(k),cap=t=>t[0].toUpperCase()+t.slice(1);
+  [['edI','i'],['edJ','j']].forEach(([id,k])=>{const b=$(id);if(!b)return;b.setAttribute('aria-pressed',String(ED.pick===k));b.classList.add('edp');b.setAttribute('aria-label','Pick a '+nm(k)+': then tap any cell in it');b.title='Pick a '+nm(k)+' (then tap a cell in it)'});
+  ['edCopy','edCut','edPaste'].forEach(id=>{const b=$(id);if(b)b.classList.add('edp')});
+  const bar=$('edTools');if(bar)bar.hidden=S.mode==='play'}
+function edAct(what){const fam=G.fam;if(!ED.sel||ED.sel.fam!==fam||ED.sel.n>=AB(fam)[ED.sel.kind==='i'?0:1]){ED.sel=null;draw();$('status').textContent='Pick a column or row first, then tap a cell in it.';return}
+  const say=t=>{$('status').textContent=t},cells=edCells(ED.sel),g=S.g[fam],nm=edName(ED.sel.kind);
+  if(what==='copy'||what==='cut'){ED.clip={fam,kind:ED.sel.kind,cells:cells.map(([i,j])=>({s:g[i][j].s,v:g[i][j].v}))};
+    if(what==='cut'){histPush();cells.forEach(([i,j])=>{if(!locked(fam,i,j))g[i][j].s=0})}
+    draw();say((what==='cut'?'Cut ':'Copied ')+nm+' '+(ED.sel.n+1)+'.');return}
+  if(!ED.clip){say('Nothing copied yet.');return}
+  if(ED.clip.fam!==fam||ED.clip.kind!==ED.sel.kind||ED.clip.cells.length!==cells.length){say('That does not fit: paste a '+nm+' into a '+nm+' of the same length.');return}
+  histPush();cells.forEach(([i,j],n)=>{if(locked(fam,i,j))return;const k=ED.clip.cells[n];g[i][j].s=k.s;g[i][j].v=Math.min(k.v,S.nV-1)});draw();say('Pasted into '+nm+' '+(ED.sel.n+1)+'. Locked cells were left alone.')}
+(function(){const set=(id,fn)=>{const b=$(id);if(b)b.onclick=fn};
+  set('edI',()=>{ED.pick=ED.pick==='i'?null:'i';edSync()});set('edJ',()=>{ED.pick=ED.pick==='j'?null:'j';edSync()});
+  set('edCopy',()=>edAct('copy'));set('edCut',()=>edAct('cut'));set('edPaste',()=>edAct('paste'));edSync()})();
 function paintMove(e){if(!PAINT||PAINT.id!==e.pointerId)return;const c=cellAt(e);if(!c)return;const key=KEYC(c);if(key===PAINT.last)return;PAINT.last=key;paintApply(c,PAINT.mode)}
 function touchFor(){return 'none'}
 function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!bar)return;[['pHalo',PT.halo],['pCol',PT.pc],['pShp',PT.pm]].forEach(([id,on])=>$(id).setAttribute('aria-pressed',String(on)));
@@ -763,7 +792,7 @@ addEventListener('pointerdown',e=>{if(HALO&&!HALO.el.contains(e.target)&&e.targe
 addEventListener('keydown',e=>{if(e.key==='Escape')haloClose()});document.querySelectorAll('.brush').forEach(b=>{b.hidden=S.mode==='play'});
 $('rec').onclick=recToggle;$('clrTake').onclick=clearTake;
 function setMode(m){S.mode=m;releaseAll();if(m==='edit')[...HELD.keys()].filter(k=>typeof k==='number').forEach(k=>handOff(k));$('mPlay').setAttribute('aria-pressed',String(m==='play'));cv.classList.toggle('pen',m==='edit');$('mEdit').setAttribute('aria-pressed',String(m==='edit'));cv.style.touchAction=touchFor();
-  document.querySelectorAll('.brush').forEach(b=>{b.hidden=m==='play'});const pb=$('paintBar');if(pb)pb.hidden=m==='play';haloClose()}
+  document.querySelectorAll('.brush').forEach(b=>{b.hidden=m==='play'});const pb=$('paintBar');if(pb)pb.hidden=m==='play';ED.pick=null;if(m==='play')ED.sel=null;edSync();haloClose()}
 /* sound */
 var OUTN=null,TIMB=null,irT=0;
 function irSet(){const L=Math.floor(AC.sampleRate*(.6+S.tail*5.4)),ir=AC.createBuffer(2,L,AC.sampleRate);for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<L;i++){const t=i/L;d[i]=(Math.random()*2-1)*Math.pow(1-t,2.6)*(i<200?i/200:1)}}REV.buffer=ir}
@@ -1243,7 +1272,7 @@ function fldPaint(){const el=fldEl();if(!el)return;const w=el.clientWidth,h=el.c
   const g=el.getContext('2d'),cs=getComputedStyle(document.documentElement),fg=cs.getPropertyValue('--fg')||'#000',ac=cs.getPropertyValue('--accent')||'#c90',line=cs.getPropertyValue('--line')||'#888';
   g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=1;
   if(live){g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,0,w,h)}
-  if(!live){}else if(FLD2.view==='wall'){const nn=fldNotes(),n=nn*2;g.strokeStyle=line;for(let i=1;i<n;i++){const y=h*i/n,root=(n-i)%nn===0;g.globalAlpha=root?1:.7;g.lineWidth=root?2:1;g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}g.lineWidth=1;g.globalAlpha=1;
+  if(!live){}else if(FLD2.view==='wall'){const nn=fldNotes(),n=nn*2;g.strokeStyle=ac;g.setLineDash([2,6]);for(let i=1;i<n;i++){const y=h*i/n,root=(n-i)%nn===0;g.globalAlpha=root?.75:.3;g.lineWidth=root?1.6:1;g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}g.setLineDash([]);g.lineWidth=1;g.globalAlpha=1;
     if(S.names){g.fillStyle='#fff';g.globalAlpha=.8;g.font='600 10px system-ui,sans-serif';g.textAlign='right';g.textBaseline='middle';for(let r=0;r<n;r++){const m=Math.round(midiOf(n-1-r)-12);g.fillText(NOTE_LETTERS[((m%12)+12)%12]+(Math.floor(m/12)-1),w-6,h*(r+.5)/n)}g.globalAlpha=1}}
   else{for(let i=0;i<8;i++){g.fillStyle=fg;g.globalAlpha=.03+.05*(7-i)/7;g.fillRect(0,h*i/8,w,h/8)}g.globalAlpha=1;g.strokeStyle=line;g.beginPath();g.moveTo(w/2,0);g.lineTo(w/2,h);g.stroke()}
   if(live){g.fillStyle='#fff';g.globalAlpha=.7;g.font='600 11px system-ui,sans-serif';g.textBaseline='middle';
@@ -1258,7 +1287,7 @@ function layInit(){const say=t=>{$('status').textContent=t};
   const front=n=>{FLD2[n==='grid'?'gon':'fon']=true;FLD2.touch=n==='field'?'field':'pad'};
   [$('poleA'),$('poleB')].forEach(b=>{if(b)b.onclick=()=>{const n=b.dataset.l;front(n);fldSave();fldSync();say((n==='field'?'Field':'Grid')+' in front: it takes your finger and shows brighter.')}})}
 function layNorm(){if(!FLD2.gon&&!FLD2.fon)FLD2.gon=true;if(!FLD2.fon&&FLD2.touch==='field')FLD2.touch='pad';if(!FLD2.gon&&FLD2.touch!=='field')FLD2.touch='field'}
-function laySync(){layNorm();const R=document.documentElement.classList,top=FLD2.touch==='field'?'field':'grid',both=FLD2.gon&&FLD2.fon;
+function laySync(){layNorm();try{draw()}catch(e){}const R=document.documentElement.classList,top=FLD2.touch==='field'?'field':'grid',both=FLD2.gon&&FLD2.fon;
   R.toggle('lay-goff',!FLD2.gon);R.toggle('lay-foff',!FLD2.fon);R.toggle('lay-gdim',both&&top!=='grid');R.toggle('lay-fdim',both&&top!=='field');
   [['poleA','grid',FLD2.gon],['poleB','field',FLD2.fon]].forEach(([id,n,on])=>{const b=$(id);if(!b)return;b.setAttribute('aria-pressed',String(on));b.classList.toggle('top',on&&top===n);b.style.opacity=on?'':'.3'});
   if(!FLD2.fon&&typeof FV!=='undefined'&&FV.length)fldClear()}
@@ -1492,7 +1521,7 @@ function chipsFor(boxId,selId){const box=$(boxId),sel=$(selId);if(!box||!sel)ret
 function chAll(){(CHR||[]).forEach(([b,sl])=>{const sel=$(sl),box=$(b);if(!sel||!box)return;box.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.v===sel.value)))})}
 function nvChips(){const box=$('hNv');if(!box)return;box.innerHTML='';[2,3,4,5,6,8].forEach(n=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=n;b.dataset.n=n;b.setAttribute('aria-pressed',String(S.nV===n));b.onclick=()=>{$('nv').value=n;$('nv').dispatchEvent(new Event('input'));nvChips()};box.appendChild(b)})}
 function beatsBuild(){const box=$('hBeats');if(!box)return;box.innerHTML='';Object.keys(BEATS).forEach(k=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=k;b.setAttribute('role','radio');b.setAttribute('aria-checked',String(S.beats===k));b.title=BEATS[k]?'Step lengths '+BEATS[k].join('-')+', repeated across the steps':'Every step the same length';
-    b.onclick=()=>{S.beats=k;try{localStorage.setItem('dicescore.beats',k)}catch(e){}beatsBuild();$('status').textContent=BEATS[k]?'Beats '+k+': steps last '+BEATS[k].join('-')+', repeating.':'Beats even: every step lasts the same.'};box.appendChild(b)})}
+    b.onclick=()=>{S.beats=k;try{localStorage.setItem('dicescore.beats',k)}catch(e){}beatsBuild();layout();$('status').textContent=BEATS[k]?'Beats '+k+': steps last '+BEATS[k].join('-')+', repeating.':'Beats even: every step lasts the same.'};box.appendChild(b)})}
 function hxBuild(){beatsBuild();rhyBuild();chipsFor('hSset','sset');chipsFor('hTex','tex');chipsFor('hSsetB','ssetB');nvChips();xyBuild();chAll();xyAll()}
 
 /* RHYTHM LIBRARY: traditional patterns written onto the grid. d = drum in the kit (0 kick, 1 snare, 2 closed hat, 3 open hat, 4 low tom, 5 high tom, 6 clap, 7 rim), hits = steps, acc = accented steps.
