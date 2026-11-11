@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A weighted-dice score you can play and hear."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A weighted-dice score you can play and hear."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A weighted-dice score you can play and hear."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261111172831";window.__VERSION__="0.3.0";window.__NOTES__=[{"v": "0.3.0", "date": "11 Nov 2026", "items": [{"kind": "new", "text": "the Form is now as many movements as you like, laid out like the index: drag the grip to re-order, the crossed eye mutes (skips) a movement, S solos it and loops it so you can practise, fold or pin as you wish"}, {"kind": "new", "text": "each movement has its own length, what the players do, composer's notes, and can hold a look (grid, lines, sounds, mix, tempo) that comes in when it begins"}, {"kind": "new", "text": "copy or cut a movement, or the whole form, as text; paste it back or into another Battanboo; save a form as a template in \"My forms\", with Undo for changes"}, {"kind": "change", "text": "while an overlay covers the grid, the edit tools and the halo, colour and shape bar dim, since you cannot see what they would change"}]}]</script>
+<script>window.__BUILD__="20261111173846";window.__VERSION__="0.3.1";window.__NOTES__=[{"v": "0.3.1", "date": "11 Nov 2026", "items": [{"kind": "new", "text": "rail buttons with more to them carry a small notch. Hold one (or right-click, or press the menu key) and its choices fly out to the left"}, {"kind": "new", "text": "hold the look button (how the notes draw) for rain, bloom or off, and the size of the marks; hold the pencil for Play by hand or Edit the pad"}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -75,6 +75,12 @@ body.saying #cornerMsg{opacity:1}
 /* while an overlay covers the grid, the controls that only make sense on the grid are dimmed and stop taking touches (Dimitry, 11 Nov 12:27) */
 body.hudon #edTools,body.hudon .side .brush,body.hudon .bar>.brush,body.hudon #formBar{opacity:.28;pointer-events:none;transition:opacity .25s}
 #edTools,.side .brush,.bar>.brush{transition:opacity .25s}
+/* HOLD-FLYOUTS (Dimitry, 11 Nov): a rail button with more to it carries a small notch in its corner; hold it (or right-click, or the menu key) and its choices fly out to the left. A tap still does the one obvious thing. */
+.rail button.nt::after{content:"";position:absolute;left:5px;bottom:5px;width:0;height:0;border-style:solid;border-width:0 0 7px 7px;border-color:transparent transparent var(--muted) transparent;opacity:.8;pointer-events:none}
+.rail button.nt{position:relative}
+.fly{position:fixed;z-index:60;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px;padding:6px 8px;border:1px solid var(--line);border-radius:26px;box-sizing:border-box;background:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:calc(100vw - 16px)}
+.fly button.chip{min-height:40px;display:inline-flex;align-items:center;gap:6px}.fly button.chip svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin:0}
+.fly input[type=range]{width:120px}.fly output{min-width:3em;font:600 11px var(--ui);color:var(--muted)}
 #formTop,#formFoot{display:flex;flex-direction:column;gap:8px}#formFoot{margin-top:8px}
 #formBox{display:flex;flex-direction:column;gap:10px}#formBox .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}#formBox ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:12px}#formBox li{display:grid;grid-template-columns:72px 1fr;gap:8px}#formBox li b{font-variant-numeric:tabular-nums;font-weight:600}#formBox li.cur{color:var(--accent)}
 .mxsep{align-self:stretch;width:1px;background:var(--line);flex:none}
@@ -1670,6 +1676,29 @@ $('mPlay').onclick=()=>{const m=S.mode==='play'?'edit':'play';setMode(m);$('mPla
 (function(){const nm={rain:'rain',bloom:'bloom',off:'off'};const cyc=()=>{const b=$('padCyc');b.innerHTML=PADICON[S.viz];b.setAttribute('aria-label','The notes draw: '+nm[S.viz]);b.title='The notes draw: '+nm[S.viz]+' (tap to change)';};
  $('padCyc').onclick=()=>{const o=['rain','bloom','off'];S.viz=o[(o.indexOf(S.viz)+1)%3];padIsSync();if(typeof fxKick==='function')fxKick();cyc()};
  const sync=padIsSync;window.__padCyc=cyc;document.querySelectorAll('#padIs button').forEach(b=>b.addEventListener('click',cyc));cyc()})();
+/* hold-flyout: flyOn(button, build) where build(host, close) fills the flyout. Hold 450 ms, right-click or the menu key opens it to the button's left;
+   a tap is left alone; the click that ends a hold is swallowed. It closes on a choice, an outside touch or Escape. */
+let FLY=null;
+function flyClose(){if(FLY){FLY.remove();FLY=null}}
+function flyOpen(btn,build){flyClose();const f=document.createElement('div');f.className='fly';f.setAttribute('role','group');f.setAttribute('aria-label',btn.getAttribute('aria-label')||'Choices');document.body.appendChild(f);build(f,flyClose);
+  const r=btn.getBoundingClientRect(),w=f.offsetWidth,h=f.offsetHeight;f.style.left=Math.max(8,Math.min(r.left-w-6,innerWidth-w-8))+'px';f.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top+r.height/2-h/2))+'px';FLY=f;
+  const off=e=>{if(!f.contains(e.target)){flyClose();document.removeEventListener('pointerdown',off,true)}};setTimeout(()=>document.addEventListener('pointerdown',off,true),0);
+  const first=f.querySelector('button,input');if(first)setTimeout(()=>{try{first.focus({preventScroll:true})}catch(e){}},0)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&FLY){flyClose()}});
+function flyOn(btn,build){if(!btn)return;btn.classList.add('nt');let tm=0,held=false;const open=()=>{held=true;flyOpen(btn,build)};
+  btn.addEventListener('pointerdown',e=>{if(e.button>0)return;held=false;clearTimeout(tm);tm=setTimeout(open,450)});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>btn.addEventListener(t,()=>clearTimeout(tm)));
+  btn.addEventListener('click',e=>{if(held){held=false;e.stopImmediatePropagation();e.preventDefault()}},true);
+  btn.addEventListener('contextmenu',e=>{e.preventDefault();open()});
+  btn.addEventListener('keydown',e=>{if(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')){e.preventDefault();open()}});
+  btn.setAttribute('aria-haspopup','true')}
+/* the Look button's flyout: how the notes draw, and how big the marks are */
+flyOn($('padCyc'),(f,close)=>{PADIS.forEach(([n,v])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',String(S.viz===v));b.innerHTML=PADICON[v]+'<span>'+n+'</span>';b.onclick=()=>{S.viz=v;padIsSync();if(typeof fxKick==='function')fxKick();if(window.__padCyc)window.__padCyc();close()};f.appendChild(b)});
+  const r=document.createElement('input');r.type='range';r.min=40;r.max=130;r.step=5;r.value=S.markSz||100;r.setAttribute('aria-label','Size of the marks');const o=document.createElement('output');o.textContent=r.value+'%';
+  r.oninput=()=>{o.textContent=r.value+'%';const m=$('markSz');if(m){m.value=r.value;m.oninput()}};f.append(r,o)});
+/* the pencil's flyout: hand or pencil, by name */
+flyOn($('mPlay'),(f,close)=>{[['Play by hand','play'],['Edit the pad','edit']].forEach(([n,m])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',String(S.mode===m));b.textContent=n;b.onclick=()=>{if(S.mode!==m)setMode(m);close()};f.appendChild(b)})});
+
 /* AUTO DICE (from Current's Auto): a new scene on a timer while the score plays; beads on a string pick how often, the first bead is random timing */
 /* the counts, as in Current's time scale: pair (doublings, the clock ladder in seconds), Fibonacci and primes, at most eight beads spread evenly on a log scale */
 const TSETS={pair:{name:'pair',long:'doublings'},fibo:{name:'fibo',long:'Fibonacci'},prime:{name:'prime',long:'primes'}},TSNEXT={pair:'fibo',fibo:'prime',prime:'pair'},
