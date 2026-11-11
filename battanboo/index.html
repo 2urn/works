@@ -1980,7 +1980,35 @@ addEventListener('resize',()=>{if(capPop.isOpen()||xpPop.isOpen())popPlace()});
 function popToggle(which){popPlace();const a=which==='cap'?capPop:xpPop,b=which==='cap'?xpPop:capPop;b.close();if(a.isOpen())a.close();else{a.open();popPlace();if(which==='cap')capResult()}}
 $('capBtn').onclick=()=>{if(CAP.busy){capCancel();return}popToggle('cap')};$('capLiveX').onclick=capCancel;
 $('expBtn').onclick=()=>popToggle('exp');
-window.__t=Object.assign(window.__t||{},{FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame});
+/* WHERE YOU LEFT OFF (Dimitry, 11 Nov: "between reloads ... remember the last state ... very important in performance if the program stopped"):
+   the working state (grid, lines, tempo, scale, mix, sound choices) is written to this browser every two seconds when it changed, and when the page is
+   hidden or closed; the next visit puts it back before anything is drawn. Not saved: playing (sound needs a tap), sounds brought in (those have their own
+   store), the other scenes. "Start blank" in the Past section clears it. */
+const KEEP={key:'battanboo.state',keys:['vol','timbre','tail','grain','air','space','morph','meet','nV','tune','flat','N','p','stick','drift','tempo','scale','root','way','ex','feel','mix','tex','brush'],sel:['sset','ssetB'],last:'',off:false};
+try{KEEP.off=/[?&]fresh\b/.test(location.search)}catch(_){}
+function keepSnap(){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});return o}
+function keepWrite(force){if(KEEP.off)return;try{const o=keepSnap(),j=JSON.stringify(o,(k,v)=>k==='t'?0:v);if(!force&&j===KEEP.last)return;KEEP.last=j;localStorage.setItem(KEEP.key,JSON.stringify(keepSnap()))}catch(_){}}
+function keepRead(){let q=null;try{q=JSON.parse(localStorage.getItem(KEEP.key)||'null')}catch(_){}if(!q||q.v!==1||!q.g||!q.s)return false;
+  const ch=(id,v,ev)=>{const e=$(id);if(!e||v==null)return;e.value=v;e.dispatchEvent(new Event(ev||'change'))};
+  try{if(q.s.N>=4&&q.s.N<=24&&q.s.N!==S.N)sizeApply(q.s.N);
+    KEEP.keys.forEach(k=>{if(q.s[k]!==undefined&&k!=='N'&&k!=='tempo')S[k]=q.s[k]});
+    S.ex=(S.ex||[]).map(e=>({way:e&&e.way||'none',ag:e&&e.ag||'1:1',...e}));
+    if(q.w)S.w=q.w;S.sw=q.sw||S.sw;S.lk=q.lk||S.lk;S.g=q.g;stripSig='';scenes=[S.g];si=0;
+    KEEP.sel.forEach(id=>ch(id,q.sel&&q.sel[id]));
+    if(q.s.tempo>=15&&q.s.tempo<=240){ch('tempo',q.s.tempo,'input')}
+    ch('feel',S.feel);
+    if(q.s.nV>=2&&q.s.nV<=8)S.nV=q.s.nV;
+    try{nvChips();hSlotsBuild()}catch(_){}
+    try{ensure();setLine();syncArr();mixSync();wset();hudSync()}catch(_){}
+    return q.t||true}catch(e){return false}}
+setInterval(()=>keepWrite(false),2000);
+addEventListener('pagehide',()=>keepWrite(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)keepWrite(true)});
+if(!KEEP.off){const t=keepRead();if(t){const d=typeof t==='number'?new Date(t):null;const ago=d?Math.round((Date.now()-t)/60000):0;
+  setTimeout(()=>{$('status').textContent='Picked up where you left off'+(d&&ago>=1?' ('+(ago<90?ago+' min':Math.round(ago/60)+' h')+' ago)':'')+'. "Start blank" in Past clears it.'},400)}}
+else{try{localStorage.removeItem(KEEP.key)}catch(_){}}
+(function(){const row=$('hpClear')&&$('hpClear').parentNode;if(!row)return;const b=document.createElement('button');b.type='button';b.className='chip';b.id='hpBlank';b.textContent='Start blank';b.title='Forget the saved working state and begin with an empty grid';
+  b.onclick=()=>{try{localStorage.removeItem(KEEP.key)}catch(_){}KEEP.off=true;location.reload()};row.appendChild(b)})();
+window.__t=Object.assign(window.__t||{},{FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame,KEEP,keepSnap,keepRead,keepWrite});
 
 })();
 
