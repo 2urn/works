@@ -1381,7 +1381,7 @@ function padMk(c,box,k){const el=document.createElement('div');el.className='fs'
   el.onpointerdown=e=>{e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}ensureAudio();apply(at(e))};
   el.onpointermove=e=>{if(el.hasPointerCapture&&el.hasPointerCapture(e.pointerId))apply(at(e))};
   padPaint(c,clamp(c.get(),0,1))}
-function padBuild(){['hMain','mxAux'].forEach(id=>{const b=$(id);if(b)b.innerHTML=''});CTL.filter(c=>!c.q).forEach(c=>{const b=$(c.box||'hMain');if(b)padMk(c,b,'el')});const ax=$('mxAux');if(ax)LOCALP.forEach(c=>padMk(c,ax,'el'))}
+function padBuild(){['hMain','mxAux'].forEach(id=>{const b=$(id);if(b)b.innerHTML=''});CTL.filter(c=>!c.q).forEach(c=>{const b=$(c.box||'hMain');if(b)padMk(c,b,'el')});const air=CTL.find(c=>c.id==='air');if(air&&air.el)air.el.style.order='-1';const ax=$('mxAux');if(ax)LOCALP.forEach(c=>padMk(c,ax,'el'))}
 function padSync(){CTL.forEach(c=>{if(c.el||c.el2)padPaint(c,clamp(c.get(),0,1))});LOCALP.concat(COLP).forEach(c=>{if(c.el)padPaint(c,clamp(c.get(),0,1))});mixDim();LOCALP.forEach(c=>c.swp&&c.swp())}
 padBuild();
 var XF=(function(){const KEY='battanboo.xf',X={x:.5,mode:'blend'};try{Object.assign(X,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){}
