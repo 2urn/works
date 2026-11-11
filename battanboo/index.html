@@ -100,7 +100,9 @@ input[type=range]{width:100%;min-height:32px;accent-color:var(--accent)}
 .legend div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--muted);text-align:center}
 .legend canvas{background:var(--stage);border-radius:3px;cursor:default}
 .brush{display:flex;gap:6px;align-items:center}
-.bar{gap:6px}.bar>.pill:not(.tempo){flex:none}.bar>.pill:not(.tempo) button{width:42px}.grp{display:flex;gap:6px}
+.bar{gap:6px}.bar>.pill:not(.tempo){flex:none}.bar>.pill:not(.tempo) button{width:42px}
+/* on a phone a pill that wraps onto its own line fills it (easier to hit); when several fit on one line they share it in proportion */
+@media (max-width:759px){.bar>.pill:not(.tempo){flex:1 1 auto}.bar>.pill:not(.tempo) button{flex:1 1 42px;width:auto;min-width:42px}}.grp{display:flex;gap:6px}
 .pill{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .pill button{width:46px;min-height:46px;padding:0;border:0;border-radius:0;background:transparent;display:grid;place-items:center;color:var(--fg)}
 .pill button[hidden]{display:none}
@@ -222,7 +224,7 @@ header{display:flex;align-items:center;gap:10px}
 .bead svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .bead[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.bead:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .bead.now{border-color:var(--accent);color:var(--accent);font-weight:700}.bead.ring::after,#roll.auto::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),rgba(255,255,255,.14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}
-#roll{position:relative}#roll::before{content:"";position:absolute;left:50%;top:50%;width:min(43px,calc(100% - 2px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;background:conic-gradient(var(--accent) calc(var(--amt,1)*1turn),rgba(128,128,128,.25) 0);-webkit-mask:radial-gradient(circle,transparent calc(50% - 3.5px),#000 calc(50% - 3px));mask:radial-gradient(circle,transparent calc(50% - 3.5px),#000 calc(50% - 3px))}#autoAmtR{flex:1;min-width:0;min-height:36px}#roll.auto::after{inset:auto;left:50%;top:50%;width:min(36px,calc(100% - 6px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),rgba(128,128,128,.25) 0)}
+#roll{position:relative}#roll::before{content:"";position:absolute;z-index:0;left:50%;top:50%;width:min(44px,calc(100% - 2px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;background:conic-gradient(color-mix(in srgb,var(--accent) 36%,transparent) calc(var(--amt,1)*1turn),color-mix(in srgb,var(--fg) 8%,transparent) 0)}#roll>svg{position:relative;z-index:1}#autoAmtR{flex:1;min-width:0;min-height:36px}#roll.auto::after{z-index:1;inset:auto;left:50%;top:50%;width:min(44px,calc(100% - 2px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),transparent 0)}
 .chip[role=radio][aria-checked=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.adWrap{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}.plrow{display:flex;flex-direction:column;gap:6px}.plrow .chips{flex-wrap:wrap}.plv{min-width:54px;text-align:center;font:700 20px var(--ui);color:var(--qty);font-variant-numeric:tabular-nums}.adWrap .chip{min-height:38px;padding:0 12px}.adWrap .arow{flex-wrap:nowrap}.adWrap .ptl{margin:0}.adWrap .beads{padding:2px}.ahint{margin:0;font-size:12px;color:var(--muted);line-height:1.4}.hpane [hidden]{display:none!important}.fldpad{width:100%;height:clamp(120px,26vh,220px);border:1px solid var(--line);border-radius:12px;background:var(--surface);touch-action:none;display:block;user-select:none;-webkit-user-select:none}
 .bar>.brush{order:6;flex:1 1 100%;justify-content:space-between}.bar>.brush button{flex:1;max-width:60px}
 .rail{flex-direction:column;flex:none;align-self:flex-start;border-radius:23px}.rail button{width:46px;min-height:46px}
@@ -305,8 +307,7 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 #paintBar button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .sg,.sg *{touch-action:none}
 .hh{outline:2px solid var(--accent,#fc0);outline-offset:1px}.held{transform:scale(.94)}
-.pill.hist{display:none}.pill.hist button:disabled{opacity:.35;cursor:default}
-@media (min-width:760px){.pill.hist{display:flex}}
+.pill.hist button:disabled{opacity:.35;cursor:default}
 .chip.uni,#autoOn{display:inline-grid;place-items:center;min-width:44px}
 .chip.uni svg,#autoOn svg,.dti svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block}
 #autoOn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
