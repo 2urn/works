@@ -221,7 +221,7 @@ header{display:flex;align-items:center;gap:10px}
 .bead svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .bead[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.bead:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .bead.now{border-color:var(--accent);color:var(--accent);font-weight:700}.bead.ring::after,#roll.auto::after{content:"";position:absolute;inset:-5px;border-radius:50%;pointer-events:none;background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),rgba(255,255,255,.14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px))}
-#roll{position:relative}#roll.auto::after{inset:auto;left:50%;top:50%;width:min(36px,calc(100% - 6px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),rgba(128,128,128,.25) 0)}
+#roll{position:relative}#roll::before{content:"";position:absolute;left:50%;top:50%;width:min(43px,calc(100% - 2px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;background:conic-gradient(var(--accent) calc(var(--amt,1)*1turn),rgba(128,128,128,.25) 0);-webkit-mask:radial-gradient(circle,transparent calc(50% - 3.5px),#000 calc(50% - 3px));mask:radial-gradient(circle,transparent calc(50% - 3.5px),#000 calc(50% - 3px))}#autoAmtR{flex:1;min-width:0;min-height:36px}#roll.auto::after{inset:auto;left:50%;top:50%;width:min(36px,calc(100% - 6px));aspect-ratio:1;height:auto;transform:translate(-50%,-50%);background:conic-gradient(var(--accent) calc(var(--p,0)*1turn),rgba(128,128,128,.25) 0)}
 .chip[role=radio][aria-checked=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.adWrap{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}.plrow{display:flex;flex-direction:column;gap:6px}.plrow .chips{flex-wrap:wrap}.plv{min-width:54px;text-align:center;font:700 20px var(--ui);color:var(--qty);font-variant-numeric:tabular-nums}.adWrap .chip{min-height:38px;padding:0 12px}.adWrap .arow{flex-wrap:nowrap}.adWrap .ptl{margin:0}.adWrap .beads{padding:2px}.ahint{margin:0;font-size:12px;color:var(--muted);line-height:1.4}.hpane [hidden]{display:none!important}.fldpad{width:100%;height:clamp(120px,26vh,220px);border:1px solid var(--line);border-radius:12px;background:var(--surface);touch-action:none;display:block;user-select:none;-webkit-user-select:none}
 .bar>.brush{order:6;flex:1 1 100%;justify-content:space-between}.bar>.brush button{flex:1;max-width:60px}
 .rail{flex-direction:column;flex:none;align-self:flex-start;border-radius:23px}.rail button{width:46px;min-height:46px}
@@ -538,7 +538,10 @@ function dieRoll(){clearInterval(dieT);const land=1+((Math.random()*6)|0);
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){dieFace(land===dieN?land%6+1:land);return}
   let k=0;dieT=setInterval(()=>{k++;if(k>=7){clearInterval(dieT);dieFace(land);return}let n;do n=1+((Math.random()*6)|0);while(n===dieN);dieFace(n)},55)}
 dieFace(5);
-function rollNew(){dieRoll();histPush();newScene();rollFam(FAM[S.eff.way],S.eff.way,S.p,S.stick);draw();status()}
+function rollNew(){dieRoll();histPush();const fam0=FAM[S.eff.way],old=cloneG(S.g[fam0]);newScene();rollFam(FAM[S.eff.way],S.eff.way,S.p,S.stick);
+  /* how much changes: each cell keeps its old mark unless it is among the share that changes */
+  let am=1;try{am=AUTO.amt}catch(e){}if(am<1&&old){const g=S.g[fam0];if(g&&g.length===old.length){for(let i=0;i<g.length;i++)for(let j=0;j<g[i].length;j++)if(Math.random()>am&&old[i][j])g[i][j]={...old[i][j]}}}
+  draw();status()}
 function ensure(){const fam=FAM[S.way];if(!S.g[fam]||S.g[fam].length!==AB(fam)[0])rollFam(fam,S.way,S.p,S.stick)}
 function view(way){const{T,L}=dimsTL(way),fam=FAM[way],g=S.g[fam],[A,B]=AB(fam),v=Array.from({length:T},()=>Array(L)),ij=Array.from({length:T},()=>Array(L));
   for(let i=0;i<A;i++)for(let j=0;j<B;j++){const[t,l]=tl(way,i,j);const at=ij[t][l];if(at)at.more.push([i,j]);else{v[t][l]=g[i][j];ij[t][l]=Object.assign([i,j],{more:[[i,j]]})}}return{v,T,L,ij,fam,way,A,B,g}}
@@ -987,6 +990,14 @@ function play(){ensureAudio();AC.resume();try{note(AC.currentTime+.01,72,.25,.5,
 function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll();S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
 $('play').onclick=()=>S.playing?stop():play();
 $('roll').onclick=()=>{ears('f');rollNew()};
+(function(){const b=$('roll');let d=null,drag=false,eat=false;
+  b.addEventListener('pointerdown',e=>{if(e.button>0)return;d={id:e.pointerId,x:e.clientX,y:e.clientY,a:AUTO.amt};drag=false});
+  b.addEventListener('pointermove',e=>{if(!d||d.id!==e.pointerId)return;const dx=e.clientX-d.x,dy=e.clientY-d.y;
+    if(!drag&&Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)){drag=true;try{b.setPointerCapture(e.pointerId)}catch(_){}b.classList.add('dragging')}
+    if(drag){e.preventDefault();setAmt(d.a+dx/170,false)}});
+  const end=e=>{if(!d||d.id!==e.pointerId)return;if(drag){eat=true;setTimeout(()=>{eat=false},400)}d=null;drag=false;b.classList.remove('dragging')};
+  b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);
+  b.addEventListener('click',e=>{if(eat){e.stopImmediatePropagation();e.preventDefault();eat=false}},true);b.style.touchAction='pan-y'})();
 $('prev').onclick=()=>{if(si>0){ears('b');goScene(si-1)}};
 $('next').onclick=()=>{ears('f');if(si<scenes.length-1)goScene(si+1);else rollNew()};
 document.querySelectorAll('.brush button[data-v]').forEach(b=>b.onclick=()=>{S.brush=+b.dataset.v;document.querySelectorAll('.brush button[data-v]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))});
@@ -1444,12 +1455,19 @@ const TSETS={pair:{name:'pair',long:'doublings'},fibo:{name:'fibo',long:'Fibonac
 const tsNear=(list,v)=>list.reduce((b,x)=>Math.abs(Math.log(x/v))<Math.abs(Math.log(b/v))?x:b,list[0]);
 function auVals(unit,set){const[lo,hi]=TSRANGE[unit],src=set==='fibo'||set==='prime'?TSL[set]:unit==='sec'?TSL.clock:TSL.pair,v=src.filter(x=>x>=lo&&x<=hi);if(v.length<=8)return v;const out=[];for(let i=0;i<8;i++){const t=Math.log(lo)+(Math.log(hi)-Math.log(lo))*i/7,b=tsNear(v,Math.exp(t));if(!out.includes(b))out.push(b)}return out.sort((a,b)=>a-b)}
 const AU=new Proxy({},{get:(_,u)=>auVals(u,AUTO.set)});
+/* how much each roll changes: a continuous 0-100% (the ring round the dice), with stops at the inverse golden share, half, the golden share and all */
+const PHI=(1+Math.sqrt(5))/2,AMTSTOPS=[['Inverse golden',1-1/PHI],['Half',.5],['Golden',1/PHI],['All',1]];
+const amtName=a=>{const s=AMTSTOPS.find(x=>Math.abs(x[1]-a)<.004);return s?s[0]:''};
+function amtSync(){const a=AUTO.amt,r=$('autoAmtR'),o=$('autoAmtO'),roll=$('roll');if(r)r.value=Math.round(a*100);if(o)o.textContent=Math.round(a*100)+'%';
+  document.querySelectorAll('#autoAmt .chip').forEach(b=>b.setAttribute('aria-pressed',String(Math.abs(+b.dataset.a-a)<.004)));
+  if(roll){roll.style.setProperty('--amt',a.toFixed(3));roll.title='Roll the dice for a new scene. '+Math.round(a*100)+'% of it changes'+(amtName(a)?' ('+amtName(a).toLowerCase()+')':'')+'. Drag sideways for how much.'}}
+function setAmt(a,snap){a=Math.max(0,Math.min(1,a));if(!snap){const n=AMTSTOPS.find(x=>Math.abs(x[1]-a)<.025);if(n)a=n[1]}AUTO.amt=a;try{autoSave()}catch(e){}amtSync();const n=amtName(a);$('status').textContent='How much each roll changes: '+Math.round(a*100)+'%'+(n?' ('+n.toLowerCase()+')':'')+'.'}
 const AUTO={on:false,unit:'bar',set:'pair',n:8,rnd:false,amt:1,t0:0,dur:0},AUNAME={sec:'seconds',beat:'beats',bar:'bars'};
-try{const a=JSON.parse(localStorage.getItem('dicescore.auto')||'null');if(a){if(TSRANGE[a.unit])AUTO.unit=a.unit;if(TSETS[a.set])AUTO.set=a.set;{const L=auVals(AUTO.unit,AUTO.set);AUTO.n=L.includes(a.n)?a.n:tsNear(L,a.n||8)}AUTO.rnd=!!a.rnd;if([.25,.5,1].includes(a.amt))AUTO.amt=a.amt}}catch(e){}
+try{const a=JSON.parse(localStorage.getItem('dicescore.auto')||'null');if(a){if(TSRANGE[a.unit])AUTO.unit=a.unit;if(TSETS[a.set])AUTO.set=a.set;{const L=auVals(AUTO.unit,AUTO.set);AUTO.n=L.includes(a.n)?a.n:tsNear(L,a.n||8)}AUTO.rnd=!!a.rnd;if(a.amt>=0&&a.amt<=1)AUTO.amt=+a.amt}}catch(e){}
 const autoSave=()=>{try{localStorage.setItem('dicescore.auto',JSON.stringify({unit:AUTO.unit,set:AUTO.set,n:AUTO.n,rnd:AUTO.rnd,amt:AUTO.amt}))}catch(e){}};
 function autoDur(){const vals=AU[AUTO.unit],v=AUTO.rnd?vals[(Math.random()*vals.length)|0]:AUTO.n,bt=60/(S.playing&&S.live?S.live.tempo:S.tempo);AUTO.last=v;return AUTO.unit==='sec'?v:AUTO.unit==='beat'?v*bt:v*4*bt}
 function autoArm(){AUTO.t0=performance.now();AUTO.dur=autoDur()*1000}
-function autoRoll(){const fam=FAM[S.eff.way],old=cloneG(S.g[fam]);ears('f');rollNew();if(AUTO.amt<1&&old){const g=S.g[fam];if(g&&g.length===old.length){for(let i=0;i<g.length;i++)for(let j=0;j<g[i].length;j++)if(Math.random()>AUTO.amt&&old[i][j])g[i][j]={...old[i][j]};draw()}}}
+function autoRoll(){ears('f');rollNew()}
 function autoWords(){const u=AUNAME[AUTO.unit];return AUTO.on?('A new scene '+(AUTO.rnd?'every few '+u+', at random':'every '+(AUTO.n===1?'bar':AUTO.n+' '+u))+', while it plays. Locked cells stay.'):'Off. Turn it on and it rolls a new scene for you while the score plays.'}
 /* the vocabulary, as in Current: the stopwatch for seconds, a beat is three thick ticks on a thin line, a bar is three thin ticks on a thick line; the die means the dice */
 const UICON={sec:'<svg viewBox="2.50 2.30 19.40 19.40" aria-hidden="true" focusable="false"><circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V10M10 3.5h4M12 3.5v3M18 7l1.4-1.4"/></svg>',
@@ -1458,7 +1476,7 @@ const UICON={sec:'<svg viewBox="2.50 2.30 19.40 19.40" aria-hidden="true" focusa
 const DICEI='<svg viewBox="3.30 3.30 17.40 17.40" aria-hidden="true" focusable="false"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.3" fill="currentColor" stroke="none"/></svg>';
 function autoPaint(){const sb=$('autoSet');sb.textContent=TSETS[AUTO.set].name;sb.setAttribute('aria-label','The counts: '+TSETS[AUTO.set].long+' ('+auVals(AUTO.unit,AUTO.set).join(', ')+'). Tap for '+TSETS[TSNEXT[AUTO.set]].long);sb.title='pair · fibo · prime';const on=$('autoOn');if(!on.firstChild||!on.querySelector('svg'))on.innerHTML=DICEI;on.setAttribute('aria-label',AUTO.on?'Auto dice: on. Tap to turn off':'Auto dice: off. Tap to turn on');on.title=AUTO.on?'Auto dice on':'Auto dice off';on.setAttribute('aria-pressed',String(AUTO.on));$('roll').classList.toggle('auto',AUTO.on);
   document.querySelectorAll('#autoUnit .chip').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.u===AUTO.unit)));
-  document.querySelectorAll('#autoAmt .chip').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.a===AUTO.amt)));
+  amtSync();
   $('autoBeads').innerHTML='';const rb=document.createElement('button');rb.type='button';rb.className='bead';rb.setAttribute('role','radio');rb.setAttribute('aria-label','Random timing');rb.title='Random timing';rb.setAttribute('aria-checked',String(AUTO.rnd));
   rb.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l9 10h5M3 17h4l2.4-2.7M13.6 9.7 16 7h5M18 4l3 3-3 3M18 14l3 3-3 3"/></svg>';rb.onclick=()=>{AUTO.rnd=true;autoSave();autoArm();autoPaint()};$('autoBeads').appendChild(rb);
   AU[AUTO.unit].forEach(v=>{const b=document.createElement('button');b.type='button';b.className='bead';b.textContent=v;b.setAttribute('role','radio');b.setAttribute('aria-label','Every '+v+' '+AUNAME[AUTO.unit]);b.setAttribute('aria-checked',String(!AUTO.rnd&&AUTO.n===v));b.onclick=()=>{AUTO.rnd=false;AUTO.n=v;autoSave();autoArm();autoPaint()};$('autoBeads').appendChild(b)});
@@ -1466,7 +1484,9 @@ function autoPaint(){const sb=$('autoSet');sb.textContent=TSETS[AUTO.set].name;s
 (function(){const u=$('autoUnit');[['sec','seconds'],['beat','beats'],['bar','bars']].forEach(([k,l])=>{const b=document.createElement('button');b.type='button';b.className='chip uni';b.dataset.u=k;b.innerHTML=UICON[k];b.setAttribute('aria-label','Count in '+l);b.title=l;b.setAttribute('role','radio');
     b.onclick=()=>{AUTO.unit=k;AUTO.n=tsNear(auVals(k,AUTO.set),AUTO.n);autoSave();autoArm();autoPaint()};u.appendChild(b)});
   $('autoSet').onclick=()=>{AUTO.set=TSNEXT[AUTO.set];AUTO.n=tsNear(auVals(AUTO.unit,AUTO.set),AUTO.n);autoSave();autoArm();autoPaint()};
-  [['A few',.25],['Half',.5],['All',1]].forEach(([l,a])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.a=a;b.textContent=l;b.onclick=()=>{AUTO.amt=a;autoSave();autoPaint()};$('autoAmt').appendChild(b)});
+  {const box=$('autoAmt'),r=document.createElement('input');r.type='range';r.id='autoAmtR';r.min=0;r.max=100;r.step=1;r.setAttribute('aria-label','How much each roll changes');r.oninput=()=>{setAmt(+r.value/100,false)};box.appendChild(r);
+    const o=document.createElement('output');o.id='autoAmtO';o.style.cssText='min-width:3.2em;text-align:right';box.appendChild(o);
+    AMTSTOPS.forEach(([l,a])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.a=a;b.textContent=l+' '+Math.round(a*100)+'%';b.title=l+' ('+Math.round(a*1000)/10+'%)';b.onclick=()=>setAmt(a,true);box.appendChild(b)})}
   $('autoOn').onclick=()=>{AUTO.on=!AUTO.on;autoArm();autoPaint()};autoArm();autoPaint()})();
 setInterval(()=>{if(!(AUTO.on&&S.playing)){AUTO.t0=performance.now();$('roll').style.setProperty('--p',0);document.querySelectorAll('#autoBeads .bead.ring').forEach(b=>b.classList.remove('ring'));return}
   const p=Math.min(1,(performance.now()-AUTO.t0)/AUTO.dur);$('roll').style.setProperty('--p',p.toFixed(3));
