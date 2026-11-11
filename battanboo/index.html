@@ -545,7 +545,7 @@ function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.sta
   /* the score stretches to the room there is, width and height on their own; its marks stay square inside their cells */
   if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N}}
   else{w=h=Math.floor(Math.min(avail,maxH,innerWidth>=900?1600:560));const Rm=w/2-2,r0=Rm*.2;G={fam,cx:w/2,cy:w/2,Rm,r0,dr:(Rm-r0)/d.R,R:d.R,K:d.K}}
-  const dpr=Math.min(devicePixelRatio||1,2);cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';const fxc=$('fx');fxc.width=w*dpr;fxc.height=h*dpr;fxc.style.width=w+'px';fxc.style.height=h+'px';const fl=$('fldPad');if(fl){fl.style.width=w+'px';fl.style.height=h+'px'}ctx.setTransform(dpr,0,0,dpr,0,0);G.w=w;G.h=h;strips();try{fldPaint()}catch(_){}}
+  const dpr=Math.min(devicePixelRatio||1,2);cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';const fxc=$('fx');fxc.width=w*dpr;fxc.height=h*dpr;fxc.style.width=w+'px';fxc.style.height=h+'px';const fl=$('fldPad');if(fl){fl.style.width=w+'px';fl.style.height=h+'px';if(typeof fldPaint==='function')setTimeout(fldPaint,0)}ctx.setTransform(dpr,0,0,dpr,0,0);G.w=w;G.h=h;strips();try{fldPaint()}catch(_){}}
 let stripSig='';
 function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?d.N:d.K,sig=fam+G.w+'x'+G.h+nL+nB;if(sig===stripSig)return;stripSig=sig;
   const L=$('swL'),B=$('swB');L.innerHTML='';B.innerHTML='';L.style.height=G.h+'px';B.style.width=G.w+'px';
@@ -1223,7 +1223,7 @@ function fldPad(){const el=fldEl();if(!el)return;
     if(!FLIVE||FLIVE.id!==e.pointerId)return;const v=FLIVE.v;FLIVE=null;if(FLD2.hold){FV.push(v);while(FV.length>8)fldRelease(FV.shift())}else fldRelease(v);fldPaint()};
   el.onpointerup=up;el.onpointercancel=up;
   el.addEventListener('contextmenu',e=>e.preventDefault())}
-function fldPaint(){const el=fldEl();if(!el)return;const w=el.clientWidth,h=el.clientHeight;if(!w)return;const live=FLD2.touch==='field';const dpr=Math.min(devicePixelRatio||1,2);if(el.width!==Math.round(w*dpr)){el.width=Math.round(w*dpr);el.height=Math.round(h*dpr)}
+function fldPaint(){const el=fldEl();if(!el)return;const w=el.clientWidth,h=el.clientHeight;if(!w)return;const live=FLD2.touch==='field';const dpr=Math.min(devicePixelRatio||1,2);if(el.width!==Math.round(w*dpr)||el.height!==Math.round(h*dpr)){el.width=Math.round(w*dpr);el.height=Math.round(h*dpr)}
   const g=el.getContext('2d'),cs=getComputedStyle(document.documentElement),fg=cs.getPropertyValue('--fg')||'#000',ac=cs.getPropertyValue('--accent')||'#c90',line=cs.getPropertyValue('--line')||'#888';
   g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=1;
   if(live){g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,0,w,h)}
