@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A weighted-dice score you can play and hear."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A weighted-dice score you can play and hear."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A weighted-dice score you can play and hear."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261111174411";window.__VERSION__="0.3.3";window.__NOTES__=[{"v": "0.3.3", "date": "11 Nov 2026", "items": [{"kind": "fix", "text": "on a phone or tablet, opening the heads-up display could zoom the whole page out (since 0.3.0). The Form list had a hidden element parked far off to the right; it is now kept inside the list"}]}]</script>
+<script>window.__BUILD__="20261111174537";window.__VERSION__="0.3.4";window.__NOTES__=[{"v": "0.3.4", "date": "11 Nov 2026", "items": [{"kind": "change", "text": "the mixer pads now fill the whole pane and arrange themselves to fit (four across and two down upright, a single row of eight on a wide screen), so the mixer no longer needs scrolling on a phone"}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -81,6 +81,8 @@ body.hudon #edTools,body.hudon .side .brush,body.hudon .bar>.brush,body.hudon #f
 .fly{position:fixed;z-index:60;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px;padding:6px 8px;border:1px solid var(--line);border-radius:26px;box-sizing:border-box;background:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:calc(100vw - 16px)}
 .fly button.chip{min-height:40px;display:inline-flex;align-items:center;gap:6px}.fly button.chip svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin:0}
 .fly input[type=range]{width:120px}.fly output{min-width:3em;font:600 11px var(--ui);color:var(--muted)}
+/* FLUID MIXER PADS (Dimitry, 11 Nov): the pads fill the rectangle the pane gives them; the number of columns is chosen from the pad count so each pad is as near a tall rectangle as the room allows (padFit sets --pc) */
+.hboard>.board{flex:1 1 0;min-height:0}.board .padgrid{flex:1 1 0;min-height:150px;grid-template-columns:repeat(var(--pc,4),minmax(0,1fr));grid-auto-rows:minmax(0,1fr)}.padgrid .fs{min-height:0}
 #formTop,#formFoot{display:flex;flex-direction:column;gap:8px}#formFoot{margin-top:8px}
 #formBox{display:flex;flex-direction:column;gap:10px}#formBox .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}#formBox ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:12px}#formBox li{display:grid;grid-template-columns:72px 1fr;gap:8px}#formBox li b{font-variant-numeric:tabular-nums;font-weight:600}#formBox li.cur{color:var(--accent)}
 .mxsep{align-self:stretch;width:1px;background:var(--line);flex:none}
@@ -1689,6 +1691,13 @@ function holdSay(){const n=HOLDS.size;$('mPlay').dataset.holds=n;if(S.hold)$('st
 function holdMuted(c){const f=G.fam,L=f==='cart'?c.j:c.i,B=f==='cart'?c.i:c.j;return swGet(f,'L',L)===1||swGet(f,'B',B)===1}
 setInterval(()=>{HOLDS.forEach((id,k)=>{const o=HELD.get(id);if(!o){HOLDS.delete(k);ACT.delete(id);return}if(holdMuted(o.c)){holdFree(k);holdSay()}})},150);
 function setHold(on){S.hold=!!on;if(!on)holdAll();const b=$('mPlay');b.classList.toggle('fist',!!on&&S.mode==='play');if(on&&S.mode!=='play')setMode('play');b.classList.toggle('fist',!!on);if(on)holdSay();else $('status').textContent='Touch hand: notes sound while you touch them.'}
+
+/* fit the pads: of the column counts that divide the pad count evenly, take the one whose pad comes nearest to 4 wide by 5 tall */
+function padFit(){const g=document.querySelector('.hboard .padgrid');if(!g)return;const n=g.querySelectorAll('.fs').length;if(!n)return;const W=g.clientWidth,H=g.clientHeight;if(W<40||H<40)return;let best=4,bd=1e9;
+  for(let c=1;c<=n;c++){if(n%c)continue;const r=n/c,a=(W/c)/(H/r),d=Math.abs(Math.log(a/.8));if(d<bd){bd=d;best=c}}
+  if(g.style.getPropertyValue('--pc')!==String(best))g.style.setProperty('--pc',String(best))}
+(function(){const g=document.querySelector('.hboard .padgrid');if(!g)return;try{new ResizeObserver(padFit).observe(g)}catch(e){addEventListener('resize',padFit)}
+  new MutationObserver(padFit).observe(g,{childList:true,subtree:true});window.__padFit=padFit})();
 /* hold-flyout: flyOn(button, build) where build(host, close) fills the flyout. Hold 450 ms, right-click or the menu key opens it to the button's left;
    a tap is left alone; the click that ends a hold is swallowed. It closes on a choice, an outside touch or Escape. */
 let FLY=null;
