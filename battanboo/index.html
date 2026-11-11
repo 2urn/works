@@ -1309,17 +1309,20 @@ padBuild();
 var XF=(function(){const KEY='battanboo.xf',X={x:.5,mode:'blend'};try{Object.assign(X,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){}
   const tr=$('xfTrack'),ln=$('xfLine'),vo=$('xfV'),seg=[...document.querySelectorAll('#xfMode button')];
   const gains=()=>{if(X.mode==='off')return[1,1];const x=X.x;return X.mode==='fade'?[Math.cos(x*Math.PI/2),Math.sin(x*Math.PI/2)]:[Math.min(1,2*(1-x)),Math.min(1,2*x)]};
-  function paint(){const[a,b]=gains();XA=a;XB=b;fldGain();[tr,ln].forEach(el=>{if(!el)return;el.style.setProperty('--x',(X.x*100)+'%');el.setAttribute('aria-valuenow',Math.round(X.x*100));el.classList.toggle('off',X.mode==='off');el.setAttribute('aria-valuetext',X.mode==='off'?'Free':'Grid '+Math.round(a*100)+' percent, field '+Math.round(b*100)+' percent')});
+  /* the bar's line only travels as far as the tempo handle does, so it never runs under the buttons or off the end */
+  const geo=()=>{const pill=ln&&ln.parentNode,t=$('tempo2');if(!pill||!t)return null;const pr=pill.getBoundingClientRect(),tr2=t.getBoundingClientRect(),th=22;if(!tr2.width)return null;return{l:tr2.left-pr.left+th/2,w:Math.max(1,tr2.width-th),pl:pr.left}};
+  function place(){if(!ln)return;const g=geo();ln.style.setProperty('--x',g?(g.l+X.x*g.w)+'px':(X.x*100)+'%')}
+  function paint(){const[a,b]=gains();XA=a;XB=b;fldGain();place();[tr,ln].forEach(el=>{if(!el)return;if(el===tr)el.style.setProperty('--x',(X.x*100)+'%');el.setAttribute('aria-valuenow',Math.round(X.x*100));el.classList.toggle('off',X.mode==='off');el.setAttribute('aria-valuetext',X.mode==='off'?'Free':'Grid '+Math.round(a*100)+' percent, field '+Math.round(b*100)+' percent')});
     if(vo)vo.textContent=X.mode==='off'?'Free: the grid and the field keep their own levels':'Grid '+Math.round(a*100)+'% · Field '+Math.round(b*100)+'%';seg.forEach(bt=>bt.setAttribute('aria-checked',String(bt.dataset.m===X.mode)));
     try{localStorage.setItem(KEY,JSON.stringify(X))}catch(_){}}
   function setX(x,keep){X.x=clamp(x,0,1);if(!keep&&X.mode==='off')X.mode='blend';paint()}
   [tr,ln].forEach(el=>{if(!el)return;const host=el===ln?ln.parentNode:el;
-    const at=e=>{const r=host.getBoundingClientRect();let x=(e.clientX-r.left)/r.width;if(Math.abs(x-.5)<.03)x=.5;setX(x)};
+    const at=e=>{let x;if(el===ln&&geo()){const g=geo();x=(e.clientX-g.pl-g.l)/g.w}else{const r=host.getBoundingClientRect();x=(e.clientX-r.left)/r.width}x=clamp(x,0,1);if(Math.abs(x-.5)<.03)x=.5;setX(x)};
     el.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();try{el.setPointerCapture(e.pointerId)}catch(_){}ensureAudio();at(e)});
     el.addEventListener('pointermove',e=>{if(el.hasPointerCapture&&el.hasPointerCapture(e.pointerId))at(e)});
     el.addEventListener('keydown',e=>{const d=e.key==='ArrowLeft'||e.key==='ArrowDown'?-.05:e.key==='ArrowRight'||e.key==='ArrowUp'?.05:0;if(d){e.preventDefault();setX(X.x+d)}else if(e.key==='Home'){e.preventDefault();setX(0)}else if(e.key==='End'){e.preventDefault();setX(1)}});
     let last=0;el.addEventListener('pointerup',()=>{const t=performance.now();if(t-last<320)setX(.5);last=t})});
-  seg.forEach(bt=>bt.onclick=()=>{X.mode=bt.dataset.m;paint()});paint();
+  seg.forEach(bt=>bt.onclick=()=>{X.mode=bt.dataset.m;paint()});paint();addEventListener('resize',place);if(window.ResizeObserver&&ln)new ResizeObserver(place).observe(ln.parentNode);setTimeout(place,300);
   return{X,set:setX,gains}})();
 /* what the notes draw on the grid: rain (drops and ripples), bloom (soft light) or nothing */
 const PADIS=[['Rain','rain'],['Bloom','bloom'],['Off','off']];
