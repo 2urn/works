@@ -188,10 +188,12 @@ header{display:flex;align-items:center;gap:10px}
 .fs.hz{flex:1;height:44px;cursor:ew-resize}.fs.hz .ff{top:0;bottom:0;right:auto;height:auto!important}.fs.hz .fl{left:12px;right:auto;top:50%;transform:translateY(-50%);width:auto;font-size:15px}.fs.hz .fv{left:auto;right:12px;bottom:auto;top:50%;transform:translateY(-50%)}.fs.hz canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .fs.col .ff{background:var(--c);opacity:.55;transition:opacity .25s}.fs.col.hit .ff{opacity:1;transition:none}.fs.col .fl{font:700 15px ui-monospace,Menlo,Consolas,monospace}.fs.dimmed .ff{opacity:.15}
 .fs .mb{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:4px}
-.fs .mb button{all:unset;box-sizing:border-box;flex:1;min-width:0;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;font:700 12px var(--ui);background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--fg);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.fs .mb button{all:unset;box-sizing:border-box;flex:1;min-width:0;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;font:700 12px var(--ui);background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--fg);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .fs .mb button[aria-pressed="true"].bM{background:#e8483a;color:#fff;border-color:#e8483a}.fs .mb button[aria-pressed="true"].bS{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .fs.hasmb .fv{bottom:48px}
-@media (max-width:520px){.fs .mb{flex-direction:column}.fs .mb button{flex:none;height:30px}.fs.hasmb .fv{bottom:76px}.padgrid{gap:4px;grid-template-columns:repeat(auto-fit,minmax(40px,1fr));grid-auto-rows:minmax(100px,1fr)}.fs .mb{left:3px;right:3px;gap:3px}}
+@media (max-width:520px){.fs .mb{flex-direction:column}.fs .mb button{flex:none;height:30px;border-radius:11px}.fs.hasmb .fv{bottom:76px}.padgrid{gap:6px;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(150px,1fr)}.fs .mb{left:3px;right:3px;gap:3px}}
+/* each pad's top edge says its group: level, sound, the dice */
+.padgrid .fs[data-g]{box-shadow:inset 0 4px 0 var(--gc,transparent)}.padgrid .fs[data-g=lv]{--gc:var(--accent)}.padgrid .fs[data-g=snd]{--gc:#2a9d8f}.padgrid .fs[data-g=dice]{--gc:#a793e0}
 .xf{flex:none;display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
 .xf .xa,.xf .xb{font:700 12px var(--ui);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;flex:none}.xf .xa{color:var(--accent)}.xf .xb{color:#2a9d8f}
 .xt{position:relative;flex:1 1 160px;min-width:120px;height:40px;border-radius:20px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 35%,transparent),color-mix(in srgb,#2a9d8f 35%,transparent));touch-action:none;cursor:ew-resize;-webkit-user-select:none;user-select:none}
@@ -1416,7 +1418,10 @@ function padMk(c,box,k){const el=document.createElement('div');el.className='fs'
   el.onpointerdown=e=>{e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}ensureAudio();apply(at(e))};
   el.onpointermove=e=>{if(el.hasPointerCapture&&el.hasPointerCapture(e.pointerId))apply(at(e))};
   padPaint(c,clamp(c.get(),0,1))}
-function padBuild(){['hMain','mxAux'].forEach(id=>{const b=$(id);if(b)b.innerHTML=''});CTL.filter(c=>!c.q).forEach(c=>{const b=$(c.box||'hMain');if(b)padMk(c,b,'el')});const air=CTL.find(c=>c.id==='air');if(air&&air.el)air.el.style.order='-1';const ax=$('mxAux');if(ax)LOCALP.forEach(c=>padMk(c,ax,'el'))}
+function padBuild(){['hMain','mxAux'].forEach(id=>{const b=$(id);if(b)b.innerHTML=''});CTL.filter(c=>!c.q).forEach(c=>{const b=$(c.box||'hMain');if(b)padMk(c,b,'el')});const ax=$('mxAux');if(ax)LOCALP.forEach(c=>padMk(c,ax,'el'))
+  /* left to right by how much each shapes what you hear, grouped by what it acts on: level (Vol, Field), sound (Tone, Air, Space, Morph), the dice (Holds, Repeat) */
+  const ORD=[['vol','lv'],['fld','lv'],['tone','snd'],['air','snd'],['space','snd'],['morph','snd'],['holds','dice'],['repeat','dice']];
+  CTL.concat(LOCALP).forEach(c=>{const o=ORD.findIndex(x=>x[0]===c.id);if(c.el&&o>=0){c.el.style.order=String(o);c.el.dataset.g=ORD[o][1]}})}
 function padSync(){CTL.forEach(c=>{if(c.el||c.el2)padPaint(c,clamp(c.get(),0,1))});LOCALP.concat(COLP).forEach(c=>{if(c.el)padPaint(c,clamp(c.get(),0,1))});mixDim();LOCALP.forEach(c=>c.swp&&c.swp())}
 padBuild();
 var XF=(function(){const KEY='battanboo.xf',X={x:.5,mode:'blend'};try{Object.assign(X,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(_){}
