@@ -1221,13 +1221,13 @@ const CTL=[
  {id:'lines',q:1,label:'Lines',get:()=>S.ex.filter(e=>e.way!=='none').length/3,set:v=>{const n=Math.round(v*3);if(n===S.ex.filter(e=>e.way!=='none').length)return;const used=new Set([S.way]),fw=FAMW();
    S.ex.forEach((e,k)=>{if(k<n){if(e.way==='none'||used.has(e.way)||FAM[e.way]!==FAM[S.way])e.way=fw.find(x=>!used.has(x))||'none'}else e.way='none';if(e.way!=='none')used.add(e.way)});liveLine()},txt:v=>(Math.round(v*3)+1)+''},
  {id:'against',q:1,label:'Vs',get:()=>Math.max(0,AGAINST.indexOf(S.ex.find(e=>e.way!=='none')?.ag||S.ex[0].ag))/(AGAINST.length-1),set:v=>{const a=AGAINST[Math.round(v*(AGAINST.length-1))];if(S.ex.every(e=>e.ag===a))return;S.ex.forEach(e=>e.ag=a);liveLine()},txt:v=>AGAINST[Math.round(v*(AGAINST.length-1))]},
- {id:'holds',label:'Holds',get:()=>(S.p-.12)/.86,set:v=>{$('p').value=(.12+v*.86).toFixed(2);$('p').dispatchEvent(new Event('input'))},txt:v=>Math.round((.12+v*.86)*100)+'%'},
+ {id:'holds',label:'Holds',get:()=>S.p,set:v=>{$('p').value=clamp(v,.12,.98).toFixed(2);$('p').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*100)+'%'},
  {id:'morph',label:'Morph',get:()=>S.morph,set:v=>{$('morph').value=v.toFixed(2);$('morph').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*100)+'%'},
  {id:'space',label:'Space',get:()=>S.space,set:v=>{$('space').value=v.toFixed(2);$('space').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*100)+'%'},
- {id:'repeat',label:'Repeat',get:()=>S.stick/.9,set:v=>{$('stick').value=(v*.9).toFixed(2);$('stick').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*90)+'%'}];
+ {id:'repeat',label:'Repeat',get:()=>S.stick,set:v=>{$('stick').value=clamp(v,0,.9).toFixed(2);$('stick').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*100)+'%'}];
 const PADV={};
 function padPaint(c,v){[c.el,c.el2].forEach(el=>{if(!el)return;el.querySelector('.ff').style.height=(v*100)+'%';el.querySelector('.fv').textContent=c.txt(v)})}
-function setCtl(id,v,fromHand){const c=CTL.find(x=>x.id===id);if(!c)return;v=clamp(v,0,1);PADV[id]=v;c.set(v);if(c.el||c.el2)padPaint(c,v);if(fromHand)recCtl(id,v)}
+function setCtl(id,v,fromHand){const c=CTL.find(x=>x.id===id);if(!c)return;v=clamp(v,0,1);PADV[id]=v;c.set(v);if(c.el||c.el2)padPaint(c,clamp(c.get(),0,1));if(fromHand)recCtl(id,v)}
 /* the last 5% at each end of a touch strip counts as the end, so a finger can reach 0 and 220 */
 function edge(f){return clamp((f-.05)/.9,0,1)}
 function padMk(c,box,k){const el=document.createElement('div');el.className='fs';el.innerHTML='<div class="ff"></div><div class="fl">'+c.label+'</div><div class="fv"></div>';c[k]=el;if(c.def==null)c.def=c.get();RESET.set(el,()=>setCtl(c.id,c.def,true));if(c.q)el.classList.add('qty');box.appendChild(el);
