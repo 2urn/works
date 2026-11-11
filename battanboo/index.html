@@ -566,6 +566,8 @@ function view(way){const{T,L}=dimsTL(way),fam=FAM[way],g=S.g[fam],[A,B]=AB(fam),
 const swGet=(fam,side,k)=>S.sw[fam][side][k]||0;
 /* the order of a row or column switch: muted, then available (the default), then always on last, because always on is the loudest */
 const SWNX=[2,0,1];
+/* a tap on a row or column switch only toggles muted and available; always on (the loudest) takes a press and hold */
+const SWTAP=[1,0,0];
 function cellSt(fam,i,j){const l=swGet(fam,'L',fam==='cart'?j:i),b=swGet(fam,'B',fam==='cart'?i:j);return(l===1||b===1)?1:(l===2||b===2)?2:0}
 /* geometry */
 const cv=$('cv'),ctx=cv.getContext('2d');let G={};
@@ -591,10 +593,10 @@ function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?
   const L=$('swL'),B=$('swB');L.innerHTML='';B.innerHTML='';L.style.height=G.h+'px';B.style.width=G.w+'px';
   const mk=(side,k,label)=>{const b=document.createElement('button');b.className='sw';b.type='button';b.innerHTML='<i></i>';
     const set=()=>{const v=swGet(fam,side,k);b.dataset.s=v;b.setAttribute('aria-label',label+': '+['normal','muted','always on'][v]);b.title=b.getAttribute('aria-label')};
-    b._apply=v=>{if(swGet(fam,side,k)===v)return;S.sw[fam][side][k]=v;set();draw()};b._next=()=>SWNX[swGet(fam,side,k)];b.onclick=e=>{if(e.detail===0)b._apply(b._next())};set();return b};
+    b._apply=v=>{if(swGet(fam,side,k)===v)return;S.sw[fam][side][k]=v;set();draw()};b._next=()=>SWTAP[swGet(fam,side,k)];b.oncontextmenu=e=>{e.preventDefault();b._apply(2)};b.onclick=e=>{if(e.detail===0)b._apply(b._next())};set();return b};
   let paint=null;const hit=e=>{const el=document.elementFromPoint(e.clientX,e.clientY);const s=el&&el.closest&&el.closest('.sw');return s&&s._apply?s:null};
-  [L,B].forEach(C=>{C.onpointerdown=e=>{const b=hit(e);if(!b)return;e.preventDefault();paint=b._next();b._apply(paint);try{C.setPointerCapture(e.pointerId)}catch(_){}};
-    C.onpointermove=e=>{if(paint==null)return;const b=hit(e);if(b)b._apply(paint)};C.onpointerup=C.onpointercancel=()=>{paint=null}});
+  let ht=0,hb=null;[L,B].forEach(C=>{C.onpointerdown=e=>{const b=hit(e);if(!b)return;e.preventDefault();paint=b._next();b._apply(paint);hb=b;clearTimeout(ht);ht=setTimeout(()=>{if(hb&&paint!=null){hb._apply(2);stripSig='';draw();paint=null;$('status').textContent='Held: always sounding.'}},600);try{C.setPointerCapture(e.pointerId)}catch(_){}};
+    C.onpointermove=e=>{if(paint==null)return;const b=hit(e);if(b){if(b!==hb){clearTimeout(ht);hb=null}b._apply(paint)}};C.onpointerup=C.onpointercancel=()=>{paint=null;clearTimeout(ht);hb=null}});
   const LT=$('lkT'),LR=$('lkR');LT.innerHTML='';LR.innerHTML='';LT.style.width=G.w+'px';LR.style.height=G.h+'px';
   const mkl=(side,k,label)=>{const b=document.createElement('button');b.className='lkb';b.type='button';
     b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="11" width="13" height="9.5" rx="2"/><path class="sh0" d="M8.5 11V8a3.5 3.5 0 0 1 6.6-1.6"/><path class="sh1" d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>';
