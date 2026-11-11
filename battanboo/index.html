@@ -188,14 +188,14 @@ header{display:flex;align-items:center;gap:10px}
 .fs.hasmb .fv{bottom:48px}
 @media (max-width:520px){.fs .mb{flex-direction:column}.fs .mb button{flex:none;height:30px}.fs.hasmb .fv{bottom:76px}.padgrid{gap:4px;grid-template-columns:repeat(auto-fit,minmax(40px,1fr));grid-auto-rows:minmax(150px,1fr)}.fs .mb{left:3px;right:3px;gap:3px}}
 .xf{flex:none;display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
-.xf .xa,.xf .xb{font:700 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.xf .xa{color:var(--accent)}.xf .xb{color:#2a9d8f}
+.xf .xa,.xf .xb{font:700 12px var(--ui);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;flex:none}.xf .xa{color:var(--accent)}.xf .xb{color:#2a9d8f}
 .xt{position:relative;flex:1 1 160px;min-width:120px;height:40px;border-radius:20px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 35%,transparent),color-mix(in srgb,#2a9d8f 35%,transparent));touch-action:none;cursor:ew-resize;-webkit-user-select:none;user-select:none}
 .xt::before{content:"";position:absolute;left:50%;top:6px;bottom:6px;width:1px;background:var(--line)}
 .xt .xk{position:absolute;top:3px;bottom:3px;left:var(--x,50%);width:6px;margin-left:-3px;border-radius:3px;background:var(--fg)}.xt.off{opacity:.45}
 .xf .xv{font:500 11px var(--ui);opacity:.75;font-variant-numeric:tabular-nums}
 .pill.tempo>.xfl{position:absolute;top:0;bottom:0;left:var(--x,50%);width:22px;margin-left:-11px;z-index:3;touch-action:none;cursor:ew-resize;-webkit-user-select:none;user-select:none}
 .xfl>i{position:absolute;left:10px;top:3px;bottom:3px;width:2px;border-radius:1px;background:var(--fg);opacity:.85}.xfl.off>i{opacity:.3}
-.xfl .xl{position:absolute;top:2px;font:700 9px var(--ui);line-height:1}.xfl .xl.a{right:13px;color:var(--accent)}.xfl .xl.b{left:13px;color:#2a9d8f}
+.xfl .xl{position:absolute;top:3px;font:700 12px var(--ui);line-height:1;padding:2px 4px;border-radius:5px;background:color-mix(in srgb,var(--surface) 88%,transparent)}.xfl .xl.a{right:12px;color:var(--accent)}.xfl .xl.b{left:12px;color:#2a9d8f}
 .rail .lay[aria-pressed="false"]{opacity:.45}.rail .lay.top{background:var(--accent);color:var(--accent-ink)}.rail .lay[aria-pressed="true"]:not(.top){background:transparent;color:var(--accent)}.rail .lay{touch-action:none}
 #cv,#fx,#fldPad{transition:opacity .2s}html.lay-gdim #cv,html.lay-gdim #fx{opacity:.4}html.lay-goff #cv,html.lay-goff #fx{opacity:0}html.lay-fdim #fldPad{opacity:.4}html.lay-foff #fldPad{display:none}
 .lanes{display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0}
@@ -245,7 +245,7 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 .pill.tempo>#metro{background:color-mix(in srgb,var(--qty) 62%,transparent);border-color:color-mix(in srgb,var(--surface) 55%,transparent)}
 .pill.tempo>#metro[aria-pressed="true"],.pill.tempo>#metro.tick{background:color-mix(in srgb,var(--accent) 72%,transparent)}
 .pill.tempo>#metro[data-m="look"]{background:color-mix(in srgb,var(--qty) 62%,transparent)}
-.pill.tempo>.pole{position:relative;flex:none;width:36px;min-width:36px;height:40px;min-height:40px;padding:0;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;opacity:.55}
+.pill.tempo>.pole{position:relative;flex:none;width:36px;min-width:36px;height:40px;min-height:40px;padding:0;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;opacity:.7}
 .pill.tempo>.pole svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .pill.tempo>#poleA{color:var(--accent)}.pill.tempo>#poleB{color:#2a9d8f}
 .pill.tempo>.pole.top{opacity:1;background:color-mix(in srgb,currentColor 18%,transparent);box-shadow:inset 0 0 0 1.5px currentColor}
@@ -1195,12 +1195,26 @@ function fldRelease(v){if(!v||v.dead)return;v.dead=true;const t=AC.currentTime;v
 function fldClear(){FV.splice(0).forEach(fldRelease);fldPaint()}
 const fldEl=()=>$('fldPad');
 function fldPos(e){const r=fldEl().getBoundingClientRect();return[clamp((e.clientX-r.left)/r.width,0,1),clamp((e.clientY-r.top)/r.height,0,1)]}
+/* a held dot: drag it to move it (its pitch, pan or distance follow), double-tap to take it away, hold it for a ring of nudges */
+var FDRAG=null,FTAP=null;
+function fldRing(v){haloClose();const el0=fldEl(),r=el0.getBoundingClientRect();let cx=r.left+v.x*r.width,cy=r.top+v.y*r.height;cx=Math.max(70,Math.min(innerWidth-70,cx));cy=Math.max(70,Math.min(innerHeight-70,cy));
+  const el=document.createElement('div');el.className='halo';el.setAttribute('role','group');el.setAttribute('aria-label','Field note: move it a step or take it away');el.style.left=cx+'px';el.style.top=cy+'px';
+  const B=36,P=50,sy=FLD2.view==='wall'?1/(fldNotes()*2):.07,sx=.05;
+  const mv=(dx,dy)=>{if(v.dead)return;fldSet(v,clamp(v.x+dx,0,1),clamp(v.y+dy,0,1));fldPaint()};
+  [['↑','Up a step',0,-P,()=>mv(0,-sy)],['→','Right',P,0,()=>mv(sx,0)],['↓','Down a step',0,P,()=>mv(0,sy)],['←','Left',-P,0,()=>mv(-sx,0)],['✕','Take it away',Math.round(P*.8),-Math.round(P*.8),()=>{const i=FV.indexOf(v);if(i>=0)FV.splice(i,1);fldRelease(v);fldPaint();haloClose()}]].forEach(([t,nm,dx,dy,fn])=>{
+    const b=document.createElement('button');b.type='button';b.textContent=t;b.title=nm;b.setAttribute('aria-label',nm);b.style.width=b.style.height=B+'px';b.style.setProperty('--dx',dx+'px');b.style.setProperty('--dy',dy+'px');b.onclick=ev=>{ev.stopPropagation();fn()};el.appendChild(b)});
+  document.body.appendChild(el);HALO={el,c:{i:-9,j:-9}};requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('on')))}
 function fldPad(){const el=fldEl();if(!el)return;
   el.onpointerdown=e=>{e.preventDefault();ensureAudio();try{el.setPointerCapture(e.pointerId)}catch(_){}const[x,y]=fldPos(e);
-    if(FLD2.hold){const r=el.getBoundingClientRect();let hit=-1;FV.forEach((v,i)=>{if(Math.hypot((v.x-x)*r.width,(v.y-y)*r.height)<22)hit=i});if(hit>=0){fldRelease(FV.splice(hit,1)[0]);fldPaint();return}}
+    {const r=el.getBoundingClientRect();let hit=-1;FV.forEach((v,i)=>{if(Math.hypot((v.x-x)*r.width,(v.y-y)*r.height)<24)hit=i});
+      if(hit>=0){const v=FV[hit],now=performance.now();
+        if(FTAP&&FTAP.v===v&&now-FTAP.t<400){FTAP=null;FV.splice(hit,1);fldRelease(v);fldPaint();$('status').textContent='Field note taken away.';return}
+        FDRAG={id:e.pointerId,v,cx:e.clientX,cy:e.clientY,moved:false,menu:false,t:setTimeout(()=>{if(FDRAG&&!FDRAG.moved){FDRAG.menu=true;fldRing(v)}},520)};return}}
     const v=fldMake(x,y);if(!v)return;FLIVE={id:e.pointerId,v};fldPaint()};
-  el.onpointermove=e=>{if(!FLIVE||FLIVE.id!==e.pointerId)return;const[x,y]=fldPos(e);fldSet(FLIVE.v,x,y);fldPaint()};
-  const up=e=>{if(!FLIVE||FLIVE.id!==e.pointerId)return;const v=FLIVE.v;FLIVE=null;if(FLD2.hold){FV.push(v);while(FV.length>8)fldRelease(FV.shift())}else fldRelease(v);fldPaint()};
+  el.onpointermove=e=>{if(FDRAG&&FDRAG.id===e.pointerId){if(!FDRAG.moved&&Math.hypot(e.clientX-FDRAG.cx,e.clientY-FDRAG.cy)>6){FDRAG.moved=true;clearTimeout(FDRAG.t);haloClose()}if(FDRAG.moved){const[x,y]=fldPos(e);fldSet(FDRAG.v,x,y);fldPaint()}return}
+    if(!FLIVE||FLIVE.id!==e.pointerId)return;const[x,y]=fldPos(e);fldSet(FLIVE.v,x,y);fldPaint()};
+  const up=e=>{if(FDRAG&&FDRAG.id===e.pointerId){clearTimeout(FDRAG.t);if(!FDRAG.moved&&!FDRAG.menu)FTAP={v:FDRAG.v,t:performance.now()};FDRAG=null;return}
+    if(!FLIVE||FLIVE.id!==e.pointerId)return;const v=FLIVE.v;FLIVE=null;if(FLD2.hold){FV.push(v);while(FV.length>8)fldRelease(FV.shift())}else fldRelease(v);fldPaint()};
   el.onpointerup=up;el.onpointercancel=up;
   el.addEventListener('contextmenu',e=>e.preventDefault())}
 function fldPaint(){const el=fldEl();if(!el)return;const w=el.clientWidth,h=el.clientHeight;if(!w)return;const live=FLD2.touch==='field';const dpr=Math.min(devicePixelRatio||1,2);if(el.width!==Math.round(w*dpr)){el.width=Math.round(w*dpr);el.height=Math.round(h*dpr)}
@@ -1239,7 +1253,7 @@ function laySync(){layNorm();const R=document.documentElement.classList,top=FLD2
   const a=top==='grid'?g:f,z=top==='grid'?f:g;if(a.nextElementSibling!==z&&a.parentNode===z.parentNode)a.parentNode.insertBefore(a,z);
   if(!FLD2.fon&&typeof FV!=='undefined'&&FV.length)fldClear()}
 function fldSync(){const pairs=[['fldWall',FLD2.view==='wall'],['fldFloor',FLD2.view==='floor'],['fldHold',FLD2.hold]];pairs.forEach(([id,on])=>{const b=$(id);if(b)b.setAttribute('aria-pressed',String(on))});document.querySelectorAll('#fldTouch button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.t===FLD2.touch)));laySync();document.documentElement.classList.toggle('fld-on',FLD2.touch==='field');fldDegBuild();
-  $('fldHint').textContent=FLD2.view==='wall'?'The field is a second layer of long held sounds over the pad, not painted marks. Touching: Field, then press the pad. Wall: across is left to right, up is higher. With Hold on, release leaves the sound sustaining and a tap on a dot takes it away.':'The field is a second layer of long held sounds over the pad, not painted marks. Floor: across is left to right, up is farther away: quieter, darker, wetter. Its pitch is the scale step above; change it between touches.';fldPaint()}
+  $('fldHint').textContent=FLD2.view==='wall'?'The field is a second layer of long held sounds over the pad, not painted marks. Touching: Field, then press the pad. Wall: across is left to right, up is higher. With Hold on, release leaves the sound sustaining. Drag a dot to move it, double-tap it to take it away, hold it for a ring of nudges.':'The field is a second layer of long held sounds over the pad, not painted marks. Floor: across is left to right, up is farther away: quieter, darker, wetter. Its pitch is the scale step above; change it between touches.';fldPaint()}
 (function(){const set=(id,fn)=>{const b=$(id);if(b)b.onclick=fn};
   set('fldWall',()=>{FLD2.view='wall';fldSave();fldSync()});set('fldFloor',()=>{FLD2.view='floor';fldSave();fldSync()});
   set('fldHold',()=>{FLD2.hold=!FLD2.hold;if(!FLD2.hold)fldClear();fldSave();fldSync()});set('fldClr',fldClear);
