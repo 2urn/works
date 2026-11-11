@@ -1367,7 +1367,7 @@ const CTL=[
  {id:'repeat',label:'Repeat',get:()=>S.stick,set:v=>{$('stick').value=clamp(v,0,.9).toFixed(2);$('stick').dispatchEvent(new Event('input'))},txt:v=>Math.round(v*100)+'%'}];
 const PADV={};
 function padPaint(c,v){[c.el,c.el2].forEach(el=>{if(!el)return;const ff=el.querySelector('.ff');if(el.classList.contains('hz'))ff.style.width=(v*100)+'%';else ff.style.height=(v*100)+'%';el.querySelector('.fv').textContent=c.txt(v)})}
-function setCtl(id,v,fromHand){const c=CTL.find(x=>x.id===id);if(!c)return;v=clamp(v,0,1);PADV[id]=v;c.set(v);if(c.el||c.el2)padPaint(c,clamp(c.get(),0,1));if(fromHand)recCtl(id,v)}
+function setCtl(id,v,fromHand){if(id==='xf'){XF.set(clamp(v,0,1),true);return}const c=CTL.find(x=>x.id===id);if(!c)return;v=clamp(v,0,1);PADV[id]=v;c.set(v);if(c.el||c.el2)padPaint(c,clamp(c.get(),0,1));if(fromHand)recCtl(id,v)}
 /* the last 5% at each end of a touch strip counts as the end, so a finger can reach 0 and 220 */
 function edge(f){return clamp((f-.05)/.9,0,1)}
 function padMk(c,box,k){const el=document.createElement('div');el.className='fs'+(c.hz?' hz':'');el.innerHTML='<div class="ff"></div><div class="fl">'+c.label+'</div><div class="fv"></div>';c[k]=el;if(c.def==null)c.def=c.get();
@@ -1395,12 +1395,26 @@ var XF=(function(){const KEY='battanboo.xf',X={x:.5,mode:'blend'};try{Object.ass
     try{localStorage.setItem(KEY,JSON.stringify(X))}catch(_){}}
   function setX(x,keep){X.x=clamp(x,0,1);if(!keep&&X.mode==='off')X.mode='blend';paint()}
   [tr,ln].forEach(el=>{if(!el)return;const host=el===ln?ln.parentNode:el;
-    const at=e=>{let x;if(el===ln&&geo()){const g=geo();x=(e.clientX-g.pl-g.l)/g.w}else{const r=host.getBoundingClientRect();x=(e.clientX-r.left)/r.width}x=clamp(x,0,1);if(Math.abs(x-.5)<.03)x=.5;setX(x)};
+    const at=e=>{let x;if(el===ln&&geo()){const g=geo();x=(e.clientX-g.pl-g.l)/g.w}else{const r=host.getBoundingClientRect();x=(e.clientX-r.left)/r.width}x=clamp(x,0,1);if(Math.abs(x-.5)<.03)x=.5;setX(x);recCtl('xf',X.x)};
     el.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();try{el.setPointerCapture(e.pointerId)}catch(_){}ensureAudio();at(e)});
     el.addEventListener('pointermove',e=>{if(el.hasPointerCapture&&el.hasPointerCapture(e.pointerId))at(e)});
-    el.addEventListener('keydown',e=>{const d=e.key==='ArrowLeft'||e.key==='ArrowDown'?-.05:e.key==='ArrowRight'||e.key==='ArrowUp'?.05:0;if(d){e.preventDefault();setX(X.x+d)}else if(e.key==='Home'){e.preventDefault();setX(0)}else if(e.key==='End'){e.preventDefault();setX(1)}});
+    el.addEventListener('keydown',e=>{const d=e.key==='ArrowLeft'||e.key==='ArrowDown'?-.05:e.key==='ArrowRight'||e.key==='ArrowUp'?.05:0;if(d){e.preventDefault();setX(X.x+d);recCtl('xf',X.x)}else if(e.key==='Home'){e.preventDefault();setX(0);recCtl('xf',0)}else if(e.key==='End'){e.preventDefault();setX(1);recCtl('xf',1)}});
     let last=0;el.addEventListener('pointerup',()=>{const t=performance.now();if(t-last<320)setX(.5);last=t})});
   window.__xfPlace=place;seg.forEach(bt=>bt.onclick=()=>{X.mode=bt.dataset.m;paint()});paint();addEventListener('resize',place);if(window.ResizeObserver&&ln)new ResizeObserver(place).observe(ln.parentNode);setTimeout(place,300);
+  /* a knob or slider on a MIDI controller: press MIDI, move the control once, and it moves the crossfader (and is recorded in a take like a finger) */
+  (function(){const host=$('xfMode');if(!host||!host.parentNode)return;const KCC='battanboo.xfcc';let cc=null,learn=false,acc=null;try{cc=JSON.parse(localStorage.getItem(KCC)||'null')}catch(_){}
+    const b=document.createElement('button');b.type='button';b.className='chip';b.id='xfMidi';host.parentNode.insertBefore(b,host.nextSibling);
+    const lab=()=>{b.textContent=learn?'Move a control…':cc?'MIDI: CC '+cc.cc:'MIDI';b.setAttribute('aria-pressed',String(learn));b.title=cc?'Crossfader is on MIDI CC '+cc.cc+' (channel '+(cc.ch+1)+'). Tap to choose another control.':'Map the crossfader to a knob or slider on a MIDI controller'};
+    const msg=m=>{const[st,d1,d2]=m.data;if((st&0xf0)!==0xb0)return;const ch=st&15;
+      if(learn){cc={ch,cc:d1};learn=false;try{localStorage.setItem(KCC,JSON.stringify(cc))}catch(_){}lab();$('status').textContent='Crossfader mapped to MIDI CC '+d1+', channel '+(ch+1)+'.';return}
+      if(cc&&cc.ch===ch&&cc.cc===d1){setX(d2/127);recCtl('xf',X.x)}};
+    const hook=()=>{if(acc)acc.inputs.forEach(i=>{i.onmidimessage=msg})};
+    b.onclick=async()=>{if(learn){learn=false;lab();return}
+      if(!navigator.requestMIDIAccess){$('status').textContent='This browser has no MIDI. Safari on iPhone and iPad cannot; Chrome on a Mac can.';return}
+      try{if(!acc){acc=await navigator.requestMIDIAccess();acc.onstatechange=hook}hook()}catch(e){$('status').textContent='MIDI was not allowed.';return}
+      if(!acc.inputs.size){$('status').textContent='No MIDI controller found. Plug one in, then tap MIDI again.';return}
+      learn=true;lab();$('status').textContent='Move the knob or slider you want for the crossfader.'};
+    lab();if(cc&&navigator.requestMIDIAccess)navigator.requestMIDIAccess().then(a=>{acc=a;a.onstatechange=hook;hook()}).catch(()=>{})})();
   return{X,set:setX,gains}})();
 /* what the notes draw on the grid: rain (drops and ripples), bloom (soft light) or nothing */
 const PADIS=[['Rain','rain'],['Bloom','bloom'],['Off','off']];
