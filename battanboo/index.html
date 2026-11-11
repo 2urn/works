@@ -693,7 +693,7 @@ function paintApply(c,mode){const k=c.k,both=PT.pc&&PT.pm;
   else if(PT.pc){if(k.s>0)k.v=S.brush}
   else if(PT.pm){if(k.s>0)k.s=PT.shape}
   draw()}
-function paintDown(e,c){e.preventDefault();histPush();const k=c.k;if(!PT.pc&&!PT.pm){if(k.v!==S.brush||k.s===0){k.v=S.brush;if(k.s===0)k.s=1}else k.s=(k.s+1)%SHAPES.length;draw();return}
+function paintDown(e,c){e.preventDefault();histPush();const k=c.k;if(!PT.pc&&!PT.pm){if(k.v!==S.brush||k.s===0){k.v=S.brush;if(k.s===0)k.s=PT.shape||1}else k.s=(k.s+1)%SHAPES.length;draw();return}
   try{cv.setPointerCapture(e.pointerId)}catch(_){}
   const same=PT.pc&&PT.pm&&k.s===PT.shape&&k.v===S.brush;PAINT={id:e.pointerId,mode:same?'erase':'set',last:KEYC(c)};paintApply(c,PAINT.mode)}
 function paintMove(e){if(!PAINT||PAINT.id!==e.pointerId)return;const c=cellAt(e);if(!c)return;const key=KEYC(c);if(key===PAINT.last)return;PAINT.last=key;paintApply(c,PAINT.mode)}
