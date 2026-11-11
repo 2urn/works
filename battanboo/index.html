@@ -39,7 +39,8 @@ h1{font:700 22px/1.1 var(--ui);letter-spacing:.02em;margin:0;text-wrap:balance}
 .fs.qty .ff{background:var(--qty);opacity:.7}.fs.qty .fv{color:var(--qty)}
 .stagerow{display:flex;flex-direction:row;gap:8px;align-items:stretch;min-width:0}.stagerow>.stagebox{flex:1;min-width:0}
 .mixer{display:flex;align-items:flex-end;gap:6px;min-width:0;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
-.mxch{display:flex;gap:4px;align-items:flex-end;min-width:0;overflow-x:auto;scrollbar-width:none}.mxch::-webkit-scrollbar{display:none}.mxch#mxCh{flex:1}#mxAux{flex:none}#mxAux .mf{height:118px}.mxsep{align-self:stretch;width:1px;background:var(--line);flex:none}
+.mxch{display:flex;gap:4px;align-items:flex-end;min-width:0;overflow-x:auto;scrollbar-width:none}.mxch::-webkit-scrollbar{display:none}.mxch#mxCh{flex:1}#mxAux{flex:none}#mxAux .mf{height:118px}.cshab{margin:6px 0 0;font-size:12px}.cshab summary{cursor:pointer;padding:6px 2px;color:var(--muted,inherit)}.csrows{display:flex;flex-direction:column;gap:4px;margin:4px 0 8px}.csrow{display:grid;grid-template-columns:18px 1fr 1fr 1fr;gap:8px;align-items:center}.csrow i{width:14px;height:14px;border-radius:50%}.csrow input{min-width:0;width:100%;min-height:30px}
+.mxsep{align-self:stretch;width:1px;background:var(--line);flex:none}
 .ms{flex:none;width:36px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .mf{position:relative;width:30px;height:84px;border-radius:9px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;touch-action:none;cursor:ns-resize;-webkit-user-select:none;user-select:none}
 .mff{position:absolute;left:0;right:0;bottom:0;background:var(--c,var(--accent));opacity:.85;pointer-events:none}
@@ -517,9 +518,14 @@ function tl(way,i,j){const d=D(),N=d.N,R=d.R,K=d.K;
 function dimsTL(way){const d=D();switch(way){case'radar':case'radarccw':return{T:d.K,L:d.R};case'out':case'in':return{T:d.R,L:d.K};case'grow':case'shrink':return{T:Math.ceil(d.N/2),L:d.N};default:return{T:d.N,L:d.N}}}
 function AB(fam){const d=D();return fam==='cart'?[d.N,d.N]:[d.R,d.K]}
 const pAt=(t,T,p)=>S.drift?1-(1-1/8)*(t/Math.max(1,T-1)):p;
+/* colour habits: each colour may prefer a pitch band (register, band width) and have a share of the cells. With every habit left open this is exactly the old rule: the step's favourite colour with chance q, otherwise any other. */
+const CS=[0,1,2,3,4,5,6,7].map(()=>({reg:.5,band:1,share:1}));
+try{const q=JSON.parse(localStorage.getItem('dicescore.cs')||'null');if(Array.isArray(q))q.forEach((o,i)=>{if(CS[i]&&o){CS[i].reg=+o.reg>=0&&+o.reg<=1?+o.reg:.5;CS[i].band=+o.band>=.1&&+o.band<=1?+o.band:1;CS[i].share=+o.share>=0&&+o.share<=1?+o.share:1}})}catch(e){}
+function csWeight(v,l,L){const c=CS[v];if(!c)return 1;const mid=c.reg*(L-1),sg=Math.max(.35,c.band*L*.5),g=Math.exp(-.5*((l-mid)/sg)**2),k=c.band*c.band*c.band;return c.share*(g*(1-k)+k)}
+function csPick(t,l,L,q,fav){const n=S.nV;if(n<2)return 0;const F=q*(n-1)/Math.max(.02,1-q),w=Array.from({length:n},(_,v)=>Math.max(.0001,csWeight(v,l,L))*(v===fav?F:1));return wpick(w)}
 function genTL(T,L,p,stick){const fav=Array.from({length:T},()=>wpick(S.flat?[1,1,1,1,1,1,1,1]:FAVW)),favV=Array.from({length:T},()=>(rnd()*S.nV)|0),rows=[];
-  const cell=t=>{const q=pAt(t,T,p);const sh=rnd()<q?fav[t]:wpick(Array.from({length:8},(_,i)=>i===fav[t]?0:(i===0&&!S.flat?3:1)));const vo=rnd()<q?favV[t]:wpick(Array.from({length:S.nV},(_,i)=>i===favV[t]?0:1));return{s:sh,v:vo}};
-  for(let t=0;t<T;t++){const row=[];for(let l=0;l<L;l++)row.push(t>0&&rnd()<stick?{...rows[t-1][l]}:cell(t));rows.push(row)}return rows}
+  const cell=(t,l)=>{const q=pAt(t,T,p);const sh=rnd()<q?fav[t]:wpick(Array.from({length:8},(_,i)=>i===fav[t]?0:(i===0&&!S.flat?3:1)));const vo=csPick(t,l,L,q,favV[t]);return{s:sh,v:vo}};
+  for(let t=0;t<T;t++){const row=[];for(let l=0;l<L;l++)row.push(t>0&&rnd()<stick?{...rows[t-1][l]}:cell(t,l));rows.push(row)}return rows}
 const locked=(fam,i,j)=>!!((S.lk[fam].L[fam==='cart'?j:i])||(S.lk[fam].B[fam==='cart'?i:j]));
 const kept=(fam,i,j)=>locked(fam,i,j)||(S.keepOff&&cellSt(fam,i,j)===1);
 function rollFam(fam,way,p,stick){const{T,L}=dimsTL(way),rows=genTL(T,L,p,stick),[A,B]=AB(fam),g=[],old=S.g[fam],ring=way==='grow'||way==='shrink',pool=[rows],seen={};
@@ -1172,7 +1178,17 @@ function laneLoop(){if(!hudEl.classList.contains('on')){lanRaf=0;return}lanRaf=r
     L.amp*=.94;L.ph+=.7;L.buf.copyWithin(0,1);L.buf[L.buf.length-1]=L.amp*Math.sin(L.ph);
     const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=1.6;g.strokeStyle='#fff';g.globalAlpha=.95;g.beginPath();
     L.buf.forEach((y,i)=>{const X=i/(L.buf.length-1)*w,Y=h/2-y*h*.42;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.stroke()})}
-function mixBuild(){const box=$('mxCh');if(!box)return;box.innerHTML='';meterEls.length=0;LAN.length=0;COLP.length=0;const C=V0();
+function csBuild(){let d=$('csBox');const x=$('xfade');if(!x)return;
+  if(!d){d=document.createElement('details');d.id='csBox';d.className='cshab';x.after(d)}
+  const open=d.open;d.innerHTML='';const sm=document.createElement('summary');sm.textContent='Colour habits: where each colour lives, how wide, how often';d.appendChild(sm);
+  const C=VC(),save=()=>{try{localStorage.setItem('dicescore.cs',JSON.stringify(CS))}catch(e){}},rows=document.createElement('div');rows.className='csrows';
+  const lab=['Where (low to high)','Width (narrow to anywhere)','How often'];
+  for(let v=0;v<S.nV;v++){const r=document.createElement('div');r.className='csrow';const sw=document.createElement('i');sw.style.background=C[v];sw.setAttribute('aria-hidden','true');r.appendChild(sw);
+    [['reg',0,100,1],['band',10,100,1],['share',0,100,1]].forEach(([k,mn,mx],n)=>{const i=document.createElement('input');i.type='range';i.min=mn;i.max=mx;i.step=1;i.value=Math.round(CS[v][k]*100);i.setAttribute('aria-label','Colour '+(v+1)+': '+lab[n]);i.title='Colour '+(v+1)+': '+lab[n];
+      i.oninput=()=>{CS[v][k]=+i.value/100;save()};r.appendChild(i)});rows.appendChild(r)}
+  const rs=document.createElement('button');rs.type='button';rs.className='chip';rs.textContent='Open all habits';rs.title='Every colour anywhere, equally often (the plain dice)';rs.onclick=()=>{CS.forEach(c=>{c.reg=.5;c.band=1;c.share=1});save();csBuild();d.open=true};
+  d.appendChild(rows);d.appendChild(rs);d.open=open}
+function mixBuild(){try{csBuild()}catch(e){}const box=$('mxCh');if(!box)return;box.innerHTML='';meterEls.length=0;LAN.length=0;COLP.length=0;const C=V0();
   for(let v=0;v<S.nV;v++){const c={id:'col'+v,local:1,hz:1,label:String(v+1),def:.7,get:()=>(S.mix.lv[v]==null?.7:S.mix.lv[v])*XA,set:x=>{S.mix.lv[v]=XA>.02?Math.min(1,x/XA):x;mixDim()},txt:pct};
     const row=document.createElement('div');row.className='mrow';box.appendChild(row);
     padMk(c,row,'el');c.el.classList.add('col');c.el.style.setProperty('--c',C[v]);
