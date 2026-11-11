@@ -49,6 +49,8 @@ h1{font:700 22px/1.1 var(--ui);letter-spacing:.02em;margin:0;text-wrap:balance}
 .formbar,#cornerMsg{right:calc(max(var(--gut),env(safe-area-inset-right,0px)) + 36px)}
 body.saying #cornerMsg{opacity:1}
 .formbar .ftx span{display:none}
+/* with an overlay open, the frame's own controls (locks, row and column switches, corners) fade right back so they do not fight what is on the overlay */
+.stagebox .swL,.stagebox .swB,.stagebox .cnr,#lkT,#lkR{transition:opacity .25s ease}body.hudon .stagebox .swL,body.hudon .stagebox .swB,body.hudon .stagebox .cnr,body.hudon #lkT,body.hudon #lkR{opacity:.06;pointer-events:none}
 /* the clock is a row of the frame (above the lock row), not a floating pill: it pushes the grid down by its own height and the grid shrinks to make room */
 #formBar.formbar{position:absolute;z-index:2;top:0;left:0;right:0;width:auto;display:none;height:26px;border-radius:12px 12px 0 0;opacity:1;pointer-events:auto;transition:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:inset 0 -1px 0 color-mix(in srgb,var(--fg) 14%,transparent);background:color-mix(in srgb,var(--fg) 7%,transparent)}.stagebox.formon{padding-top:30px}.formbar .ftx{padding:0 16px}
 #formBar.formbar.on{display:block}
@@ -1770,7 +1772,7 @@ $('allLk').onclick=()=>{const L=cornAll('lk'),nx=L.v===1?0:1;for(let k=0;k<L.nL;
   try{$('launchGo').focus({preventScroll:true})}catch(e){}})();
 /* the HUD: mixer, line-ups and goes live in slidable panes over the grid, opened from the toolbar like the finger sliders */
 const hudEl=$('hud'),hp=$('hpanes'),hdots=[...$('hdots').children];
-function hudShow(on){hudEl.classList.toggle('on',on);formPress();$('mHud').setAttribute('aria-pressed',String(on));$('mHud').setAttribute('aria-expanded',String(on));
+function hudShow(on){hudEl.classList.toggle('on',on);document.body.classList.toggle('hudon',on);formPress();$('mHud').setAttribute('aria-pressed',String(on));$('mHud').setAttribute('aria-expanded',String(on));
   if(on){hTitleSync();hxBuild();hudSync();padSync();padIsSync();mixSync();mixDim();if(typeof fldSync==="function")fldSync();if(!lanRaf)laneLoop();[...HELD.keys()].filter(k=>typeof k==='number').forEach(k=>handOff(k))}}
 $('mHud').onclick=()=>hudShow(!hudEl.classList.contains('on'));
 hp.addEventListener('scroll',formPress,{passive:true});
