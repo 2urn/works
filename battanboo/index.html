@@ -1176,10 +1176,11 @@ const COLP=[],LOCALP=[],pct=v=>Math.round(v*100)+'%';
 function mixDim(){COLP.forEach((c,v)=>{if(c.el)c.el.classList.toggle('dimmed',cg0(v)<=.001);if(c.swp)c.swp()})}
 const LAN=[];let lanRaf=0;
 function laneHit(v,time){const c=COLP[v];if(!c||!c.el)return;setTimeout(()=>{if(LAN[v])LAN[v].amp=1;c.el.classList.add('hit');setTimeout(()=>c.el&&c.el.classList.remove('hit'),140)},Math.max(0,(time-(AC?AC.currentTime:0))*1000))}
-function laneLoop(){if(!hudEl.classList.contains('on')){lanRaf=0;return}lanRaf=requestAnimationFrame(laneLoop);
-  LAN.forEach(L=>{const c=L.cv,w=c.clientWidth,h=c.clientHeight;if(!w)return;const dpr=Math.min(devicePixelRatio||1,2);if(c.width!==Math.round(w*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
+let lanN=0,lanCol=[];
+function laneLoop(){if(!hudEl.classList.contains('on')){lanRaf=0;return}lanRaf=requestAnimationFrame(laneLoop);if(lanN++%45===0)try{lanCol=VC()}catch(e){}
+  LAN.forEach((L,vi)=>{const c=L.cv,w=c.clientWidth,h=c.clientHeight;if(!w)return;const dpr=Math.min(devicePixelRatio||1,2);if(c.width!==Math.round(w*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
     L.amp*=.94;L.ph+=.7;L.buf.copyWithin(0,1);L.buf[L.buf.length-1]=L.amp*Math.sin(L.ph);
-    const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=1.6;g.strokeStyle='#fff';g.globalAlpha=.95;g.beginPath();
+    const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);g.lineWidth=2.2;g.strokeStyle=lanCol[vi]||'#fff';g.globalAlpha=1;g.beginPath();
     L.buf.forEach((y,i)=>{const X=i/(L.buf.length-1)*w,Y=h/2-y*h*.42;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.stroke()})}
 function csBuild(){let d=$('csBox');const x=$('xfade');if(!x)return;
   if(!d){d=document.createElement('details');d.id='csBox';d.className='cshab';x.after(d)}
@@ -1195,7 +1196,7 @@ function mixBuild(){try{csBuild()}catch(e){}const box=$('mxCh');if(!box)return;b
   for(let v=0;v<S.nV;v++){const c={id:'col'+v,local:1,hz:1,label:String(v+1),def:.7,get:()=>(S.mix.lv[v]==null?.7:S.mix.lv[v])*XA,set:x=>{S.mix.lv[v]=XA>.02?Math.min(1,x/XA):x;mixDim()},txt:pct};
     const row=document.createElement('div');row.className='mrow';box.appendChild(row);
     padMk(c,row,'el');c.el.classList.add('col');c.el.style.setProperty('--c',C[v]);
-    const cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');c.el.insertBefore(cv,c.el.querySelector('.fl'));LAN[v]={el:c.el,cv,amp:0,ph:0,buf:new Array(96).fill(0)};
+    const cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');c.el.insertBefore(cv,c.el.querySelector('.fl'));cv.style.mixBlendMode='screen';LAN[v]={el:c.el,cv,amp:0,ph:0,buf:new Array(96).fill(0)};
     const mb=document.createElement('div');mb.className='mbs';
     const sw=[['M','bM','Mute colour '+(v+1),'Mute: silence this colour; the others play on','mute'],['S','bS','Solo colour '+(v+1),'Solo: hear only this colour','solo']].map(([k,cls,label,title,key])=>{const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=k;b.title=title;b.setAttribute('aria-label',label);b.onclick=()=>{S.mix[key][v]=!S.mix[key][v];mixDim()};mb.appendChild(b);return[b,key]});
     c.swp=()=>sw.forEach(([b,key])=>b.setAttribute('aria-pressed',String(!!S.mix[key][v])));row.appendChild(mb);c.swp();COLP[v]=c}mixDim()}
