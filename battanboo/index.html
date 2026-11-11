@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A weighted-dice score you can play and hear."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A weighted-dice score you can play and hear."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A weighted-dice score you can play and hear."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261111191452";window.__VERSION__="0.3.8";window.__NOTES__=[{"v": "0.3.8", "date": "11 Nov 2026", "items": [{"kind": "new", "text": "Live stats now also show REC, the hand (Touch, Hold or Edit) and the scene, and have a Player name you can type in the pad's bottom edge."}]}]</script>
+<script>window.__BUILD__="20261111192033";window.__VERSION__="0.3.9";window.__NOTES__=[{"v": "0.3.9", "date": "11 Nov 2026", "items": [{"kind": "change", "text": "Note names have three settings: none, per row or column (in each cell's top-left corner), or on hover (only the cell under your pointer)."}, {"kind": "change", "text": "The flyout notch is back at the lower left of the button, with its right angle turned the other way."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -76,7 +76,7 @@ body.saying #cornerMsg{opacity:1}
 body.hudon #edTools,body.hudon .side .brush,body.hudon .bar>.brush,body.hudon #formBar{opacity:.28;pointer-events:none;transition:opacity .25s}
 #edTools,.side .brush,.bar>.brush{transition:opacity .25s}
 /* HOLD-FLYOUTS (Dimitry, 11 Nov): a rail button with more to it carries a small notch in its corner; hold it (or right-click, or the menu key) and its choices fly out to the left. A tap still does the one obvious thing. */
-.rail button.nt::after{content:"";position:absolute;right:5px;bottom:5px;width:0;height:0;border-style:solid;border-width:0 7px 7px 0;border-color:transparent transparent var(--muted) transparent;opacity:.8;pointer-events:none}
+.rail button.nt::after{content:"";position:absolute;left:5px;bottom:5px;width:0;height:0;border-style:solid;border-width:0 7px 7px 0;border-color:transparent transparent var(--muted) transparent;opacity:.8;pointer-events:none}
 .rail button.nt{position:relative}
 .fly{position:fixed;z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 6px;border:1px solid var(--line);border-radius:26px;box-sizing:border-box;background:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:calc(100vw - 16px)}
 .fly button.chip{width:42px;min-height:42px;padding:0;justify-content:center;display:inline-flex;align-items:center;position:relative}.fly button[data-tip]::after{content:attr(data-tip);position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);white-space:nowrap;font:600 12px var(--ui);padding:4px 8px;border-radius:8px;background:var(--fg);color:var(--bg);opacity:0;pointer-events:none;transition:opacity .12s ease 0s}.fly button[data-tip]:hover::after,.fly button[data-tip]:focus-visible::after{opacity:1;transition-delay:.6s}.fly button.chip svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin:0}
@@ -691,9 +691,9 @@ function draw(){layout();try{cornSync()}catch(_){}const c=ctx,V=VC(),fam=FAM[S.e
   c.fillStyle='rgba(255,255,255,.28)';HL.forEach((n,key)=>{const[a,b]=key.split(',').map(Number);if(g[a]&&g[a][b]){info(a,b).path(c);c.fill()}});
   for(let i=0;i<A;i++)for(let j=0;j<B;j++){const k=g[i][j];if(!k||k.s===0)continue;const st=cellSt(fam,i,j);c.globalAlpha=st===1?.2:.9;drawMark(c,k.s,info(i,j),V[k.v])}c.globalAlpha=1;
   if(S.names){const f0=info(0,0),edge=(i,j)=>way0==='down'||way0==='up'||way0==='radar'||way0==='radarccw'?j===0:way0==='out'||way0==='in'?i===A-1:i===0;
-    c.font='600 '+clamp(f0.s*.26,8,11)+'px system-ui,sans-serif';c.textBaseline='middle';c.lineJoin='round';
-    for(let i=0;i<A;i++)for(let j=0;j<B;j++){if(!edge(i,j))continue;const l=tl(way0,i,j)[1],m=Math.round(midiOf(l)),nm=NOTE_LETTERS[((m%12)+12)%12]+(Math.floor(m/12)-1),f=info(i,j),cart=G.fam==='cart',x=cart?f.cx-f.s/2+3:f.cx,y=cart?f.cy-f.s/2+7:f.cy;
-      c.textAlign=cart?'left':'center';c.lineWidth=3;c.strokeStyle='rgba(0,0,0,.75)';c.strokeText(nm,x,y);c.fillStyle='rgba(255,255,255,.9)';c.fillText(nm,x,y)}c.lineWidth=1}
+    c.font='600 '+clamp(f0.s*.26,8,11)+'px system-ui,sans-serif';c.textBaseline='top';c.lineJoin='round';c.textAlign='left';
+    const lab=(i,j)=>{const l=tl(way0,i,j)[1],m=Math.round(midiOf(l)),nm=NOTE_LETTERS[((m%12)+12)%12]+(Math.floor(m/12)-1),f=info(i,j),x=f.cx-f.s/2+3,y=f.cy-f.s/2+2;c.lineWidth=3;c.strokeStyle='rgba(0,0,0,.75)';c.strokeText(nm,x,y);c.fillStyle='rgba(255,255,255,.9)';c.fillText(nm,x,y)};
+    if(S.names==='hover'){if(HOVC&&HOVC.i<A&&HOVC.j<B)lab(HOVC.i,HOVC.j)}else for(let i=0;i<A;i++)for(let j=0;j<B;j++)if(edge(i,j))lab(i,j);c.lineWidth=1}
   if(MEET.size&&AC){const now=AC.currentTime;MEET.forEach((m,key)=>{const age=now-m.t;if(age>.8){MEET.delete(key);return}if(age<0||m.fam!==fam)return;const f=info(m.a,m.b);for(let r=0;r<Math.min(m.n,3);r++){const ag=age-r*.09;if(ag<0)continue;c.strokeStyle='rgba(255,255,255,'+Math.max(0,.9*(1-ag/.8))+')';c.lineWidth=2;c.beginPath();c.arc(f.cx,f.cy,f.s*(.45+ag*1.7),0,6.2832);c.stroke()}})}}
 function cellAt(e){const r=cv.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,fam=G.fam,g=S.g[fam];let i,j;
   if(fam==='cart'){const f=(a,v)=>{let n=0;while(n<a.length-2&&v>=a[n+1])n++;return Math.max(0,n)};i=f(G.xs,px);j=f(G.ys,py)}
@@ -763,6 +763,7 @@ cv.addEventListener('pointerdown',e=>{const c=cellAt(e);if(!c)return;
   if(S.mode==='play'){e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=pressureOf(e);handOn(e.pointerId,c,p);recEv('go',e.pointerId,c,p);return}
   if(ED.pick){e.preventDefault();ED.sel={fam:G.fam,kind:ED.pick,n:ED.pick==='i'?c.i:c.j};ED.pick=null;edSync();draw();$('status').textContent='Picked '+edName(ED.sel.kind)+' '+(ED.sel.n+1)+'. Copy, cut, or pick another cell and paste.';return}
   if(PT.halo)haloOpen(c);else paintDown(e,c)});
+var HOVC=null;cv.addEventListener('pointermove',e=>{if(S.names==='hover'){const c=cellAt(e),n=c?{i:c.i,j:c.j}:null;if((n&&n.i)!==(HOVC&&HOVC.i)||(n&&n.j)!==(HOVC&&HOVC.j)||!n!==!HOVC){HOVC=n;draw()}}});cv.addEventListener('pointerleave',()=>{if(HOVC){HOVC=null;if(S.names==='hover')draw()}});
 cv.addEventListener('pointermove',e=>{if(S.mode==='edit')paintMove(e);if(S.mode!=='play'||!HELD.has(e.pointerId))return;const c=cellAt(e);if(!c)return;const p=pressureOf(e);handGo(e.pointerId,c,p);recEv('go',e.pointerId,c,p)});
 const upH=e=>{if(!HELD.has(e.pointerId))return;handOff(e.pointerId);recEv('up',e.pointerId,null,null)};
 cv.addEventListener('pointerup',e=>{if(PAINT&&PAINT.id===e.pointerId)PAINT=null;upH(e)});cv.addEventListener('pointercancel',e=>{if(PAINT&&PAINT.id===e.pointerId)PAINT=null;upH(e)});cv.addEventListener('lostpointercapture',upH);
@@ -1103,16 +1104,16 @@ opts('sizeSet',Object.keys(SIZENAMES).map(k=>[k,SIZENAMES[k]]));$('sizeSet').val
 $('sizeSet').onchange=e=>{SIZESET=e.target.value;try{localStorage.setItem('dicescore.sizeset',SIZESET)}catch(_){}const v=sizeVals();if(v){const n=v.reduce((b,x)=>Math.abs(x-S.N)<Math.abs(b-S.N)?x:b,v[0]);sizeApply(n)}sizeUI()};
 $('size').oninput=()=>{const v=sizeVals();$('zo').textContent=v?v[+$('size').value]:$('size').value};
 $('size').onchange=()=>{const v=sizeVals();sizeApply(v?v[+$('size').value]:+$('size').value)};sizeUI();
-try{const q=JSON.parse(localStorage.getItem('dicescore.pitch')||'null');if(q){if(SCALES[q.scale])S.scale=q.scale;if(q.root>=0&&q.root<12)S.root=q.root|0;S.names=!!q.names}}catch(e){}
+try{const q=JSON.parse(localStorage.getItem('dicescore.pitch')||'null');if(q){if(SCALES[q.scale])S.scale=q.scale;if(q.root>=0&&q.root<12)S.root=q.root|0;S.names=q.names==='hover'?'hover':!!q.names}}catch(e){}
 opts('scale',Object.keys(SCALES).map(n=>[n,n]));opts('root',NOTE_LETTERS.map((n,i)=>[i,n]));opts('fScale',Object.keys(SCALES).map(n=>[n,n]));opts('fRoot',NOTE_LETTERS.map((n,i)=>[i,n]));
-function pitchSync(){['scale','fScale'].forEach(id=>{const e=$(id);if(e){e.value=S.scale;e.title=SCALEHELP[S.scale]||S.scale}});['root','fRoot'].forEach(id=>{const e=$(id);if(e)e.value=S.root||0});const b=$('fldNames');if(b)b.setAttribute('aria-pressed',String(!!S.names));try{fldPaint()}catch(e){}try{draw()}catch(e){}}
-function pitchSet(sc,rt){if(sc!=null&&SCALES[sc])S.scale=sc;if(rt!=null)S.root=+rt||0;try{localStorage.setItem('dicescore.pitch',JSON.stringify({scale:S.scale,root:S.root||0,names:!!S.names}))}catch(e){}
+function pitchSync(){['scale','fScale'].forEach(id=>{const e=$(id);if(e){e.value=S.scale;e.title=SCALEHELP[S.scale]||S.scale}});['root','fRoot'].forEach(id=>{const e=$(id);if(e)e.value=S.root||0});const b=$('fldNames');if(b)b.setAttribute('aria-pressed',String(!!S.names));b.textContent=S.names==='hover'?'Names on hover':S.names?'Names per row':'No names';try{fldPaint()}catch(e){}try{draw()}catch(e){}}
+function pitchSet(sc,rt){if(sc!=null&&SCALES[sc])S.scale=sc;if(rt!=null)S.root=+rt||0;try{localStorage.setItem('dicescore.pitch',JSON.stringify({scale:S.scale,root:S.root||0,names:S.names||false}))}catch(e){}
   if(SIZESET==='scale'){const v=sizeVals();sizeApply(v.includes(S.N)?S.N:v[0]);sizeUI()}if(FLD2.deg>=fldNotes()*2)FLD2.deg=0;pitchSync();if(typeof fldDegBuild==='function')fldDegBuild()}
 ['scale','fScale'].forEach(id=>$(id).onchange=e=>pitchSet(e.target.value,null));['root','fRoot'].forEach(id=>$(id).onchange=e=>pitchSet(null,e.target.value));
 try{const m=+localStorage.getItem('dicescore.marksz');if(m>=40&&m<=130)S.markSz=m}catch(e){}
 (function(){const r=$('markSz'),o=$('markSzO');if(!r)return;const sync=()=>{r.value=S.markSz||100;o.textContent=(S.markSz||100)+'%'};
   r.oninput=()=>{S.markSz=+r.value;try{localStorage.setItem('dicescore.marksz',String(S.markSz))}catch(e){}sync();try{draw()}catch(e){}};$('markSz1').onclick=()=>{r.value=100;r.oninput()};sync()})();
-$('fldNames').onclick=()=>{S.names=!S.names;pitchSet(null,null)};pitchSync();
+$('fldNames').onclick=()=>{S.names=!S.names?true:S.names===true?'hover':false;pitchSet(null,null)};pitchSync();
 opts('preset',Object.keys(PRESETS).map(n=>[n,n]));
 $('preset').onchange=e=>{const P=PRESETS[e.target.value];S.drift=P.drift;S.flat=P.flat||0;$('p').value=P.p;$('stick').value=P.stick;$('p').dispatchEvent(new Event('input'));$('stick').dispatchEvent(new Event('input'));if(!S.playing)$('roll').click()};
 opts('way',Object.keys(WAYN).map(w=>[w,WAYN[w]]));opts('feel',FEELS.map(f=>[f,f[0].toUpperCase()+f.slice(1)]));
