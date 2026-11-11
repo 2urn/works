@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A weighted-dice score you can play and hear."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A weighted-dice score you can play and hear."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A weighted-dice score you can play and hear."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261111155549";window.__VERSION__="0.2.4";window.__NOTES__=[{"v": "0.2.4", "date": "11 Nov 2026", "items": [{"kind": "change", "text": "the right-hand rail has a new order. The pencil is on top with its editing tools beneath it, then the clock and the colour/view button, and the heads-up display (mixer, sliders, gestures) is now the bottom button on the right. It stays put whether you play or edit."}]}]</script>
+<script>window.__BUILD__="20261111172831";window.__VERSION__="0.3.0";window.__NOTES__=[{"v": "0.3.0", "date": "11 Nov 2026", "items": [{"kind": "new", "text": "the Form is now as many movements as you like, laid out like the index: drag the grip to re-order, the crossed eye mutes (skips) a movement, S solos it and loops it so you can practise, fold or pin as you wish"}, {"kind": "new", "text": "each movement has its own length, what the players do, composer's notes, and can hold a look (grid, lines, sounds, mix, tempo) that comes in when it begins"}, {"kind": "new", "text": "copy or cut a movement, or the whole form, as text; paste it back or into another Battanboo; save a form as a template in \"My forms\", with Undo for changes"}, {"kind": "change", "text": "while an overlay covers the grid, the edit tools and the halo, colour and shape bar dim, since you cannot see what they would change"}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -55,7 +55,7 @@ body.saying #cornerMsg{opacity:1}
 /* the clock is a row of the frame (above the lock row), not a floating pill: it pushes the grid down by its own height and the grid shrinks to make room */
 #formBar.formbar{position:absolute;z-index:2;top:0;left:0;right:0;width:auto;display:none;height:26px;border-radius:12px 12px 0 0;opacity:1;pointer-events:auto;transition:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:inset 0 -1px 0 color-mix(in srgb,var(--fg) 14%,transparent);background:color-mix(in srgb,var(--fg) 7%,transparent)}.stagebox.formon{padding-top:30px}.formbar .ftx{padding:0 16px}
 #formBar.formbar.on{display:block}
-#formList{list-style:none;margin:8px 0;padding:0;display:grid;gap:8px}#formList li{display:grid;gap:3px}#formList li.cur{box-shadow:inset 3px 0 0 var(--accent);padding-left:8px}#formList li>b{font:600 11px var(--ui);color:var(--muted)}#formList li>span{display:grid;gap:3px}#formList input,#formList textarea{width:100%;box-sizing:border-box;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg);resize:vertical}#formList input{font-weight:700}
+/*old*/#formList{list-style:none;margin:8px 0;padding:0;display:grid;gap:8px}#formList li{display:grid;gap:3px}#formList li.cur{box-shadow:inset 3px 0 0 var(--accent);padding-left:8px}#formList li>b{font:600 11px var(--ui);color:var(--muted)}#formList li>span{display:grid;gap:3px}#formList input,#formList textarea{width:100%;box-sizing:border-box;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg);resize:vertical}#formList input{font-weight:700}
 .formbar .fnext{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--accent);opacity:0}
 .formbar.near .fnext{opacity:1;animation:fbeat var(--pd,.9s) ease-in-out infinite}.formbar.near{animation:fnear 1s ease-in-out infinite}
 @keyframes fbeat{0%,100%{opacity:.25;transform:scaleX(1)}50%{opacity:1;transform:scaleX(2.4)}}
@@ -65,6 +65,17 @@ body.saying #cornerMsg{opacity:1}
 @media (prefers-reduced-motion:reduce){.formbar.near,.formbar.hit{animation:none}.formbar.near .fnext{animation:none}}
 .formbar .fseg{position:absolute;top:0;bottom:0;border-right:1px solid var(--line)}.formbar .fseg.cur{background:color-mix(in srgb,var(--accent) 26%,transparent)}.formbar .fhead{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);margin-left:-1px}
 .formbar .ftx{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px;font:600 11px var(--ui);pointer-events:none}.formbar .ftx b{font-weight:700;white-space:nowrap}.formbar .ftx span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.8;min-width:0}.formbar .ftx em{font-style:normal;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* FORM: movements are index-style sections (kit sections.js on #formMv): grip to reorder, crossed eye to mute, fold, pin; S solos */
+#formMv{margin:8px 0}#formMv>.mvs{position:relative;border-top:2px solid var(--fg)}#formMv .mvs>.cx-grpbtn{width:100%;display:flex;align-items:baseline;gap:10px;min-height:44px;padding:8px 168px 8px 0;border:0;background:none;color:var(--fg);text-align:left;font:inherit;cursor:pointer;box-sizing:border-box}
+#formMv .mvn{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}#formMv .mvt{font:600 10.5px var(--ui);letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+#formMv .mvs.cur>.cx-grpbtn{box-shadow:inset 3px 0 0 var(--accent);padding-left:10px}#formMv .mvs.skip .mvn{opacity:.5}
+#formMv .mvs.cx-shut>.mvb{display:none}#formMv .mvb{display:flex;flex-direction:column;gap:10px;padding:2px 0 16px}
+.mvf{display:flex;flex-direction:column;gap:4px}.mvb input[type=text],.mvb textarea,#mvPaste{width:100%;box-sizing:border-box;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg);resize:vertical}
+.mv-solo{position:absolute;top:0;right:112px;width:40px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--muted);font:700 13px var(--ui);cursor:pointer}.mv-solo[aria-pressed="true"]{color:var(--accent-ink);background:var(--accent);border-radius:8px;height:30px;margin-top:7px;width:30px;right:117px}
+/* while an overlay covers the grid, the controls that only make sense on the grid are dimmed and stop taking touches (Dimitry, 11 Nov 12:27) */
+body.hudon #edTools,body.hudon .side .brush,body.hudon .bar>.brush,body.hudon #formBar{opacity:.28;pointer-events:none;transition:opacity .25s}
+#edTools,.side .brush,.bar>.brush{transition:opacity .25s}
+#formTop,#formFoot{display:flex;flex-direction:column;gap:8px}#formFoot{margin-top:8px}
 #formBox{display:flex;flex-direction:column;gap:10px}#formBox .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}#formBox ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:12px}#formBox li{display:grid;grid-template-columns:72px 1fr;gap:8px}#formBox li b{font-variant-numeric:tabular-nums;font-weight:600}#formBox li.cur{color:var(--accent)}
 .mxsep{align-self:stretch;width:1px;background:var(--line);flex:none}
 .ms{flex:none;width:36px;display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -1397,12 +1408,104 @@ const FORMS={Arc:[['Intro',.10,'Few sounds and plenty of space. Set the place.']
   Waves:[['Calm',.2,'Sparse and still.'],['Swell',.2,'Rise to a crest.'],['Calm',.2,'Back down. Breathe.'],['Swell',.2,'Higher this time.'],['Calm',.2,'Settle and end.']],
   Even:[['One',.25,'Section one.'],['Two',.25,'Section two.'],['Three',.25,'Section three.'],['Four',.25,'Section four.']]};
 const FORMAB={'Hand':null,'A to B':[[0,0],[1,1]],'B to A':[[0,1],[1,0]],'A to B to A':[[0,0],[.5,1],[1,0]],'Centre, A, centre, B, centre':[[0,.5],[.25,0],[.5,.5],[.75,1],[1,.5]]};
-const FORM={dur:600,t:0,run:false,shape:'Arc',ab:'Hand',follow:false,loop:false,sec:-1,last:0,edits:{}};
-try{const q=JSON.parse(localStorage.getItem('dicescore.form')||'null');if(q){if(q.dur>=60&&q.dur<=5400)FORM.dur=q.dur|0;if(FORMS[q.shape])FORM.shape=q.shape;if(q.ab in FORMAB)FORM.ab=q.ab;FORM.loop=!!q.loop;if(q.edits&&typeof q.edits==='object')FORM.edits=q.edits}}catch(e){}
+const FORM={t:0,run:false,ab:'Hand',follow:false,loop:false,sec:null,last:0,apply:true,mv:[],tpl:'Arc',custom:false,undo:null};
+let mvN=0;const mvId=()=>'mv'+Date.now().toString(36)+(mvN++).toString(36);
+const mvMake=(n,h,s,o)=>Object.assign({id:mvId(),n:n,h:h||'',c:'',s:Math.max(5,Math.round(s)||60),mute:false,solo:false,snap:null},o||{});
+/* the movements that play: if any is soloed only those, else everything not muted (a muted movement is skipped). Never empty. */
+const formActive=()=>{const a=FORM.mv.some(m=>m.solo)?FORM.mv.filter(m=>m.solo):FORM.mv.filter(m=>!m.mute);return a.length?a:FORM.mv};
+/* the length of the piece is what plays: setting it scales every movement alike */
+Object.defineProperty(FORM,'dur',{enumerable:false,get(){return Math.max(1,formActive().reduce((s,m)=>s+m.s,0))},set(v){const k=v/FORM.dur;FORM.mv.forEach(m=>{m.s=Math.max(5,Math.round(m.s*k))})}});
+const formSeed=(shape,dur)=>FORMS[shape].map(([n,f,h])=>mvMake(n,h,f*dur));
+const mvClean=(x,keepId)=>mvMake(String(x&&x.n||'').slice(0,40),String(x&&x.h||'').slice(0,400),+(x&&x.s)||60,{id:keepId&&/^mv[a-z0-9]+$/.test(x.id||'')?x.id:mvId(),c:String(x&&x.c||'').slice(0,4000),mute:!!(x&&x.mute),solo:!!(x&&x.solo),snap:x&&x.snap&&x.snap.v===1&&x.snap.g&&typeof x.snap.g==='object'&&x.snap.s&&JSON.stringify(x.snap).length<300000?x.snap:null});
+(function(){let q=null;try{q=JSON.parse(localStorage.getItem('dicescore.form')||'null')}catch(e){}
+  if(q&&q.ab in FORMAB)FORM.ab=q.ab;if(q)FORM.loop=!!q.loop;
+  if(q&&Array.isArray(q.mv)&&q.mv.length){FORM.mv=q.mv.slice(0,200).map(x=>mvClean(x,true));FORM.apply=q.apply!==false;FORM.tpl=FORMS[q.tpl]?q.tpl:'';FORM.custom=!!q.custom}
+  else{const sh=q&&FORMS[q.shape]?q.shape:'Arc',dur=q&&q.dur>=60&&q.dur<=5400?q.dur|0:600,ed=q&&q.edits&&q.edits[sh]||[];FORM.tpl=sh;FORM.mv=formSeed(sh,dur);ed.forEach((e,i)=>{if(e&&FORM.mv[i]){if(e[0])FORM.mv[i].n=e[0];if(e[1]!=null)FORM.mv[i].h=e[1]}});FORM.custom=!!(q&&q.edits&&Object.keys(q.edits).length)}})();
 const fmtF=t=>{t=Math.max(0,Math.round(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
-const formSave=()=>{try{localStorage.setItem('dicescore.form',JSON.stringify({dur:FORM.dur,shape:FORM.shape,ab:FORM.ab,loop:FORM.loop,edits:FORM.edits}))}catch(e){}};
+const formSave=()=>{try{localStorage.setItem('dicescore.form',JSON.stringify({ab:FORM.ab,loop:FORM.loop,apply:FORM.apply,tpl:FORM.tpl,custom:FORM.custom,mv:FORM.mv}))}catch(e){}};
+/* saved forms (templates): kept on this device; a form is also plain text, so it can be copied, pasted and sent */
+const FTPL={key:'battanboo.formTemplates',get(){try{const a=JSON.parse(localStorage.getItem(this.key)||'[]');return Array.isArray(a)?a.filter(x=>x&&x.name&&Array.isArray(x.mv)):[]}catch(e){return[]}},put(a){try{localStorage.setItem(this.key,JSON.stringify(a.slice(0,40)))}catch(e){}}};
+const formPack=()=>({name:FORM.tpl||'My form',ab:FORM.ab,mv:FORM.mv.map(m=>({n:m.n,h:m.h,c:m.c,s:m.s,mute:m.mute,snap:m.snap}))});
+const formText=()=>'battanboo-form/1 '+JSON.stringify(formPack());
+const mvText=m=>'battanboo-movement/1 '+JSON.stringify({n:m.n,h:m.h,c:m.c,s:m.s,snap:m.snap});
+function formTake(p){FORM.undo=JSON.stringify(FORM.mv);FORM.mv=p.mv.slice(0,200).map(x=>mvClean(x,false));if(!FORM.mv.length){FORM.mv=formSeed('Arc',600)}if(p.ab in FORMAB)FORM.ab=p.ab;FORM.t=0;FORM.sec=null;FORM.run=false;FORM.custom=true;formSave();mvBuild();formUI();formBarPaint()}
+function formSecs(){let c=0;const d=FORM.dur;return formActive().map(m=>{const o={id:m.id,n:m.n||'Movement',h:m.h,c:m.c,a:c,b:c+m.s,f:m.s/d};c+=m.s;return o})}
+const formSig=()=>formActive().map(m=>m.id+':'+m.s).join('|');
+/* a movement's look: the grid, lines, sounds, mix and tempo as they are now, put back when the movement begins */
+function mvLook(m,on){if(on){m.snap=keepSnap();m.snap.t=0}else m.snap=null}
+function mvApply(m){if(!m.snap)return false;const before=keepSnap();try{if(keepApply(m.snap,true)){return true}throw 0}catch(e){try{keepApply(before,true)}catch(_){}return false}}
+let mvApi=null;
+function mvPaint(){const ss=formSecs(),by=Object.fromEntries(ss.map(x=>[x.id,x])),cur=FORM.sec;
+  FORM.mv.forEach(m=>{const s=document.getElementById(m.id);if(!s)return;const x=by[m.id],t=s.querySelector('.mvt'),n=s.querySelector('.mvn'),so=s.querySelector('.mv-solo');
+    if(t)t.textContent=(x?fmtF(x.a)+'–'+fmtF(x.b):'skipped')+(m.snap?' · look':'');if(n&&n.textContent!==(m.n||'Movement'))n.textContent=m.n||'Movement';
+    s.classList.toggle('cur',!!x&&m.id===cur);s.classList.toggle('skip',!x);if(so){so.setAttribute('aria-pressed',String(!!m.solo))}
+    const lk=s.querySelector('.mv-look');if(lk)lk.textContent=m.snap?'This movement holds a look: the grid, lines, sounds, mix and tempo.':'No look held: the grid stays as it is.'})}
+function mvSec(m){const s=document.createElement('section');s.className='cx-grp mvs cx-shut';s.id=m.id;
+  const bt=document.createElement('button');bt.type='button';bt.className='cx-grpbtn';bt.setAttribute('aria-expanded','false');bt.innerHTML='<span class="mvn"></span><span class="mvt"></span>';
+  const body=document.createElement('div');body.className='cx-gbody mvb';
+  const chip=(t,fn,title)=>{const e=document.createElement('button');e.type='button';e.className='chip';e.textContent=t;if(title)e.title=title;e.onclick=fn;return e};
+  const lab=(t,el)=>{const w=document.createElement('label');w.className='mvf';const l=document.createElement('span');l.className='pcl';l.textContent=t;w.append(l,el);return w};
+  const nm=document.createElement('input');nm.type='text';nm.maxLength=40;nm.value=m.n;nm.oninput=()=>{m.n=nm.value.trim();FORM.custom=true;formSave();mvPaint();formBarPaint()};
+  const len=document.createElement('input');len.type='range';len.min=5;len.max=1200;len.step=5;len.value=Math.min(1200,m.s);const lo=document.createElement('output');lo.textContent=fmtF(m.s);
+  len.oninput=()=>{m.s=+len.value;lo.textContent=fmtF(m.s);FORM.custom=true;formSave();mvPaint();formBarPaint();const r=$('formLen');if(r)r.textContent=fmtF(FORM.dur)};
+  const lw=document.createElement('div');lw.className='frow';lw.append(len,lo);len.style.cssText='flex:1;min-width:120px';
+  const h=document.createElement('textarea');h.rows=2;h.maxLength=400;h.value=m.h;h.oninput=()=>{m.h=h.value;FORM.custom=true;formSave();formBarPaint()};
+  const c=document.createElement('textarea');c.rows=4;c.maxLength=4000;c.value=m.c;c.oninput=()=>{m.c=c.value;FORM.custom=true;formSave()};
+  const lk=document.createElement('p');lk.className='ahint mv-look';
+  const looks=document.createElement('div');looks.className='frow';
+  looks.append(chip('Take the grid as it is now',()=>{mvLook(m,true);FORM.custom=true;formSave();mvPaint();$('status').textContent=(m.n||'Movement')+' now holds this look.'},'Keep the grid, lines, sounds, mix and tempo in this movement'),
+    chip('Show it now',()=>{if(!m.snap)return;$('status').textContent=mvApply(m)?'Showing the look of '+(m.n||'this movement')+'.':'That look could not be shown.'}),
+    chip('Let it go',()=>{mvLook(m,false);formSave();mvPaint()}));
+  const acts=document.createElement('div');acts.className='frow';
+  const sel=()=>{const x=formSecs().find(y=>y.id===m.id);return x};
+  acts.append(chip('Start here',()=>{const x=sel();if(!x){$('status').textContent='This movement is muted: it is skipped. Show it with the crossed eye, or solo it.';return}FORM.t=x.a;FORM.sec=null;FORM.run=true;FORM.last=performance.now();formUI();formBarPaint()},'Play the form from the start of this movement'),
+    chip('Copy',()=>mvCopy(m),'Copy this movement (name, notes, length and look) as text'),
+    chip('Cut',()=>{mvCopy(m);mvDel(m)},'Copy it, then take it out'),
+    chip('Duplicate',()=>{const i=FORM.mv.indexOf(m);const d=mvClean(Object.assign({},m,{n:(m.n||'Movement')+' 2',solo:false}),false);FORM.mv.splice(i+1,0,d);FORM.custom=true;formSave();mvBuild();formUI();formBarPaint()}),
+    chip('Delete',()=>mvDel(m)));
+  body.append(lab('Name',nm),lab('Length',lw),lab('What the players do',h),lab('Composer’s notes',c),lk,looks,acts);
+  bt.onclick=()=>{const shut=s.classList.contains('cx-shut');s.classList.toggle('cx-shut',!shut);bt.setAttribute('aria-expanded',String(shut))};
+  const so=document.createElement('button');so.type='button';so.className='mv-solo';so.textContent='S';so.setAttribute('aria-pressed',String(!!m.solo));so.setAttribute('aria-label','Solo: play only this movement, and loop it to practise');so.title='Solo: play only this movement and loop it';
+  so.onclick=()=>{m.solo=!m.solo;FORM.custom=true;FORM.t=Math.min(FORM.t,FORM.dur-.01);FORM.sec=null;formSave();mvPaint();formBarPaint();formUI();$('status').textContent=m.solo?'Solo: only '+(m.n||'this movement')+' plays, and it loops.':'Solo off.'};
+  s.append(bt,so,body);return s}
+function mvCopy(m){const t=mvText(m);let ok=false;try{navigator.clipboard.writeText(t).then(()=>{$('status').textContent='Copied '+(m.n||'the movement')+'. Paste it in the box below, here or in another Battanboo.'},()=>{});ok=true}catch(e){}
+  const p=$('mvPaste');if(p){p.value=t}if(!ok)$('status').textContent='Copied into the box below: select it and copy.'}
+function mvDel(m){if(FORM.mv.length<2){$('status').textContent='A form keeps at least one movement.';return}FORM.undo=JSON.stringify(FORM.mv);FORM.mv=FORM.mv.filter(x=>x!==m);FORM.t=Math.min(FORM.t,FORM.dur);FORM.sec=null;FORM.custom=true;formSave();mvBuild();formUI();formBarPaint();$('status').textContent='Removed '+(m.n||'the movement')+'. "Undo" brings it back.'}
+function mvBuild(){const root=$('formMv');if(!root)return;[...root.children].filter(c=>c.classList.contains('mvs')).forEach(c=>c.remove());FORM.mv.forEach(m=>root.appendChild(mvSec(m)));
+  const go=()=>{if(!mvApi)return;FORM.mv.forEach(m=>{try{if(m.mute)mvApi.hide(m.id);else mvApi.show(m.id)}catch(e){}});mvSync();mvPaint()};setTimeout(go,0);mvPaint()}
+function mvSync(){const root=$('formMv');if(!root||!mvApi)return;const secs=[...root.children].filter(c=>c.classList&&c.classList.contains('mvs'));if(secs.length!==FORM.mv.length)return;const by=Object.fromEntries(FORM.mv.map(m=>[m.id,m])),ord=secs.map(c=>by[c.id]).filter(Boolean);let ch=false;
+  if(ord.length===FORM.mv.length&&ord.some((m,i)=>m!==FORM.mv[i])){FORM.mv=ord;ch=true}
+  secs.forEach(c=>{const m=by[c.id],hid=c.classList.contains('sfs-gone');if(m&&m.mute!==hid){m.mute=hid;ch=true}});
+  if(ch){FORM.custom=true;FORM.t=Math.min(FORM.t,FORM.dur);formSave();mvPaint();formBarPaint();const r=$('formLen');if(r)r.textContent=fmtF(FORM.dur)}}
+function formUI(){const b=$('formBox');if(!b)return;let top=$('formTop');if(!top){top=document.createElement('div');top.id='formTop';const mvr=document.createElement('div');mvr.id='formMv';const hid=document.createElement('div');hid.id='mvHidden';const foot=document.createElement('div');foot.id='formFoot';b.append(top,mvr,hid,foot)}
+  const foot=$('formFoot');top.innerHTML='';foot.innerHTML='';
+  const mk=(t,fn,on,title)=>{const e=document.createElement('button');e.type='button';e.className='chip';e.textContent=t;if(on!=null)e.setAttribute('aria-pressed',String(!!on));if(title)e.title=title;e.onclick=fn;return e},row=(host,lab,els)=>{const l=document.createElement('div');l.className='pcl';l.textContent=lab;const r=document.createElement('div');r.className='frow';els.forEach(x=>r.appendChild(x));if(lab!=='')host.appendChild(l);host.appendChild(r);return r};
+  const go=mk(FORM.run?'Pause':(FORM.t>0?'Resume':'Start'),()=>{FORM.run=!FORM.run;FORM.last=performance.now();if(FORM.run&&FORM.t>=FORM.dur)FORM.t=0;formUI();formBarPaint()},FORM.run);go.style.minWidth='88px';
+  row(top,'Clock',[go,mk('Reset',()=>{FORM.run=false;FORM.t=0;FORM.sec=null;formUI();formBarPaint();mvPaint()}),mk('Repeat when it ends',()=>{FORM.loop=!FORM.loop;formSave();formUI()},FORM.loop)]);
+  const ds=[3,5,10,15,20,30,60].map(m=>mk(m+' min',()=>{FORM.dur=m*60;FORM.t=Math.min(FORM.t,FORM.dur);FORM.custom=true;formSave();formUI();mvBuildLens();formBarPaint()},Math.abs(FORM.dur-m*60)<FORM.mv.length));
+  const rg=document.createElement('input');rg.type='range';rg.min=1;rg.max=90;rg.step=1;rg.value=Math.max(1,Math.min(90,Math.round(FORM.dur/60)));rg.setAttribute('aria-label','Length in minutes');rg.style.cssText='flex:1;min-width:120px';const ro=document.createElement('output');ro.id='formLen';ro.textContent=fmtF(FORM.dur);ro.style.minWidth='3.6em';
+  rg.oninput=()=>{FORM.dur=+rg.value*60;FORM.t=Math.min(FORM.t,FORM.dur);ro.textContent=fmtF(FORM.dur);FORM.custom=true;formSave();formBarPaint();mvPaint()};rg.onchange=()=>mvBuildLens();
+  row(top,'Length of what plays (every movement scales alike)',ds);row(top,'',[rg,ro]);
+  row(top,'A | B over the form',Object.keys(FORMAB).map(k=>mk(k==='Hand'?'In my hands':k,()=>{FORM.ab=k;formSave();formUI()},FORM.ab===k)));
+  row(top,'Who moves it',[mk('The form moves A | B',()=>{FORM.follow=!FORM.follow;formUI();$('status').textContent=FORM.follow?'The form moves the A | B slider while it runs. Touch the slider to take it back.':'A | B stays in your hands.'},FORM.follow,'Off: the form only shows where you are. On: it also moves the A | B slider along the path above. Touch the slider to take over.'),
+    mk('Movements bring their look',()=>{FORM.apply=!FORM.apply;formSave();formUI()},FORM.apply,'On: when a movement that holds a look begins, the grid, lines, sounds, mix and tempo change to it')]);
+  const hd=document.createElement('div');hd.className='pcl';hd.textContent='Movements: drag the grip to reorder, the crossed eye mutes (skips) one, S solos it and loops it to practise';top.appendChild(hd);
+  /* the foot: add, paste, templates */
+  row(foot,'',[mk('Add a movement',()=>{const m=mvMake('Movement '+(FORM.mv.length+1),'',60);FORM.mv.push(m);FORM.custom=true;formSave();mvBuild();formUI();formBarPaint();setTimeout(()=>{try{SurfaceSections.open(m.id)}catch(e){}},30)}),
+    ...(FORM.undo?[mk('Undo',()=>{try{const a=JSON.parse(FORM.undo);FORM.undo=null;FORM.mv=a.map(x=>mvClean(x,true));FORM.sec=null;formSave();mvBuild();formUI();formBarPaint()}catch(e){}},false,'Bring back the movements as they were before the last change')]:[])]);
+  const ta=document.createElement('textarea');ta.id='mvPaste';ta.rows=3;ta.placeholder='Paste a movement or a whole form here (text that starts battanboo-movement/1 or battanboo-form/1)';ta.setAttribute('aria-label','Paste a movement or a form');foot.appendChild(ta);
+  const pst=()=>{const t=ta.value.trim();const mm=/^battanboo-(movement|form)\/1\s+([\s\S]+)$/.exec(t);if(!mm)return null;try{return{kind:mm[1],o:JSON.parse(mm[2])}}catch(e){return null}};
+  row(foot,'',[mk('Add the pasted movement',()=>{const p=pst();if(!p){$('status').textContent='Nothing to paste: the box needs text that starts battanboo-movement/1.';return}const list=p.kind==='form'?(p.o.mv||[]):[p.o];FORM.undo=JSON.stringify(FORM.mv);list.slice(0,60).forEach(x=>FORM.mv.push(mvClean(x,false)));FORM.custom=true;formSave();mvBuild();formUI();formBarPaint();$('status').textContent='Added '+list.length+' movement'+(list.length===1?'':'s')+'.'}),
+    mk('Replace the form with the pasted one',()=>{const p=pst();if(!p||p.kind!=='form'||!Array.isArray(p.o.mv)){$('status').textContent='The box needs a whole form: text that starts battanboo-form/1.';return}FORM.tpl=String(p.o.name||'').slice(0,40);formTake(p.o)}),
+    mk('Copy the whole form',()=>{const t=formText();ta.value=t;try{navigator.clipboard.writeText(t).then(()=>{$('status').textContent='The whole form is copied, with its notes and looks.'},()=>{$('status').textContent='The form is in the box: select it and copy.'})}catch(e){$('status').textContent='The form is in the box: select it and copy.'}})]);
+  row(foot,'Start from a shape',Object.keys(FORMS).map(k=>mk(k,()=>{FORM.undo=JSON.stringify(FORM.mv);const d=FORM.dur;FORM.mv=formSeed(k,d);FORM.tpl=k;FORM.t=0;FORM.sec=null;FORM.run=false;FORM.custom=true;formSave();mvBuild();formUI();formBarPaint()},FORM.tpl===k,'Replace the movements with this shape, at the same length. Undo is offered.')));
+  const mine=FTPL.get();if(mine.length)row(foot,'My forms',mine.flatMap((t,i)=>[mk(t.name,()=>{FORM.tpl='';formTake(t)},false,'Load this form (undo is offered)'),mk('×',()=>{const a=FTPL.get();a.splice(i,1);FTPL.put(a);formUI()},false,'Remove '+t.name+' from My forms')]));
+  const nm=document.createElement('input');nm.type='text';nm.maxLength=40;nm.placeholder='Name this form to save it as a template';nm.setAttribute('aria-label','Name for the template');nm.style.cssText='flex:1;min-width:140px';
+  const sv=mk('Save as a template',()=>{const n=nm.value.trim();if(!n){nm.focus();return}const a=FTPL.get().filter(x=>x.name!==n);const p=formPack();p.name=n;a.push(p);FTPL.put(a);FORM.tpl=n;formUI();$('status').textContent='Saved "'+n+'" in My forms on this device. "Copy the whole form" shares it.'});
+  const r2=document.createElement('div');r2.className='frow';r2.append(nm,sv);foot.appendChild(r2);
+  const h=document.createElement('p');h.className='ahint';h.textContent='A form is as many movements as you like. Each has its own length, what the players do (shown in the corner pill), composer’s notes, and, if you take it, a look: the grid, lines, sounds, mix and tempo it begins with. Mute skips a movement; solo plays only that one and loops it, to practise. Copy a movement or the whole form as text to send it; paste it into another Battanboo. Everything travels with an exported score. Free mode on the crossfader ignores the movement.';foot.appendChild(h)}
+const mvBuildLens=()=>{FORM.mv.forEach(m=>{const s=document.getElementById(m.id);if(!s)return;const r=s.querySelector('input[type=range]'),o=s.querySelector('output');if(r)r.value=Math.min(1200,m.s);if(o)o.textContent=fmtF(m.s)});mvPaint()};
 function formAbAt(u){const k=FORMAB[FORM.ab];if(!k)return null;for(let i=1;i<k.length;i++)if(u<=k[i][0]){const a=k[i-1],b=k[i],f=(u-a[0])/Math.max(1e-6,b[0]-a[0]),e=f*f*(3-2*f);return a[1]+(b[1]-a[1])*e}return k[k.length-1][1]}
-function formSecs(){let c=0;const ed=FORM.edits[FORM.shape]||[];return FORMS[FORM.shape].map(([n,f,h],i)=>{const e=ed[i]||[];const o={n:e[0]||n,h:e[1]!=null?e[1]:h,a:c*FORM.dur,b:(c+f)*FORM.dur,f};c+=f;return o})}
 const formBarEl=(function(){const bar=document.querySelector('.bar[role="toolbar"]');if(!bar)return null;const d=document.createElement('div');d.className='formbar';d.id='formBar';d.setAttribute('role','button');d.tabIndex=0;d.setAttribute('aria-label','Form: where you are in the piece. Open the Form settings');const sb=document.querySelector('.stagebox');if(sb)sb.insertBefore(d,sb.firstChild);else document.body.appendChild(d);return d})();
 /* stay awake while playing (a performer's phone must not sleep): the screen wake lock is held while sound plays and the symbol is lit; tap it to let the screen sleep */
 (function(){const b=document.createElement('button');b.id='awake';b.type='button';b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.4"/><path d="M12 3v2.4M12 18.6V21M3 12h2.4M18.6 12H21M5.6 5.6l1.7 1.7M16.7 16.7l1.7 1.7M5.6 18.4l1.7-1.7M16.7 7.3l1.7-1.7"/></svg>';document.body.appendChild(b);
@@ -1417,34 +1520,22 @@ const formBarEl=(function(){const bar=document.querySelector('.bar[role="toolbar
 (function(){const m=document.createElement('div');m.id='cornerMsg';m.setAttribute('aria-hidden','true');m.innerHTML='<span></span>';document.body.appendChild(m);const st=$('status');let tm=0,last='';
   if(st)new MutationObserver(()=>{const t=(st.textContent||'').trim();if(!t||t===last||/^(Scene \d|Now: )/.test(t))return;last=t;m.firstChild.textContent=t;document.body.classList.add('saying');clearTimeout(tm);tm=setTimeout(()=>{document.body.classList.remove('saying');last=''},Math.min(6000,2500+t.length*40))}).observe(st,{childList:true,characterData:true,subtree:true})})();
 function formBarPaint(){const d=formBarEl;if(!d)return;const on=FORM.run||FORM.t>0,was=d.classList.contains('on');d.classList.toggle('on',on);if(was!==on){const sb=d.closest('.stagebox');if(sb)sb.classList.toggle('formon',on);try{layout();draw()}catch(e){}}if(!on)return;const S2=formSecs(),u=FORM.t/FORM.dur,ci=Math.max(0,S2.findIndex(x=>FORM.t<x.b)),cur=S2[ci<0?S2.length-1:ci];
-  if(d.dataset.sig!==FORM.shape+FORM.dur){d.dataset.sig=FORM.shape+FORM.dur;d.innerHTML=S2.map((x,i)=>'<div class="fseg" data-i="'+i+'" style="left:'+(x.a/FORM.dur*100)+'%;width:'+(x.f*100)+'%"></div>').join('')+'<div class="fnext"></div><div class="fhead"></div><div class="ftx"><b></b><span></span><em></em></div>'}
+  if(d.dataset.sig!==formSig()){d.dataset.sig=formSig();d.innerHTML=S2.map((x,i)=>'<div class="fseg" data-i="'+i+'" style="left:'+(x.a/FORM.dur*100)+'%;width:'+(x.f*100)+'%"></div>').join('')+'<div class="fnext"></div><div class="fhead"></div><div class="ftx"><b></b><span></span><em></em></div>'}
   d.querySelectorAll('.fseg').forEach((e,i)=>e.classList.toggle('cur',i===(ci<0?S2.length-1:ci)));d.querySelector('.fhead').style.left=(u*100)+'%';
   /* the boundary ahead: in the last 8 s the line between this part and the next beats faster as it nears (the pill only; the grid stays still) */
   const bd=S2[ci<0?S2.length-1:ci].b,left=bd-FORM.t,nx=d.querySelector('.fnext');nx.style.left=(bd/FORM.dur*100)+'%';
   const near=FORM.run&&left>0&&left<=8;d.classList.toggle('near',near);if(near)nx.style.setProperty('--pd',(.3+.6*left/8).toFixed(2)+'s');
   d.querySelector('.ftx b').textContent=cur.n;d.querySelector('.ftx span').textContent=cur.h;d.querySelector('.ftx em').textContent=fmtF(FORM.dur-FORM.t)+' left';d.setAttribute('aria-valuetext',cur.n+', '+fmtF(FORM.dur-FORM.t)+' left')}
-function formUI(){const b=$('formBox');if(!b)return;b.innerHTML='';const mk=(t,fn,on,title)=>{const e=document.createElement('button');e.type='button';e.className='chip';e.textContent=t;if(on!=null)e.setAttribute('aria-pressed',String(!!on));if(title)e.title=title;e.onclick=fn;return e},row=(lab,els)=>{const l=document.createElement('div');l.className='pcl';l.textContent=lab;const r=document.createElement('div');r.className='frow';els.forEach(x=>r.appendChild(x));b.appendChild(l);b.appendChild(r);return r};
-  const go=mk(FORM.run?'Pause':(FORM.t>0?'Resume':'Start'),()=>{FORM.run=!FORM.run;FORM.last=performance.now();if(FORM.run&&FORM.t>=FORM.dur)FORM.t=0;formUI();formBarPaint()},FORM.run);go.style.minWidth='88px';
-  row('Clock',[go,mk('Reset',()=>{FORM.run=false;FORM.t=0;FORM.sec=-1;formUI();formBarPaint()}),mk('Repeat when it ends',()=>{FORM.loop=!FORM.loop;formSave();formUI()},FORM.loop)]);
-  const ds=[3,5,10,15,20,30,60].map(m=>mk(m+' min',()=>{FORM.dur=m*60;FORM.t=Math.min(FORM.t,FORM.dur);formSave();formUI();formBarPaint()},FORM.dur===m*60));
-  const rg=document.createElement('input');rg.type='range';rg.min=1;rg.max=90;rg.step=1;rg.value=Math.round(FORM.dur/60);rg.setAttribute('aria-label','Length in minutes');rg.style.cssText='flex:1;min-width:120px';const ro=document.createElement('output');ro.textContent=fmtF(FORM.dur);ro.style.minWidth='3.6em';
-  rg.oninput=()=>{FORM.dur=+rg.value*60;FORM.t=Math.min(FORM.t,FORM.dur);ro.textContent=fmtF(FORM.dur);formSave();formBarPaint();$('formList')&&formList()};
-  row('Length',ds);row('',[rg,ro]);
-  row('Shape of the piece',Object.keys(FORMS).map(k=>mk(k,()=>{FORM.shape=k;formSave();formUI();formBarPaint()},FORM.shape===k)));
-  row('A | B over the form',Object.keys(FORMAB).map(k=>mk(k==='Hand'?'In my hands':k,()=>{FORM.ab=k;formSave();formUI()},FORM.ab===k)));
-  row('Who moves it',[mk('The form moves A | B',()=>{FORM.follow=!FORM.follow;formUI();$('status').textContent=FORM.follow?'The form moves the A | B slider while it runs. Touch the slider to take it back.':'A | B stays in your hands.'},FORM.follow,'Off: the form only shows where you are. On: it also moves the A | B slider along the path above. Touch the slider to take over.')]);
-  const l=document.createElement('ol');l.id='formList';b.appendChild(l);formList(true);row('Your words',[mk('Back to the original words',()=>{delete FORM.edits[FORM.shape];formSave();formUI();formBarPaint()})]);const h=document.createElement('p');h.className='ahint';h.textContent='Names and notes are yours to rewrite, say what the players are (birds in the sky, feeding a child); they travel with an exported score. The corner pill shows where you are in the piece and what that part is for. It only guides you unless you switch on "The form moves A | B". Free mode on the crossfader ignores the movement.';b.appendChild(h)}
-function formList(force){const l=$('formList');if(!l)return;const ss=formSecs(),ci=ss.findIndex(x=>FORM.t<x.b);
-  if(!force&&l.contains(document.activeElement)&&l.children.length===ss.length){[...l.children].forEach((li,k)=>{li.classList.toggle('cur',k===ci);li.querySelector('b').textContent=fmtF(ss[k].a)+' to '+fmtF(ss[k].b)});return}
-  l.innerHTML='';ss.forEach((x,k)=>{const li=document.createElement('li');if(k===ci)li.className='cur';const b=document.createElement('b');b.textContent=fmtF(x.a)+' to '+fmtF(x.b);
-    const w=document.createElement('span'),n=document.createElement('input'),t=document.createElement('textarea');n.type='text';n.value=x.n;n.maxLength=24;n.setAttribute('aria-label','Name of part '+(k+1));t.value=x.h;t.rows=2;t.maxLength=160;t.setAttribute('aria-label','What the players do in part '+(k+1));
-    const put=()=>{const ed=FORM.edits[FORM.shape]=FORM.edits[FORM.shape]||[];ed[k]=[n.value.trim(),t.value];formSave();formBarPaint()};n.oninput=put;t.oninput=put;
-    w.appendChild(n);w.appendChild(t);li.appendChild(b);li.appendChild(w);l.appendChild(li)})}
-setInterval(()=>{const now=performance.now();if(FORM.run){FORM.t+=(now-FORM.last)/1000;FORM.last=now;if(FORM.t>=FORM.dur){if(FORM.loop)FORM.t%=FORM.dur;else{FORM.t=FORM.dur;FORM.run=false;$('status').textContent='The form has ended.';formUI()}}
-    const S2=formSecs(),ci=Math.max(0,S2.findIndex(x=>FORM.t<x.b));if(ci!==FORM.sec){const first=FORM.sec<0;FORM.sec=ci;$('status').textContent='Now: '+S2[ci].n+'. '+S2[ci].h;formList();if(!first&&formBarEl){formBarEl.classList.remove('hit');void formBarEl.offsetWidth;formBarEl.classList.add('hit','hint');setTimeout(()=>formBarEl.classList.remove('hit'),950);setTimeout(()=>formBarEl.classList.remove('hint'),5000)}}
+setInterval(()=>{const now=performance.now();if(FORM.run){FORM.t+=(now-FORM.last)/1000;FORM.last=now;const D=FORM.dur,solo=FORM.mv.some(m=>m.solo);
+    if(FORM.t>=D){if(FORM.loop||solo)FORM.t%=D;else{FORM.t=D;FORM.run=false;$('status').textContent='The form has ended.';formUI()}}
+    const S2=formSecs(),ci=Math.max(0,S2.findIndex(x=>FORM.t<x.b)),cx=S2[ci];
+    if(cx&&cx.id!==FORM.sec){const first=FORM.sec==null;FORM.sec=cx.id;$('status').textContent='Now: '+cx.n+(cx.h?'. '+cx.h:'');mvPaint();
+      if(FORM.apply){const m=FORM.mv.find(x=>x.id===cx.id);if(m&&m.snap)mvApply(m)}
+      if(!first&&formBarEl){formBarEl.classList.remove('hit');void formBarEl.offsetWidth;formBarEl.classList.add('hit','hint');setTimeout(()=>formBarEl.classList.remove('hit'),950);setTimeout(()=>formBarEl.classList.remove('hint'),5000)}}
     if(FORM.follow){const x=formAbAt(FORM.t/FORM.dur);if(x!=null)XF.set(x,true)}}
   FORM.last=now;formBarPaint()},120);
-(function(){formUI();const o=()=>{const np=hp.querySelectorAll('.hpane').length;if(hudEl.classList.contains('on')&&Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))>=np-1){hudShow(false);return}hudShow(true);hp.scrollTo({left:hp.querySelectorAll('.hpane').length*hp.clientWidth-hp.clientWidth,behavior:'auto'});hTitleSync()};
+(function(){formUI();mvBuild();try{const root=$('formMv');mvApi=SurfaceSections.mount({root:'#formMv',key:'battanboo-form',section:'.mvs',label:'Movements',prose:'.ahint',start:{folded:true,focus:true}});if(mvApi){mvApi.controls($('mvHidden'),{label:'Muted',none:'Nothing muted. The crossed eye on a movement skips it.'});new MutationObserver(()=>mvSync()).observe(root,{childList:true,attributes:true,attributeFilter:['class'],subtree:true});setTimeout(()=>{FORM.mv.forEach(m=>{try{if(m.mute)mvApi.hide(m.id);else mvApi.show(m.id)}catch(e){}});mvSync();mvPaint()},0)}}catch(e){console.warn('form sections',e)}
+  const o=()=>{const np=hp.querySelectorAll('.hpane').length;if(hudEl.classList.contains('on')&&Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))>=np-1){hudShow(false);return}hudShow(true);hp.scrollTo({left:hp.querySelectorAll('.hpane').length*hp.clientWidth-hp.clientWidth,behavior:'auto'});hTitleSync()};
   $('mForm').onclick=o;if(formBarEl){formBarEl.onclick=o;formBarEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();o()}}}
   ['xfLine','xfTrack'].forEach(id=>{const e=$(id);if(e)e.addEventListener('pointerdown',()=>{if(FORM.follow&&FORM.run){FORM.follow=false;formUI();$('status').textContent='You took the A | B slider: the form no longer moves it.'}},true)})})();
 function formPress(){const m=$('mForm');if(!m||typeof hudEl==='undefined')return;const np=hp.querySelectorAll('.hpane').length;m.setAttribute('aria-pressed',String(hudEl.classList.contains('on')&&Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))>=np-1))}
@@ -1959,9 +2050,9 @@ function xpTempo(ev){const a=ev.map(e=>e.sd).sort((x,y)=>x-y),m=a[a.length>>1]||
 function scoreView(){const V=view(S.eff.way);return V}
 function scoreText(){const V=scoreView(),rows=[],L='abcdefgh';
   rows.push('Battanboo · '+Math.round(S.tempo)+' bpm · '+NOTE_LETTERS[S.root||0]+' '+S.scale+' · '+WAYN[S.eff.way]+' · '+V.T+' steps × '+V.L+' lanes','Each mark: shape 1-7, then colour a-h. A dot is a rest. Top row is the highest lane.','');
-  for(let l=V.L-1;l>=0;l--){let r=String(l+1).padStart(2,' ')+' |';for(let t=0;t<V.T;t++){const k=V.v[t][l];r+=k&&k.s?' '+k.s+L[k.v%8]:' . '}rows.push(r)}if(FORM.t>0||FORM.run||Object.keys(FORM.edits).length){rows.push('','Form · '+fmtF(FORM.dur));formSecs().forEach(x=>rows.push(fmtF(x.a)+'  '+x.n+': '+x.h))}return rows.join('\n')}
+  for(let l=V.L-1;l>=0;l--){let r=String(l+1).padStart(2,' ')+' |';for(let t=0;t<V.T;t++){const k=V.v[t][l];r+=k&&k.s?' '+k.s+L[k.v%8]:' . '}rows.push(r)}if(FORM.t>0||FORM.run||FORM.custom){rows.push('','Form · '+fmtF(FORM.dur));formSecs().forEach(x=>rows.push(fmtF(x.a)+'  '+x.n+': '+x.h))}return rows.join('\n')}
 function scoreCsv(){const V=scoreView(),r=['step,lane,shape,colour'];for(let t=0;t<V.T;t++)for(let l=0;l<V.L;l++){const k=V.v[t][l];if(k&&k.s)r.push([t+1,l+1,k.s,k.v+1].join(','))}return r.join('\n')}
-function scoreJson(){return JSON.stringify({format:'dice-score/1',tempo:S.tempo,scale:S.scale,way:S.way,lines:S.ex,size:S.N,feel:S.feel,holds:S.p,repeats:S.stick,drift:S.drift,mix:S.mix,tune:S.tune,sounds:S.slots.map(s=>s&&s.name||''),grids:S.g,link:CAP_LINK,form:{length:FORM.dur,shape:FORM.shape,ab:FORM.ab,parts:formSecs().map(x=>({name:x.n,note:x.h,from:Math.round(x.a),to:Math.round(x.b)}))}},null,1)}
+function scoreJson(){return JSON.stringify({format:'dice-score/1',tempo:S.tempo,scale:S.scale,way:S.way,lines:S.ex,size:S.N,feel:S.feel,holds:S.p,repeats:S.stick,drift:S.drift,mix:S.mix,tune:S.tune,sounds:S.slots.map(s=>s&&s.name||''),grids:S.g,link:CAP_LINK,form:{length:FORM.dur,template:FORM.tpl,ab:FORM.ab,parts:formSecs().map(x=>({name:x.n,note:x.h,composer:x.c,from:Math.round(x.a),to:Math.round(x.b),look:!!(FORM.mv.find(m=>m.id===x.id)||{}).snap})),muted:FORM.mv.filter(m=>m.mute).map(m=>m.n)}},null,1)}
 function xpHint(){if(XP.msg)return XP.msg;
   if(XP.mode==='midi'){const n=xpMidi().length;return n?n+' notes in '+(XP.len?'the last '+XP.len+' s':'everything heard so far')+'. Drums go to channel 10, one track per colour. Meetings and clouds are not in it. Saved in a .zip because the save sheet has no .mid.':'Nothing heard yet: press play, then export.'}
   if(XP.mode==='score')return'The grid now showing, as '+(XP.fmt==='json'?'a full JSON of the scene (state, mix, sounds)':XP.fmt==='text'?'a plain-text score you can read or print':'a CSV, one row per mark')+'.';
@@ -1995,12 +2086,13 @@ const KEEP={key:'battanboo.state',keys:['vol','timbre','tail','grain','air','spa
 try{KEEP.off=/[?&]fresh\b/.test(location.search)}catch(_){}
 function keepSnap(){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});return o}
 function keepWrite(force){if(KEEP.off)return;try{const o=keepSnap(),j=JSON.stringify(o,(k,v)=>k==='t'?0:v);if(!force&&j===KEEP.last)return;KEEP.last=j;localStorage.setItem(KEEP.key,JSON.stringify(keepSnap()))}catch(_){}}
-function keepRead(){let q=null;try{q=JSON.parse(localStorage.getItem(KEEP.key)||'null')}catch(_){}if(!q||q.v!==1||!q.g||!q.s)return false;
+function keepRead(){let q=null;try{q=JSON.parse(localStorage.getItem(KEEP.key)||'null')}catch(_){}return keepApply(q,false)}
+function keepApply(q,keep){if(!q||q.v!==1||!q.g||!q.s)return false;
   const ch=(id,v,ev)=>{const e=$(id);if(!e||v==null)return;e.value=v;e.dispatchEvent(new Event(ev||'change'))};
   try{if(q.s.N>=4&&q.s.N<=24&&q.s.N!==S.N)sizeApply(q.s.N);
     KEEP.keys.forEach(k=>{if(q.s[k]!==undefined&&k!=='N'&&k!=='tempo')S[k]=q.s[k]});
     S.ex=(S.ex||[]).map(e=>({way:e&&e.way||'none',ag:e&&e.ag||'1:1',...e}));
-    if(q.w)S.w=q.w;S.sw=q.sw||S.sw;S.lk=q.lk||S.lk;S.g=q.g;stripSig='';scenes=[S.g];si=0;
+    if(q.w)S.w=q.w;S.sw=q.sw||S.sw;S.lk=q.lk||S.lk;S.g=q.g;stripSig='';if(keep){scenes[si]=S.g}else{scenes=[S.g];si=0}
     KEEP.sel.forEach(id=>ch(id,q.sel&&q.sel[id]));
     if(q.s.tempo>=15&&q.s.tempo<=240){ch('tempo',q.s.tempo,'input')}
     ch('feel',S.feel);
