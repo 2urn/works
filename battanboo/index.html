@@ -986,6 +986,16 @@ function buildCycle(){if(cycleIdx>0&&!NODEC)decide();NODEC=false;const c0=nextCy
   const gap=rnd()<S.w.pa?sd*(1+Math.floor(rnd()*Math.max(2,vA.T/2))):0;
   nextCycle+=cyc+gap-sk;CYCS.push([c0,c0+cyc+gap]);if(CYCS.length>4)CYCS.shift();cycleIdx++;
   if(cycleIdx>1)draw()}
+/* tempo is ridden like a fader: a change reaches the notes still to come at once. The times already queued are squeezed or stretched
+   around now, in a few quick steps so a big jump glides instead of cutting. The per-pass wobble (S.w.t) keeps its ratio. */
+var TBASE=null,TGLIDE=0;
+function tempoRetime(){const prev=TBASE==null?S.tempo:TBASE;TBASE=S.tempo;if(!S.playing||!AC||!S.live||!prev)return;
+  const goal=clamp(S.tempo*(S.live.tempo/prev),15,240);clearInterval(TGLIDE);
+  const big=Math.abs(goal/S.live.tempo-1)>.06,steps=big?6:1;let k=0;
+  const one=()=>{k++;const now=AC.currentTime,cur=S.live.tempo,nxt=k>=steps?goal:cur+(goal-cur)/(steps-k+1),r=cur/nxt,m=t=>now+(t-now)*r;
+    evs.forEach(e=>{if(e.time>now){e.time=m(e.time);e.sd*=r}});nextCycle=m(nextCycle);CYCS.forEach(c=>{if(c[0]>now)c[0]=m(c[0]);c[1]=m(c[1])});MB.forEach(b=>{if(b.t>now)b.t=m(b.t)});
+    S.live.tempo=nxt;MREF=null;robotBeat();if(k>=steps)clearInterval(TGLIDE)};
+  one();if(steps>1)TGLIDE=setInterval(one,70)}
 function emit(lim){while(evs.length&&evs[0].time<lim){const e=evs.shift();playStep(e);disp.push(e)}}
 function sched(){const lim=AC.currentTime+.14;emit(lim);while(nextCycle<lim){buildCycle();emit(lim)}}
 function status(){const e=S.eff;const more=e.ex.map((w,k)=>w==='none'?'':' + '+WAYN[w]+' ('+S.ex[k].ag+')').join('');
@@ -1000,9 +1010,9 @@ function ears(d){const h=document.documentElement,c='robo-ear-'+d;h.classList.re
 function frame(){robotBeat();const now=AC.currentTime;let ch=false;while(disp.length&&disp[0].time<=now){const e=disp.shift();if(S.cur[e.line]!==e.t){S.cur[e.line]=e.t;ch=true}}if(ch||MEET.size)draw();status();raf=requestAnimationFrame(frame)}
 var RESUME=null;try{S.resume=localStorage.getItem('battanboo.resume')==='restart'?'restart':'resume'}catch(e){S.resume='resume'}
 function play(){ensureAudio();AC.resume();try{note(AC.currentTime+.01,72,.25,.5,2,0)}catch(e){}
-  S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};S.cur=[-1,-1,-1,-1];evs=[];MB.length=0;MREF=null;disp=[];const rs=S.resume!=='restart'&&RESUME&&RESUME.si===si&&RESUME.stamp===SST;cycleIdx=rs?RESUME.idx:0;SKIP=rs?RESUME.off:0;NODEC=rs&&SKIP>0;CYCS=[];nextCycle=AC.currentTime+.08;S.playing=true;
+  S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;S.cur=[-1,-1,-1,-1];evs=[];MB.length=0;MREF=null;disp=[];const rs=S.resume!=='restart'&&RESUME&&RESUME.si===si&&RESUME.stamp===SST;cycleIdx=rs?RESUME.idx:0;SKIP=rs?RESUME.off:0;NODEC=rs&&SKIP>0;CYCS=[];nextCycle=AC.currentTime+.08;S.playing=true;
   sched();timer=setInterval(sched,25);raf=requestAnimationFrame(frame);$('play').setAttribute('aria-pressed','true');$('play').classList.add('on');$('play').title=$('play').ariaLabel='Stop the lines'}
-function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll();S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
+function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll();S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
 $('play').onclick=()=>S.playing?stop():play();
 $('roll').onclick=()=>{ears('f');rollNew()};
 (function(){const b=$('roll');let d=null,drag=false,eat=false;
@@ -1019,7 +1029,7 @@ document.querySelectorAll('.brush button[data-v]').forEach(b=>b.onclick=()=>{S.b
 $('mPlay').onclick=()=>setMode('play');$('mEdit').onclick=()=>setMode('edit');
 function bind(id,key,oid,fmt,after){const el=$(id);const upd=()=>{S[key]=+el.value;$(oid).textContent=fmt(S[key])};el.oninput=()=>{upd();after&&after();status()};upd()}
 const opts=(id,list)=>{const el=$(id);el.innerHTML='';list.forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;el.appendChild(o)})};
-bind('p','p','po',v=>Math.round(v*100)+'%');bind('stick','stick','so',v=>Math.round(v*100)+'%');bind('tempo','tempo','to',v=>v+' bpm',()=>{$('tempo2').value=S.tempo;$('to2').textContent=S.tempo});$('tempo2').value=S.tempo;$('to2').textContent=S.tempo;$('tempo2').oninput=()=>{$('tempo').value=$('tempo2').value;$('tempo').dispatchEvent(new Event('input'))};
+bind('p','p','po',v=>Math.round(v*100)+'%');bind('stick','stick','so',v=>Math.round(v*100)+'%');bind('tempo','tempo','to',v=>v+' bpm',()=>{$('tempo2').value=S.tempo;$('to2').textContent=S.tempo;tempoRetime()});$('tempo2').value=S.tempo;$('to2').textContent=S.tempo;$('tempo2').oninput=()=>{$('tempo').value=$('tempo2').value;$('tempo').dispatchEvent(new Event('input'))};
 $('p').addEventListener('change',()=>{if(!S.playing)$('roll').click()});$('stick').addEventListener('change',()=>{if(!S.playing)$('roll').click()});
 /* the grid can be sized to a number sequence or to the scale: pair (doublings), Fibonacci, primes, or the notes of the scale (one octave of rows, or two) */
 let SIZESET='free';try{const z=localStorage.getItem('dicescore.sizeset');if(['free','pair','fibo','prime','scale'].includes(z))SIZESET=z}catch(e){}
