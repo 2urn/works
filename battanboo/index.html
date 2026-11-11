@@ -500,7 +500,7 @@ function env(){return 0}
 function layout(){const fam=FAM[S.eff.way],d=D(),avail=Math.min(cv.closest('.stagebox').clientWidth-20-76,1600),maxH=document.documentElement.classList.contains("full")?Math.max(200,innerHeight-fullRest()-6):(innerWidth>=900?Math.max(320,innerHeight-fullRest()-6):Math.max(280,innerHeight*.62-30));let w,h;
   /* the score stretches to the room there is, width and height on their own; its marks stay square inside their cells */
   if(fam==='cart'){w=Math.max(d.N*20,Math.floor(avail/d.N)*d.N);h=Math.max(d.N*20,Math.floor(maxH/d.N)*d.N);G={fam,cw:w/d.N,ch:h/d.N,cell:Math.min(w,h)/d.N}}
-  else{w=h=Math.floor(Math.min(avail,maxH,560));const Rm=w/2-2,r0=Rm*.2;G={fam,cx:w/2,cy:w/2,Rm,r0,dr:(Rm-r0)/d.R,R:d.R,K:d.K}}
+  else{w=h=Math.floor(Math.min(avail,maxH,innerWidth>=900?1600:560));const Rm=w/2-2,r0=Rm*.2;G={fam,cx:w/2,cy:w/2,Rm,r0,dr:(Rm-r0)/d.R,R:d.R,K:d.K}}
   const dpr=Math.min(devicePixelRatio||1,2);cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';const fxc=$('fx');fxc.width=w*dpr;fxc.height=h*dpr;fxc.style.width=w+'px';fxc.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);G.w=w;G.h=h;strips()}
 let stripSig='';
 function strips(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?d.N:d.K,sig=fam+G.w+'x'+G.h+nL+nB;if(sig===stripSig)return;stripSig=sig;
