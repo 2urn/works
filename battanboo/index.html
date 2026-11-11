@@ -663,10 +663,12 @@ function ctlOf(el){if(!el||!el.closest||el.closest('.gr,.halo,#cv'))return null;
     if(last&&last.n===c.n&&now-last.t<380&&Math.hypot(e.clientX-last.x,e.clientY-last.y)<32){last=null;setTimeout(()=>{c.fn();const st=$('status');if(st)st.textContent='Back to its default.';try{hudSync()}catch(_){}},60)}
     else last={n:c.n,t:now,x:e.clientX,y:e.clientY}},true)})();
 /* THE SPEAKER IS THE MASTER MUTE, as in Current: the robot plays the score, the speaker owns every sound that leaves the page, so the air and the tails it leaves behind go quiet with it. */
-var MUTED=false;
+var MUTED=false,FADE_S=4;
+/* the speaker fades, never cuts (Dimitry, 10 Nov): 4 seconds either way, from wherever the level is now, so a second tap turns it round at once. Exponential approach (the ear hears gain on a log scale), then the exact end value. */
+function fadeOut(to){if(!OUTN||!AC)return;const g=OUTN.gain,t=AC.currentTime,v=g.value;try{g.cancelScheduledValues(t)}catch(e){}g.setValueAtTime(v,t);g.setTargetAtTime(to,t,FADE_S/5);g.setValueAtTime(to,t+FADE_S)}
 (function(){const b=$('spk'),ON='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg>',OFF='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
   const paint=()=>{b.innerHTML=MUTED?OFF:ON;b.setAttribute('aria-pressed',String(MUTED));b.setAttribute('aria-label',MUTED?'Sound: silenced. Tap to bring it back':'Sound: on. Tap to silence everything, air and tails too. Hold for the mixer');b.title=MUTED?'Sound silenced · tap to bring it back':'Sound on · tap to silence everything · hold for the mixer'};
-  b.onclick=()=>{MUTED=!MUTED;if(OUTN)OUTN.gain.setTargetAtTime(MUTED?0:.9,AC.currentTime,.03);paint();$('status').textContent=MUTED?'Everything is silenced, air and tails too. Tap the speaker to bring it back.':'Sound is back.'};paint()})();
+  b.onclick=()=>{MUTED=!MUTED;fadeOut(MUTED?0:.9);paint();$('status').textContent=MUTED?'Fading everything out over 4 seconds, air and tails too. Tap the speaker to bring it back, also over 4.':'Fading the sound back in over 4 seconds.'};paint()})();
 var HALO=null;
 function haloClose(){if(HALO){HALO.el.remove();HALO=null}}
 function noneG(g){g.strokeStyle='#cfd3d8';g.lineWidth=1.5;g.beginPath();g.arc(13,13,7,0,7);g.moveTo(8,18);g.lineTo(18,8);g.stroke()}
