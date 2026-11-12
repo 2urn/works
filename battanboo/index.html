@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A weighted-dice score you can play and hear."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A weighted-dice score you can play and hear."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A weighted-dice score you can play and hear."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261112000359";window.__VERSION__="0.5.3";window.__NOTES__=[{"v": "0.5.3", "date": "11 Nov 2026", "items": [{"kind": "change", "text": "The shapes leave slowly, quicken as they travel, then land with the bounce (the glide is a little longer, 0.95 s)."}]}]</script>
+<script>window.__BUILD__="20261112000822";window.__VERSION__="0.5.4";window.__NOTES__=[{"v": "0.5.4", "date": "11 Nov 2026", "items": [{"kind": "change", "text": "The Weave preset in use is ringed in bright yellow (a border, not a fill)."}, {"kind": "fix", "text": "The opening's shapes are sharp by the time they stop, and it is the interface that comes into focus behind them, from blurred to sharp as it fades in."}, {"kind": "fix", "text": "No more sideways jump when the real shapes take over: the opening's canvas is now measured from its own box, so on screens with a scrollbar it lines up with the grid exactly."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -394,7 +394,7 @@ body{overflow-x:clip}
 .sg.shift #lkT .wa.a{border-top-width:0;border-bottom:6px solid currentColor}.sg.shift #lkT .wa.b{border-bottom-width:0;border-top:6px solid currentColor}
 .sg.shift #lkR .wa.a{border-left-width:0;border-right:6px solid currentColor}.sg.shift #lkR .wa.b{border-right-width:0;border-left:6px solid currentColor}
 .sg.shift .lkb.wd{background:color-mix(in srgb,var(--accent) 24%,transparent);border-radius:6px}
-#wvBox{display:flex;flex-direction:column;gap:10px;margin-top:6px;padding-top:12px;border-top:1px solid var(--line)}#wvBox .plrow{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#wvBox .chip.wvp[aria-pressed=true]{border:2px solid var(--accent);background:var(--surface);color:var(--fg);padding:0 11px}#wvBox{display:flex;flex-direction:column;gap:10px;margin-top:6px;padding-top:12px;border-top:1px solid var(--line)}#wvBox .plrow{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .stagebox .lkb{color:color-mix(in srgb,var(--fg) 52%,transparent);opacity:1}.stagebox .lkb[data-s="1"]{color:var(--accent)}
 html.full body{overflow:hidden;padding-block:10px}
 html.full .wrap>:not(#hero){display:none!important}
@@ -411,12 +411,12 @@ html.full #hero>header{margin-bottom:auto}html.full #hero>.stagerow{margin-top:a
 /* THE NAMEMARK in the top right corner (his file, sys/brands/dimitry-said-chamy/namemark.svg, byte for byte, as a mask so it takes the page's ink): there as the work opens, then it steps away, as in Current */
 :root{--nmh:64px;--gut:16px}
 /* THE LAUNCH COVER (after Current's): his centred lockup, the name, and the duck-rabbit as the way in. Off with ?cover=0, and for an automated browser. */
-#launch{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#15171a;color:#fff;transition:opacity .5s ease,background-color .7s ease}
-/* before the tap the interface is fully transparent (html.intro) and the first grid's shapes drift as frosted glass; a tap sends them home, and when every one has stopped the interface fades in while the real shapes replace the frosted ones */
-#launch .lc-shapes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:blur(3.5px);-webkit-filter:blur(3.5px);transition:opacity .4s ease}#launch.fade .lc-shapes{opacity:0}
-#launch.moving{pointer-events:none}#launch.clearing{background-color:rgba(21,23,26,0)}
+#launch{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#15171a;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:#fff;transition:opacity .5s ease,background-color .9s ease,-webkit-backdrop-filter .9s ease,backdrop-filter .9s ease}
+/* before the tap the interface is fully transparent (html.intro) and the first grid's shapes drift as frosted glass that sharpens as they come to rest; a tap sends them home, and when every one has stopped the interface fades in while the real shapes replace the frosted ones */
+#launch .lc-shapes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:blur(3.5px);-webkit-filter:blur(3.5px);transition:opacity .4s ease,filter .85s ease-out .05s,-webkit-filter .85s ease-out .05s}#launch.moving .lc-shapes{filter:blur(0);-webkit-filter:blur(0)}#launch.fade .lc-shapes{opacity:0}
+#launch.moving{pointer-events:none}#launch.clearing{background-color:rgba(21,23,26,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
 #launch.moving .lc-above,#launch.moving .lc-title,#launch.moving .lc-below{opacity:0!important;transition:opacity .35s ease}
-html.intro .wrap{opacity:0}html.introOut .wrap{opacity:1;transition:opacity .7s ease}
+html.intro .wrap{opacity:0}html.introOut .wrap{opacity:1;transition:opacity .8s ease}
 html.intro #cv{opacity:0}html.introOut #cv{opacity:1;transition:opacity .5s ease}
 #launch[hidden]{display:none}#launch.going{opacity:0;pointer-events:none}@media (prefers-reduced-motion:reduce){#launch{transition:opacity .2s}}
 .lc-body{position:absolute;inset:0;display:grid;grid-template-rows:minmax(0,1fr) auto minmax(0,1fr);justify-items:center;padding:0 16px}
@@ -1096,10 +1096,10 @@ const WVPRE=[['Loom',{pat:'weave',amt:'pairs',every:1,step:1},'Over and under: l
 function wvBuild(){const box=$('wvBox');if(!box)return;const w=S.wv;box.innerHTML='';
   const lab=t=>{const p=document.createElement('span');p.className='pcl';p.textContent=t;return p};
   const row=(label,items,get,set)=>{const r=document.createElement('div');r.className='plrow';r.appendChild(lab(label));const g=document.createElement('div');g.className='chips';g.setAttribute('role','radiogroup');g.setAttribute('aria-label',label);
-    items.forEach(([v,t,tip])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('role','radio');b.textContent=t;if(tip)b.title=tip;b.setAttribute('aria-checked',String(get()===v));b.onclick=()=>{set(v);wvEdgeSync();[...g.children].forEach((c,i)=>c.setAttribute('aria-checked',String(items[i][0]===get())))};g.appendChild(b)});r.appendChild(g);box.appendChild(r)};
+    items.forEach(([v,t,tip])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('role','radio');b.textContent=t;if(tip)b.title=tip;b.setAttribute('aria-checked',String(get()===v));b.onclick=()=>{set(v);wvEdgeSync();if(window.WVPS)WVPS();[...g.children].forEach((c,i)=>c.setAttribute('aria-checked',String(items[i][0]===get())))};g.appendChild(b)});r.appendChild(g);box.appendChild(r)};
   row('Weave: after each pass the grid slides, its notes wrap round',[[false,'Off'],[true,'On']],()=>w.on,v=>{w.on=v;WVN=0;$('status').textContent=v?'Weave on: the grid slides after each pass.':'Weave off.'});
   const pr=document.createElement('div');pr.className='plrow';pr.appendChild(lab('Presets'));const pc=document.createElement('div');pc.className='chips';
-  WVPRE.forEach(([n,o,tip])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=n;b.title=tip;b.onclick=()=>{Object.assign(w,o,{on:true});WVN=0;wvBuild();$('status').textContent=n+': '+tip+'.'};pc.appendChild(b)});pr.appendChild(pc);box.appendChild(pr);
+  WVPRE.forEach(([n,o,tip])=>{const b=document.createElement('button');b.type='button';b.className='chip wvp';b.dataset.p=n;b.textContent=n;b.title=tip;b.onclick=()=>{Object.assign(w,o,{on:true});WVN=0;wvBuild();$('status').textContent=n+': '+tip+'.'};pc.appendChild(b)});pr.appendChild(pc);box.appendChild(pr);window.WVPS=()=>pc.querySelectorAll('.wvp').forEach((b,i)=>{const o=WVPRE[i][1],on=w.on&&w.pat===o.pat&&w.amt===o.amt&&w.every===o.every&&w.step===o.step;b.setAttribute('aria-pressed',String(on))});WVPS();
   row('Lines',[['weave','Weave','All lines, over and under'],['alt','Alt','Odd lines, then even lines'],['even','Even'],['odd','Odd'],['all','All']],()=>w.pat,v=>{w.pat=v});
   row('Shift',[['primes','Staggered primes'],['pairs','Staggered pairs'],['fib','Staggered Fibonacci'],['rep','Repetitions','One line at a time, in turn'],['once','All at once','Every chosen line, together']],()=>w.amt,v=>{w.amt=v});
   row('Every',[[1,'Pass'],[2,'2nd pass'],[4,'4th pass']],()=>w.every,v=>{w.every=v});
@@ -2036,7 +2036,7 @@ var COVERSYNC=null;(function(){const el=$('launch'),m=$('dscMark'),tuck=()=>setT
   /* the first grid's shapes, adrift: drawn on a canvas under the words with the app's own mark(), so what lands is what the grid draws */
   const DOT=document.documentElement,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;DOT.classList.add('intro');
   const sc=document.createElement('canvas');sc.className='lc-shapes';sc.setAttribute('aria-hidden','true');el.insertBefore(sc,el.firstChild);const sx=sc.getContext('2d');
-  let W=0,H=0,dpr=1;const fit=()=>{dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;sc.width=W*dpr;sc.height=H*dpr;sx.setTransform(dpr,0,0,dpr,0,0)};fit();addEventListener('resize',fit);
+  let W=0,H=0,dpr=1;const fit=()=>{dpr=Math.min(devicePixelRatio||1,2);const rc=sc.getBoundingClientRect();W=rc.width||innerWidth;H=rc.height||innerHeight;sc.width=W*dpr;sc.height=H*dpr;sx.setTransform(dpr,0,0,dpr,0,0)};fit();addEventListener('resize',fit);
   const SH=[];let t0=performance.now(),snapT=0,raf=0;
   const target=(i,j)=>{const r=cv.getBoundingClientRect(),f=info(i,j),cx=f.cx!=null?f.cx:f.x+f.s/2,cy=f.cy!=null?f.cy:f.y+f.s/2;return{x:r.left+cx,y:r.top+cy,s:f.s*((S.markSz||100)/100)}};
   const gsig=()=>{const g=S.g[FAM[S.eff.way]];return g?g.map(r=>r.map(k=>k.s+'.'+k.v).join(',')).join('|'):''};let lastSig='';
