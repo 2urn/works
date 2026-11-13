@@ -128,6 +128,8 @@
     var all = [{ id: "field", name: O.heartName || "Stage playing", test: function () { var h = heart(); return h === null ? "still starting" : (first && h !== true && !unhealed) ? "still starting" : h; } }].concat(O.checks || []);
     all.forEach(function (c) {
       var r; try { r = c.test(); } catch (e) { r = "threw: " + (e && e.message || e); }
+      /* a test may report without failing: return { info: "text" } and the line reads ok, with the text (12 Nov 2026) */
+      if (r && typeof r === "object" && r.info !== undefined) { results.push({ id: c.id, name: c.name, ok: true, why: String(r.info) }); return; }
       results.push({ id: c.id, name: c.name, ok: r === true, why: r === true ? "" : r === false ? "failed" : String(r) });
     });
     return results;
