@@ -206,6 +206,7 @@ function voicePlay(ctx, dest, recipe, opts) {
   const offline = voiceOffline(ctx);
   if (!offline) while (VOICE_CAP && VOICE_LIVE.length >= VOICE_CAP) {
     const k = Math.max(0, VOICE_LIVE.findIndex(v => v.releasedAt != null)), v = VOICE_LIVE.splice(k, 1)[0];
+    v.stolen = true; /* so a tool can show a held sound the ceiling let go of */
     try { v.stop(); } catch (e) {}
   }
   const R = recipe || {}, rnd = voiceRng(opts.seed != null ? opts.seed : R.seed);
