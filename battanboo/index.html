@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261113023616";window.__VERSION__="0.5.11";window.__NOTES__=[{"v": "0.5.11", "date": "12 Nov 2026", "items": [{"kind": "change", "text": "Held means sounding. A held place keeps its position, and what sounds is whatever mark is there now: when Weave (or a roll) puts a new mark under a held finger or Hold, the old sound lets go and the new mark sounds. A sound that cannot sustain (struck and one-shot sounds, like the drums) now repeats as a pulse, at half a beat, for as long as it is held."}, {"kind": "change", "text": "Headings in the heads-up display are larger (much larger on a big screen), and each part (Field and marks, Look of the effects, Soniscale) starts with a divider, its icon and room above it. The field's explanation now sits right under its heading."}]}]</script>
+<script>window.__BUILD__="20261113024042";window.__VERSION__="0.5.12";window.__NOTES__=[{"v": "0.5.12", "date": "12 Nov 2026", "items": [{"kind": "new", "text": "Shape a held mark by dragging on it. With Hold on (the closed hand), tap a mark to hold it, then press on it and drag: up and down is its volume (a grey fill rises in the cell, with a bright line at the level), left and right is how much reverb that one note gets (a blue bar along the foot of the cell). A plain tap still lets the mark go, and dragging on marks that are not held still glides as before."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -862,7 +862,8 @@ function draw(){layout();try{cornSync()}catch(_){}try{window.cineLines&&cineLine
     for(let i=0;i<A;i++)for(let j=0;j<B;j++)if(tl(w,i,j)[0]===S.cur[n]){info(i,j).path(c);c.fill()}});
   c.fillStyle='rgba(255,204,0,.09)';for(let i=0;i<A;i++)for(let j=0;j<B;j++)if(locked(fam,i,j)){info(i,j).path(c);c.fill()}
   if(S.mode==='edit'&&ED.sel&&ED.sel.fam===fam){c.fillStyle='rgba(63,184,175,.3)';edCells(ED.sel).forEach(([i,j])=>{info(i,j).path(c);c.fill()})}
-  c.fillStyle='rgba(255,255,255,.28)';HL.forEach((n,key)=>{const[a,b]=key.split(',').map(Number);if(g[a]&&g[a][b]){info(a,b).path(c);c.fill()}});
+  c.fillStyle='rgba(255,255,255,.28)';HL.forEach((n,key)=>{const[a,b]=key.split(',').map(Number);if(g[a]&&g[a][b]){c.fillStyle=HOLDS.has(key)?'rgba(255,255,255,.1)':'rgba(255,255,255,.28)';info(a,b).path(c);c.fill()}});
+  HOLDS.forEach((id,key)=>{const[a,b]=key.split(',').map(Number);if(!(g[a]&&g[a][b]))return;const sp=SHAPE.get(key)||{vol:.6,wet:0},f=info(a,b),s=f.s,y1=f.cy+s/2,h=Math.max(2,sp.vol*s);c.save();f.path(c);c.clip();c.fillStyle='rgba(255,255,255,.3)';c.fillRect(f.cx-s,y1-h,2*s,h);c.fillStyle='rgba(255,255,255,.85)';c.fillRect(f.cx-s,y1-h,2*s,1.5);if(sp.wet>.01){c.fillStyle='rgba(120,200,255,.9)';c.fillRect(f.cx-s/2,y1-3,s*sp.wet,3)}c.restore()});
   for(let i=0;i<A;i++)for(let j=0;j<B;j++){const k=g[i][j];if(!k||k.s===0)continue;const st=cellSt(fam,i,j);c.globalAlpha=st===1?.2:.9;drawMark(c,k.s,info(i,j),V[k.v])}c.globalAlpha=1;
   if(S.names){const f0=info(0,0),edge=(i,j)=>way0==='down'||way0==='up'||way0==='radar'||way0==='radarccw'?j===0:way0==='out'||way0==='in'?i===A-1:i===0;
     c.font='600 '+clamp(f0.s*.26,8,11)+'px system-ui,sans-serif';c.textBaseline='top';c.lineJoin='round';c.textAlign='left';
@@ -882,8 +883,15 @@ let LV=1,NOTEG=1;
 const cg0=v=>{const m=S.mix;if(m.mute[v])return 0;if(m.solo.some(Boolean)&&!m.solo[v])return 0;return(m.lv[v]==null?.7:m.lv[v])/.7};var XA=1,XB=1;const cg=v=>cg0(v)*XA;
 const slotOf=k=>(S.morph>0&&S.slotsB[k.v]&&Math.random()<S.morph)?S.slotsB[k.v]:(S.slots[k.v]||S.slots[0]);
 var LIVEH=new Set(),ACT=new Set();
-function holdStart(k,l,vel){const h=holdStart0(k,l,vel);if(h)LIVEH.add(h);return h}
-function holdEnd(h,fast){LIVEH.delete(h);holdEnd0(h,fast)}
+/* SHAPE (Dimitry, 12 Nov): a held mark can be pulled into shape by dragging on it: up and down is its volume, left and right is how much of the room's reverb it gets. SHAPE: cell -> {vol,wet}. Each held voice plays through its own small bus (ho) with a send (rs) into the Grid-space reverb, so the wet amount is that one note's. */
+var SHAPE=new Map();
+function gsrNode(){if(!GSR&&AC&&REV&&GCOMP){GSR=AC.createConvolver();GSR.buffer=REV.buffer;const w=AC.createGain();w.gain.value=.9;GSR.connect(w);w.connect(GCOMP)}return GSR}
+function holdWet(h,wet){if(h&&h.rs&&AC)try{h.rs.gain.setTargetAtTime(wet*.9*(h.m0||.4),AC.currentTime,.04)}catch(e){}}
+function holdStart(k,l,vel,c){let ho=null,rs=null,m0=master;try{if(AC&&master){ho=AC.createGain();ho.connect(master);const sp=c&&SHAPE.get(KEYC(c));if(gsrNode()){rs=AC.createGain();rs.gain.value=0;ho.connect(rs);rs.connect(GSR)}master=ho}}catch(e){ho=null;master=m0}
+  let h=null;try{h=holdStart0(k,l,vel)}finally{master=m0}
+  if(h){h.ho=ho;h.rs=rs;h.m0=m0&&m0.gain?m0.gain.value:.4;LIVEH.add(h);const sp=c&&SHAPE.get(KEYC(c));if(sp)holdWet(h,sp.wet)}else if(ho){try{ho.disconnect();rs&&rs.disconnect()}catch(e){}}
+  return h}
+function holdEnd(h,fast){LIVEH.delete(h);holdEnd0(h,fast);if(h&&h.ho)setTimeout(()=>{try{h.ho.disconnect();h.rs&&h.rs.disconnect()}catch(e){}},6000)}
 function holdStart0(k,l,vel){const sl=slotOf(k);if(sl&&sl.t!=='syn'){const h=recPlay(sl,k,l,AC.currentTime+.005,clamp(.2+vel*1.6,0,4),0,Infinity);return h?{rec:h}:null}
   const vi=sl?sl.i:k.v;const t=AC.currentTime,f=hz(midiOf(l)+S.tune[k.v]),kind=k.s,v=vi,g=AC.createGain(),lp=AC.createBiquadFilter(),tr=AC.createGain(),oscs=[],src=[];
   const mk=(type,fr)=>{const o=AC.createOscillator();o.type=type;o.frequency.setValueAtTime(fr,t);oscs.push(o);return o};
@@ -896,7 +904,7 @@ function holdStart0(k,l,vel){const sl=slotOf(k);if(sl&&sl.t!=='syn'){const h=rec
   src.forEach(o=>o.connect(lp));lp.connect(tr);tr.connect(g);g.connect(master);oscs.forEach(o=>o.start(t));
   const h={g,lp,oscs,v,level:(kind===1?.8:kind===5?.4:kind===7?1.2:1)*cg(k.v)};holdSet(h,vel);return h}
 function holdEnd0(h,fast){if(h.rec){try{h.rec.release(AC.currentTime)}catch(e){}return}const t=AC.currentTime,rel=fast?.05:VREL[h.v];h.g.gain.cancelScheduledValues(t);h.g.gain.setTargetAtTime(0,t,rel/3);h.oscs.forEach(o=>{try{o.stop(t+rel*1.8+.1)}catch(e){}})}
-function handOn(id,c,p){if(HELD.has(id))handOff(id,true);ensureAudio();AC.resume();const sw=p==null;let h=null;if(c.k&&c.k.s)h=holdStart(c.k,tl(S.eff.way,c.i,c.j)[1],sw?.3:p);
+function handOn(id,c,p){if(HELD.has(id))handOff(id,true);ensureAudio();AC.resume();const sw=p==null;let h=null;if(c.k&&c.k.s)h=holdStart(c.k,tl(S.eff.way,c.i,c.j)[1],sw?.3:p,c);
   HELD.set(id,{c,h,p,ts:performance.now(),sig:(c.k&&c.k.s)?c.k.s+'/'+c.k.v:'',lp:performance.now()});const k=KEYC(c);HL.set(k,(HL.get(k)||0)+1);if(c.k&&c.k.s){meetCheck(G.fam,c.i,c.j,c.k,tl(S.eff.way,c.i,c.j)[1],AC.currentTime+.005,.3,'hand');fxAdd(G.fam,c.i,c.j,c.k,AC.currentTime+.005)}setHand(true);draw()}
 function handOff(id,fast){const o=HELD.get(id);if(!o)return;if(o.h)holdEnd(o.h,fast);hlDrop(o.c,fast?40:130);HELD.delete(id);if(!HELD.size)setHand(false)}
 function handGo(id,c,p){const o=HELD.get(id);if(!o){handOn(id,c,p);return}
@@ -912,7 +920,7 @@ function recCtl(cid,val){if(!rec.on)return;const now=performance.now();let ev,t;
 function cellObj(fam,i,j){const g=S.g[fam];return g&&g[i]&&g[i][j]}
 /* A held place keeps its position, and what sounds is whatever mark is there now: when Weave (or a roll) puts a new mark under a held finger or Hold, the old one lets go and the new one sounds. A voice that cannot sustain (a struck or one-shot sound) is repeated as a pulse for as long as it is held, so held always means sounding (Dimitry, 12 Nov). */
 function handFollow(now){HELD.forEach(o=>{const c=o.c;if(!c||c.i==null||!AC)return;const k=cellObj(G.fam,c.i,c.j),sg=(k&&k.s)?k.s+'/'+k.v:'';
-  const start=()=>{const l=tl(S.eff.way,c.i,c.j)[1];o.h=holdStart(k,l,o.p==null?.3:o.p);fxAdd(G.fam,c.i,c.j,k,AC.currentTime+.005)};
+  const start=()=>{const l=tl(S.eff.way,c.i,c.j)[1];o.h=holdStart(k,l,o.p==null?.3:o.p,c);fxAdd(G.fam,c.i,c.j,k,AC.currentTime+.005)};
   if(sg!==o.sig){if(o.h){holdEnd(o.h,false);o.h=null}o.sig=sg;o.lp=now;c.k=k||c.k;if(k&&k.s)start();return}
   if(o.h&&o.h.rec&&k&&k.s){const sl=slotOf(k),r=sl&&pick(sl,tl(S.eff.way,c.i,c.j)[1]);const per=Math.max(140,30000/Math.max(15,(S.live&&S.live.tempo)||S.tempo||96));
     if(r&&!r.hold&&now-o.lp>per){o.lp=now;holdEnd(o.h,false);start()}}})}
@@ -939,13 +947,14 @@ function recToggle(){const now=performance.now();
   rec.on=false;$('rec').setAttribute('aria-pressed','false');$('clrTake').hidden=!rec.take}
 function clearTake(){rec.take=null;rec.tmp=null;rec.firstOn=false;[...HELD.keys()].filter(k=>typeof k==='string').forEach(k=>handOff(k));if(rec.on){rec.on=false;$('rec').setAttribute('aria-pressed','false')}$('clrTake').hidden=true}
 cv.addEventListener('pointerdown',e=>{const c=cellAt(e);if(!c)return;
-  if(S.mode==='play'&&S.hold){e.preventDefault();holdToggle(c);return}
+  if(S.mode==='play'&&S.hold){e.preventDefault();const kk=KEYC(c);if(HOLDS.has(kk)){const sp=SHAPE.get(kk)||{vol:.6,wet:0};SH={id:e.pointerId,k:kk,x0:e.clientX,y0:e.clientY,v0:sp.vol,w0:sp.wet,moved:false,c};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}holdToggle(c);return}
   if(S.mode==='play'){e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=pressureOf(e);handOn(e.pointerId,c,p);recEv('go',e.pointerId,c,p);return}
   if(ED.pick){e.preventDefault();ED.sel={fam:G.fam,kind:ED.pick,n:ED.pick==='i'?c.i:c.j};ED.pick=null;edSync();draw();$('status').textContent='Picked '+edName(ED.sel.kind)+' '+(ED.sel.n+1)+'. Copy, cut, or pick another cell and paste.';return}
   if(PT.halo)haloOpen(c);else paintDown(e,c)});
 var HOVC=null;cv.addEventListener('pointermove',e=>{if(S.names==='hover'){const c=cellAt(e),n=c?{i:c.i,j:c.j}:null;if((n&&n.i)!==(HOVC&&HOVC.i)||(n&&n.j)!==(HOVC&&HOVC.j)||!n!==!HOVC){HOVC=n;draw()}}});cv.addEventListener('pointerleave',()=>{if(HOVC){HOVC=null;if(S.names==='hover')draw()}});
-cv.addEventListener('pointermove',e=>{if(S.mode==='edit')paintMove(e);if(S.mode!=='play'||!HELD.has(e.pointerId))return;const c=cellAt(e);if(!c)return;const p=pressureOf(e);handGo(e.pointerId,c,p);recEv('go',e.pointerId,c,p)});
-const upH=e=>{if(!HELD.has(e.pointerId))return;handOff(e.pointerId);recEv('up',e.pointerId,null,null)};
+cv.addEventListener('pointermove',e=>{if(SH&&e.pointerId===SH.id){const dx=e.clientX-SH.x0,dy=SH.y0-e.clientY;if(!SH.moved&&Math.hypot(dx,dy)<7)return;SH.moved=true;const R=Math.max(110,Math.min(G.w,G.h)*.4);holdShape(SH.k,SH.v0+dy/R,SH.w0+dx/R);return}if(S.mode==='edit')paintMove(e);if(S.mode!=='play'||!HELD.has(e.pointerId))return;const c=cellAt(e);if(!c)return;const p=pressureOf(e);handGo(e.pointerId,c,p);recEv('go',e.pointerId,c,p)});
+const shEnd=e=>{if(!SH||e.pointerId!==SH.id)return false;const o=SH;SH=null;if(!o.moved&&HOLDS.has(o.k)){holdFree(o.k);holdSay()}return true};
+const upH=e=>{if(shEnd(e))return;if(!HELD.has(e.pointerId))return;handOff(e.pointerId);recEv('up',e.pointerId,null,null)};
 cv.addEventListener('pointerup',e=>{if(PAINT&&PAINT.id===e.pointerId)PAINT=null;upH(e)});cv.addEventListener('pointercancel',e=>{if(PAINT&&PAINT.id===e.pointerId)PAINT=null;upH(e)});cv.addEventListener('lostpointercapture',upH);
 addEventListener('blur',()=>[...HELD.keys()].filter(k=>typeof k==='number'&&k<1e6).forEach(k=>handOff(k)));
 ['contextmenu','selectstart','dragstart'].forEach(t=>document.addEventListener(t,e=>{const n=e.target&&e.target.nodeType===1?e.target:e.target&&e.target.parentElement;if(n&&n.closest&&n.closest('input,textarea,select,[contenteditable]'))return;e.preventDefault()},true));
@@ -2128,10 +2137,12 @@ $('mPlay').onclick=()=>{const m=S.mode==='play'?'edit':'play';setMode(m);$('mPla
    its row or column is switched off (that overrides), or the mode changes. HOLDS: cell -> the id it plays under (a number from 1e6 up, so the
    take and the pointer clean-ups leave it alone). */
 S.hold=false;
-function holdFree(k,fast){const id=HOLDS.get(k);if(id==null)return;HOLDS.delete(k);handOff(id,fast);ACT.delete(id)}
+function holdFree(k,fast){const id=HOLDS.get(k);if(id==null)return;HOLDS.delete(k);SHAPE.delete(k);handOff(id,fast);ACT.delete(id)}
+var SH=null;
+function holdShape(key,vol,wet){let sp=SHAPE.get(key);if(!sp){sp={vol:.6,wet:0};SHAPE.set(key,sp)}sp.vol=clamp(vol,0,1);sp.wet=clamp(wet,0,1);const o=HELD.get(HOLDS.get(key));if(o){o.p=sp.vol;if(o.h){holdSet(o.h,sp.vol);holdWet(o.h,sp.wet)}}draw()}
 function holdToggle(c){const k=KEYC(c);if(HOLDS.has(k)){holdFree(k);holdSay();return}if(!(c.k&&c.k.s))return;const id=1e6+c.i*64+c.j;ACT.add(id);handOn(id,c,.6);HOLDS.set(k,id);holdSay()}
 function holdAll(){[...HOLDS.keys()].forEach(k=>holdFree(k));[...LIVEH].forEach(h=>{try{holdEnd(h)}catch(e){}});holdSay()}
-function holdSay(){const n=HOLDS.size;$('mPlay').dataset.holds=n;if(S.hold)$('status').textContent=n?n+' note'+(n===1?'':'s')+' held. Touch one again to let it go; hold the pencil button for "Let go of all".':'Hold hand: touch a note and it keeps playing.'}
+function holdSay(){const n=HOLDS.size;$('mPlay').dataset.holds=n;if(S.hold)$('status').textContent=n?n+' note'+(n===1?'':'s')+' held. Touch one again to let it go; hold the pencil button for "Let go of all".':'Hold hand: touch a note and it keeps playing. Drag a held note up or down for its volume, left or right for its reverb.'}
 function holdMuted(c){const f=G.fam,L=f==='cart'?c.j:c.i,B=f==='cart'?c.i:c.j;return swGet(f,'L',L)===1||swGet(f,'B',B)===1}
 setInterval(()=>{HOLDS.forEach((id,k)=>{const o=HELD.get(id);if(!o){HOLDS.delete(k);ACT.delete(id);return}if(holdMuted(o.c)){holdFree(k);holdSay()}})},150);
 function setHold(on){S.hold=!!on;if(!on)holdAll();const b=$('mPlay');b.classList.toggle('fist',!!on&&S.mode==='play');if(on&&S.mode!=='play')setMode('play');b.classList.toggle('fist',!!on);if(on)holdSay();else $('status').textContent='Touch hand: notes sound while you touch them.'}
@@ -2494,7 +2505,7 @@ var CINE_AT=5000;
     const d=Math.max(0,Math.round(load.offsetTop-10-bot));
     side.style.setProperty('--lift',d+'px');R.classList.toggle('logoUp',on&&d>0)}
   new MutationObserver(lift).observe(m,{attributes:true,attributeFilter:['class']});addEventListener('resize',lift);setTimeout(lift,60);setTimeout(lift,1200)})();
-window.__t={held:()=>[...HELD.values()].map(o=>({sig:o.sig,h:!!o.h,rec:!!(o.h&&o.h.rec),lp:Math.round(o.lp)})),fxp:()=>FXP,fxk:fxKick,wv:()=>({S,wvStep,wvLine,wvManual,wvBack,wvPlan,AB,FAM}),weights,BEATS,XF:()=>({...XF.X,XA,XB}),setX:XF.set,RS:()=>RESUME,FV:()=>FV,FLD2,fldClear,OUTN:()=>OUTN,hudShow,cg,mixBuild,past:()=>PAST.map(p=>p.name+' · '+p.n),hudSync,pend:()=>PEND.size,smp:()=>SMP.size,fld:()=>FLD.filter(q=>q.e>.1).length,fxn:()=>FXP.length,recSound,ctl:setCtl,padSync,roll:()=>rollNew(),lock:(fam,side,k,v)=>{S.lk[fam][side][k]=v},mute:(fam,side,k,v)=>{S.sw[fam][side][k]=v},ev:()=>evs.length,cyc:()=>cycleIdx,hit,handOn,handOff,MEET,G:()=>G,AC:()=>AC,draw,S};
+window.__t={shape:()=>[...SHAPE],wetsend:()=>[...HELD.values()].map(o=>o.h&&o.h.rs?o.h.rs.gain.value:null),held:()=>[...HELD.values()].map(o=>({sig:o.sig,h:!!o.h,rec:!!(o.h&&o.h.rec),lp:Math.round(o.lp)})),fxp:()=>FXP,fxk:fxKick,wv:()=>({S,wvStep,wvLine,wvManual,wvBack,wvPlan,AB,FAM}),weights,BEATS,XF:()=>({...XF.X,XA,XB}),setX:XF.set,RS:()=>RESUME,FV:()=>FV,FLD2,fldClear,OUTN:()=>OUTN,hudShow,cg,mixBuild,past:()=>PAST.map(p=>p.name+' · '+p.n),hudSync,pend:()=>PEND.size,smp:()=>SMP.size,fld:()=>FLD.filter(q=>q.e>.1).length,fxn:()=>FXP.length,recSound,ctl:setCtl,padSync,roll:()=>rollNew(),lock:(fam,side,k,v)=>{S.lk[fam][side][k]=v},mute:(fam,side,k,v)=>{S.sw[fam][side][k]=v},ev:()=>evs.length,cyc:()=>cycleIdx,hit,handOn,handOff,MEET,G:()=>G,AC:()=>AC,draw,S};
 /* Codex sections: each lower section is a card in the Index column (the kit's surface/sections.js): numbered heading, sign, and at the right of each heading the grip (drag to re-arrange), the crossed eye (hide) and the pin (keep open); the toolbar above the column folds, focuses, trims the words and resets the order. The duck-rabbit opens the Index drawer, a map of the same column. */
 (function(){const wrap=document.querySelector('.wrap'),hs=[...wrap.querySelectorAll(':scope > h2')];if(!hs.length)return;
   const secs=[],pad=n=>String(n).padStart(2,'0');
