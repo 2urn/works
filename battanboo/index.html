@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114122635";window.__VERSION__="0.5.73";window.__NOTES__=[{"v": "0.5.73", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: while you edit, the Halo, Colour and Shape switches moved to the right rail under the clipboard buttons (icons only). The colours and the shapes are now two rows of round buttons in the same eight columns, so each colour sits directly over a shape. That frees the row they used under the stage."}]}]</script>
+<script>window.__BUILD__="20261114123442";window.__VERSION__="0.5.74";window.__NOTES__=[{"v": "0.5.74", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: Halo and the two strips under the stage (colours, shapes) are now one choice on the right rail, not both at once. With Halo on, the strips are hidden and the room goes back to the stage. In the Halo, every mark is drawn in the colour you are drawing with, and a colour chip under the frame opens the colours (pick one and it returns to the marks). The top label now names the kind of mark. The Colour and Shape buttons switch to painting with the strips."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -378,14 +378,14 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 #padIs button svg,#padCyc svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 #padIs button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .brush[hidden]{display:none!important}
-.hf{position:fixed;z-index:60;display:grid;grid-template-columns:repeat(3,var(--hw));grid-template-rows:repeat(3,var(--hh));gap:0;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.5);opacity:0;transform:scale(.92);transition:opacity .12s,transform .12s}
+.hf{position:fixed;z-index:60;display:grid;grid-template-columns:repeat(3,var(--hw));grid-template-rows:repeat(4,var(--hh));gap:0;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.5);opacity:0;transform:scale(.92);transition:opacity .12s,transform .12s}
 .hf.on{opacity:1;transform:none}
 .hf button{all:unset;box-sizing:border-box;display:grid;place-items:center;background:#15171a;box-shadow:inset 0 0 0 .5px #5a6068;color:#fff;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .hf button svg{width:80%;height:80%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
-.hf button[aria-pressed="true"]{background:var(--accent);color:#000}
-.hf button:active{background:#2a2e33;transform:scale(2.1);z-index:2;box-shadow:0 0 0 1px #444a52,0 4px 14px rgba(0,0,0,.6);border-radius:3px}.hf button[aria-pressed="true"]:active{background:var(--accent)}
+.hf button.hk,.hf button.hm{color:var(--hc,#fff)}.hf button[data-s="0"]{color:#cfd3d8}.hf button[aria-pressed="true"]{background:#2a2e33;box-shadow:inset 0 0 0 1.5px #fff}
+.hf button:active{background:#2a2e33;transform:scale(2.1);z-index:2;box-shadow:0 0 0 1px #444a52,0 4px 14px rgba(0,0,0,.6);border-radius:3px}.hf .hchip{background:#15171a}.hf .hchip i{display:block;width:62%;height:56%;border-radius:999px;background:var(--hc,#888)}.hf .hchip::after{content:'';position:absolute;right:5px;top:50%;width:0;height:0;margin-top:-2px;border:3px solid transparent;border-top-color:#9aa0a8}.hf .hchip{position:relative}.hf .hcol i{display:block;width:62%;height:56%;border-radius:999px;background:var(--c)}.hf .hcol[hidden],.hf .hm[hidden],.hf .hfc[hidden]{display:none}
 .hf button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
-.hf .hfc{background:transparent;box-shadow:inset 0 0 0 1px #fff}
+.hf .hfc{pointer-events:none;box-shadow:inset 0 0 0 1px #fff}
 .hf .hfl{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);white-space:nowrap;padding:3px 9px;border-radius:999px;background:#15171a;color:#fff;font:500 12px var(--ui);letter-spacing:.06em;text-transform:uppercase;box-shadow:0 0 0 1px #444a52;pointer-events:none;opacity:0}
 .hf .hfl.on{opacity:1}.hf .hfl.below{bottom:auto;top:calc(100% + 6px)}
 .halo{position:fixed;width:0;height:0;z-index:60}
@@ -1095,25 +1095,33 @@ var CHALO=null;
 /* the cell's halo on the kit's ring (Current's chrome): its eight marks as dots, the cell staying visible in the gap (center:none); the colour is one dot that opens its own ring (Dimitry, 14 Nov: "Halo should switch to ring chrome from Current") */
 /* THE CELL'S FRAME (0.5.72, Dimitry 14 Nov: "gigantic square buttons ... no bigger than the grid squares around that target ... icons only, one shape, just lines between them, the label above"): a 3x3 frame of grid-cell-sized squares round the cell, the eight marks as icons only, hairlines between, the cell itself the hole in the middle (tap it to cycle its colour). The name of the square under the finger shows in a small label above the frame (below it when the frame is at the top). */
 function haloOpen(c){if(HALO&&HALO.c.i===c.i&&HALO.c.j===c.j){haloClose();return}haloClose();
-  const f=info(c.i,c.j),r=cv.getBoundingClientRect(),sc=r.width/(G.w||r.width),V=VC();
-  const ZW=Math.max(18,Math.round((f.cw||f.s)*sc)),ZH=Math.max(18,Math.round((f.ch||f.s)*sc)),W=ZW*3,H=ZH*3;
-  let x=r.left+f.cx*sc,y=r.top+f.cy*sc;const cx=Math.max(W/2+4,Math.min(innerWidth-W/2-4,x)),cy=Math.max(H/2+30,Math.min(innerHeight-H/2-4,y));
+  const f=info(c.i,c.j),r=cv.getBoundingClientRect(),sc=r.width/(G.w||r.width);
+  const ZW=Math.max(18,Math.round((f.cw||f.s)*sc)),ZH=Math.max(18,Math.round((f.ch||f.s)*sc)),W=ZW*3,H=ZH*4;/* three rows of marks and a colour chip underneath */
+  const x=r.left+f.cx*sc,y=r.top+f.cy*sc;
+  const cx=Math.max(W/2+4,Math.min(innerWidth-W/2-4,x)),cy=Math.max(ZH*1.5+30,Math.min(innerHeight-ZH*2.5-4,y));/* the cell stays the middle of the 3x3 */
   const el=document.createElement('div');el.className='hf';el.setAttribute('role','group');el.setAttribute('aria-label','Mark and colour for this cell');
-  el.style.cssText='left:'+(cx-W/2)+'px;top:'+(cy-H/2)+'px;width:'+W+'px;height:'+H+'px;--hw:'+ZW+'px;--hh:'+ZH+'px';
+  el.style.cssText='left:'+(cx-W/2)+'px;top:'+(cy-ZH*1.5)+'px;width:'+W+'px;height:'+H+'px;--hw:'+ZW+'px;--hh:'+ZH+'px';
   const lab=document.createElement('div');lab.className='hfl';lab.setAttribute('aria-live','polite');el.appendChild(lab);
+  if(cy-ZH*1.5<34)lab.classList.add('below');
   const HI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+d+'</svg>',F='fill="currentColor" stroke="none"';
   const SI=[HI('<circle cx="12" cy="12" r="7"/><path d="M7 17L17 7"/>'),HI('<circle cx="12" cy="12" r="3.6" '+F+'/>'),HI('<rect x="3" y="10" width="18" height="4" rx="2" '+F+'/>'),HI('<path d="M12 5l7 13H5z" '+F+'/>'),HI('<path d="M12 19L5 6h14z" '+F+'/>'),HI('<circle cx="12" cy="12" r="6.5"/>'),HI('<circle cx="8" cy="12" r="2.8" '+F+'/><circle cx="16" cy="12" r="2.8" '+F+'/>'),HI('<rect x="6" y="6" width="12" height="12" rx="1.5" '+F+'/>')];
   const nm=kd=>kd?SHAPES[kd][1]:'None';
-  const show=t=>{lab.textContent=t;lab.classList.add('on')},rest=()=>show(nm(c.k.s)+' · colour '+(c.k.v+1));
-  const sync=()=>{el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===c.k.s)));rest()};
-  /* the label sits above the frame; at the top of the screen it drops below */
-  if(cy-H/2<34)lab.classList.add('below');
-  SHAPES.forEach((_,kd)=>{const b=document.createElement('button');b.type='button';b.dataset.s=kd;b.innerHTML=SI[kd];b.setAttribute('aria-label',nm(kd)+' in this cell');
-    b.style.gridColumn=HPOS[kd][0]+2;b.style.gridRow=HPOS[kd][1]+2;
-    b.addEventListener('pointerdown',()=>show(nm(kd)));b.addEventListener('pointerenter',()=>show(nm(kd)));b.addEventListener('focus',()=>show(nm(kd)));
-    b.onclick=ev=>{ev.stopPropagation();if(c.k.s===kd)return;histPush();if(kd>0&&c.k.s===0)c.k.v=S.brush;c.k.s=kd;draw();sync();show(nm(kd))};el.appendChild(b)});
-  const m=document.createElement('button');m.type='button';m.className='hfc';m.style.gridColumn=2;m.style.gridRow=2;m.setAttribute('aria-label','Colour of this cell: tap for the next');
-  m.onclick=ev=>{ev.stopPropagation();histPush();c.k.v=(c.k.v+1)%Math.max(1,S.nV);if(c.k.s===0)c.k.s=1;draw();sync();show('colour '+(c.k.v+1))};el.appendChild(m);
+  const col=()=>(VC()[c.k.s>0?c.k.v:S.brush]||'#fff');/* the colour being drawn with: this cell's own when it has a mark, otherwise the brush */
+  const show=t=>{lab.textContent=t;lab.classList.add('on')},rest=()=>show(nm(c.k.s));
+  let view='marks';const items=[];
+  const brushSync=v=>{S.brush=v;document.querySelectorAll('.brush button[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===v)))};
+  const sync=()=>{const cc=col();el.style.setProperty('--hc',cc);el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===c.k.s)));rest()};
+  const mk=(cls,gc,gr)=>{const b=document.createElement('button');b.type='button';b.className=cls;b.style.gridColumn=gc;b.style.gridRow=gr;items.push(b);el.appendChild(b);return b};
+  const say=(b,t)=>{b.addEventListener('pointerdown',()=>show(t));b.addEventListener('pointerenter',()=>show(t));b.addEventListener('focus',()=>show(t))};
+  SHAPES.forEach((_,kd)=>{const b=mk('hm'+(kd?' hk':''),HPOS[kd][0]+2,HPOS[kd][1]+2);b.dataset.s=kd;b.innerHTML=SI[kd];b.setAttribute('aria-label',nm(kd)+' in this cell');say(b,nm(kd));
+    b.onclick=ev=>{ev.stopPropagation();if(c.k.s===kd)return;histPush();if(kd>0&&c.k.s===0)c.k.v=S.brush;c.k.s=kd;draw();sync();show(nm(kd))}});
+  const hole=document.createElement('div');hole.className='hfc';hole.style.gridColumn=2;hole.style.gridRow=2;el.appendChild(hole);/* the cell itself, left bare */
+  const chip=mk('hchip',1,4);chip.style.gridColumn='1 / span 3';chip.setAttribute('aria-label','Colour: opens the colours');chip.setAttribute('aria-expanded','false');chip.innerHTML='<i></i>';say(chip,'Colour');
+  const cols=[];
+  const toColours=on=>{view=on?'cols':'marks';chip.setAttribute('aria-expanded',String(on));el.classList.toggle('cols',on);cols.forEach(b=>b.hidden=!on);items.forEach(b=>{if(b.classList.contains('hm'))b.hidden=on});hole.hidden=on;if(on)show('Colour');else rest()};
+  chip.onclick=ev=>{ev.stopPropagation();toColours(view!=='cols')};
+  VC().slice(0,S.nV).forEach((cl,v)=>{const b=document.createElement('button');b.type='button';b.className='hcol';b.hidden=true;b.style.gridColumn=(v%3)+1;b.style.gridRow=Math.floor(v/3)+1;b.style.setProperty('--c',cl);b.innerHTML='<i></i>';b.setAttribute('aria-label','Colour '+(v+1));say(b,'Colour');
+    b.onclick=ev=>{ev.stopPropagation();histPush();c.k.v=v;if(c.k.s===0)c.k.s=1;brushSync(v);draw();sync();toColours(false)};cols.push(b);el.appendChild(b)});
   document.body.appendChild(el);HALO={el,c};sync();requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('on')))}
 function haloOpenRing(c){if(CHALO&&CHALO.c.i===c.i&&CHALO.c.j===c.j){haloClose();return}if(!window.SurfaceRing)return haloOpenOld(c);haloClose();
   const f=info(c.i,c.j),r=cv.getBoundingClientRect(),sc=r.width/(G.w||r.width),x=r.left+f.cx*sc,y=r.top+f.cy*sc,V=VC();
@@ -1165,13 +1173,13 @@ function edAct(what){const fam=G.fam;if(!ED.sel||ED.sel.fam!==fam||ED.sel.n>=AB(
   set('edCopy',()=>edAct('copy'));set('edCut',()=>edAct('cut'));set('edPaste',()=>edAct('paste'));edSync()})();
 function paintMove(e){if(!PAINT||PAINT.id!==e.pointerId)return;const c=cellAt(e);if(!c)return;const key=KEYC(c);if(key===PAINT.last)return;PAINT.last=key;paintApply(c,PAINT.mode)}
 function touchFor(){return 'none'}
-function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!bar)return;[['pHalo',PT.halo],['pCol',PT.pc],['pShp',PT.pm]].forEach(([id,on])=>$(id).setAttribute('aria-pressed',String(on)));
-  bar.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.m===PT.shape)));bar.classList.toggle('nohalo',!PT.halo);if(!PT.halo)haloClose()}
+function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!bar)return;[['pHalo',PT.halo],['pCol',!PT.halo&&PT.pc],['pShp',!PT.halo&&PT.pm]].forEach(([id,on])=>$(id).setAttribute('aria-pressed',String(on)));
+  bar.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.m===PT.shape)));bar.classList.toggle('nohalo',!PT.halo);bar.hidden=S.mode==='play'||PT.halo;if(!PT.halo)haloClose()}
 (function(){const bar=document.createElement('div');bar.id='paintBar';bar.className='paintbar';bar.hidden=S.mode==='play';bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Edit: halo, colour and shape painting');
   const ic={pHalo:['Halo',(window.SurfaceRing&&SurfaceRing.MARK?'<g fill="currentColor" stroke="none">'+SurfaceRing.MARK.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g>':'<path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>'),'Halo: tap a cell to open its marks. Off: tap or drag to paint.'],pCol:['Colour','<path d="M12 3.5c3.2 4 5.5 6.8 5.5 9.6a5.5 5.5 0 0 1-11 0c0-2.8 2.3-5.6 5.5-9.6z"/>','Paint colour: dragging recolours marks without changing their shape or whether they are there'],pShp:['Shape','<path d="M8 3.5l4.5 8h-9z"/><circle cx="16.5" cy="16.5" r="4"/>','Paint shape: dragging reshapes marks without changing their colour or whether they are there']};
   const rail=document.createElement('div');rail.id='paintRail';rail.className='pill rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Edit: halo, colour and shape painting');
   Object.keys(ic).forEach(id=>{const b=document.createElement('button');b.type='button';b.id=id;b.className='ptg';b.title=ic[id][2];b.setAttribute('aria-label',ic[id][2]);b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+ic[id][1]+'</svg>';
-    b.onclick=()=>{if(id==='pHalo')PT.halo=!PT.halo;else if(id==='pCol')PT.pc=!PT.pc;else PT.pm=!PT.pm;ptSave();ptSync()};rail.appendChild(b)});
+    b.onclick=()=>{/* Halo and the painting strips are two modes of one thing: one or the other (Dimitry, 14 Nov 07:33) */if(id==='pHalo')PT.halo=true;else if(PT.halo)PT.halo=false;else if(id==='pCol')PT.pc=!PT.pc;else PT.pm=!PT.pm;ptSave();ptSync()};rail.appendChild(b)});
   const sep=document.createElement('i');sep.className='sep';bar.appendChild(sep);
   SHAPES.forEach(([id,nm],kd)=>{const b=document.createElement('button');b.type='button';b.className='pm';b.dataset.m=kd;b.setAttribute('aria-label','Shape: '+(kd?nm:'none'));b.title=kd?nm:'None';b.appendChild(glyph(kd,24));b.onclick=()=>{PT.shape=kd;ptSave();ptSync()};bar.appendChild(b)});
   {const br=document.querySelector('.side .brush');if(br){bar.insertBefore(br,sep)}}/* the colours live with the shapes they go with: toggles, colours, shapes (Dimitry, 14 Nov) */
@@ -1181,7 +1189,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape')haloClose()});document.queryS
 $('rec').onclick=recToggle;$('clrTake').onclick=clearTake;
 function railSync(){try{const p=S.mode==='play';$('mPlay').setAttribute('aria-pressed',String(p&&!S.hold));$('mHold').setAttribute('aria-pressed',String(p&&!!S.hold));$('mEdit').setAttribute('aria-pressed',String(S.mode==='edit'))}catch(e){}}
 function setMode(m){S.mode=m;document.documentElement.classList.toggle('ed',m==='edit');if(m!=='play'){S.hold=false;const mp=$('mPlay');if(mp)mp.classList.remove('fist')}releaseAll(true);try{holdSay()}catch(e){}if(m==='edit')[...HELD.keys()].filter(k=>typeof k==='number'&&k<1e6).forEach(k=>handOff(k));railSync();cv.classList.toggle('pen',m==='edit');cv.style.touchAction=touchFor();
-  document.querySelectorAll('.brush').forEach(b=>{b.hidden=m==='play'});const pb=$('paintBar');if(pb)pb.hidden=m==='play';ED.pick=null;if(m==='play')ED.sel=null;edSync();haloClose()}
+  document.querySelectorAll('.brush').forEach(b=>{b.hidden=m==='play'});const pb=$('paintBar');if(pb)pb.hidden=m==='play'||PT.halo;ED.pick=null;if(m==='play')ED.sel=null;edSync();haloClose()}
 /* sound */
 var OUTN=null,TIMB=null,irT=0;
 function irSet(){const L=Math.floor(AC.sampleRate*(.6+S.tail*5.4)),ir=AC.createBuffer(2,L,AC.sampleRate);for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<L;i++){const t=i/L;d[i]=(Math.random()*2-1)*Math.pow(1-t,2.6)*(i<200?i/200:1)}}REV.buffer=ir;if(GSR)GSR.buffer=ir}
