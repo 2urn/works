@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114121728";window.__VERSION__="0.5.71";window.__NOTES__=[{"v": "0.5.71", "date": "14 Nov 2026", "items": [{"kind": "", "text": "fixed: a quick double tap no longer zooms the screen on iPhone and iPad. The page now blocks the zoom itself, drops the second tap of a fast double tap (your two-finger and ring double taps still work), and snaps back if a zoom ever gets through."}]}]</script>
+<script>window.__BUILD__="20261114122422";window.__VERSION__="0.5.72";window.__NOTES__=[{"v": "0.5.72", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: the cell Halo is now one solid frame, no bigger than the grid squares around the cell: the eight marks as icons only, thin lines between them, the cell itself left visible in the middle (tap it for its next colour). The name of the square under your finger shows above the frame, and the square you press grows so it is easy to hit."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -378,6 +378,16 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 #padIs button svg,#padCyc svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 #padIs button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .brush[hidden]{display:none!important}
+.hf{position:fixed;z-index:60;display:grid;grid-template-columns:repeat(3,var(--hw));grid-template-rows:repeat(3,var(--hh));gap:0;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.5);opacity:0;transform:scale(.92);transition:opacity .12s,transform .12s}
+.hf.on{opacity:1;transform:none}
+.hf button{all:unset;box-sizing:border-box;display:grid;place-items:center;background:#15171a;box-shadow:inset 0 0 0 .5px #5a6068;color:#fff;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.hf button svg{width:80%;height:80%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.hf button[aria-pressed="true"]{background:var(--accent);color:#000}
+.hf button:active{background:#2a2e33;transform:scale(2.1);z-index:2;box-shadow:0 0 0 1px #444a52,0 4px 14px rgba(0,0,0,.6);border-radius:3px}.hf button[aria-pressed="true"]:active{background:var(--accent)}
+.hf button:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+.hf .hfc{background:transparent;box-shadow:inset 0 0 0 1px #fff}
+.hf .hfl{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);white-space:nowrap;padding:3px 9px;border-radius:999px;background:#15171a;color:#fff;font:500 12px var(--ui);letter-spacing:.06em;text-transform:uppercase;box-shadow:0 0 0 1px #444a52;pointer-events:none;opacity:0}
+.hf .hfl.on{opacity:1}.hf .hfl.below{bottom:auto;top:calc(100% + 6px)}
 .halo{position:fixed;width:0;height:0;z-index:60}
 .halo button{all:unset;position:absolute;left:0;top:0;box-sizing:border-box;border-radius:6px;display:grid;place-items:center;background:#15171a;border:1px solid #444a52;color:#fff;font:400 20px var(--ui);cursor:pointer;opacity:0;transform:translate(-50%,-50%) scale(.3);transition:transform .17s ease,opacity .17s ease;-webkit-tap-highlight-color:transparent}
 .halo.on button{opacity:1;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy)))}
@@ -1040,7 +1050,7 @@ function btnReset(n){const clk=e=>()=>{if(e)e.click()};
   if(n.matches('#hXyD .chips:not(.gopts) .chip'))return()=>{const f=[...document.querySelectorAll('#hXyD .chips:not(.gopts) .chip')].find(b=>b.textContent==='Open');if(f)f.click()};
   if(n.matches('.gopts [data-k]')&&n.dataset.k!=='clr')return()=>{for(let i=0;i<6&&GS[n.dataset.k]!==0;i++)n.click()};
   return null}
-function ctlOf(el){if(!el||!el.closest||el.closest('.gr,.halo,#cv'))return null;for(let n=el;n&&n!==document.body;n=n.parentElement){if(RESET.has(n))return{n,fn:RESET.get(n)};if(n.matches('input[type=range]'))return{n,fn:()=>{n.value=n.defaultValue;n.dispatchEvent(new Event('input',{bubbles:true}));n.dispatchEvent(new Event('change',{bubbles:true}))}};if(n.tagName==='BUTTON'||n.getAttribute('role')==='radio'){const f=btnReset(n);if(f)return{n,fn:f}}}return null}
+function ctlOf(el){if(!el||!el.closest||el.closest('.gr,.halo,.hf,#cv'))return null;for(let n=el;n&&n!==document.body;n=n.parentElement){if(RESET.has(n))return{n,fn:RESET.get(n)};if(n.matches('input[type=range]'))return{n,fn:()=>{n.value=n.defaultValue;n.dispatchEvent(new Event('input',{bubbles:true}));n.dispatchEvent(new Event('change',{bubbles:true}))}};if(n.tagName==='BUTTON'||n.getAttribute('role')==='radio'){const f=btnReset(n);if(f)return{n,fn:f}}}return null}
 (function(){let dd=null,last=null;
   document.addEventListener('pointerdown',e=>{dd={x:e.clientX,y:e.clientY,t:performance.now()}},true);
   document.addEventListener('pointerup',e=>{if(!dd)return;const mv=Math.hypot(e.clientX-dd.x,e.clientY-dd.y),du=performance.now()-dd.t;dd=null;if(mv>10||du>350){last=null;return}
@@ -1073,7 +1083,29 @@ function glyph(kd,sz){const cvg=document.createElement('canvas'),d=2;cvg.width=c
 const HPOS=[[-1,-1],[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0]];/* tic-tac-toe: the cell is the middle square, its eight neighbours are the marks (None first, then clockwise) */
 var CHALO=null;
 /* the cell's halo on the kit's ring (Current's chrome): its eight marks as dots, the cell staying visible in the gap (center:none); the colour is one dot that opens its own ring (Dimitry, 14 Nov: "Halo should switch to ring chrome from Current") */
-function haloOpen(c){if(CHALO&&CHALO.c.i===c.i&&CHALO.c.j===c.j){haloClose();return}if(!window.SurfaceRing)return haloOpenOld(c);haloClose();
+/* THE CELL'S FRAME (0.5.72, Dimitry 14 Nov: "gigantic square buttons ... no bigger than the grid squares around that target ... icons only, one shape, just lines between them, the label above"): a 3x3 frame of grid-cell-sized squares round the cell, the eight marks as icons only, hairlines between, the cell itself the hole in the middle (tap it to cycle its colour). The name of the square under the finger shows in a small label above the frame (below it when the frame is at the top). */
+function haloOpen(c){if(HALO&&HALO.c.i===c.i&&HALO.c.j===c.j){haloClose();return}haloClose();
+  const f=info(c.i,c.j),r=cv.getBoundingClientRect(),sc=r.width/(G.w||r.width),V=VC();
+  const ZW=Math.max(18,Math.round((f.cw||f.s)*sc)),ZH=Math.max(18,Math.round((f.ch||f.s)*sc)),W=ZW*3,H=ZH*3;
+  let x=r.left+f.cx*sc,y=r.top+f.cy*sc;const cx=Math.max(W/2+4,Math.min(innerWidth-W/2-4,x)),cy=Math.max(H/2+30,Math.min(innerHeight-H/2-4,y));
+  const el=document.createElement('div');el.className='hf';el.setAttribute('role','group');el.setAttribute('aria-label','Mark and colour for this cell');
+  el.style.cssText='left:'+(cx-W/2)+'px;top:'+(cy-H/2)+'px;width:'+W+'px;height:'+H+'px;--hw:'+ZW+'px;--hh:'+ZH+'px';
+  const lab=document.createElement('div');lab.className='hfl';lab.setAttribute('aria-live','polite');el.appendChild(lab);
+  const HI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+d+'</svg>',F='fill="currentColor" stroke="none"';
+  const SI=[HI('<circle cx="12" cy="12" r="7"/><path d="M7 17L17 7"/>'),HI('<circle cx="12" cy="12" r="3.6" '+F+'/>'),HI('<rect x="3" y="10" width="18" height="4" rx="2" '+F+'/>'),HI('<path d="M12 5l7 13H5z" '+F+'/>'),HI('<path d="M12 19L5 6h14z" '+F+'/>'),HI('<circle cx="12" cy="12" r="6.5"/>'),HI('<circle cx="8" cy="12" r="2.8" '+F+'/><circle cx="16" cy="12" r="2.8" '+F+'/>'),HI('<rect x="6" y="6" width="12" height="12" rx="1.5" '+F+'/>')];
+  const nm=kd=>kd?SHAPES[kd][1]:'None';
+  const show=t=>{lab.textContent=t;lab.classList.add('on')},rest=()=>show(nm(c.k.s)+' · colour '+(c.k.v+1));
+  const sync=()=>{el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===c.k.s)));rest()};
+  /* the label sits above the frame; at the top of the screen it drops below */
+  if(cy-H/2<34)lab.classList.add('below');
+  SHAPES.forEach((_,kd)=>{const b=document.createElement('button');b.type='button';b.dataset.s=kd;b.innerHTML=SI[kd];b.setAttribute('aria-label',nm(kd)+' in this cell');
+    b.style.gridColumn=HPOS[kd][0]+2;b.style.gridRow=HPOS[kd][1]+2;
+    b.addEventListener('pointerdown',()=>show(nm(kd)));b.addEventListener('pointerenter',()=>show(nm(kd)));b.addEventListener('focus',()=>show(nm(kd)));
+    b.onclick=ev=>{ev.stopPropagation();if(c.k.s===kd)return;histPush();if(kd>0&&c.k.s===0)c.k.v=S.brush;c.k.s=kd;draw();sync();show(nm(kd))};el.appendChild(b)});
+  const m=document.createElement('button');m.type='button';m.className='hfc';m.style.gridColumn=2;m.style.gridRow=2;m.setAttribute('aria-label','Colour of this cell: tap for the next');
+  m.onclick=ev=>{ev.stopPropagation();histPush();c.k.v=(c.k.v+1)%Math.max(1,S.nV);if(c.k.s===0)c.k.s=1;draw();sync();show('colour '+(c.k.v+1))};el.appendChild(m);
+  document.body.appendChild(el);HALO={el,c};sync();requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('on')))}
+function haloOpenRing(c){if(CHALO&&CHALO.c.i===c.i&&CHALO.c.j===c.j){haloClose();return}if(!window.SurfaceRing)return haloOpenOld(c);haloClose();
   const f=info(c.i,c.j),r=cv.getBoundingClientRect(),sc=r.width/(G.w||r.width),x=r.left+f.cx*sc,y=r.top+f.cy*sc,V=VC();
   const HI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+d+'</svg>',F='fill="currentColor" stroke="none"';
   const SI=[HI('<circle cx="12" cy="12" r="7"/><path d="M7 17L17 7"/>'),HI('<circle cx="12" cy="12" r="3.6" '+F+'/>'),HI('<rect x="3" y="10" width="18" height="4" rx="2" '+F+'/>'),HI('<path d="M12 5l7 13H5z" '+F+'/>'),HI('<path d="M12 19L5 6h14z" '+F+'/>'),HI('<circle cx="12" cy="12" r="6.5"/>'),HI('<circle cx="8" cy="12" r="2.8" '+F+'/><circle cx="16" cy="12" r="2.8" '+F+'/>'),HI('<rect x="6" y="6" width="12" height="12" rx="1.5" '+F+'/>')];
