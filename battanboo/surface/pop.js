@@ -34,8 +34,10 @@
     /* one corner for every pane over the stage: drawers, the bottom shelf, panels (Dimitry, 21 Oct night) */
     ":where(:root){--s-pane-radius:20px;--s-tile-w:64px;--s-tile-h:56px;--s-bead:40px;--s-seg-h:36px}",
     ":where(:root[data-sdial]){--s-tile-w:calc(64px * var(--s-ku,1));--s-tile-h:calc(56px * var(--s-ku,1));--s-bead:calc(40px * var(--s-ku,1));--s-seg-h:calc(36px * var(--s-ku,1))}",   /* the size dial (size.js) when the tool opts in */   /* the kit's sizes (CONVENTIONS › Sizes) */
-    ".spop{border-radius:var(--s-pane-radius,20px);overflow:hidden;background:rgb(var(--ui-g,14 14 16) / .9);border:1px solid rgb(var(--ui-hi,255 255 255) / .14);",
+    ".spop{border-radius:var(--s-pane-radius,20px);overflow:hidden;background:rgb(var(--ui-g,14 14 16) / var(--s-pane-alpha,.9));border:1px solid rgb(var(--ui-hi,255 255 255) / .14);",
     "  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ui-ink,#fff)}",
+    /* SEE-THROUGH (Dimitry, 14 Nov 2026, from Battanboo's heads-up display: "the more translucent panel ... nice to be able to see through the panel more on smaller devices"): add class spop-see to a panel, or set --s-pane-alpha on it (default .9; .55-.6 reads well over a busy stage), and the stage shows through, softened by a lighter blur */
+    ".spop.spop-see{--s-pane-alpha:.58;backdrop-filter:blur(8px) saturate(1.2);-webkit-backdrop-filter:blur(8px) saturate(1.2)}",
     ".spop-head{display:flex;justify-content:space-between;align-items:center;min-height:40px;padding:0 6px 0 16px;border-bottom:1px solid rgb(var(--ui-hi,255 255 255) / .08);",
     "  font:500 10px/1 var(--sc-mono,var(--mono,ui-monospace,Menlo,monospace));letter-spacing:.18em;text-transform:uppercase;color:var(--ui-dim,#a8a8a8)}",
     ".spop-x{width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;background:none;color:var(--ui-dim,#8f8f8f);cursor:pointer;font-size:0}",
