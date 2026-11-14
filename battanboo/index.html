@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114211839";window.__VERSION__="0.5.85";window.__NOTES__=[{"v": "0.5.85", "date": "14 Nov 2026", "items": [{"kind": "", "text": "added: Automation has two new switches. Seed the field (on) drops two or three quiet sounds into the field at random when the robot first starts. Replace field sounds (off) lets one of them fade every few auto rolls while a new one comes in somewhere else. Sounds you place yourself are never replaced."}]}]</script>
+<script>window.__BUILD__="20261114212437";window.__VERSION__="0.5.86";window.__NOTES__=[{"v": "0.5.86", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: a calmer first start. Tempo opens at 20 bpm, and only about four in ten rows and columns play, chosen at random, so the grid is sparse and slow. Everything can still be changed as before."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -747,7 +747,7 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
     <div class="ctl"><label for="way4">Fourth line</label><select id="way4"></select></div>
     <div class="ctl"><label for="ag4">Fourth line goes</label><select id="ag4"></select></div>
     <div class="ctl"><label for="feel">Feel</label><select id="feel"></select></div>
-    <div class="ctl"><label for="tempo">Tempo <output id="to"></output></label><input id="tempo" type="range" min="20" max="220" step="1" value="96"></div>
+    <div class="ctl"><label for="tempo">Tempo <output id="to"></output></label><input id="tempo" type="range" min="20" max="220" step="1" value="20"></div>
     <div class="ctl"><label for="viz">Notes show as</label><select id="viz"><option value="rain">Rain: a drop and ripples where each note lands</option><option value="bloom">Bloom: soft light that swells</option><option value="off">Nothing</option></select></div>
     <div class="ctl"><label for="durv">How long a sound lasts</label><select id="durv"><option value="off">Not shown</option><option value="dial">Dial: a ring that turns as it plays</option><option value="tail">Tail: the room it will take, pulling in</option><option value="dot">Dot: a playhead running to its end</option><option value="dt">Dial and tail</option><option value="all">All three</option></select></div>
     <div class="ctl"><label for="field">The field</label><select id="field"><option value="drift">Drift: specks the ripples push around</option><option value="off">Nothing</option></select></div>
@@ -842,8 +842,8 @@ const AGAINST=['1:1','3:2','2:3','4:3','3:4','2:1','1:2','5:4'];
 const FEELS=['steady','swing','noise','random'];
 const REROLL=[['off','Never'],['1','Every pass'],['2','Every 2 passes'],['4','Every 4 passes'],['rand','At random']];
 const WANDER={'Still':{rr:'off',t:0,f:0,pa:0,hop:0},'Gentle':{rr:'4',t:.06,f:.1,pa:.1,hop:0},'Restless':{rr:'1',t:.16,f:.25,pa:.25,hop:0},'Chance':{rr:'rand',t:.3,f:.4,pa:.35,hop:1}};
-const S={gs:'off',vol:.7,timbre:1,tail:.48,grain:.5,air:0,mix:{lv:[.7,.7,.7,.7,.7,.7,.7,.7],mute:[],solo:[]},space:0,tex:'soft',morph:0,slotsB:[],meet:'bloom',nV:4,tune:[0,0,0,0,0,0,0,0],slots:[],flat:0,N:12,p:.618,stick:.25,drift:0,tempo:96,scale:'Minor pentatonic',root:0,way:'right',ex:[{way:'none',ag:'1:1'},{way:'none',ag:'1:1'},{way:'none',ag:'1:1'}],feel:'steady',brush:0,
- g:{cart:null,pol:null},mode:'play',playing:false,cur:[-1,-1,-1,-1],eff:{way:'right',ex:['none','none','none']},live:{tempo:96,p:.618,stick:.25},w:{rr:'off',t:0,f:0,pa:0,hop:0}};
+const S={gs:'off',vol:.7,timbre:1,tail:.48,grain:.5,air:0,mix:{lv:[.7,.7,.7,.7,.7,.7,.7,.7],mute:[],solo:[]},space:0,tex:'soft',morph:0,slotsB:[],meet:'bloom',nV:4,tune:[0,0,0,0,0,0,0,0],slots:[],flat:0,N:12,p:.618,stick:.25,drift:0,tempo:20,scale:'Minor pentatonic',root:0,way:'right',ex:[{way:'none',ag:'1:1'},{way:'none',ag:'1:1'},{way:'none',ag:'1:1'}],feel:'steady',brush:0,
+ g:{cart:null,pol:null},mode:'play',playing:false,cur:[-1,-1,-1,-1],eff:{way:'right',ex:['none','none','none']},live:{tempo:20,p:.618,stick:.25},w:{rr:'off',t:0,f:0,pa:0,hop:0}};
 S.sw={cart:{L:[],B:[]},pol:{L:[],B:[]}};S.lk={cart:{L:[],B:[]},pol:{L:[],B:[]}};S.keepOff=true;S.wv={on:false,pat:'weave',amt:'primes',every:1,step:1,edge:'lock'};
 const wpick=w=>{let t=0;for(const x of w)t+=x;let u=rnd()*t;for(let i=0;i<w.length;i++){u-=w[i];if(u<=0)return i}return w.length-1};
 const D=()=>({N:S.N,R:Math.max(4,Math.round(S.N*.6)),K:S.N});
@@ -1628,7 +1628,7 @@ SHAPES.forEach((sh,i)=>{const d=document.createElement('div'),c=document.createE
   const s=document.createElement('span');s.textContent=sh[1];d.append(c,s);lg.appendChild(d)});
 addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('play').click()}else if(e.key==='r'||e.key==='R')$('roll').click()});
 addEventListener('resize',draw);
-scenes=[S.g];si=0;SETS_INIT();robotBeat();ensure();navSync();syncSel();wset();setMode('play');draw();status();
+scenes=[S.g];si=0;SETS_INIT();robotBeat();/* a calm first visit (Dimitry, 14 Nov): 20 bpm and a sparse grid, with only some rows and columns playing */try{const n=D().N,sp=a=>{const k=Math.max(2,Math.round(n*.4)),on=new Set();while(on.size<k)on.add((Math.random()*n)|0);for(let i=0;i<n;i++)a[i]=on.has(i)?0:1};sp(S.sw.cart.L);sp(S.sw.cart.B)}catch(e){}ensure();navSync();syncSel();wset();setMode('play');draw();status();
 window.__score=S;/* sounds you bring in or record are kept in this browser (IndexedDB) and come back next visit */
 const SMP=new Map(),PEND=new Map(),GROUPS=[];let pdb=null;
 function regSample(key,b){KIT().sample(key,b);SMP.set(key,b)}
