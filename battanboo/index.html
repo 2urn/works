@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114125738";window.__VERSION__="0.5.79";window.__NOTES__=[{"v": "0.5.79", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: every pane of the heads-up display now has a clear title across the top, with its icon and its place in the strip (for example \"Mixer, 1 / 8\"), the way Current names its panels, so you always know where you are."}]}]</script>
+<script>window.__BUILD__="20261114130634";window.__VERSION__="0.5.80";window.__NOTES__=[{"v": "0.5.80", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: the hand button no longer has a hidden pop-out menu, because hand, hold and pencil are all on the rail already."}, {"kind": "", "text": "changed: in edit mode the pencil and its five tools (column, row, copy, cut, paste) are one block, and the yellow edge runs down all of it instead of capping the pencil and leaving a gap."}, {"kind": "", "text": "changed: touching the pencil now morphs the rail: the icons that go slide down and fade, the new ones slide up into place, and it runs in reverse when you go back to the hand."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -285,6 +285,11 @@ header{display:flex;align-items:center;gap:10px}
 #mEdit[aria-pressed="true"]{border-color:var(--accent)}
 /* the pencil's rail: hold means nothing while editing, and the edit tools sit tighter, so the colours below keep their room (Dimitry, 14 Nov: pencil UI broken) */
 html.ed #mHold{display:none}html.ed .side .rail button{min-height:40px}html.ed #railField,html.ed #railLoad,html.ed #railBot{display:none}
+@keyframes mIn{from{opacity:0;transform:translateY(46px)}}@keyframes mOut{to{opacity:0;transform:translateY(70px)}}
+.mIn{animation:mIn .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*50ms)}.mOut{pointer-events:none;z-index:5;animation:mOut .34s cubic-bezier(.5,0,.8,.4) forwards;animation-delay:calc(var(--o,0)*30ms)}
+/* the pencil owns its tools: in edit mode the rail and the five tools are one block, and the yellow edge runs down all of it instead of capping the pencil and stopping (Dimitry, 14 Nov) */
+html.ed.logoUp .side>#railTop{transform:none}html.ed #railTop{margin-bottom:-9px;border-bottom-left-radius:0;border-bottom-right-radius:0}html.ed #mEdit{border-color:var(--line)}
+html.ed #edTools{position:relative;border-top-left-radius:0;border-top-right-radius:0}html.ed #edTools button:first-child{border-radius:0}html.ed #edTools::before{content:"";position:absolute;left:-1px;top:-1px;bottom:0;width:2px;background:var(--accent);pointer-events:none;z-index:1}
 .xys{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:0}.xy{position:relative;height:78px;min-width:0;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.05);touch-action:none;cursor:crosshair;overflow:hidden;-webkit-user-select:none;user-select:none}.xy canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .xy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 #hArr{flex-wrap:wrap!important;overflow:visible!important}.hpane{overflow-x:hidden}.hpane .mlist{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))!important}.hpane .frow .chip{max-width:100%;white-space:normal;height:auto;min-height:36px;padding-block:6px;text-align:left}.hud .hbar .s-snav-band{background:none;border:0;border-left:1px solid rgb(255 255 255 / .1);border-radius:0}
@@ -2336,7 +2341,15 @@ const goHand=h=>{LASTHOLD=!!h;if(S.mode!=='play')setMode('play');setHold(!!h)};
 $('mPlay').onclick=()=>{if(S.mode==='play'&&!S.hold)goHand(true);else goHand(false)};
 $('mHold').onclick=()=>{if(S.mode==='play'&&S.hold)goHand(false);else goHand(true)};
 $('mEdit').onclick=()=>{if(S.mode==='edit')goHand(LASTHOLD);else{LASTHOLD=!!S.hold;setHold(false);setMode('edit')}};
-/* full screen has no rail. Two fingers: double tap swaps touch and hold; triple tap swaps the layer in front, grid or field (Dimitry, 14 Nov) */
+/* the pencil morphs the rail: what leaves slides down and fades (a ghost of it, since the real one is already gone), what arrives slides up into its place, and the same in reverse (Dimitry, 14 Nov) */
+(function(){const ids=['mHold','edTools','paintRail','paintRail2','railField','railLoad','railBot','paintBar'],rm=matchMedia('(prefers-reduced-motion:reduce)'),orig=setMode;
+  setMode=function(m){if(rm.matches||m===S.mode)return orig.apply(this,arguments);
+    const before=ids.map(id=>{const e=$(id);if(!e||!e.getClientRects().length)return null;const r=e.getBoundingClientRect();return{e,r,d:getComputedStyle(e).display,c:e.cloneNode(true)}});
+    const out=orig.apply(this,arguments);let i=0,o=0;
+    ids.forEach((id,k)=>{const e=$(id);if(!e)return;const vis=e.getClientRects().length>0,b=before[k];
+      if(vis&&!b){e.style.setProperty('--i',i++);e.classList.remove('mIn');void e.offsetWidth;e.classList.add('mIn');setTimeout(()=>e.classList.remove('mIn'),1000)}
+      else if(!vis&&b){const g=b.c;g.setAttribute('aria-hidden','true');g.inert=true;g.classList.add('mOut');g.style.cssText='position:fixed;margin:0;left:'+b.r.left+'px;top:'+b.r.top+'px;width:'+b.r.width+'px;height:'+b.r.height+'px;--o:'+(o++)+';display:'+b.d+' !important';b.e.parentNode.appendChild(g);setTimeout(()=>g.remove(),800)}});
+    return out}})();/* full screen has no rail. Two fingers: double tap swaps touch and hold; triple tap swaps the layer in front, grid or field (Dimitry, 14 Nov) */
 const swapLayer=()=>{const toField=FLD2.touch!=='field';if(toField)FLD2.fon=true;else FLD2.gon=true;FLD2.touch=toField?'field':'pad';fldSave();fldSync();try{$('status').textContent=toField?'Field in front.':'Grid in front.'}catch(_){}};
 (function(){let t0=0,n=0,last=0,tm=0,mv=false,sx=0,sy=0;const full=()=>document.documentElement.classList.contains('full');
  const fire=()=>{tm=0;const c=n;n=0;if(!full()||S.mode!=='play')return;if(c>=3)swapLayer();else if(c===2){goHand(!S.hold);try{$('status').textContent=S.hold?'Hold hand':'Touch hand'}catch(_){}}};
@@ -2429,10 +2442,7 @@ $('status').onclick=()=>$('status').parentNode.classList.toggle('open');
 flyOn($('mHud'),(f,close)=>{
   flyBtn(f,'Audience view: only the pad and the A\u2013B slider',IC('<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M9 21h6M12 17v4"/>'),false,()=>{close();audSet(true)});
   flyBtn(f,STATS?'Live stats: on':'Live stats: off',IC('<path d="M4 19V9M10 19V5M16 19v-7M21 19H3"/>'),STATS,()=>{statsSet(!STATS);close()})});
-/* the pencil's flyout: hand, fist or pencil, by picture */
-flyOn($('mPlay'),(f,close)=>{[['One shot: sounds while you touch','play','hand'],['Hold: sounds stay after you let go','hold','fst'],['Edit the pad','edit','pen']].forEach(([n,m,k])=>{const on=m==='edit'?S.mode==='edit':(S.mode==='play'&&(m==='hold')===!!S.hold);
-  flyBtn(f,n,RAILSVG(k),on,()=>{if(m==='edit'){setHold(false);if(S.mode!=='edit')setMode('edit')}else{if(S.mode!=='play')setMode('play');setHold(m==='hold')}close()})});
-  if(HOLDS.size)flyBtn(f,'Let go of all',IC('<path d="M5 12h14M12 5v14" transform="rotate(45 12 12)"/>'),false,()=>{holdAll();close()})});
+/* no flyout on the hand any more: hand, hold and pencil are all on the rail (Dimitry, 14 Nov) */
 
 /* AUTO DICE (from Current's Auto): a new scene on a timer while the score plays; beads on a string pick how often, the first bead is random timing */
 /* the counts, as in Current's time scale: pair (doublings, the clock ladder in seconds), Fibonacci and primes, at most eight beads spread evenly on a log scale */
