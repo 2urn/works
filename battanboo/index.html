@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114062310";window.__VERSION__="0.5.64";window.__NOTES__=[{"v": "0.5.64", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: the heads-up pane \"Lines and auto dice\" is now \"Lines and dice\"."}]}]</script>
+<script>window.__BUILD__="20261114112007";window.__VERSION__="0.5.65";window.__NOTES__=[{"v": "0.5.65", "date": "14 Nov 2026", "items": [{"kind": "", "text": "fixed: the four round corner buttons around the grid (swap, lock and friends) could stretch into tall ovals when the stage grew taller than the grid. They now stay round and a fixed size."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -402,7 +402,7 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 /* icon-only controls in a rounded shape are always circles */
 #autoOn,.chip.uni,.adWrap .chip.uni{width:40px;height:40px;min-width:40px;min-height:40px;padding:0;border-radius:50%}
 #paintBar .pm{border-radius:50%}
-.cnr button{border-radius:50%;aspect-ratio:1;width:auto;height:100%;max-width:100%;justify-self:center}
+.cnr button{border-radius:50%;aspect-ratio:1;width:min(100%,32px);height:auto;max-height:100%;max-width:100%;justify-self:center;align-self:center}
 /* THE HERO (Dimitry, 10 Nov): header, score, bar and the line under it sit on one field of light that runs the full width of the screen, behind the frosted frame and the bar. Full screen hides everything below it. */
 body{overflow-x:clip}
 .wrap>:not(#hero):not(#dscMark):not(#launch){width:100%;max-width:880px;align-self:center}
