@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114011139";window.__VERSION__="0.5.46";window.__NOTES__=[{"v": "0.5.46", "date": "13 Nov 2026", "items": [{"kind": "new", "text": "Shuffle plays, in Auto dice. Each roll can now move which rows and columns play, as rhythms instead of dice: Walk (a Euclidean rhythm that turns one step each roll), Breathe (a voice comes or goes), Phase (columns and rows slide together, a diagonal), Dealer (a fresh deal) and Flip (play and no-play swap). Choose x columns, y rows or both, and Locks stay keeps locked and always-on rows and columns where they are. Shuffle now does it once."}]}]</script>
+<script>window.__BUILD__="20261114012927";window.__VERSION__="0.5.47";window.__NOTES__=[{"v": "0.5.47", "date": "13 Nov 2026", "items": [{"kind": "new", "text": "MIDI out. Open the MIDI pane and switch on \"Send notes out\": every note the grid plays also goes out as a MIDI note, a channel for each colour (or all on channel 1), drums on channel 10, timed to the sound. Pick the output from the list. Chrome on a Mac or a PC; Safari has no MIDI."}, {"kind": "new", "text": "MIDI clock out. Switch on \"Clock out\" and the tempo goes out as MIDI clock (24 a beat) with Start when the robot starts and Stop when it stops, so a synth, a drum machine or Ableton can follow. Tempo changes and glides carry through. Following an outside clock comes later."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -509,6 +509,7 @@ html.intro #cv{opacity:0}html.introOut #cv{opacity:1;transition:opacity .5s ease
 @keyframes moP{from{background:hsl(var(--mh) 90% 55%/.35)}to{background:hsl(var(--mh) 90% 60%/.7)}}
 #midiPanel{position:fixed;z-index:510;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(440px,calc(100vw - 24px));box-sizing:border-box;padding:10px 12px;border-radius:14px;background:rgba(18,18,24,.94);color:#f2f2f2;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px;font:500 13px var(--ui)}
 @media (min-width:900px){#midiPanel{top:auto;bottom:max(150px,18vh)}}
+.mout{margin:6px 0;display:flex;flex-direction:column;gap:6px}.mout .mosel{font:600 12px var(--ui);background:#15151a;color:#eee;border:1px solid #444;border-radius:8px;padding:6px 8px;max-width:100%;min-height:34px}
 #midiPanel .mph{display:flex;align-items:center;justify-content:space-between}#midiPanel .mph b{font:800 13px var(--ui);letter-spacing:.14em;text-transform:uppercase}#midiPanel p{margin:0;font-size:13px;color:#f2f2f2}#midiPanel .mseen{color:#aaa;font:600 12px ui-monospace,Menlo,monospace}
 #midiPanel .mpr{display:flex;align-items:center;gap:6px}#midiPanel .mpr span{font-size:12px;color:#aaa}@media (max-width:519px){#midiPanel .mseen{display:none}#midiPanel{padding:8px 10px;gap:6px}}#midiPanel .mpd,#midiPanel .mpf{display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:#aaa}#midiPanel .chip{min-height:34px;padding:0 12px;background:#ffffff14;color:#f2f2f2;border-color:#ffffff30}#midiPanel .chip[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .hdr{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.hdr .chip{min-height:34px;padding:0 12px}.rail #mMidi[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}.hdr .chip[aria-pressed=true],#xfMidi[aria-pressed=true],#mMidi[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
@@ -1415,7 +1416,7 @@ function tempoRetime(){const prev=TBASE==null?S.tempo:TBASE;TBASE=S.tempo;if(!S.
     S.live.tempo=nxt;MREF=null;robotBeat();if(k>=steps)clearInterval(TGLIDE)};
   one();if(steps>1)TGLIDE=setInterval(one,70)}
 function emit(lim){while(evs.length&&evs[0].time<lim){const e=evs.shift();playStep(e);disp.push(e)}}
-function sched(){LOAD.tick();const lim=AC.currentTime+.14;emit(lim);while(nextCycle<lim){buildCycle();emit(lim)}}
+function sched(){LOAD.tick();const lim=AC.currentTime+.14;emit(lim);while(nextCycle<lim){buildCycle();emit(lim)}try{MOUT.tick(lim)}catch(e){}}
 function status(){const e=S.eff;const more=e.ex.map((w,k)=>w==='none'?'':' + '+WAYN[w]+' ('+S.ex[k].ag+')').join('');
   $('status').textContent='Scene '+(si+1)+' of '+scenes.length+' · '+(S.playing?'Now: ':'Ready: ')+Math.round(S.playing?S.live.tempo:S.tempo)+' bpm · '+WAYN[e.way]+more+' · holds '+Math.round((S.playing?S.live.p:S.p)*100)+'% · repeats '+Math.round((S.playing?S.live.stick:S.stick)*100)+'%'}
 function resolveSlot(id,v){let e=byId(id);if(!e&&id==='lib:sustain*')e=byId('lib:sustain');if(!e&&id==='lib:air*')e=byId('lib:air');if(!e)e=byId(DSLOT(v))||byId('syn:'+(v%4));const o=e.make();o.id=e.id;return o}
@@ -1428,9 +1429,9 @@ function ears(d){const h=document.documentElement,c='robo-ear-'+d;h.classList.re
 function frame(){try{SurfaceSelfTest.beat()}catch(_){}robotBeat();const now=AC.currentTime;let ch=false;while(disp.length&&disp[0].time<=now){const e=disp.shift();if(S.cur[e.line]!==e.t){S.cur[e.line]=e.t;ch=true}}if(ch||MEET.size)draw();if(ch)fxKick();status();raf=requestAnimationFrame(frame)}
 var RESUME=null;try{S.resume=localStorage.getItem('battanboo.resume')==='restart'?'restart':'resume'}catch(e){S.resume='resume'}
 function play(){try{PREP.remind()}catch(e){}ensureAudio();AC.resume();try{note(AC.currentTime+.01,72,.25,.5,2,0)}catch(e){}
-  S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;S.cur=[-1,-1,-1,-1];evs=[];MB.length=0;MREF=null;disp=[];const rs=S.resume!=='restart'&&RESUME&&RESUME.si===si&&RESUME.stamp===SST;cycleIdx=rs?RESUME.idx:0;SKIP=rs?RESUME.off:0;NODEC=rs&&SKIP>0;CYCS=[];nextCycle=AC.currentTime+.08;S.playing=true;
+  S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;S.cur=[-1,-1,-1,-1];evs=[];MB.length=0;MREF=null;disp=[];const rs=S.resume!=='restart'&&RESUME&&RESUME.si===si&&RESUME.stamp===SST;cycleIdx=rs?RESUME.idx:0;SKIP=rs?RESUME.off:0;NODEC=rs&&SKIP>0;CYCS=[];nextCycle=AC.currentTime+.08;S.playing=true;try{MOUT.start(nextCycle)}catch(e){}
   sched();timer=setInterval(sched,25);raf=requestAnimationFrame(frame);$('play').setAttribute('aria-pressed','true');$('play').classList.add('on');$('play').title=$('play').ariaLabel='Stop the lines'}
-function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll(true);S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
+function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll(true);try{MOUT.stop()}catch(e){}S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
 $('play').onclick=()=>S.playing?stop():play();
 $('roll').onclick=()=>{ears('f');rollNew()};
 (function(){const b=$('roll');let d=null,drag=false,eat=false;
@@ -2719,7 +2720,7 @@ const HITLOG=[];
 function logHit(k,l,when,sd){try{const sl=S.slots[k.v]||S.slots[0],drum=!!(sl&&sl.t==='bank'&&sl.name==='Drum kit');
   const GMD=[36,38,42,46,45,50,39,37],p=drum?GMD[l%8]:Math.max(0,Math.min(127,Math.round(midiOf(l)+Math.round(S.tune[k.v]||0))));
   const vel=Math.max(28,Math.min(127,Math.round(cg(k.v)*85*(k.s===5?.6:k.s===7?1.4:1))));
-  HITLOG.push({t:when,v:k.v,s:k.s,sd:sd0(sd),p,vel,drum,name:(sl&&sl.name)||''});if(HITLOG.length>20000)HITLOG.splice(0,4000)}catch(e){}}
+  HITLOG.push({t:when,v:k.v,s:k.s,sd:sd0(sd),p,vel,drum,name:(sl&&sl.name)||''});MOUT.note(when,p,vel,sd0(sd),k.v,drum);if(HITLOG.length>20000)HITLOG.splice(0,4000)}catch(e){}}
 function sd0(x){return x>0?Math.min(x,.5):.2}
 /* the frame: pad and its light on black, fitted into the shape */
 function capDims(shape,kind){const long=kind==='gif'?480:1920;let r;
@@ -2895,6 +2896,37 @@ else{try{localStorage.removeItem(KEEP.key)}catch(_){}}
 (function(){const row=$('hpClear')&&$('hpClear').parentNode;if(!row)return;const b=document.createElement('button');b.type='button';b.className='chip';b.id='hpBlank';b.textContent='Start blank';b.title='Forget the saved working state and begin with an empty grid';
   b.onclick=()=>{try{localStorage.removeItem(KEEP.key)}catch(_){}KEEP.off=true;location.reload()};row.appendChild(b)})();
 /* ===== MIDI: any knob or slider on a controller can drive any slider here ===== */
+/* MIDI OUT AND CLOCK (Dimitry, 13 Nov: "add midi out, clock"). Every note the grid plays also goes out as a MIDI note (a channel per colour, or all on 1; drums on 10),
+   timed to the sound by the audio clock plus the device's output delay, and the tempo goes out as MIDI clock (24 a beat) with Start and Stop, so a synth, a drum machine or Ableton can follow. Chrome on a Mac or a PC; Safari has no Web MIDI. */
+const MOUT=(function(){
+  const K='battanboo.midiout';let st={on:false,out:'',clock:false,mode:'colour'};try{st=Object.assign(st,JSON.parse(localStorage.getItem(K)||'{}'))}catch(_){}
+  let acc=null,msg='',clkNext=0,clkRun=false;const used=new Set();
+  const save=()=>{try{localStorage.setItem(K,JSON.stringify(st))}catch(_){}};
+  const outs=()=>{const a=[];if(acc)acc.outputs.forEach(p=>a.push(p));return a};
+  const port=()=>{const a=outs();return st.out===''?(a[0]||null):(a.find(p=>p.id===st.out)||null)};
+  const ts=w=>{const lat=AC?(AC.outputLatency||AC.baseLatency||0):0;return Math.max(performance.now(),performance.now()+(w-(AC?AC.currentTime:0)+lat)*1000)};
+  const send=(d,t)=>{const o=port();if(!o)return;try{o.send(d,t)}catch(e){}};
+  const connect=async()=>{if(!navigator.requestMIDIAccess){msg='This browser has no MIDI. Chrome on a Mac or a PC has it; Safari on an iPhone or iPad does not.';return false}
+    try{if(!acc){acc=await navigator.requestMIDIAccess();acc.onstatechange=()=>{try{ui.re&&ui.re()}catch(e){}}}msg=outs().length?'':'No MIDI output found. Plug in an interface, or turn on a virtual port (IAC on a Mac), then try again.';return true}
+    catch(e){msg='MIDI was not allowed. Allow it in the browser, then try again.';return false}};
+  const chOf=(v,drum)=>drum?9:st.mode==='one'?0:Math.min(7,v|0);
+  function note(when,p,vel,sd,v,drum){if(!st.on||!acc)return;const ch=chOf(v,drum);used.add(ch);const t=ts(when);send([0x90|ch,p,vel],t);send([0x80|ch,p,0],t+Math.max(30,sd*1000))}
+  function panic(){const o=port();if(!o)return;try{o.clear&&o.clear()}catch(e){}used.forEach(ch=>{send([0xb0|ch,123,0]);send([0xb0|ch,120,0])});used.clear()}
+  function start(t){if(!st.clock||!acc)return;clkNext=t;clkRun=true;send([0xfa],ts(t))}
+  function tick(lim){if(!clkRun||!st.clock||!acc)return;let n=0;const bpm=Math.max(15,(S.live&&S.live.tempo)||S.tempo||100);while(clkNext<lim&&n++<200){send([0xf8],ts(clkNext));clkNext+=60/bpm/24}}
+  function stop(){if(clkRun){clkRun=false;send([0xfc])}panic()}
+  const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+  function ui(re){ui.re=re;const d=el('div','mout');d.appendChild(el('p','ahint','Send MIDI out: every note goes to a synth or your music software, and the tempo goes out as MIDI clock so they keep time. Output timing follows the sound.'));
+    const row=el('div','chips');
+    const chip=(label,on,fn,title)=>{const b=el('button','chip',label);b.type='button';b.setAttribute('aria-pressed',String(!!on));if(title)b.title=title;b.onclick=fn;row.appendChild(b);return b};
+    chip('Send notes out',st.on,async()=>{if(!st.on){if(!(await connect())){re();return}}st.on=!st.on;save();if(!st.on)panic();re()},'Send every note as MIDI (a channel for each colour, drums on 10)');
+    chip('Clock out',st.clock,async()=>{if(!st.clock){if(!(await connect())){re();return}}st.clock=!st.clock;save();if(st.clock){if(S.playing&&AC)start(AC.currentTime+.05)}else{if(clkRun){clkRun=false;send([0xfc])}}re()},'Send MIDI clock, Start and Stop with the robot');
+    chip(st.mode==='one'?'All on channel 1':'A channel per colour',false,()=>{st.mode=st.mode==='one'?'colour':'one';save();re()},'Colour 1 to 8 on channels 1 to 8, or everything on channel 1; drums are always on 10');
+    d.appendChild(row);
+    const a=outs();if(a.length){const sel=el('select','mosel');sel.setAttribute('aria-label','MIDI output');a.forEach(p=>{const o=el('option',null,p.name||p.id);o.value=p.id;sel.appendChild(o)});sel.value=(port()||{}).id||'';sel.onchange=()=>{panic();st.out=sel.value;save()};d.appendChild(sel)}
+    d.appendChild(el('p','ahint mseen',msg||(st.on||st.clock?(port()?'Sending to '+(port().name||'the output')+'.':'Tap a switch above to connect.'):'')));return d}
+  if((st.on||st.clock)&&navigator.requestMIDIAccess)connect();
+  return{ui,note,tick,start,stop,connect,panic,st:()=>st,outs}})();
 const MIDI=(function(){
   /* MIDI learn, in place (Dimitry, 11 Nov): the MIDI button (bottom right of every heads-up display, and by the crossfader) paints a coloured
      shape over every control a knob can move. Tap a shape, move a knob: its number appears inside the shape. Off = learned and hidden;
@@ -2993,7 +3025,7 @@ const MIDI=(function(){
     const top=document.createElement('div');top.className='mtop';
     const cb=document.createElement('button');cb.type='button';cb.className='chip';cb.textContent=acc&&devs.length?'Connected':'Connect MIDI';cb.setAttribute('aria-pressed',String(!!(acc&&devs.length)));cb.onclick=connect;top.appendChild(cb);
     const lb0=document.createElement('button');lb0.type='button';lb0.className='chip';lb0.textContent='Map on the controls';lb0.setAttribute('aria-pressed',String(on));lb0.title='Show a shape over every control a knob can move; tap one, move a knob';lb0.onclick=()=>{setOn(!on);render()};top.appendChild(lb0);
-    const dv=document.createElement('span');dv.className='mdev';dv.textContent=!can?'No MIDI in this browser (Chrome on a Mac or a PC has it).':devs.length?devs.map(d=>d.name+(off[d.id]?' (off)':'')).join(' · '):(msgNote||'Tap Connect, then allow MIDI.');top.appendChild(dv);box.appendChild(top);
+    const dv=document.createElement('span');dv.className='mdev';dv.textContent=!can?'No MIDI in this browser (Chrome on a Mac or a PC has it).':devs.length?devs.map(d=>d.name+(off[d.id]?' (off)':'')).join(' · '):(msgNote||'Tap Connect, then allow MIDI.');top.appendChild(dv);box.appendChild(top);try{box.appendChild(MOUT.ui(render))}catch(e){}
     const sn=document.createElement('p');sn.className='ahint mseen';sn.textContent=seen||'Move any knob to see its number here.';box.appendChild(sn);
     const pr=document.createElement('div');pr.className='chips';
     const tw=document.createElement('button');tw.type='button';tw.className='chip';tw.textContent='MIDI Fighter Twister: 16 knobs';tw.title='Knobs 1 to 16 (CC 0 to 15, channel 1): crossfader, field, volume, tone, air, space, morph, holds, then colours 1 to 8. Check the numbers with the line above; Learn fixes any that differ.';tw.onclick=()=>{Object.keys(map).forEach(k=>delete map[k]);TW.forEach((id,i)=>{map['*|0|'+i]={id}});save();render();paintAll();$('status').textContent='Twister layout set: knobs 1 to 16.'};pr.appendChild(tw);
@@ -3079,7 +3111,7 @@ function keep(){clearTimeout(LSLT);LSLT=setTimeout(lineSlClose,7000)}
   b.addEventListener('pointerdown',()=>{held=false;clearTimeout(t);t=setTimeout(()=>{held=true;if(document.documentElement.classList.contains('full')){lineSlOpen();$('status').textContent='The line-ups: slide a finger up or down. Tap the robot to start or stop it.';navigator.vibrate&&navigator.vibrate(15);return}try{hudReveal(document.getElementById('hArr'),1,b);$('status').textContent='The play lines: how they run, at the top of this pane. Tap the robot to start or stop it.';navigator.vibrate&&navigator.vibrate(15)}catch(e){}},520)});
   ['pointerup','pointercancel','pointerleave'].forEach(n=>b.addEventListener(n,()=>clearTimeout(t)));
   document.addEventListener('click',e=>{if(held&&e.target&&e.target.closest&&e.target.closest('#play')){held=false;e.stopPropagation();e.preventDefault()}},true)})();
-window.__t=Object.assign(window.__t||{},{HOLDS:()=>[...HOLDS],AUTO,autoRoll,lineSlOpen,SONI,FLD2,FV,fldEl,DURL,LOAD,BED,FPK,master:()=>master,ensureAudio,recPlay,playOne,slotOf,fldRing,fldDup,fldRandPath,fldPathEnd,fldMake,fldSnd,fldResrc,fldFade,ROOMS,FFADE:()=>FFADE,FREV:()=>FREV,VBUS:()=>VBUS,MIDI,FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame,KEEP,keepSnap,keepRead,keepWrite});
+window.__t=Object.assign(window.__t||{},{MOUT,HOLDS:()=>[...HOLDS],AUTO,autoRoll,lineSlOpen,SONI,FLD2,FV,fldEl,DURL,LOAD,BED,FPK,master:()=>master,ensureAudio,recPlay,playOne,slotOf,fldRing,fldDup,fldRandPath,fldPathEnd,fldMake,fldSnd,fldResrc,fldFade,ROOMS,FFADE:()=>FFADE,FREV:()=>FREV,VBUS:()=>VBUS,MIDI,FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame,KEEP,keepSnap,keepRead,keepWrite});
 
 })();
 
