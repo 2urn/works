@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261114122422";window.__VERSION__="0.5.72";window.__NOTES__=[{"v": "0.5.72", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: the cell Halo is now one solid frame, no bigger than the grid squares around the cell: the eight marks as icons only, thin lines between them, the cell itself left visible in the middle (tap it for its next colour). The name of the square under your finger shows above the frame, and the square you press grows so it is easy to hit."}]}]</script>
+<script>window.__BUILD__="20261114122635";window.__VERSION__="0.5.73";window.__NOTES__=[{"v": "0.5.73", "date": "14 Nov 2026", "items": [{"kind": "", "text": "changed: while you edit, the Halo, Colour and Shape switches moved to the right rail under the clipboard buttons (icons only). The colours and the shapes are now two rows of round buttons in the same eight columns, so each colour sits directly over a shape. That frees the row they used under the stage."}]}]</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -413,6 +413,16 @@ canvas#cv.pen{cursor:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/
 /* icon-only controls in a rounded shape are always circles */
 #autoOn,.chip.uni,.adWrap .chip.uni{width:40px;height:40px;min-width:40px;min-height:40px;padding:0;border-radius:50%}
 #paintBar .pm{border-radius:50%}
+/* 0.5.73 (Dimitry 14 Nov 07:25): the three switches live on the right rail under the clipboard (icons only); the colours and the shapes are two rows of round buttons stacked in the same eight columns */
+#paintRail{display:none}html.ed #paintRail{display:flex}
+#paintRail button{min-height:40px}#paintRail button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#paintRail .ptg{display:grid;place-items:center}
+#paintBar{display:grid;grid-template-columns:repeat(8,1fr);gap:6px 4px;align-items:center;margin:8px 0}#paintBar[hidden]{display:none}
+#paintBar .brush{grid-column:1/-1;display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:0}
+#paintBar .brush button,#paintBar .pm{position:relative;width:min(100%,44px);height:auto;aspect-ratio:1;min-height:0;justify-self:center;border-radius:50%;padding:0}
+#paintBar .brush button[hidden]{display:none}
+#paintBar .brush i{position:absolute;inset:24%;border-radius:50%;background:var(--c)}
+#paintBar .pm{background:#000}#paintBar .pm canvas{max-width:60%;height:auto}
 .cnr button{border-radius:50%;aspect-ratio:1;width:min(100%,32px);height:auto;max-height:100%;max-width:100%;justify-self:center;align-self:center}
 /* THE HERO (Dimitry, 10 Nov): header, score, bar and the line under it sit on one field of light that runs the full width of the screen, behind the frosted frame and the bar. Full screen hides everything below it. */
 body{overflow-x:clip}
@@ -1159,12 +1169,13 @@ function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!ba
   bar.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.m===PT.shape)));bar.classList.toggle('nohalo',!PT.halo);if(!PT.halo)haloClose()}
 (function(){const bar=document.createElement('div');bar.id='paintBar';bar.className='paintbar';bar.hidden=S.mode==='play';bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Edit: halo, colour and shape painting');
   const ic={pHalo:['Halo',(window.SurfaceRing&&SurfaceRing.MARK?'<g fill="currentColor" stroke="none">'+SurfaceRing.MARK.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g>':'<path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>'),'Halo: tap a cell to open its marks. Off: tap or drag to paint.'],pCol:['Colour','<path d="M12 3.5c3.2 4 5.5 6.8 5.5 9.6a5.5 5.5 0 0 1-11 0c0-2.8 2.3-5.6 5.5-9.6z"/>','Paint colour: dragging recolours marks without changing their shape or whether they are there'],pShp:['Shape','<path d="M8 3.5l4.5 8h-9z"/><circle cx="16.5" cy="16.5" r="4"/>','Paint shape: dragging reshapes marks without changing their colour or whether they are there']};
-  Object.keys(ic).forEach(id=>{const b=document.createElement('button');b.type='button';b.id=id;b.className='ptg';b.title=ic[id][2];b.setAttribute('aria-label',ic[id][2]);b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+ic[id][1]+'</svg><span>'+ic[id][0]+'</span>';
-    b.onclick=()=>{if(id==='pHalo')PT.halo=!PT.halo;else if(id==='pCol')PT.pc=!PT.pc;else PT.pm=!PT.pm;ptSave();ptSync()};bar.appendChild(b)});
+  const rail=document.createElement('div');rail.id='paintRail';rail.className='pill rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Edit: halo, colour and shape painting');
+  Object.keys(ic).forEach(id=>{const b=document.createElement('button');b.type='button';b.id=id;b.className='ptg';b.title=ic[id][2];b.setAttribute('aria-label',ic[id][2]);b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+ic[id][1]+'</svg>';
+    b.onclick=()=>{if(id==='pHalo')PT.halo=!PT.halo;else if(id==='pCol')PT.pc=!PT.pc;else PT.pm=!PT.pm;ptSave();ptSync()};rail.appendChild(b)});
   const sep=document.createElement('i');sep.className='sep';bar.appendChild(sep);
   SHAPES.forEach(([id,nm],kd)=>{const b=document.createElement('button');b.type='button';b.className='pm';b.dataset.m=kd;b.setAttribute('aria-label','Shape: '+(kd?nm:'none'));b.title=kd?nm:'None';b.appendChild(glyph(kd,24));b.onclick=()=>{PT.shape=kd;ptSave();ptSync()};bar.appendChild(b)});
   {const br=document.querySelector('.side .brush');if(br){bar.insertBefore(br,sep)}}/* the colours live with the shapes they go with: toggles, colours, shapes (Dimitry, 14 Nov) */
-  document.querySelector('.stagerow').after(bar);ptSync()})();
+  document.querySelector('.stagerow').after(bar);{const et=$('edTools');if(et)et.after(rail);else document.querySelector('.side').appendChild(rail)}ptSync()})();
 addEventListener('pointerdown',e=>{if(HALO&&!HALO.el.contains(e.target)&&e.target!==cv)haloClose()},true);
 addEventListener('keydown',e=>{if(e.key==='Escape')haloClose()});document.querySelectorAll('.brush').forEach(b=>{b.hidden=S.mode==='play'});
 $('rec').onclick=recToggle;$('clrTake').onclick=clearTake;
