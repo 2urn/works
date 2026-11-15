@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261115020042";window.__VERSION__="0.5.108";window.__NOTES__=[{"v": "0.5.108", "date": "14 Nov 2026", "items": [{"kind": "new", "text": "a Statistics pane in the heads-up display (its last tab). It counts the score and says what the numbers show: which colour leads and how evenly the colours are shared, how much is struck, held or gliding, and how much of the grid is silent (empty cells and marks under muted lines). A field of circles shows every colour against every shape (solid = sounding, dashed ring = also counting muted lines), with bars for sounding, muted and empty, and for the marks in each column and row. It follows the score while you look."}, {"kind": "", "text": "fixed: \"copy report\" in the self-test card now turns green with a tick and says Copied for a moment, so you can see it worked."}]}]</script>
+<script>window.__BUILD__="20261115020220";window.__VERSION__="0.5.109";window.__NOTES__=[{"v": "0.5.109", "date": "14 Nov 2026", "items": [{"kind": "new", "text": "Settings has a Size row (Small, Medium, Large). It scales the buttons of the bar and the rails (Medium is the size they have always been), and is kept on this device."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -151,15 +151,15 @@ input[type=range]{width:100%;min-height:32px;accent-color:var(--accent)}
 .legend div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--muted);text-align:center}
 .legend canvas{background:var(--stage);border-radius:3px;cursor:default}
 .brush{display:flex;gap:6px;align-items:center}
-.bar{gap:6px}.bar>.pill:not(.tempo){flex:none}.bar>.pill:not(.tempo) button{width:42px}
+.bar{gap:6px}.bar>.pill:not(.tempo){flex:none}.bar>.pill:not(.tempo) button{width:calc(42px*var(--s-k,1))}
 /* on a phone a pill that wraps onto its own line fills it (easier to hit); when several fit on one line they share it in proportion */
-@media (max-width:759px){.bar>.pill:not(.tempo){flex:1 1 auto}.bar>.pill:not(.tempo) button{flex:1 1 42px;width:auto;min-width:42px}}.grp{display:flex;gap:6px}
+@media (max-width:759px){.bar>.pill:not(.tempo){flex:1 1 auto}.bar>.pill:not(.tempo) button{flex:1 1 calc(42px*var(--s-k,1));width:auto;min-width:calc(42px*var(--s-k,1))}}.grp{display:flex;gap:6px}
 .pill{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
-.pill button{width:46px;min-height:46px;padding:0;border:0;border-radius:0;background:transparent;display:grid;place-items:center;color:var(--fg)}
+.pill button{width:calc(46px*var(--s-k,1));min-height:calc(46px*var(--s-k,1));padding:0;border:0;border-radius:0;background:transparent;display:grid;place-items:center;color:var(--fg)}
 .pill button[hidden]{display:none}
-.pill button+button{border-left:1px solid var(--line)}#spk svg{width:22px;height:22px}.pill #spk[aria-pressed="true"]{background:transparent;color:var(--fg);opacity:.6}
+.pill button+button{border-left:1px solid var(--line)}#spk svg{width:calc(22px*var(--s-k,1));height:calc(22px*var(--s-k,1))}.pill #spk[aria-pressed="true"]{background:transparent;color:var(--fg);opacity:.6}
 .pill button:first-child{border-radius:999px 0 0 999px}.pill button:last-child{border-radius:0 999px 999px 0}
-.pill button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pill button svg{width:calc(24px*var(--s-k,1));height:calc(24px*var(--s-k,1));stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .pill button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--line)}
 #mPlay svg{overflow:visible}.hp path{opacity:0;transform-box:view-box;transform-origin:10.6px 4.2px}
 #mPlay[aria-pressed="true"] .hp path{animation:handRing 2.4s cubic-bezier(.2,.6,.4,1) infinite}
@@ -286,7 +286,7 @@ header{display:flex;align-items:center;gap:10px}
 #mPlay .fst,#mPlay .pen{display:none}
 #mEdit[aria-pressed="true"]{border-color:var(--accent)}
 /* the pencil's rail: hold means nothing while editing, and the edit tools sit tighter, so the colours below keep their room (Dimitry, 14 Nov: pencil UI broken) */
-html.ed #mHold{display:none}html.ed .side .rail button{min-height:40px}html.ed #railField,html.ed #railLoad{display:none}html.ed #railBot>button:not(#mHud){display:none}html.ed #railBot{border-top-left-radius:0;border-bottom-left-radius:0}html.ed #railBot #mHud{border-top:0;border-radius:0 23px 23px 0}html.ed .side #railLoad+#railBot,html.ed .side>#railBot{margin-top:auto}
+html.ed #mHold{display:none}html.ed .side .rail button{min-height:calc(40px*var(--s-k,1))}html.ed #railField,html.ed #railLoad{display:none}html.ed #railBot>button:not(#mHud){display:none}html.ed #railBot{border-top-left-radius:0;border-bottom-left-radius:0}html.ed #railBot #mHud{border-top:0;border-radius:0 23px 23px 0}html.ed .side #railLoad+#railBot,html.ed .side>#railBot{margin-top:auto}
 @keyframes mIn{from{opacity:0;transform:translateY(46px)}}@keyframes mOut{to{opacity:0;transform:translateY(70px)}}
 .mIn{animation:mIn .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*50ms)}.mOut{pointer-events:none;z-index:5;animation:mOut .34s cubic-bezier(.5,0,.8,.4) forwards;animation-delay:calc(var(--o,0)*30ms)}
 /* a large desktop (Dimitry, 14 Nov): the tempo bar is as wide as the pop-up panels and everything else sits on either side of it; on a very wide screen both grow together, so the slider is longer to drag. Laptops keep the scale they have. */
@@ -840,7 +840,7 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
 <script src="surface/auto.js"></script>
 <script src="surface/pop.js"></script>
 <script src="surface/sheetnav.js"></script>
-<script src="surface/selftest.js"></script>
+<script src="surface/selftest.js"></script><script src="surface/size.js"></script><script>try{SurfaceSize.init({min:46,max:46,vw:9,vh:9,finger:46,ref:46})}catch(e){}</script>
 <script src="surface/surround.js"></script>
 <script src="surface/links.js"></script>
 <script src="surface/install.js"></script><script src="surface/words.js"></script>
@@ -2984,15 +2984,16 @@ window.__t={setHold:(b)=>setHold(b),setMode:(m)=>setMode(m),shape:()=>[...SHAPE]
   idx.appendChild(mkSec('colo','Colophon',SIC_COLO,COLO_HTML,'colo'));
   /* the kit does the folding, focus, keeping, hiding and order; first visit: every section shut, one at a time (the Guide cannot be hidden; the Colophon keeps its place last) */
   /* Install: keep Battanboo as an app (the kit's install.js, as in Current; Dimitry, 14 Nov) */try{SurfaceInstall.mount({app:'Battanboo',icon:'icons/icon-192.png',url:'https://works.chamy.xyz/battanboo/',into:idx,before:$('colo'),open:()=>{try{$('ixBtn').click()}catch(e){}},link:true});/* wear the index's own section frame (number, icon, grip), keeping the kit's guts */{const old=$('install'),kids=old&&old.querySelector('.cx-gbody');if(old&&kids){const sec=mkSec('install0','Install',SIC(4),'');sec.classList.add('sfi');[...kids.childNodes].forEach(n=>sec.querySelector('.sb').appendChild(n));old.replaceWith(sec);sec.id='install'}}}catch(e){console.warn('install guide',e)}
-  /* SETTINGS (Dimitry, 14 Nov: "yes to install and settings"): Words, as Current (kit words.js; Learn is the default: words show at first, fade once a control is known, return on press), and Theme. Kept per device. Size is not here yet: the bar does not use the kit's size dial. */
+  /* SETTINGS (Dimitry, 14 Nov: "yes to install and settings"): Words, as Current (kit words.js; Learn is the default: words show at first, fade once a control is known, return on press), and Theme. Kept per device. Size follows the kit's size dial (min=max=46 so Medium is the size the bar always had; Small and Large scale the bar and the rails). */
   try{const W=window.SurfaceWords;if(W)W.init({uses:5,rings:true,words:['#hArr .chip>span','#lineSl .lsl button>span','#hdots .sfTab>span','.pcIcons>button>span']});
     const ROWS=[{key:'words',lab:'Words',opts:[['always','Always','Always: every icon keeps its word'],['learn','Learn','Learn: words show at first and fade once a control is known; a finger brings them back'],['never','Never','Never: icons only; screen readers still hear every word']],get:()=>W?W.mode():'learn',set:v=>W&&W.mode(v)},
+      {key:'size',lab:'Size',opts:[['s','Small','Small controls'],['m','Medium','Medium controls'],['l','Large','Large controls']],get:()=>{try{return SurfaceSize.get()}catch(e){return'm'}},set:v=>{try{SurfaceSize.set(v)}catch(e){}}},
       {key:'theme',lab:'Theme',opts:[['auto','Auto','Auto: light or dark as this device is set'],['light','Light','Light interface'],['dark','Dark','Dark interface']],get:()=>{try{const v=localStorage.getItem('surface.theme');return v==='light'||v==='dark'?v:'auto'}catch(e){return'auto'}},set:v=>{try{localStorage.setItem('surface.theme',v)}catch(e){}if(v==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=v}}];
     const html='<p class="ahint">Kept on this device.</p>'+ROWS.map(r=>'<div class="dsp-row" data-row="'+r.key+'"><span class="dsp-lab" id="dsp-'+r.key+'">'+r.lab+'</span><div class="seg" role="radiogroup" aria-labelledby="dsp-'+r.key+'">'+r.opts.map(o=>'<button type="button" class="chip" role="radio" data-k="'+r.key+'" data-v="'+o[0]+'" aria-label="'+o[2]+'">'+o[1]+'</button>').join('')+'</div></div>').join('');
     const st=mkSec('settings','Settings',SIC(0),html,'');const ins=$('install');if(ins)ins.before(st);else idx.insertBefore(st,$('colo'));
     const sync=()=>ROWS.forEach(r=>{const v=r.get();st.querySelectorAll('[data-k="'+r.key+'"]').forEach(b=>{const on=b.dataset.v===v;b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1})});
     st.querySelectorAll('.seg .chip').forEach(b=>{b.onclick=()=>{const r=ROWS.find(x=>x.key===b.dataset.k);r.set(b.dataset.v);sync()};b.onkeydown=e=>{if(!/Arrow(Left|Right|Up|Down)/.test(e.key))return;e.preventDefault();const bs=[...b.parentNode.children],i=bs.indexOf(b);const n=bs[(i+(/Right|Down/.test(e.key)?1:bs.length-1))%bs.length];n.click();n.focus()}});
-    document.addEventListener('surface:words',sync);sync()}catch(e){console.warn('settings',e)}
+    document.addEventListener('surface:words',sync);document.addEventListener('surface:size',sync);sync()}catch(e){console.warn('settings',e)}
   /* NAMES IN THE PARAGRAPHS (Dimitry, 14 Nov 20:41): a word in a paragraph that names a control shown in the same section is bold and in the strong ink (white on dark), and carries the control's icon when it has one. Done at load from the controls themselves, so it never drifts from them. */
   try{const STOP=new Set(['way','size','sizes','save','feel','root','scale']);const esc=t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     [...idx.querySelectorAll(':scope>section')].forEach(sec=>{if(/^(guide|colo|install|settings)$/.test(sec.id))return;const bd=sec.querySelector('.sb');if(!bd)return;
