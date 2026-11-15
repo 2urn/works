@@ -69,6 +69,7 @@
     ".st-k{margin:0;font:500 10px/1.2 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.16em;text-transform:uppercase;color:#ff6a3d}",
     ".st-a button{min-height:36px;padding:0 12px;border-radius:10px;border:1px solid rgb(var(--ui-hi,255 255 255) / .2);background:none;color:var(--ui-ink,#fff);cursor:pointer;font:600 10.5px/1 var(--mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase}",
     ".st-a button.pri{background:#ff6a3d;border-color:#ff6a3d;color:#0b0f10}",
+    ".st-a button.done{background:#2fb36b;border-color:#2fb36b;color:#06150c;font-weight:700}.st-a button.done i{font-style:normal;margin-right:6px}",
     ".st-a button:focus-visible,.st-x:focus-visible{outline:2px solid #fff;outline-offset:2px}"
   ].join("\n");
 
@@ -218,9 +219,11 @@
        prompt(), which such a frame silently blocks */
     function showText(box, t) { var ta = box.querySelector(".st-txt"); if (!ta) { var bd = box.querySelector(".st-bd") || box, hn = document.createElement("p"); hn.className = "st-hn"; hn.textContent = "Copying is not allowed here: press and hold the report, Select All, then Copy."; ta = document.createElement("textarea"); ta.className = "st-txt"; ta.readOnly = true; ta.setAttribute("aria-label", "The report: select it all and copy"); bd.appendChild(hn); bd.appendChild(ta); }
       ta.value = t; try { ta.focus(); ta.select(); ta.setSelectionRange(0, t.length); } catch (_) {} }
-    var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { lb.textContent = "copied"; }, function () { showText(el, t); }); };
+    /* a press must show it worked (Dimitry, 14 Nov 20:59: "no indication"): the button turns green with a tick and says Copied, then goes back */
+    function done(b) { var was = b._was || (b._was = b.textContent); clearTimeout(b._t); b.classList.add("done"); b.innerHTML = "<i>\u2713</i>Copied"; b.setAttribute("aria-live", "polite"); b._t = setTimeout(function () { b.classList.remove("done"); b.textContent = was; }, 2200); }
+    var lb = el.querySelector('[data-a="last"]'); if (lb) lb.onclick = function () { var t = LAST.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { done(lb); }, function () { showText(el, t); }); };
     var rl = el.querySelector('[data-a="reload"]'); if (rl) rl.onclick = function () { leaving(); location.reload(); };
-    el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "copied"; }, function () { showText(el, t); }); };
+    el.querySelector('[data-a="copy"]').onclick = function (e) { var b = e.currentTarget, t = report(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { done(b); }, function () { showText(el, t); }); };
     var m = el.querySelector('[data-a="mail"]'); if (m) m.onclick = function () { location.href = "mailto:" + O.email + "?subject=" + encodeURIComponent((O.tool || "Tool") + " self-test " + (O.version || "")) + "&body=" + encodeURIComponent(report().slice(0, 1800)); };
     if (bad.length) mascot(el.querySelector(".st-m"));
     el.hidden = false; shown = true;
