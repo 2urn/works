@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261115110416";window.__VERSION__="0.5.138";window.__NOTES__=[{"v": "0.5.138", "date": "15 Nov 2026", "items": [{"kind": "", "text": "Colour habits get one slider for all of them. Choose two poses, A and B (Open, Layered, Bass-heavy, Sparse top, Crowded middle, the sliders as they are, or a score) and slide between them. An animator moves the slider by itself: ping-pong, sweep or drift, 10 to 300 seconds a cycle, with an option to roll a new score at each end."}, {"kind": "", "text": "Read a score's habits: \"Read from the score\" sets the sliders to describe the score on the grid (where each colour sits, how wide, how often). The Statistics display shows the same numbers with buttons to use them, copy them as text, or make them pose A or B. Habits can be copied as text and pasted back. Checked by rolling many scores from known habits and reading them back: where and how wide came back within about 3 points; how often comes back in the right order but compressed."}, {"kind": "", "text": "The Guide explains all of it."}]}]</script>
+<script>window.__BUILD__="20261115111529";window.__VERSION__="0.5.139";window.__NOTES__=[{"v": "0.5.139", "date": "15 Nov 2026", "items": [{"kind": "", "text": "The A to B habits slider takes a MIDI knob, and the habits animator takes a pad (tap the MIDI button, then the shape)."}, {"kind": "", "text": "A Performance movement's look now includes the colour habits and both poses, so each section can start with its own character."}, {"kind": "", "text": "Read habits from what was heard: every note is now logged with its pitch lane, and Colour habits and Statistics can read \"from what was heard\" as well as from the score (notes tapped by hand are not read)."}, {"kind": "", "text": "Analysis is now careful with the sound: reading habits is done in slices of a few milliseconds (it took 13 ms in one go on a fast computer, so would have been more on a phone), only when asked, and it pauses by itself while a Performance runs or the device is busy. Notes are still logged. \"Always analyse\" keeps it going."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -916,26 +916,34 @@ function csSync(){CSIN.forEach((r,v)=>{if(!r)return;CSKEYS.forEach((k,n)=>{if(r[
 function csApply(p){p.forEach((o,v)=>{if(!CS[v]||!o)return;CSKEYS.forEach(k=>{CS[v][k]=csClamp(k,o[k])})});csSaveNow();csSync()}
 const CSPRE=[['Open',()=>({reg:.5,band:1,share:1})],['Layered',(v,n)=>({reg:n>1?.1+.8*v/(n-1):.5,band:.35,share:1})],['Bass-heavy',v=>({reg:.12+.04*v,band:.45,share:Math.max(.2,1-.12*v)})],['Sparse top',v=>({reg:Math.max(.6,.88-.03*v),band:.4,share:v%2?.3:.7})],['Crowded middle',()=>({reg:.5,band:.3,share:1})]];
 const csPose=name=>{const f=(CSPRE.find(p=>p[0]===name)||CSPRE[0])[1],n=Math.max(2,S.nV||4);return Array.from({length:8},(_,v)=>f(v,n))};
-function csRead(all){const way=(S.eff&&S.eff.way)||S.way,fam=FAM[way],L=dimsTL(way).L,[A,B]=AB(fam),nV=Math.max(1,S.nV||4),cnt=Array.from({length:nV},()=>Array(L).fill(0)),tot=Array(L).fill(0);
+const ANA={always:false,paused(){if(ANA.always)return false;try{return !!((FORM.run&&S.playing)||LOAD.recent()>0)}catch(e){return false}}};
+try{ANA.always=localStorage.getItem('battanboo.analysis')==='always'}catch(e){}
+/* the counts a reading starts from: the score on the grid (sounding marks) or what was heard (every note with its pitch lane) */
+function csPrep(all,src){const way=(S.eff&&S.eff.way)||S.way,fam=FAM[way],L=dimsTL(way).L,[A,B]=AB(fam),nV=Math.max(1,S.nV||4),cnt=Array.from({length:nV},()=>Array(L).fill(0)),tot=Array(L).fill(0);
   /* a habit is relative: at each pitch lane the colours compete, so what is read is each colour's share of the marks in that lane, not its raw count (a score whose marks all sit low says nothing about a colour's own register) */
-  for(let i=0;i<A;i++)for(let j=0;j<B;j++){const k=cellObj(fam,i,j);if(!k||!k.s||(!all&&cellSt(fam,i,j)===1))continue;const l=tl(way,i,j)[1];cnt[Math.min(nV-1,k.v||0)][l]++;tot[l]++}
+  if(src==='heard'){HITLOG.forEach(e=>{if(!(e.ln>=0)||!(e.LN>0))return;const l=e.LN>1?Math.round(e.ln/(e.LN-1)*(L-1)):0;cnt[Math.min(nV-1,e.v||0)][l]++;tot[l]++})}
+  else for(let i=0;i<A;i++)for(let j=0;j<B;j++){const k=cellObj(fam,i,j);if(!k||!k.s||(!all&&cellSt(fam,i,j)===1))continue;const l=tl(way,i,j)[1];cnt[Math.min(nV-1,k.v||0)][l]++;tot[l]++}
   if(!tot.some(x=>x>0))return null;
   const out=Array.from({length:8},()=>({reg:.5,band:1,share:1})),M=[],counts=cnt.map(a=>a.reduce((x,y)=>x+y,0));
   cnt.forEach((a,v)=>{let m=0,sx=0;a.forEach((n,l)=>{if(!tot[l])return;const w=n/tot[l];m+=w;sx+=w*l});M[v]=m;if(!m){out[v]={reg:.5,band:1,share:0};return}
     const mu=sx/m;let sv=0;a.forEach((n,l)=>{if(!tot[l])return;sv+=(n/tot[l])*(l-mu)*(l-mu)});const sn=Math.sqrt(sv/m)/L;
     out[v]={reg:csClamp('reg',mu/Math.max(1,L-1)),band:sn>=.26?1:csClamp('band',2*sn),share:0}});
   const mx=Math.max(...M);M.forEach((m,v)=>{out[v].share=mx?m/mx:0});
-  const key=cnt.map(a=>a.join(',')).join('|')+'@'+S.p;if(csRead.key===key&&csRead.val)return JSON.parse(JSON.stringify(csRead.val));
-  csFit(out,cnt,tot,L,nV);csRead.key=key;csRead.val={habits:out,counts,nV};
-  return{habits:out,counts,nV}}
+  return{out,cnt,tot,L,nV,counts,key:(src||'score')+':'+cnt.map(a=>a.join(',')).join('|')+'@'+S.p}}
+function csRead(all,src){const p=csPrep(all,src);if(!p)return null;if(csRead.key===p.key&&csRead.val)return JSON.parse(JSON.stringify(csRead.val));
+  for(const _ of csFitG(p.out,p.cnt,p.tot,p.L,p.nV));csRead.key=p.key;csRead.val={habits:p.out,counts:p.counts,nV:p.nV,src:src||'score'};return JSON.parse(JSON.stringify(csRead.val))}
+/* the same reading, in slices of a few milliseconds, so a phone or a busy page is never held up by it */
+function csReadAsync(all,src){return new Promise(res=>{const p=csPrep(all,src);if(!p){res(null);return}if(csRead.key===p.key&&csRead.val){res(JSON.parse(JSON.stringify(csRead.val)));return}
+  const g=csFitG(p.out,p.cnt,p.tot,p.L,p.nV),step=()=>{const t=performance.now();let r;do{r=g.next()}while(!r.done&&performance.now()-t<5);
+    if(r.done){csRead.key=p.key;csRead.val={habits:p.out,counts:p.counts,nV:p.nV,src:src||'score'};res(JSON.parse(JSON.stringify(csRead.val)))}else setTimeout(step,0)};step()})}
 /* the moment estimates above are biased (a bell cut off by the grid's edge reads as nearer the middle, and the favourite colour of each step flattens the shares), so they are only the start: each colour's three numbers are then nudged, one at a time, until the habit rule itself, run forwards, would give the lane-by-lane colour mix that was read */
-function csFit(h,cnt,tot,L,nV){if(nV<2)return;const q=Math.min(.95,Math.max(.05,S.p||.618)),F=q*(nV-1)/Math.max(.02,1-q),T=tot.reduce((x,y)=>x+y,0);
+function* csFitG(h,cnt,tot,L,nV){if(nV<2)return;const q=Math.min(.95,Math.max(.05,S.p||.618)),F=q*(nV-1)/Math.max(.02,1-q),T=tot.reduce((x,y)=>x+y,0);
   const gw=(o,l)=>{const mid=o.reg*(L-1),sg=Math.max(.35,o.band*L*.5),g=Math.exp(-.5*((l-mid)/sg)**2),k=o.band*o.band*o.band;return Math.max(.0001,o.share*(g*(1-k)+k))};
   const err=()=>{let e=0;for(let l=0;l<L;l++){if(!tot[l])continue;const w=Array.from({length:nV},(_,u)=>gw(h[u],l));const P=Array(nV).fill(0);
       for(let f=0;f<nV;f++){let z=0;for(let u=0;u<nV;u++)z+=w[u]*(u===f?F:1);for(let u=0;u<nV;u++)P[u]+=w[u]*(u===f?F:1)/z/nV}
       for(let u=0;u<nV;u++){const d=P[u]-cnt[u][l]/tot[l];e+=tot[l]/T*d*d}}return e};
   const grid={reg:Array.from({length:21},(_,i)=>i/20),band:[.1,.15,.2,.25,.3,.35,.4,.5,.6,.7,.8,.9,1],share:Array.from({length:21},(_,i)=>i/20)};
-  for(let sweep=0;sweep<3;sweep++)for(let v=0;v<nV;v++){if(!cnt[v].some(x=>x>0))continue;for(const k of CSKEYS){let best=h[v][k],be=err();for(const x of grid[k]){const old=h[v][k];h[v][k]=x;const e=err();if(e<be-1e-9){be=e;best=x}h[v][k]=old}h[v][k]=best}}
+  for(let sweep=0;sweep<3;sweep++)for(let v=0;v<nV;v++){if(!cnt[v].some(x=>x>0))continue;for(const k of CSKEYS){let best=h[v][k],be=err();for(const x of grid[k]){const old=h[v][k];h[v][k]=x;const e=err();if(e<be-1e-9){be=e;best=x}h[v][k]=old}h[v][k]=best;yield}}
   const mx=Math.max(...h.slice(0,nV).map((o,v)=>cnt[v].some(x=>x>0)?o.share:0));if(mx>0)for(let v=0;v<nV;v++)h[v].share=cnt[v].some(x=>x>0)?Math.min(1,h[v].share/mx):0}
 const csText=p=>'Battanboo colour habits (where, width, how often, in %)\n'+p.slice(0,Math.max(1,S.nV||4)).map((o,v)=>'colour '+(v+1)+': where '+Math.round(o.reg*100)+' · width '+Math.round(o.band*100)+' · often '+Math.round(o.share*100)).join('\n');
 function csParse(t){const out=[];String(t).split(/\n/).forEach(l=>{const m=l.match(/colou?r\s*(\d)\D+?(\d+)\D+?(\d+)\D+?(\d+)/i);if(m){const v=+m[1]-1;if(v>=0&&v<8)out[v]={reg:csClamp('reg',m[2]/100),band:csClamp('band',m[3]/100),share:csClamp('share',m[4]/100)}}});return out}
@@ -953,6 +961,7 @@ function mzTick(){const now=performance.now(),ph=(now-MZ.t0)/(MZ.secs*1000),c=Ma
   else{x=MZ.mode==='pingpong'?.5-.5*Math.cos(2*Math.PI*f):f;const h=MZ.mode==='pingpong'?Math.floor(ph*2):c;if(MZ.cyc!==undefined&&h!==MZ.cyc)edge=true;MZ.cyc=h}
   if(edge&&MZ.rr){try{rollNew()}catch(e){}}
   mzSet(x,true);if(now-MZ.sv>1000){MZ.sv=now;mzSave()}}
+function mzToggle(){MZ.mode=MZ.mode==='off'?'pingpong':'off';if(MZ.ui&&MZ.ui.ms&&MZ.ui.ms.isConnected)MZ.ui.ms.value=MZ.mode;mzRun()}
 function csMore(d){const mk=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
   const w=mk('div','mz');w.appendChild(mk('div','pcl','One slider for all the habits'));
   const msg=mk('p','ahint mzmsg','Pick two poses, A and B, and slide between them. Moving the slider rewrites the colour sliders above. Habits act when a score is rolled, so you hear a change at the next roll.');
@@ -970,25 +979,41 @@ function csMore(d){const mk=(t,c,x)=>{const e=document.createElement(t);if(c)e.c
   cy.oninput=()=>{MZ.secs=+cy.value;cyo.textContent=MZ.secs+' s';if(MZ.mode!=='off')MZ.t0=performance.now()-mzPh(MZ.x)*MZ.secs*1000;mzSave()};
   ms.onchange=()=>{MZ.mode=ms.value;mzRun()};
   const rr=mk('button','chip','Roll at each end');rr.type='button';rr.setAttribute('aria-pressed',String(MZ.rr));rr.title='Roll a new score every time the slider reaches A or B (or picks a new target when drifting)';rr.onclick=()=>{MZ.rr=!MZ.rr;rr.setAttribute('aria-pressed',String(MZ.rr));mzSave()};
-  an.append(ms,cy,cyo,rr);w.appendChild(an);
+  MZ.ui.ms=ms;an.append(ms,cy,cyo,rr);w.appendChild(an);
   const tr=mk('div','mzr'),ta=mk('textarea');ta.rows=3;ta.setAttribute('aria-label','Habits as text, to copy or paste');ta.placeholder='colour 1: where 62 · width 40 · often 100';
   const chip=(t,title,fn)=>{const b=mk('button','chip',t);b.type='button';b.title=title;b.onclick=fn;tr.appendChild(b)};
-  chip('Read from the score','Set the sliders from the score on the grid: where its marks of each colour sit, how widely, how often',()=>{const q=csRead();if(!q){msg.textContent='The score has no sounding marks to read.';return}csApply(q.habits);ta.value=csText(q.habits);msg.textContent='The sliders now describe this score. Rolling will make scores with similar, not identical, qualities.'});
+  const readTo=(src,none)=>{if(ANA.paused()){msg.textContent='Analysis is paused while a Performance runs or the device is busy.';return}msg.textContent='Reading\u2026';csReadAsync(false,src).then(q=>{if(!q){msg.textContent=none;return}csApply(q.habits);ta.value=csText(q.habits);msg.textContent='The sliders now describe '+(src==='heard'?'what was heard':'this score')+'. Rolling will make scores with similar, not identical, qualities.'})};
+  chip('Read from the score','Set the sliders from the score on the grid: where its marks of each colour sit, how widely, how often',()=>readTo('score','The score has no sounding marks to read.'));
+  chip('Read from what was heard','Set the sliders from every note played since the page opened, by its pitch lane. Notes tapped by hand are not read.',()=>readTo('heard','Nothing heard yet. Play the score for a while, then read again.'));
   chip('Copy habits','Copy the sliders as text',async()=>{const t=csText(csCopy());ta.value=t;msg.textContent=(await copyText(t))?'Copied.':'Could not copy; the text is in the box.'});
   chip('Use the text','Set the sliders from the text in the box',()=>{const p=csParse(ta.value);if(!p.some(Boolean)){msg.textContent='No habits found. Each line reads: colour 1: where 62 · width 40 · often 100.';return}csApply(p);msg.textContent='Habits set from the text.'});
   w.append(tr,ta,msg);d.appendChild(w)}
+let CSSRC='score',CSLAST=null,CSBUSY=false;
 function csStatsBlock(){const mk=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
-  const w=mk('div','spW');w.appendChild(mk('div','spT','Colour habits of this score'));const q=csRead();
-  if(!q){w.appendChild(mk('p','ahint','No sounding marks to read.'));return w}
-  q.habits.slice(0,q.nV).forEach((o,v)=>{const r=mk('div','spRow',q.counts[v]?'<i class="vd" style="--c:var(--v'+v+')"></i><span>where <b>'+Math.round(o.reg*100)+'</b> · width <b>'+Math.round(o.band*100)+'</b> · often <b>'+Math.round(o.share*100)+'</b> <small>('+q.counts[v]+' marks)</small></span>':'<i class="vd" style="--c:var(--v'+v+')"></i><span>no marks</span>');w.appendChild(r)});
-  const bar=mk('div','chips'),msg=mk('p','ahint','Where is low to high pitch, width is narrow to anywhere, often is the colour’s share. Use them as the Colour habits to roll scores with similar qualities (similar, not identical: the dice still decide).');
-  const chip=(t,fn)=>{const b=mk('button','chip',t);b.type='button';b.onclick=fn;bar.appendChild(b)};
-  chip('Use as colour habits',()=>{csApply(q.habits);msg.textContent='Done: the Colour habits (under the crossfader) now describe this score.'});
-  chip('Copy as text',async()=>{msg.textContent=(await copyText(csText(q.habits)))?'Copied. Paste it into the Colour habits box with "Use the text".':'Could not copy.'});
-  chip('Set as pose A',()=>{MZ.a=q.habits;MZ.an='Score';mzSave();msg.textContent='Pose A is now this score. Open Colour habits to morph.'});
-  chip('Set as pose B',()=>{MZ.b=q.habits;MZ.bn='Score';mzSave();msg.textContent='Pose B is now this score. Open Colour habits to morph.'});
-  w.append(bar,msg);return w}
-window.__habits={CS,csRead,csApply,csPose,csText,csParse,MZ,mzSet,mzRun,mzTick,roll:()=>rollNew(),S:()=>S};
+  const w=mk('div','spW');w.appendChild(mk('div','spT','Colour habits'));
+  const src=mk('div','chips'),body=mk('div');w.append(src,body);
+  const refill=()=>{src.textContent='';[['score','From the score'],['heard','From what was heard']].forEach(([k,t])=>{const b=mk('button','chip',t);b.type='button';b.setAttribute('aria-pressed',String(CSSRC===k));b.onclick=()=>{CSSRC=k;CSLAST=null;refill()};src.appendChild(b)});
+    body.textContent='';const hint=t=>body.appendChild(mk('p','ahint',t));
+    if(ANA.paused()){hint('Analysis is paused while a Performance runs or the device is busy. It comes back by itself.');return}
+    if(CSBUSY){hint('Reading…');return}
+    const go=(t)=>{const b=mk('button','chip',t);b.type='button';b.onclick=()=>{CSBUSY=true;refill();csReadAsync(false,CSSRC).then(r=>{CSBUSY=false;CSLAST=r?r:{none:true,src:CSSRC};refill()})};body.appendChild(b)};
+    const r=CSLAST&&CSLAST.src===CSSRC?CSLAST:null;
+    if(!r){hint(CSSRC==='heard'?'Reads every note played since the page opened, by its pitch lane (notes tapped by hand are not read).':'Reads the sounding marks of the score on the grid (marks under muted lines are not heard, so they are left out).');go('Read the habits');return}
+    if(r.none){hint(CSSRC==='heard'?'Nothing heard yet. Play the score for a while, then read again.':'No sounding marks to read.');go('Read again');return}
+    r.habits.slice(0,r.nV).forEach((o,v)=>body.appendChild(mk('div','spRow',r.counts[v]?'<i class="vd" style="--c:var(--v'+v+')"></i><span>where <b>'+Math.round(o.reg*100)+'</b> · width <b>'+Math.round(o.band*100)+'</b> · often <b>'+Math.round(o.share*100)+'</b> <small>('+r.counts[v]+(CSSRC==='heard'?' notes':' marks')+')</small></span>':'<i class="vd" style="--c:var(--v'+v+')"></i><span>none</span>')));
+    const bar=mk('div','chips'),msg=mk('p','ahint','Where is low to high pitch, width is narrow to anywhere, often is the colour’s share. Use them as the Colour habits to roll scores with similar qualities (similar, not identical: the dice still decide).');
+    const chip=(t,fn)=>{const b=mk('button','chip',t);b.type='button';b.onclick=fn;bar.appendChild(b)};
+    chip('Use as colour habits',()=>{csApply(r.habits);msg.textContent='Done: the Colour habits (under the crossfader) now describe this.'});
+    chip('Copy as text',async()=>{msg.textContent=(await copyText(csText(r.habits)))?'Copied. Paste it into the Colour habits box with "Use the text".':'Could not copy.'});
+    chip('Set as pose A',()=>{MZ.a=r.habits;MZ.an=CSSRC==='heard'?'Heard':'Score';mzSave();msg.textContent='Pose A is now this. Open Colour habits to morph.'});
+    chip('Set as pose B',()=>{MZ.b=r.habits;MZ.bn=CSSRC==='heard'?'Heard':'Score';mzSave();msg.textContent='Pose B is now this. Open Colour habits to morph.'});
+    chip('Read again',()=>{CSLAST=null;refill()});
+    body.append(bar,msg)};
+  refill();
+  const ar=mk('div','chips'),ab=mk('button','chip','Always analyse');ab.type='button';ab.setAttribute('aria-pressed',String(ANA.always));ab.title='Analysis pauses by itself while a Performance runs or the device is busy. Switch this on to keep it going.';
+  ab.onclick=()=>{ANA.always=!ANA.always;ab.setAttribute('aria-pressed',String(ANA.always));try{localStorage.setItem('battanboo.analysis',ANA.always?'always':'auto')}catch(e){}refill()};ar.appendChild(ab);
+  w.append(ar,mk('p','ahint','Analysis pauses by itself while a Performance runs or the device is busy, so the sound keeps the processing. Notes are still logged; reading them is what waits.'));return w}
+window.__habits={HITLOG:()=>HITLOG,MIDI:()=>MIDI,CS,csRead,csReadAsync,csPrep,ANA,keepSnap,keepApply,mzToggle,csApply,csPose,csText,csParse,MZ,mzSet,mzRun,mzTick,roll:()=>rollNew(),S:()=>S};
 function genTL(T,L,p,stick){const fav=Array.from({length:T},()=>wpick(S.flat?[1,1,1,1,1,1,1,1]:FAVW)),favV=Array.from({length:T},()=>(rnd()*S.nV)|0),rows=[];
   const cell=(t,l)=>{const q=pAt(t,T,p);const sh=rnd()<q?fav[t]:wpick(Array.from({length:8},(_,i)=>i===fav[t]?0:(i===0&&!S.flat?3:1)));const vo=csPick(t,l,L,q,favV[t]);return{s:sh,v:vo}};
   for(let t=0;t<T;t++){const row=[];for(let l=0;l<L;l++)row.push(t>0&&rnd()<stick?{...rows[t-1][l]}:cell(t,l));rows.push(row)}return rows}
@@ -1490,7 +1515,7 @@ const VBUS=[];
 function vbus(v){if(!AC||!master)return null;let b=VBUS[v];if(b&&b.m===master)return b.g;const g=AC.createGain(),an=AC.createAnalyser();an.fftSize=512;an.smoothingTimeConstant=0;g.connect(master);g.connect(an);VBUS[v]={g,an,m:master,d:new Float32Array(512)};return g}
 /* GRID SPACE (Dimitry, 12 Nov): where a note sits on the grid is where it sounds. Column: left to right. Row: the higher rows are deeper in the room (a send into the room's reverb), and in Deep also softer. Rings: the spoke pans, the outer ring is deeper. Off costs nothing. */
 const GSP={wide:{pan:.8,send:0,soft:0},room:{pan:.6,send:.5,soft:0},deep:{pan:.9,send:.85,soft:.4}};
-let CURV=null,HITPOS=null;
+let CURV=null,HITPOS=null,HITLANE=null;
 function gsPos(fam,a,b){const p=GSP[S.gs];if(!p||!AC||!AC.createStereoPanner)return null;const V=CURV,A=Math.max(2,V&&V.A||S.N),B=Math.max(2,V&&V.B||S.N);let x,far;
   if(fam==='cart'){x=a/(A-1)*2-1;far=1-b/(B-1)}else{x=Math.sin(b/B*Math.PI*2);far=a/(A-1)}
   return{pan:clamp(x*p.pan,-1,1),send:p.send*far,soft:p.soft*far}}
@@ -1528,7 +1553,7 @@ function meetCheck(fam,a,b,k,l,time,sd,src){if(S.meet==='off'||!k||!k.s)return;
   if(srcs.size<2)return;const last=LASTM.get(key)||-9;if(time-last<.2)return;LASTM.set(key,time);
   meetSound(k,l,time,Math.min(sd,.5),srcs.size);MEET.set(fam+':'+a+','+b,{t:time,n:srcs.size,a,b,fam});animMeet()}
 let mAnim=0;function animMeet(){if(mAnim||S.playing&&raf)return;mAnim=requestAnimationFrame(function f(){mAnim=0;draw();if(MEET.size)mAnim=requestAnimationFrame(f)})}
-let BEDL=1;function hit(fam,a,b,k,l,time,sd,src){let pos=S.gs!=='off'?gsPos(fam,a,b):null;if(S.playing&&cg(k.v)>.001){const r=SONI.decide(k);if(r==='skip'){LOAD.drop();BED.feed(l,BEDL);return}if(r==='fold'){BED.feed(l,BEDL);return}if(r==='group'){const so=Math.min(.3,(pos&&pos.soft||0)+.25);pos={soft:so,pan:Math.max(-.8,Math.min(.8,((pos&&pos.pan)||0)+(Math.random()*2-1)*.5)),send:Math.max((pos&&pos.send)||0,.18)}}}playMark(k,l,time,sd,pos);if(cg(k.v)>.001){fxAdd(fam,a,b,k,time);durAdd(fam,a,b,k,time,sd)}meetCheck(fam,a,b,k,l,time,sd,src)}
+let BEDL=1;function hit(fam,a,b,k,l,time,sd,src){let pos=S.gs!=='off'?gsPos(fam,a,b):null;if(S.playing&&cg(k.v)>.001){const r=SONI.decide(k);if(r==='skip'){LOAD.drop();BED.feed(l,BEDL);return}if(r==='fold'){BED.feed(l,BEDL);return}if(r==='group'){const so=Math.min(.3,(pos&&pos.soft||0)+.25);pos={soft:so,pan:Math.max(-.8,Math.min(.8,((pos&&pos.pan)||0)+(Math.random()*2-1)*.5)),send:Math.max((pos&&pos.send)||0,.18)}}}HITLANE=l;try{playMark(k,l,time,sd,pos)}finally{HITLANE=null}if(cg(k.v)>.001){fxAdd(fam,a,b,k,time);durAdd(fam,a,b,k,time,sd)}meetCheck(fam,a,b,k,l,time,sd,src)}
 function playStep(e){const V=e.v,row=V.v[e.t];BEDL=V.L;CURV=V;
   for(let l=0;l<V.L;l++){const at=V.ij[e.t][l];if(!at)continue;for(const[a,b]of at.more){const k=V.g[a][b];if(!k||!k.s)continue;if(cellSt(V.fam,a,b)!==1)hit(V.fam,a,b,k,l,e.time,e.sd,e.line)}}
   if(e.line===0)for(let a=0;a<V.A;a++)for(let b=0;b<V.B;b++){if(cellSt(V.fam,a,b)!==2)continue;const[t,l]=tl(V.way,a,b);if(t===e.t)continue;const k=V.g[a][b];if(k&&k.s)hit(V.fam,a,b,k,l,e.time,e.sd,0)}}
@@ -2257,8 +2282,8 @@ function formTake(p){FORM.undo=JSON.stringify(FORM.mv);FORM.mv=p.mv.slice(0,200)
 function formSecs(){let c=0;const d=FORM.dur;return formActive().map(m=>{const o={id:m.id,n:m.n||'Movement',h:m.h,c:m.c,a:c,b:c+m.s,f:m.s/d};c+=m.s;return o})}
 const formSig=()=>formActive().map(m=>m.id+':'+m.s+':'+(m.n||'')+':'+(m.h||'')).join('|');
 /* a movement's look: the grid, lines, sounds, mix and tempo as they are now, put back when the movement begins */
-function mvLook(m,on){if(on){m.snap=keepSnap();m.snap.t=0}else m.snap=null}
-function mvApply(m){if(!m.snap)return false;const before=keepSnap();try{if(keepApply(m.snap,true)){return true}throw 0}catch(e){try{keepApply(before,true)}catch(_){}return false}}
+function mvLook(m,on){if(on){m.snap=keepSnap(true);m.snap.t=0}else m.snap=null}
+function mvApply(m){if(!m.snap)return false;const before=keepSnap(true);try{if(keepApply(m.snap,true)){return true}throw 0}catch(e){try{keepApply(before,true)}catch(_){}return false}}
 let mvApi=null;
 /* PEAK PER SECTION (Dimitry, 12 Nov): while a form plays, each section keeps the most sounds heard at once and the notes this device had to skip, and Form shows it as "peak 18/36". A section over the limit is flagged. It is measured on this device, so the same form reads differently on a laptop and an old iPad. */
 const FPK=(function(){const K='bb-formpk-'+(LOAD.touch?'t':'d');let o={};try{o=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}let sk0=LOAD.drops(),sv=0;
@@ -2996,9 +3021,9 @@ function statsReport(){const st=scoreStats(),mk=spaceMarks(),on=mk.filter(m=>m.o
     score:{family:st.fam,rows:st.nL,columns:st.nB,cells:st.cells,marks:st.marks,sounding:st.sounding,muted:st.muted,empty:st.empty,tempo:Math.round(S.tempo),root:NOTE_LETTERS[S.root||0],scale:S.scale,marks_by_colour:st.byV,marks_by_shape:st.bySh,marks_by_row:st.rowM,marks_by_column:st.colM,colour_by_shape:st.byVS.map(r=>r.map(c=>({marks:c.n,sounding:c.on})))},
     space:{grid_space:S.gs,score_sounding_marks:rn(sc),field_sounds_now:rn(fd),heard:Object.assign(rn(hv),{hits:HITLOG.length,seconds:HITLOG.length?r3(HITLOG[HITLOG.length-1].t-t0):0})},
     marks:mk.map(m=>({row:m.row,column:m.col,colour:m.v+1,shape:m.s,sounding:m.on,pan:r3(m.pan),depth:r3(m.send)})),
-    hits:HITLOG.map(e=>({time_s:r3(e.t-t0),colour:e.v+1,shape:e.s,midi_note:e.p,velocity:e.vel,drum:!!e.drum,sound:e.name,pan:r3(e.pan||0),depth:r3(e.send||0)}))}}
+    hits:HITLOG.map(e=>({time_s:r3(e.t-t0),colour:e.v+1,shape:e.s,midi_note:e.p,velocity:e.vel,drum:!!e.drum,sound:e.name,pan:r3(e.pan||0),depth:r3(e.send||0),lane:e.ln==null?-1:e.ln,lanes:e.LN||0}))}}
 window.__space={marks:spaceMarks,sum:spaceSum,heard:spaceHeard,report:statsReport,marksCsv,heardCsv,reach:beatReach};
-(function(){const box=$('stBox');if(!box)return;let sig='',tm=0,spEl=null,hl=-1,exMsg='';
+(function(){const box=$('stBox');if(!box)return;let sig='',tm=0,spEl=null,hl=-1,exMsg='',anaEl=null;
   const pc=n=>Math.round(n*100)+'%',dot=v=>'<i class="vd" style="--c:var(--v'+v+')"></i>';
   function sigOf(){const fam=G.fam,d=D(),nL=fam==='cart'?d.N:d.R,nB=fam==='cart'?d.N:d.K,sw=S.sw[fam]||{L:[],B:[]};let x=fam+S.nV+':';for(let i=0;i<nL;i++){x+=(sw.L[i]||0);for(let j=0;j<nB;j++){const k=cellObj(fam,i,j);x+=k&&k.s?k.s+''+(k.v||0):'.'}}for(let j=0;j<nB;j++)x+=(sw.B[j]||0);return x}
 
@@ -3060,7 +3085,7 @@ window.__space={marks:spaceMarks,sum:spaceSum,heard:spaceHeard,report:statsRepor
     prw.appendChild(mk('div','pcl','Marks by row'));const dr=mk('div','stDenR');st.rowM.forEach((n,i)=>{const e=mk('b',st.rowOn[i]?'':'m');e.style.width=Math.round(100*n/mr)+'%';e.title='Row '+(i+1)+': '+n;dr.appendChild(e)});prw.appendChild(dr);pr.appendChild(pcw);pr.appendChild(prw);b.appendChild(pr);
     L.appendChild(b);box.appendChild(a);spEl=mk('div','stSp');box.appendChild(spEl);spFill()}
   /* it follows the score while its pane is the one in front, and only redraws when the score changed */
-  function tick(){tm=0;if(!hudEl.classList.contains('on')||Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))!==8)return;const g=sigOf();if(g!==sig){sig=g;render()}else if(HITLOG.length!==hl)spFill();tm=setTimeout(tick,450)}
+  function tick(){tm=0;if(!hudEl.classList.contains('on')||Math.round(hp.scrollLeft/Math.max(1,hp.clientWidth))!==8)return;if(anaEl&&!anaEl.isConnected)anaEl=null;if(ANA.paused()){if(!anaEl){anaEl=document.createElement('p');anaEl.className='ahint';anaEl.textContent='Analysis is paused while a Performance runs or the device is busy. It comes back by itself.';box.prepend(anaEl)}tm=setTimeout(tick,450);return}if(anaEl){anaEl.remove();anaEl=null;sig=''}const g=sigOf();if(g!==sig){sig=g;render()}else if(HITLOG.length!==hl)spFill();tm=setTimeout(tick,450)}
   window.__stats=()=>{sig='';render()};
   const kick=()=>{sig='';clearTimeout(tm);tick()};hp.addEventListener('scroll',()=>{clearTimeout(tm);tm=setTimeout(kick,120)},{passive:true});
   const hs=hudShow;hudShow=function(on){const r=hs.apply(this,arguments);if(on)setTimeout(kick,200);return r}})();
@@ -3124,7 +3149,7 @@ window.__t={setHold:(b)=>setHold(b),setMode:(m)=>setMode(m),shape:()=>[...SHAPE]
     '<dt>By hand</dt><dd>Tap a cell to hear it. Hold (the fist) keeps a cell sounding until you let go. You can play over the robot, or with the robot stopped.</dd>'+
     '<dt>The field</dt><dd>Sounds that do not stop, placed on the field pad. Double-tap one for its ring: level, tone and pitch, which sound it is, a recorded or random movement, duplicate or take away. The room under them is tuned in the Sounds pane.</dd>'+
     '<dt>Chance</dt><dd>The dice roll a new score by hand or by themselves (Auto dice), and Scores brings an earlier one back. Wander lets chance act at every pass. Undo and redo cover the grid and the field.</dd>'+
-    '<dt>Colour habits</dt><dd>Under the crossfader in the Mixer. Each colour has three sliders: <b>where</b> it likes to sit (low to high pitch), <b>how wide</b> (narrow to anywhere) and <b>how often</b> (its share against the other colours). They are soft preferences, not rules, and they act only when a score is rolled, so you hear a change at the next roll. They are relative: they decide which colour wins a place, not whether a place is filled. <b>One slider for all of them:</b> choose two poses, A and B (Open, Layered, Bass-heavy, Sparse top, Crowded middle, the sliders as they are, or the score on the grid) and slide between them. The <b>animator</b> moves that slider for you: ping-pong (A, B, A), sweep (A to B, again) or drift (a slow random walk), with a cycle from 10 to 300 seconds and an option to roll a new score at each end. <b>Reading a score:</b> Read from the score sets the sliders to describe the score on the grid, and the Statistics display shows the same numbers with buttons to use them, copy them as text or set them as pose A or B. Only sounding marks are read, so muted lines do not count. A read is an estimate, good to a few points for where and how wide and rougher for how often, and rolling with it gives scores of a similar character, not the same score. Habits are kept on this device, not inside saved scores.</dd>'+
+    '<dt>Colour habits</dt><dd>Under the crossfader in the Mixer. Each colour has three sliders: <b>where</b> it likes to sit (low to high pitch), <b>how wide</b> (narrow to anywhere) and <b>how often</b> (its share against the other colours). They are soft preferences, not rules, and they act only when a score is rolled, so you hear a change at the next roll. They are relative: they decide which colour wins a place, not whether a place is filled. <b>One slider for all of them:</b> choose two poses, A and B (Open, Layered, Bass-heavy, Sparse top, Crowded middle, the sliders as they are, or the score on the grid) and slide between them. The <b>animator</b> moves that slider for you: ping-pong (A, B, A), sweep (A to B, again) or drift (a slow random walk), with a cycle from 10 to 300 seconds and an option to roll a new score at each end. <b>Reading a score:</b> Read from the score sets the sliders to describe the score on the grid, and the Statistics display shows the same numbers with buttons to use them, copy them as text or set them as pose A or B. You can also read from <b>what was heard</b>: every note played since the page opened, by its pitch lane (notes tapped by hand are not read). Only sounding marks are read from a score, so muted lines do not count. A read is an estimate, good to a few points for where and how wide and rougher for how often, and rolling with it gives scores of a similar character, not the same score. <b>MIDI:</b> the A to B slider takes a knob and the animator takes a pad (tap the MIDI button, then the shape). <b>Performance:</b> a movement&rsquo;s look now includes the habits and both poses, so a section can start with its own character. <b>Analysis</b> (the reading, and the Statistics display redrawing) pauses by itself while a Performance runs or the device is busy, so the sound keeps the processing; notes are still logged, and Always analyse keeps it going. Otherwise habits are kept on this device.</dd>'+
     '<dt>MIDI: controllers and pads</dt><dd>Plug in a controller and tap the MIDI button on the right rail. Every control a knob can move is painted with a coloured shape: tap a shape, then move a knob and it is mapped. The buttons (play, previous and next score, roll, record, undo, mute and solo for each colour, silence everything) take a <b>pad</b>: tap the shape, then hit the pad. A pad can be a note or a button that sends a control change. Short of time, choose <b>Pads in order</b> and hit up to 16 pads one after another: they become the 16 most-used buttons, whatever numbers your controller sends. Pitch bend and pressure can move a slider too. Mappings are kept on this device, per controller and channel, and you can switch a controller off. <b>MIDI out</b> is the other direction: in the MIDI pane, <i>Send notes out</i> sends every note to a synth or your music software (a channel for each colour, drums on 10), and <i>Clock out</i> sends tempo with Start and Stop so they keep time. It needs a browser with Web MIDI: Chrome or Edge on a Mac or PC. Safari and iPhones and iPads do not have it.</dd>'+
     '<dt>Binaural beat</dt><dd>The headphones button on the right rail adds a slow beat that exists only in your head: each ear is given a slightly different frequency, and you hear the few Hz of difference as a pulse. It needs headphones; on speakers the two blend and there is no beat. Hold the button for its settings in the Sounds display. <b>Two tones</b> adds a steady tone in each ear on your root note. <b>Your piece, mono</b> plays the whole piece in both ears and shifts the right ear up by the beat rate, so everything in it beats; the price is that the stereo picture is gone, because panning and the beat both live in the difference between the ears. <b>Your piece, stereo</b> keeps the stereo and shifts only the right channel: sounds heard in both ears beat, sounds panned toward one side beat less, and a sound hard to one side not at all. The rate is Delta (2 Hz), Theta (6 Hz), Alpha (10 Hz), or Tempo, the grid&rsquo;s own pulse. A shift moves every partial by the same few Hz, not by the same musical interval, so the shifted ear is slightly detuned; the effect is bigger on low notes. Recordings and captures include it. It is a sound layer, not a treatment, and it always starts off.</dd>'+
     '<dt>Statistics</dt><dd>The Statistics display counts the score: colours, shapes, rows, columns, what is silent. At the foot it says where the sound sits from left to right, in the score (each sounding mark at the place Grid space gives it) and in what has been heard so far, with how far a Stereo binaural beat would reach. Grid space has to be on (Wide, Room or Deep) for the sound to leave the middle. Three buttons save the numbers for other tools: a JSON report with everything, a CSV of the marks, and a CSV of every note heard. Pan runs from -1 (left) to +1 (right).</dd></dl>';
@@ -3205,7 +3230,7 @@ const HITLOG=[];
 function logHit(k,l,when,sd){try{const sl=S.slots[k.v]||S.slots[0],drum=!!(sl&&sl.t==='bank'&&sl.name==='Drum kit');
   const GMD=[36,38,42,46,45,50,39,37],p=drum?GMD[l%8]:Math.max(0,Math.min(127,Math.round(midiOf(l)+Math.round(S.tune[k.v]||0))));
   const vel=Math.max(28,Math.min(127,Math.round(cg(k.v)*85*(k.s===5?.6:k.s===7?1.4:1))));
-  HITLOG.push({t:when,v:k.v,s:k.s,sd:sd0(sd),p,vel,drum,name:(sl&&sl.name)||'',pan:HITPOS?HITPOS.pan:0,send:HITPOS?HITPOS.send:0});MOUT.note(when,p,vel,sd0(sd),k.v,drum);if(HITLOG.length>20000)HITLOG.splice(0,4000)}catch(e){}}
+  HITLOG.push({t:when,v:k.v,s:k.s,sd:sd0(sd),p,vel,drum,name:(sl&&sl.name)||'',pan:HITPOS?HITPOS.pan:0,send:HITPOS?HITPOS.send:0,ln:HITLANE==null?-1:HITLANE,LN:HITLANE==null?0:BEDL});MOUT.note(when,p,vel,sd0(sd),k.v,drum);if(HITLOG.length>20000)HITLOG.splice(0,4000)}catch(e){}}
 function sd0(x){return x>0?Math.min(x,.5):.2}
 /* the frame: pad and its light on black, fitted into the shape */
 function capDims(shape,kind){const long=kind==='gif'?480:1920;let r;
@@ -3356,10 +3381,11 @@ $('expBtn').onclick=()=>popToggle('exp');
    store), the other scores. "Start blank" in the Past section clears it. */
 const KEEP={key:'battanboo.state',keys:['gs','vol','timbre','tail','grain','air','space','morph','meet','nV','tune','flat','N','p','stick','drift','tempo','scale','root','way','ex','feel','mix','tex','brush','wv'],sel:['sset','ssetB'],last:'',off:false};
 try{KEEP.off=/[?&]fresh\b/.test(location.search)}catch(_){}
-function keepSnap(){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w,sl:S.slots.map(s=>s&&s.id||null)};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});return o}
+function keepSnap(h){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w,sl:S.slots.map(s=>s&&s.id||null)};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});if(h)o.hab={cs:csCopy(),a:MZ.a,b:MZ.b,an:MZ.an,bn:MZ.bn,x:MZ.x};return o}
 function keepWrite(force){if(KEEP.off)return;try{const o=keepSnap(),j=JSON.stringify(o,(k,v)=>k==='t'?0:v);if(!force&&j===KEEP.last)return;KEEP.last=j;localStorage.setItem(KEEP.key,JSON.stringify(keepSnap()))}catch(_){}}
 function keepRead(){let q=null;try{q=JSON.parse(localStorage.getItem(KEEP.key)||'null')}catch(_){}return keepApply(q,false)}
 function keepApply(q,keep){if(!q||q.v!==1||!q.g||!q.s)return false;
+  if(q.hab){try{const h=q.hab,ok=a=>Array.isArray(a)&&a.length===8&&a.every(o=>o&&isFinite(o.reg)&&isFinite(o.band)&&isFinite(o.share));if(ok(h.cs))csApply(h.cs);if(ok(h.a)){MZ.a=h.a;MZ.an=String(h.an||'Saved').slice(0,20)}if(ok(h.b)){MZ.b=h.b;MZ.bn=String(h.bn||'Saved').slice(0,20)}if(isFinite(h.x)){MZ.x=Math.min(1,Math.max(0,+h.x));mzPaint();if(MZ.mode!=='off')MZ.t0=performance.now()-mzPh(MZ.x)*MZ.secs*1000}mzSave()}catch(e){}}
   const ch=(id,v,ev)=>{const e=$(id);if(!e||v==null)return;e.value=v;e.dispatchEvent(new Event(ev||'change'))};
   try{if(q.s.N>=4&&q.s.N<=24&&q.s.N!==S.N)sizeApply(q.s.N);
     KEEP.keys.forEach(k=>{if(q.s[k]!==undefined&&k!=='N'&&k!=='tempo')S[k]=q.s[k]});if(typeof wvFix==='function')wvFix();
@@ -3426,6 +3452,8 @@ const MIDI=(function(){
     try{const o=JSON.parse(localStorage.getItem('battanboo.xfcc')||'null');if(o&&!Object.values(map).some(m=>m.id==='xf')){map['*|'+o.ch+'|'+o.cc]={id:'xf'};localStorage.removeItem('battanboo.xfcc');ch=true}}catch(_){}if(ch)save()})();
   const nudge=(c)=>v=>{v=clamp(v,0,1);if(c.local){c.set(v);padPaint(c,clamp(c.get(),0,1))}else setCtl(c.id,v,true)};
   const controls=()=>{const L=[{id:'xf',label:'Crossfader: grid to field',set:v=>{XF.set(v);recCtl('xf',XF.X.x)}}];
+    L.push({id:'hab:morph',label:'Colour habits: A to B',set:v=>mzSet(clamp(v,0,1)),c:{el:MZ.ui&&MZ.ui.sl&&MZ.ui.sl.isConnected?MZ.ui.sl:null}});
+    L.push({id:'act:mzAnim',label:'Colour habits animator: start or stop',el:MZ.ui&&MZ.ui.ms&&MZ.ui.ms.isConnected?MZ.ui.ms:null,press:()=>mzToggle()});
     CTL.forEach(c=>L.push({id:'ctl:'+c.id,label:c.label,set:nudge(c),c}));
     LOCALP.forEach(c=>L.push({id:'loc:'+c.id,label:c.label,set:nudge(c),c}));
     COLP.forEach((c,v)=>{if(c)L.push({id:'col:'+v,label:'Colour '+(v+1)+' level',set:nudge(c),c})});
