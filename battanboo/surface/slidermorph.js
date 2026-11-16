@@ -36,11 +36,11 @@
     "input[type=range][data-morph]{--gc:var(--muted,#888);--gv:2px}" +
     "input[type=range][data-morph][data-mm]{--gc:var(--accent,#fc3)}" +
     "input[type=range][data-morph][data-open]{--gv:0px}" +
-    "input[type=range][data-morph]::-webkit-slider-thumb{width:20px;height:20px;margin-top:-9px;" +
-    "background:linear-gradient(var(--gc),var(--gc)) center/9px 2px no-repeat,linear-gradient(var(--gc),var(--gc)) center/var(--gv) 9px no-repeat,var(--surface,#fff);box-shadow:0 0 0 1.5px var(--gc)}" +
-    "input[type=range][data-morph]::-moz-range-thumb{width:20px;height:20px;" +
-    "background:linear-gradient(var(--gc),var(--gc)) center/9px 2px no-repeat,linear-gradient(var(--gc),var(--gc)) center/var(--gv) 9px no-repeat,var(--surface,#fff);box-shadow:0 0 0 1.5px var(--gc)}" +
-    "@media (pointer:coarse){input[type=range][data-morph]::-webkit-slider-thumb{width:26px;height:26px;margin-top:-12px}input[type=range][data-morph]::-moz-range-thumb{width:26px;height:26px}}" +
+    "input[type=range][data-morph]::-webkit-slider-thumb{width:20px!important;height:20px!important;margin-top:-9px!important;" +
+    "background:linear-gradient(var(--gc),var(--gc)) center/9px 2px no-repeat,linear-gradient(var(--gc),var(--gc)) center/var(--gv) 9px no-repeat,var(--surface,#fff)!important;box-shadow:0 0 0 1.5px var(--gc)!important;border:0!important}" +
+    "input[type=range][data-morph]::-moz-range-thumb{width:20px!important;height:20px!important;" +
+    "background:linear-gradient(var(--gc),var(--gc)) center/9px 2px no-repeat,linear-gradient(var(--gc),var(--gc)) center/var(--gv) 9px no-repeat,var(--surface,#fff)!important;box-shadow:0 0 0 1.5px var(--gc)!important;border:0!important}" +
+    "@media (pointer:coarse){input[type=range][data-morph]::-webkit-slider-thumb{width:26px!important;height:26px!important;margin-top:-12px!important}input[type=range][data-morph]::-moz-range-thumb{width:26px!important;height:26px!important}}" +
     "input[type=range][data-morph][data-run]{animation:ssmRun 2.4s ease-in-out infinite}@keyframes ssmRun{50%{--gc:color-mix(in srgb,var(--accent,#fc3) 55%,var(--muted,#888))}}" +
     "@media (prefers-reduced-motion:reduce){input[type=range][data-morph][data-run]{animation:none}}" +
     ".ssm-dots{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none}" +
@@ -48,13 +48,13 @@
     ".ssm-dots i.c{opacity:.35;width:4px;height:4px;margin:-2px 0 0 -2px}" +
     ".ssm-sec{grid-column:1/-1;display:grid;gap:6px;padding:8px 0 4px;border-top:1px solid var(--line,#8884)}" +
     ".ssm-sec[hidden]{display:none}" +
-    ".ssm-sec .mr{display:flex;flex-wrap:wrap;gap:5px;align-items:center}" +
-    ".ssm-sec .mt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#888);min-width:46px}" +
-    ".ssm-sec .mn{font-size:10px;color:var(--muted,#888);margin:0;flex:1;min-width:0}" +
-    ".ssm-sec .mf{display:flex;align-items:center;gap:6px}" +
-    ".ssm-sec button.ic{width:30px;min-height:26px;padding:0;display:inline-grid;place-items:center}" +
-    ".ssm-sec button.ic svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}" +
-    ".ssm-sec button.ic:disabled{opacity:.35;cursor:default}" +
+    ".ssm-sec .ssm-r{display:flex;flex-wrap:wrap;gap:5px;align-items:center}" +
+    ".ssm-sec .ssm-t{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#888);min-width:46px}" +
+    ".ssm-sec .ssm-n{font-size:10px;color:var(--muted,#888);margin:0;flex:1;min-width:0}" +
+    ".ssm-sec .ssm-f{display:flex;align-items:center;gap:6px}" +
+    ".ssm-sec button.ssm-i{width:28px;height:24px;min-height:24px;padding:0;flex:none;display:inline-grid;place-items:center}" +
+    ".ssm-sec button.ssm-i svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}" +
+    ".ssm-sec button.ssm-i:disabled{opacity:.35;cursor:default}" +
     ".ssm-sec button{min-height:26px;padding:0 10px;border-radius:13px;border:1px solid var(--line,#8884);background:transparent;color:var(--fg,#222);font:600 11px var(--ui,system-ui);cursor:pointer}" +
     ".ssm-sec button[aria-pressed=\"true\"]{background:var(--accent,#fc3);border-color:var(--accent,#fc3);color:var(--accent-ink,#000)}";
 
@@ -112,8 +112,8 @@
       b = q.box = document.createElement("div"); b.className = "ssm-sec"; b.setAttribute("role", "group");
       b.setAttribute("aria-label", "Morph: " + ((q.row.textContent || "").trim().split(/\s{2,}|:/)[0]));
       var row = function (t, key, opts) {
-        var d = document.createElement("div"); d.className = "mr";
-        var l = document.createElement("span"); l.className = "mt"; l.textContent = t; d.appendChild(l);
+        var d = document.createElement("div"); d.className = "ssm-r";
+        var l = document.createElement("span"); l.className = "ssm-t"; l.textContent = t; d.appendChild(l);
         opts.forEach(function (o) {
           var k = document.createElement("button"); k.type = "button"; k.textContent = o[1]; k.dataset.k = key; k.dataset.v = o[0];
           k.onclick = function () {
@@ -127,13 +127,13 @@
       row("Motion", "m", [["still", "Still"], ["pingpong", "Ping-pong"], ["sweep", "Sweep"], ["drift", "Drift"]]);
       row("Speed", "sp", [["slow", "Slow"], ["mid", "Medium"], ["fast", "Fast"]]);
       row("Span", "w", [["s", "Small"], ["w", "Wide"], ["f", "Full"]]);
-      var f = document.createElement("div"); f.className = "mf";
-      var n = document.createElement("p"); n.className = "mn"; n.setAttribute("aria-live", "polite"); f.appendChild(n);
+      var f = document.createElement("div"); f.className = "ssm-f";
+      var n = document.createElement("p"); n.className = "ssm-n"; n.setAttribute("aria-live", "polite"); f.appendChild(n);
       var NOTE = "Speed follows the tempo: 32, 8 or 2 beats a swing.";
       n.textContent = NOTE;
       var say = function (t) { n.textContent = t; clearTimeout(q.nt); q.nt = setTimeout(function () { n.textContent = NOTE; }, 1400); };
       var ic = function (label, svg, fn) {
-        var k = document.createElement("button"); k.type = "button"; k.className = "ic"; k.title = label; k.setAttribute("aria-label", label);
+        var k = document.createElement("button"); k.type = "button"; k.className = "ssm-i"; k.title = label; k.setAttribute("aria-label", label);
         k.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true">' + svg + "</svg>"; k.onclick = fn; f.appendChild(k); return k;
       };
       var pb;
