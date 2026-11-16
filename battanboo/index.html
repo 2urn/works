@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261116021445";window.__VERSION__="0.5.152";window.__NOTES__=[{"v": "0.5.152", "date": "15 Nov 2026", "items": [{"kind": "", "text": "Hold's rings are bolder and travel farther, and they appear only while a held sound is actually sounding. With Hold on and nothing held, the hand stays still."}]}]</script>
+<script>window.__BUILD__="20261116041727";window.__VERSION__="0.5.153";window.__NOTES__=[{"v": "0.5.153", "date": "15 Nov 2026", "items": [{"kind": "", "text": "Colours and marks are now checkboxes. Tap to add or remove one (one always stays on); tap twice quickly to choose just that one. Drawing with several on deals from them, as a shuffled bag by default: every chosen colour or mark comes up before any repeats, so a stroke is evenly mixed. A small shuffle button appears when you have more than one on; press it to pick at random instead."}, {"kind": "", "text": "Saved looks carry the chosen colours, marks and deal order."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -84,6 +84,7 @@ body.hudon #edTools,body.hudon .side .brush,body.hudon .bar>.brush,body.hudon #f
 /* HOLD-FLYOUTS (Dimitry, 11 Nov): a rail button with more to it carries a small notch in its corner; hold it (or right-click, or the menu key) and its choices fly out to the left. A tap still does the one obvious thing. */
 #mBin,#xfAutoBtn{position:relative}
 /* markers sit on the flat side: a heads-up marker top-left, a submenu triangle bottom-left; where that corner is rounded (the pill's own curve) cornerSync() sets data-cr and they flip to the other side (Dimitry, 15 Nov) */
+#pDeal{color:#fff}
 .hm::before{content:"";position:absolute;left:5px;top:5px;width:7px;height:7px;background:var(--muted);opacity:.8;clip-path:polygon(0 0,100% 0,0 100%);pointer-events:none}
 .hm[data-cr]::before{left:auto;right:5px;clip-path:polygon(0 0,100% 0,100% 100%)}
 .rail button.nt::after{content:"";position:absolute;left:5px;bottom:5px;width:0;height:0;border-style:solid;border-width:0 7px 7px 0;border-color:transparent transparent var(--muted) transparent;opacity:.8;pointer-events:none}
@@ -1411,7 +1412,7 @@ function haloOpen(c){if(HALO&&HALO.c.i===c.i&&HALO.c.j===c.j){haloClose();return
   const col=()=>(VC()[c.k.s>0?c.k.v:S.brush]||'#fff');/* the colour being drawn with: this cell's own when it has a mark, otherwise the brush */
   const show=t=>{lab.textContent=t;lab.classList.add('on')},rest=()=>show(nm(c.k.s));
   let view='marks';const items=[];
-  const brushSync=v=>{S.brush=v;document.querySelectorAll('.brush button[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===v)))};
+  const brushSync=v=>{S.brush=v;PT.cols=[v];try{ptSave()}catch(e){}document.querySelectorAll('.brush button[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===v)))};
   const sync=()=>{const cc=col();el.style.setProperty('--hc',cc);el.querySelectorAll('[data-s]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===c.k.s)));rest()};
   const mk=(cls,gc,gr)=>{const b=document.createElement('button');b.type='button';b.className=cls;b.style.gridColumn=gc;b.style.gridRow=gr;items.push(b);el.appendChild(b);return b};
   const say=(b,t)=>{b.addEventListener('pointerdown',()=>show(t));b.addEventListener('pointerenter',()=>show(t));b.addEventListener('focus',()=>show(t))};
@@ -1448,18 +1449,32 @@ function haloOpenOld(c){if(HALO&&HALO.c.i===c.i&&HALO.c.j===c.j){haloClose();ret
 /* PAINT: with the halo off, tap or drag across the grid. Colour only recolours marks that are there; Shape only reshapes marks that are there; both together paint (or, starting on an identical cell, erase). */
 var PT={halo:true,pc:true,pm:true,shape:1},PAINT=null;
 try{const q=JSON.parse(localStorage.getItem('battanbou.paint')||'null');if(q){PT.halo=q.halo!==false;PT.pc=true;PT.pm=true;if(q.shape>=0&&q.shape<8)PT.shape=q.shape}}catch(e){}
+/* several colours and several marks can be on at once; a stroke deals from them, as a shuffled bag (every one comes up before any repeats) or at random (Dimitry, 15 Nov) */
+PT.cols=[S.brush>=0?S.brush:0];PT.shapes=[PT.shape];PT.deal='bag';
+try{const q=JSON.parse(localStorage.getItem('battanbou.paint')||'null');if(q){if(Array.isArray(q.cols)&&q.cols.length)PT.cols=q.cols.filter(v=>v>=0&&v<8);if(Array.isArray(q.shapes)&&q.shapes.length)PT.shapes=q.shapes.filter(v=>v>=0&&v<8);if(q.deal==='random')PT.deal='random'}}catch(e){}
+if(!PT.cols.length)PT.cols=[S.brush||0];if(!PT.shapes.length)PT.shapes=[PT.shape];if(!PT.cols.includes(S.brush))S.brush=PT.cols[0];if(!PT.shapes.includes(PT.shape))PT.shape=PT.shapes[0];
+const BAG={c:[],s:[],lc:-1,ls:-1};window.__deal={get PT(){return PT},dealC:()=>dealC(),dealS:()=>dealS()};
+function dealFrom(kind,set){const l=kind==='c'?'lc':'ls';if(set.length<2)return set[0];if(PT.deal==='random')return set[Math.floor(Math.random()*set.length)];
+  let b=BAG[kind].filter(x=>set.includes(x));if(!b.length){b=set.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}if(b[b.length-1]===BAG[l]){const t=b[0];b[0]=b[b.length-1];b[b.length-1]=t}}
+  const v=b.pop();BAG[kind]=b;BAG[l]=v;return v}
+const dealC=()=>dealFrom('c',PT.cols.filter(v=>v<S.nV).length?PT.cols.filter(v=>v<S.nV):[S.brush]);
+const dealS=()=>dealFrom('s',PT.shapes.length>1?PT.shapes.filter(v=>v>0):PT.shapes);
+/* checkbox choice: tap adds or removes (one always stays on); tapping twice quickly picks that one alone */
+function multiPick(arr,v,tt,shape){const now=performance.now(),dbl=tt.v===v&&now-tt.t<380;tt.v=v;tt.t=now;if(dbl)return [v];
+  const i=arr.indexOf(v);if(i<0)return shape?(v===0?[0]:arr.filter(x=>x>0).concat(v)):arr.concat(v);if(arr.length>1)return arr.filter(x=>x!==v);return arr}
+const TTC={v:-1,t:0},TTS={v:-1,t:0};
 function ptSave(){try{localStorage.setItem('battanbou.paint',JSON.stringify(PT))}catch(e){}}
 /* a mark just painted shows at full colour and opacity, then eases to its real state (muted, faded) so you can see you are drawing (Dimitry, 14 Nov 21:34) */
 var PFL=new Map(),pflRaf=0;function pflHit(c){PFL.set(G.fam+','+c.i+','+c.j,performance.now());if(!pflRaf)pflRaf=requestAnimationFrame(pflTick)}
 function pflTick(){pflRaf=0;const t=performance.now();PFL.forEach((v,k)=>{if(t-v>1100)PFL.delete(k)});try{draw()}catch(e){}if(PFL.size)pflRaf=requestAnimationFrame(pflTick)}
 function paintApply(c,mode){const k=c.k,both=PT.pc&&PT.pm;if(mode!=='erase')pflHit(c);
-  if(both){if(mode==='erase')k.s=0;else{k.v=S.brush;k.s=PT.shape}}
-  else if(PT.pc){if(k.s>0)k.v=S.brush}
-  else if(PT.pm){if(k.s>0)k.s=PT.shape}
+  if(both){if(mode==='erase')k.s=0;else{k.v=dealC();k.s=dealS()}}
+  else if(PT.pc){if(k.s>0)k.v=dealC()}
+  else if(PT.pm){if(k.s>0)k.s=dealS()}
   draw()}
 function paintDown(e,c){e.preventDefault();histPush();const k=c.k;if(!PT.pc&&!PT.pm){if(k.v!==S.brush||k.s===0){k.v=S.brush;if(k.s===0)k.s=PT.shape||1}else k.s=(k.s+1)%SHAPES.length;pflHit(c);draw();return}
   try{cv.setPointerCapture(e.pointerId)}catch(_){}
-  const same=PT.pc&&PT.pm&&k.s===PT.shape&&k.v===S.brush;PAINT={id:e.pointerId,mode:same?'erase':'set',last:KEYC(c)};paintApply(c,PAINT.mode)}
+  const same=PT.pc&&PT.pm&&k.s>0&&PT.shapes.includes(k.s)&&PT.cols.includes(k.v);PAINT={id:e.pointerId,mode:same?'erase':'set',last:KEYC(c)};paintApply(c,PAINT.mode)}
 function edCells(sel){const [A,B]=AB(sel.fam),out=[];if(sel.kind==='i'){for(let j=0;j<B;j++)out.push([sel.n,j])}else{for(let i=0;i<A;i++)out.push([i,sel.n])}return out}
 function edSync(){const nm=k=>edName(k),cap=t=>t[0].toUpperCase()+t.slice(1);
   [['edI','i'],['edJ','j']].forEach(([id,k])=>{const b=$(id);if(!b)return;b.setAttribute('aria-pressed',String(ED.pick===k));b.classList.add('edp');b.setAttribute('aria-label','Pick a '+nm(k)+': then tap any cell in it');b.title='Pick a '+nm(k)+' (then tap a cell in it)'});
@@ -1491,7 +1506,7 @@ function pbAway(b){const a=S.mode==='play',h=$('hero'),was=b.classList.contains(
 function ehSim(){const b=$('paintBar'),h=$('hero');if(!b||!h||S.mode!=='play'||innerWidth<900||document.documentElement.classList.contains('full')||typeof draw!=='function')return;const t=b.style.top;b.classList.remove('away');b.style.top='';h.style.minHeight='';h.classList.remove('pinb');try{draw()}catch(e){}EH=h.offsetHeight;{const bar0=h.querySelector(':scope>.bar');if(bar0){bar0.style.transform='';BT=bar0.getBoundingClientRect().top-h.getBoundingClientRect().top}}b.classList.add('away');b.style.top=t||(EH-250)+'px';h.style.minHeight=EH+'px';h.classList.add('pinb');try{draw()}catch(e){}pinBar()}
 var _ehT=0;addEventListener('resize',()=>{clearTimeout(_ehT);_ehT=setTimeout(()=>{if(S.mode==='play')ehSim();else EH=0},250)});setTimeout(()=>{try{ehSim()}catch(e){}},600);
 function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!bar)return;$('pHalo').setAttribute('aria-pressed',String(PT.halo));$('pDraw').setAttribute('aria-pressed',String(!PT.halo));
-  bar.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.m===PT.shape)));bar.classList.toggle('nohalo',!PT.halo);{const r2=$('paintRail2');if(r2){r2.classList.toggle('off',PT.halo);}}bar.hidden=false;pbAway(bar);bar.classList.toggle('dim',PT.halo);if(!PT.halo)haloClose()}
+  bar.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-pressed',String(PT.shapes.includes(+b.dataset.m))));document.querySelectorAll('.brush button[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(PT.cols.includes(+b.dataset.v))));{const d=$('pDeal');if(d){d.hidden=PT.cols.length<2&&PT.shapes.length<2;d.setAttribute('aria-pressed',String(PT.deal==='random'))}}bar.classList.toggle('nohalo',!PT.halo);{const r2=$('paintRail2');if(r2){r2.classList.toggle('off',PT.halo);}}bar.hidden=false;pbAway(bar);bar.classList.toggle('dim',PT.halo);if(!PT.halo)haloClose()}
 (function(){const bar=document.createElement('div');bar.id='paintBar';bar.className='paintbar';bar.hidden=false;if(S.mode==='play'){bar.classList.add('away');bar.inert=true}bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Edit: halo, colour and shape painting');
   const DRAWSVG='<path d="M8 3c2.2 2.8 3.8 4.7 3.8 6.7a3.8 3.8 0 0 1-7.6 0C4.2 7.7 5.8 5.8 8 3z"/><path d="M16.5 9.5l4.5 8h-9z"/><circle cx="7.5" cy="18" r="3"/>';window.__haloIcon=null;window.DRAWSVGG=DRAWSVG;
   const ic={pDraw:['Draw',DRAWSVG,'Draw: dragging paints the chosen colour and mark.'],pHalo:['Halo',(window.SurfaceRing&&SurfaceRing.MARK?'<g fill="currentColor" stroke="none">'+SurfaceRing.MARK.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g>':'<path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>'),'Halo: tap a cell to open its marks. Off: tap or drag to paint.']};
@@ -1500,7 +1515,8 @@ function ptSync(){cv.style.touchAction=touchFor();const bar=$('paintBar');if(!ba
   ['pHalo','pDraw'].forEach(id=>{const b=document.createElement('button');b.type='button';b.id=id;b.className='ptg';b.title=ic[id][2];b.setAttribute('aria-label',ic[id][2]);b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+ic[id][1]+'</svg>';
     b.onclick=()=>{/* Halo is a mode you activate and use; Colour and Shape are what you draw WITH, so tapping one leaves Halo and picks it (Dimitry, 14 Nov 07:36, 07:52) */if(id==='pHalo')PT.halo=true;else{PT.halo=false;PT.pc=PT.pm=true}/* tapping what you draw with leaves Halo and picks it (0.5.78); while drawing, any of them goes back to Halo, they no longer toggle on their own (Dimitry, 14 Nov 21:07) */ptSave();ptSync()};rail.appendChild(b)});
   const sep=document.createElement('i');sep.className='sep';bar.appendChild(sep);
-  SHAPES.forEach(([id,nm],kd)=>{const b=document.createElement('button');b.type='button';b.className='pm';b.dataset.m=kd;b.setAttribute('aria-label','Shape: '+(kd?nm:'none'));b.title=kd?nm:'None';b.appendChild(glyph(kd,24));b.onclick=()=>{PT.shape=kd;ptSave();ptSync()};bar.appendChild(b)});
+  SHAPES.forEach(([id,nm],kd)=>{const b=document.createElement('button');b.type='button';b.className='pm';b.dataset.m=kd;b.setAttribute('aria-label','Shape: '+(kd?nm:'none'));b.title=kd?nm:'None';b.appendChild(glyph(kd,24));b.onclick=()=>{PT.shapes=multiPick(PT.shapes,kd,TTS,true);PT.shape=PT.shapes.includes(kd)?kd:PT.shapes[0];ptSave();ptSync()};bar.appendChild(b)});
+  {const d=document.createElement('button');d.type='button';d.id='pDeal';d.className='pm';d.hidden=true;d.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3.5c5 0 6 10 11 10H21M3 17h3.5c1.6 0 2.8-.7 3.8-1.8M13.7 8.8C14.7 7.7 16 7 17.5 7H21M18.5 4.5L21 7l-2.5 2.5M18.5 14.5L21 17l-2.5 2.5"/></svg>';d.title='Deal order: a shuffled bag, or at random. Pressed means random.';d.setAttribute('aria-label','Deal the chosen colours and marks at random instead of from a shuffled bag');d.onclick=()=>{PT.deal=PT.deal==='random'?'bag':'random';BAG.c=[];BAG.s=[];ptSave();ptSync();$('status').textContent=PT.deal==='random'?'Strokes pick any chosen colour or mark at random.':'Strokes deal the chosen colours and marks from a shuffled bag.'};bar.appendChild(d)}
   {const br=document.querySelector('.side .brush');if(br){bar.insertBefore(br,sep)}}/* the colours live with the shapes they go with: toggles, colours, shapes (Dimitry, 14 Nov) */
   /* tapping a faded colour or mark wakes drawing, as the Colour or Shape button would, and then makes its choice (Dimitry, 14 Nov 21:24) */bar.addEventListener('click',e=>{if(!PT.halo||!e.target.closest('button'))return;PT.halo=false;PT.pc=PT.pm=true;ptSave();ptSync()},true);document.querySelector('.stagerow').after(bar);{const et=$('edTools');if(et){et.after(rail)}else{document.querySelector('.side').appendChild(rail)}}ptSync()})();
 addEventListener('pointerdown',e=>{if(HALO&&!HALO.el.contains(e.target)&&e.target!==cv)haloClose()},true);
@@ -1842,7 +1858,7 @@ $('roll').onclick=()=>{ears('f');rollNew()};
   b.addEventListener('click',e=>{if(eat){e.stopImmediatePropagation();e.preventDefault();eat=false}},true);b.style.touchAction='pan-y'})();
 $('prev').onclick=()=>{if(si>0){ears('b');goScene(si-1)}};
 $('next').onclick=()=>{ears('f');if(si<scenes.length-1)goScene(si+1);else rollNew()};
-document.querySelectorAll('.brush button[data-v]').forEach(b=>b.onclick=()=>{S.brush=+b.dataset.v;document.querySelectorAll('.brush button[data-v]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))});
+document.querySelectorAll('.brush button[data-v]').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;PT.cols=multiPick(PT.cols,v,TTC);S.brush=PT.cols.includes(v)?v:PT.cols[0];ptSave();ptSync()});
 
 function bind(id,key,oid,fmt,after){const el=$(id);const upd=()=>{S[key]=+el.value;$(oid).textContent=fmt(S[key])};el.oninput=()=>{upd();after&&after();status()};upd()}
 const opts=(id,list)=>{const el=$(id);el.innerHTML='';list.forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;el.appendChild(o)})};
@@ -3555,12 +3571,13 @@ $('expBtn').onclick=()=>popToggle('exp');
    store), the other scores. "Start blank" in the Past section clears it. */
 const KEEP={key:'battanboo.state',keys:['gs','vol','timbre','tail','grain','air','space','morph','meet','nV','tune','flat','N','p','stick','drift','tempo','scale','root','way','ex','feel','mix','tex','brush','wv'],sel:['sset','ssetB'],last:'',off:false};
 try{KEEP.off=/[?&]fresh\b/.test(location.search)}catch(_){}
-function keepSnap(h){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w,sl:S.slots.map(s=>s&&s.id||null)};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});if(h){o.hab={cs:csCopy(),a:MZ.a,b:MZ.b,an:MZ.an,bn:MZ.bn,x:MZ.x};try{o.bin={on:BIN.st.on,mode:BIN.st.mode,lv:BIN.st.lv,src:BIN.st.src}}catch(e){}}return o}
+function keepSnap(h){const o={v:1,t:Date.now(),s:{},sel:{},g:S.g,sw:S.sw,lk:S.lk,w:S.w,sl:S.slots.map(s=>s&&s.id||null)};KEEP.keys.forEach(k=>{if(S[k]!==undefined)o.s[k]=S[k]});KEEP.sel.forEach(id=>{const e=$(id);if(e)o.sel[id]=e.value});if(h){o.hab={cs:csCopy(),a:MZ.a,b:MZ.b,an:MZ.an,bn:MZ.bn,x:MZ.x};try{o.mix={c:PT.cols.slice(),s:PT.shapes.slice(),d:PT.deal}}catch(e){}try{o.bin={on:BIN.st.on,mode:BIN.st.mode,lv:BIN.st.lv,src:BIN.st.src}}catch(e){}}return o}
 function keepWrite(force){if(KEEP.off)return;try{const o=keepSnap(),j=JSON.stringify(o,(k,v)=>k==='t'?0:v);if(!force&&j===KEEP.last)return;KEEP.last=j;localStorage.setItem(KEEP.key,JSON.stringify(keepSnap()))}catch(_){}}
 function keepRead(){let q=null;try{q=JSON.parse(localStorage.getItem(KEEP.key)||'null')}catch(_){}return keepApply(q,false)}
 function keepApply(q,keep){if(!q||q.v!==1||!q.g||!q.s)return false;
   if(q.hab){try{const h=q.hab,ok=a=>Array.isArray(a)&&a.length===8&&a.every(o=>o&&isFinite(o.reg)&&isFinite(o.band)&&isFinite(o.share));if(ok(h.cs))csApply(h.cs);if(ok(h.a)){MZ.a=h.a;MZ.an=String(h.an||'Saved').slice(0,20)}if(ok(h.b)){MZ.b=h.b;MZ.bn=String(h.bn||'Saved').slice(0,20)}if(isFinite(h.x)){MZ.x=Math.min(1,Math.max(0,+h.x));mzPaint();if(MZ.mode!=='off')MZ.t0=performance.now()-mzPh(MZ.x)*MZ.secs*1000}mzSave()}catch(e){}}
   const ch=(id,v,ev)=>{const e=$(id);if(!e||v==null)return;e.value=v;e.dispatchEvent(new Event(ev||'change'))};
+  if(keep&&q.mix){try{if(q.mix.c&&q.mix.c.length)PT.cols=q.mix.c.slice();if(q.mix.s&&q.mix.s.length)PT.shapes=q.mix.s.slice();PT.deal=q.mix.d==='random'?'random':'bag';if(!PT.cols.includes(S.brush))S.brush=PT.cols[0];PT.shape=PT.shapes[0];BAG.c=[];BAG.s=[];ptSave();ptSync()}catch(e){}}
   if(keep&&q.bin){try{BIN.load(q.bin)}catch(e){}}/* a look carries its binaural beat; a page start never switches one on */
   try{if(q.s.N>=4&&q.s.N<=24&&q.s.N!==S.N)sizeApply(q.s.N);
     KEEP.keys.forEach(k=>{if(q.s[k]!==undefined&&k!=='N'&&k!=='tempo')S[k]=q.s[k]});if(typeof wvFix==='function')wvFix();
