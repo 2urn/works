@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261116130200";window.__VERSION__="0.5.162";window.__NOTES__=[{"v": "0.5.162", "date": "16 Nov 2026", "items": [{"kind": "", "text": "The Wander section's title is now just \"Wander\"."}]}]</script>
+<script>window.__BUILD__="20261116131417";window.__VERSION__="0.5.163";window.__NOTES__=[{"v": "0.5.163", "date": "16 Nov 2026", "items": [{"kind": "", "text": "Always-on rows and columns now keep sounding when the robot is off. They play on their own steady pulse at the tempo (an eighth at a time), and the robot takes over when you press play. It starts once you have touched the page (the browser needs a touch before it will make sound), and it stays quiet while you are in the pencil's edit mode."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -1685,6 +1685,15 @@ let BEDL=1;function hit(fam,a,b,k,l,time,sd,src){let pos=S.gs!=='off'?gsPos(fam,
 function playStep(e){const V=e.v,row=V.v[e.t];BEDL=V.L;CURV=V;
   for(let l=0;l<V.L;l++){const at=V.ij[e.t][l];if(!at)continue;for(const[a,b]of at.more){const k=V.g[a][b];if(!k||!k.s)continue;if(cellSt(V.fam,a,b)!==1)hit(V.fam,a,b,k,l,e.time,e.sd,e.line)}}
   if(e.line===0)for(let a=0;a<V.A;a++)for(let b=0;b<V.B;b++){if(cellSt(V.fam,a,b)!==2)continue;const[t,l]=tl(V.way,a,b);if(t===e.t)continue;const k=V.g[a][b];if(k&&k.s)hit(V.fam,a,b,k,l,e.time,e.sd,0)}}
+
+/* ALWAYS-ON ROWS AND COLUMNS KEEP SOUNDING WITH THE ROBOT OFF (Dimitry, 16 Nov 08:11): an always-on switch means "this cell sounds on every step", so it must not depend on the robot being on. With the robot stopped, a quiet pulse (one step = an eighth, as the robot counts) plays them from the same hit() the robot uses. Audio must already be unlocked by a touch; the robot takes over the moment it plays. */
+(function(){let tm=0;
+  function pulse(){clearTimeout(tm);const sd=30/(S.tempo||96);tm=setTimeout(pulse,Math.max(80,sd*1000));
+    try{if(S.playing||S.mode==='edit'||document.hidden||!AC||AC.state!=='running')return;
+      const V=view(S.eff.way);if(!V||!V.g)return;let any=false;
+      for(let a=0;a<V.A;a++)for(let b=0;b<V.B;b++){if(cellSt(V.fam,a,b)!==2)continue;const k=V.g[a][b];if(!k||!k.s)continue;
+        if(!any){any=true;BEDL=V.L;CURV=V}hit(V.fam,a,b,k,tl(V.way,a,b)[1],AC.currentTime+.03,sd,0)}}catch(e){}}
+  tm=setTimeout(pulse,1000)})();
 
 /* sound registry, sound sets, import */
 const REG=[];let impN=0;
