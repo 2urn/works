@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261116052806";window.__VERSION__="0.5.156";window.__NOTES__=[{"v": "0.5.156", "date": "16 Nov 2026", "items": [{"kind": "", "text": "The sliders in the Index now look and behave like the ones in the heads-up display: a thin track, the readout turns to the accent colour once you change a slider, and double-tapping the slider's name glides it back to its default. On Size, the name's double-tap is the same as the Default grid button."}]}]</script>
+<script>window.__BUILD__="20261116053048";window.__VERSION__="0.5.157";window.__NOTES__=[{"v": "0.5.157", "date": "16 Nov 2026", "items": [{"kind": "", "text": "The Haitian djouba study now plays its own drums. Opening it loads a \"Haitian djouba drums\" sound set: the kata (stick on wood), the boula (small goatskin drum), the manman (large goatskin drum) and the tchatcha shaker, one per track. Before, its tracks played the generic drum kit, so the goatskin drums did not sound like goatskin. The four drums are also in the colour menus as \"Djouba: ...\". They are synthesized sketches from descriptions, not heard by a drummer. The Lebanese study still plays the generic kit; its own drums come with the Lebanese kit."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -1004,6 +1004,7 @@ function impApply(r){
   scenes=r.scenes;scenes.imp=scenes.length;si=0;SST++;S.g=scenes[0];
   S.way=r.way||'right';S.ex=r.ex?r.ex.map(e=>({way:e.way||'none',ag:e.ag||'1:1'})):S.ex.map(e=>({...e,way:'none'}));Object.assign(S.w,WANDER.Still);S.drift=0;try{S.wv.on=false}catch(e){}
   if(r.made)pitchSet(r.scale,r.root);else if(!r.drum)pitchSet('Chromatic',null);
+  if(/^Haitian djouba/.test(r.name||'')&&r.nV===4){try{applySet('Haitian djouba drums')}catch(e){}}/* each of its four tracks gets the drum it is named for */
   $('nv').value=r.nV;$('nv').dispatchEvent(new Event('input'));
   $('feel').value='steady';$('feel').dispatchEvent(new Event('change'));
   $('tempo').value=r.tempo;$('tempo').dispatchEvent(new Event('input'));
@@ -1688,6 +1689,7 @@ function regBuild(){REG.length=0;SYN.forEach((n,i)=>REG.push({id:'syn:'+i,label:
   if(L){L.sounds.forEach((r,i)=>REG.push({id:'lib:'+r.name,label:'Glass: '+r.name,make:()=>({t:'rec',r,name:r.name})}));
     REG.push({id:'bank:drums',label:'Bank: drum kit ('+L.drums.length+')',make:()=>({t:'bank',items:L.drums,name:'Drum kit'})});
     REG.push({id:'bank:glass',label:'Bank: glass sounds ('+L.sounds.length+')',make:()=>({t:'bank',items:L.sounds,name:'Glass'})})}
+  DJOUBA.forEach((r,i)=>REG.push({id:'dj:'+i,label:'Djouba: '+r.name,make:()=>({t:'bank',items:[r],name:r.name})}));
   RARA.forEach((r,i)=>REG.push({id:'rara:'+i,label:'Rara: '+r.name,make:()=>({t:'bank',items:[r],name:r.name})}));
   IMP.forEach(g=>REG.push(g))}
 const IMP=[];
@@ -1715,6 +1717,16 @@ const RARA=[
   {source:'noise',filter:{type:'bandpass',q:1.6},start:{time:.006,gain:.7,freq:5600},hold:{time:.12,gain:0,freq:6400,curve:'exp'},end:{time:.015,gain:0}},
   {source:'noise',filter:{type:'highpass',q:.7},start:{time:.02,gain:.35,freq:2600},hold:{time:.16,gain:0,freq:3600,curve:'exp'},end:{time:.02,gain:0}},
   {source:'sine',pitch:2700,start:{time:.01,gain:.07,pitch:2500},hold:{time:.08,gain:0,pitch:2800,curve:'exp'},end:{time:.01,gain:0}}]}];
+/* The djouba study's four tracks, each with the drum it is named for (Dimitry, 16 Nov: the goatskin drum did not sound like one). Same synthesis as the rara voices; boula and manman are the two goatskin drums, small and high against large and low. A sketch from descriptions, not heard by a drummer. */
+const djDrum=(nm,ab,f0,f1,dec,fs)=>({format:'voice/0',name:nm,about:ab,made:{by:'Claude, from published descriptions of Haitian drumming',description:'a goatskin hand drum, thud and slap'},hold:false,trim:1,layers:[
+ {source:'sine',pitch:f0,start:{time:.003,gain:1,pitch:f0},hold:{time:dec,gain:0,pitch:f1,curve:'exp'},end:{time:.01,gain:0}},
+ {source:'noise',filter:{type:'bandpass',q:1.1},start:{time:.002,gain:.55,freq:fs},hold:{time:.05,gain:0,freq:fs*.6,curve:'exp'},end:{time:.01,gain:0}}]});
+const DJOUBA=[RARA[6],
+ djDrum('boula','The small goatskin drum: higher, shorter, a sharper slap.',170,105,.22,2400),
+ djDrum('manman','The large goatskin drum: a deep thud that rings on.',105,58,.5,1500),
+ {format:'voice/0',name:'tchatcha',about:'The shaker, dry and bright.',made:{by:'Claude, from published descriptions of Haitian drumming',description:'a shaker'},hold:false,trim:0,layers:[
+  {source:'noise',filter:{type:'bandpass',q:1.6},start:{time:.006,gain:.7,freq:5600},hold:{time:.12,gain:0,freq:6400,curve:'exp'},end:{time:.015,gain:0}},
+  {source:'noise',filter:{type:'highpass',q:.7},start:{time:.02,gain:.35,freq:2600},hold:{time:.16,gain:0,freq:3600,curve:'exp'},end:{time:.02,gain:0}}]}];
 window.__rara=RARA;
 const byId=id=>REG.find(x=>x.id===id);
 const SETS={'Synth four':{n:4,s:['syn:0','syn:1','syn:2','syn:3']},
@@ -1722,6 +1734,7 @@ const SETS={'Synth four':{n:4,s:['syn:0','syn:1','syn:2','syn:3']},
  'Beat and notes':{n:5,s:['bank:drums','syn:0','syn:1','syn:2','lib:strike']},
  'A bank of glass':{n:3,s:['bank:glass','syn:1','syn:2']},
  'Eight colours':{n:8,s:DEFSL},
+ 'Haitian djouba drums':{n:4,s:['dj:0','dj:1','dj:2','dj:3']},
  'Haitian rara':{n:8,s:['rara:0','rara:1','rara:2','rara:3','rara:4','rara:5','rara:6','rara:7']}};
 function setSlot(v,id){let e=byId(id);if(!e&&id==='lib:sustain*')e=byId('lib:sustain');if(!e&&id==='lib:air*')e=byId('lib:air');if(!e)e=byId(DSLOT(v))||byId('syn:'+(v%4));S.slots[v]=e.make();S.slots[v].id=e.id}
 function slotsUI(){const box=$('slots');box.innerHTML='';
