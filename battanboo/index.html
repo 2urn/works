@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261116211257";window.__VERSION__="0.5.168";window.__NOTES__=[{"v": "0.5.168", "date": "16 Nov 2026", "items": [{"kind": "", "text": "Fixed: the Scatter line-up had no icon at all in the line-up list, and Orbit showed as a bare circle. Their dots were drawn as zero-length lines, which some screens do not paint. They are real dots now."}]}]</script>
+<script>window.__BUILD__="20261117051934";window.__VERSION__="0.6.0";window.__NOTES__=[{"v": "0.6.0", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "Patterns in the field. A pattern set comes in the way a sound set does: the first is Astrology, in two groups, Signs (the twelve glyphs, drawn as clean geometric lines) and Constellations (the twelve star figures). Tick one, some or all; Bag random plays each ticked pattern once in a shuffled order, or choose In order, or Stay on one. Change by hand (Next pattern, or hold a pattern to play it now) or every 20, 45 or 90 seconds. Field pane, Patterns."}, {"kind": "new", "text": "The pattern moves on its own, apart from the sounds: Still, Turn, Drift, Breathe or Wander, at the size you set."}, {"kind": "new", "text": "A change of pattern is a sonic moment: every vertex flattens onto one line through the middle (across, up and down, or taking turns), holds while the line keeps turning, then opens into the next pattern. Sounds held on the pattern line up along it and sweep round with it."}, {"kind": "new", "text": "Each sound has its own way of going with the pattern: Free (as before), Still (held at its vertex, so it moves when the pattern moves), Wander (drifts around its vertex) or Follow (travels along the lines). New sounds take the choice in the pane; hold a sound for its own."}, {"kind": "new", "text": "The field's drifting marks follow the pattern's lines, gently or strongly."}, {"kind": "new", "text": "Speakers: 2, 4, 8 or headphones, with you in the middle of the floor, so a piece can be made for four or eight speakers. On a device with fewer outputs the pane says what is really heard. Two speakers keep the field exactly as before."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -884,6 +884,8 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
 <script src="surface/voice.js"></script>
 <script src="surface/voicelib.js"></script>
 <script src="surface/pack.js"></script>
+<script src="surface/space.js"></script>
+<script src="surface/patterns-astrology.js"></script>
 <script src="surface/capture.js"></script>
 <script src="surface/sections.js"></script>
 <script src="surface/ring.js"></script>
@@ -3934,6 +3936,180 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 15.5v-3.2a7.5 7.5 0 0 1 15 0v3.2"/><rect x="3.5" y="14" width="4" height="6.5" rx="1.7"/><rect x="16.5" y="14" width="4" height="6.5" rx="1.7"/></svg>';
   let hT=0,held=false;b.addEventListener('pointerdown',()=>{held=false;clearTimeout(hT);hT=setTimeout(()=>{held=true;try{hudReveal($('hBin'),4,b)}catch(e){}},450)});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>clearTimeout(hT)));
   b.onclick=()=>{if(held){held=false;return}BIN.toggle()};rb.insertBefore(b,hud);BIN.paint();try{window.icoDress()}catch(e){}})();
+/* ===== PATTERNS IN THE FIELD (0.6.0, Dimitry 17 Nov 2026, 00:00–00:10) =====
+   "bring in G-code patterns as elements in the field, which act as channels for guiding the field marks"; "the G-code
+   patterns come in in the same way that sound sets do… an astrology set comprising two groups, constellations and signs…
+   just like the colours, they could be set to bag random and they could be checkmarked… each sound could have a different
+   relationship with the G-code pattern: it could stay still… move in a random way or follow"; "the sounds are animated
+   separately from the pattern. The pattern can stay still. It can move. It can be scaled. It could rotate, and when one
+   pattern transitions into another… all of its vertices flatten either into a vertical or horizontal line in the middle
+   of the screen, and then separate again… in a new configuration… so that these transitions become sonic moments where
+   all the sounds are aligned at least along one axis, and… the whole pattern can still be rotating in space".
+
+   The pattern is N points sampled along its G-code drawing (SurfacePatternSets), placed on the field by its own motion
+   (centre, size, turn). Sounds relate to it each in their own way: Free (as before), Still (held at one of its vertices,
+   so it moves when the pattern moves), Wander (drifts around that vertex), Follow (travels along the pattern's lines).
+   A change of pattern flattens every vertex onto one line through the middle (across or up), holds it while the line
+   keeps turning, then opens into the next pattern; Still sounds ride their vertex, so they line up and sweep together.
+   The field's drifting marks are steered along the pattern's lines, the way Current's field follows a toolpath.
+   Speakers: SurfaceSpace (the studio synth's engine, shared through the kit) for 4 or 8 speakers, the listener in the
+   middle of the floor; two speakers keep the field exactly as it was. */
+(function(){
+  const SETS=window.SurfacePatternSets||{}, N=72;
+  const PAT={set:'astrology', on:{}, order:'bag', motion:'Turn', size:.62, flat:'alt', every:0, show:true, steer:.5, rel:'still', spk:'stereo',
+    cur:null, curId:null, next:null, bag:[], ph:'idle', pt:0, ax:'h', ang:0, cx:.5, cy:.5, sc:.62, tr:0, lastChange:0, P:null, L:null, Q:null};
+  try{ Object.assign(PAT, JSON.parse(localStorage.getItem('battanboo.pat')||'{}'), {cur:null,curId:null,next:null,bag:[],ph:'idle',P:null,Q:null}); }catch(e){}
+  const save=()=>{ try{ const o={}; ['set','on','order','motion','size','flat','every','show','steer','rel','spk','curId'].forEach(k=>o[k]=PAT[k]); o.curId=PAT.cur&&PAT.cur.id; localStorage.setItem('battanboo.pat',JSON.stringify(o)); }catch(e){} };
+  const all=()=>{ const S=SETS[PAT.set]; return S? S.groups.flatMap(g=>g.patterns.map(p=>Object.assign({group:g.name},p))) : []; };
+  if(!Object.keys(PAT.on).length) all().forEach(p=>PAT.on[p.id]=p.id.startsWith('signs-'));     /* first visit: the twelve signs ticked */
+  const chosen=()=>all().filter(p=>PAT.on[p.id]);
+
+  /* sample a pattern's strokes into N points along its length; brk[i] = point i starts a new stroke */
+  function sample(p){ const st=p.strokes, lens=st.map(s=>{ let L=0; for(let i=1;i<s.length;i++) L+=Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]); return L; });
+    const tot=lens.reduce((a,b)=>a+b,0)||1, pts=[], brk=[];
+    let left=N; st.forEach((s,k)=>{ const n=k===st.length-1?left:Math.max(2,Math.round(N*lens[k]/tot)); left-=n; if(n<=0) return;
+      for(let j=0;j<n;j++){ const want=lens[k]*j/Math.max(1,n-1); let acc=0, q=s[0];
+        for(let i=1;i<s.length;i++){ const d=Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]); if(acc+d>=want){ const f=d?(want-acc)/d:0; q=[s[i-1][0]+(s[i][0]-s[i-1][0])*f, s[i-1][1]+(s[i][1]-s[i-1][1])*f]; break; } acc+=d; q=s[i]; }
+        pts.push([q[0],q[1]]); brk.push(j===0); } });
+    while(pts.length<N){ pts.push(pts[pts.length-1].slice()); brk.push(false); } pts.length=N; brk.length=N; return {pts,brk}; }
+
+  function pick(){ const c=chosen(); if(!c.length) return null;
+    if(PAT.order==='order'){ const i=PAT.cur? c.findIndex(p=>p.id===PAT.cur.id):-1; return c[(i+1)%c.length]; }
+    if(PAT.order==='one') return PAT.cur && c.find(p=>p.id===PAT.cur.id) || c[0];
+    PAT.bag=PAT.bag.filter(id=>c.some(p=>p.id===id)); if(!PAT.bag.length){ PAT.bag=c.map(p=>p.id); for(let i=PAT.bag.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [PAT.bag[i],PAT.bag[j]]=[PAT.bag[j],PAT.bag[i]]; } if(PAT.cur && PAT.bag.length>1 && PAT.bag[0]===PAT.cur.id) PAT.bag.push(PAT.bag.shift()); }
+    const id=PAT.bag.shift(); return c.find(p=>p.id===id); }
+  function load(p){ PAT.cur=p; const s=sample(p); PAT.P=s.pts; PAT.brk=s.brk; PAT.Q=s.pts.map(q=>q.slice()); save(); paintPane(); }
+  /* the change: A → flat line (FLAT s) → hold (HOLD s, still turning) → B (OPEN s) */
+  const FLAT=2.2, HOLD=1.6, OPEN=2.4;
+  function change(p){ p=p||pick(); if(!p) return; if(!PAT.cur){ load(p); return; }
+    PAT.next=p; PAT.ph='flat'; PAT.pt=0; PAT.ax = PAT.flat==='alt' ? (PAT.ax==='h'?'v':'h') : PAT.flat; const ns=sample(p); PAT.N2=ns; PAT.lastChange=performance.now()/1000;
+    try{ $('status').textContent='Pattern: '+(PAT.cur.glyph||'')+' '+PAT.cur.name+' flattens into a line '+(PAT.ax==='h'?'across':'up and down')+', then opens into '+(p.glyph||'')+' '+p.name+' ('+p.group+').'; }catch(e){} }
+  const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+
+  /* the pattern's own motion: named, so it is chosen, not dialled */
+  const MOTION={ Still:{turn:0,drift:0,breathe:0}, Turn:{turn:.07,drift:0,breathe:0}, Drift:{turn:0,drift:1,breathe:0}, Breathe:{turn:0,drift:0,breathe:1}, Wander:{turn:.05,drift:1,breathe:1} };
+  let last=performance.now()/1000;
+  function step(){ const now=performance.now()/1000, dt=Math.min(.1,now-last); last=now; if(!PAT.cur) return;
+    const M=MOTION[PAT.motion]||MOTION.Still; PAT.ang+=M.turn*2*Math.PI*dt*(PAT.ph==='hold'?1.6:1);
+    PAT.cx=.5+.16*M.drift*Math.sin(now*.05); PAT.cy=.5+.12*M.drift*Math.cos(now*.037); PAT.sc=PAT.size*(1+.12*M.breathe*Math.sin(now*.31));
+    if(PAT.ph==='idle' && PAT.every>0 && now-PAT.lastChange>PAT.every){ PAT.lastChange=now; change(); }
+    const A=PAT.P, B=PAT.N2&&PAT.N2.pts, ax=PAT.ax;
+    const line=(q,i)=>{ const s=(i/(N-1))*2-1; return ax==='h'?[ (q? q[0]*.25:0)+s*.75 ,0]:[0,(q?q[1]*.25:0)+s*.75]; };   /* evenly along the line, in order */
+    if(PAT.ph==='idle'){ PAT.Q=A.map(q=>q.slice()); }
+    else { PAT.pt+=dt;
+      if(PAT.ph==='flat'){ const u=ease(Math.min(1,PAT.pt/FLAT)); PAT.Q=A.map((q,i)=>{ const l=line(null,i); return [q[0]+(l[0]-q[0])*u, q[1]+(l[1]-q[1])*u]; }); if(PAT.pt>=FLAT){ PAT.ph='hold'; PAT.pt=0; } }
+      else if(PAT.ph==='hold'){ PAT.Q=A.map((q,i)=>line(null,i)); if(PAT.pt>=HOLD){ PAT.ph='open'; PAT.pt=0; } }
+      else if(PAT.ph==='open'){ const u=ease(Math.min(1,PAT.pt/OPEN)); PAT.Q=B.map((q,i)=>{ const l=line(null,i); return [l[0]+(q[0]-l[0])*u, l[1]+(q[1]-l[1])*u]; });
+        if(PAT.pt>=OPEN){ PAT.cur=PAT.next; PAT.P=B; PAT.brk=PAT.N2.brk; PAT.next=null; PAT.ph='idle'; save(); paintPane(); } } }
+    /* to field coordinates (0..1, y down) */
+    const c=Math.cos(PAT.ang), s=Math.sin(PAT.ang), k=PAT.sc*.5;
+    let asp=16/9; try{ const el=fldEl(); if(el&&el.clientHeight) asp=el.clientWidth/el.clientHeight; }catch(e){}
+    PAT.F=PAT.Q.map(q=>[ PAT.cx + (q[0]*c - q[1]*s)*k/asp, PAT.cy - (q[0]*s + q[1]*c)*k ]);   /* x divided by the field's aspect, so a circle stays round */
+    moveSounds(now,dt); }
+
+  /* the sounds' relationship to the pattern */
+  function nearest(x,y){ let b=0,d=1e9; (PAT.F||[]).forEach((q,i)=>{ const e=Math.hypot(q[0]-x,q[1]-y); if(e<d){d=e;b=i;} }); return b; }
+  function moveSounds(now,dt){ if(typeof FV==='undefined'||!PAT.F) return; let any=false;
+    FV.forEach((v,i)=>{ if(v.dead) return; const rel=v.cfg&&v.cfg.prel||'free'; if(rel==='free') return; if(typeof FDRAG!=='undefined'&&FDRAG&&FDRAG.v===v) return;
+      if(v.pk==null) v.pk=nearest(v.x,v.y);
+      let x,y; const F=PAT.F;
+      if(rel==='follow'){ v.pu=((v.pu==null?v.pk:v.pu)+dt*(N/24))%N; const a=Math.floor(v.pu), f=v.pu-a, p=F[a], q=F[(a+1)%N]; x=p[0]+(q[0]-p[0])*f; y=p[1]+(q[1]-p[1])*f; }
+      else { const p=F[v.pk]; x=p[0]; y=p[1];
+        if(rel==='wander'){ const ph=(v.wp=v.wp||Math.random()*100); x+=.045*Math.sin(now*.37+ph)+.02*Math.sin(now*1.1+ph*2); y+=.045*Math.cos(now*.29+ph*1.3)+.02*Math.cos(now*.9+ph); } }
+      x=Math.max(0,Math.min(1,x)); y=Math.max(0,Math.min(1,y)); if(Math.abs(x-v.x)>1e-4||Math.abs(y-v.y)>1e-4){ fldSet(v,x,y); any=true; } });
+    if(any) try{ fldPaint(); }catch(e){} }
+
+  /* draw the pattern on the field */
+  const _paint=fldPaint;
+  fldPaint=function(){ _paint.apply(this,arguments); if(!PAT.show||!PAT.F) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return;
+    const g=el.getContext('2d'); g.save(); g.lineWidth=1.4; g.strokeStyle='rgba(255,255,255,.38)'; g.fillStyle='rgba(255,255,255,.55)';
+    const F=PAT.F, brk=PAT.ph==='open'&&PAT.pt>OPEN*.5? PAT.N2.brk : PAT.brk; g.beginPath();
+    F.forEach((q,i)=>{ const x=q[0]*w, y=q[1]*h; if(i===0||(brk&&brk[i])) g.moveTo(x,y); else g.lineTo(x,y); }); g.stroke();
+    if(PAT.ph!=='idle') F.forEach(q=>{ g.beginPath(); g.arc(q[0]*w,q[1]*h,1.6,0,6.283); g.fill(); });
+    g.restore(); };
+  setInterval(()=>{ step(); if(PAT.cur && (typeof FV==='undefined'||!FV.length)) try{ fldPaint(); }catch(e){} }, 33);
+
+  /* the field's marks steered along the pattern's lines */
+  const _phys=fldPhys;
+  fldPhys=function(w,h,now,ox,oy){ _phys.apply(this,arguments); if(!PAT.F||!PAT.steer) return; const F=PAT.F, reach=.06, k=.05*PAT.steer;
+    for(const q of FLD){ let bi=0,bd=1e9; for(let i=0;i<N;i++){ const dx=F[i][0]-q.x, dy=F[i][1]-q.y, d=dx*dx+dy*dy; if(d<bd){bd=d;bi=i;} }
+      const d=Math.sqrt(bd); if(d>reach*3) continue; const a=F[bi], b=F[Math.min(N-1,bi+1)], c=F[Math.max(0,bi-1)];
+      let tx=(b[0]-c[0])*w, ty=(b[1]-c[1])*h; const tl=Math.hypot(tx,ty)||1; tx/=tl; ty/=tl; const fall=Math.exp(-d/reach);
+      q.vx+=(tx*.9+(a[0]-q.x)*w*.004)*k*fall*3; q.vy+=(ty*.9+(a[1]-q.y)*h*.004)*k*fall*3; } };
+
+  /* SPEAKERS: SurfaceSpace for 4 or 8; two speakers keep the field's own panners exactly as before */
+  let SPC=null, FOUT=null;
+  function spcEnsure(){ if(!window.SurfaceSpace||typeof AC==='undefined'||!AC) return null; if(!SPC){ FOUT=AC.createGain(); FOUT.connect(AC.destination); SPC=SurfaceSpace.field(AC,FOUT); } return SPC; }
+  function spcApply(){ if(PAT.spk==='stereo'){ if(SPC) SPC.set('stereo'); return; } const F=spcEnsure(); if(!F) return; F.set(PAT.spk); spcGain(); }
+  function spcGain(){ if(FOUT&&typeof FLG!=='undefined'&&FLG) FOUT.gain.value=FLG.gain.value; }
+  setInterval(spcGain,200);
+  const _make=fldMake;
+  fldMake=function(x,y,cfg){ const v=_make.apply(this,arguments); if(!v) return v;
+    if(cfg==null || cfg.prel==null){ v.cfg.prel = PAT.cur? PAT.rel : 'free'; }
+    if(PAT.spk!=='stereo' && spcEnsure() && SPC.speakers>2){ try{ v.env.disconnect(); }catch(e){} v.src=SPC.source(); v.env.connect(v.src.input); spcPlace(v,true); }
+    return v; };
+  function spcPlace(v,first){ if(!v.src) return; const nx=v.x*2-1, ny= FLD2.view==='floor' ? 1-v.y*2 : .7, far=FLD2.view==='floor'? Math.max(0,Math.hypot(nx,ny)-.6)*.6 : 0; try{ v.src.set(nx,ny,first?0:.08,far); }catch(e){} }
+  const _set=fldSet; fldSet=function(v,x,y,first){ _set.apply(this,arguments); spcPlace(v,first); };
+  const _rel=fldRelease; fldRelease=function(v){ _rel.apply(this,arguments); if(v&&v.src){ const s=v.src; setTimeout(()=>{ try{ s.release(); }catch(e){} },3600); } };
+
+  /* ---- the pane: Patterns, in the Field pane under the field's own settings ---- */
+  const host=document.getElementById('fldHint'); if(!host) return;
+  const box=document.createElement('div'); box.id='patBox'; box.className='plrow hsec patbox';
+  box.innerHTML=`<span class="pcl">Patterns: shapes in the field that the sounds and the field's marks move with</span>
+  <div class="plrow"><span class="pcl">Set</span><div class="seg" id="patSet" role="radiogroup" aria-label="Pattern set"></div></div>
+  <div id="patGroups"></div>
+  <div class="plrow"><span class="pcl">Which comes next</span><div class="seg" id="patOrder" role="radiogroup" aria-label="Which pattern comes next"></div></div>
+  <div class="plrow"><span class="pcl">Change</span><div class="seg" id="patEvery" role="radiogroup" aria-label="When the pattern changes"></div><button type="button" class="chip" id="patNext">Next pattern</button><button type="button" class="chip" id="patOff">Off</button></div>
+  <div class="plrow"><span class="pcl">The pattern moves</span><div class="seg" id="patMotion" role="radiogroup" aria-label="How the pattern moves"></div></div>
+  <div class="plrow"><span class="pcl">Size</span><div class="arow"><input id="patSize" type="range" min="25" max="95" step="1" aria-label="Size of the pattern"></div></div>
+  <div class="plrow"><span class="pcl">Between patterns, every vertex flattens onto a line</span><div class="seg" id="patFlat" role="radiogroup" aria-label="The line between patterns"></div></div>
+  <div class="plrow"><span class="pcl">New sounds go with the pattern</span><div class="seg" id="patRel" role="radiogroup" aria-label="How a new sound moves with the pattern"></div></div>
+  <div class="plrow"><span class="pcl">The field's marks follow its lines</span><div class="seg" id="patSteer" role="radiogroup" aria-label="How strongly the field's marks follow the pattern"></div><button type="button" class="chip" id="patShow">Lines shown</button></div>
+  <div class="plrow"><span class="pcl">Speakers (you in the middle of the floor)</span><div class="seg" id="patSpk" role="radiogroup" aria-label="How many speakers"></div></div>
+  <p class="ahint" id="patWhy"></p>`;
+  host.parentNode.insertBefore(box,host);
+  const seg=(id,opts,get,set)=>{ const el=document.getElementById(id); el.innerHTML=''; opts.forEach(([v,label,title])=>{ const b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('role','radio'); b.textContent=label; if(title) b.title=title;
+      b.setAttribute('aria-checked', String(get()===v)); b.onclick=()=>{ set(v); save(); paintPane(); }; el.appendChild(b); }); };
+  function paintPane(){ if(!document.getElementById('patSet')) return;
+    seg('patSet',Object.keys(SETS).map(k=>[k,SETS[k].name]),()=>PAT.set,v=>{PAT.set=v;});
+    const gEl=document.getElementById('patGroups'); gEl.innerHTML=''; const S=SETS[PAT.set];
+    (S?S.groups:[]).forEach(G=>{ const row=document.createElement('div'); row.className='plrow'; const lab=document.createElement('span'); lab.className='pcl'; lab.textContent=G.name; row.appendChild(lab);
+      const allB=document.createElement('button'); allB.type='button'; allB.className='chip'; const nOn=G.patterns.filter(p=>PAT.on[p.id]).length; allB.textContent=nOn===G.patterns.length?'None':'All';
+      allB.onclick=()=>{ const v=nOn!==G.patterns.length; G.patterns.forEach(p=>PAT.on[p.id]=v); save(); paintPane(); }; row.appendChild(allB);
+      const chips=document.createElement('div'); chips.className='chips';
+      G.patterns.forEach(p=>{ const b=document.createElement('button'); b.type='button'; b.className='chip patchip'; b.setAttribute('aria-pressed',String(!!PAT.on[p.id])); b.title=p.name+' ('+G.name+'): tap to tick or untick; hold to play it now';
+        b.textContent=(PAT.on[p.id]?'✓ ':'')+p.glyph+' '+p.name; if(PAT.cur&&PAT.cur.id===p.id) b.classList.add('cur');
+        let ht=0,held=false; b.onpointerdown=()=>{ held=false; ht=setTimeout(()=>{ held=true; change(Object.assign({group:G.name},p)); },500); };
+        b.onpointerup=b.onpointerleave=()=>clearTimeout(ht);
+        b.onclick=()=>{ if(held) return; PAT.on[p.id]=!PAT.on[p.id]; save(); paintPane(); }; chips.appendChild(b); });
+      row.appendChild(chips); gEl.appendChild(row); });
+    seg('patOrder',[['bag','Bag random','each ticked pattern once, in a shuffled order, then a new shuffle'],['order','In order'],['one','Stay on one']],()=>PAT.order,v=>{PAT.order=v;PAT.bag=[];});
+    seg('patEvery',[[0,'By hand'],[20,'20 s'],[45,'45 s'],[90,'90 s']],()=>PAT.every,v=>{PAT.every=v;PAT.lastChange=performance.now()/1000;});
+    seg('patMotion',Object.keys(MOTION).map(k=>[k,k]),()=>PAT.motion,v=>{PAT.motion=v;});
+    const sz=document.getElementById('patSize'); sz.value=Math.round(PAT.size*100); sz.oninput=()=>{ PAT.size=sz.value/100; save(); };
+    seg('patFlat',[['h','Across'],['v','Up and down'],['alt','Taking turns']],()=>PAT.flat,v=>{PAT.flat=v;});
+    seg('patRel',[['free','Free','moves only when you move it, as before'],['still','Still','held at the nearest vertex: it moves when the pattern moves'],['wander','Wander','drifts around its vertex'],['follow','Follow','travels along the pattern\'s lines']],()=>PAT.rel,v=>{PAT.rel=v;});
+    seg('patSteer',[[0,'Off'],[.5,'Gently'],[1,'Strongly']],()=>PAT.steer,v=>{PAT.steer=v;});
+    const sh=document.getElementById('patShow'); sh.setAttribute('aria-pressed',String(PAT.show)); sh.textContent=PAT.show?'Lines shown':'Lines hidden'; sh.onclick=()=>{ PAT.show=!PAT.show; save(); paintPane(); try{fldPaint()}catch(e){} };
+    seg('patSpk',[['stereo','2'],['quad','4'],['octo','8'],['headphones','Headphones']],()=>PAT.spk,v=>{PAT.spk=v; spcApply(); try{ FV.forEach(x=>{ if(!x.dead) fldResrc(x,{}); }); }catch(e){} });
+    const why=document.getElementById('patWhy'); const cur=PAT.cur?('Now: '+(PAT.cur.glyph||'')+' '+PAT.cur.name+' ('+PAT.cur.group+'). '):'No pattern in the field. Hold a pattern to play it, or Next pattern. ';
+    const sp=PAT.spk==='stereo'?'Two speakers: each sound is panned left to right, as always.' : (SPC? ('Composed for '+SurfaceSpace.NAME[PAT.spk]+'; heard on '+(SPC.why||SPC.heard)+'.') : 'Composed for '+(window.SurfaceSpace?SurfaceSpace.NAME[PAT.spk]:PAT.spk)+'; it is set up when the sound starts.');
+    why.textContent=cur+sp;
+    document.getElementById('patNext').onclick=()=>change();
+    document.getElementById('patOff').onclick=()=>{ PAT.cur=null; PAT.F=null; PAT.P=null; PAT.ph='idle'; save(); paintPane(); try{fldPaint()}catch(e){} };
+  }
+  /* per sound: the same four, in its own settings (hold a sound in the field) */
+  const _snd=fldSnd;
+  fldSnd=function(v0){ _snd.apply(this,arguments); const p=document.getElementById('fsp'); if(!p||!v0) return; const row=document.createElement('div'); row.className='frow';
+    const lab=document.createElement('span'); lab.textContent='With the pattern'; row.appendChild(lab);
+    [['free','Free'],['still','Still'],['wander','Wander'],['follow','Follow']].forEach(([k,t])=>{ const b=document.createElement('button'); b.type='button'; b.textContent=t; b.setAttribute('aria-pressed',String((v0.cfg.prel||'free')===k));
+      b.onclick=()=>{ v0.cfg.prel=k; v0.pk=null; v0.pu=null; [...row.querySelectorAll('button')].forEach(x=>x.setAttribute('aria-pressed',String(x===b))); }; row.appendChild(b); });
+    p.appendChild(row); };
+  window.BBPAT={ PAT, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC };   /* for the tests */
+  paintPane();
+  if(PAT.curId){ const p=all().find(q=>q.id===PAT.curId); if(p) load(p); }
+  const wake=()=>{ if(PAT.spk!=='stereo') spcApply(); paintPane(); }; document.addEventListener('pointerdown',()=>setTimeout(wake,300),{once:true});
+})();
 })();
 </script>
 
