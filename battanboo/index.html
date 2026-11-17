@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261117111138";window.__VERSION__="0.8.1";window.__NOTES__=[{"v": "0.8.1", "date": "17 Nov 2026", "items": [{"kind": "", "text": "Fixed: every ring in Battanboo now has round dots like Current's. The app's general button look was squaring them off."}, {"kind": "", "text": "Better: with the Field in edit mode, the grid's tools (columns, rows, copy, cut, paste, halo, colour and shape painting) are gone from the right-hand rail. What stays are the G-code tools: the editor, the drawing library, one vertex or the whole drawing, and the magnet."}, {"kind": "", "text": "Better: the G-code editor gives sounds on a ring. Tap the field (or a vertex) and a ring opens where you tapped: sound, level, tone, space, still, wander or follow, then spread or apply to all, or put here. The panel now only holds the drawings."}]}]</script>
+<script>window.__BUILD__="20261117113258";window.__VERSION__="0.9.0";window.__NOTES__=[{"v": "0.9.0", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "vertices can change sound. In the G-code editor, tap a vertex (one-vertex mode): its ring has a **vertex effect** dot. Choose what it does to a sound that comes near it (**level**, **tone** or **space**), how much (minus takes away, plus adds), how far it reaches (a share of the field's width) and its **span** (how many vertices either side get it too, fading out). **Set here** gives it; **clear here** takes it off. The nearer a sound is, the stronger the effect, fading to nothing at the reach. It works on the field's own sounds and on ones sent from the grid, attached or free. Kept per drawing."}, {"kind": "", "text": "Look: in the editor a vertex shows a small mark for what it does (triangle for level, diamond for tone, ring for space, with a dashed circle for its reach). The rest of the time only a faint dot of its colour is left, so it doesn't compete with the sounds' own shapes."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -2262,13 +2262,13 @@ function fldMake(x,y,cfg){fldBus();if(!FLG)return null;cfg=Object.assign({src:FL
   const tail=pan?pan:lp;if(pan)lp.connect(pan);tail.connect(dry);tail.connect(snd);dry.connect(env);env.connect(FLG);snd.connect(FSEND);
   env.gain.setValueAtTime(0,t);env.gain.linearRampToValueAtTime(1,t+1.6);
   const v={o:os,rv,lp,pan,dry,snd,env,x,y,m,dead:false,cfg};fldSet(v,x,y,true);return v}
-function fldSet(v,x,y,first){const t=AC.currentTime,tc=first?.001:.08,far=fldFar(y),c=v.cfg,m=fldPitch(x,y,c)+c.semi,f=hz(m),tm=Math.pow(4,c.tone*2-1);v.x=x;v.y=y;v.m=m;
+function fldSet(v,x,y,first){const t=AC.currentTime,tc=first?.001:.08,far=fldFar(y),c=v.cfg,m=fldPitch(x,y,c)+c.semi,f=hz(m),md=v.mod,lvE=c.lv*(md?md.lv:1),wetE=md?clamp(c.wet+md.wet,0,1):c.wet,tm=Math.pow(4,(md?clamp(c.tone+md.tone,0,1):c.tone)*2-1);v.x=x;v.y=y;v.m=m;
   if(v.o.length){v.o[0].frequency.setTargetAtTime(f,t,tc);v.o[1].frequency.setTargetAtTime(f,t,tc);v.o[2].frequency.setTargetAtTime(f/2,t,tc)}
   if(v.rv){try{v.rv.set({cents:(m+12-60)*100})}catch(e){}}
   const cut=v.rv?6000*(FLD2.view==='floor'?(1-.85*far):1):f*(FLD2.view==='floor'?(5-4.2*far):3.2);
   v.lp.frequency.setTargetAtTime(clamp(cut*tm,150,16000),t,tc);
   if(v.pan)v.pan.pan.setTargetAtTime(clamp(x*2-1,-1,1)*.9,t,tc);
-  v.dry.gain.setTargetAtTime(.9*(1-.7*far)*c.lv*2,t,tc);v.snd.gain.setTargetAtTime((.12+.8*far)*c.wet*2,t,tc)}
+  v.dry.gain.setTargetAtTime(.9*(1-.7*far)*lvE*2,t,tc);v.snd.gain.setTargetAtTime((.12+.8*far)*wetE*2,t,tc)}
 function fldRelease(v){if(!v||v.dead)return;v.dead=true;const t=AC.currentTime;v.env.gain.cancelScheduledValues(t);v.env.gain.setValueAtTime(v.env.gain.value,t);v.env.gain.linearRampToValueAtTime(0,t+3.2);v.o.forEach(o=>{try{o.stop(t+3.3)}catch(e){}});if(v.rv){try{v.rv.release(t)}catch(e){}try{v.rv.stop(t+3.3)}catch(e){}}setTimeout(()=>{try{v.env.disconnect();v.dry.disconnect();v.snd.disconnect()}catch(e){}},3600)}
 function fldResrc(v,patch){const i=FV.indexOf(v);if(i<0||v.dead)return v;const nv=fldMake(v.x,v.y,Object.assign({},v.cfg,patch));if(!nv)return v;FV[i]=nv;fldRelease(v);fldPaint();return nv}
 /* the settings of one sound: level, wet, tone, pitch and which sound it is */
@@ -4144,9 +4144,9 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   /* THE G-CODE EDITOR (Dimitry, 17 Nov): a <> tool in the edit rail, there while the field is in front and edit is on.
      Pick a drawing from any set, then give sounds to the whole drawing or to one vertex. A sound is the field's own synth, or the sound
      of one of the grid's voices ("transferred from the grid"). Where a sound sits is its vertex number, so it keeps its place when the drawing changes. */
-  const GC={ open:false, scope:'all', v:0, src:'pad', lv:.5, tone:.5, wet:.5, rel:'still', n:6, xfer:'attach', mag:true };
+  const GC={ open:false, scope:'all', v:0, src:'pad', lv:.5, tone:.5, wet:.5, rel:'still', n:6, xfer:'attach', mag:true, fx:{k:'level',a:.5,r:.12,span:3} };
   try{ Object.assign(GC, JSON.parse(localStorage.getItem('battanboo.gc')||'{}'), {open:false,v:0}); }catch(e){}
-  const gcSave=()=>{ try{ localStorage.setItem('battanboo.gc',JSON.stringify({scope:GC.scope,src:GC.src,lv:GC.lv,tone:GC.tone,wet:GC.wet,rel:GC.rel,n:GC.n,xfer:GC.xfer,mag:GC.mag})); }catch(e){} };
+  const gcSave=()=>{ try{ localStorage.setItem('battanboo.gc',JSON.stringify({scope:GC.scope,src:GC.src,lv:GC.lv,tone:GC.tone,wet:GC.wet,rel:GC.rel,n:GC.n,xfer:GC.xfer,mag:GC.mag,fx:GC.fx})); }catch(e){} };
   const gcRecipe=()=>({src:GC.src,lv:GC.lv,wet:GC.wet,tone:GC.tone,semi:0,prel:GC.rel});
   const gcLive=()=>FV.filter(v=>!v.dead);
   const gcAt=i=>gcLive().filter(v=>(v.pk!=null?v.pk:nearest(v.x,v.y))===i);
@@ -4186,6 +4186,32 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   { const q=id=>document.getElementById(id); const l=q('gcLibBt'), s2=q('gcScopeBt'), m=q('gcMagBt');
     if(l) l.onclick=()=>gcLib(); if(s2) s2.onclick=()=>{ GC.scope=GC.scope==='vertex'?'all':'vertex'; gcSave(); gcSync(); gcSay(GC.scope==='vertex'?'G-code: one vertex at a time. Tap the drawing.':'G-code: the whole drawing. Tap the field.'); try{ fldPaint(); }catch(e){} };
     if(m) m.onclick=()=>{ GC.mag=!GC.mag; gcSave(); gcSync(); gcSay(GC.mag?'G-code: magnet on. A sound dropped near a free vertex snaps on.':'G-code: magnet off. Sounds stay where you drop them.'); }; }
+  /* WHAT A VERTEX DOES (Dimitry, 17 Nov: "the vertices themselves could have sonic properties … how far from the vertex this influence matters"):
+     a vertex can raise or lower a sound's LEVEL, TONE or SPACE (wetness) as the sound comes near it, strongest on the vertex and fading to nothing at its REACH.
+     It works on any sound near it: the field's own, the grid's that were sent, attached or free. Several vertices add (level multiplies). Kept per drawing, on this device.
+     Look: in the editor a vertex shows a small glyph for what it does (triangle level, diamond tone, ring space); the rest of the time only a faint dot of its colour. */
+  const VX_KEY='battanboo.vx', VXC={level:'#ffd23f',tone:'#4cc9f0',space:'#b388ff'};
+  let VX={}; try{ VX=JSON.parse(localStorage.getItem(VX_KEY)||'{}')||{}; }catch(e){ VX={}; }
+  const vxSave=()=>{ try{ localStorage.setItem(VX_KEY,JSON.stringify(VX)); }catch(e){} };
+  const vxMap=make=>{ const id=PAT.cur&&PAT.cur.id; if(!id) return null; if(!VX[id]&&make) VX[id]={}; return VX[id]||null; };
+  function vxSet(i){ const m=vxMap(true); if(!m) return 0; const f=GC.fx; let n=0; for(let j=-f.span;j<=f.span;j++){ const k=i+j; if(k<0||k>=N) continue; const a=f.a*(1-Math.abs(j)/(f.span+1)); m[k]=Object.assign({},m[k]||{}); m[k][f.k]={a:+a.toFixed(3),r:f.r}; n++; } vxSave(); return n; }
+  function vxClear(i){ const m=vxMap(); if(!m) return 0; let n=0; for(let j=-GC.fx.span;j<=GC.fx.span;j++){ const k=i+j; if(m[k]){ delete m[k]; n++; } } vxSave(); return n; }
+  function vxMod(v){ const m=vxMap(); if(!m||!PAT.F) return null; const el=fldEl(), W=el&&el.clientWidth||1, H=el&&el.clientHeight||1; const md={lv:1,tone:0,wet:0}; let any=false;
+    for(const k in m){ const q=PAT.F[k]; if(!q) continue; const d=Math.hypot((v.x-q[0])*W,(v.y-q[1])*H)/W, e=m[k];
+      for(const kind in e){ const w=Math.pow(Math.max(0,1-d/e[kind].r),2); if(w<=0) continue; any=true; const a=e[kind].a*w; if(kind==='level') md.lv*=Math.max(0,1+a); else if(kind==='tone') md.tone+=a*.5; else md.wet+=a*.5; } }
+    return any?md:null; }
+  function vxTick(){ if(!PAT.cur) return; gcLive().forEach(v=>{ const md=vxMod(v), o=v.mod||null; const same=(!md&&!o)||(md&&o&&Math.abs(md.lv-o.lv)<.01&&Math.abs(md.tone-o.tone)<.005&&Math.abs(md.wet-o.wet)<.005); if(same) return; v.mod=md; try{ fldSet(v,v.x,v.y); }catch(e){} }); }
+  setInterval(vxTick,100);
+  { const _p3=fldPaint; fldPaint=function(){ _p3.apply(this,arguments); const m=vxMap(); const ed=GC.open&&document.documentElement.classList.contains('ed'); if(!PAT.F||(!m&&!ed)) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return; const g=el.getContext('2d'); g.save();
+      if(m) for(const k in m){ const q=PAT.F[k]; if(!q) continue; const e=m[k]; let n=0; for(const kind in e){ const a=e[kind].a, x=q[0]*w+(n?n*6:0), y=q[1]*h; n++; g.fillStyle=g.strokeStyle=VXC[kind];
+          if(!ed){ g.globalAlpha=.55; g.beginPath(); g.arc(x,y,1.8+2.2*Math.abs(a),0,6.283); g.fill(); continue; }
+          g.globalAlpha=.9; const s=4+3*Math.abs(a); g.lineWidth=1.6; g.beginPath();
+          if(kind==='level'){ const u=a>=0?-1:1; g.moveTo(x,y+u*s); g.lineTo(x-s,y-u*s*.7); g.lineTo(x+s,y-u*s*.7); g.closePath(); g.fill(); }
+          else if(kind==='tone'){ g.moveTo(x,y-s); g.lineTo(x+s,y); g.lineTo(x,y+s); g.lineTo(x-s,y); g.closePath(); a>=0?g.fill():g.stroke(); }
+          else { g.arc(x,y,s,0,6.283); g.stroke(); if(a>=0){ g.beginPath(); g.arc(x,y,s*.4,0,6.283); g.fill(); } } } }
+      if(ed&&GC.scope==='vertex'&&PAT.F[GC.v]){ const q=PAT.F[GC.v]; g.globalAlpha=.6; g.setLineDash([4,4]); g.strokeStyle=VXC[GC.fx.k]; g.lineWidth=1.2; g.beginPath(); g.arc(q[0]*w,q[1]*h,GC.fx.r*w,0,6.283); g.stroke(); }
+      g.restore(); }; }
+
   /* THE RING (Dimitry, 17 Nov: "match the ring/halo of Current: exclusively round or ring shapes, not square buttons"): the sound for a vertex or the whole drawing is one of the kit's rings, opened where you tapped. Source, level, tone and space are dots (the number comes up as you drag); movement is three round dots; the last dots do the thing. */
   function gcRing(x,y,vi){ if(!window.SurfaceRing) return; try{ SurfaceRing.close(); }catch(e){}
     const HI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+d+'</svg>';
@@ -4206,7 +4232,15 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
         {id:'wet',kind:'value',icon:IC.wet,label:'space',aria:'How much room it sounds in',get:()=>Math.round(GC.wet*100),set:n=>set('wet',n/100),min:0,max:100,step:5,fmt:n=>Math.round(n)+'%'},
         rel('still','still'),rel('wander','wander'),rel('follow','follow')];
       const end=one?[]:[{id:'prev',kind:'go',stay:true,icon:IC.prev,label:sname(pv),aria:'Sound before: '+sname(pv),pick:()=>step(-1)}];
-      if(vi!=null) return base.concat([{id:'put',kind:'go',icon:IC.put,label:'put here',aria:'Put this sound on vertex '+(vi+1),pick:()=>{ try{ fldHist(); }catch(e){} gcSilence(vi); gcPlace(vi); gcSay('G-code: a sound on vertex '+(vi+1)+'.'); try{ fldPaint(); }catch(e){} }}],end);
+      const FI={level:HI('<path d="M12 5l7 13H5z"/>'),tone:HI('<path d="M12 4l8 8-8 8-8-8z"/>'),space:HI('<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/>'),set:HI('<circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'),clr:HI('<path d="M6 6l12 12M18 6L6 18"/>'),amt:HI('<path d="M5 12h14M12 5v14"/>'),rch:HI('<circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9" stroke-dasharray="2.4 3"/>'),spn:HI('<circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/>'),door:HI('<path d="M4 12h3l2-5 4 10 2-5h5"/>')};
+      const fxk=(k,l)=>({id:'fx-'+k,kind:'radio',stay:true,icon:FI[k],label:l,aria:'What this vertex does to a sound near it: '+l,on:GC.fx.k===k,pick:()=>{ GC.fx.k=k; gcSave(); try{ fldPaint(); }catch(e){} }});
+      const fx={id:'fx',kind:'go',icon:FI.door,label:'vertex effect',aria:'What this vertex does to sounds near it: level, tone or space',ring:{title:'Vertex '+(vi!=null?vi+1:''),icon:FI.door,items:()=>[fxk('level','level'),fxk('tone','tone'),fxk('space','space'),
+        {id:'fx-a',kind:'value',icon:FI.amt,label:'amount',aria:'How much: negative takes away, positive adds',get:()=>Math.round(GC.fx.a*100),set:n=>{ GC.fx.a=n/100; gcSave(); },min:-100,max:100,step:10,fmt:n=>(n>0?'+':'')+Math.round(n)},
+        {id:'fx-r',kind:'value',icon:FI.rch,label:'reach',aria:'How far from the vertex it matters, as a share of the field\'s width',get:()=>Math.round(GC.fx.r*100),set:n=>{ GC.fx.r=n/100; gcSave(); try{ fldPaint(); }catch(e){} },min:2,max:40,step:1,fmt:n=>Math.round(n)+'%'},
+        {id:'fx-s',kind:'value',icon:FI.spn,label:'span',aria:'How many vertices each side get it too, fading out',get:()=>GC.fx.span,set:n=>{ GC.fx.span=Math.round(n); gcSave(); },min:0,max:12,step:1,fmt:n=>Math.round(n)},
+        {id:'fx-set',kind:'go',icon:FI.set,label:'set here',aria:'Give this vertex (and its span) this effect',pick:()=>{ try{ fldHist(); }catch(e){} const n=vxSet(vi); gcSay('G-code: '+GC.fx.k+' on '+n+' vertices.'); try{ fldPaint(); }catch(e){} }},
+        {id:'fx-clr',kind:'go',icon:FI.clr,label:'clear here',aria:'Take the effects off this vertex and its span',pick:()=>{ const n=vxClear(vi); gcSay('G-code: effects taken off '+n+' vertices.'); try{ fldPaint(); }catch(e){} }}]}};
+      if(vi!=null) return base.concat([fx,{id:'put',kind:'go',icon:IC.put,label:'put here',aria:'Put this sound on vertex '+(vi+1),pick:()=>{ try{ fldHist(); }catch(e){} gcSilence(vi); gcPlace(vi); gcSay('G-code: a sound on vertex '+(vi+1)+'.'); try{ fldPaint(); }catch(e){} }}],end);
       return base.concat([{id:'n',kind:'value',icon:IC.count,label:'how many',aria:'How many sounds to spread around the drawing',get:()=>GC.n,set:n=>set('n',Math.round(n)),min:2,max:12,step:1,fmt:n=>Math.round(n)},
         {id:'spread',kind:'go',icon:IC.spread,label:'spread',aria:'Spread this many sounds around the drawing',pick:()=>{ try{ fldHist(); }catch(e){} gcSay('G-code: '+gcSpread()+' sounds spread around the drawing.'); try{ fldPaint(); }catch(e){} }},
         {id:'apply',kind:'go',icon:IC.apply,label:'apply to all',aria:'Give every sound in the field this sound, level, tone, space and movement',pick:()=>{ try{ fldHist(); }catch(e){} gcSay('G-code: '+gcAll()+' sounds updated.'); }}],end); };
@@ -4238,7 +4272,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   setInterval(gcTick,100);
   { const _p3=fldPaint; fldPaint=function(){ _p3.apply(this,arguments); if(!GC.mag||!PAT.F||typeof FDRAG==='undefined'||!FDRAG||!FDRAG.moved||FDRAG.pm) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return; const v=FDRAG.v, f=gcFree(v.x,v.y,v,GCR); if(!f) return; const q=PAT.F[f.i]; const g=el.getContext('2d'); g.save(); g.strokeStyle='#ffd23f'; g.lineWidth=1.6; g.beginPath(); g.moveTo(v.x*w,v.y*h); g.lineTo(q[0]*w,q[1]*h); g.stroke(); g.beginPath(); g.arc(q[0]*w,q[1]*h,8,0,6.283); g.stroke(); g.restore(); }; }
   setInterval(()=>{ if(GC.open&&!gcPan.hidden){ const k=(PAT.cur&&PAT.cur.id)+'|'+gcLive().length; if(k!==GC.k){ GC.k=k; gcDraw(); } } },700);
-  window.BBPAT={ PAT, GC, gcToggle, gcLib, gcRing, gcSync, gcPlace, gcSpread, gcAll, gcAt, gcTick, gcFree, setDrag:o=>{FDRAG=o}, xf:()=>XF, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
+  window.BBPAT={ PAT, GC, VXget:()=>VX, vxSet, vxClear, vxMod, vxTick, gcToggle, gcLib, gcRing, gcSync, gcPlace, gcSpread, gcAll, gcAt, gcTick, gcFree, setDrag:o=>{FDRAG=o}, xf:()=>XF, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
   paintPane();
   if(PAT.curId){ const p=all().find(q=>q.id===PAT.curId); if(p) load(p); }
   const wake=()=>{ if(PAT.spk!=='stereo') spcApply(); paintPane(); }; document.addEventListener('pointerdown',()=>setTimeout(wake,300),{once:true});
