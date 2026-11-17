@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261117051934";window.__VERSION__="0.6.0";window.__NOTES__=[{"v": "0.6.0", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "Patterns in the field. A pattern set comes in the way a sound set does: the first is Astrology, in two groups, Signs (the twelve glyphs, drawn as clean geometric lines) and Constellations (the twelve star figures). Tick one, some or all; Bag random plays each ticked pattern once in a shuffled order, or choose In order, or Stay on one. Change by hand (Next pattern, or hold a pattern to play it now) or every 20, 45 or 90 seconds. Field pane, Patterns."}, {"kind": "new", "text": "The pattern moves on its own, apart from the sounds: Still, Turn, Drift, Breathe or Wander, at the size you set."}, {"kind": "new", "text": "A change of pattern is a sonic moment: every vertex flattens onto one line through the middle (across, up and down, or taking turns), holds while the line keeps turning, then opens into the next pattern. Sounds held on the pattern line up along it and sweep round with it."}, {"kind": "new", "text": "Each sound has its own way of going with the pattern: Free (as before), Still (held at its vertex, so it moves when the pattern moves), Wander (drifts around its vertex) or Follow (travels along the lines). New sounds take the choice in the pane; hold a sound for its own."}, {"kind": "new", "text": "The field's drifting marks follow the pattern's lines, gently or strongly."}, {"kind": "new", "text": "Speakers: 2, 4, 8 or headphones, with you in the middle of the floor, so a piece can be made for four or eight speakers. On a device with fewer outputs the pane says what is really heard. Two speakers keep the field exactly as before."}]}]</script>
+<script>window.__BUILD__="20261117053312";window.__VERSION__="0.6.1";window.__NOTES__=[{"v": "0.6.1", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "Patterns can change With the Form: each new movement of the performance brings the next pattern (Field pane, Patterns, Change)."}, {"kind": "new", "text": "Your own G-code as patterns: Load G-code files (plotter, laser or CNC files) or Paste G-code, and they go into a set called Mine, kept on this device. Anything with pen-down moves works; \"Remove unticked\" clears the ones you don't want."}, {"kind": "new", "text": "Current's patterns as a set: Woven Diamond, Spiral Arc, Raster, Hatch and Rose."}, {"kind": "", "text": "Better: a pattern at rest is drawn at full detail, however many strokes it has; its points for the sounds and the changes are spread evenly along the whole drawing."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -886,6 +886,8 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
 <script src="surface/pack.js"></script>
 <script src="surface/space.js"></script>
 <script src="surface/patterns-astrology.js"></script>
+<script src="surface/toolpath.js"></script>
+<script src="surface/patternsets.js"></script>
 <script src="surface/capture.js"></script>
 <script src="surface/sections.js"></script>
 <script src="surface/ring.js"></script>
@@ -3955,7 +3957,17 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
    Speakers: SurfaceSpace (the studio synth's engine, shared through the kit) for 4 or 8 speakers, the listener in the
    middle of the floor; two speakers keep the field exactly as it was. */
 (function(){
-  const SETS=window.SurfacePatternSets||{}, N=72;
+  const SETS=window.SurfacePatternSets||{}, N=96;
+  /* MINE (Dimitry 00:29): G-code you load, kept on this device, as a set of its own */
+  let MINE=[]; try{ MINE=JSON.parse(localStorage.getItem('battanboo.mypat')||'[]'); }catch(e){}
+  function mineSet(){ const pats=MINE.map((m,i)=>SETS.fromGcode? SETS.fromGcode('mine-'+m.id, m.name, m.g):null).filter(Boolean); SETS.mine={id:'mine',name:'Mine',groups:[{id:'loaded',name:'Loaded',patterns:pats}]}; }
+  mineSet();
+  function mineAdd(name,text){ const id=Date.now().toString(36)+Math.random().toString(36).slice(2,5); const t=String(text).slice(0,400000);
+    const test=SETS.fromGcode&&SETS.fromGcode('x',name,t); if(!test||!test.strokes.length) return false;
+    MINE.push({id,name:String(name).replace(/\.(gcode|nc|ngc|tap|txt|gc)$/i,'').slice(0,40),g:t});
+    try{ localStorage.setItem('battanboo.mypat',JSON.stringify(MINE)); }catch(e){ MINE.pop(); return 'full'; }
+    PAT.on['mine-'+id]=true; mineSet(); return true; }
+  const setKeys=()=>Object.keys(SETS).filter(k=>SETS[k]&&SETS[k].groups&&(k!=='mine'||SETS.mine.groups[0].patterns.length||true));
   const PAT={set:'astrology', on:{}, order:'bag', motion:'Turn', size:.62, flat:'alt', every:0, show:true, steer:.5, rel:'still', spk:'stereo',
     cur:null, curId:null, next:null, bag:[], ph:'idle', pt:0, ax:'h', ang:0, cx:.5, cy:.5, sc:.62, tr:0, lastChange:0, P:null, L:null, Q:null};
   try{ Object.assign(PAT, JSON.parse(localStorage.getItem('battanboo.pat')||'{}'), {cur:null,curId:null,next:null,bag:[],ph:'idle',P:null,Q:null}); }catch(e){}
@@ -3965,14 +3977,14 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   const chosen=()=>all().filter(p=>PAT.on[p.id]);
 
   /* sample a pattern's strokes into N points along its length; brk[i] = point i starts a new stroke */
-  function sample(p){ const st=p.strokes, lens=st.map(s=>{ let L=0; for(let i=1;i<s.length;i++) L+=Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]); return L; });
-    const tot=lens.reduce((a,b)=>a+b,0)||1, pts=[], brk=[];
-    let left=N; st.forEach((s,k)=>{ const n=k===st.length-1?left:Math.max(2,Math.round(N*lens[k]/tot)); left-=n; if(n<=0) return;
-      for(let j=0;j<n;j++){ const want=lens[k]*j/Math.max(1,n-1); let acc=0, q=s[0];
-        for(let i=1;i<s.length;i++){ const d=Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]); if(acc+d>=want){ const f=d?(want-acc)/d:0; q=[s[i-1][0]+(s[i][0]-s[i-1][0])*f, s[i-1][1]+(s[i][1]-s[i-1][1])*f]; break; } acc+=d; q=s[i]; }
-        pts.push([q[0],q[1]]); brk.push(j===0); } });
-    while(pts.length<N){ pts.push(pts[pts.length-1].slice()); brk.push(false); } pts.length=N; brk.length=N; return {pts,brk}; }
-
+  function sample(p){ /* N points evenly along the whole drawing (all strokes end to end); brk marks a new stroke */
+    const st=p.strokes.filter(x=>x.length>1), segs=[]; let tot=0;
+    st.forEach((s,k)=>{ for(let i=1;i<s.length;i++){ const d=Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]); segs.push({a:s[i-1],b:s[i],d,k,first:i===1}); tot+=d; } });
+    const pts=[], brk=[]; let si=0, acc=0, lastK=-1;
+    for(let j=0;j<N;j++){ const want=tot*j/(N-1); while(si<segs.length-1 && acc+segs[si].d<want){ acc+=segs[si].d; si++; }
+      const g=segs[si]||{a:[0,0],b:[0,0],d:0,k:0}, f=g.d?Math.min(1,Math.max(0,(want-acc)/g.d)):0;
+      pts.push([g.a[0]+(g.b[0]-g.a[0])*f, g.a[1]+(g.b[1]-g.a[1])*f]); brk.push(g.k!==lastK); lastK=g.k; }
+    return {pts,brk}; }
   function pick(){ const c=chosen(); if(!c.length) return null;
     if(PAT.order==='order'){ const i=PAT.cur? c.findIndex(p=>p.id===PAT.cur.id):-1; return c[(i+1)%c.length]; }
     if(PAT.order==='one') return PAT.cur && c.find(p=>p.id===PAT.cur.id) || c[0];
@@ -3993,6 +4005,8 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     const M=MOTION[PAT.motion]||MOTION.Still; PAT.ang+=M.turn*2*Math.PI*dt*(PAT.ph==='hold'?1.6:1);
     PAT.cx=.5+.16*M.drift*Math.sin(now*.05); PAT.cy=.5+.12*M.drift*Math.cos(now*.037); PAT.sc=PAT.size*(1+.12*M.breathe*Math.sin(now*.31));
     if(PAT.ph==='idle' && PAT.every>0 && now-PAT.lastChange>PAT.every){ PAT.lastChange=now; change(); }
+    /* WITH THE FORM (Dimitry 00:29): a new movement of the performance brings the next pattern */
+    if(PAT.every==='form'){ try{ if(FORM.run){ const S2=formSecs(), ci=S2.findIndex(x=>FORM.t>=x.a&&FORM.t<x.b); if(ci!==PAT.fsec){ const first=PAT.fsec==null; PAT.fsec=ci; if(!first&&PAT.ph==='idle') change(); } } else PAT.fsec=null; }catch(e){} }
     const A=PAT.P, B=PAT.N2&&PAT.N2.pts, ax=PAT.ax;
     const line=(q,i)=>{ const s=(i/(N-1))*2-1; return ax==='h'?[ (q? q[0]*.25:0)+s*.75 ,0]:[0,(q?q[1]*.25:0)+s*.75]; };   /* evenly along the line, in order */
     if(PAT.ph==='idle'){ PAT.Q=A.map(q=>q.slice()); }
@@ -4004,7 +4018,8 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     /* to field coordinates (0..1, y down) */
     const c=Math.cos(PAT.ang), s=Math.sin(PAT.ang), k=PAT.sc*.5;
     let asp=16/9; try{ const el=fldEl(); if(el&&el.clientHeight) asp=el.clientWidth/el.clientHeight; }catch(e){}
-    PAT.F=PAT.Q.map(q=>[ PAT.cx + (q[0]*c - q[1]*s)*k/asp, PAT.cy - (q[0]*s + q[1]*c)*k ]);   /* x divided by the field's aspect, so a circle stays round */
+    PAT.X=q=>[ PAT.cx + (q[0]*c - q[1]*s)*k/asp, PAT.cy - (q[0]*s + q[1]*c)*k ];
+    PAT.F=PAT.Q.map(PAT.X);   /* x divided by the field's aspect, so a circle stays round */
     moveSounds(now,dt); }
 
   /* the sounds' relationship to the pattern */
@@ -4024,7 +4039,9 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   fldPaint=function(){ _paint.apply(this,arguments); if(!PAT.show||!PAT.F) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return;
     const g=el.getContext('2d'); g.save(); g.lineWidth=1.4; g.strokeStyle='rgba(255,255,255,.38)'; g.fillStyle='rgba(255,255,255,.55)';
     const F=PAT.F, brk=PAT.ph==='open'&&PAT.pt>OPEN*.5? PAT.N2.brk : PAT.brk; g.beginPath();
-    F.forEach((q,i)=>{ const x=q[0]*w, y=q[1]*h; if(i===0||(brk&&brk[i])) g.moveTo(x,y); else g.lineTo(x,y); }); g.stroke();
+    if(PAT.ph==='idle'&&PAT.cur&&PAT.cur.strokes&&PAT.X){ const X=PAT.X; PAT.cur.strokes.forEach(st=>st.forEach((q,i)=>{ const p=X(q); i?g.lineTo(p[0]*w,p[1]*h):g.moveTo(p[0]*w,p[1]*h); })); }   /* at rest: the drawing at full detail */
+    else F.forEach((q,i)=>{ const x=q[0]*w, y=q[1]*h; if(i===0||(brk&&brk[i])) g.moveTo(x,y); else g.lineTo(x,y); });
+    g.stroke();
     if(PAT.ph!=='idle') F.forEach(q=>{ g.beginPath(); g.arc(q[0]*w,q[1]*h,1.6,0,6.283); g.fill(); });
     g.restore(); };
   setInterval(()=>{ step(); if(PAT.cur && (typeof FV==='undefined'||!FV.length)) try{ fldPaint(); }catch(e){} }, 33);
@@ -4058,6 +4075,8 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   box.innerHTML=`<span class="pcl">Patterns: shapes in the field that the sounds and the field's marks move with</span>
   <div class="plrow"><span class="pcl">Set</span><div class="seg" id="patSet" role="radiogroup" aria-label="Pattern set"></div></div>
   <div id="patGroups"></div>
+  <div class="plrow"><span class="pcl">Your own G-code</span><button type="button" class="chip" id="patLoad">Load G-code files</button><button type="button" class="chip" id="patPaste">Paste G-code</button><input type="file" id="patFile" accept=".gcode,.nc,.ngc,.tap,.gc,.txt" multiple hidden></div>
+  <div id="patPasteBox" hidden><textarea id="patTxt" rows="5" style="width:100%;font:12px ui-monospace,monospace" placeholder="G0 X0 Y0&#10;G1 Z0&#10;G1 X40 Y0 …"></textarea><div class="frow"><input id="patName" type="text" maxlength="40" placeholder="Name"><button type="button" class="chip" id="patAdd">Add to Mine</button></div></div>
   <div class="plrow"><span class="pcl">Which comes next</span><div class="seg" id="patOrder" role="radiogroup" aria-label="Which pattern comes next"></div></div>
   <div class="plrow"><span class="pcl">Change</span><div class="seg" id="patEvery" role="radiogroup" aria-label="When the pattern changes"></div><button type="button" class="chip" id="patNext">Next pattern</button><button type="button" class="chip" id="patOff">Off</button></div>
   <div class="plrow"><span class="pcl">The pattern moves</span><div class="seg" id="patMotion" role="radiogroup" aria-label="How the pattern moves"></div></div>
@@ -4071,7 +4090,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   const seg=(id,opts,get,set)=>{ const el=document.getElementById(id); el.innerHTML=''; opts.forEach(([v,label,title])=>{ const b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('role','radio'); b.textContent=label; if(title) b.title=title;
       b.setAttribute('aria-checked', String(get()===v)); b.onclick=()=>{ set(v); save(); paintPane(); }; el.appendChild(b); }); };
   function paintPane(){ if(!document.getElementById('patSet')) return;
-    seg('patSet',Object.keys(SETS).map(k=>[k,SETS[k].name]),()=>PAT.set,v=>{PAT.set=v;});
+    seg('patSet',setKeys().map(k=>[k,SETS[k].name]),()=>PAT.set,v=>{PAT.set=v;PAT.bag=[];});
     const gEl=document.getElementById('patGroups'); gEl.innerHTML=''; const S=SETS[PAT.set];
     (S?S.groups:[]).forEach(G=>{ const row=document.createElement('div'); row.className='plrow'; const lab=document.createElement('span'); lab.className='pcl'; lab.textContent=G.name; row.appendChild(lab);
       const allB=document.createElement('button'); allB.type='button'; allB.className='chip'; const nOn=G.patterns.filter(p=>PAT.on[p.id]).length; allB.textContent=nOn===G.patterns.length?'None':'All';
@@ -4082,9 +4101,12 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
         let ht=0,held=false; b.onpointerdown=()=>{ held=false; ht=setTimeout(()=>{ held=true; change(Object.assign({group:G.name},p)); },500); };
         b.onpointerup=b.onpointerleave=()=>clearTimeout(ht);
         b.onclick=()=>{ if(held) return; PAT.on[p.id]=!PAT.on[p.id]; save(); paintPane(); }; chips.appendChild(b); });
+      if(PAT.set==='mine'&&G.patterns.length){ const cl=document.createElement('button'); cl.type='button'; cl.className='chip'; cl.textContent='Remove unticked';
+        cl.onclick=()=>{ MINE=MINE.filter(m=>PAT.on['mine-'+m.id]); try{ localStorage.setItem('battanboo.mypat',JSON.stringify(MINE)); }catch(e){} mineSet(); paintPane(); }; chips.appendChild(cl); }
+      if(PAT.set==='mine'&&!G.patterns.length){ const e=document.createElement('span'); e.className='ahint'; e.textContent='Nothing yet: load or paste G-code above (a plotter file, a laser file, or a pattern from Current).'; chips.appendChild(e); }
       row.appendChild(chips); gEl.appendChild(row); });
     seg('patOrder',[['bag','Bag random','each ticked pattern once, in a shuffled order, then a new shuffle'],['order','In order'],['one','Stay on one']],()=>PAT.order,v=>{PAT.order=v;PAT.bag=[];});
-    seg('patEvery',[[0,'By hand'],[20,'20 s'],[45,'45 s'],[90,'90 s']],()=>PAT.every,v=>{PAT.every=v;PAT.lastChange=performance.now()/1000;});
+    seg('patEvery',[[0,'By hand'],['form','With the Form','each new movement of the performance brings the next pattern'],[20,'20 s'],[45,'45 s'],[90,'90 s']],()=>PAT.every,v=>{PAT.every=v;PAT.lastChange=performance.now()/1000;});
     seg('patMotion',Object.keys(MOTION).map(k=>[k,k]),()=>PAT.motion,v=>{PAT.motion=v;});
     const sz=document.getElementById('patSize'); sz.value=Math.round(PAT.size*100); sz.oninput=()=>{ PAT.size=sz.value/100; save(); };
     seg('patFlat',[['h','Across'],['v','Up and down'],['alt','Taking turns']],()=>PAT.flat,v=>{PAT.flat=v;});
@@ -4096,6 +4118,13 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     const sp=PAT.spk==='stereo'?'Two speakers: each sound is panned left to right, as always.' : (SPC? ('Composed for '+SurfaceSpace.NAME[PAT.spk]+'; heard on '+(SPC.why||SPC.heard)+'.') : 'Composed for '+(window.SurfaceSpace?SurfaceSpace.NAME[PAT.spk]:PAT.spk)+'; it is set up when the sound starts.');
     why.textContent=cur+sp;
     document.getElementById('patNext').onclick=()=>change();
+    const fi=document.getElementById('patFile'); document.getElementById('patLoad').onclick=()=>fi.click();
+    fi.onchange=async()=>{ let ok=0,bad=0,full=0; for(const f of fi.files){ const r=mineAdd(f.name, await f.text()); if(r===true) ok++; else if(r==='full') full++; else bad++; } fi.value='';
+      PAT.set='mine'; PAT.bag=[]; save(); paintPane(); $('status').textContent='Mine: '+ok+' pattern'+(ok===1?'':'s')+' added'+(bad?', '+bad+' with no pen-down moves skipped':'')+(full?', '+full+' too big to keep on this device':'')+'.'; };
+    document.getElementById('patPaste').onclick=()=>{ const b=document.getElementById('patPasteBox'); b.hidden=!b.hidden; };
+    document.getElementById('patAdd').onclick=()=>{ const t=document.getElementById('patTxt').value, n=document.getElementById('patName').value||('Pattern '+(MINE.length+1)); const r=mineAdd(n,t);
+      $('status').textContent= r===true ? 'Mine: '+n+' added and ticked.' : r==='full' ? 'Too big to keep on this device.' : 'No drawing found: the G-code needs pen-down moves (G1 with Z at or under 0, or extrusion).';
+      if(r===true){ document.getElementById('patTxt').value=''; PAT.set='mine'; PAT.bag=[]; save(); paintPane(); } };
     document.getElementById('patOff').onclick=()=>{ PAT.cur=null; PAT.F=null; PAT.P=null; PAT.ph='idle'; save(); paintPane(); try{fldPaint()}catch(e){} };
   }
   /* per sound: the same four, in its own settings (hold a sound in the field) */
@@ -4105,7 +4134,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     [['free','Free'],['still','Still'],['wander','Wander'],['follow','Follow']].forEach(([k,t])=>{ const b=document.createElement('button'); b.type='button'; b.textContent=t; b.setAttribute('aria-pressed',String((v0.cfg.prel||'free')===k));
       b.onclick=()=>{ v0.cfg.prel=k; v0.pk=null; v0.pu=null; [...row.querySelectorAll('button')].forEach(x=>x.setAttribute('aria-pressed',String(x===b))); }; row.appendChild(b); });
     p.appendChild(row); };
-  window.BBPAT={ PAT, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC };   /* for the tests */
+  window.BBPAT={ PAT, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
   paintPane();
   if(PAT.curId){ const p=all().find(q=>q.id===PAT.curId); if(p) load(p); }
   const wake=()=>{ if(PAT.spk!=='stereo') spcApply(); paintPane(); }; document.addEventListener('pointerdown',()=>setTimeout(wake,300),{once:true});
