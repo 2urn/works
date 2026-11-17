@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261117120354";window.__VERSION__="0.9.4";window.__NOTES__=[{"v": "0.9.4", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "vertex-effect sets. In the drawings panel, under **More**, four made sets put effects on the current drawing in one tap: **Breathe** (every 24th vertex swells the level), **Bright corners** (every 16th brightens the tone), **Glide up** (every 32nd bends the note up) and **Room at the ends** (the first and last vertices add space). **Keep set** saves what the current drawing's vertices do under a name; tap it later to put it on any drawing (every drawing has the same 96 vertices). Hold one of yours to delete it."}]}]</script>
+<script>window.__BUILD__="20261117121231";window.__VERSION__="0.9.5";window.__NOTES__=[{"v": "0.9.5", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "the drawing has handles, and a ghost twin. In the G-code editor the drawing wears three round handles on a faint ring: the **cross** in the middle moves it, the **diamond** sizes it, the **arc** turns it. Grab one and the drawing in your hand (in the accent colour) stands still while a ghost of it, with its old size, place and movement, keeps playing and carrying the sounds. Let go and the sounds glide over to the new drawing in two seconds, and it carries on from there. Double-tap the cross, or **Put the drawing back** in the panel, to return it to where it started. Its place, size and turn are remembered, and a look you keep carries them."}, {"kind": "new", "text": "a sound has a twin too. Open the ring of a moving sound (one with a drawn or wandering movement, or one riding a drawing) and it stands still in your hand, quiet until you change something, while a ghost (a dashed ring) keeps playing its old movement. Close the ring and it takes up the new movement; the ghost plays on for a moment and fades. The ghost is never saved."}, {"kind": "", "text": "Fixed: changing a field sound's voice in its ring no longer drops its movement or its place on a vertex."}, {"kind": "", "text": "The drawings panel is only as tall as it needs to be, so the handles stay reachable below it."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -2262,7 +2262,7 @@ function fldMake(x,y,cfg){fldBus();if(!FLG)return null;cfg=Object.assign({src:FL
   const tail=pan?pan:lp;if(pan)lp.connect(pan);tail.connect(dry);tail.connect(snd);dry.connect(env);env.connect(FLG);snd.connect(FSEND);
   env.gain.setValueAtTime(0,t);env.gain.linearRampToValueAtTime(1,t+1.6);
   const v={o:os,rv,lp,pan,dry,snd,env,x,y,m,dead:false,cfg};fldSet(v,x,y,true);return v}
-function fldSet(v,x,y,first){const t=AC.currentTime,tc=first?.001:.08,far=fldFar(y),c=v.cfg,m=fldPitch(x,y,c)+c.semi+(v.mod&&v.mod.semi||0),f=hz(m),md=v.mod,lvE=c.lv*(md?md.lv:1),wetE=md?clamp(c.wet+md.wet,0,1):c.wet,tm=Math.pow(4,(md?clamp(c.tone+md.tone,0,1):c.tone)*2-1);v.x=x;v.y=y;v.m=m;
+function fldSet(v,x,y,first){const t=AC.currentTime,tc=first?.001:.08,far=fldFar(y),c=v.cfg,m=fldPitch(x,y,c)+c.semi+(v.mod&&v.mod.semi||0),f=hz(m),md=v.mod,lvE=c.lv*(md?md.lv:1)*(v.hold&&!v.hot?0:1),wetE=md?clamp(c.wet+md.wet,0,1):c.wet,tm=Math.pow(4,(md?clamp(c.tone+md.tone,0,1):c.tone)*2-1);v.x=x;v.y=y;v.m=m;
   if(v.o.length){v.o[0].frequency.setTargetAtTime(f,t,tc);v.o[1].frequency.setTargetAtTime(f,t,tc);v.o[2].frequency.setTargetAtTime(f/2,t,tc)}
   if(v.rv){try{v.rv.set({cents:(m+12-60)*100})}catch(e){}}
   const cut=v.rv?6000*(FLD2.view==='floor'?(1-.85*far):1):f*(FLD2.view==='floor'?(5-4.2*far):3.2);
@@ -2270,7 +2270,7 @@ function fldSet(v,x,y,first){const t=AC.currentTime,tc=first?.001:.08,far=fldFar
   if(v.pan)v.pan.pan.setTargetAtTime(clamp(x*2-1,-1,1)*.9,t,tc);
   v.dry.gain.setTargetAtTime(.9*(1-.7*far)*lvE*2,t,tc);v.snd.gain.setTargetAtTime((.12+.8*far)*wetE*2,t,tc)}
 function fldRelease(v){if(!v||v.dead)return;v.dead=true;const t=AC.currentTime;v.env.gain.cancelScheduledValues(t);v.env.gain.setValueAtTime(v.env.gain.value,t);v.env.gain.linearRampToValueAtTime(0,t+3.2);v.o.forEach(o=>{try{o.stop(t+3.3)}catch(e){}});if(v.rv){try{v.rv.release(t)}catch(e){}try{v.rv.stop(t+3.3)}catch(e){}}setTimeout(()=>{try{v.env.disconnect();v.dry.disconnect();v.snd.disconnect()}catch(e){}},3600)}
-function fldResrc(v,patch){const i=FV.indexOf(v);if(i<0||v.dead)return v;const nv=fldMake(v.x,v.y,Object.assign({},v.cfg,patch));if(!nv)return v;FV[i]=nv;fldRelease(v);fldPaint();return nv}
+function fldResrc(v,patch){const i=FV.indexOf(v);if(i<0||v.dead)return v;const nv=fldMake(v.x,v.y,Object.assign({},v.cfg,patch));if(!nv)return v;FV[i]=nv;['path','pk','gc','pu','wp','hold','hot','twin','mod'].forEach(k=>{if(v[k]!=null)nv[k]=v[k]});if(v.hold){try{fldSet(nv,nv.x,nv.y)}catch(e){}}fldRelease(v);fldPaint();return nv}
 /* the settings of one sound: level, wet, tone, pitch and which sound it is */
 function fldSnd(v0){haloClose();let v=v0;const old=document.getElementById('fsp');if(old)old.remove();
   const r=fldEl().getBoundingClientRect(),cy=r.top+v.y*r.height,cx=r.left+v.x*r.width,w=Math.min(270,innerWidth-16),el=document.createElement('div');el.id='fsp';el.className='fsp';el.setAttribute('role','group');el.setAttribute('aria-label','This field sound');
@@ -2299,7 +2299,7 @@ function fldSnd(v0){haloClose();let v=v0;const old=document.getElementById('fsp'
   const close=()=>{el.remove();document.removeEventListener('pointerdown',away,true)},away=e=>{if(!el.contains(e.target))close()};done.onclick=close;
   document.body.appendChild(el);{const h=el.offsetHeight;el.style.top=Math.max(8,Math.min(innerHeight-h-8,cy+26+h>innerHeight-8?cy-26-h:cy+26))+'px'}setTimeout(()=>document.addEventListener('pointerdown',away,true),0)}
 /* the field is in the same undo and redo as the grid: every sound put down, moved, changed or taken away (Dimitry, 11 Nov: Clear all had no way back) */
-function fldSnap(){return FV.filter(v=>!v.dead).map(v=>({x:v.x,y:v.y,cfg:Object.assign({},v.cfg),path:v.path||null,pk:v.pk==null?null:v.pk,gc:!!v.gc}))}
+function fldSnap(){return FV.filter(v=>!v.dead&&!v.ghost).map(v=>({x:v.x,y:v.y,cfg:Object.assign({},v.cfg),path:v.path||null,pk:v.pk==null?null:v.pk,gc:!!v.gc}))}
 function fldHist(){UND.push({f:fldSnap()});if(UND.length>120)UND.shift();RED.length=0;histSync()}
 function fldRestore(a){FV.splice(0).forEach(fldRelease);a.forEach(d=>{const v=fldMake(d.x,d.y,d.cfg);if(v){if(d.path)v.path=d.path;if(d.pk!=null){v.pk=d.pk;v.gc=true}FV.push(v)}});fldPaint();$('status').textContent=a.length?'Field: '+a.length+(a.length>1?' sounds':' sound')+' back in place.':'Field: no sounds.'}
 function gridClear(){histPush();['cart','pol'].forEach(f=>{const g=S.g[f];if(g)g.forEach(r=>r.forEach(k=>{if(k&&typeof k==='object')k.s=0}))});try{draw()}catch(e){}}
@@ -2321,7 +2321,12 @@ function fldRingOld(v){haloClose();const el0=fldEl(),r=el0.getBoundingClientRect
    its level, tone and pitch are value dots (drag across a dot and the number shows in it; tap it for a slider); next and prev change which
    sound it is and stay open; the movement is record or redraw, wander and still; the popover (length, smoothing, wet) is one dot, "more".
    Duplicate sits at the lower left and take away at the lower right (the kit's fixed places), as he asked. */
-function fldRing(v0){haloClose();if(!window.SurfaceRing)return fldRingOld(v0);let v=v0,hs=0;
+/* THE TWIN OF A SOUND (Dimitry, 17 Nov, from how a sister tool holds a sound): open a moving sound's ring and the sound stands still in your hand (quiet until you change something) while a ghost of it, with its old movement, keeps playing on the timeline; close the ring and it takes up its new programming while the ghost plays on a moment and fades. */
+function fldTwinOpen(v){if(!v||v.dead||v.ghost||v.hold)return;const mv=v.path||(v.cfg.prel&&v.cfg.prel!=='free');if(!mv)return;if(FV.filter(q=>!q.dead).length>=12)return;const g=fldMake(v.x,v.y,Object.assign({},v.cfg));if(!g)return;g.ghost=true;if(v.path){const cp=Object.assign({},v.path);try{fldPathBuild(cp)}catch(e){}g.path=cp}if(v.pk!=null){g.pk=v.pk;g.gc=true}g.pu=v.pu;g.wp=v.wp;FV.push(g);v.twin=g;v.hold=true;v.hot=false;fldSet(v,v.x,v.y);fldPaint()}
+function fldTwinHot(v){if(v&&v.hold&&!v.hot){v.hot=true;try{fldSet(v,v.x,v.y)}catch(e){}}}
+function fldTwinClose(v){if(!v||!v.hold)return;const g=v.twin,hot=v.hot;v.hold=false;v.hot=false;v.twin=null;if(!v.dead){try{fldSet(v,v.x,v.y)}catch(e){}}
+  if(g){const end=()=>{const i=FV.indexOf(g);if(i>=0)FV.splice(i,1);fldRelease(g);try{fldPaint()}catch(e){}};if(hot&&!v.dead)setTimeout(end,2200);else end()}fldPaint()}
+function fldRing(v0){haloClose();if(!window.SurfaceRing)return fldRingOld(v0);let v=v0,hs=0;fldTwinOpen(v);
   const r=fldEl().getBoundingClientRect(),x=r.left+v.x*r.width,y=r.top+v.y*r.height;
   const HI=d=>'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+d+'</svg>';
   const IC={lvl:HI('<path d="M4 15h3l4 4V5L7 9H4z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10" opacity=".7"/>'),tone:HI('<path d="M3 15c3 0 4-6 7-6s4 6 7 6 2-3 4-3"/>'),semi:HI('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/>'),
@@ -2332,21 +2337,21 @@ function fldRing(v0){haloClose();if(!window.SurfaceRing)return fldRingOld(v0);le
   const srcs=()=>{const a=['pad'];for(let i=0;i<S.nV;i++)a.push(i);return a};
   const sname=s=>{if(typeof s!=='number')return 'pad';const sl=S.slots[s],e=sl&&byId(sl.id);return e?e.label:'colour '+(s+1)};
   const at=()=>{const a=srcs(),k=a.indexOf(typeof v.cfg.src==='number'?v.cfg.src:'pad');return Math.max(0,k)};
-  const step=d=>{if(v.dead)return;const a=srcs();fldHist();v=fldResrc(v,{src:a[(at()+d+a.length)%a.length]})};
-  const chg=(k,val)=>{if(v.dead)return;if(!hs){hs=1;fldHist()}v.cfg[k]=val;fldSet(v,v.x,v.y)};
+  const step=d=>{if(v.dead)return;const a=srcs();fldHist();fldTwinHot(v);v=fldResrc(v,{src:a[(at()+d+a.length)%a.length]})};
+  const chg=(k,val)=>{if(v.dead)return;if(!hs){hs=1;fldHist()}fldTwinHot(v);v.cfg[k]=val;fldSet(v,v.x,v.y)};
   const items=()=>{const a=srcs(),nx=a[(at()+1)%a.length],pv=a[(at()+a.length-1)%a.length],q=v.path;return[
     {id:'next',kind:'go',stay:true,icon:IC.next,label:sname(nx),aria:'Make it the next sound: '+sname(nx),pick:()=>step(1)},
     {id:'lvl',kind:'value',icon:IC.lvl,label:'level',aria:'Its level',get:()=>Math.round(v.cfg.lv*200),set:n=>chg('lv',n/200),min:0,max:200,step:5,fmt:n=>Math.round(n)+'%'},
     {id:'tone',kind:'value',icon:IC.tone,label:'tone',aria:'Its tone: dark to bright',get:()=>Math.round(v.cfg.tone*100),set:n=>chg('tone',n/100),min:0,max:100,step:1,fmt:n=>Math.round(n)},
     {id:'semi',kind:'value',icon:IC.semi,label:'pitch',aria:'Its pitch, in semitones',get:()=>v.cfg.semi,set:n=>chg('semi',Math.round(n)),min:-12,max:12,step:1,fmt:n=>(n>0?'+':'')+Math.round(n)},
-    {id:'rec',kind:'go',icon:IC.rec,label:v.rec?'cancel':q?'redraw':'record',aria:v.rec?'Cancel recording a movement':'Record a movement: then drag this sound, and it goes round that path',pick:()=>fldRecArm(v)},
-    {id:'wan',kind:'go',stay:true,icon:IC.wan,label:q&&q.rand?'reshuffle':'wander',aria:'Random movement: this sound drifts on its own',pick:()=>fldRandPath(v,q&&q.rand||.25)},
-    ...(q?[{id:'still',kind:'go',stay:true,icon:IC.still,label:'still',aria:'Still it: no movement',pick:()=>{if(v.dead)return;fldHist();v.path=null;fldPaint();$('status').textContent='Movement cleared: the sound stays where it is.'}}]:[]),
+    {id:'rec',kind:'go',icon:IC.rec,label:v.rec?'cancel':q?'redraw':'record',aria:v.rec?'Cancel recording a movement':'Record a movement: then drag this sound, and it goes round that path',pick:()=>{fldTwinHot(v);fldRecArm(v)}},
+    {id:'wan',kind:'go',stay:true,icon:IC.wan,label:q&&q.rand?'reshuffle':'wander',aria:'Random movement: this sound drifts on its own',pick:()=>{fldTwinHot(v);fldRandPath(v,q&&q.rand||.25)}},
+    ...(q?[{id:'still',kind:'go',stay:true,icon:IC.still,label:'still',aria:'Still it: no movement',pick:()=>{if(v.dead)return;fldHist();fldTwinHot(v);v.path=null;fldPaint();$('status').textContent='Movement cleared: the sound stays where it is.'}}]:[]),
     {id:'more',kind:'go',icon:IC.more,label:'more',aria:'More: how long the movement lasts, smoothing, wet',pick:()=>setTimeout(()=>fldSnd(v),380)},
     {id:'dup',kind:'go',at:'bottom-left',icon:IC.dup,label:'duplicate',aria:'Duplicate this sound',pick:()=>fldDup(v)},
     {id:'del',kind:'go',at:'bottom-right',icon:IC.del,label:'take away',aria:'Take this sound away',pick:()=>fldTake(v)},
     {id:'prev',kind:'go',stay:true,icon:IC.prev,label:sname(pv),aria:'Make it the sound before: '+sname(pv),pick:()=>step(-1)}]};
-  const h=SurfaceRing.open({x,y,center:'none',pin:false,title:sname(v.cfg.src),icon:IC.snd,items,onClose:()=>{hs=0;if(HH2===h)HH2=null}});HH2=h}
+  const h=SurfaceRing.open({x,y,center:'none',pin:false,title:sname(v.cfg.src),icon:IC.snd,items,onClose:()=>{hs=0;fldTwinClose(v);if(HH2===h)HH2=null}});HH2=h}
 var HH2=null;
 function fldTake(v){const i=FV.indexOf(v);if(i>=0){fldHist();FV.splice(i,1)}fldRelease(v);fldPaint();$('status').textContent='Field note taken away.'}
 function fldDup(v){if(v.dead)return;fldHist();const nv=fldMake(clamp(v.x+.07,0,1),clamp(v.y+.07,0,1),Object.assign({},v.cfg));if(!nv)return;if(v.path)nv.path=Object.assign({},v.path,{t0B:gB,t0S:performance.now()/1000});FV.push(nv);while(FV.length>12)fldRelease(FV.shift());fldPaint();$('status').textContent='Duplicated: the copy sits just beside it, with the same sound, settings and movement.'}
@@ -2374,10 +2379,10 @@ function fldPathEnd(v,rec){const pts=rec.pts,t0=pts[0].t,t1=pts[pts.length-1].t,
   if(pts.length<4||d<250){$('status').textContent='That was too short to be a movement. Armed again: drag it longer.';v.rec='armed';fldPaint();return}
   const p={raw:pts.map(q=>({t:(q.t-t0)/d,x:q.x,y:q.y})),unit:'bar',n:4,mode:'loop',sm:1,sp:0,st:0};fldPathBuild(p);fldPathRestart(p);v.path=p;fldPaint();
   $('status').textContent='Movement recorded: it takes 4 bars and loops, whatever the speed of your hand. Hold the sound, then Settings, to change its length, mode, smooth or simplify.'}
-setInterval(()=>{if(!AC||!FV.length)return;const now=performance.now()/1000;let any=false;FV.forEach(v=>{if(v.path&&!v.dead&&!(FDRAG&&FDRAG.v===v)){const[x,y]=fldPathPos(v.path,now,gB);fldSet(v,x,y);any=true}});if(any)fldPaint()},33);
+setInterval(()=>{if(!AC||!FV.length)return;const now=performance.now()/1000;let any=false;FV.forEach(v=>{if(v.path&&!v.dead&&!v.hold&&!(FDRAG&&FDRAG.v===v)){const[x,y]=fldPathPos(v.path,now,gB);fldSet(v,x,y);any=true}});if(any)fldPaint()},33);
 function fldPad(){const el=fldEl();if(!el)return;
   el.onpointerdown=e=>{e.preventDefault();ensureAudio();try{el.setPointerCapture(e.pointerId)}catch(_){}const[x,y]=fldPos(e);
-    {const r=el.getBoundingClientRect();let hit=-1;FV.forEach((v,i)=>{if(Math.hypot((v.x-x)*r.width,(v.y-y)*r.height)<24)hit=i});
+    {const r=el.getBoundingClientRect();let hit=-1;FV.forEach((v,i)=>{if(!v.ghost&&Math.hypot((v.x-x)*r.width,(v.y-y)*r.height)<24)hit=i});
       if(hit>=0){const v=FV[hit],now=performance.now();if(e.button===2){fldRing(v);return}
         if(FTAP&&FTAP.v===v&&now-FTAP.t<400){FTAP=null;fldHist();FV.splice(hit,1);fldRelease(v);fldPaint();$('status').textContent='Field note taken away.';return}
         FDRAG={id:e.pointerId,v,cx:e.clientX,cy:e.clientY,moved:false,menu:false,rec:v.rec==='armed'?{pts:[{t:performance.now(),x:v.x,y:v.y}]}:null,t:v.rec==='armed'?0:setTimeout(()=>{if(FDRAG&&!FDRAG.moved){if(FLD2.view==='floor'){const n=fldNotes();FDRAG.pm=true;FDRAG.s0=Math.min(n-1,v.cfg.deg!=null?v.cfg.deg:FLD2.deg);FDRAG.n=n;try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}$('status').textContent='Pitch: drag up or down to change this sound\'s note (now '+(FDRAG.s0+1)+' of '+n+'). Let go without dragging for its menu.';fldPaint()}else{FDRAG.menu=true;fldRing(v)}}},520)};return}}
@@ -2403,7 +2408,7 @@ function fldPaint(){{const cb=$('fldClr');if(cb)cb.disabled=false}document.docum
   g.globalAlpha=live?.9:.65;g.strokeStyle=col2;g.lineWidth=live?3.2:2.2;g.beginPath();g.arc(x,y,((live?31:15)+10*far)*vib*kq,0,6.2832);g.stroke();
   g.globalAlpha=live?.35:.2;g.lineWidth=1.2;g.beginPath();g.arc(x,y,((live?41:22)+12*far)*(2-vib)*kq,0,6.2832);g.stroke();g.globalAlpha=1};
   FV.forEach(v=>{if(v.path&&v.path.curve){const C=v.path.curve;g.globalAlpha=.32;g.strokeStyle='#fff';g.lineWidth=1.4;g.setLineDash([]);g.beginPath();for(let i=0;i<C.n;i+=2){const px=C.x[i]*w,py=C.y[i]*h;i?g.lineTo(px,py):g.moveTo(px,py)}g.stroke();g.globalAlpha=1}});
-  FV.forEach(v=>{dot(v,false);if(v.rec){g.strokeStyle='#e8483a';g.lineWidth=2;g.setLineDash([3,4]);g.beginPath();g.arc(v.x*w,v.y*h,26,0,6.2832);g.stroke();g.setLineDash([])}});if(FLIVE)dot(FLIVE.v,true)}
+  FV.forEach(v=>{if(v.ghost){g.save();g.globalAlpha=.55;g.strokeStyle='#fff';g.lineWidth=1.4;g.setLineDash([3,4]);g.beginPath();g.arc(v.x*w,v.y*h,15,0,6.2832);g.stroke();g.setLineDash([]);g.globalAlpha=.8;g.fillStyle='#fff';g.beginPath();g.arc(v.x*w,v.y*h,2.6,0,6.2832);g.fill();g.restore();return}dot(v,false);if(v.hold){g.save();g.strokeStyle='#fff';g.globalAlpha=.9;g.lineWidth=2;g.beginPath();g.arc(v.x*w,v.y*h,22,0,6.2832);g.stroke();g.restore()}if(v.rec){g.strokeStyle='#e8483a';g.lineWidth=2;g.setLineDash([3,4]);g.beginPath();g.arc(v.x*w,v.y*h,26,0,6.2832);g.stroke();g.setLineDash([])}});if(FLIVE)dot(FLIVE.v,true)}
 function fldDegBuild(){const box=$('fldDeg');if(!box)return;box.innerHTML='';const n=fldNotes();if(FLD2.deg>=n*2)FLD2.deg=0;
   for(let i=0;i<n;i++){const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=String(i+1);b.setAttribute('aria-label','Floor note: scale step '+(i+1));b.setAttribute('aria-pressed',String(FLD2.deg===i));b.onclick=()=>{FLD2.deg=i;fldSave();fldDegBuild()};box.appendChild(b)}
   box.hidden=FLD2.view!=='floor';$('fldDegL').hidden=box.hidden}
@@ -3888,7 +3893,7 @@ function lineSlOpen(){if(!LSL){LSL=document.createElement('div');LSL.id='lineSl'
   b.addEventListener('pointerdown',()=>{held=false;clearTimeout(t);t=setTimeout(()=>{held=true;lineSlOpen();$('status').textContent='The line-ups: choose one, or tap away. Tap the robot to start or stop it.';navigator.vibrate&&navigator.vibrate(15)},520)});
   ['pointerup','pointercancel','pointerleave'].forEach(n=>b.addEventListener(n,()=>clearTimeout(t)));
   document.addEventListener('click',e=>{if(held&&e.target&&e.target.closest&&e.target.closest('#play')){held=false;e.stopPropagation();e.preventDefault()}},true)})();
-window.__t=Object.assign(window.__t||{},{keepSnap,keepApply,scoreJson,MOUT,HOLDS:()=>[...HOLDS],AUTO,autoRoll,lineSlOpen,SONI,FLD2,FV,fldEl,DURL,LOAD,BED,FPK,master:()=>master,ensureAudio,recPlay,playOne,slotOf,fldRing,fldDup,fldRandPath,fldPathEnd,fldMake,fldSnd,fldResrc,fldFade,ROOMS,FFADE:()=>FFADE,FREV:()=>FREV,VBUS:()=>VBUS,MIDI,FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,capStartVideo,BIN:()=>BIN,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame,KEEP,keepSnap,keepRead,keepWrite});
+window.__t=Object.assign(window.__t||{},{fldMake,fldRing,fldRandPath,fldSnap,fldRelease,keepSnap,keepApply,scoreJson,MOUT,HOLDS:()=>[...HOLDS],AUTO,autoRoll,lineSlOpen,SONI,FLD2,FV,fldEl,DURL,LOAD,BED,FPK,master:()=>master,ensureAudio,recPlay,playOne,slotOf,fldRing,fldDup,fldRandPath,fldPathEnd,fldMake,fldSnd,fldResrc,fldFade,ROOMS,FFADE:()=>FFADE,FREV:()=>FREV,VBUS:()=>VBUS,MIDI,FORM,HELD,LIVEH,releaseAll,CAP,XP,HITLOG,capStill,capStartVideo,BIN:()=>BIN,gifBytes,midiBytes,zipOne,scoreText,capDims,capFrame,KEEP,keepSnap,keepRead,keepWrite});
 
 /* BINAURAL (Dimitry, 15 Nov 00:43): one switch adds two pure tones, one in each ear, on the root note's octave, a few Hz apart. Presets: Delta 2, Theta 6, Alpha 10, and Tempo, where the beat is the grid's own pulse (bpm / 60 Hz). Off at every start (headphones); level is gentle. */
 const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta','Theta',6],['alpha','Alpha',10],['tempo','Tempo',0]],LV=[['Soft',.05],['Medium',.09],['Clear',.16]];
@@ -3973,9 +3978,10 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     PAT.on['mine-'+id]=true; mineSet(); return true; }
   const setKeys=()=>Object.keys(SETS).filter(k=>SETS[k]&&SETS[k].groups&&(k!=='mine'||SETS.mine.groups[0].patterns.length||true));
   const PAT={set:'astrology', on:{}, order:'bag', motion:'Turn', size:.62, flat:'alt', every:0, show:true, steer:.5, rel:'still', spk:'stereo',
-    cur:null, curId:null, next:null, bag:[], ph:'idle', pt:0, ax:'h', ang:0, cx:.5, cy:.5, sc:.62, tr:0, lastChange:0, P:null, L:null, Q:null};
-  try{ Object.assign(PAT, JSON.parse(localStorage.getItem('battanboo.pat')||'{}'), {cur:null,curId:null,next:null,bag:[],ph:'idle',P:null,Q:null}); }catch(e){}
-  const save=()=>{ try{ const o={}; ['set','on','order','motion','size','flat','every','show','steer','rel','spk','curId'].forEach(k=>o[k]=PAT[k]); o.curId=PAT.cur&&PAT.cur.id; localStorage.setItem('battanboo.pat',JSON.stringify(o)); }catch(e){} };
+    cur:null, curId:null, next:null, bag:[], ph:'idle', pt:0, ax:'h', ang:0, cx:.5, cy:.5, sc:.62, tr:0, ux:0, uy:0, ua:0, us:1, tw:null, lastChange:0, P:null, L:null, Q:null};
+  try{ Object.assign(PAT, JSON.parse(localStorage.getItem('battanboo.pat')||'{}'), {cur:null,curId:null,next:null,bag:[],ph:'idle',P:null,Q:null,tw:null}); }catch(e){}
+  ['ux','uy','ua'].forEach(k=>{ if(!isFinite(PAT[k])) PAT[k]=0; }); if(!isFinite(PAT.us)||PAT.us<=0) PAT.us=1;
+  const save=()=>{ try{ const o={}; ['set','on','order','motion','size','flat','every','show','steer','rel','spk','curId','ux','uy','ua','us'].forEach(k=>o[k]=PAT[k]); o.curId=PAT.cur&&PAT.cur.id; localStorage.setItem('battanboo.pat',JSON.stringify(o)); }catch(e){} };
   const all=()=>{ const S=SETS[PAT.set]; return S? S.groups.flatMap(g=>g.patterns.map(p=>Object.assign({group:g.name},p))) : []; };
   if(!Object.keys(PAT.on).length) all().forEach(p=>PAT.on[p.id]=p.id.startsWith('signs-'));     /* first visit: the twelve signs ticked */
   const chosen=()=>all().filter(p=>PAT.on[p.id]);
@@ -3997,7 +4003,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   function load(p){ PAT.cur=p; const s=sample(p); PAT.P=s.pts; PAT.brk=s.brk; PAT.Q=s.pts.map(q=>q.slice()); save(); paintPane(); }
   /* the change: A → flat line (FLAT s) → hold (HOLD s, still turning) → B (OPEN s) */
   const FLAT=2.2, HOLD=1.6, OPEN=2.4;
-  function change(p){ p=p||pick(); if(!p) return; if(!PAT.cur){ load(p); return; }
+  function change(p){ if(PAT.tw&&PAT.tw.hand) return; p=p||pick(); if(!p) return; if(!PAT.cur){ load(p); return; }
     PAT.next=p; PAT.ph='flat'; PAT.pt=0; PAT.ax = PAT.flat==='alt' ? (PAT.ax==='h'?'v':'h') : PAT.flat; const ns=sample(p); PAT.N2=ns; PAT.lastChange=performance.now()/1000;
     try{ $('status').textContent='Pattern: '+(PAT.cur.glyph||'')+' '+PAT.cur.name+' flattens into a line '+(PAT.ax==='h'?'across':'up and down')+', then opens into '+(p.glyph||'')+' '+p.name+' ('+p.group+').'; }catch(e){} }
   const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
@@ -4024,16 +4030,18 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
       else if(PAT.ph==='open'){ const u=ease(Math.min(1,PAT.pt/OPEN)); PAT.Q=B.map((q,i)=>{ const l=line(null,i); return [l[0]+(q[0]-l[0])*u, l[1]+(q[1]-l[1])*u]; });
         if(PAT.pt>=OPEN){ PAT.cur=PAT.next; PAT.P=B; PAT.brk=PAT.N2.brk; PAT.next=null; PAT.ph='idle'; save(); paintPane(); } } }
     /* to field coordinates (0..1, y down) */
-    const c=Math.cos(PAT.ang), s=Math.sin(PAT.ang), k=PAT.sc*.5;
     let asp=16/9; try{ const el=fldEl(); if(el&&el.clientHeight) asp=el.clientWidth/el.clientHeight; }catch(e){}
-    PAT.X=q=>[ PAT.cx + (q[0]*c - q[1]*s)*k/asp, PAT.cy - (q[0]*s + q[1]*c)*k ];
-    PAT.F=PAT.Q.map(PAT.X);   /* x divided by the field's aspect, so a circle stays round */
+    /* THE TWIN (Dimitry, 17 Nov, from how a sister tool holds a pattern): while you hold the drawing, the one in your hand stands still (cx, cy, an, sc are yours) and its ghost, the drawing with its old transform and motion, keeps driving the sounds; let go and the sounds glide from the ghost to the new one over two seconds. The ghost is PAT.F; the hand is PAT.XH. */
+    const mk=(cx,cy,an,sc)=>{ const c=Math.cos(an), s=Math.sin(an), k=sc*.5; return q=>[ cx+(q[0]*c-q[1]*s)*k/asp, cy-(q[0]*s+q[1]*c)*k ]; };
+    PAT.asp=asp; PAT.X=mk(PAT.cx+PAT.ux,PAT.cy+PAT.uy,PAT.ang+PAT.ua,PAT.sc*PAT.us); PAT.F=PAT.Q.map(PAT.X);   /* x divided by the field's aspect, so a circle stays round */
+    if(PAT.tw&&PAT.tw.hand){ const h=PAT.tw.hand; PAT.XH=mk(h.cx,h.cy,h.an,h.sc); }
+    else { PAT.XH=null; if(PAT.tw&&PAT.tw.blend){ const b=PAT.tw.blend, u=ease(Math.min(1,(now-b.t)/2)), Xo=mk(PAT.cx+b.ux,PAT.cy+b.uy,PAT.ang+b.ua,PAT.sc*b.us), Fo=PAT.Q.map(Xo); PAT.F=PAT.F.map((p,i)=>[Fo[i][0]+(p[0]-Fo[i][0])*u, Fo[i][1]+(p[1]-Fo[i][1])*u]); PAT.ghost=u<1?Fo:null; if(u>=1){ PAT.tw=null; save(); } } }
     moveSounds(now,dt); }
 
   /* the sounds' relationship to the pattern */
   function nearest(x,y){ let b=0,d=1e9; (PAT.F||[]).forEach((q,i)=>{ const e=Math.hypot(q[0]-x,q[1]-y); if(e<d){d=e;b=i;} }); return b; }
   function moveSounds(now,dt){ if(typeof FV==='undefined'||!PAT.F) return; let any=false;
-    FV.forEach((v,i)=>{ if(v.dead) return; const rel=v.cfg&&v.cfg.prel||'free'; if(rel==='free') return; if(typeof FDRAG!=='undefined'&&FDRAG&&FDRAG.v===v) return;
+    FV.forEach((v,i)=>{ if(v.dead) return; const rel=v.cfg&&v.cfg.prel||'free'; if(rel==='free'||v.hold) return; if(typeof FDRAG!=='undefined'&&FDRAG&&FDRAG.v===v) return;
       if(v.pk==null) v.pk=nearest(v.x,v.y);
       let x,y; const F=PAT.F;
       if(rel==='follow'){ v.pu=((v.pu==null?v.pk:v.pu)+dt*(N/24))%N; const a=Math.floor(v.pu), f=v.pu-a, p=F[a], q=F[(a+1)%N]; x=p[0]+(q[0]-p[0])*f; y=p[1]+(q[1]-p[1])*f; }
@@ -4149,7 +4157,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   try{ Object.assign(GC, JSON.parse(localStorage.getItem('battanboo.gc')||'{}'), {open:false,v:0}); }catch(e){}
   const gcSave=()=>{ try{ localStorage.setItem('battanboo.gc',JSON.stringify({scope:GC.scope,src:GC.src,lv:GC.lv,tone:GC.tone,wet:GC.wet,rel:GC.rel,n:GC.n,xfer:GC.xfer,mag:GC.mag,fx:GC.fx})); }catch(e){} };
   const gcRecipe=()=>({src:GC.src,lv:GC.lv,wet:GC.wet,tone:GC.tone,semi:0,prel:GC.rel});
-  const gcLive=()=>FV.filter(v=>!v.dead);
+  const gcLive=()=>FV.filter(v=>!v.dead&&!v.ghost);
   const gcAt=i=>gcLive().filter(v=>(v.pk!=null?v.pk:nearest(v.x,v.y))===i);
   function gcPlace(i){ try{ ensureAudio(); }catch(e){} const q=PAT.F&&PAT.F[i]; if(!q) return null; const v=fldMake(q[0],q[1],gcRecipe()); if(!v) return null; v.pk=i; v.gc=true; FV.push(v); while(FV.length>12) fldRelease(FV.shift()); return v; }
   function gcSilence(i){ gcAt(i).forEach(v=>{ fldRelease(v); const k=FV.indexOf(v); if(k>=0) FV.splice(k,1); }); }
@@ -4167,7 +4175,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   { const rb=document.getElementById('railBot'), side=document.querySelector('.side'); if(rb&&rb.parentNode) rb.parentNode.insertBefore(gcRail,rb); else if(side) side.appendChild(gcRail); }
   const gcPan=document.createElement('div'); gcPan.id='gcPanel'; gcPan.className='gcp'; gcPan.hidden=true; gcPan.setAttribute('role','group'); gcPan.setAttribute('aria-label','G-code editor'); if(gcHost) gcHost.appendChild(gcPan);
   const gcCss=document.createElement('style'); gcCss.id='gc-css'; gcCss.textContent='html.ed.tfld #edTools,html.ed.tfld #paintRail,html.ed.tfld #paintRail2,html.ed.tfld #paintBar{display:none!important}#railGc{display:none}html.ed.tfld #railGc{display:flex;margin-top:auto}.side #railGc+#railBot{margin-top:10px}#railGc button[aria-pressed=false]{color:var(--muted)}#railGc button{min-height:40px}#railGc button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}'
-    +'.gcp{position:absolute;right:62px;top:8px;bottom:8px;width:min(300px,calc(100% - 84px));overflow:auto;z-index:7;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:12px var(--ui);display:flex;flex-direction:column;gap:8px}'
+    +'.gcp{position:absolute;right:62px;top:8px;max-height:calc(100% - 16px);width:min(300px,calc(100% - 84px));overflow:auto;z-index:7;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:12px var(--ui);display:flex;flex-direction:column;gap:8px}'
     +'.gcp[hidden],html:not(.ed) .gcp,html:not(.tfld) .gcp{display:none}.gcp h4{margin:0;font:700 12px var(--ui);display:flex;justify-content:space-between;align-items:center}.gcp .gl{font:600 11px var(--ui);opacity:.7}.gcp .gr{display:flex;flex-wrap:wrap;gap:4px;align-items:center}'
     +'.gcp .gst{display:flex;flex-direction:column;gap:3px;min-width:0}.gcp .gsc{display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:4px;-webkit-overflow-scrolling:touch}.gcp .gsc .chip{flex:none;scroll-snap-align:center;position:relative}.gcp .gbusy::after{content:"";position:absolute;inset:-3px;border-radius:999px;border:2px solid transparent;border-top-color:var(--accent);animation:gspin .7s linear infinite}@keyframes gspin{to{transform:rotate(360deg)}}.gcp{transition:opacity .15s}.gcp.gload{opacity:.35;pointer-events:none}.gcp.gload .gbusy{opacity:1}.gcp .gmore summary{cursor:pointer;font:600 11px var(--ui);opacity:.75;padding:4px 0}.gcp .gmore .gr{margin-bottom:6px}'
     +'.gcp .chip{min-height:34px;padding:0 10px;font-size:12px}.gcp .chip[aria-checked="true"],.gcp .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.gcp input[type=range]{flex:1;min-width:90px}.gcp .gn{opacity:.75}.gcp .gcin{flex:1;min-width:100px;min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:17px;background:var(--surface);color:var(--fg);font:12px var(--ui)}';
@@ -4185,6 +4193,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
           if(PAT.cur&&PAT.cur.id===p.id) return; b.classList.add('gbusy'); b.setAttribute('aria-busy','true'); gcPan.classList.add('gload'); gcSay('G-code: loading '+p.name+'…');
           requestAnimationFrame(()=>setTimeout(()=>{ try{ change(p); }finally{ gcPan.classList.remove('gload'); gcSay('G-code: '+p.name+'.'); gcDraw(); } },30)); });
           if(PAT.cur&&PAT.cur.id===p.id) setTimeout(()=>{ try{ b.scrollIntoView({inline:'center',block:'nearest'}); }catch(e){} },0); }); }); } }
+    { const rb=strip('Place'); const b=gcChip(rb,'Put the drawing back',false,()=>{ twReset(); gcDraw(); },'Move, size and turn it with its handles (cross, diamond, arc). This puts it back where it started. Double-tap the cross does the same.'); b.removeAttribute('role'); }
     const more=document.createElement('details'); more.className='gmore'; const sm=document.createElement('summary'); sm.textContent='More'; more.appendChild(sm); gcPan.appendChild(more); if(GC.moreOpen) more.open=true; more.addEventListener('toggle',()=>{ GC.moreOpen=more.open; });
     const rowIn=(l)=>{ const w=document.createElement('div'); w.className='gr'; const lb=document.createElement('span'); lb.className='gl'; lb.textContent=l; more.appendChild(lb); more.appendChild(w); return w; };
     r=rowIn('A sound sent from the grid'); gcChip(r,'Takes the nearest free vertex',GC.xfer==='attach',()=>{ GC.xfer='attach'; gcSave(); gcDraw(); }); gcChip(r,'Stays where it is',GC.xfer==='stay',()=>{ GC.xfer='stay'; gcSave(); gcDraw(); });
@@ -4244,9 +4253,10 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   /* THE FIELD IS PART OF THE SCORE (Dimitry, 17 Nov: "the paired grid and field are part of the score itself … it should include all the parts that have been built and modified"):
      a look (a movement's, or one you keep) now carries the field's sounds (with the vertex each rides), the G-code drawing (a drawing of Mine travels with its G-code) and what its vertices do. */
   const patFind=id=>{ for(const k of Object.keys(SETS)){ const St=SETS[k]; if(!St||!St.groups) continue; for(const g of St.groups) for(const p of g.patterns) if(p.id===id) return Object.assign({group:g.name,set:k},p); } return null; };
-  function fieldSnap(){ const v=fldSnap(); if(!v.length&&!PAT.cur) return null; const o={v}; if(PAT.cur){ o.pat={set:PAT.set,id:PAT.cur.id,name:PAT.cur.name}; if(/^mine-/.test(PAT.cur.id)){ const m=MINE.find(x=>'mine-'+x.id===PAT.cur.id); if(m) o.pat.g=m.g; } const fx=VX[PAT.cur.id]; if(fx&&Object.keys(fx).length) o.vx=JSON.parse(JSON.stringify(fx)); } return o; }
+  function fieldSnap(){ const v=fldSnap(); if(!v.length&&!PAT.cur) return null; const o={v}; if(PAT.cur){ o.pat={set:PAT.set,id:PAT.cur.id,name:PAT.cur.name,t:[+PAT.ux.toFixed(4),+PAT.uy.toFixed(4),+PAT.ua.toFixed(4),+PAT.us.toFixed(4)]}; if(/^mine-/.test(PAT.cur.id)){ const m=MINE.find(x=>'mine-'+x.id===PAT.cur.id); if(m) o.pat.g=m.g; } const fx=VX[PAT.cur.id]; if(fx&&Object.keys(fx).length) o.vx=JSON.parse(JSON.stringify(fx)); } return o; }
   function fieldApply(o){ if(!o) return; try{ ensureAudio(); }catch(e){}
     if(o.pat){ let p=patFind(o.pat.id); if(!p&&o.pat.g){ const r=mineAdd(o.pat.name||'Drawing',o.pat.g); if(r===true){ const m=MINE[MINE.length-1]; p=patFind('mine-'+m.id); if(p&&o.vx) VX['mine-'+m.id]=o.vx; } }
+      if(o.pat.t&&o.pat.t.length===4&&o.pat.t.every(isFinite)){ PAT.ux=o.pat.t[0]; PAT.uy=o.pat.t[1]; PAT.ua=o.pat.t[2]; PAT.us=Math.max(.15,o.pat.t[3]||1); PAT.tw=null; }
       if(p){ if(o.vx&&p.id===o.pat.id) VX[p.id]=o.vx; vxSave(); PAT.set=p.set||PAT.set; if(!PAT.cur||PAT.cur.id!==p.id) change(p); } }
     if(o.v) fldRestore(o.v); }
   function strokesToGcode(p){ const f=n=>(50+n*50).toFixed(3); let t='; '+(p.name||'Drawing')+'\nG21 G90\n'; (p.strokes||[]).forEach(st=>{ if(!st||st.length<2) return; t+='G0 Z2\nG0 X'+f(st[0][0])+' Y'+f(st[0][1])+'\nG1 Z0 F400\n'; for(let i=1;i<st.length;i++) t+='G1 X'+f(st[i][0])+' Y'+f(st[i][1])+' F1200\n'; }); return t+'G0 Z2\n'; }
@@ -4294,6 +4304,43 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
       return a; };
     return SurfaceRing.open({x,y,center:'ball',pin:false,title:vi!=null?'Vertex '+(vi+1):'Drawing',icon:gcIcon,items,onClose:()=>{ GC.pvV=null; rep(); }}); }
   { const b=document.getElementById('gcBtn'); if(b) b.onclick=()=>gcToggle(); }
+  /* THE DRAWING'S HANDLES (Dimitry, 17 Nov: "a handle halts the movement … change the scale and proportions … another to rotate"): in the G-code editor the drawing carries three handles: the cross in the middle moves it, the diamond sizes it, the arc turns it. Grab one and the drawing in your hand stands still while a ghost keeps playing the old movement and carrying the sounds; let go and the sounds glide over to the new one. */
+  const TWH=()=>{ const el=fldEl(); if(!el||!PAT.cur||!PAT.F||PAT.ph!=='idle') return null; const w=el.clientWidth,h=el.clientHeight; if(!w) return null;
+    const hd=PAT.tw&&PAT.tw.hand; let cx,cy,sc,an; if(hd){ cx=hd.cx; cy=hd.cy; sc=hd.sc; an=hd.an; } else { cx=PAT.cx+PAT.ux; cy=PAT.cy+PAT.uy; sc=PAT.sc*PAT.us; an=PAT.ang+PAT.ua; }
+    const r=Math.max(40,Math.min(sc*.5*h*.92,w*.4)), X=cx*w, Y=cy*h, a1=Math.PI*.25, a2=-Math.PI*.25;   /* size: lower right; turn: upper right */
+    return {w,h,cx,cy,sc,an,r,X,Y,mv:[X,Y],sz:[X+Math.cos(a1)*r,Y+Math.sin(a1)*r],tn:[X+Math.cos(a2)*r,Y+Math.sin(a2)*r]}; };
+  const twOn=()=>{ const R=document.documentElement.classList; return GC.open&&R.contains('ed')&&R.contains('tfld'); };
+  function twEnd(){ const t=PAT.tw; if(!t||!t.hand) return; const h=t.hand, now=performance.now()/1000;
+    const nu={ux:h.cx-PAT.cx,uy:h.cy-PAT.cy,ua:h.an-PAT.ang,us:PAT.sc>1e-4?Math.max(.15,Math.min(3,h.sc/PAT.sc)):PAT.us};
+    PAT.tw={blend:{ux:t.snap.ux,uy:t.snap.uy,ua:t.snap.ua,us:t.snap.us,t:now}}; Object.assign(PAT,nu); save(); gcSay('G-code: the drawing is placed; the sounds glide to it.'); try{ fldPaint(); }catch(e){} }
+  function twReset(){ const now=performance.now()/1000; PAT.tw={blend:{ux:PAT.ux,uy:PAT.uy,ua:PAT.ua,us:PAT.us,t:now}}; PAT.ux=0; PAT.uy=0; PAT.ua=0; PAT.us=1; save(); gcSay('G-code: the drawing is back where it started.'); }
+  let twLast=0;
+  { const el=fldEl(); if(el) el.addEventListener('pointerdown',e=>{ if(!twOn()||e.button>0) return; const g=TWH(); if(!g) return; const r=el.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top, hit=e.pointerType==='touch'?30:20;
+      const d=pt=>Math.hypot(px-pt[0],py-pt[1]); let kind=null; if(d(g.sz)<hit) kind='size'; else if(d(g.tn)<hit) kind='turn'; else if(d(g.mv)<hit) kind='move'; if(!kind) return;
+      e.stopImmediatePropagation(); e.preventDefault(); const now=performance.now();
+      if(kind==='move'&&now-twLast<350){ twLast=0; twReset(); return; } twLast=now;
+      PAT.tw={snap:{ux:PAT.ux,uy:PAT.uy,ua:PAT.ua,us:PAT.us},hand:{cx:g.cx,cy:g.cy,an:g.an,sc:g.sc},kind};
+      const h0=Object.assign({},PAT.tw.hand), a0=Math.atan2(py-g.Y,px-g.X), r0=Math.max(8,Math.hypot(px-g.X,py-g.Y)), id=e.pointerId; try{ el.setPointerCapture(id); }catch(_){}
+      gcSay('G-code: holding the drawing; a ghost keeps playing.');
+      const mv=ev=>{ if(ev.pointerId!==id||!PAT.tw||!PAT.tw.hand) return; const x=ev.clientX-r.left, y=ev.clientY-r.top, H=PAT.tw.hand;
+        if(kind==='move'){ H.cx=Math.max(.05,Math.min(.95,h0.cx+(x-px)/g.w)); H.cy=Math.max(.05,Math.min(.95,h0.cy+(y-py)/g.h)); }
+        else if(kind==='size'){ H.sc=Math.max(.15,Math.min(1.7,h0.sc*Math.hypot(x-g.X,y-g.Y)/r0)); }
+        else { let dth=Math.atan2(y-g.Y,x-g.X)-a0; while(dth>Math.PI) dth-=2*Math.PI; while(dth<-Math.PI) dth+=2*Math.PI; H.an=h0.an-dth; }
+        try{ fldPaint(); }catch(_){} };
+      const up=ev=>{ if(ev.pointerId!==id) return; window.removeEventListener('pointermove',mv); window.removeEventListener('pointerup',up); window.removeEventListener('pointercancel',up); try{ el.releasePointerCapture(id); }catch(_){} twEnd(); };
+      window.addEventListener('pointermove',mv); window.addEventListener('pointerup',up); window.addEventListener('pointercancel',up); },true); }
+  { const _p4=fldPaint; fldPaint=function(){ _p4.apply(this,arguments); if(!PAT.cur||!PAT.F) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return; const g2=el.getContext('2d'), acc=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#ffd23f';
+      const strokes=()=>{ g2.beginPath(); if(PAT.cur.strokes&&PAT.XH) PAT.cur.strokes.forEach(st=>st.forEach((q,i)=>{ const p=PAT.XH(q); i?g2.lineTo(p[0]*w,p[1]*h):g2.moveTo(p[0]*w,p[1]*h); })); g2.stroke(); };
+      g2.save();
+      if(PAT.ghost){ g2.globalAlpha=.4; g2.setLineDash([3,5]); g2.strokeStyle='rgba(255,255,255,.8)'; g2.lineWidth=1.2; g2.beginPath(); PAT.ghost.forEach((q,i)=>{ const x=q[0]*w,y=q[1]*h; (i===0||(PAT.brk&&PAT.brk[i]))?g2.moveTo(x,y):g2.lineTo(x,y); }); g2.stroke(); g2.setLineDash([]); }
+      if(PAT.tw&&PAT.tw.hand&&PAT.XH){ g2.globalAlpha=.95; g2.strokeStyle=acc; g2.lineWidth=2.2; strokes(); }
+      const t=twOn()?TWH():null;
+      if(t){ g2.globalAlpha=.55; g2.strokeStyle='rgba(255,255,255,.55)'; g2.fillStyle='rgba(20,22,24,.7)'; g2.lineWidth=1.2; g2.setLineDash([2,4]); g2.beginPath(); g2.arc(t.X,t.Y,t.r,0,6.283); g2.stroke(); g2.setLineDash([]);
+        g2.globalAlpha=.95; g2.strokeStyle=acc; g2.lineWidth=2;
+        g2.beginPath(); g2.arc(t.X,t.Y,11,0,6.283); g2.fill(); g2.stroke(); g2.beginPath(); g2.moveTo(t.X-5,t.Y); g2.lineTo(t.X+5,t.Y); g2.moveTo(t.X,t.Y-5); g2.lineTo(t.X,t.Y+5); g2.stroke();
+        g2.beginPath(); g2.arc(t.sz[0],t.sz[1],11,0,6.283); g2.fill(); g2.stroke(); g2.beginPath(); g2.moveTo(t.sz[0],t.sz[1]-5); g2.lineTo(t.sz[0]+5,t.sz[1]); g2.lineTo(t.sz[0],t.sz[1]+5); g2.lineTo(t.sz[0]-5,t.sz[1]); g2.closePath(); g2.stroke();
+        g2.beginPath(); g2.arc(t.tn[0],t.tn[1],11,0,6.283); g2.fill(); g2.stroke(); g2.beginPath(); g2.arc(t.tn[0],t.tn[1],5,-2.4,1.2); g2.stroke(); }
+      g2.restore(); }; }
   { const el=fldEl(); if(el) el.addEventListener('pointerdown',e=>{ const R=document.documentElement.classList; if(!GC.open||!R.contains('ed')||!R.contains('tfld')||!PAT.F) return; const r=el.getBoundingClientRect(); if(!r.width) return;
       const nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
       if(gcLive().some(v=>Math.hypot((v.x-nx)*r.width,(v.y-ny)*r.height)<24)) return;   /* on a sound: its own drag and ring, as always */
@@ -4320,7 +4367,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   setInterval(gcTick,100);
   { const _p3=fldPaint; fldPaint=function(){ _p3.apply(this,arguments); if(!GC.mag||!PAT.F||typeof FDRAG==='undefined'||!FDRAG||!FDRAG.moved||FDRAG.pm) return; const el=fldEl(); if(!el) return; const w=el.clientWidth,h=el.clientHeight; if(!w) return; const v=FDRAG.v, f=gcFree(v.x,v.y,v,GCR); if(!f) return; const q=PAT.F[f.i]; const g=el.getContext('2d'); g.save(); g.strokeStyle='#ffd23f'; g.lineWidth=1.6; g.beginPath(); g.moveTo(v.x*w,v.y*h); g.lineTo(q[0]*w,q[1]*h); g.stroke(); g.beginPath(); g.arc(q[0]*w,q[1]*h,8,0,6.283); g.stroke(); g.restore(); }; }
   setInterval(()=>{ if(GC.open&&!gcPan.hidden){ const k=(PAT.cur&&PAT.cur.id)+'|'+gcLive().length; if(k!==GC.k){ GC.k=k; gcDraw(); } } },700);
-  window.BBPAT={ vxpAll, vxpApply, vxpStore, vxpDel, PAT, GC, fieldSnap, fieldApply, patSaveNew, strokesToGcode, VXget:()=>VX, vxSet, vxClear, vxMod, vxTick, gcToggle, gcLib, gcRing, gcSync, gcPlace, gcSpread, gcAll, gcAt, gcTick, gcFree, setDrag:o=>{FDRAG=o}, xf:()=>XF, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
+  window.BBPAT={ TWH, twEnd, twReset, vxpAll, vxpApply, vxpStore, vxpDel, PAT, GC, fieldSnap, fieldApply, patSaveNew, strokesToGcode, VXget:()=>VX, vxSet, vxClear, vxMod, vxTick, gcToggle, gcLib, gcRing, gcSync, gcPlace, gcSpread, gcAll, gcAt, gcTick, gcFree, setDrag:o=>{FDRAG=o}, xf:()=>XF, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
   paintPane();
   if(PAT.curId){ const p=all().find(q=>q.id===PAT.curId); if(p) load(p); }
   /* THE FIELD COMES BACK (Dimitry, 17 Nov: "the Libra I was editing disappeared with the update … it needs to be saved and reloaded automatically between sessions"): the drawing was already remembered, but the field's sounds were not. They are now saved a moment after any change, and put back (each on its vertex) at your first touch, when the browser lets sound start. */
