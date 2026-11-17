@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261117121231";window.__VERSION__="0.9.5";window.__NOTES__=[{"v": "0.9.5", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "the drawing has handles, and a ghost twin. In the G-code editor the drawing wears three round handles on a faint ring: the **cross** in the middle moves it, the **diamond** sizes it, the **arc** turns it. Grab one and the drawing in your hand (in the accent colour) stands still while a ghost of it, with its old size, place and movement, keeps playing and carrying the sounds. Let go and the sounds glide over to the new drawing in two seconds, and it carries on from there. Double-tap the cross, or **Put the drawing back** in the panel, to return it to where it started. Its place, size and turn are remembered, and a look you keep carries them."}, {"kind": "new", "text": "a sound has a twin too. Open the ring of a moving sound (one with a drawn or wandering movement, or one riding a drawing) and it stands still in your hand, quiet until you change something, while a ghost (a dashed ring) keeps playing its old movement. Close the ring and it takes up the new movement; the ghost plays on for a moment and fades. The ghost is never saved."}, {"kind": "", "text": "Fixed: changing a field sound's voice in its ring no longer drops its movement or its place on a vertex."}, {"kind": "", "text": "The drawings panel is only as tall as it needs to be, so the handles stay reachable below it."}]}]</script>
+<script>window.__BUILD__="20261117123005";window.__VERSION__="0.9.6";window.__NOTES__=[{"v": "0.9.6", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "**out and back**. Every play line has a new switch, *Way runs*: set it to \"Out and back, like a tide\" and the line goes to the far end, then comes home the same way instead of starting again. The far end sounds once, so a way of twelve cells becomes a pass of twenty-two. Each line has its own switch, so one can bounce while another runs through."}, {"kind": "", "text": "New line-ups: **Shoreline** (one bouncing line) and **Two tides** (two bouncing lines at 3:2, so the waves cross and drift in and out of step)."}, {"kind": "", "text": "Changed: **Tide** now really is a tide: it bounces. It used to be a plain upward line with a noisy feel."}, {"kind": "", "text": "Saved looks, made pieces, packs and your own line-ups remember which lines bounce."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -813,13 +813,13 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
     <div class="ctl"><label for="arr">Line-up</label><select id="arr"></select></div>
     <div class="ctl"><label for="addLine">Make your own</label><button id="addLine">+ Add a line</button></div>
     <div class="ctl"><label for="arrName">Keep this line-up</label><div class="bar"><input id="arrName" type="text" placeholder="Name it" maxlength="30"><button id="arrSave">Save</button></div></div>
-    <div class="ctl"><label for="way">Way</label><select id="way"></select></div>
+    <div class="ctl"><label for="way">Way</label><select id="way"></select></div><div class="ctl"><label for="bn1">Way runs</label><select id="bn1"><option value="0">Once through, then again</option><option value="1">Out and back, like a tide</option></select></div>
     <div class="ctl"><label for="way2">Second line</label><select id="way2"></select></div>
-    <div class="ctl"><label for="ag2">Second line goes</label><select id="ag2"></select></div>
+    <div class="ctl"><label for="ag2">Second line goes</label><select id="ag2"></select></div><div class="ctl"><label for="bn2">Second line runs</label><select id="bn2"><option value="0">Once through, then again</option><option value="1">Out and back, like a tide</option></select></div>
     <div class="ctl"><label for="way3">Third line</label><select id="way3"></select></div>
-    <div class="ctl"><label for="ag3">Third line goes</label><select id="ag3"></select></div>
+    <div class="ctl"><label for="ag3">Third line goes</label><select id="ag3"></select></div><div class="ctl"><label for="bn3">Third line runs</label><select id="bn3"><option value="0">Once through, then again</option><option value="1">Out and back, like a tide</option></select></div>
     <div class="ctl"><label for="way4">Fourth line</label><select id="way4"></select></div>
-    <div class="ctl"><label for="ag4">Fourth line goes</label><select id="ag4"></select></div>
+    <div class="ctl"><label for="ag4">Fourth line goes</label><select id="ag4"></select></div><div class="ctl"><label for="bn4">Fourth line runs</label><select id="bn4"><option value="0">Once through, then again</option><option value="1">Out and back, like a tide</option></select></div>
     <div class="ctl"><label for="feel">Feel</label><select id="feel"></select></div>
     <div class="ctl"><label for="tempo">Tempo <output id="to"></output></label><input id="tempo" type="range" min="20" max="260" step="1" value="20"></div>
     <div class="ctl"><label for="viz">Notes show as</label><select id="viz"><option value="rain">Rain: a drop and ripples where each note lands</option><option value="bloom">Bloom: soft light that swells</option><option value="off">Nothing</option></select></div>
@@ -915,7 +915,7 @@ const NOTE_LETTERS=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','
 const PRESETS={'Golden favourite':{p:.618,stick:.25,drift:0},'Inverse golden':{p:.382,stick:.25,drift:0},'Fair dice':{p:1/8,stick:0,drift:0,flat:1},'Strong favourite':{p:.9,stick:.1,drift:0},'Long runs':{p:.618,stick:.7,drift:0},'Order to chance':{p:.98,stick:.3,drift:1}};
 const FAM={right:'cart',left:'cart',up:'cart',down:'cart',radar:'cart',radarccw:'cart',out:'cart',in:'cart',grow:'cart',shrink:'cart'};
 const WAYN={right:'Left to right',left:'Right to left',down:'Top to bottom',up:'Bottom to top',radar:'Radar, clockwise',radarccw:'Radar, anticlockwise',out:'Ring widening',in:'Ring closing',grow:'Square widening',shrink:'Square closing'};
-const ARRAYS={Reading:{way:'right',ex:[],feel:'steady'},Shuffle:{way:'right',ex:[],feel:'swing'},Tide:{way:'up',ex:[],feel:'noise'},
+const ARRAYS={Reading:{way:'right',ex:[],feel:'steady'},Shuffle:{way:'right',ex:[],feel:'swing'},Tide:{way:'up',bn:true,ex:[],feel:'noise'},Shoreline:{way:'right',bn:true,ex:[],feel:'steady'},'Two tides':{way:'up',bn:true,ex:[['right','3:2',true]],feel:'noise'},
  Radar:{way:'radar',ex:[],feel:'steady'},Ripple:{way:'out',ex:[],feel:'steady'},Drain:{way:'in',ex:[],feel:'noise'},
  Grow:{way:'grow',ex:[],feel:'steady'},Shrink:{way:'shrink',ex:[],feel:'noise'},Scatter:{way:'right',ex:[],feel:'random'},Cross:{way:'right',ex:[['up','1:1']],feel:'steady'},Orbit:{way:'radar',ex:[['out','3:2']],feel:'steady'},Breath:{way:'out',ex:[['in','1:1']],feel:'noise'},
  'Four winds':{way:'right',ex:[['up','3:2'],['left','4:3'],['down','2:1']],feel:'steady'},'Whirl':{way:'radar',ex:[['out','3:2'],['radarccw','4:3'],['in','2:1']],feel:'steady'}};
@@ -1014,7 +1014,7 @@ function impApply(r){
   try{if(MZ.mode!=='off'||MZ.rr){MZ.mode='off';MZ.rr=false;if(MZ.ui&&MZ.ui.ms&&MZ.ui.ms.isConnected)MZ.ui.ms.value='off';mzRun()}}catch(e){}/* a piece plays as written: the A|B habits sweep would swing the colours, and its roll at each edge would add scenes to a piece that is a fixed list */$('tempo').max=260;
   S.sw={cart:{L:[],B:[]},pol:{L:[],B:[]}};S.lk={cart:{L:[],B:[]},pol:{L:[],B:[]}};
   scenes=r.scenes;scenes.imp=scenes.length;si=0;SST++;S.g=scenes[0];
-  S.way=r.way||'right';S.ex=r.ex?r.ex.map(e=>({way:e.way||'none',ag:e.ag||'1:1'})):S.ex.map(e=>({...e,way:'none'}));Object.assign(S.w,WANDER.Still);S.drift=0;try{S.wv.on=false}catch(e){}
+  S.way=r.way||'right';S.bn=!!r.bn;S.ex=r.ex?r.ex.map(e=>({way:e.way||'none',ag:e.ag||'1:1',bn:!!e.bn})):S.ex.map(e=>({...e,way:'none',bn:false}));Object.assign(S.w,WANDER.Still);S.drift=0;try{S.wv.on=false}catch(e){}
   if(r.made)pitchSet(r.scale,r.root);else if(!r.drum)pitchSet('Chromatic',null);
   if(/^Haitian djouba/.test(r.name||'')&&r.nV===4){try{applySet('Haitian djouba drums')}catch(e){}}/* each of its four tracks gets the drum it is named for */
   $('nv').value=r.nV;$('nv').dispatchEvent(new Event('input'));
@@ -1813,8 +1813,10 @@ const weights=(T,feel)=>{const iv=BEATS[S.beats];let w=Array.from({length:T},(_,
   else if(feel==='noise'){const ph=rnd()*6;w=w.map((x,s)=>x*Math.max(.4,1+.4*Math.sin(ph+s*.9)+(rnd()-.5)*.3))}
   const sum=w.reduce((a,b)=>a+b,0);return w.map(x=>x*T/sum)};
 function shuffle(T){const a=Array.from({length:T},(_,i)=>i);for(let i=T-1;i>0;i--){const j=(rnd()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]]}return a}
-function pass(line,vw,start,dur){const T=vw.T,w=weights(T,S.feel),ord=S.feel==='random'?shuffle(T):null,base=dur/T;let t=start;
-  for(let s=0;s<T;s++){const d=base*w[s];evs.push({time:t,line,t:ord?ord[s]:s,v:vw,sd:d});t+=d}}
+/* a bouncing line goes out and comes back the same way: the far end plays once, so T cells make 2T-2 steps */
+const bseq=(T,bn)=>{const a=Array.from({length:T},(_,i)=>i);if(bn&&T>2)for(let i=T-2;i>0;i--)a.push(i);return a};
+function pass(line,vw,start,dur,bn){const sq=bseq(vw.T,bn),n=sq.length,w=weights(n,S.feel),ord=S.feel==='random'?shuffle(n):null,base=dur/n;let t=start;
+  for(let s=0;s<n;s++){const d=base*w[s];evs.push({time:t,line,t:sq[ord?ord[s]:s],v:vw,sd:d});t+=d}}
 function decide(){const W=S.w,fam=FAM[S.way];
   if(PIECE.cur&&PIECE.on&&scenes.imp&&scenes.length===scenes.imp){S.live.tempo=S.tempo;S.live.p=S.p;S.live.stick=S.stick;if(si<scenes.length-1)goScene(si+1);else if(PIECE.loop)goScene(0);else PIECE.on=false;return}
   S.live.tempo=clamp(S.tempo*(1+W.t*(rnd()*2-1)),15,240);
@@ -1874,14 +1876,14 @@ function wvBuild(){const box=$('wvBox');if(!box)return;const w=S.wv;box.innerHTM
   const h=document.createElement('p');h.className='ahint';h.textContent='Lines slide along the way the playhead runs: columns up or down for left and right, rows for up and down, rings and spokes on a ring. Several play lines slide both ways. Locked cells stay; notes wrap to the far end.';box.appendChild(h)}
 var CYCS=[],SKIP=0,NODEC=false;
 function buildCycle(){if(cycleIdx>0&&!NODEC){wvAuto();decide()}NODEC=false;const c0=nextCycle;
-  const sd=30/S.live.tempo,vA=view(S.eff.way),PA=vA.T*sd,act=[];
-  S.eff.ex.forEach((w,k)=>{if(w!=='none'){const[p,q]=S.ex[k].ag.split(':').map(Number);act.push({n:k+1,w,p,q})}});
+  const sd=30/S.live.tempo,vA=view(S.eff.way),nA=bseq(vA.T,S.bn).length,PA=nA*sd,act=[];
+  S.eff.ex.forEach((w,k)=>{if(w!=='none'){const[p,q]=S.ex[k].ag.split(':').map(Number);act.push({n:k+1,w,p,q,bn:!!S.ex[k].bn})}});
   const Q=act.reduce((a,x)=>lcm(a,x.q),1),cyc=Q*PA;
-  for(let p=0;p<Q;p++){pass(0,vA,nextCycle+p*PA,PA);metPass(nextCycle+p*PA,vA.T,sd)}
-  act.forEach(x=>{const vB=view(x.w),cnt=x.p*Q/x.q,PB=cyc/cnt;for(let r=0;r<cnt;r++)pass(x.n,vB,nextCycle+r*PB,PB)});
+  for(let p=0;p<Q;p++){pass(0,vA,nextCycle+p*PA,PA,S.bn);metPass(nextCycle+p*PA,nA,sd)}
+  act.forEach(x=>{const vB=view(x.w),cnt=x.p*Q/x.q,PB=cyc/cnt;for(let r=0;r<cnt;r++)pass(x.n,vB,nextCycle+r*PB,PB,x.bn)});
   const sk=Math.min(SKIP,Math.max(0,cyc-PA*.25));SKIP=0;if(sk>0){evs=evs.filter(e=>e.time>=c0+sk-1e-6);evs.forEach(e=>{e.time-=sk})}
   evs.sort((x,y)=>x.time-y.time);
-  const gap=rnd()<S.w.pa?sd*(1+Math.floor(rnd()*Math.max(2,vA.T/2))):0;
+  const gap=rnd()<S.w.pa?sd*(1+Math.floor(rnd()*Math.max(2,nA/2))):0;
   nextCycle+=cyc+gap-sk;CYCS.push([c0,c0+cyc+gap]);if(CYCS.length>4)CYCS.shift();cycleIdx++;
   if(cycleIdx>1)draw()}
 /* tempo is ridden like a fader: a change reaches the notes still to come at once. The times already queued are squeezed or stretched
@@ -1956,24 +1958,24 @@ $('preset').onchange=e=>{const P=PRESETS[e.target.value];S.drift=P.drift;S.flat=
 opts('way',Object.keys(WAYN).map(w=>[w,WAYN[w]]));opts('feel',FEELS.map(f=>[f,f[0].toUpperCase()+f.slice(1)]));
 const CUSTOM={};try{Object.assign(CUSTOM,JSON.parse(localStorage.getItem('dicescore.lineups')||'{}'));Object.assign(ARRAYS,CUSTOM)}catch(e){}
 const arrOpts=()=>{opts('arr',[['','Custom'],...Object.keys(ARRAYS).map(n=>[n,n])]);hudBuild()};arrOpts();
-const act=()=>S.ex.filter(e=>e.way!=='none').map(e=>[e.way,e.ag]);
-function syncArr(){setTimeout(hudSync,0);const key=JSON.stringify([S.way,act(),S.feel]);let hit='';for(const n in ARRAYS){const A=ARRAYS[n];if(JSON.stringify([A.way,A.ex,A.feel])===key){hit=n;break}}$('arr').value=hit}
+const act=()=>S.ex.filter(e=>e.way!=='none').map(e=>e.bn?[e.way,e.ag,true]:[e.way,e.ag]);
+function syncArr(){setTimeout(hudSync,0);const key=JSON.stringify([S.way,!!S.bn,act(),S.feel]);let hit='';for(const n in ARRAYS){const A=ARRAYS[n];if(JSON.stringify([A.way,!!A.bn,A.ex,A.feel])===key){hit=n;break}}$('arr').value=hit}
 $('addLine').onclick=()=>{const k=S.ex.findIndex(e=>e.way==='none');if(k<0){$('status').textContent='All four lines are in use. Set one to None to swap it.';return}
   const used=new Set([S.way,...S.ex.map(e=>e.way)]),free=Object.keys(FAM).filter(w=>FAM[w]===FAM[S.way]&&!used.has(w));if(!free.length){$('status').textContent='This grid has no more ways free.';return}
-  S.ex[k]={way:free[0],ag:['3:2','4:3','2:1'][k]||'3:2'};setLine()};
+  S.ex[k]={way:free[0],ag:['3:2','4:3','2:1'][k]||'3:2',bn:false};setLine()};
 $('arrSave').onclick=()=>{let n=$('arrName').value.trim();if(!n)n='My line-up '+(Object.keys(CUSTOM).length+1);
-  const A={way:S.way,ex:act(),feel:S.feel};CUSTOM[n]=A;ARRAYS[n]=A;try{localStorage.setItem('dicescore.lineups',JSON.stringify(CUSTOM))}catch(e){}
+  const A={way:S.way,bn:!!S.bn,ex:act(),feel:S.feel};CUSTOM[n]=A;ARRAYS[n]=A;try{localStorage.setItem('dicescore.lineups',JSON.stringify(CUSTOM))}catch(e){}
   arrOpts();$('arr').value=n;$('arrName').value='';$('status').textContent='Saved the line-up "'+n+'".'};opts('reroll',REROLL);opts('wp',Object.keys(WANDER).map(n=>[n,n]));
 function exOpts(){const used=new Set([S.way]);S.ex.forEach((e,k)=>{if(e.way!=='none'&&(FAM[e.way]!==FAM[S.way]||used.has(e.way)))e.way='none';if(e.way!=='none')used.add(e.way)});
   S.ex.forEach((e,k)=>{const id=k+2,mine=e.way,free=Object.keys(FAM).filter(w=>FAM[w]===FAM[S.way]&&(w===mine||!used.has(w)));
-    opts('way'+id,[['none','None'],...free.map(w=>[w,WAYN[w]])]);$('way'+id).value=e.way;$('ag'+id).value=e.ag;$('ag'+id).disabled=e.way==='none'})}
-function syncSel(){$('way').value=S.way;exOpts();$('feel').value=S.feel;syncArr()}
+    opts('way'+id,[['none','None'],...free.map(w=>[w,WAYN[w]])]);$('way'+id).value=e.way;$('ag'+id).value=e.ag;$('ag'+id).disabled=e.way==='none';$('bn'+id).value=e.bn?'1':'0';$('bn'+id).disabled=e.way==='none'})}
+function syncSel(){$('way').value=S.way;$('bn1').value=S.bn?'1':'0';exOpts();$('feel').value=S.feel;syncArr()}
 function setLine(){ensure();syncSel();S.eff=effNow();if(S.playing){evs=[];MB.length=0;MREF=null;disp=[];S.cur=[-1,-1,-1,-1];nextCycle=AC.currentTime+.05;cycleIdx=0}draw();status()}
-$('way').onchange=e=>{S.way=e.target.value;setLine()};
+$('way').onchange=e=>{S.way=e.target.value;setLine()};$('bn1').onchange=e=>{S.bn=e.target.value==='1';setLine()};
 S.ex.forEach((x,k)=>{const id=k+2;opts('ag'+id,AGAINST.map(a=>[a,a]));
-  $('way'+id).onchange=e=>{S.ex[k].way=e.target.value;setLine()};$('ag'+id).onchange=e=>{S.ex[k].ag=e.target.value;setLine()}});
+  $('way'+id).onchange=e=>{S.ex[k].way=e.target.value;setLine()};$('ag'+id).onchange=e=>{S.ex[k].ag=e.target.value;setLine()};$('bn'+id).onchange=e=>{S.ex[k].bn=e.target.value==='1';setLine()}});
 $('keep').onchange=e=>{S.keepOff=e.target.value==='both'};$('meet').onchange=e=>{S.meet=e.target.value};$('gs').onchange=e=>{S.gs=e.target.value;try{fldSync()}catch(_){};$('status').textContent=({off:'Grid space off: every note sits in the middle.',wide:'Grid space: Wide. A column sets left to right.',room:'Grid space: Room. Columns pan, and the higher rows sit deeper in the room.',deep:'Grid space: Deep. Wide, with far notes softer and wetter.'})[S.gs]||''};$('feel').onchange=e=>{S.feel=e.target.value;syncArr()};
-$('arr').onchange=e=>{const A=ARRAYS[e.target.value];if(!A)return;S.way=A.way;S.feel=A.feel;S.ex=[0,1,2].map(k=>A.ex[k]?{way:A.ex[k][0],ag:A.ex[k][1]}:{way:'none',ag:'1:1'});setLine()};
+$('arr').onchange=e=>{const A=ARRAYS[e.target.value];if(!A)return;S.way=A.way;S.bn=!!A.bn;S.feel=A.feel;S.ex=[0,1,2].map(k=>A.ex[k]?{way:A.ex[k][0],ag:A.ex[k][1],bn:!!A.ex[k][2]}:{way:'none',ag:'1:1',bn:false});setLine()};
 const wset=()=>{$('wto').textContent=Math.round(S.w.t*100)+'%';$('wfo').textContent=Math.round(S.w.f*100)+'%';$('wpo').textContent=Math.round(S.w.pa*100)+'%'};
 $('reroll').onchange=e=>{S.w.rr=e.target.value};$('whop').onchange=e=>{S.w.hop=+e.target.value};
 $('wt').oninput=e=>{S.w.t=+e.target.value;wset()};$('wf').oninput=e=>{S.w.f=+e.target.value;wset()};$('wpa').oninput=e=>{S.w.pa=+e.target.value;wset()};
@@ -2474,7 +2476,7 @@ function formTake(p){FORM.undo=JSON.stringify(FORM.mv);FORM.mv=p.mv.slice(0,200)
 const b64u8=b=>{const t=atob(b),u=new Uint8Array(t.length);for(let i=0;i<t.length;i++)u[i]=t.charCodeAt(i);return u},u8b64=u=>{let t='';for(let i=0;i<u.length;i+=8192)t+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(t)};
 function pieceClean(x){if(!x||!x.name)return null;const o={name:String(x.name).slice(0,80),credit:String(x.credit||'').slice(0,200)};
   if(typeof x.b64==='string'&&x.b64.length>20&&x.b64.length<400000){o.b64=x.b64;return o}
-  if(x.made&&Array.isArray(x.g)&&x.g.length&&x.g.length<=120&&x.g.every(t=>typeof t==='string')&&x.g.join('').length<400000&&x.N>=4&&x.N<=24&&x.nV>=2&&x.nV<=8){return Object.assign(o,{made:1,g:x.g,N:x.N|0,nV:x.nV|0,tempo:+x.tempo||60,way:FAM[x.way]?x.way:'right',ex:Array.isArray(x.ex)?x.ex.slice(0,3).map(e=>({way:String(e&&e.way||'none'),ag:String(e&&e.ag||'1:1')})):null,scale:SCALES[x.scale]?x.scale:'Minor pentatonic',root:+x.root||0})}
+  if(x.made&&Array.isArray(x.g)&&x.g.length&&x.g.length<=120&&x.g.every(t=>typeof t==='string')&&x.g.join('').length<400000&&x.N>=4&&x.N<=24&&x.nV>=2&&x.nV<=8){return Object.assign(o,{made:1,g:x.g,N:x.N|0,nV:x.nV|0,tempo:+x.tempo||60,way:FAM[x.way]?x.way:'right',bn:!!x.bn,ex:Array.isArray(x.ex)?x.ex.slice(0,3).map(e=>({way:String(e&&e.way||'none'),ag:String(e&&e.ag||'1:1'),bn:!!(e&&e.bn)})):null,scale:SCALES[x.scale]?x.scale:'Minor pentatonic',root:+x.root||0})}
   return null}
 /* a piece made here is its scenes in order: one character a cell (shape*8+colour), a string a scene */
 const gEnc=g=>g.map(c=>c.map(k=>String.fromCharCode(48+Math.min(7,k.s|0)*8+Math.min(7,k.v|0))).join('')).join(''),gDec=(t,N)=>{const A=[];for(let i=0;i<N;i++){A.push([]);for(let j=0;j<N;j++){const c=t.charCodeAt(i*N+j)-48;A[i].push(c>=0&&c<64?{s:c>>3,v:c&7}:{s:0,v:0})}}return A};
@@ -2483,7 +2485,7 @@ function pieceMadeBuild(q){const N=q.N,nV=q.nV,scs=q.g.filter(t=>t.length>=N*N).
   return{scenes:scs,cnt,tot,N,nV,drum:false,made:true,way:q.way,ex:q.ex,scale:q.scale,root:q.root,name:q.name,credit:q.credit,tracks:[],unit:1,tempo:Math.max(20,Math.min(260,Math.round(q.tempo))),want:Math.round(q.tempo),notes:0,merged:0,left:0,secs:0}}
 function pieceMake(name){const g=[],n=scenes.length;if(n<2)throw new Error('Roll or draw at least two scenes first.');
   scenes.forEach(sc=>{const c=sc.cart;g.push(c?gEnc(c):'')});if(g.some(t=>t.length!==S.N*S.N))throw new Error('Some scenes belong to another grid size. Keep one size, then try again.');
-  return{name:String(name||'My piece').slice(0,80),credit:'Made in Battanboo',made:1,g,N:S.N,nV:S.nV,tempo:S.tempo,way:S.way,ex:S.ex.map(e=>({way:e.way,ag:e.ag})),scale:S.scale,root:S.root||0}}
+  return{name:String(name||'My piece').slice(0,80),credit:'Made in Battanboo',made:1,g,N:S.N,nV:S.nV,tempo:S.tempo,way:S.way,bn:!!S.bn,ex:S.ex.map(e=>({way:e.way,ag:e.ag,bn:!!e.bn})),scale:S.scale,root:S.root||0}}
 function pieceEnsure(){const q=FORM.piece;if(!q)return false;if(PIECE.cur&&PIECE.cur.name===q.name&&scenes.imp===scenes.length)return true;try{if(q.made){impApply(pieceMadeBuild(q))}else impLoad(b64u8(q.b64),q.name,q.credit);PIECE.msg=impText(PIECE.cur);return true}catch(e){$('status').textContent='This performance\u2019s piece did not open: '+(e&&e.message||e);return false}}
 function pieceSave(name){const q=pieceMake(name),r=pieceMadeBuild(q);impApply(r);PIECE.msg=impText(r);formFromPiece(r,q);$('status').textContent='Made \u201c'+q.name+'\u201d: '+r.scenes.length+' scenes in a performance of '+FORM.mv.length+' movement'+(FORM.mv.length>1?'s':'')+'.';return r}
 function pieceAt(k){if(!pieceEnsure())return;const n=scenes.length;if(si!==Math.min(k,n-1))goScene(Math.min(k,n-1))}
@@ -2966,7 +2968,7 @@ function shOpt(){const q=id=>document.getElementById(id);
   if(q('autoPlays'))q('autoPlays').setAttribute('aria-pressed',String(!!AUTO.plays));if(q('shX'))q('shX').setAttribute('aria-pressed',String(!!AUTO.ax.x));if(q('shY'))q('shY').setAttribute('aria-pressed',String(!!AUTO.ax.y));if(q('shLk'))q('shLk').setAttribute('aria-pressed',String(!!AUTO.keep));
   const h=q('shPre');if(h){if(!h.children.length)for(const k of Object.keys(SHPRE)){const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=k;b.title=SHPRE[k].note;b.onclick=()=>{AUTO.pre=k;AUTO.ax={x:!!SHPRE[k].x,y:!!SHPRE[k].y};autoSave();shOpt();$('status').textContent='Shuffle plays: '+k+' · '+SHPRE[k].note+'.'};h.appendChild(b)}
     for(const b of h.children)b.setAttribute('aria-pressed',String(b.textContent===AUTO.pre))}}
-document.addEventListener('DOMContentLoaded',shOpt);setTimeout(shOpt,0);setTimeout(()=>{window.__t=Object.assign(window.__t||{},{sh:{shufflePlays,autoRoll,AUTO,S,cornerSizes,draw}})},0);
+document.addEventListener('DOMContentLoaded',shOpt);setTimeout(shOpt,0);setTimeout(()=>{window.__t=Object.assign(window.__t||{},{bn:{S,bseq,pass,view,evs:()=>evs,clear:()=>{evs.length=0}}})},0);setTimeout(()=>{window.__t=Object.assign(window.__t||{},{sh:{shufflePlays,autoRoll,AUTO,S,cornerSizes,draw}})},0);
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('#autoPlays,#shX,#shY,#shLk,#shNow');if(!t)return;
   if(t.id==='autoPlays'){AUTO.plays=!AUTO.plays;$('status').textContent=AUTO.plays?'Shuffle plays on: each auto roll also moves which rows and columns play ('+AUTO.pre+').':'Shuffle plays off.'}
   else if(t.id==='shX'){AUTO.ax.x=!AUTO.ax.x;if(!AUTO.ax.x&&!AUTO.ax.y)AUTO.ax.y=true}
@@ -3122,7 +3124,7 @@ var RHY=[
 function rhyApply(R){const N=R.steps,ch=(id,v,ev)=>{$(id).value=v;$(id).dispatchEvent(new Event(ev||'change'))};
   if(S.playing&&typeof stop==='function'){}
   if(S.N!==N)ch('size',N);
-  ch('sset','Beat and notes');S.ex.forEach(e=>{e.way='none';e.ag='1:1'});ch('way','right');ch('feel',R.feel);
+  ch('sset','Beat and notes');S.bn=false;S.ex.forEach(e=>{e.way='none';e.ag='1:1';e.bn=false});ch('way','right');ch('feel',R.feel);
   ch('tempo',clamp(Math.round(R.bpm*R.spb/2),20,220),'input');
   newScene();const g=[];for(let i=0;i<N;i++){g.push([]);for(let j=0;j<N;j++)g[i].push({s:0,v:0})}
   R.parts.forEach(P=>{if(P.d>=N)return;P.hits.forEach(t=>{if(t<N)g[t][N-1-P.d]={s:(P.acc||[]).includes(t)?7:1,v:0}})});
