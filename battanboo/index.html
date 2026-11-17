@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261117053312";window.__VERSION__="0.6.1";window.__NOTES__=[{"v": "0.6.1", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "Patterns can change With the Form: each new movement of the performance brings the next pattern (Field pane, Patterns, Change)."}, {"kind": "new", "text": "Your own G-code as patterns: Load G-code files (plotter, laser or CNC files) or Paste G-code, and they go into a set called Mine, kept on this device. Anything with pen-down moves works; \"Remove unticked\" clears the ones you don't want."}, {"kind": "new", "text": "Current's patterns as a set: Woven Diamond, Spiral Arc, Raster, Hatch and Rose."}, {"kind": "", "text": "Better: a pattern at rest is drawn at full detail, however many strokes it has; its points for the sounds and the changes are spread evenly along the whole drawing."}]}]</script>
+<script>window.__BUILD__="20261117101912";window.__VERSION__="0.6.2";window.__NOTES__=[{"v": "0.6.2", "date": "17 Nov 2026", "items": [{"kind": "new", "text": "Patterns can change With the A | B swing: each time the crossfader swings over to the other side, the next pattern comes (Field pane, Patterns, Change)."}, {"kind": "new", "text": "Patterns can change With the dice: each roll of the dice brings the next pattern. By hand still works with the Next pattern button."}, {"kind": "", "text": "Better: Load G-code files and Paste G-code carry the G-code page icon from Current, the sister tool."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -336,6 +336,7 @@ html.ed.logoUp .side>#railTop{transform:none}html.ed #railTop{margin-bottom:-9px
 html.ed #edTools{position:relative;border-top-left-radius:0;border-top-right-radius:0}html.ed #edTools button:first-child{border-radius:0}html.ed #edTools::before{content:"";position:absolute;left:-1px;top:-1px;bottom:0;width:2px;background:var(--accent);pointer-events:none;z-index:1}
 .xys{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:0}.xy{position:relative;height:78px;min-width:0;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.05);touch-action:none;cursor:crosshair;overflow:hidden;-webkit-user-select:none;user-select:none}.xy canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .xy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#patBox .chip svg.gi{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-right:6px;vertical-align:-3px}#patBox #patLoad,#patBox #patPaste{display:inline-flex;align-items:center}
 /* with the words hidden the line-up chips are icons alone, and an icon alone is a circle (Dimitry, 16 Nov) */html[data-words=never] #hArr .chip,#hArr .chip:has(.sw-known){width:40px;height:40px;min-height:40px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}html[data-words=never] #hArr .chip svg,#hArr .chip:has(.sw-known) svg{margin:0;vertical-align:0}#hArr .chip:has(.sw-known)>span{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0}
 #hArr{flex-wrap:wrap!important;overflow:visible!important}.hpane{overflow-x:hidden}.hpane .mlist{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))!important}.hpane .frow .chip{max-width:100%;white-space:normal;height:auto;min-height:36px;padding-block:6px;text-align:left}.hud .hbar .s-snav-band{background:none;border:0;border-left:1px solid rgb(255 255 255 / .1);border-radius:0}
 .hpane .chips .chip{min-height:36px;padding:0 12px}.hpane .pcl{margin-top:2px}
@@ -1143,7 +1144,7 @@ function navSync(){const p=$('prev');if(p)p.disabled=si<=0}
 const DIE_FACES={1:[[12,12]],2:[[9,9],[15,15]],3:[[9,9],[12,12],[15,15]],4:[[9,9],[15,9],[9,15],[15,15]],5:[[9,9],[15,9],[12,12],[9,15],[15,15]],6:[[9,8.6],[15,8.6],[9,12],[15,12],[9,15.4],[15,15.4]]};
 var dieN=5,dieT=0;
 function dieFace(n){dieN=n;const g=document.querySelector('#roll .pips');if(g)g.innerHTML=DIE_FACES[n].map(([x,y])=>'<circle cx="'+x+'" cy="'+y+'" r="1.4"/>').join('')}
-function dieRoll(){clearInterval(dieT);const land=1+((Math.random()*6)|0);
+function dieRoll(){try{if(window.__patDice)window.__patDice()}catch(_){}clearInterval(dieT);const land=1+((Math.random()*6)|0);
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){dieFace(land===dieN?land%6+1:land);return}
   let k=0;dieT=setInterval(()=>{k++;if(k>=7){clearInterval(dieT);dieFace(land);return}let n;do n=1+((Math.random()*6)|0);while(n===dieN);dieFace(n)},55)}
 dieFace(5);
@@ -3998,6 +3999,8 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     try{ $('status').textContent='Pattern: '+(PAT.cur.glyph||'')+' '+PAT.cur.name+' flattens into a line '+(PAT.ax==='h'?'across':'up and down')+', then opens into '+(p.glyph||'')+' '+p.name+' ('+p.group+').'; }catch(e){} }
   const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
 
+  /* WITH THE DICE: every roll brings the next pattern */
+  window.__patDice=()=>{ if(PAT.every==='dice'&&PAT.cur&&PAT.ph==='idle'){ PAT.lastChange=performance.now()/1000; change(); } };
   /* the pattern's own motion: named, so it is chosen, not dialled */
   const MOTION={ Still:{turn:0,drift:0,breathe:0}, Turn:{turn:.07,drift:0,breathe:0}, Drift:{turn:0,drift:1,breathe:0}, Breathe:{turn:0,drift:0,breathe:1}, Wander:{turn:.05,drift:1,breathe:1} };
   let last=performance.now()/1000;
@@ -4007,6 +4010,8 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     if(PAT.ph==='idle' && PAT.every>0 && now-PAT.lastChange>PAT.every){ PAT.lastChange=now; change(); }
     /* WITH THE FORM (Dimitry 00:29): a new movement of the performance brings the next pattern */
     if(PAT.every==='form'){ try{ if(FORM.run){ const S2=formSecs(), ci=S2.findIndex(x=>FORM.t>=x.a&&FORM.t<x.b); if(ci!==PAT.fsec){ const first=PAT.fsec==null; PAT.fsec=ci; if(!first&&PAT.ph==='idle') change(); } } else PAT.fsec=null; }catch(e){} }
+    /* WITH THE A | B SWING (Dimitry, 17 Nov): each time the crossfader swings over to the other side, the next pattern */
+    if(PAT.every==='xf'){ try{ const side=(typeof XA==='number'&&typeof XB==='number')?(XA>.7?'A':XB>.7?'B':PAT.xs):null; if(side&&side!==PAT.xs){ const first=PAT.xs==null; PAT.xs=side; if(!first&&PAT.ph==='idle') change(); } }catch(e){} } else PAT.xs=null;
     const A=PAT.P, B=PAT.N2&&PAT.N2.pts, ax=PAT.ax;
     const line=(q,i)=>{ const s=(i/(N-1))*2-1; return ax==='h'?[ (q? q[0]*.25:0)+s*.75 ,0]:[0,(q?q[1]*.25:0)+s*.75]; };   /* evenly along the line, in order */
     if(PAT.ph==='idle'){ PAT.Q=A.map(q=>q.slice()); }
@@ -4075,7 +4080,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   box.innerHTML=`<span class="pcl">Patterns: shapes in the field that the sounds and the field's marks move with</span>
   <div class="plrow"><span class="pcl">Set</span><div class="seg" id="patSet" role="radiogroup" aria-label="Pattern set"></div></div>
   <div id="patGroups"></div>
-  <div class="plrow"><span class="pcl">Your own G-code</span><button type="button" class="chip" id="patLoad">Load G-code files</button><button type="button" class="chip" id="patPaste">Paste G-code</button><input type="file" id="patFile" accept=".gcode,.nc,.ngc,.tap,.gc,.txt" multiple hidden></div>
+  <div class="plrow"><span class="pcl">Your own G-code</span><button type="button" class="chip" id="patLoad"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="gi"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M9 13.5l2 2-2 2M13 17.5h3"/></svg> Load G-code files</button><button type="button" class="chip" id="patPaste"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="gi"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M9 13.5l2 2-2 2M13 17.5h3"/></svg> Paste G-code</button><input type="file" id="patFile" accept=".gcode,.nc,.ngc,.tap,.gc,.txt" multiple hidden></div>
   <div id="patPasteBox" hidden><textarea id="patTxt" rows="5" style="width:100%;font:12px ui-monospace,monospace" placeholder="G0 X0 Y0&#10;G1 Z0&#10;G1 X40 Y0 …"></textarea><div class="frow"><input id="patName" type="text" maxlength="40" placeholder="Name"><button type="button" class="chip" id="patAdd">Add to Mine</button></div></div>
   <div class="plrow"><span class="pcl">Which comes next</span><div class="seg" id="patOrder" role="radiogroup" aria-label="Which pattern comes next"></div></div>
   <div class="plrow"><span class="pcl">Change</span><div class="seg" id="patEvery" role="radiogroup" aria-label="When the pattern changes"></div><button type="button" class="chip" id="patNext">Next pattern</button><button type="button" class="chip" id="patOff">Off</button></div>
@@ -4106,7 +4111,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
       if(PAT.set==='mine'&&!G.patterns.length){ const e=document.createElement('span'); e.className='ahint'; e.textContent='Nothing yet: load or paste G-code above (a plotter file, a laser file, or a pattern from Current).'; chips.appendChild(e); }
       row.appendChild(chips); gEl.appendChild(row); });
     seg('patOrder',[['bag','Bag random','each ticked pattern once, in a shuffled order, then a new shuffle'],['order','In order'],['one','Stay on one']],()=>PAT.order,v=>{PAT.order=v;PAT.bag=[];});
-    seg('patEvery',[[0,'By hand'],['form','With the Form','each new movement of the performance brings the next pattern'],[20,'20 s'],[45,'45 s'],[90,'90 s']],()=>PAT.every,v=>{PAT.every=v;PAT.lastChange=performance.now()/1000;});
+    seg('patEvery',[[0,'By hand'],['form','With the Form','each new movement of the performance brings the next pattern'],['xf','With the A | B swing','each time the crossfader swings to the other side brings the next pattern'],['dice','With the dice','each roll of the dice brings the next pattern'],[20,'20 s'],[45,'45 s'],[90,'90 s']],()=>PAT.every,v=>{PAT.every=v;PAT.lastChange=performance.now()/1000;});
     seg('patMotion',Object.keys(MOTION).map(k=>[k,k]),()=>PAT.motion,v=>{PAT.motion=v;});
     const sz=document.getElementById('patSize'); sz.value=Math.round(PAT.size*100); sz.oninput=()=>{ PAT.size=sz.value/100; save(); };
     seg('patFlat',[['h','Across'],['v','Up and down'],['alt','Taking turns']],()=>PAT.flat,v=>{PAT.flat=v;});
@@ -4134,7 +4139,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
     [['free','Free'],['still','Still'],['wander','Wander'],['follow','Follow']].forEach(([k,t])=>{ const b=document.createElement('button'); b.type='button'; b.textContent=t; b.setAttribute('aria-pressed',String((v0.cfg.prel||'free')===k));
       b.onclick=()=>{ v0.cfg.prel=k; v0.pk=null; v0.pu=null; [...row.querySelectorAll('button')].forEach(x=>x.setAttribute('aria-pressed',String(x===b))); }; row.appendChild(b); });
     p.appendChild(row); };
-  window.BBPAT={ PAT, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
+  window.BBPAT={ PAT, xf:()=>XF, change, step, sample, spcApply, make:(x,y,c)=>fldMake(x,y,c), FV, FLD, S, audio:()=>{ try{ ensureAudio(); }catch(e){} }, spc:()=>SPC, mineAdd, FORM:()=>FORM, formSecs:()=>formSecs() };   /* for the tests */
   paintPane();
   if(PAT.curId){ const p=all().find(q=>q.id===PAT.curId); if(p) load(p); }
   const wake=()=>{ if(PAT.spk!=='stereo') spcApply(); paintPane(); }; document.addEventListener('pointerdown',()=>setTimeout(wake,300),{once:true});
