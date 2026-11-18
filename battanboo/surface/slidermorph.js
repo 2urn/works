@@ -95,7 +95,12 @@
     }
     d.hidden = false;
     var tw = matchMedia("(pointer:coarse)").matches ? 26 : 20, mn = num(r.min), rng = (num(r.max) - mn) || 1, rc = reach(r, q);
-    var x = function (v) { return r.offsetLeft + tw / 2 + ((v - mn) / rng) * (r.offsetWidth - tw); }, y = r.offsetTop + r.offsetHeight / 2;
+    /* measured against the row, not offsetLeft/Top: those are relative to whatever offsetParent is, and read 0 while a closed section hides the slider (the dots then sat on the label, 18 Nov) */
+    var rr = r.getBoundingClientRect(), cr = c.getBoundingClientRect();
+    if (!rr.width) { d.hidden = true; return; }
+    var ox = rr.left - cr.left - c.clientLeft + c.scrollLeft, oy = rr.top - cr.top - c.clientTop + c.scrollTop;
+    var x = function (v) { return ox + tw / 2 + ((v - mn) / rng) * (rr.width - tw); }, y = oy + rr.height / 2;
+    if (!q.ro && window.ResizeObserver) { q.ro = new ResizeObserver(function () { dots(r, q); }); q.ro.observe(r); q.ro.observe(c); }
     [rc[0], rc[1], q.anchor].forEach(function (v, i) { var e = d.children[i]; e.style.left = x(v) + "px"; e.style.top = y + "px"; });
   }
   function flags(r, q) {
