@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261118021820";window.__VERSION__="0.9.18";window.__NOTES__=[{"v": "0.9.18", "date": "17 Nov 2026", "items": [{"kind": "", "text": "Fixed: the Freeze pad's symbol vanished while it was on (yellow on yellow). It now shows dark on the yellow, like the other bar buttons."}]}]</script>
+<script>window.__BUILD__="20261118025144";window.__VERSION__="0.9.19";window.__NOTES__=[{"v": "0.9.19", "date": "17 Nov 2026", "items": [{"kind": "", "text": "Changed: **Freeze** now hears everything that sounded last: the grid's own sounds, recorded and sampled sounds (not drum banks, which have no pitch), and the field's sounds. Pressing Play no longer adds a stray note to what it remembers."}, {"kind": "new", "text": "in the **hold hand**, press and hold an empty cell for about a third of a second and Freeze holds the last notes for as long as you keep pressing. A quick tap on an empty cell still does nothing. This works in full screen, with no pads."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -1326,7 +1326,7 @@ function clearTake(){rec.take=null;rec.tmp=null;rec.firstOn=false;[...HELD.keys(
 cv.addEventListener('pointerdown',e=>{const c=cellAt(e);if(!c)return;
   /* a held note answers to the cursor whatever the hand or tool: a drag shapes it, a tap lets it go (Dimitry, 12 Nov: it felt broken until he noticed he was in touch mode) */
   {const kk=KEYC(c);if(HOLDS.has(kk)){e.preventDefault();const sp=SHAPE.get(kk)||{vol:.6,wet:0};SH={id:e.pointerId,k:kk,x0:e.clientX,y0:e.clientY,v0:sp.vol,w0:sp.wet,moved:false,c};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}}
-  if(S.mode==='play'&&S.hold){e.preventDefault();holdToggle(c);return}
+  if(S.mode==='play'&&S.hold){e.preventDefault();if(!(c.k&&c.k.s)){fzCell(e);return}holdToggle(c);return}
   if(S.mode==='play'){e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=pressureOf(e);handOn(e.pointerId,c,p);recEv('go',e.pointerId,c,p);return}
   if(ED.pick){e.preventDefault();ED.sel={fam:G.fam,kind:ED.pick,n:ED.pick==='i'?c.i:c.j};ED.pick=null;edSync();draw();$('status').textContent='Picked '+edName(ED.sel.kind)+' '+(ED.sel.n+1)+'. Copy, cut, or pick another cell and paste.';return}
   if(PT.halo)haloOpen(c);else paintDown(e,c)});
@@ -1568,9 +1568,13 @@ setTimeout(()=>{window.__t=Object.assign(window.__t||{},{midiOf,tuneSemi,TUNINGS
 const FZ={on:false,vs:[],latch:false,t0:0},SWL={on:false};
 function fzPaint(){const b=$('freeze');if(b)b.setAttribute('aria-pressed',String(FZ.on));const w=$('swell');if(w)w.setAttribute('aria-pressed',String(SWL.on))}
 function freezeOn(){if(FZ.on)return;try{ensureAudio();if(!AC)return;fldBus()}catch(e){return}
-  const seen=[];for(const m of MELREC.slice().reverse()){const r=Math.round(m*4)/4;if(!seen.includes(r))seen.push(r);if(seen.length>=4)break}
+  const seen=[];for(const m of FZREC.slice().reverse()){const r=Math.round(m*4)/4;if(!seen.includes(r))seen.push(r);if(seen.length>=4)break}
   if(!seen.length){const n=SCALES[S.scale].length;seen.push(midiOf(0),midiOf(Math.min(2,n-1)),midiOf(Math.min(4,n-1)))}
-  const base=fldPitch(.5,.5,{});seen.forEach(m=>{const v=fldMake(.5,.5,{lv:.4,wet:.55,tone:.5,semi:m-base});if(v)FZ.vs.push(v)});FZ.on=FZ.vs.length>0;fzPaint()}
+  const base=fldPitch(.5,.5,{});FZ.building=true;try{seen.forEach(m=>{const v=fldMake(.5,.5,{lv:.4,wet:.55,tone:.5,semi:m-base});if(v)FZ.vs.push(v)})}finally{FZ.building=false}FZ.on=FZ.vs.length>0;fzPaint()}
+/* in the hold hand, pressing and holding an empty cell (about a third of a second) freezes the last notes for as long as you hold; a quick tap there does nothing (Dimitry, 17 Nov) */
+function fzCell(e){if(FZ.on)return;const id=e.pointerId;let started=false;const tm=setTimeout(()=>{if(!FZ.on){freezeOn();started=FZ.on}},350);
+  const end=ev=>{if(ev.pointerId!==id)return;clearTimeout(tm);cv.removeEventListener('pointerup',end);cv.removeEventListener('pointercancel',end);cv.removeEventListener('lostpointercapture',end);if(started)freezeOff()};
+  try{cv.setPointerCapture(id)}catch(_){}cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);cv.addEventListener('lostpointercapture',end)}
 function freezeOff(){FZ.vs.forEach(v=>{try{fldRelease(v)}catch(e){}});FZ.vs=[];FZ.on=false;FZ.latch=false;fzPaint()}
 function swellOn(){if(SWL.on)return;try{ensureAudio();if(!AC||!master)return}catch(e){return}SWL.on=true;const t=AC.currentTime;master.gain.setTargetAtTime(.42*(S.vol/.7)*1.35,t,.5);if(WET)WET.gain.setTargetAtTime(S.space*.9+.55,t,.6);fzPaint()}
 function swellOff(){if(!SWL.on)return;SWL.on=false;if(AC&&master){const t=AC.currentTime;master.gain.setTargetAtTime(.42*(S.vol/.7),t,.9);if(WET)WET.gain.setTargetAtTime(S.space*.9,t,1.1)}fzPaint()}
@@ -1581,7 +1585,7 @@ function fzUp(){if(FZ.skip){FZ.skip=false;return}if(!FZ.on)return;if(performance
   hold(f,fzDown,fzUp);hold(w,swellOn,swellOff);
   addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test((e.target&&e.target.tagName)||''))return;if(e.key==='f'||e.key==='F')fzDown();else if(e.key==='s'||e.key==='S')swellOn()});
   addEventListener('keyup',e=>{if(e.key==='f'||e.key==='F')fzUp();else if(e.key==='s'||e.key==='S')swellOff()});
-  window.__t=Object.assign(window.__t||{},{FZ,SWL,freezeOn,freezeOff,swellOn,swellOff});setTimeout(()=>{window.__t=Object.assign(window.__t||{},{FZ,SWL,freezeOn,freezeOff,swellOn,swellOff})},0)})();
+  const ex={FZ,SWL,freezeOn,freezeOff,swellOn,swellOff,fzrec:()=>FZREC.slice()};window.__t=Object.assign(window.__t||{},ex);setTimeout(()=>{window.__t=Object.assign(window.__t||{},ex)},0)})();
 /* SOUND LOAD (12 Nov, Dimitry: "if a sound isn't playing but it looks like it's playing on screen, the interface has to show that"; the iPad crashed under a crowd). One place counts what is sounding (the kit's voices plus the synth's notes), measures how late the scheduler runs, and keeps a ceiling that falls when the device struggles and rises slowly when it is calm; the ceiling is remembered per device. A mark that is not played is not drawn. */
 const LOAD=(function(){const touch=navigator.maxTouchPoints>0&&!(window.matchMedia&&matchMedia('(hover:hover)').matches),key='bb-cap-'+(touch?'touch':'desk'),top=touch?36:120;/* 12 Nov: his Mac peaked at 110 sounds with 0 ms lag; 60 was dropping notes it could play */const rec=[];let cap=touch?20:36,lag=0,last=0,calm=0,busy=0,drops=0,peak=0,synl=0,msgAt=0,why='',free=false;try{free=localStorage.getItem('bb-free')==='1'}catch(e){}
   try{const c=+localStorage.getItem(key);if(c>=8&&c<=top)cap=c}catch(e){}
@@ -1640,7 +1644,7 @@ const SONI=(function(){const KEY='bb-soni',PRE={clear:'Clear',rich:'Rich',dense:
       last=r;cnt[r]++;return r}};
   function paint(){document.querySelectorAll('#soniRow button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.p===preset)))}
   X.paint=paint;return X})();try{SONI.paint()}catch(e){}
-var MELREC=[];let SYNV=1;function note(t0,m,dur,vel,voice,glide){if(isFinite(m)){MELREC.push(m);if(MELREC.length>10)MELREC.shift()}BED.pitch(m);vel*=SYNV*NOTEG;const f=hz(m),f2=glide?hz(m+glide):f,g=AC.createGain(),o=AC.createOscillator(),ex=[g];
+var MELREC=[],FZREC=[],NOFZ=0;function fzNote(m){if(!NOFZ&&isFinite(m)){FZREC.push(m);if(FZREC.length>12)FZREC.shift()}}let SYNV=1;function note(t0,m,dur,vel,voice,glide){if(isFinite(m)){MELREC.push(m);if(MELREC.length>10)MELREC.shift();fzNote(m)}BED.pitch(m);vel*=SYNV*NOTEG;const f=hz(m),f2=glide?hz(m+glide):f,g=AC.createGain(),o=AC.createOscillator(),ex=[g];
   o.frequency.setValueAtTime(f,t0);if(f2!==f)o.frequency.exponentialRampToValueAtTime(f2,t0+Math.max(.08,dur*.9));
   const env=(a,d,rel)=>{g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vel,t0+a);g.gain.setValueAtTime(vel,t0+Math.max(a,d));g.gain.exponentialRampToValueAtTime(.0008,t0+Math.max(a,d)+rel)};
   let stop=t0+dur+.5;
@@ -1670,7 +1674,7 @@ function cloudMark(sl,k,l,when,sdIn){const soft=S.tex==='soft',n=Math.round((sof
   recGrain(sl,k,l,when,.55,0,0,null);
   for(let i=1;i<n;i++){const at=when+Math.pow(Math.random(),1.4)*span,c=(Math.random()*2-1)*jit+(k.s===3?i*6:k.s===4?-i*6:0),lv=(soft?.3:.2)*(.6+Math.random()*.6),pan=(Math.random()*2-1)*.8;recGrain(sl,k,l,at,lv,c,(.05+Math.random()*.18)*GF(),pan)}}
 function recGrain(sl,k,l,when,level,cents,hold,pan){if(sl.t==='syn'){SYNV=level*1.2;try{synthMark(k.s===2?{...k,s:1}:k,l,when,.18+hold,sl.i,cents/100)}finally{SYNV=1}return}
-  const r=pick(sl,l);if(!r||!KIT())return;try{KIT().play(AC,master,r,{at:when,holdFor:r.hold?(hold?hold+.05:.5):undefined,level:level*cg(k.v)*LV,cents:(sl.t==='bank'?0:(midiOf(l)-60)*100)+S.tune[k.v]*100+cents,pan:pan||0})}catch(e){}}
+  const r=pick(sl,l);if(!r||!KIT())return;if(sl.t!=='bank')fzNote(midiOf(l)+S.tune[k.v]+cents/100);try{KIT().play(AC,master,r,{at:when,holdFor:r.hold?(hold?hold+.05:.5):undefined,level:level*cg(k.v)*LV,cents:(sl.t==='bank'?0:(midiOf(l)-60)*100)+S.tune[k.v]*100+cents,pan:pan||0})}catch(e){}}
 /* every colour plays through its own small bus, so the Mixer can draw the colour's real waveform */
 const VBUS=[];
 function vbus(v){if(!AC||!master)return null;let b=VBUS[v];if(b&&b.m===master)return b.g;const g=AC.createGain(),an=AC.createAnalyser();an.fftSize=512;an.smoothingTimeConstant=0;g.connect(master);g.connect(an);VBUS[v]={g,an,m:master,d:new Float32Array(512)};return g}
@@ -1688,7 +1692,7 @@ function playMark0(k,l,when,sdIn){if(!k||!k.s||cg(k.v)<=.001)return;logHit(k,l,w
   if(a<.99){LV=a>.01?1-a:1;try{playOne(k,l,when,sdIn)}finally{LV=1}}}
 function playOne(k,l,when,sdIn){const sl=slotOf(k);if(!sl)return;
   if(sl.t==='syn'){synthMark(k,l,when,sdIn,sl.i);return}
-  const sd=Math.min(sdIn,.5),r=pick(sl,l),hf=r&&r.hold?sd*3:undefined;
+  const sd=Math.min(sdIn,.5),r=pick(sl,l),hf=r&&r.hold?sd*3:undefined;if(sl.t!=='bank')fzNote(midiOf(l)+S.tune[k.v]);
   switch(k.s){
    case 1:recPlay(sl,k,l,when,.8);break;
    case 2:recPlay(sl,k,l,when,1,0,hf);break;
@@ -1700,7 +1704,7 @@ function playOne(k,l,when,sdIn){const sl=slotOf(k);if(!sl)return;
 const REC=new Map(),LASTM=new Map(),MEET=new Map();
 function playX(k,l,when,sd,semi,lv,hold){const sl=slotOf(k);if(!sl)return;
   if(sl.t==='syn'){SYNV=lv;try{synthMark(k,l,when,sd,sl.i,semi)}finally{SYNV=1}return}
-  const r=pick(sl,l);recPlay(sl,k,l,when,lv,sl.t==='bank'?0:semi*100,r&&r.hold?hold:undefined)}
+  const r=pick(sl,l);if(sl.t!=='bank')fzNote(midiOf(l)+S.tune[k.v]+(semi||0));recPlay(sl,k,l,when,lv,sl.t==='bank'?0:semi*100,r&&r.hold?hold:undefined)}
 function meetSound(k,l,time,sd,n){const kind=S.meet,held={...k,s:2},big=Math.min(n,4)-1;
   if(kind==='bloom'){playX(held,l,time,sd,7,.7,sd*3);playX(held,l,time,sd,12,.55,sd*3);if(n>=3)playX(held,l,time,sd,19,.5,sd*3);if(n>=4)playX(held,l,time,sd,-12,.6,sd*3)}
   else if(kind==='echo'){for(let r=1;r<=2+big;r++)playX(k,l,time+r*sd*.75,sd,0,Math.pow(.6,r)*1.2,sd)}
@@ -1935,7 +1939,7 @@ function robotBeat(){document.documentElement.style.setProperty('--robo-beat',cl
 function ears(d){const h=document.documentElement,c='robo-ear-'+d;h.classList.remove('robo-ear-f','robo-ear-b');void h.offsetWidth;h.classList.add(c);setTimeout(()=>h.classList.remove(c),1000)}
 function frame(){try{SurfaceSelfTest.beat()}catch(_){}robotBeat();const now=AC.currentTime;let ch=false;while(disp.length&&disp[0].time<=now){const e=disp.shift();if(S.cur[e.line]!==e.t){S.cur[e.line]=e.t;ch=true}}if(ch||MEET.size)draw();if(ch)fxKick();status();raf=requestAnimationFrame(frame)}
 var RESUME=null;try{S.resume=localStorage.getItem('battanboo.resume')==='restart'?'restart':'resume'}catch(e){S.resume='resume'}
-function play(){try{PREP.remind()}catch(e){}ensureAudio();AC.resume();try{note(AC.currentTime+.01,72,.25,.5,2,0)}catch(e){}
+function play(){try{PREP.remind()}catch(e){}ensureAudio();AC.resume();try{NOFZ=1;note(AC.currentTime+.01,72,.25,.5,2,0)}catch(e){}finally{NOFZ=0}
   S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;S.cur=[-1,-1,-1,-1];evs=[];MB.length=0;MREF=null;disp=[];const rs=S.resume!=='restart'&&RESUME&&RESUME.si===si&&RESUME.stamp===SST;cycleIdx=rs?RESUME.idx:0;SKIP=rs?RESUME.off:0;NODEC=rs&&SKIP>0;CYCS=[];nextCycle=AC.currentTime+.08;S.playing=true;try{MOUT.start(nextCycle)}catch(e){}
   sched();timer=setInterval(sched,25);raf=requestAnimationFrame(frame);$('play').setAttribute('aria-pressed','true');$('play').classList.add('on');$('play').title=$('play').ariaLabel='Stop the lines'}
 function stop(){if(S.playing){const now=AC.currentTime,c=CYCS.find(x=>x[0]<=now&&now<x[1]);RESUME={si:si,stamp:SST,idx:cycleIdx,off:c?now-c[0]:0}};releaseAll(true);try{MOUT.stop()}catch(e){}S.playing=false;MB.length=0;MREF=null;MDRIFT=0;metLock(false);clearInterval(timer);cancelAnimationFrame(raf);S.cur=[-1,-1,-1,-1];S.eff=effNow();S.live={tempo:S.tempo,p:S.p,stick:S.stick};TBASE=S.tempo;draw();status();$('play').setAttribute('aria-pressed','false');$('play').classList.remove('on');$('play').title=$('play').ariaLabel='Play the lines'}
@@ -2296,7 +2300,7 @@ function fldPitch(x,y,c){return FLD2.view==='wall'?fldMidi(y):midiOf(c&&c.deg!=n
 function fldFar(y){return FLD2.view==='floor'?1-y:0}
 /* a field sound is the built-in pad, or the sound of one of the colours (its slot in the Sounds pane, held until you let go). Each has its own level, wet, tone and pitch. */
 function fldSrcRec(src,idx){if(typeof src!=='number'||!KIT())return null;const sl=S.slots[src];if(!sl||sl.t==='syn')return null;const r=pick(sl,idx);if(!r)return null;return{sl,r:r.hold?r:Object.assign({},r,{hold:true})}}
-function fldMake(x,y,cfg){fldBus();if(!FLG)return null;cfg=Object.assign({src:FLD2.src,lv:.5,wet:.5,tone:.5,semi:0},cfg||{});const t=AC.currentTime,m=fldPitch(x,y,cfg)+cfg.semi,f=hz(m);
+function fldMake(x,y,cfg){fldBus();if(!FLG)return null;cfg=Object.assign({src:FLD2.src,lv:.5,wet:.5,tone:.5,semi:0},cfg||{});const t=AC.currentTime,m=fldPitch(x,y,cfg)+cfg.semi,f=hz(m);if(!FZ.building)fzNote(m);
   const mix=AC.createGain(),lp=AC.createBiquadFilter(),pan=AC.createStereoPanner?AC.createStereoPanner():null,dry=AC.createGain(),snd=AC.createGain(),env=AC.createGain();
   let os=[],rv=null;const rr=fldSrcRec(cfg.src,Math.round(m));
   if(rr){try{rv=KIT().play(AC,mix,rr.r,{at:t,level:.9,cents:(m+12-60)*100})}catch(e){rv=null}}
