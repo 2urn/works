@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261118044559";window.__VERSION__="0.9.25";window.__NOTES__=[{"v": "0.9.25", "date": "17 Nov 2026", "items": [{"kind": "", "text": "Changed: **Motion on** for the crossfader now starts as **Breath** (a gentle swing every 2 bars), so you see it move straight away. Pick another preset or change the settings as before."}]}]</script>
+<script>window.__BUILD__="20261118101241";window.__VERSION__="0.9.26";window.__NOTES__=[{"v": "0.9.26", "date": "18 Nov 2026", "items": [{"kind": "", "text": "Changed: the lines section is now in two groups, from his drawing: **How they play** (line-up, the lines, feel, tempo and **When they meet**) and **How they look** (notes show as, how long a sound lasts, the field, grid space). When they meet moved up into the play group."}]}]</script>
 <script>try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- v69: renamed from Battanbou. v71: corner all-switches (top left play, bottom right locks); Index uses the kit sections.js -->
@@ -307,6 +307,7 @@ header{display:flex;align-items:center;gap:10px}
 .padis button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.padis button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .board .fs{background:color-mix(in srgb,var(--fg) 10%,transparent);outline:1px solid var(--line)}.board .fl,.board .fv{color:var(--fg);text-shadow:none}.board .fl{font-size:9px}.board .fv{font-size:12px}
 .prow{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center}.pcol{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.gsub{grid-column:1/-1;margin:14px 0 4px;font:600 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .pcl{font:600 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .hud .pill{border-color:var(--line);background:var(--surface)}
 .arow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.seg{display:flex;gap:4px}.seg .chip{min-height:40px;padding:0 12px}
@@ -811,6 +812,7 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
   </div>
   <h2>The lines</h2>
   <p class="note">A line-up is the lines and their speeds together. Pick a ready-made one, or change any line below and it becomes Custom: add lines with the button, then save it under a name.</p>
+  <h3 class="gsub">How they play</h3>
   <div class="grid">
     <div class="ctl"><label for="arr">Line-up</label><select id="arr"></select></div>
     <div class="ctl"><label for="addLine">Make your own</label><button id="addLine">+ Add a line</button></div>
@@ -824,13 +826,16 @@ html.nolimit #mLoad .lb.on{fill:#d9663f}.bedglow{position:absolute;width:42%;asp
     <div class="ctl"><label for="ag4">Fourth line goes</label><select id="ag4"></select></div><div class="ctl"><label for="bn4">Fourth line runs</label><select id="bn4"><option value="0">Once through, then again</option><option value="1">Out and back, like a tide</option></select></div>
     <div class="ctl"><label for="feel">Feel</label><select id="feel"></select></div>
     <div class="ctl"><label for="tempo">Tempo <output id="to"></output></label><input id="tempo" type="range" min="20" max="260" step="1" value="20"></div>
+    <div class="ctl"><label for="meet">When they meet</label><select id="meet"><option value="bloom">Bloom: a fifth and an octave ring out</option><option value="echo">Echo: it repeats, fading</option><option value="ring">Ring: one long held ring</option><option value="flip">Flip: the glide turns over</option><option value="off">Nothing</option></select></div>
+  </div>
+  <p class="note">Two things land on one square at once (two lines crossing, a line meeting a finger held there, or a line meeting an always-on switch): that is a meeting. It makes a bigger sound, and a ring flashes where it happened. More things meeting makes it bigger.</p>
+  <h3 class="gsub">How they look</h3>
+  <div class="grid">
     <div class="ctl"><label for="viz">Notes show as</label><select id="viz"><option value="rain">Rain: a drop and ripples where each note lands</option><option value="bloom">Bloom: soft light that swells</option><option value="off">Nothing</option></select></div>
     <div class="ctl"><label for="durv">How long a sound lasts</label><select id="durv"><option value="off">Not shown</option><option value="dial">Dial: a ring that turns as it plays</option><option value="tail">Tail: the room it will take, pulling in</option><option value="dot">Dot: a playhead running to its end</option><option value="dt">Dial and tail</option><option value="all">All three</option></select></div>
     <div class="ctl"><label for="field">The field</label><select id="field"><option value="drift">Drift: specks the ripples push around</option><option value="off">Nothing</option></select></div>
     <div class="ctl"><label for="gs">Grid space</label><select id="gs"><option value="off">Off: every note sits in the middle</option><option value="wide">Wide: a column is left to right</option><option value="room">Room: and the higher rows sound deeper in the room</option><option value="deep">Deep: wide, and far notes are softer, farther, wetter</option></select></div>
-    <div class="ctl"><label for="meet">When they meet</label><select id="meet"><option value="bloom">Bloom: a fifth and an octave ring out</option><option value="echo">Echo: it repeats, fading</option><option value="ring">Ring: one long held ring</option><option value="flip">Flip: the glide turns over</option><option value="off">Nothing</option></select></div>
   </div>
-  <p class="note">Two things land on one square at once (two lines crossing, a line meeting a finger held there, or a line meeting an always-on switch): that is a meeting. It makes a bigger sound, and a ring flashes where it happened. More things meeting makes it bigger.</p>
   <h2>The dice</h2>
   <div class="grid">
     <div class="ctl"><label for="preset">Preset</label><select id="preset"></select></div>
