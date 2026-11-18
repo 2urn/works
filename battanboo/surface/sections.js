@@ -359,7 +359,8 @@
       controls(host, opts) {
         const h = typeof host === 'string' ? document.querySelector(host) : host; if (!h) return null; opts = opts || {};
         const row = document.createElement('div'); row.className = 'dsp-row sfs-hrow'; row.dataset.row = 'hidden';
-        row.innerHTML = '<span class="dsp-lab" id="sfs-hlab">' + (opts.label || 'Hidden') + '</span><div class="sfs-hlist" role="group" aria-labelledby="sfs-hlab"></div>';
+        const hid = 'sfs-hlab-' + (++controls._n || (controls._n = 1));
+        row.innerHTML = '<span class="dsp-lab" id="' + hid + '">' + (opts.label || 'Hidden') + '</span><div class="sfs-hlist" role="group" aria-labelledby="' + hid + '"></div>';
         const list = row.querySelector('.sfs-hlist');
         const paint = () => { const l = hiddenList(); list.innerHTML = '';
           if (!l.length) { const e = document.createElement('em'); e.textContent = opts.none || 'Nothing hidden. The crossed eye on a section hides it.'; list.appendChild(e); return; }
