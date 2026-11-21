@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="icon" href="icons/icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icons/icon-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#15171A">
 <meta name="description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:type" content="website"><meta property="og:site_name" content="CHAMY·XYZ"><meta property="og:title" content="Battanboo"><meta property="og:description" content="A visual sequencer that composes with chance over long sonic fields."><meta property="og:url" content="https://works.chamy.xyz/battanboo/"><meta property="og:image" content="https://works.chamy.xyz/battanboo/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="BATTANBOO in white beside the Dimitry Saïd Chamy namemark, and a score of coloured marks on a black grid"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Battanboo"><meta name="twitter:description" content="A visual sequencer that composes with chance over long sonic fields."><meta name="twitter:image" content="https://works.chamy.xyz/battanboo/og.jpg">
-<script>window.__BUILD__="20261121125354";window.__VERSION__="0.9.71";window.__NOTES__=[{"v": "0.9.71", "date": "21 Nov 2026", "items": [{"kind": "", "text": "**Under a video, GIF or picture: the CHAMY·XYZ word and an equalizer, instead of the tool's name.** The word sits at the left; beside it, one bar for each column of the grid moves with what you hear."}]}]</script>
+<script>window.__BUILD__="20261121132456";window.__VERSION__="0.9.72";window.__NOTES__=[{"v": "0.9.72", "date": "21 Nov 2026", "items": [{"kind": "", "text": "**A video ends on your mark.** When you stop (or the time runs out), the picture and the recorded sound fade to black, the Dimitry Saïd Chamy lockup fades in, Dimitry and Chamy move apart, Saïd falls away, all three leave the frame and CHAMY·XYZ appears. It adds about five and a half seconds. Tap stop again to end at once."}, {"kind": "", "text": "**Branding on or off.** A switch in the record and share sheets: CHAMY·XYZ (the word and equalizer under the picture, and the ending) or clean (nothing added). It is remembered."}, {"kind": "", "text": "**Files are numbered:** CHAMY·XYZ_000001, 000002 and so on, in this browser, for videos, GIFs, pictures, sound and notes."}, {"kind": "", "text": "**Steadier sound while recording a video.** The frame is now drawn 30 times a second instead of at every screen refresh (up to 120 on some iPads), which was the likely cause of the crackle you heard."}]}]</script>
 <script>document.documentElement.lang='en';try{var _t=localStorage.getItem('surface.theme');if(_t==='light'||_t==='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Battanboo</title>
 <!-- BOOT VEIL (Dimitry, 19 Nov: on a reload a random assortment of not-yet-activated controls flashed before the home screen): until the page's own script has raised the launch cover (or decided there is none), nothing is drawn but the cover's own dark ground. A timer lifts it after 5 s whatever happens, so a failed script can never leave the page blank. -->
@@ -3762,9 +3762,9 @@ window.__t={setHold:(b)=>setHold(b),setMode:(m)=>setMode(m),shape:()=>[...SHAPE]
    MIDI cannot be saved as .mid here (the save list has no such extension), so it goes in a .zip. */
 const CAP_LINK='https://works.chamy.xyz/battanboo/';
 const CAP_TEXT='Battanboo: a visual sequencer that composes with chance over long sonic fields.';
-const CAP={mode:'video',shape:'16:9',gif:5,vlen:30,ak:'take',alen:60,abars:2,acount:3,abits:24,busy:false,kind:'',t0:0,timer:0,res:null,msg:''};
+const CAP={brand:(()=>{try{return localStorage.getItem('battanboo.capbrand')==='off'?'off':'on'}catch(e){return'on'}})(),mode:'video',shape:'16:9',gif:5,vlen:30,ak:'take',alen:60,abars:2,acount:3,abits:24,busy:false,kind:'',t0:0,timer:0,res:null,msg:''};
 const XP={mode:'midi',len:30,fmt:'json',msg:''};
-let CAPD=null;
+let CAPD=null,CAPG=null;
 const HITLOG=[];
 function logHit(k,l,when,sd){try{const sl=S.slots[k.v]||S.slots[0],drum=!!(sl&&sl.t==='bank'&&sl.name==='Drum kit');
   const GMD=[36,38,42,46,45,50,39,37],p=drum?GMD[l%8]:Math.max(0,Math.min(127,Math.round(midiOf(l)+Math.round(S.tune[k.v]||0))));
@@ -3781,7 +3781,7 @@ function capDims(shape,kind){const long=kind==='gif'?480:1920;let r;
   else{if(r>=1){w=1280;h=Math.round(1280/r)}else{h=1280;w=Math.round(1280*r)}}
   return[w&~1,h&~1]}
 function capFrame(c2,W,H){const x=c2.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,W,H);
-  const pad=Math.round(Math.min(W,H)*.05),foot=(W===H||W<H||H/W>0.7)&&Math.min(W,H)>=300?Math.round(H*.035):0;
+  const pad=Math.round(Math.min(W,H)*.05),foot=CAP.brand!=='off'&&(W===H||W<H||H/W>0.7)&&Math.min(W,H)>=300?Math.round(H*.035):0;
   const aw=W-2*pad,ah=H-2*pad-foot,s=Math.min(aw/cv.width,ah/cv.height),w=cv.width*s,h=cv.height*s,ox=(W-w)/2,oy=pad+(ah-h)/2;
   try{x.drawImage(cv,ox,oy,w,h);const f=$('fx');if(f&&f.width){const M=G.M||0,k=f.width/(G.w+2*M);x.drawImage(f,M*k,M*k,G.w*k,G.h*k,ox,oy,w,h)}}catch(e){}
   if(foot){const m=capWord(),cy=Math.round(H-pad/2-foot/2+foot*.15),hh=Math.round(foot*.42);let x0=ox;
@@ -3797,6 +3797,20 @@ function capEq(x,a,b,base,top){if(b-a<20)return;capAnOn();
 /* the CHAMY·XYZ word under a capture, at the left, with the equalizer beside it (Dimitry, 21 Nov: the tool is not released yet, so the frame carries his imprint, not the tool's name).
    His file from sys/brands/chamy-xyz/word.svg, embedded byte for byte; it is tinted white on a canvas, the paths are never touched. Left-aligned, as the word always is. */
 const CAP_WORD_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"sc-word\" viewBox=\"462 836 996 132\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M527.95,939.9c15.92,0,28.23-9.35,32.66-24.62h23.14c-5.41,28.06-27.57,46.6-55.79,46.6-33.81,0-59.24-25.76-59.24-59.73s25.44-60.06,59.24-60.06c27.73,0,49.72,18.05,55.3,44.96h-22.97c-4.92-14.28-17.07-22.97-32.33-22.97-20.51,0-35.94,16.41-35.94,38.07s15.42,37.74,35.94,37.74h0Z\"/><path d=\"M619.18,844.55v45.13h46.11v-45.13h22.97v114.87h-22.97v-48.41h-46.11v48.41h-22.97v-114.87h22.97Z\"/><path d=\"M697.94,959.42l33.15-114.87h45.95l34.3,114.87h-24.78l-6.4-22.97h-51.69l-6.24,22.97h-24.29ZM774.58,916.43l-14.28-51.69h-12.14l-14.11,51.69h40.53Z\"/><path d=\"M819.54,959.42v-114.87h53.17l25.93,95.18h11.16l28.88-95.18h50.22v114.87h-23.3v-92.23h-11.32l-27.9,91.57h-44.47l-24.61-91.57h-14.28v92.23h-23.47,0Z\"/><path d=\"M997.74,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z\"/><path d=\"M1126.72,890.5c6.4,0,11.98,5.58,11.98,11.98s-5.58,12.14-11.98,12.14-12.14-5.58-12.14-12.14,5.58-11.98,12.14-11.98Z\"/><path d=\"M1185.13,899.2l-33.97-54.65h25.93l21.99,36.92,22.15-36.92h25.11l-33.48,55.47,36.43,59.41h-25.76l-24.29-41.03-24.62,41.03h-25.76l36.27-60.22h0Z\"/><path d=\"M1253.07,844.55h24.45l27.9,47.76,27.9-47.76h24.45l-40.7,68.6v24.94h22.81v21.33h-69.09v-21.33h22.65v-25.11l-40.37-68.43Z\"/><path d=\"M1429.3,872.12v-6.24h-61.7v-21.33h81.72v36.27l-63.84,51.04v6.23h65.8v21.33h-86.32v-35.45l64.33-51.85h0Z\"/></svg>";
+const CAP_LOCK_SVG="<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"sc-lockup\" viewBox=\"103.5 500.5 1712.5 501.5\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M160.57,810.34c44.04,0,75.9,31.43,75.9,74.62s-32.07,75.04-75.9,75.04h-56.66v-149.66h56.66ZM136.41,929.85h23.3c25.66,0,43.62-18.6,43.62-44.9s-17.96-44.47-43.62-44.47h-23.3v89.37h0Z\"/><path d=\"M291.41,960h-31.21v-115.45h31.21v115.45ZM261.26,814.62c0-7.91,6.63-14.54,14.75-14.54s14.54,6.63,14.54,14.54-6.63,14.75-14.54,14.75-14.75-6.63-14.75-14.75\"/><polygon points=\"493.45 844.55 493.45 960 462.23 960 462.23 871.91 422.68 871.91 422.68 960 392.11 960 392.11 871.91 352.55 871.91 352.55 960 321.34 960 321.34 844.55 493.45 844.55\"/><path d=\"M553.09,960h-31.21v-115.45h31.21v115.45ZM522.95,814.62c0-7.91,6.63-14.54,14.75-14.54s14.54,6.63,14.54,14.54-6.63,14.75-14.54,14.75-14.75-6.63-14.75-14.75\"/><polygon points=\"592.65 960 592.65 869.56 571.69 869.56 571.69 844.55 592.43 844.55 592.65 814.4 623.22 814.4 623.22 844.55 655.08 844.55 655.08 869.56 623.86 869.56 623.86 932.21 655.72 932.21 655.72 960 592.65 960\"/><polygon points=\"679.23 960 679.23 844.55 748.5 843.91 748.5 872.56 710.45 872.56 710.45 960 679.23 960\"/><polygon points=\"797.46 973.47 807.94 951.23 758.98 844.55 792.97 844.55 823.76 915.53 852.41 844.55 885.76 844.55 818.41 1001.69 770.52 1001.69 770.52 973.47 797.46 973.47\"/><path d=\"M998.22,535.19c-10.69,0-13.9,13.04-17.53,28.86-5.77,22.88-13.04,51.53-46.39,51.53s-48.1-25.87-48.1-56.87c0-34.21,19.24-57.94,51.53-57.94v32.71c-14.54,0-21.38,11.76-21.38,25.01,0,12.19,6.41,24.16,17.53,24.16s14.75-13.68,18.6-29.93c5.56-22.45,11.97-49.82,44.25-49.82,28.65,0,44.9,21.17,44.9,54.3s-18.39,53.88-48.1,53.88v-32.07c12.83,0,18.82-10.48,18.82-22.66,0-10.48-4.49-21.17-14.11-21.17\"/><path d=\"M1007.84,688.27c0,14.75-5.13,27.8-14.11,37.84l11.12,3.42v23.3h-115.45v-24.59l10.26-2.56c-8.55-10.05-13.68-22.88-13.68-37.42,0-34.85,26.08-60.5,61.15-60.5s60.72,25.66,60.72,60.5M947.12,722.26c18.17,0,31.64-13.26,31.64-31.43s-13.68-31.43-31.64-31.43-31.64,13.26-31.64,31.43,13.47,31.43,31.64,31.43\"/><path d=\"M1030.71,788.75c-6.41-2.14-11.12-8.34-11.12-15.39,0-9.19,7.27-16.46,16.46-16.46s16.25,7.27,16.25,16.46c0,7.05-4.49,13.04-10.9,15.39v18.39c6.42,2.35,10.9,8.34,10.9,15.61,0,8.98-7.27,16.25-16.25,16.25s-16.46-7.27-16.46-16.25c0-7.27,4.7-13.47,11.12-15.61v-18.39h0ZM1004.63,813.98h-115.45v-31.21h115.45v31.21Z\"/><path d=\"M1007.84,897.14c0,11.76-3.42,22.66-9.62,31.64h48.11v31.21h-157.14v-23.09l9.62-3.63c-8.34-9.83-13.04-22.23-13.04-36.13,0-35.06,26.3-60.72,61.15-60.72s60.93,25.66,60.93,60.72M946.91,931.14c18.17,0,31.64-13.47,31.64-31.64s-13.47-31.43-31.64-31.43-31.64,13.47-31.64,31.43,13.68,31.64,31.64,31.64\"/><path d=\"M1123.82,932.42c19.67,0,34.85-11.97,40.19-31h32.71c-6.84,36.99-35.92,61.79-72.9,61.79-43.83,0-77.18-33.56-77.18-77.82s33.36-78.25,77.18-78.25c36.35,0,65.42,24.16,72.48,59.65h-32.5c-6.2-17.75-21.16-28.86-39.98-28.86-25.23,0-44.47,20.52-44.47,47.46s19.24,47.04,44.47,47.04\"/><polygon points=\"1217.89 960 1217.89 802.86 1249.1 802.86 1249.1 844.55 1326.29 844.55 1326.29 960 1295.07 960 1295.07 871.92 1249.1 871.92 1249.1 960 1217.89 960\"/><path d=\"M1407.95,841.34c14.75,0,27.8,5.13,37.84,14.11l3.42-11.12h23.3v115.45h-24.59l-2.56-10.26c-10.05,8.55-22.88,13.68-37.42,13.68-34.85,0-60.51-26.08-60.51-61.15s25.66-60.72,60.51-60.72M1441.95,902.06c0-18.17-13.26-31.64-31.43-31.64s-31.43,13.68-31.43,31.64,13.26,31.64,31.43,31.64,31.43-13.47,31.43-31.64\"/><polygon points=\"1674.56 844.55 1674.56 960 1643.34 960 1643.34 871.91 1603.79 871.91 1603.79 960 1573.22 960 1573.22 871.91 1533.67 871.91 1533.67 960 1502.45 960 1502.45 844.55 1674.56 844.55\"/><polygon points=\"1727.79 973.47 1738.27 951.23 1689.31 844.55 1723.3 844.55 1754.09 915.53 1782.74 844.55 1816.09 844.55 1748.74 1001.69 1700.85 1001.69 1700.85 973.47 1727.79 973.47\"/></svg>";
+/* a mark as a white picture: his file drawn as it is, then tinted on a canvas (paths never touched) */
+function capTint(svg,vw,vh,scale){const o={ready:false,c:null},im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=Math.round(vw*scale);c.height=Math.round(vh*scale);const g=c.getContext('2d');g.drawImage(im,0,0,c.width,c.height);g.globalCompositeOperation='source-in';g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);o.c=c;o.ready=true};im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);return o}
+let capLockC=null;function capLock(){if(!capLockC)capLockC=capTint(CAP_LOCK_SVG,1712.5,501.5,1.2);return capLockC.ready?capLockC.c:null}
+/* the lockup's three words, by where they sit in his file (viewBox x): Dimitry left of 886, Saïd 886-1047 (vertical), Chamy right of 1047 */
+const LK={x0:103.5,w:1712.5,a:886,b:1047};
+function capOutro(c2,W,H,t){const x=c2.getContext('2d'),cl=(v)=>v<0?0:v>1?1:v,E=v=>v*v,S=v=>v*v*(3-2*v);
+  if(t<1000){capFrame(c2,W,H);x.fillStyle='rgba(0,0,0,'+S(cl(t/1000))+')';x.fillRect(0,0,W,H);return}
+  x.fillStyle='#000';x.fillRect(0,0,W,H);const L=capLock(),M=capWord();
+  if(M){const a=S(cl((t-2800)/700))*(1-S(cl((t-4800)/600))),ww=Math.round(Math.min(W*.42,H*.5)),hh=Math.round(ww*M.height/M.width);if(a>0){x.globalAlpha=a*.92;x.drawImage(M,Math.round((W-ww)/2),Math.round((H-hh)/2),ww,hh);x.globalAlpha=1}}
+  if(!L)return;const lw=Math.min(W*.72,H*1.2),lh=lw*L.height/L.width,lx=(W-lw)/2,ly=(H-lh)/2,k=lw/LK.w,pa=(LK.a-LK.x0)*k,pb=(LK.b-LK.x0)*k,sx=L.width/lw;
+  const fin=S(cl((t-1000)/800));if(fin<=0)return;const side=E(cl((t-2600)/1000)),fall=E(cl((t-2900)/900));
+  const part=(x0,x1,dx,dy)=>{const w=x1-x0;if(w<=0)return;x.drawImage(L,x0*sx,0,w*sx,L.height,lx+x0+dx,ly+dy,w,lh)};
+  x.globalAlpha=fin;part(0,pa,-side*(lx+pa+4),0);part(pb,lw,side*(W-lx-pb+4),0);part(pa,pb,0,fall*(H-ly+4));x.globalAlpha=1}
 let capWordC=null;function capWord(){if(capWordC)return capWordC.ready?capWordC.c:null;capWordC={ready:false,c:null};const im=new Image();
   im.onload=()=>{const k=4,c=document.createElement('canvas');c.width=996*k/4*2;c.height=132*k/4*2;const g=c.getContext('2d');g.drawImage(im,0,0,c.width,c.height);g.globalCompositeOperation='source-in';g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);capWordC.c=c;capWordC.ready=true};
   im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CAP_WORD_SVG);return null}
@@ -3806,14 +3820,14 @@ function capMime(){if(typeof MediaRecorder==='undefined')return'';const c=['vide
 let capRec=null,capOff=null,capRaf=0,capChunks=[];
 function capStartVideo(){const mime=capMime();if(!mime){capNote('This browser cannot record video here. Try a still or a GIF.');return}
   ensureAudio();try{AC.resume()}catch(e){}
-  if(!CAPD){CAPD=AC.createMediaStreamDestination();BIN.tap().connect(CAPD)}
+  if(!CAPD){CAPD=AC.createMediaStreamDestination();CAPG=AC.createGain();CAPG.connect(CAPD);BIN.tap().connect(CAPG)}CAPG.gain.cancelScheduledValues(AC.currentTime);CAPG.gain.setValueAtTime(1,AC.currentTime);
   const[W,H]=capSize();capOff=document.createElement('canvas');capOff.width=W;capOff.height=H;capFrame(capOff,W,H);
   const st=capOff.captureStream(30);CAPD.stream.getAudioTracks().forEach(t=>st.addTrack(t));
   capChunks=[];try{capRec=new MediaRecorder(st,{mimeType:mime,videoBitsPerSecond:W*H>1.5e6?8e6:5e6,audioBitsPerSecond:192000})}catch(e){capNote('Recording did not start: '+e.message);return}
   capRec.ondataavailable=e=>{if(e.data&&e.data.size)capChunks.push(e.data)};
-  capRec.onstop=()=>{cancelAnimationFrame(capRaf);clearInterval(CAP.timer);const ext=/mp4/.test(mime)?'mp4':'webm',b=new Blob(capChunks,{type:mime.split(';')[0]});
+  capRec.onstop=()=>{cancelAnimationFrame(capRaf);CAP.outro=0;clearTimeout(CAP.outT);clearInterval(CAP.timer);const ext=/mp4/.test(mime)?'mp4':'webm',b=new Blob(capChunks,{type:mime.split(';')[0]});
     CAP.busy=false;CAP.kind='';capBtnSync();capLiveSet(null);capDone(b,'battanboo.'+ext,'video',(performance.now()-CAP.t0)/1000)};
-  const loop=()=>{capFrame(capOff,W,H);capRaf=requestAnimationFrame(loop)};loop();
+  let lastF=-1e9;const loop=t=>{t=t||performance.now();if(t-lastF>=32){lastF=t;if(CAP.outro)capOutro(capOff,W,H,t-CAP.outro);else capFrame(capOff,W,H)}capRaf=requestAnimationFrame(loop)};CAP.outro=0;loop();
   CAP.res=null;capResult();capRec.start(500);CAP.busy=true;CAP.kind='video';CAP.t0=performance.now();capBtnSync();
   CAP.timer=setInterval(()=>{const s=(performance.now()-CAP.t0)/1000,lim=CAP.vlen||180;if(s>=lim){capStop();return}capLiveSet('REC '+fmtT(s)+(CAP.vlen?' / '+fmtT(CAP.vlen):'')+(S.playing?'':' · nothing playing'))},500);capPop.close();capLiveSet('REC 0:00'+(CAP.vlen?' / '+fmtT(CAP.vlen):''))}
 /* three-two-one before a video starts, so the first second is not lost to the tap (Dimitry, 13 Nov) */
@@ -3821,7 +3835,12 @@ function capCountIn(go){let n=3;CAP.busy=true;CAP.kind='count';CAP.t0=performanc
 function fmtT(s){s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 let capGifT=0;function capLiveSet(t){const b=$('capLive');if(!b)return;b.hidden=t==null;if(t!=null)$('capLiveT').textContent=t}
 function capCancel(){if(CAP.kind==='count'){clearInterval(CAP.timer);CAP.busy=false;CAP.kind='';capLiveSet(null);capBtnSync();capNote('Cancelled.');capPop.open();return}if(CAP.kind==='gif'){clearInterval(CAP.timer);CAP.busy=false;CAP.kind='';capLiveSet(null);capBtnSync();capNote('GIF cancelled.');capPop.open()}else capStop()}
-function capStop(){if(CAP.kind==='count'){capCancel();return}if(CAP.kind==='audio'){aStop(true);return}if(CAP.kind==='aloop'){ASND.abort=true;capLiveSet('Cancelling…');return}if(CAP.kind==='video'&&capRec&&capRec.state!=='inactive')capRec.stop()}
+function capStop(){if(CAP.kind==='count'){capCancel();return}if(CAP.kind==='audio'){aStop(true);return}if(CAP.kind==='aloop'){ASND.abort=true;capLiveSet('Cancelling…');return}if(CAP.kind==='video'&&capRec&&capRec.state!=='inactive'){if(CAP.brand!=='off'&&!CAP.outro){capEnd();return}capRec.stop()}}
+/* THE ENDING (Dimitry, 21 Nov): the picture and the recorded sound fade to black; his centered lockup fades in; Dimitry and Chamy move apart, Saïd falls,
+   all three leave by the edges of the frame while the CHAMY·XYZ word appears; then black. Only with branding on; a second tap ends at once. */
+const OUTRO=5600;
+function capEnd(){clearInterval(CAP.timer);CAP.outro=performance.now();capLiveSet('Ending');try{const t=AC.currentTime;CAPG.gain.cancelScheduledValues(t);CAPG.gain.setValueAtTime(CAPG.gain.value,t);CAPG.gain.linearRampToValueAtTime(0,t+1)}catch(e){}
+  CAP.outT=setTimeout(()=>{if(capRec&&capRec.state!=='inactive')capRec.stop()},OUTRO)}
 /* still */
 function capStill(){const[W,H]=capSize(),c=document.createElement('canvas');c.width=W;c.height=H;capFrame(c,W,H);
   c.toBlob(b=>{if(b)capDone(b,'battanboo.png','image',0);else capNote('The picture could not be made.')},'image/png')}
@@ -3849,9 +3868,12 @@ function capGif(){const[W,H]=capSize(),secs=CAP.gif,fps=12,c=document.createElem
     if(n>=total){clearInterval(t);capLiveSet('making the GIF…');setTimeout(()=>{try{const b=new Blob([gifBytes(frames,W,H,Math.round(100/fps))],{type:'image/gif'});CAP.busy=false;CAP.kind='';capBtnSync();capLiveSet(null);capDone(b,'battanboo.gif','image',secs)}catch(e){CAP.busy=false;CAP.kind='';capBtnSync();capLiveSet(null);capNote('The GIF failed: '+e.message);capPop.open()}},30)}},1000/fps);CAP.timer=t}
 /* result */
 function capNote(m){CAP.msg=m;const h=document.querySelector('#capPop .scap-hint');if(h&&capPop&&capPop.isOpen())h.textContent=m}
-function capDone(blob,name,type,secs,list,loop){if(CAP.res&&CAP.res.url)try{URL.revokeObjectURL(CAP.res.url)}catch(e){}
+/* FILE NAMES (Dimitry, 21 Nov): CHAMY·XYZ_000001.ext, numbered in order in this browser, no tool name until it is released */
+function fileNo(ext){let n=0;try{n=(+localStorage.getItem('chamyxyz.fileno')||0)+1;localStorage.setItem('chamyxyz.fileno',String(n))}catch(e){n=Date.now()%1e6}return'CHAMY\u00b7XYZ_'+String(n).padStart(6,'0')+'.'+ext}
+function fileExt(name){const m=/((?:-[a-z]+)?\.[a-z0-9]+)$/i.exec(name);return/\.zip$/i.test(name)?'zip':m?m[1].split('.').pop():'bin'}
+function capDone(blob,name,type,secs,list,loop){name=fileNo(fileExt(name));if(CAP.res&&CAP.res.url)try{URL.revokeObjectURL(CAP.res.url)}catch(e){}
   CAP.res={blob,name,type,secs,list:list||null,loop:!!loop,url:URL.createObjectURL(blob)};CAP.msg='';capResult();if(!capPop.isOpen()){capPop.open();popPlace()}else capPop.build();capResult()}
-async function fileSave(name,data){let d=null;try{d=window.claude&&await window.claude.use('downloads')}catch(e){}
+async function fileSave(name,data){if(/^battanboo/i.test(name))name=fileNo(fileExt(name));let d=null;try{d=window.claude&&await window.claude.use('downloads')}catch(e){}
   if(!d){try{const u=URL.createObjectURL(data instanceof Blob?data:new Blob([data])),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return'Saved '+name+'.'}catch(e){return'Could not save: '+((e&&e.message)||'unknown')}}   /* on the open web an ordinary download; in the claude.ai preview the downloads capability above */
   try{await d.save({filename:name,data});return'Saved '+name+'.'}catch(e){return e&&e.code==='declined'?'Not saved.':'Could not save: '+((e&&e.message)||(e&&e.code)||'unknown')}}
 async function copyText(t){try{await navigator.clipboard.writeText(t);return true}catch(e){const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(e2){}a.remove();return ok}}
@@ -3912,7 +3934,7 @@ function zipMany(files){const le32=n=>u32(n).reverse(),le16=n=>u16b(n).reverse()
 const ASND={R:null,names:[],kind:'',abort:false};
 function aSrcs(kind){ensureAudio();const s=[BIN.tap()],nm=['mix'];if(kind==='stems'){for(let v=0;v<4;v++){const g=vbus(v);if(g){s.push(g);nm.push('colour-'+(v+1))}}try{fldBus()}catch(e){}if(FLG){s.push(FLG);nm.push('field')}}return{srcs:s,names:nm}}
 const aSleep=ms=>new Promise(r=>setTimeout(r,ms));
-window.__sound={res:()=>CAP.res,cap:CAP,busy:()=>CAP.busy};
+window.__sound={res:()=>CAP.res,cap:CAP,busy:()=>CAP.busy,outro:(c,W,H,t)=>capOutro(c,W,H,t)};
 /* take and stems: runs until the length or "stop" */
 async function aStart(kind){if(CAP.busy)return;ensureAudio();try{AC.resume()}catch(e){}
   const{srcs,names}=aSrcs(kind);try{ASND.R=await arecStart(srcs)}catch(e){capNote((e&&e.message)||'Recording did not start.');return}
@@ -3923,7 +3945,7 @@ async function aStart(kind){if(CAP.busy)return;ensureAudio();try{AC.resume()}cat
 async function aStop(save){clearInterval(CAP.timer);const R=ASND.R;ASND.R=null;if(!R)return;await arecStop(R);const bits=CAP.abits||24;
   CAP.busy=false;CAP.kind='';capBtnSync();capLiveSet(null);if(!save){capNote('Cancelled.');return}
   const pcm=arecPcm(R),secs=pcm[0].l.length/R.sr;if(!pcm[0].l.length){capNote('Nothing was recorded.');return}
-  if(ASND.kind==='stems'){const files=pcm.map((p,i)=>({name:'battanboo-'+ASND.names[i]+'.wav',data:wavBytes(p.l,p.r,R.sr,bits)}));capDone(zipMany(files),'battanboo-stems.zip','files',secs,files.map(f=>f.name))}
+  if(ASND.kind==='stems'){const files=pcm.map((p,i)=>({name:ASND.names[i]+'.wav',data:wavBytes(p.l,p.r,R.sr,bits)}));capDone(zipMany(files),'battanboo-stems.zip','files',secs,files.map(f=>f.name))}
   else capDone(new Blob([wavBytes(pcm[0].l,pcm[0].r,R.sr,bits)],{type:'audio/wav'}),'battanboo.wav','audio',secs)}
 /* one loop: restart from the top, record n passes plus a tail, fold the tail back over the start */
 /* one loop (21 Nov, after his first loop clicked at the seam): restart from the top, let one pass play as a warm-up, record the next n passes,
@@ -3952,14 +3974,14 @@ async function aLoops(n,count){if(CAP.busy)return;const was=S.playing,res0=S.res
   if(ASND.abort){capNote('Cancelled.');capPop.open();return}if(!out.length){capNote('The loop did not record. Try again.');capPop.open();return}
   const bits=CAP.abits||24;
   if(out.length===1){CAP.loopRes=1;capDone(new Blob([wavBytes(out[0].l,out[0].r,out[0].sr,bits)],{type:'audio/wav'}),'battanboo-loop.wav','audio',out[0].secs,null,true)}
-  else{const files=out.map((o,i)=>({name:'battanboo-loop-'+(i+1)+'.wav',data:wavBytes(o.l,o.r,o.sr,bits)}));capDone(zipMany(files),'battanboo-loops.zip','files',out.reduce((a,o)=>a+o.secs,0),files.map(f=>f.name))}}
+  else{const files=out.map((o,i)=>({name:'loop-'+(i+1)+'.wav',data:wavBytes(o.l,o.r,o.sr,bits)}));capDone(zipMany(files),'battanboo-loops.zip','files',out.reduce((a,o)=>a+o.secs,0),files.map(f=>f.name))}}
 const CAP_SHAPES=[['screen','this screen'],['16:9','video'],['4:5','feed'],['1:1','square'],['9:16','stories']];
 const CAP_MODES=[['still','picture'],['notes','notes']];
 function capSheet(k){CAP.sheet=k;CAP_MODES.length=0;(k==='rec'?[['video','video'],['gif','gif'],['sound','sound']]:[['still','picture'],['notes','notes']]).forEach(m=>CAP_MODES.push(m));if(!CAP_MODES.some(m=>m[0]===CAP.mode))CAP.mode=CAP_MODES[0][0];const cc=document.querySelector('#capPop .scap-head span');if(cc)cc.textContent=k==='rec'?'record':'share the piece'}
-try{capWord()}catch(e){}
+try{capWord();capLock()}catch(e){}
 const capPop=SurfaceCapture.panel({host:'#capPop',label:'Record or share the piece',
   modes:CAP_MODES,shapes:CAP_SHAPES,ratioIcons:true,
-  extras:[{key:'vlen',show:s=>s.mode==='video',items:[[15,'15s'],[30,'30s'],[60,'60s'],[0,'tap stop']],label:'Video length'},{key:'gif',show:s=>s.mode==='gif',items:[[3,'3s'],[5,'5s'],[8,'8s']],label:'GIF length'},
+  extras:[{key:'brand',show:s=>s.mode==='video'||s.mode==='gif'||s.mode==='still',items:[['on','CHAMY\u00b7XYZ'],['off','clean']],label:'Branding: the word and equalizer under the picture, and the ending on a video'},{key:'vlen',show:s=>s.mode==='video',items:[[15,'15s'],[30,'30s'],[60,'60s'],[0,'tap stop']],label:'Video length'},{key:'gif',show:s=>s.mode==='gif',items:[[3,'3s'],[5,'5s'],[8,'8s']],label:'GIF length'},
    {key:'ak',show:s=>s.mode==='sound',items:[['take','take'],['loop','loop'],['stems','stems'],['batch','batch']],label:'What to record'},
    {key:'alen',show:s=>s.mode==='sound'&&(s.ak==='take'||s.ak==='stems'),items:[[15,'15s'],[60,'1 min'],[300,'5 min'],[0,'tap stop']],label:'Length'},
    {key:'abars',show:s=>s.mode==='sound'&&(s.ak==='loop'||s.ak==='batch'),items:[[1,'1 pass'],[2,'2 passes'],[4,'4 passes'],[8,'8 passes']],label:'Loop length, in passes through the grid'},
@@ -3968,8 +3990,8 @@ const capPop=SurfaceCapture.panel({host:'#capPop',label:'Record or share the pie
    {key:'nk',show:s=>s.mode==='notes',items:[['midi','MIDI'],['score','notation'],['take','moves']],label:'Which notes'},
    {key:'len',show:s=>s.mode==='notes'&&s.nk==='midi',items:[[15,'15 s'],[30,'30 s'],[60,'60 s'],[0,'all']],label:'How much to export'},
    {key:'fmt',show:s=>s.mode==='notes'&&s.nk==='score',items:[['json','JSON'],['text','text'],['csv','CSV']],label:'Notation format'}],
-  get:()=>({mode:CAP.mode,shape:CAP.shape,gif:CAP.gif,vlen:CAP.vlen,ak:CAP.ak,alen:CAP.alen,abars:CAP.abars,acount:CAP.acount,abits:CAP.abits,nk:XP.mode,len:XP.len,fmt:XP.fmt}),
-  set:(k,v)=>{if(k==='nk'){XP.mode=v;XP.msg='';return}if(k==='len'||k==='fmt'){XP.msg='';XP[k]=k==='len'?+v:v;return}CAP.msg='';CAP[k]=(k==='gif'||k==='vlen'||k==='alen'||k==='abars'||k==='acount'||k==='abits')?+v:v},
+  get:()=>({brand:CAP.brand,mode:CAP.mode,shape:CAP.shape,gif:CAP.gif,vlen:CAP.vlen,ak:CAP.ak,alen:CAP.alen,abars:CAP.abars,acount:CAP.acount,abits:CAP.abits,nk:XP.mode,len:XP.len,fmt:XP.fmt}),
+  set:(k,v)=>{if(k==='brand'){CAP.brand=v==='off'?'off':'on';try{localStorage.setItem('battanboo.capbrand',CAP.brand)}catch(e){}return}if(k==='nk'){XP.mode=v;XP.msg='';return}if(k==='len'||k==='fmt'){XP.msg='';XP[k]=k==='len'?+v:v;return}CAP.msg='';CAP[k]=(k==='gif'||k==='vlen'||k==='alen'||k==='abars'||k==='acount'||k==='abits')?+v:v},
   dims:s=>{const sh=document.querySelector('#capPop .scap-shapes');if(sh)sh.style.display=(s.mode==='sound'||s.mode==='notes')?'none':'';
     if(s.mode==='sound')return s.ak==='stems'||s.ak==='batch'?'.zip of .wav':'.wav';if(s.mode==='notes')return s.nk==='midi'?'.mid':s.nk==='score'?'.'+({json:'json',text:'txt',csv:'csv'})[s.fmt]:'.json';const[w,h]=capDims(s.shape,s.mode);return w+'×'+h},
   hint:s=>{if(s.mode==='notes')return xpHint();if(CAP.msg)return CAP.msg;
@@ -4015,7 +4037,7 @@ function xpHint(){if(XP.msg)return XP.msg;
   if(XP.mode==='score')return'The grid now showing, as '+(XP.fmt==='json'?'a full JSON of the score (state, mix, sounds)':XP.fmt==='text'?'a plain-text score you can read or print':'a CSV, one row per mark')+'.';
   return rec.take&&rec.take.dur?(rec.take.ev.length+' moves in a '+rec.take.dur.toFixed(1)+' s loop, as JSON.'):'No hand take recorded yet: press the record button and play.'}
 async function xpSave(){let r;
-  if(XP.mode==='midi'){const ev=xpMidi();if(!ev.length){xpNote('Nothing heard yet.');return}r=await fileSave('battanboo-midi.zip',zipOne('battanboo.mid',midiBytes(ev,xpTempo(ev))))}
+  if(XP.mode==='midi'){const ev=xpMidi();if(!ev.length){xpNote('Nothing heard yet.');return}r=await fileSave('battanboo-midi.zip',zipOne('notes.mid',midiBytes(ev,xpTempo(ev))))}
   else if(XP.mode==='score'){r=XP.fmt==='json'?await fileSave('battanboo.json',scoreJson()):XP.fmt==='text'?await fileSave('battanboo.txt',scoreText()):await fileSave('battanboo.csv',scoreCsv())}
   else{if(!(rec.take&&rec.take.dur)){xpNote('No hand take recorded yet.');return}r=await fileSave('battanboo-moves.json',JSON.stringify({format:'dice-score-moves/1',dur:rec.take.dur,events:rec.take.ev}))}
   xpNote(r)}
@@ -4311,7 +4333,7 @@ const BIN=(function(){const K='battanboo.bin',MODES=[['delta','Delta',2],['theta
   /* everything that leaves the tool passes the post bus (dry, mono piece, stereo piece), so recordings carry the beat too */
   function buildSh(){if(sh||!AC||!OUTN)return sh;try{const s=mkShift(AC,hz(),SHSGN),dry=AC.createGain(),wet=AC.createGain(),mg=AC.createChannelMerger(2),post=AC.createGain();dry.gain.value=1;wet.gain.value=0;
       OUTN.connect(dry);dry.connect(post);OUTN.connect(s.inn);s.inn.connect(mg,0,0);s.R.connect(mg,0,1);mg.connect(wet);wet.connect(post);post.connect(AC.destination);try{OUTN.disconnect(AC.destination)}catch(e){}
-      if(typeof CAPD!=='undefined'&&CAPD){try{OUTN.disconnect(CAPD)}catch(e){}post.connect(CAPD)}
+      if(typeof CAPD!=='undefined'&&CAPD){const ci=CAPG||CAPD;try{OUTN.disconnect(ci)}catch(e){}post.connect(ci)}
       sh={fc:s.fc,dry,wet,post,wetS:null,fcS:null}}catch(e){sh=null}return sh}
   /* Piece, stereo: the left channel goes through untouched, only the right channel is shifted. A sound in both ears beats; one panned hard left has nothing in the right ear to beat against. */
   function buildSt(){if(!sh||sh.wetS)return;try{const s=mkShift(AC,hz(),SHSGN),sp=AC.createChannelSplitter(2),mg=AC.createChannelMerger(2),w=AC.createGain();w.gain.value=0;OUTN.connect(sp);sp.connect(mg,0,0);sp.connect(s.inn,1);s.R.connect(mg,0,1);mg.connect(w);w.connect(sh.post);sh.wetS=w;sh.fcS=s.fc}catch(e){}}
