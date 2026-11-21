@@ -42,6 +42,7 @@
     ".scap-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
     ".scap-body{overflow-y:auto;scrollbar-gutter:stable;overscroll-behavior:contain;padding:10px 12px 12px;display:grid;gap:8px}",
     ".scap-row{display:flex;flex-wrap:wrap;gap:6px}.scap-row[hidden]{display:none}",
+    ".scap-ico{display:inline-flex;align-items:center;justify-content:center;flex:none;width:34px;color:var(--ui-dim,#8f8f8f)}.scap-ico svg{width:26px;height:18px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}",
     ".scap-c{flex:1 1 auto;min-height:44px;padding:5px 8px;border-radius:11px;background:rgb(var(--ui-hi,255 255 255) / .05);border:1px solid rgb(var(--ui-hi,255 255 255) / .12);color:var(--ui-ink,#fff);cursor:pointer;",
     "  font:500 11px/1.1 var(--sc-mono,ui-monospace,Menlo,monospace);letter-spacing:.12em;text-transform:uppercase;display:grid;place-items:center;gap:3px;-webkit-tap-highlight-color:transparent}",
     ".scap-modes .scap-c{min-height:40px}",
@@ -98,8 +99,9 @@
     body.append(modes, shapes); extras.forEach(function (e) { body.append(e.el); }); body.append(acts, hint);
     root.append(head, body);
 
-    function radios(box, items, cur, key, two) {
-      box.innerHTML = ""; var lock = !!(o.busy && o.busy()), last = items.length - 1;
+    function radios(box, items, cur, key, two, icon) {
+      box.innerHTML = "";
+      if (icon) { var ic = el("span", "scap-ico"); ic.setAttribute("aria-hidden", "true"); ic.innerHTML = icon; box.append(ic); } var lock = !!(o.busy && o.busy()), last = items.length - 1;
       items.forEach(function (it, i) {
         var v = it[0], b = el("button", "scap-c"); b.type = "button"; b.dataset.k = v;
         b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(v === cur));
@@ -134,7 +136,7 @@
       if (o.modes === false) modes.hidden = true; else radios(modes, o.modes || [["still", "still"], ["video", "video"]], s.mode, "mode");
       radios(shapes, o.shapes || SHAPES, s.shape, "shape", true);
       extras.forEach(function (e) { var show = !e.def.show || e.def.show(s); e.el.hidden = !show; if (!show) return;
-        if (e.def.type === "range") range(e.el, e.def, s[e.def.key]); else radios(e.el, e.def.items, s[e.def.key], e.def.key); });
+        if (e.def.type === "range") range(e.el, e.def, s[e.def.key]); else radios(e.el, e.def.items, s[e.def.key], e.def.key, false, e.def.icon); });
       dims.textContent = o.dims ? o.dims(s) : "";
       hint.textContent = o.hint ? o.hint(s) : "";
       go.textContent = typeof o.primary.label === "function" ? o.primary.label(s) : o.primary.label;
