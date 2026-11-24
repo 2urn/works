@@ -58,6 +58,14 @@
     call: { name: "Call", color: "#8fd4a6", svg: "<svg " + LINE + '><path d="M2 6.4v3.2h2.3l6.2 3.6V2.8L4.3 6.4z"/><path d="M4.6 9.8l.9 3.6h1.7l-.7-3.2"/><path d="M12.6 5.6a3 3 0 0 1 0 4.8"/></svg>' }
   };
   var COLLAPSED = { feedback: "A question from the studio" };
+  /* the tool's own voice (Dimitry, 24 Nov 12:26): "updates, warnings, offers, alerts and even the error screen" all speak
+     in the update pill's place and look, starting as one line at the top, opening for more, closed with ×. */
+  var SAYK = {
+    tip: { name: "Tip", color: "#a9d8e0", svg: "<svg " + LINE + '><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><path d="M8 4.9h.01"/></svg>' },
+    warning: { name: "Warning", color: "#f2c46d", svg: "<svg " + LINE + '><path d="M8 2.2l6.3 11H1.7z"/><path d="M8 6.4v3.3"/><path d="M8 11.5h.01"/></svg>' },
+    error: { name: "Error", color: "#ff9a8a", svg: "<svg " + LINE + '><circle cx="8" cy="8" r="6.2"/><path d="M5.8 5.8l4.4 4.4M10.2 5.8l-4.4 4.4"/></svg>' },
+    offer: { name: "Offer", color: "#8fd4a6", svg: "<svg " + LINE + '><path d="M2.2 8.6V2.2h6.4l5.2 5.2-6.4 6.4z"/><path d="M5.2 5.2h.01"/></svg>' }
+  };
 
   /* memory: one record per device, shared by every studio tool on this site, so the 4 days are the device's */
   function mem() { var d = null; try { d = JSON.parse(localStorage.getItem(LS) || "null"); } catch (e) {} d = d && typeof d === "object" ? d : {}; d.done = d.done || {}; d.later = d.later || {}; return d; }
@@ -164,6 +172,7 @@
       return Promise.resolve(CUR);
     }
     if (hiddenBusy && CUR && !busyNow() && !updating() && enabled()) { hiddenBusy = false; render(CUR); return Promise.resolve(CUR); }
+    if (SAY) return Promise.resolve(null);
     if (!enabled() || updating() || shownThisVisit() || Date.now() - T0 < (O.delay == null ? 60000 : O.delay) || busyNow()) return Promise.resolve(null);
     var d = mem(), now = Date.now();
     if (d.last && now - d.last < (O.gap || 4) * DAY) return Promise.resolve(null);
@@ -325,6 +334,74 @@
     d.classList.add("snt-out"); setTimeout(function () { d.remove(); }, 600);
   }
 
+  /* SurfaceNotice.say({ kind:'tip'|'warning'|'error'|'offer', word?, title, body?, actions?:[{label, run, primary?}],
+       later?: true (a "Not now" link), fade?: ms (a closed, untouched one-liner leaves by itself), onClose? })
+     → { close() }. One line at the top in the pill's look; the title opens the body and actions; × closes. It never
+     covers an update pill: one that is showing waits; a pill that comes sends it away. A feed notice steps aside for it. */
+  var SAY = null;
+  function say(o) {
+    o = o || {}; var K = SAYK[o.kind] || SAYK.tip; css(); if (SAY) SAY.close(false); if (EL && !PREVIEW) { hide(); hiddenBusy = !!CUR; }
+    var d = el("aside", "snt snt-in snt-say"), closed = false, ft = 0; d.dataset.kind = o.kind || "tip"; d.setAttribute("role", o.kind === "error" ? "alert" : "status");
+    ["pointerdown", "touchstart", "mousedown", "wheel"].forEach(function (t) { d.addEventListener(t, function (e) { e.stopPropagation(); clearTimeout(ft); }, { passive: true }); });
+    var row = el("div", "snt-row"), ic = el("span", "snt-k"); ic.innerHTML = K.svg; ic.style.color = K.color; ic.setAttribute("aria-hidden", "true"); row.appendChild(ic);
+    var word = o.word == null ? K.name : o.word; if (word) { var kw = el("span", "snt-kw", word); kw.style.color = K.color; kw.setAttribute("aria-hidden", "true"); row.appendChild(kw); }
+    var has = !!(o.body || (o.actions && o.actions.length) || o.later);
+    var tg = el(has ? "button" : "span", "snt-t"), tt = el("span", null, o.title || ""), ch = el("i", null, has ? "▾" : "");
+    if (has) { tg.type = "button"; tg.setAttribute("aria-expanded", "false"); tg.setAttribute("aria-label", (word ? word + ": " : "") + (o.title || "")); }
+    tg.appendChild(tt); tg.appendChild(ch); row.appendChild(tg);
+    var x = el("button", "snt-x", "×"); x.type = "button"; x.setAttribute("aria-label", "Close"); x.title = "Close"; row.appendChild(x); d.appendChild(row);
+    var b = el("div", "snt-b"); b.hidden = true;
+    if (o.body) b.appendChild(el("p", "snt-p", o.body));
+    var acts = el("div", "snt-a");
+    (o.actions || []).forEach(function (a, i) { var k = el("button", (a.primary || (i === 0 && a.primary !== false)) ? "snt-go" : "snt-lt", a.label); k.type = "button";
+      k.onclick = function () { try { a.run && a.run(); } catch (e) {} if (a.keep !== true) api2.close(true); }; acts.appendChild(k); });
+    if (o.later) { var lt = el("button", "snt-lt", typeof o.later === "string" ? o.later : "Not now"); lt.type = "button"; lt.onclick = function () { api2.close(true); }; acts.appendChild(lt); }
+    if (acts.childNodes.length) b.appendChild(acts);
+    if (has) d.appendChild(b);
+    function fold(on) { b.hidden = !on; d.classList.toggle("snt-open", on); tg.setAttribute("aria-expanded", String(on)); ch.textContent = on ? "▴" : "▾"; if (on) clearTimeout(ft); }
+    if (has) tg.onclick = function () { fold(b.hidden); };
+    d.addEventListener("keydown", function (e) { if (e.key === "Escape" && !b.hidden) { e.stopPropagation(); fold(false); } else if (e.key === " " || e.key === "Enter") e.stopPropagation(); });
+    var api2 = { el: d, kind: o.kind || "tip", pass: !!o.pass, close: function (fade) { if (closed) return; closed = true; clearTimeout(ft); if (SAY === api2) SAY = null; document.removeEventListener("surface:update", onUpd);
+      try { o.onClose && o.onClose(); } catch (e) {}
+      if (fade === false || matchMedia("(prefers-reduced-motion:reduce)").matches) { d.remove(); return; } d.classList.add("snt-out"); setTimeout(function () { d.remove(); }, 600); } };
+    x.onclick = function () { api2.close(true); };
+    function onUpd() { api2.close(false); }
+    document.addEventListener("surface:update", onUpd);
+    SAY = api2;
+    function put() { if (closed) return; if (document.querySelector("[data-upd]")) { setTimeout(put, 1500); return; } document.body.appendChild(d);
+      if (o.fade) ft = setTimeout(function () { if (b.hidden && !d.contains(document.activeElement)) api2.close(true); }, o.fade); }
+    put(); return api2;
+  }
+
+  /* pass(text, {kind}): a passing word from the tool (it used to sit in a corner): the same one line at the top, × to
+     close, gone in a few seconds; a long one opens to its whole text. It never pushes aside a real alert. */
+  function pass(text, o) {
+    o = o || {}; text = String(text || "").trim(); if (!text) return null;
+    if (SAY && !SAY.pass) return null;
+    if (EL && !PREVIEW) return null;   // a feed notice is up: a passing word never sends it away (null: the tool says it its own way)
+    var long = text.length > 48, warn = o.kind === "warning" || o.kind === "error";
+    return say({ kind: o.kind || "tip", word: o.word == null ? "" : o.word, pass: true, title: text, body: long ? text : "",
+      fade: o.fade || (warn ? 8000 : Math.min(6000, 2500 + text.length * 40)) });
+  }
+  /* errors({reload, report, quiet}): an uncaught error says so at the top instead of failing silently (the error screen,
+     Dimitry 24 Nov). Once a minute at most; Reload (the tool's own, which saves first) and Report when given. */
+  var ERRS = 0;
+  function errors(o) {
+    o = o || {}; var last = 0;
+    function on(msg) { msg = String(msg || "");
+      /* not errors (review 163b296364 r-1): Chrome's ResizeObserver loop note fires on a resize, a rotation, going full screen;
+         "Script error." is another site's script with nothing to say. And quiet() (performing, on air) keeps it silent. */
+      if (/ResizeObserver loop|^Script error\.?$/i.test(msg)) return;
+      try { if (o.quiet && o.quiet()) return; } catch (e) {}
+      var n = Date.now(); if (n - last < 60000) return; last = n; ERRS++;
+      var acts = [];
+      if (o.reload) acts.push({ label: "Reload", run: function () { try { o.reload(); } catch (e) { location.reload(); } } });
+      if (o.report) acts.push({ label: "Report it", primary: !o.reload, run: function () { try { o.report(msg); } catch (e) {} } });
+      say({ kind: "error", title: "Something went wrong", body: "The tool may not behave as it should until it reloads. Your work is saved as you go.\n\n" + String(msg || "").slice(0, 300), actions: acts, later: "Keep going" }); }
+    addEventListener("error", function (e) { if (e && e.target && e.target !== window) return; on((e && e.message) || "an error"); });
+    addEventListener("unhandledrejection", function (e) { var r = e && e.reason; on((r && (r.message || r)) || "a failed promise"); });
+  }
+
   function init(o) {
     O = o || {}; FEED = null; T0 = Date.now();
     var q = ""; try { q = new URLSearchParams(location.search).get("notice") || ""; } catch (e) {}
@@ -336,7 +413,7 @@
     setTimeout(check, Math.max(0, (O.delay == null ? 60000 : O.delay) + 500));
     return api;
   }
-  var api = { init: init, check: check, show: show, validate: validate, enabled: function () { return !mem().off; }, enable: enable, KINDS: KINDS,
+  var api = { init: init, say: say, pass: pass, errors: errors, SAYKINDS: SAYK, check: check, show: show, validate: validate, enabled: function () { return !mem().off; }, enable: enable, KINDS: KINDS,
     current: function () { return EL ? CUR : null; } };
   window.SurfaceNotice = api;
 })();

@@ -61,8 +61,25 @@
       var n = Date.now(); if (n - said < 4000) return; said = n; try { o.say && o.say(t); } catch (e) {} }
     function mark(w) { if (!playing()) return; if (!suspect) { setS(true, w); say(o.rescue ? "the sound stopped · tap Sound, or Reset" : "sound paused by the phone · tap anywhere to bring it back"); } }
     var SVG = 'viewBox="0 0 24 24" aria-hidden="true" focusable="false"';
+    var note = null;
+    /* ONE VOICE AT THE TOP (Dimitry, 24 Nov 2026): with the kit's notice loaded, the lost sound is a warning line at the
+       top (Sound, Reset, Report) instead of the corner chip; "Sound back" passes there too. */
+    function noteShow(v, reset) {
+      var N = window.SurfaceNotice; if (!N || !N.say) return false;
+      if (v) {
+        var acts = [{ label: "Restart the sound", primary: !reset, keep: true, run: function () { rebuild("Sound button"); } }];
+        if (o.rescue.reload) acts.push({ label: "Reset", primary: !!reset, run: function () { try { o.rescue.reload(); } catch (e) { location.reload(); } } });
+        if (o.rescue.report) acts.push({ label: "Report it", primary: false, keep: true, run: function () { try { o.rescue.report("the sound stopped (" + why + ")"); } catch (e) {} } });
+        if (note) note.close(false);
+        note = N.say({ kind: "warning", word: "Sound", title: reset ? "Still no sound · Reset brings it back" : "The sound stopped",
+          body: reset ? "Restarting did not bring it back. Reset reloads straight back to where you are." : "Another app, a call or the screen locking took it. Restart the sound, or Reset to reload straight back to where you are.",
+          actions: acts, onClose: function () { note = null; } });
+      } else { if (note) { note.close(true); note = null; N.pass && N.pass("Sound back"); } }
+      return true;
+    }
     function show(v) {
       if (!o.rescue) return;
+      if (noteShow(v)) return;
       if (!chip) {
         if (!document.getElementById("saw-css")) { var st = document.createElement("style"); st.id = "saw-css"; st.textContent =
           ".saw{position:fixed;z-index:70;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(max(12px,env(safe-area-inset-right,0px)));display:flex;gap:6px;padding:5px;border-radius:24px;background:rgba(14,14,16,.92);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 30px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;translate:0 -8px;transition:opacity .3s ease,translate .4s cubic-bezier(.16,1,.3,1)}" +
@@ -121,7 +138,7 @@
         try { console.info("[audiowake] after rebuild: " + (ok ? "playing" : "still silent (" + (c2 ? c2.state : "no context") + ")")); } catch (_) {}
         if (ok) { if (chip) chip.classList.remove("try-reset"); setS(false); if (!o.rescue) say("sound back"); return; }
         why = "still silent after a restart"; if (!suspect) setS(true, why);
-        if (chip) chip.classList.add("try-reset"); else say("still no sound · reload the page");
+        if (note) noteShow(true, true); else if (chip) chip.classList.add("try-reset"); else say("still no sound · reload the page");
       }, 1200);
     }
     function unlock(c) {
@@ -132,6 +149,7 @@
        taken once per tap and every later event of the same tap unlocks again */
     function touch(e) {
       if (chip && e && e.target && chip.contains(e.target)) return;   // the chip's own buttons decide
+      if (note && note.el && e && e.target && note.el.contains(e.target)) return;
       if (e && e.isTrusted === false) return;   // a tool's own .click() (Auto play) is not a touch: iOS won't start sound from it
       bind(); var c = ctx(); if (!c || !playing()) { setS(false); return; }
       if (suspect) {   // only a real tap (click) or key rebuilds: a drag's touchend is no gesture on iOS
