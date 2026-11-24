@@ -378,16 +378,22 @@
   function pass(text, o) {
     o = o || {}; text = String(text || "").trim(); if (!text) return null;
     if (SAY && !SAY.pass) return null;
+    if (EL && !PREVIEW) return null;   // a feed notice is up: a passing word never sends it away (null: the tool says it its own way)
     var long = text.length > 48, warn = o.kind === "warning" || o.kind === "error";
     return say({ kind: o.kind || "tip", word: o.word == null ? "" : o.word, pass: true, title: text, body: long ? text : "",
       fade: o.fade || (warn ? 8000 : Math.min(6000, 2500 + text.length * 40)) });
   }
-  /* errors({reload, report}): an uncaught error says so at the top instead of failing silently (the error screen,
+  /* errors({reload, report, quiet}): an uncaught error says so at the top instead of failing silently (the error screen,
      Dimitry 24 Nov). Once a minute at most; Reload (the tool's own, which saves first) and Report when given. */
   var ERRS = 0;
   function errors(o) {
     o = o || {}; var last = 0;
-    function on(msg) { var n = Date.now(); if (n - last < 60000) return; last = n; ERRS++;
+    function on(msg) { msg = String(msg || "");
+      /* not errors (review 163b296364 r-1): Chrome's ResizeObserver loop note fires on a resize, a rotation, going full screen;
+         "Script error." is another site's script with nothing to say. And quiet() (performing, on air) keeps it silent. */
+      if (/ResizeObserver loop|^Script error\.?$/i.test(msg)) return;
+      try { if (o.quiet && o.quiet()) return; } catch (e) {}
+      var n = Date.now(); if (n - last < 60000) return; last = n; ERRS++;
       var acts = [];
       if (o.reload) acts.push({ label: "Reload", run: function () { try { o.reload(); } catch (e) { location.reload(); } } });
       if (o.report) acts.push({ label: "Report it", primary: !o.reload, run: function () { try { o.report(msg); } catch (e) {} } });
