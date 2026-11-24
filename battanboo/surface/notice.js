@@ -344,10 +344,10 @@
     var d = el("aside", "snt snt-in snt-say"), closed = false, ft = 0; d.dataset.kind = o.kind || "tip"; d.setAttribute("role", o.kind === "error" ? "alert" : "status");
     ["pointerdown", "touchstart", "mousedown", "wheel"].forEach(function (t) { d.addEventListener(t, function (e) { e.stopPropagation(); clearTimeout(ft); }, { passive: true }); });
     var row = el("div", "snt-row"), ic = el("span", "snt-k"); ic.innerHTML = K.svg; ic.style.color = K.color; ic.setAttribute("aria-hidden", "true"); row.appendChild(ic);
-    var word = o.word || K.name, kw = el("span", "snt-kw", word); kw.style.color = K.color; kw.setAttribute("aria-hidden", "true"); row.appendChild(kw);
+    var word = o.word == null ? K.name : o.word; if (word) { var kw = el("span", "snt-kw", word); kw.style.color = K.color; kw.setAttribute("aria-hidden", "true"); row.appendChild(kw); }
     var has = !!(o.body || (o.actions && o.actions.length) || o.later);
     var tg = el(has ? "button" : "span", "snt-t"), tt = el("span", null, o.title || ""), ch = el("i", null, has ? "▾" : "");
-    if (has) { tg.type = "button"; tg.setAttribute("aria-expanded", "false"); tg.setAttribute("aria-label", word + ": " + (o.title || "")); }
+    if (has) { tg.type = "button"; tg.setAttribute("aria-expanded", "false"); tg.setAttribute("aria-label", (word ? word + ": " : "") + (o.title || "")); }
     tg.appendChild(tt); tg.appendChild(ch); row.appendChild(tg);
     var x = el("button", "snt-x", "×"); x.type = "button"; x.setAttribute("aria-label", "Close"); x.title = "Close"; row.appendChild(x); d.appendChild(row);
     var b = el("div", "snt-b"); b.hidden = true;
@@ -361,7 +361,7 @@
     function fold(on) { b.hidden = !on; d.classList.toggle("snt-open", on); tg.setAttribute("aria-expanded", String(on)); ch.textContent = on ? "▴" : "▾"; if (on) clearTimeout(ft); }
     if (has) tg.onclick = function () { fold(b.hidden); };
     d.addEventListener("keydown", function (e) { if (e.key === "Escape" && !b.hidden) { e.stopPropagation(); fold(false); } else if (e.key === " " || e.key === "Enter") e.stopPropagation(); });
-    var api2 = { el: d, close: function (fade) { if (closed) return; closed = true; clearTimeout(ft); if (SAY === api2) SAY = null; document.removeEventListener("surface:update", onUpd);
+    var api2 = { el: d, kind: o.kind || "tip", pass: !!o.pass, close: function (fade) { if (closed) return; closed = true; clearTimeout(ft); if (SAY === api2) SAY = null; document.removeEventListener("surface:update", onUpd);
       try { o.onClose && o.onClose(); } catch (e) {}
       if (fade === false || matchMedia("(prefers-reduced-motion:reduce)").matches) { d.remove(); return; } d.classList.add("snt-out"); setTimeout(function () { d.remove(); }, 600); } };
     x.onclick = function () { api2.close(true); };
@@ -371,6 +371,29 @@
     function put() { if (closed) return; if (document.querySelector("[data-upd]")) { setTimeout(put, 1500); return; } document.body.appendChild(d);
       if (o.fade) ft = setTimeout(function () { if (b.hidden && !d.contains(document.activeElement)) api2.close(true); }, o.fade); }
     put(); return api2;
+  }
+
+  /* pass(text, {kind}): a passing word from the tool (it used to sit in a corner): the same one line at the top, × to
+     close, gone in a few seconds; a long one opens to its whole text. It never pushes aside a real alert. */
+  function pass(text, o) {
+    o = o || {}; text = String(text || "").trim(); if (!text) return null;
+    if (SAY && !SAY.pass) return null;
+    var long = text.length > 48, warn = o.kind === "warning" || o.kind === "error";
+    return say({ kind: o.kind || "tip", word: o.word == null ? "" : o.word, pass: true, title: text, body: long ? text : "",
+      fade: o.fade || (warn ? 8000 : Math.min(6000, 2500 + text.length * 40)) });
+  }
+  /* errors({reload, report}): an uncaught error says so at the top instead of failing silently (the error screen,
+     Dimitry 24 Nov). Once a minute at most; Reload (the tool's own, which saves first) and Report when given. */
+  var ERRS = 0;
+  function errors(o) {
+    o = o || {}; var last = 0;
+    function on(msg) { var n = Date.now(); if (n - last < 60000) return; last = n; ERRS++;
+      var acts = [];
+      if (o.reload) acts.push({ label: "Reload", run: function () { try { o.reload(); } catch (e) { location.reload(); } } });
+      if (o.report) acts.push({ label: "Report it", primary: !o.reload, run: function () { try { o.report(msg); } catch (e) {} } });
+      say({ kind: "error", title: "Something went wrong", body: "The tool may not behave as it should until it reloads. Your work is saved as you go.\n\n" + String(msg || "").slice(0, 300), actions: acts, later: "Keep going" }); }
+    addEventListener("error", function (e) { if (e && e.target && e.target !== window) return; on((e && e.message) || "an error"); });
+    addEventListener("unhandledrejection", function (e) { var r = e && e.reason; on((r && (r.message || r)) || "a failed promise"); });
   }
 
   function init(o) {
@@ -384,7 +407,7 @@
     setTimeout(check, Math.max(0, (O.delay == null ? 60000 : O.delay) + 500));
     return api;
   }
-  var api = { init: init, say: say, SAYKINDS: SAYK, check: check, show: show, validate: validate, enabled: function () { return !mem().off; }, enable: enable, KINDS: KINDS,
+  var api = { init: init, say: say, pass: pass, errors: errors, SAYKINDS: SAYK, check: check, show: show, validate: validate, enabled: function () { return !mem().off; }, enable: enable, KINDS: KINDS,
     current: function () { return EL ? CUR : null; } };
   window.SurfaceNotice = api;
 })();
