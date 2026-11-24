@@ -1,0 +1,14 @@
+/* offline: keep this release's files. Pages and code come from the network first (after 3 s the kept copy), so a page and its scripts are the same version when online; pictures and sounds from the cache; Google Fonts kept; every other site straight to the network. */
+const V="battanboo-54e674df2c",FILES=["./icons/icon-180.png", "./icons/icon-192.png", "./icons/icon-32.png", "./icons/icon-512.png", "./icons/icon.svg", "./index.html", "./manifest.webmanifest", "./og.jpg", "./surface/audiowake.js", "./surface/auto.js", "./surface/capture.js", "./surface/install.js", "./surface/links.js", "./surface/nozoom.js", "./surface/pack.js", "./surface/panelsec.js", "./surface/patterns-astrology.js", "./surface/patternsets.js", "./surface/pop.js", "./surface/reset.js", "./surface/ring.js", "./surface/sections.js", "./surface/selftest.js", "./surface/sheetnav.js", "./surface/show.js", "./surface/size.js", "./surface/slidermorph.js", "./surface/space.js", "./surface/surround.js", "./surface/toolpath.js", "./surface/voice.js", "./surface/voicelib.js", "./surface/words.js"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(V).then(c=>Promise.all(FILES.map(f=>fetch(f,{cache:"no-cache"}).then(r=>{if(r.ok)return c.put(f,r)}).catch(()=>{})))).then(()=>self.skipWaiting())));
+self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith("battanboo-")&&x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+const wait=(p,ms)=>new Promise(r=>{const t=setTimeout(()=>r(null),ms);p.then(x=>{clearTimeout(t);r(x)},()=>{clearTimeout(t);r(null)})});
+const kept=q=>caches.match(q,{ignoreSearch:true}).then(r=>r||(q.mode==="navigate"?caches.match("./index.html"):null));
+const fresh=e=>{const net=fetch(e.request,{cache:"no-cache"}).then(r=>{if(r.ok){const c=r.clone();e.waitUntil(caches.open(V).then(x=>x.put(e.request,c)))}return r});
+ e.respondWith(wait(net,3000).then(r=>r||kept(e.request).then(k=>k||net)).catch(()=>kept(e.request).then(k=>k||Response.error())))};
+const KEEP=/^(fonts.googleapis.com|fonts.gstatic.com)$/;
+self.addEventListener("fetch",e=>{const u=new URL(e.request.url);if(e.request.method!=="GET")return;
+ if(u.origin===location.origin&&u.pathname.endsWith("/version.json"))return;
+ if(u.origin===location.origin&&(e.request.mode==="navigate"||/[.](html|m?js|css|json|webmanifest)$|[/]$/.test(u.pathname)))fresh(e);
+ else if(u.origin===location.origin)e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request)));
+ else if(KEEP.test(u.hostname))e.respondWith(caches.match(e.request).then(k=>{const net=fetch(e.request).then(r=>{if(r.ok||r.type==="opaque"){const c=r.clone();e.waitUntil(caches.open(V).then(x=>x.put(e.request,c)))}return r});return k?wait(net,3000).then(r=>r||k):net}));});
