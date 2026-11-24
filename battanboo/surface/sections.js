@@ -359,7 +359,7 @@
       controls(host, opts) {
         const h = typeof host === 'string' ? document.querySelector(host) : host; if (!h) return null; opts = opts || {};
         const row = document.createElement('div'); row.className = 'dsp-row sfs-hrow'; row.dataset.row = 'hidden';
-        const hid = 'sfs-hlab-' + (++controls._n || (controls._n = 1));
+        const hid = 'sfs-hlab-' + (window.__sfsHidN = (window.__sfsHidN || 0) + 1);   /* a method shorthand cannot name itself: `controls._n` was a ReferenceError (found 24 Nov by his iPad self-test: "Can't find variable: controls") and stopped the Performance section's Muted list */
         row.innerHTML = '<span class="dsp-lab" id="' + hid + '">' + (opts.label || 'Hidden') + '</span><div class="sfs-hlist" role="group" aria-labelledby="' + hid + '"></div>';
         const list = row.querySelector('.sfs-hlist');
         const paint = () => { const l = hiddenList(); list.innerHTML = '';
